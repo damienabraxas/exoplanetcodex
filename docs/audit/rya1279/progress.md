@@ -983,3 +983,7 @@ Independent O/reference/EOS/opacity/continuum/3D gates OPEN, no fit/adoption.
 ## 2026-11-04: endpoint sampling and finite profile geometry
 
 Predeclared serial Mac endpoint checks complete. Legacy cold start times out; same-case initialization produces three converged endpoint replays, while lower gravity remains budget-limited at223rows. All failures retained, original controls unchanged. Eight independent saved-rate audits across completed pairs pass; max area0.0048073mA. Profile geometry reveals xi core/wing distinctions hidden in integrated strengths, without noise/fit claims.50tests pass,40result artifacts/2figures byte-checked; full large R/C/J arrays remain registered externally with receipts. Details, exact commands, resource/debt notes and next steps: [thermal_extreme_refinement.md](thermal_extreme_refinement.md). State v208; scientific HOLD, no adoption/merge/publication.
+
+## 2026-11-04: native acceleration control
+
+Ng-on/off lower-gravity controls complete with actual native flags. Both hit600s, with final joint1.66e-6/1.38e-5; no accepted spectra/rates. Exact221-row replay, first8on/off rows equal and first divergence coincides with actual Ng row9.57tests pass; pre-existing ledger failure reproduced on main. Fresh-output preflight bug fixed and logged.13results/1figure preserved; statev209. [Full review and next task](ng_control_review.md). Scientific HOLD, no default/physical adoption/merge.

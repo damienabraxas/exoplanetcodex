@@ -27927,3 +27927,55 @@ artifacts:
     generator: "scripts/analyze_bride_profile_geometry.py"
     invocation: "python scripts/analyze_bride_profile_geometry.py --output <new-immutable-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/attempts.jsonl
+    generator: "scripts/run_bride_ng_controls.py"
+    invocation: "python scripts/run_bride_ng_controls.py --output <registered-new-ng-output-root>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/record.log
+    generator: "scripts/run_bride_ng_controls.py"
+    invocation: "python scripts/run_bride_ng_controls.py --output <registered-new-ng-output-root>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/record/history.jsonl
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --case thermal_g4338 --refine-numerics --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --ng-control record --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/record/input_manifest.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --case thermal_g4338 --refine-numerics --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --ng-control record --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/record/iteration_updates.jsonl
+    generator: "pipeline/bride_iteration_trace.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --case thermal_g4338 --refine-numerics --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --ng-control record --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/off.log
+    generator: "scripts/run_bride_ng_controls.py"
+    invocation: "python scripts/run_bride_ng_controls.py --output <registered-new-ng-output-root>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/off/history.jsonl
+    generator: "pipeline/bride_coupled_control.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --case thermal_g4338 --refine-numerics --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --ng-control off --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/off/input_manifest.json
+    generator: "scripts/run_bride_thermal_sweep.py"
+    invocation: "python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --case thermal_g4338 --refine-numerics --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --ng-control off --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/off/iteration_updates.jsonl
+    generator: "pipeline/bride_iteration_trace.py"
+    note: "Emitted through wrapper: python scripts/run_bride_thermal_sweep.py --plan config/experiments/rya1281_mac_thermal_slice.json --case thermal_g4338 --refine-numerics --warm-start-run <registered-mac-store>/rya1281-thermal-coupled-v1/thermal_g4338 --ng-control off --coefficients <registered-thermal-coefficients> --case-directory <registered-mac-store>/rya1281-solar-bound-v1/solar5772_bound_Fe_sampled --lines <registered-mac-store>/rya1281-trace-fe-lines-v2/lines.json --pressure-source <registered-mac-store>/rya1281-fe-pressure-source-v2/report.json --stark-source <registered-mac-store>/rya1281-fe-stark-source-v2/report.json --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/setup_failure.log
+    generator: "scripts/run_bride_ng_controls.py"
+    invocation: "python scripts/run_bride_ng_controls.py --output <registered-new-ng-output-root>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/analysis/off_iterations.csv
+    generator: "scripts/analyze_bride_ng_controls.py"
+    invocation: "python scripts/analyze_bride_ng_controls.py --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/analysis/record_iterations.csv
+    generator: "scripts/analyze_bride_ng_controls.py"
+    invocation: "python scripts/analyze_bride_ng_controls.py --output <new-immutable-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/ng_control_v1/analysis/report.json
+    generator: "scripts/analyze_bride_ng_controls.py"
+    invocation: "python scripts/analyze_bride_ng_controls.py --output <new-immutable-directory>"
+    ticket: "RYA-1281"

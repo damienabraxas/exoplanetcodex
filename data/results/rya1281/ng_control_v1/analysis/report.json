@@ -1,0 +1,141 @@
+{
+  "schema": "codex.bride_ng_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_ng_controls.py",
+    "bytes": 14111,
+    "sha256": "ee1e5db9c758e3b0c6d272a3b02a169b3074f94eb1db7f0c86bcea1008e77f5c"
+  },
+  "declaration": {
+    "name": "rya1281_ng_control.json",
+    "bytes": 407,
+    "sha256": "43261fdfef3458eac8039691c17d9280cf2c8014e52cd1148520f181547456d0"
+  },
+  "baseline": {
+    "name": "report.json",
+    "bytes": 28268,
+    "sha256": "fffc9a35ba6f1fa2e05d9bcb0d422fecc775456e08ca85f9df51fb684bc53c1f"
+  },
+  "attempts": {
+    "name": "attempts.jsonl",
+    "bytes": 3146,
+    "sha256": "ab7ef8788fd8c62b8dd0952a8c35d9a2571757ca64328b6ad9abc254b2366e43"
+  },
+  "cases": [
+    {
+      "mode": "record",
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 111697,
+        "sha256": "4aff365a3bc743cfbc43566f4211bc12e18c446f36013986b21aa42424890e94"
+      },
+      "updates": {
+        "name": "iteration_updates.jsonl",
+        "bytes": 55212,
+        "sha256": "1d2a9650439450851485c011329425f76f2c7305be65a534ea46cdda56271033"
+      },
+      "native_calls": 221,
+      "native_ng_calls": 43,
+      "accepted_ng_steps": 43,
+      "iterations": 221,
+      "initial": {
+        "mode": "matched_physical_baseline",
+        "report": {
+          "name": "report.json",
+          "bytes": 28268,
+          "sha256": "fffc9a35ba6f1fa2e05d9bcb0d422fecc775456e08ca85f9df51fb684bc53c1f"
+        },
+        "populations": {
+          "name": "populations.npz",
+          "bytes": 54257,
+          "sha256": "e2aad8c339d0d9a70d44e6ba3c50adc449445e10e92ae02545e170ae474d36c9"
+        },
+        "helper": {
+          "name": "bride_thermal_initial.py",
+          "bytes": 2927,
+          "sha256": "179f72ea9ba5635eea73e67ec88bdbea058fd65c9cc1328717592cc705ae7c76"
+        },
+        "scope": "Initial guess only; unchanged fresh joint convergence, physical rate and conservation gates required."
+      },
+      "wall_seconds": 601.9707637499087,
+      "returncode": 1,
+      "status": "BUDGET_EXHAUSTED_NOT_ACCEPTED",
+      "last_joint_residual": 1.662942878692837e-06
+    },
+    {
+      "mode": "off",
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 96139,
+        "sha256": "00166a57f5b3a7dd583c61ac3dce15de2f77e6b91302c32808c4ff56018482dd"
+      },
+      "updates": {
+        "name": "iteration_updates.jsonl",
+        "bytes": 47474,
+        "sha256": "fd0a4232a2d32c014ca578404d23a73ca0207e3026758c3daa9aa176e927a01b"
+      },
+      "native_calls": 190,
+      "native_ng_calls": 0,
+      "accepted_ng_steps": 0,
+      "iterations": 190,
+      "initial": {
+        "mode": "matched_physical_baseline",
+        "report": {
+          "name": "report.json",
+          "bytes": 28268,
+          "sha256": "fffc9a35ba6f1fa2e05d9bcb0d422fecc775456e08ca85f9df51fb684bc53c1f"
+        },
+        "populations": {
+          "name": "populations.npz",
+          "bytes": 54257,
+          "sha256": "e2aad8c339d0d9a70d44e6ba3c50adc449445e10e92ae02545e170ae474d36c9"
+        },
+        "helper": {
+          "name": "bride_thermal_initial.py",
+          "bytes": 2927,
+          "sha256": "179f72ea9ba5635eea73e67ec88bdbea058fd65c9cc1328717592cc705ae7c76"
+        },
+        "scope": "Initial guess only; unchanged fresh joint convergence, physical rate and conservation gates required."
+      },
+      "wall_seconds": 601.7793128332123,
+      "returncode": 1,
+      "status": "BUDGET_EXHAUSTED_NOT_ACCEPTED",
+      "last_joint_residual": 1.3789777655847953e-05
+    }
+  ],
+  "scope": "Numerical Ng policy intervention at one fixed lower-gravity atmosphere. Same physical operator, starting populations, sampling and acceptance limits. Not new atomic physics, an abundance fit or universal solver policy.",
+  "legacy_prefix_reference": {
+    "report": {
+      "name": "report.json",
+      "bytes": 13137,
+      "sha256": "d2fefad45cbc8ae3a6314f64120f9529a94e4de382522b0c3d9a7f308475a7de"
+    },
+    "history": {
+      "name": "history.jsonl",
+      "bytes": 112713,
+      "sha256": "0d6e2c3593bc4858e8a21d4e79fc8a56aa5b98563690f2aeef30877ab5ac7016"
+    }
+  },
+  "recorded_on_exact_legacy_prefix_rows": 221,
+  "first_actual_ng_iteration": 9,
+  "on_off_exact_prefix_before_first_ng_rows": 8,
+  "first_on_off_different_iteration": 9,
+  "figure": {
+    "name": "ng_history.png",
+    "bytes": 132423,
+    "sha256": "3f5d8438ea20fa897b5720e85b317c449a4d7908c514315e44ac956ab908ee33"
+  },
+  "iteration_tables": [
+    {
+      "name": "record_iterations.csv",
+      "bytes": 28770,
+      "sha256": "6cc9e935ba18cbce6e8d32e1656e881385765a92bc61197d008636fdbd21fb1c"
+    },
+    {
+      "name": "off_iterations.csv",
+      "bytes": 24863,
+      "sha256": "70fcc58011bf642d1424664c08bc2ac78f43f0285e5884ff4427231eeaa76c66"
+    }
+  ],
+  "caveats": "One fixed atmosphere and start. Timing depends on host load. No universal acceleration/default policy, new physical model accuracy, abundance, continuum/telluric fit or 3D/all-band admission. Full unscaled rates and original particle/joint tolerances govern acceptance."
+}

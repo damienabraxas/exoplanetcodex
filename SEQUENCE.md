@@ -1,5 +1,6 @@
 ## 2026-11-04 — oxygen numerical endpoints and profile geometry
 
+- **RYA-1281** — Record native Ng calls; preserve exact replay and two bounded refusals; disabling acceleration does not close lower-g gap.
 - **RYA-1281** — Verify three refined endpoints, retain lower-g timeout, expose xi shape information; numerical/reference gates stay open.
 
 ## 2026-11-02 — Stark and coupled oxygen controls

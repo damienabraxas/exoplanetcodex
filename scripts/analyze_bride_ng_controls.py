@@ -151,7 +151,7 @@ def main():
         fields=list(rows[0]);path=args.output/(mode+'_iterations.csv')
         import csv
         with path.open('x') as stream:
-            writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
+            writer=csv.DictWriter(stream,fieldnames=fields,lineterminator='\n');writer.writeheader();writer.writerows(rows)
         csvs.append(fingerprint(path))
     ax.axhline(plan['controls']['rtol'],color='black',ls='--',label='unchanged joint tolerance')
     ax.set(xlabel='Outer iteration',ylabel='Maximum joint residual',title='Same lower-gravity state: native Ng on/off, actual flags recorded\nTime-limited attempts remain explicit; scientific HOLD')

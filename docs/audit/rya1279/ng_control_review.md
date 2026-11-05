@@ -86,3 +86,66 @@ actual saved starting arrays, complete joint histories, unchanged acceptance
 limits and independent unscaled R+C/target-nuclei conservation. Only completed
 accepted spectra receive area comparisons. Exact shared prefix checks must pass
 without numerical tolerance relaxation. Failures remain explicit in all outputs.
+
+## Results
+
+| Mode | Native calls / outer rows | Actual Ng calls | Child wall seconds | Final joint maximum | Outcome |
+|---|---:|---:|---:|---:|---|
+|Ng enabled, recorded|221/221|43|601.971|1.662943e-6|600s cap deadline, NOT ACCEPTED|
+|Ng disabled, recorded|190/190|0|601.779|1.378978e-5|600s cap deadline, NOT ACCEPTED|
+
+Both children and aggregate batch exit1. Wall timing includes child startup;
+the original solver budget remains600s, not a looser residual/iteration limit.
+No accepted refined flux/report, saved population/rate archive, area comparison,
+fresh post-RT rate-balance acceptance or new oxygen measurement exists for either
+attempt. The previous lower-gravity refinement gap remains OPEN. Initial states
+are source-verified exact baseline loads; neither failed run supplies a completed
+saved-initial-array/final-rate test. Their in-loop conservation/SE diagnostics
+must not be presented as independent fresh accepted balances.
+
+All221 enabled-history rows exactly match the retained earlier timeout prefix,
+including all nested numeric fields. On/off histories match exactly through8
+rows; first difference is row9, which is the first actual native Ng update.
+There are no invalid-update retries in either attempt. Instrumentation therefore
+does not change the shared numerical trajectory; enabled/disabled configurations
+really exercise different native updates, not just metadata labels.
+
+The disabled curve is smoother but remains farther from joint tolerance at the
+deadline. The enabled run reaches a lower final joint residual despite recurring
+updates away from the tolerance. These controlled results do not support simply
+disabling Ng as the remedy, nor a universal ranking across atmospheres (the
+separate native fixture also has different iteration counts). Timing/stop counts
+remain host-load dependent; no precise speedup or physical-error bound inferred.
+
+13result artifacts and1visually inspected figure are byte-checked copies under
+data/results/rya1281/ng_control_v1 and data/output/rya1281/ng_control_v1. Both
+attempts, actual native flags, source manifests, exception logs, joined iteration
+CSVs, analysis report and the pre-RT setup failure remain explicit. No large-rate
+receipt is invented for nonexistent completed arrays. Actual writer modules and
+wrapper invocations are registered in GENERATORS.yaml.
+
+[Native-flag convergence plot](../../../data/output/rya1281/ng_control_v1/ng_history.png),
+[complete report](../../../data/results/rya1281/ng_control_v1/analysis/report.json).
+
+The ledger regression suite separately returns1failed/1passed: the first legacy
+RYA-587 row lacks science_impact. The identical test functions against an untouched
+origin/main CSV reproduce1failed/1passed; both contain the same9historical empty
+impact rows. The new setup-defect row is complete. An initial temporary baseline
+test invocation hit protected parent-directory discovery; an isolated pytest root
+and explicit confcutdir reproduce the baseline without reading unrelated paths.
+No historical row was filled from inference or an exception added to hide it.
+
+Library audit remains193documents/127accounted/66unindexed/12off-Mac declarations;
+no new literature is used as evidence. Refinement debt remains10not-fired/5TBD.
+These pre-existing debts are not cleared by this numerical experiment.
+
+Next bounded task: predeclare a larger measured compute cap for the original
+enabled method while preserving every accuracy/conservation/iteration criterion,
+or separately test a source-defined acceleration policy. No larger-budget retry
+was performed in this two-attempt experiment. This distinguishes a cost limit
+from persistent late-iteration behavior; convergence with more time is not assumed.
+Retain both controls and benchmark additional already-passing cases before any
+default policy change. Independent O atom/reference/EOS/opacity and continuum/
+broadening gates, composition/interactions, C/N before Fe and a reference star,
+full3D and all-band work remain open. Scientific HOLD; no production/adoption/
+merge/publication or source/gold change.

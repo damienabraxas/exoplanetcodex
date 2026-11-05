@@ -52,3 +52,5 @@ VIS controls are not full-spectrum/all-band validation. HARPS does not cover
 O777; any HARPS oxygen test must use a separately qualified overlapping line.
 
 Full-profile finite geometry now separates xi response more than three areas do; T/g remain similar. Both fixed RV variants checked; source-backed broadening/continuum/abundance nuisance and noise controls are required before any inverse interpretation. Next numerical work must instrument actual Ng flags and compare declared controls for the unqualified lower-gravity endpoint.
+
+Native Ng control (ng_control_review.md): exact221-row on replay, actual43Ng updates; disabled control smoother but both original600s attempts refuse. Lower-gravity refinement remains unqualified. Next cost/acceleration controls must retain all numerical accuracy gates; no universal off policy or accepted spectrum inferred.
