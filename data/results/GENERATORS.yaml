@@ -28055,3 +28055,11 @@ artifacts:
     generator: "scripts/audit_bride_iag_quality.py"
     invocation: "python scripts/audit_bride_iag_quality.py --output <new-registered-iag-quality-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/reference_resolution_v1/report.json
+    generator: "scripts/audit_bride_reference_resolution.py"
+    invocation: "python scripts/audit_bride_reference_resolution.py --output <new-registered-resolution-audit-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/reference_resolution_v1/summary.csv
+    generator: "scripts/audit_bride_reference_resolution.py"
+    invocation: "python scripts/audit_bride_reference_resolution.py --output <new-registered-resolution-audit-directory>"
+    ticket: "RYA-1281"

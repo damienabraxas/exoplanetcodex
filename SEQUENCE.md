@@ -1,5 +1,7 @@
 ## 2026-11-04 — oxygen numerical endpoints and profile geometry
 
+- **RYA-1281** — Bound frozen IAG Gaussian resolution sensitivity below0.1mA; preserve multi-mA reference gap and native LSF/opacity gates (register v213).
+
 - **RYA-1281** — Expose continuum support/termination without changing fits; verify local IAG flags and retain global fractional-flag discrepancy (register v212).
 
 - **RYA-1281** — Decompose frozen continuum references; trace extrapolated anchors and characterize final-pass support/count defect (register v211).
