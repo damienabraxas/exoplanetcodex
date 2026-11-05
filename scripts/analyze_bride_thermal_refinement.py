@@ -12,7 +12,7 @@ CENTRES = (7771.944, 7774.166, 7775.388)  # AIR A, same held O777 apertures
 RESOURCE = 'experiments.bride_thermal_extreme_refinements'
 
 
-def verify_pair(base, refined, plan, *, ng_control=None):
+def verify_pair(base, refined, plan, *, ng_control=None, extended_budget=False):
     from pipeline.bride_thermal_sweep import effective_controls
     for r in (base, refined):
         if (r['schema'] != 'codex.bride_thermal_flux/1' or r['mode'] != 'cowley'
@@ -41,6 +41,14 @@ def verify_pair(base, refined, plan, *, ng_control=None):
         if ng_control not in ('record','off') or refined.get('ng_control')!=ng_control:raise ValueError('Wrong declared Ng comparison')
         expected['ng']=ng_control=='record'
     elif refined.get('ng_control') is not None:raise ValueError('Declare the Ng comparison explicitly')
+    if extended_budget:
+        from pipeline.bride_compute_budget import extended_controls
+        from pipeline.bride_reference import fingerprint
+        declaration=ROOT/'config/experiments/rya1281_ng_extended.json'
+        expected=extended_controls(expected,json.loads(declaration.read_text()),refined['case']['name'],ng_control)
+        if (refined.get('compute_extension')!=fingerprint(declaration)
+                or refined.get('budget_adapter')!=fingerprint(ROOT/'pipeline/bride_compute_budget.py')):raise ValueError('Changed declared budget provenance')
+    elif refined.get('compute_extension') is not None:raise ValueError('Declare compute extension explicitly')
     if (base['coupled']['controls'] != plan['controls'] or
             refined['coupled']['controls'] != expected):
         raise ValueError('Changed numerical refinement controls/budgets')
