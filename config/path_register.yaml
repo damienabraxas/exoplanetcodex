@@ -154,6 +154,12 @@ entries:
     env: CODEX_BRIDE_MARCS_INTERPOLATOR
     kind: dir
     desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
+  experiments.bride_ng_extended:
+    root: work
+    rel: bride_mac_checks/rya1281-ng-extended-v1
+    env: CODEX_BRIDE_NG_EXTENDED
+    kind: dir
+    desc: One enabled-Ng lower-gravity replay with predeclared1200s cost cap and unchanged accuracy gates.
   experiments.bride_ng_controls:
     root: work
     rel: bride_mac_checks/rya1281-ng-control-v1

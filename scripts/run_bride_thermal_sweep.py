@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--refine-numerics',action='store_true')
     parser.add_argument('--warm-start-run',type=Path)
     parser.add_argument('--ng-control',choices=('record','off'))
+    parser.add_argument('--extended-budget',action='store_true')
     parser.add_argument('--case-directory',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--lines',type=Path,required=True)
@@ -31,6 +32,7 @@ def main():
     args=parser.parse_args()
     if args.warm_start_run is not None and not args.refine_numerics:raise ValueError('Matched initial guess is restricted to numerical refinement')
     if args.ng_control is not None and (not args.refine_numerics or args.warm_start_run is None):raise ValueError('Ng comparison requires refined matched initialization')
+    if args.extended_budget and args.ng_control!='record':raise ValueError('Compute extension requires declared recorded Ng')
     if platform.system()!='Darwin' or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 bounded replay only')
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint,read_marcs_structure,make_reference_context
@@ -77,6 +79,13 @@ def main():
         if (ng_plan['schema']!='codex.bride_ng_experiment/1' or case['name']!=ng_plan['case']
                 or args.ng_control not in ng_plan['modes'] or args.plan.resolve()!=ROOT/ng_plan['physical_plan']):raise ValueError('Outside declared Ng experiment')
         m['controls']['ng']=args.ng_control=='record';ng_experiment=fingerprint(ng_path)
+    compute_extension=None
+    if args.extended_budget:
+        from pipeline.bride_compute_budget import extended_controls
+        budget_path=ROOT/'config/experiments/rya1281_ng_extended.json';budget=json.loads(budget_path.read_text())
+        if args.plan.resolve()!=ROOT/budget['physical_plan']:raise ValueError('Changed compute-extension physical plan')
+        m['controls']=extended_controls(m['controls'],budget,case['name'],args.ng_control)
+        compute_extension=fingerprint(budget_path)
     data,cert=load_bound_coefficients(certificate,base,source.abundance)
     producer=json.loads((certificate/cert['source_report']['name']).read_text())
     producer_case=next(c for c in producer['cases']if c['name']==case['name'])
@@ -135,6 +144,7 @@ def main():
     if args.ng_control is not None:
         input_manifest.update(ng_control=args.ng_control,ng_experiment=ng_experiment,
             iteration_recorder=fingerprint(ROOT/'pipeline/bride_iteration_trace.py'))
+    if args.extended_budget:input_manifest.update(compute_extension=compute_extension,budget_adapter=fingerprint(ROOT/'pipeline/bride_compute_budget.py'))
     ctx=make_reference_context(s,source,rays=m['controls']['rays'],qscale=m['controls']['qscale'],ng=m['controls']['ng'],
         fixed_populations=None,fe_background=line_provider,extra_wavelengths_vac_nm=extra,
         experimental_column_cap=FiniteColumnCap(length))
@@ -220,6 +230,7 @@ def main():
         caveats='41 source-matched FeI lines, Explicit neutral-H/He widths plus NONE/supplied/Cowley Stark prescription. H2 omitted to retain atomic EOS/continuum/O collision baseline; no HFS/isotope/molecular/other-species opacity; Teff/logg use interpolated source fields with new local densities and LTE populations, not a fresh atmosphere-equilibrium solution. Kurucz LTE reservoir is separate from limited native Fe atom, ratio reported. Same transfer equation, no spectrum multiplication or opacity scale; Population mode explicitly recorded, optional bounded O SE; no Fe abundance measurement or opacity/continuum adoption.')
     result['initialization']=initialization
     if args.ng_control is not None:result.update(ng_control=args.ng_control,ng_experiment=ng_experiment)
+    if args.extended_budget:result.update(compute_extension=compute_extension,budget_adapter=fingerprint(ROOT/'pipeline/bride_compute_budget.py'))
     (args.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
     print(json.dumps(dict(mode='cowley',delta=difference,neutral_ratio=result['trace_to_native_FeI_range'],telemetry=result['telemetry'])))
 
