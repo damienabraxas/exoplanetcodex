@@ -35,3 +35,26 @@ def test_factorial_accounting_is_exact_and_includes_interaction():
     r=two_factor_changes({k:dict(level=v) for k,v in zip(('synthesis_synthesis','synthesis_iag','iag_synthesis','iag_iag'),(1.,3.,2.,7.))},'level')
     assert r['selector']==2.5 and r['denominator_plus_induced_clipping']==3.5 and r['total']==6 and r['closure']==0
     assert r['interaction']==3
+
+
+def test_archived_ratio_exposes_cap_support_without_adopting_refit():
+    """Derived ratios reproduce the discovered cap defect; no raw atlas needed."""
+    import csv
+    from pathlib import Path
+    from pipeline.bride_continuum_audit import trace_fit
+    path=Path(__file__).resolve().parents[1]/'data/results/rya1281/continuum_anchor_v1/pixel_diagnostics.csv'
+    with path.open() as stream:
+        rows=[r for r in csv.DictReader(stream) if r['case']=='canonical_refined'
+              and r['centre_air_A']=='7774.166' and r['reference']=='synthesis']
+    w=np.array([float(r['offset_air_A']) for r in rows])
+    ratio=np.array([float(r['relative_ratio']) for r in rows])
+    mask=np.array([r['initially_selected']=='True' for r in rows])
+    trace,_=trace_fit(w,ratio,0.,np.ones_like(w),mask)
+    assert len(trace['passes'])==5 and trace['postfit_survivors_differ']
+    assert len(trace['fit_indices'])==73 and len(trace['surviving_indices'])==70
+    actual=np.polyfit(w[trace['fit_indices']],ratio[trace['fit_indices']],1)
+    np.testing.assert_array_equal(actual,trace['passes'][-1]['coefficients'])
+    frozen=np.zeros(len(w),bool);frozen[trace['surviving_indices']]=True
+    diagnostic,_=trace_fit(w,ratio,0.,np.ones_like(w),frozen,clip=False)
+    assert diagnostic['level']-trace['level']==pytest.approx(-.000990121732,abs=1e-12)
+    assert not diagnostic['postfit_survivors_differ']

@@ -28039,3 +28039,11 @@ artifacts:
     generator: "scripts/audit_bride_kitt_residuals.py"
     invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-ng-extended> --continuum-reference iag --output <new-immutable-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/continuum_anchor_v1/report.json
+    generator: "scripts/audit_bride_continuum_anchors.py"
+    invocation: "python scripts/audit_bride_continuum_anchors.py --output <new-registered-continuum-anchor-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/continuum_anchor_v1/pixel_diagnostics.csv
+    generator: "scripts/audit_bride_continuum_anchors.py"
+    invocation: "python scripts/audit_bride_continuum_anchors.py --output <new-registered-continuum-anchor-directory>"
+    ticket: "RYA-1281"
