@@ -632,7 +632,7 @@
       },
       "star": "solar",
       "sigma_asplund": 0.11172006802719033,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.078,
       "sigma_asplund_syst": 0.07998358331557816
     },
@@ -1263,7 +1263,7 @@
       },
       "star": "solar",
       "sigma_asplund": 0.09155313429915993,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.024,
       "sigma_asplund_syst": 0.08835143688701398
     },
@@ -1718,7 +1718,7 @@
       },
       "star": "solar",
       "sigma_asplund": 3.3625574805495893,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 3.338,
       "sigma_asplund_syst": 0.4056461635465077
     },
@@ -1871,18 +1871,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.0035,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
-              "paired_median_dex": 0.0035,
-              "n_paired": 2,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -1982,6 +1970,25 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=2)",
+            "evidence": {
+              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 2,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8629.235,
+                8683.403
+              ]
             }
           }
         ],
@@ -2108,27 +2115,12 @@
             0.0,
             0.0,
             0.0,
-            1.2250000000000001e-05,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -2139,6 +2131,7 @@
             0.0,
             0.0,
             0.0004752399999999998,
+            0.0,
             0.0
           ],
           [
@@ -2154,6 +2147,20 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -2165,24 +2172,24 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.1848463364527412,
-        "sigma_measured_partial": 0.1848463364527412
+        "sigma_reported": 0.1879685295468366,
+        "sigma_measured_partial": 0.1879685295468366
       },
       "uncertainty_indicator_ids": [
         "pk_ebd0a6918019",
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.1848463364527412,
+      "sigma_reported": 0.1879685295468366,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_products.csv",
@@ -2193,10 +2200,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:10Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.030240701050074884,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.045590569200219346,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.0015000000000000568,
-      "sigma_asplund_syst": 0.03020347662107791
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -2347,20 +2354,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.011330274265333859,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)",
-            "evidence": {
-              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
-              "paired_median_dex": 0.0035,
-              "n_paired": 2,
-              "varied": "atmosphere grid",
-              "one_d_grid_dex": 0.0035,
-              "median_3d_effect_dex": -0.0215522727272728
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -2463,6 +2456,25 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=2)",
+            "evidence": {
+              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 2,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8629.235,
+                8683.403
+              ]
             }
           }
         ],
@@ -2597,21 +2609,6 @@
             0.0,
             0.0,
             0.0,
-            0.00012837511492768671,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -2619,7 +2616,6 @@
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -2631,10 +2627,10 @@
             0.0,
             0.0004752399999999998,
             0.0,
+            0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -2646,6 +2642,7 @@
             0.0,
             0.0,
             0.0009,
+            0.0,
             0.0
           ],
           [
@@ -2662,6 +2659,21 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -2673,25 +2685,25 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
           "nlte",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.1878091936379252,
-        "sigma_measured_partial": 0.1878091936379252
+        "sigma_reported": 0.19057850901924903,
+        "sigma_measured_partial": 0.19057850901924903
       },
       "uncertainty_indicator_ids": [
         "pk_ebd0a6918019",
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.1878091936379252,
+      "sigma_reported": 0.19057850901924903,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv",
@@ -2702,10 +2714,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:10Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.03344585347883483,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.046545676490948006,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.009500000000000064,
-      "sigma_asplund_syst": 0.0320682883067944
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -2846,18 +2858,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.003,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "7edb50c11b62d9d3772fc770247c3dd67ff567a73c6c33d4f0adbcba60d9b531",
-              "paired_median_dex": -0.003,
-              "n_paired": 1,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -2945,6 +2945,24 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=1)",
+            "evidence": {
+              "pool_sha256": "7edb50c11b62d9d3772fc770247c3dd67ff567a73c6c33d4f0adbcba60d9b531",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 1,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8683.403
+              ]
             }
           }
         ],
@@ -3079,21 +3097,6 @@
             0.0,
             0.0,
             0.0,
-            9e-06,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -3101,7 +3104,6 @@
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -3113,10 +3115,10 @@
             0.0,
             0.000256,
             0.0,
+            0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -3128,6 +3130,7 @@
             0.0,
             0.0,
             0.0009,
+            0.0,
             0.0
           ],
           [
@@ -3144,6 +3147,21 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -3155,24 +3173,24 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
           "nlte",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.3423521078000208,
-        "sigma_measured_partial": 0.3423521078000208
+        "sigma_reported": 0.34405263509398826,
+        "sigma_measured_partial": 0.34405263509398826
       },
       "uncertainty_indicator_ids": [
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.3423521078000208,
+      "sigma_reported": 0.34405263509398826,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-LBP25_ENGINE-A_products.csv",
@@ -3183,10 +3201,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:11Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.2798206932217792,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.2818986881046399,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.2781916971354772,
-      "sigma_asplund_syst": 0.030149626863362672
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -3337,18 +3355,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.0095,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
-              "paired_median_dex": -0.0095,
-              "n_paired": 2,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -3448,6 +3454,25 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=2)",
+            "evidence": {
+              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 2,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8629.235,
+                8683.403
+              ]
             }
           }
         ],
@@ -3574,27 +3599,12 @@
             0.0,
             0.0,
             0.0,
-            9.025e-05,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -3605,6 +3615,7 @@
             0.0,
             0.0,
             0.00045369,
+            0.0,
             0.0
           ],
           [
@@ -3620,6 +3631,20 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -3631,24 +3656,24 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.20616244066269687,
-        "sigma_measured_partial": 0.20616244066269687
+        "sigma_reported": 0.20877967319641058,
+        "sigma_measured_partial": 0.20877967319641058
       },
       "uncertainty_indicator_ids": [
         "pk_ebd0a6918019",
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.2061624406626968,
+      "sigma_reported": 0.20877967319641058,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_products.csv",
@@ -3659,10 +3684,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:11Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.03386000590667409,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.04724933861970973,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.012500000000000178,
-      "sigma_asplund_syst": 0.031468237955119126
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -3813,20 +3838,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.014365761898614592,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)",
-            "evidence": {
-              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
-              "paired_median_dex": -0.0095,
-              "n_paired": 2,
-              "varied": "atmosphere grid",
-              "one_d_grid_dex": 0.0095,
-              "median_3d_effect_dex": -0.0215522727272728
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -3929,6 +3940,25 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=2)",
+            "evidence": {
+              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 2,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8629.235,
+                8683.403
+              ]
             }
           }
         ],
@@ -4063,21 +4093,6 @@
             0.0,
             0.0,
             0.0,
-            0.0002063751149276867,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -4085,7 +4100,6 @@
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -4097,10 +4111,10 @@
             0.0,
             0.00045369,
             0.0,
+            0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -4112,6 +4126,7 @@
             0.0,
             0.0,
             0.0009,
+            0.0,
             0.0
           ],
           [
@@ -4128,6 +4143,21 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -4139,25 +4169,25 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
           "nlte",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.20828604623192523,
-        "sigma_measured_partial": 0.20828604623192523
+        "sigma_reported": 0.21060140536093294,
+        "sigma_measured_partial": 0.21060140536093294
       },
       "uncertainty_indicator_ids": [
         "pk_ebd0a6918019",
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.2082860462319252,
+      "sigma_reported": 0.21060140536093294,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv",
@@ -4168,10 +4198,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:11Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.033565236702989124,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.04578755289377223,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.0045000000000001705,
-      "sigma_asplund_syst": 0.03326221752871697
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -4312,18 +4342,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.019,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "7edb50c11b62d9d3772fc770247c3dd67ff567a73c6c33d4f0adbcba60d9b531",
-              "paired_median_dex": -0.019,
-              "n_paired": 1,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -4411,6 +4429,24 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=1)",
+            "evidence": {
+              "pool_sha256": "7edb50c11b62d9d3772fc770247c3dd67ff567a73c6c33d4f0adbcba60d9b531",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 1,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8683.403
+              ]
             }
           }
         ],
@@ -4545,21 +4581,6 @@
             0.0,
             0.0,
             0.0,
-            0.000361,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -4567,7 +4588,6 @@
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -4579,10 +4599,10 @@
             0.0,
             0.00026895999999999995,
             0.0,
+            0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -4594,6 +4614,7 @@
             0.0,
             0.0,
             0.0009,
+            0.0,
             0.0
           ],
           [
@@ -4610,6 +4631,21 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -4621,24 +4657,24 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
           "nlte",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.32328896594590806,
-        "sigma_measured_partial": 0.32328896594590806
+        "sigma_reported": 0.32454738560397384,
+        "sigma_measured_partial": 0.32454738560397384
       },
       "uncertainty_indicator_ids": [
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.323288965945908,
+      "sigma_reported": 0.32454738560397384,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-LBP25_ENGINE-A_products.csv",
@@ -4649,10 +4685,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:12Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.24390599100139893,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.24557154241966736,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.2413071330200881,
-      "sigma_asplund_syst": 0.035510561809129405
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -4803,18 +4839,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.0235,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
-              "paired_median_dex": -0.0235,
-              "n_paired": 2,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -4914,6 +4938,25 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=2)",
+            "evidence": {
+              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 2,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8629.235,
+                8683.403
+              ]
             }
           }
         ],
@@ -5040,27 +5083,12 @@
             0.0,
             0.0,
             0.0,
-            0.00055225,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -5071,6 +5099,7 @@
             0.0,
             0.0,
             0.0004202499999999999,
+            0.0,
             0.0
           ],
           [
@@ -5086,6 +5115,20 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -5097,24 +5140,24 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.19116087558912256,
-        "sigma_measured_partial": 0.19116087558912256
+        "sigma_reported": 0.19278610000723598,
+        "sigma_measured_partial": 0.19278610000723598
       },
       "uncertainty_indicator_ids": [
         "pk_ebd0a6918019",
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.1911608755891225,
+      "sigma_reported": 0.19278610000723598,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_products.csv",
@@ -5125,10 +5168,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:12Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.04193447269252354,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.04881085944746303,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.017500000000000068,
-      "sigma_asplund_syst": 0.038108398024582456
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -5279,20 +5322,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.02585295176430898,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool; (+) Asplund+2021 Sect. 2.1 atmospheric-inhomogeneity term = half the pool's own 3D effect (3D-NLTE minus 1D-NLTE deltas)",
-            "evidence": {
-              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
-              "paired_median_dex": -0.0235,
-              "n_paired": 2,
-              "varied": "atmosphere grid",
-              "one_d_grid_dex": 0.0235,
-              "median_3d_effect_dex": -0.0215522727272728
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -5395,6 +5424,25 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=2)",
+            "evidence": {
+              "pool_sha256": "e6ed9cf613546c8c222ba3cd49b13b7bf2bb37936bee20cf2bc204be75381dc6",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 2,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8629.235,
+                8683.403
+              ]
             }
           }
         ],
@@ -5529,21 +5577,6 @@
             0.0,
             0.0,
             0.0,
-            0.0006683751149276867,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -5551,7 +5584,6 @@
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -5563,10 +5595,10 @@
             0.0,
             0.0004202499999999999,
             0.0,
+            0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -5578,6 +5610,7 @@
             0.0,
             0.0,
             0.0009,
+            0.0,
             0.0
           ],
           [
@@ -5594,6 +5627,21 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -5605,25 +5653,25 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
           "nlte",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.19324234906181326,
-        "sigma_measured_partial": 0.19324234906181326
+        "sigma_reported": 0.19455199910563753,
+        "sigma_measured_partial": 0.19455199910563753
       },
       "uncertainty_indicator_ids": [
         "pk_ebd0a6918019",
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.1932423490618132,
+      "sigma_reported": 0.19455199910563753,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A-3DNLTE_products.csv",
@@ -5634,10 +5682,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:12Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.04072622146636842,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.046545676490948006,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.009500000000000064,
-      "sigma_asplund_syst": 0.0396027160044319
+      "sigma_asplund_syst": 0.045565886362496984
     },
     {
       "element": "N",
@@ -5778,18 +5826,6 @@
             }
           },
           {
-            "name": "model_atmosphere",
-            "state": "MEASURED",
-            "sigma_dex": 0.049,
-            "source": "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
-            "evidence": {
-              "pool_sha256": "7edb50c11b62d9d3772fc770247c3dd67ff567a73c6c33d4f0adbcba60d9b531",
-              "paired_median_dex": -0.049,
-              "n_paired": 1,
-              "varied": "atmosphere grid"
-            }
-          },
-          {
             "name": "telluric",
             "state": "MEASURED",
             "sigma_dex": 0.0,
@@ -5877,6 +5913,24 @@
             "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
             "evidence": {
               "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.034296501279284866,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 Table 3) (Asplund+2021 Table 3 non-LTE, per indicator (N I), n=1)",
+            "evidence": {
+              "pool_sha256": "7edb50c11b62d9d3772fc770247c3dd67ff567a73c6c33d4f0adbcba60d9b531",
+              "temperature_structure_dex": 0.02400000000000002,
+              "inhomogeneity_dex": 0.024499999999999744,
+              "mean_3Dmean_minus_HM_dex": -0.04800000000000004,
+              "mean_3D_minus_3Dmean_dex": -0.04899999999999949,
+              "n_scott_lines": 1,
+              "basis": "Asplund+2021 Table 3 non-LTE, per indicator (N I)",
+              "scott_wavelengths_A": [
+                8683.403
+              ]
             }
           }
         ],
@@ -6011,21 +6065,6 @@
             0.0,
             0.0,
             0.0,
-            0.0024010000000000004,
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          [
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -6033,7 +6072,6 @@
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -6045,10 +6083,10 @@
             0.0,
             0.00014884000000000002,
             0.0,
+            0.0,
             0.0
           ],
           [
-            0.0,
             0.0,
             0.0,
             0.0,
@@ -6060,6 +6098,7 @@
             0.0,
             0.0,
             0.0009,
+            0.0,
             0.0
           ],
           [
@@ -6076,6 +6115,21 @@
             0.0,
             0.0,
             0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011762499999999885
           ]
         ],
         "covariance_order": [
@@ -6087,24 +6141,24 @@
           "stellar.xi",
           "continuum",
           "profile_ew",
-          "model_atmosphere",
           "telluric",
           "blends",
           "nlte",
-          "holding_instrument"
+          "holding_instrument",
+          "model_atmosphere"
         ],
         "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.3657272124344248,
-        "sigma_measured_partial": 0.3657272124344248
+        "sigma_reported": 0.3640489581293358,
+        "sigma_measured_partial": 0.3640489581293358
       },
       "uncertainty_indicator_ids": [
         "pk_ec835bef2a9b"
       ],
       "grade": "Reference Grade",
-      "sigma_reported": 0.3657272124344248,
+      "sigma_reported": 0.3640489581293358,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/stage6/NI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-LBP25_ENGINE-A_products.csv",
@@ -6115,10 +6169,10 @@
         "copied_to_backfilled_at": "2026-10-03T22:03:13Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.285665215374667,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "sigma_asplund": 0.28351343050207495,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.279827831487604,
-      "sigma_asplund_syst": 0.0574543296888929
+      "sigma_asplund_syst": 0.045565886362496984
     }
   ],
   "archive": [
