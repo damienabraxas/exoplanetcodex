@@ -3,8 +3,8 @@
   "scientific_admission": "HOLD",
   "generator": {
     "name": "analyze_bride_ng_controls.py",
-    "bytes": 14111,
-    "sha256": "ee1e5db9c758e3b0c6d272a3b02a169b3074f94eb1db7f0c86bcea1008e77f5c"
+    "bytes": 14131,
+    "sha256": "6cdc5eed1e2814818bb3bbf42f7eff1bf2ecbb1f3bc4f93fcb86fd876e94075e"
   },
   "declaration": {
     "name": "rya1281_ng_control.json",
@@ -128,13 +128,13 @@
   "iteration_tables": [
     {
       "name": "record_iterations.csv",
-      "bytes": 28770,
-      "sha256": "6cc9e935ba18cbce6e8d32e1656e881385765a92bc61197d008636fdbd21fb1c"
+      "bytes": 28548,
+      "sha256": "aeb5502bef94c21f0bc535eec6d323bfda984a1de21bf1b96fb98b33a3e5e7e3"
     },
     {
       "name": "off_iterations.csv",
-      "bytes": 24863,
-      "sha256": "70fcc58011bf642d1424664c08bc2ac78f43f0285e5884ff4427231eeaa76c66"
+      "bytes": 24672,
+      "sha256": "ba92ed508edb01d1c08bd08deeadf1ba86c068a95c2d4d0687d883c6c4e5a50e"
     }
   ],
   "caveats": "One fixed atmosphere and start. Timing depends on host load. No universal acceleration/default policy, new physical model accuracy, abundance, continuum/telluric fit or 3D/all-band admission. Full unscaled rates and original particle/joint tolerances govern acceptance."

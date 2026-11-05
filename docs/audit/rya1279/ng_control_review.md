@@ -78,7 +78,7 @@ Analysis command, with a fresh immutable output directory:
 ```sh
 source config/hosts/mac.env
 /Users/ryanschmitt/bride_rya1118/.venv/bin/python scripts/analyze_bride_ng_controls.py \
-  --output /Users/ryanschmitt/codex/bride_mac_checks/rya1281-ng-review-v1
+  --output /Users/ryanschmitt/codex/bride_mac_checks/rya1281-ng-review-v2
 ```
 
 Controls check native-call/retry accounting, source/case/column/certificate,
@@ -149,3 +149,5 @@ default policy change. Independent O atom/reference/EOS/opacity and continuum/
 broadening gates, composition/interactions, C/N before Fe and a reference star,
 full3D and all-band work remain open. Scientific HOLD; no production/adoption/
 merge/publication or source/gold change.
+
+Packaging QA caught the analyzer default CRLF CSV dialect. Fixed writer in710de569 and regenerated analysisv2 into a new directory. Analysisv1 stays intact; its current uncommitted archive copies were preserved under /private/tmp/rya1281-ng-own-analysis-copies-crlf before replacement with verified v2 copies. Parsed CSV rows and plot bytes are identical, no RT or physical value changed. The second concrete packaging defect is recorded in the bug ledger. Final generator diagnostics remain2436existing, zero added/removed; MIRROR/version/structure checks pass.
