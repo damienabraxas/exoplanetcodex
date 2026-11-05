@@ -987,3 +987,7 @@ Predeclared serial Mac endpoint checks complete. Legacy cold start times out; sa
 ## 2026-11-04: native acceleration control
 
 Ng-on/off lower-gravity controls complete with actual native flags. Both hit600s, with final joint1.66e-6/1.38e-5; no accepted spectra/rates. Exact221-row replay, first8on/off rows equal and first divergence coincides with actual Ng row9.57tests pass; pre-existing ledger failure reproduced on main. Fresh-output preflight bug fixed and logged.13results/1figure preserved; statev209. [Full review and next task](ng_control_review.md). Scientific HOLD, no default/physical adoption/merge.
+
+## 2026-11-04: lower-gravity cost-only completion
+
+Predeclared1200s allowance produces233-step/630.71s convergence with exact221-row/native-call identity, independent3.55e-7 rates/6.66e-16 conservation and identical starting arrays. Refinement area changes<=0.0035184mA; original600s failures retained. Both prior continuum reference legs rerun, tiny numerical changes versus4.93-10.88mA reference spread, one-sided pre-clipping anchors remain.59tests pass;15results/4figures archived, full R/C/J external receipt. Statev210; source/physical/default/adoption gates remain open. [Review and exact commands](ng_extended_review.md).
