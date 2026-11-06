@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v178** · _Last updated: 2026-11-05 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v179** · _Last updated: 2026-11-06 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -306,6 +306,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v179** (2026-11-06) — **RYA-1315 Na HARPS VIS continuum fix + atomic C/N/O on Asplund's own terms.** Na.json: HARPS VIS Na I GRADED re-measured after the continuum bound fix (7b28c94f), e.g. 1D-LTE 6.370 -> 6.283, ENGINE-A 6.295 -> 6.226; AGSS21 set A unchanged, sigma 0.11 -> 0.05. Every live Na/C/N/O product re-stamped with Asplund+2021 Sect. 2.1 atmosphere terms (Scott+2015 per line; atomic C/N/O from Asplund+2021 Table 3, `18c54c7d`); no C/N/O A moved. Na HARPS VIS Deep, Fe and Ti follow in a later PR (runs on Sirius).
 - **v178** (2026-11-05) — **RYA-1311 Ca through the orchestrator (unmerged).** 177 live Ca products (Reference Grade 99: AGSS21 set 63 + lab-gf 36; Codex Grade 78; Deep dropped), Asplund+2021 sigma with zero perturbation legs; HARPS AGSS21 3D NLTE 6.405 +/- 0.05 = Kitt Peak 6.412 after the HARPS continuum fix; +0.10 vs A21 traced to flux vs disk-centre geometry. Near-UV/NIR/H/K Ca are gaps. Lab-gf REFERENCE pool now publishes as Reference Grade (`18d515ec`). The element status tracker (generated, RYA-654) is regenerated: its Ca I row now lists the new Ca_Amarsi2020_PySME.csv grid.
 - **v177** (2026-10-31) — **RYA-1315 Ti through the orchestrator (unmerged).** Lawler 2013 gf over NIST on 123 Ti I rows (Asplund-set gf mismatches 21 -> 0); Ti ENGINE-A table (Mallinson 2024 PySME) extended to 597 lines (Ti I 317, Ti II 280; 41 held with reasons); `NLTE_CORRECTION_ELEMENTS['Ti']` gains `nlte_ions: (1, 2)` (ENGINE-A had left every Ti II product 1D-LTE; `ion` stays the reported-ion lock) and `model_axis: amarsi` (was inferred as bergemann from the word 'Supersedes'); Gerber decks Ti + Ti@mean3D registered (atom.ti503b = Bergemann 2011 scaled-Drawin, ~2x the ab-initio solar delta -> comparison only, RYA-548). Headline ion = Ti II (Scott 2015 / AGSS21); Ti I = validation vs Scott 4.88. No published product moved yet.
 - **v176** (2026-10-29) — **RYA-1317 CNO Asplund sigma landed.** PR #606 (`46fd923d`) + site #79: molecular 3D terms per Amarsi+2021 group (G band = CH A-X +0.066), 1D-LTE CNO products stamped `asplund_3d_shift` for the site combiner; N bar = max(half-separation, propagated). Site: C 8.539 ± 0.045, N 7.855 ± 0.049, O 8.757 ± 0.054. No product A moved.
