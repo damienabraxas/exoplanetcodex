@@ -28091,3 +28091,95 @@ artifacts:
     generator: "scripts/analyze_bride_lte_screen.py"
     invocation: "python scripts/analyze_bride_lte_screen.py --source <registered-lte-screen-directory> --output <new-registered-lte-analysis-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/canonical_refined/input.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case canonical_refined --output <new-registered-feii-transfer-directory>/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/canonical_refined/report.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case canonical_refined --output <new-registered-feii-transfer-directory>/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/canonical_refined/zero/report.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case canonical_refined --output <new-registered-feii-transfer-directory>/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/canonical_refined/zero/flux.csv
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case canonical_refined --output <new-registered-feii-transfer-directory>/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/canonical_refined/feii/report.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case canonical_refined --output <new-registered-feii-transfer-directory>/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/canonical_refined/feii/flux.csv
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case canonical_refined --output <new-registered-feii-transfer-directory>/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/canonical_refined/zero/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/canonical_refined/zero --continuum-reference synthesis --output <new-registered-feii-analysis>/canonical_refined/zero/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/canonical_refined/zero/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/canonical_refined/zero --continuum-reference iag --output <new-registered-feii-analysis>/canonical_refined/zero/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/canonical_refined/feii/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/canonical_refined/feii --continuum-reference synthesis --output <new-registered-feii-analysis>/canonical_refined/feii/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/canonical_refined/feii/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/canonical_refined/feii --continuum-reference iag --output <new-registered-feii-analysis>/canonical_refined/feii/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/lower_gravity_refined/input.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case lower_gravity_refined --output <new-registered-feii-transfer-directory>/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/lower_gravity_refined/report.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case lower_gravity_refined --output <new-registered-feii-transfer-directory>/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/lower_gravity_refined/zero/report.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case lower_gravity_refined --output <new-registered-feii-transfer-directory>/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/lower_gravity_refined/zero/flux.csv
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case lower_gravity_refined --output <new-registered-feii-transfer-directory>/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/lower_gravity_refined/feii/report.json
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case lower_gravity_refined --output <new-registered-feii-transfer-directory>/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/run/lower_gravity_refined/feii/flux.csv
+    generator: "scripts/run_bride_feii_transfer.py"
+    invocation: "python scripts/run_bride_feii_transfer.py --case lower_gravity_refined --output <new-registered-feii-transfer-directory>/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/lower_gravity_refined/zero/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/lower_gravity_refined/zero --continuum-reference synthesis --output <new-registered-feii-analysis>/lower_gravity_refined/zero/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/lower_gravity_refined/zero/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/lower_gravity_refined/zero --continuum-reference iag --output <new-registered-feii-analysis>/lower_gravity_refined/zero/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/lower_gravity_refined/feii/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/lower_gravity_refined/feii --continuum-reference synthesis --output <new-registered-feii-analysis>/lower_gravity_refined/feii/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/lower_gravity_refined/feii/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-transfer>/lower_gravity_refined/feii --continuum-reference iag --output <new-registered-feii-analysis>/lower_gravity_refined/feii/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/report.json
+    generator: "scripts/analyze_bride_feii_transfer.py"
+    invocation: "python scripts/analyze_bride_feii_transfer.py --source <registered-feii-transfer> --output <new-registered-feii-analysis-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/analysis/summary.csv
+    generator: "scripts/analyze_bride_feii_transfer.py"
+    invocation: "python scripts/analyze_bride_feii_transfer.py --source <registered-feii-transfer> --output <new-registered-feii-analysis-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_transfer_v1/anchor_trace/report.json
+    generator: "scripts/trace_bride_feii_anchors.py"
+    invocation: "python scripts/trace_bride_feii_anchors.py --transfer <registered-feii-transfer> --analysis <registered-feii-analysis> --output <new-registered-feii-anchor-directory>"
+    ticket: "RYA-1281"

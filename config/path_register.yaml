@@ -202,6 +202,18 @@ entries:
     env: CODEX_BRIDE_FEII_TRANSFER
     kind: dir
     desc: Immutable fixed-O paired natural FeII transfer; frozen historical source/rule, no opacity adoption.
+  experiments.bride_feii_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-analysis-v1
+    env: CODEX_BRIDE_FEII_ANALYSIS
+    kind: dir
+    desc: Both historical continuum-reference and RV legs of fixed-O FeII differential, no preferred fit.
+  experiments.bride_feii_anchors:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-anchor-trace-v1
+    env: CODEX_BRIDE_FEII_ANCHORS
+    kind: dir
+    desc: Exact native-record/area replay and actual anchor changes in FeII differential.
   experiments.bride_ng_extended:
     root: work
     rel: bride_mac_checks/rya1281-ng-extended-v1

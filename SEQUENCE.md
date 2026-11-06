@@ -1,3 +1,7 @@
+## 2026-11-05 — fixed-oxygen FeII transfer differential
+
+- **RYA-1281** — Replay frozen spectra exactly and isolate FeII7777.12; negligible direct O absorption but2.02-2.09mA7775continuum response, both references/RVs retained (register v216).
+
 ## 2026-11-05 — local oxygen-anchor opacity screen and main reconciliation
 
 > **Current as of `main` 9a74d843** (2026-11-05 integration audit; historical Bride controls retained separately).
