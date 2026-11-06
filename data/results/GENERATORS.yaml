@@ -28075,3 +28075,19 @@ artifacts:
     generator: "scripts/audit_bride_anchor_influence.py"
     invocation: "python scripts/audit_bride_anchor_influence.py --output <new-registered-anchor-influence-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/lte_opacity_screen_v1/report.json
+    generator: "scripts/screen_bride_lte_opacity.py"
+    invocation: "python scripts/screen_bride_lte_opacity.py --output <new-registered-lte-screen-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/lte_opacity_screen_v1/line_ranks.csv
+    generator: "scripts/screen_bride_lte_opacity.py"
+    invocation: "python scripts/screen_bride_lte_opacity.py --output <new-registered-lte-screen-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/lte_opacity_screen_v1/species_depths.csv
+    generator: "scripts/screen_bride_lte_opacity.py"
+    invocation: "python scripts/screen_bride_lte_opacity.py --output <new-registered-lte-screen-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/lte_opacity_screen_v1/analysis/report.json
+    generator: "scripts/analyze_bride_lte_screen.py"
+    invocation: "python scripts/analyze_bride_lte_screen.py --source <registered-lte-screen-directory> --output <new-registered-lte-analysis-directory>"
+    ticket: "RYA-1281"

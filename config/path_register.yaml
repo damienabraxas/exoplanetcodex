@@ -190,6 +190,12 @@ entries:
     env: CODEX_BRIDE_LTE_SCREEN
     kind: dir
     desc: Local natural-only LTE coefficients at historical frozen anchors; no RT, inferred flux or opacity adoption.
+  experiments.bride_lte_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-lte-opacity-analysis-v1
+    env: CODEX_BRIDE_LTE_ANALYSIS
+    kind: dir
+    desc: Full-column local-opacity footprint summaries and plot; no formation-depth or flux inference.
   experiments.bride_ng_extended:
     root: work
     rel: bride_mac_checks/rya1281-ng-extended-v1

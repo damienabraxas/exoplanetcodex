@@ -1,3 +1,10 @@
+## 2026-11-05 — local oxygen-anchor opacity screen and main reconciliation
+
+> **Current as of `main` 9a74d843** (2026-11-05 integration audit; historical Bride controls retained separately).
+
+- **RYA-1311** — PR #607 landed on main9a74d843, including RYA-1315 updates; production Ca/ORCH state lives on that main snapshot, not in this frozen Bride experiment.
+- **RYA-1281** — Screen local source-qualified natural LTE opacity; FeII7777.12 becomes a strength-supported transfer candidate, with unchanged O populations and current-main input changes withheld (register v215).
+
 ## 2026-11-05 — oxygen anchor influence and source availability
 
 - **RYA-1281** — Reconstruct fixed-anchor shifts and signed cancellation; audit all388candidate source identities without blend attribution (register v214).
