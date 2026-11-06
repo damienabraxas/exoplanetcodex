@@ -515,7 +515,9 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
         return out
 
     eng, lte = by_product("ENGINE-A", True), by_product("1D-LTE", False)
-    assert len(eng) == 6, sorted(eng)            # three holdings x Deep + Reference
+    #: RYA-1315: 6 -> 7, HARPS VIS gains a Codex-Grade (GRADED) Fe II ENGINE-A product on the
+    #: fixed continuum; the per-row checks below run on it like the rest.
+    assert len(eng) == 7, sorted(eng)            # three holdings x Deep + Reference, + HARPS GRADED
 
     #: THE POINT, NOW: the served pool is the live pool MINUS the one line curated out on
     #: its merits (Fe II 4303.170, a CH G-band blend recovering A = 10.0 -- RYA-1191).
