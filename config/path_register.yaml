@@ -214,6 +214,18 @@ entries:
     env: CODEX_BRIDE_FEII_ANCHORS
     kind: dir
     desc: Exact native-record/area replay and actual anchor changes in FeII differential.
+  experiments.bride_feii_profile:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-profile-v1
+    env: CODEX_BRIDE_FEII_PROFILE
+    kind: dir
+    desc: Shipped and fixed-shoulder feature comparison to both atlases; no fitted gf/width/RV or adopted continuum.
+  experiments.bride_feii_width_source:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-source-v1
+    env: CODEX_BRIDE_FEII_WIDTH_SOURCE
+    kind: dir
+    desc: Isolated pinned native FeII pressure/Stark branch proof and full-column widths; H2 omitted, no transfer/adoption.
   experiments.bride_ng_extended:
     root: work
     rel: bride_mac_checks/rya1281-ng-extended-v1
