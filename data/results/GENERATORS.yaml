@@ -28063,3 +28063,15 @@ artifacts:
     generator: "scripts/audit_bride_reference_resolution.py"
     invocation: "python scripts/audit_bride_reference_resolution.py --output <new-registered-resolution-audit-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/anchor_influence_v1/report.json
+    generator: "scripts/audit_bride_anchor_influence.py"
+    invocation: "python scripts/audit_bride_anchor_influence.py --output <new-registered-anchor-influence-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/anchor_influence_v1/candidate_intake.json
+    generator: "scripts/audit_bride_anchor_influence.py"
+    invocation: "python scripts/audit_bride_anchor_influence.py --output <new-registered-anchor-influence-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/anchor_influence_v1/blocks.csv
+    generator: "scripts/audit_bride_anchor_influence.py"
+    invocation: "python scripts/audit_bride_anchor_influence.py --output <new-registered-anchor-influence-directory>"
+    ticket: "RYA-1281"

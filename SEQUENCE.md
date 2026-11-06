@@ -1,3 +1,7 @@
+## 2026-11-05 — oxygen anchor influence and source availability
+
+- **RYA-1281** — Reconstruct fixed-anchor shifts and signed cancellation; audit all388candidate source identities without blend attribution (register v214).
+
 ## 2026-11-04 — oxygen numerical endpoints and profile geometry
 
 - **RYA-1281** — Bound frozen IAG Gaussian resolution sensitivity below0.1mA; preserve multi-mA reference gap and native LSF/opacity gates (register v213).
