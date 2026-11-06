@@ -1838,9 +1838,9 @@ def synthesis_route(a, pol) -> None:
                     f"data/results/rya1035/mean3d_aux_defect_sweep.csv -- Fe and Mn "
                     f"REQUIRE the plain aux.")
             _layers, _model3d = m3d.load(gnlte.deck_atmosphere(_deck_key))
-            # RYA-1315: Ti@mean3D resolves 31 abundances (Fe@mean3D one), so this depth/tau
-            # probe needs one; the fit itself reads the deck per trial. Same probe as the
-            # main route's <3D> branch.
+            # RYA-1311: Ca@mean3D has an abundance axis (22 nodes), so this probe needs
+            # one like the 1D branch and main()'s <3D> branch (RYA-1250). It only feeds
+            # the depth/tau gates; the fit reads departures per trial A(X).
             _probe_a = (float(np.mean(gnlte.abundance_axis(_deck_key)))
                         if gnlte.has_abundance_axis(_deck_key) else None)
             _dep = gnlte.for_node(_deck_key, float(ctx["teff"]), float(ctx["logg"]),

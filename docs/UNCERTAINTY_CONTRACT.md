@@ -7,6 +7,11 @@ component vocabulary, assembly, validation and covariance propagation. It reuses
 `error_budget.Term` semantics. Legacy arithmetic remains diagnostic; historical
 subtotals are not proof of publication completeness.
 
+The RYA-587 budget is the evidence a product must carry to publish. The error bar the
+site shows is the narrower Asplund, Amarsi & Grevesse 2021 sigma (`sigma_asplund`, stamped
+by `publish_product.write_feed`); its rules, including the per-group molecular terms and
+the CNO 3D-scale combination (RYA-1317), are in `ORCHESTRATOR_RUNBOOK.md` Sect. 7a.
+
 ## Machine record and API
 
 Each product supplies `star`, `uncertainty_indicator_ids` (stable physical IDs),

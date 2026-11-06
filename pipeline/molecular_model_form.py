@@ -137,3 +137,79 @@ def as_term(molecule: str, lo_A: float, hi_A: float) -> Term:
     if got["state"] != "MEASURED":
         raise ModelFormError(f"{molecule} {lo_A:.0f}-{hi_A:.0f} A: {got['reason']}")
     return Term(name="model_atmosphere", sigma=got["sigma_dex"], source=got["source"])
+
+
+# ── RYA-1317: per-GROUP terms (Amarsi+2021 groups, Asplund+2021 Table 3 rows) ──────────────
+#
+# The species table above pools every system and band of a molecule into ONE row. Amarsi
+# groups by molecule x electronic system x |dv| because those sensitivities differ: CH A-X
+# (our G band) is +0.066 dex 3D - MARCS, CH X-X (dv=1) +0.032, and the species row (+0.035)
+# is dominated by the X-X lines. A group term is used only where our indicator sits on that
+# group's own transitions; anything else falls back to the species row exactly as before.
+
+TABLE3_CSV = (pathlib.Path(__file__).resolve().parents[1] / "data" / "reference"
+              / "agss21_cited_sets" / "agss21_table3_cno.csv")
+LINES_CSV = (pathlib.Path(__file__).resolve().parents[1] / "data" / "reference"
+             / "amarsi2021_cno" / "derived" / "amarsi2021_cno_molecular_lines.csv")
+TABLE3_SOURCE = "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table 3"
+
+#: our indicator key -> (A21 Table 3 row, Amarsi+2021 CDS group (species, system, |dv|)).
+#: The CDS group is None for an atomic line. C2 Swan is one Table 3 row over both dv.
+INDICATOR_GROUP = {
+    "CH_Gband": ("CH (A-X)", ("CH", "A-X", 0)),
+    "C2_Swan": ("C2 Swan", ("C2", "Swan", None)),
+    "CO_K": ("CO (dv=2)", ("12C16O", "X-X", 2)),
+    "CN_AX_IR": ("CN (0-0)", ("CN", "A-X", 0)),
+    "CN_AX_J": ("CN (0-0)", ("CN", "A-X", 0)),
+    "OH_H": ("OH (dv=2)", ("OH", "X-X", 2)),
+    "OI_6300": ("[O I]", None),
+}
+
+#: Amarsi+2021 Eq. 1 atmosphere term: the standard error of the mean over these four models.
+AMARSI_ATMOS_MODELS = ("abundance_3d", "abundance_mean_3d", "abundance_atmo", "abundance_hm74")
+
+
+@functools.lru_cache(maxsize=1)
+def table3() -> pd.DataFrame:
+    return pd.read_csv(TABLE3_CSV).set_index("indicator")
+
+
+@functools.lru_cache(maxsize=1)
+def _lines() -> pd.DataFrame:
+    return pd.read_csv(LINES_CSV)
+
+
+def indicator_key(product) -> str | None:
+    """'CH_Gband' from a product's first indicator id ('CH_Gband:vis:...')."""
+    ids = (product or {}).get("uncertainty_indicator_ids") or [""]
+    return str(ids[0]).split(":")[0] or None
+
+
+def group_terms(indicator: str | None) -> dict | None:
+    """The published 3D shift and atmosphere term for our indicator's own group, or None.
+
+    shift_3d_dex: Table 3's 3D value minus its 1D MARCS LTE value (3D NLTE for an atom,
+    3D LTE for a molecule), i.e. what moves a 1D-LTE result onto Asplund's 3D scale.
+    atmos_sem_dex: Amarsi Eq. 1's first term for a molecular group, from the per-line CDS
+    table (None for an atom).
+    """
+    if indicator not in INDICATOR_GROUP:
+        return None
+    row_name, group = INDICATOR_GROUP[indicator]
+    row = table3().loc[row_name]
+    three_d = row.nlte_3D if pd.notna(row.nlte_3D) else row.lte_3D
+    out = {"indicator": indicator, "table3_row": row_name,
+           "shift_3d_dex": round(float(three_d - row.lte_MARCS), 4),
+           "table3_error_dex": float(row.error), "atmos_sem_dex": None,
+           "source": TABLE3_SOURCE}
+    if group is not None:
+        species, system, dv = group
+        d = _lines()
+        g = d[(d.species == species) & (d.system == system)]
+        if dv is not None:
+            g = g[g.delta_nu.abs() == dv]
+        means = [float(g[c].mean()) for c in AMARSI_ATMOS_MODELS]
+        out["atmos_sem_dex"] = float(pd.Series(means).std() / len(means) ** 0.5)
+        out["n_group_lines"] = int(len(g))
+        out["source"] += f"; Amarsi et al. 2021 CDS J/A+A/656/A113 ({len(g)} lines)"
+    return out

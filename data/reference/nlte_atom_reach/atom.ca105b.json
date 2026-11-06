@@ -1,0 +1,48 @@
+{
+  "atom": "atom.ca105b",
+  "element": "*",
+  "md5": "63d986e2fb0386978a2434fd40ac5d1d",
+  "sha256": "651c272ab195a9a7367e400d8f521336978590da787e7f2f18855c1f798fff7a",
+  "n_levels_declared": 105,
+  "n_bb_declared": 624,
+  "n_bb_parsed": 624,
+  "n_continua_declared": 104,
+  "n_cross_stage_bb": 0,
+  "highest_level_index_in_any_bb": 103,
+  "stages": [
+    {
+      "ion_stage": 1,
+      "n_levels": 67,
+      "level_index_lo": 1,
+      "level_index_hi": 67,
+      "energy_eV_lo": 0.0,
+      "energy_eV_hi": 5.9421,
+      "n_bb_both": 400,
+      "n_bb_any": 400,
+      "nlte_capable": true
+    },
+    {
+      "ion_stage": 2,
+      "n_levels": 37,
+      "level_index_lo": 68,
+      "level_index_hi": 104,
+      "energy_eV_lo": 6.1132,
+      "energy_eV_hi": 17.3455,
+      "n_bb_both": 224,
+      "n_bb_any": 224,
+      "nlte_capable": true
+    },
+    {
+      "ion_stage": 3,
+      "n_levels": 1,
+      "level_index_lo": 105,
+      "level_index_hi": 105,
+      "energy_eV_lo": 32.9282,
+      "energy_eV_hi": 32.9282,
+      "n_bb_both": 0,
+      "n_bb_any": 0,
+      "nlte_capable": false
+    }
+  ],
+  "measured_at": "2026-10-29T21:12:59Z"
+}
