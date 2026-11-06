@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v177** · _Last updated: 2026-10-31 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v178** · _Last updated: 2026-11-05 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -306,6 +306,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 
 ## Changelog
 
+- **v178** (2026-11-05) — **RYA-1311 Ca through the orchestrator (unmerged).** 177 live Ca products (Reference Grade 99: AGSS21 set 63 + lab-gf 36; Codex Grade 78; Deep dropped), Asplund+2021 sigma with zero perturbation legs; HARPS AGSS21 3D NLTE 6.405 +/- 0.05 = Kitt Peak 6.412 after the HARPS continuum fix; +0.10 vs A21 traced to flux vs disk-centre geometry. Near-UV/NIR/H/K Ca are gaps. Lab-gf REFERENCE pool now publishes as Reference Grade (`18d515ec`).
 - **v177** (2026-10-31) — **RYA-1315 Ti through the orchestrator (unmerged).** Lawler 2013 gf over NIST on 123 Ti I rows (Asplund-set gf mismatches 21 -> 0); Ti ENGINE-A table (Mallinson 2024 PySME) extended to 597 lines (Ti I 317, Ti II 280; 41 held with reasons); `NLTE_CORRECTION_ELEMENTS['Ti']` gains `nlte_ions: (1, 2)` (ENGINE-A had left every Ti II product 1D-LTE; `ion` stays the reported-ion lock) and `model_axis: amarsi` (was inferred as bergemann from the word 'Supersedes'); Gerber decks Ti + Ti@mean3D registered (atom.ti503b = Bergemann 2011 scaled-Drawin, ~2x the ab-initio solar delta -> comparison only, RYA-548). Headline ion = Ti II (Scott 2015 / AGSS21); Ti I = validation vs Scott 4.88. No published product moved yet.
 - **v176** (2026-10-29) — **RYA-1317 CNO Asplund sigma landed.** PR #606 (`46fd923d`) + site #79: molecular 3D terms per Amarsi+2021 group (G band = CH A-X +0.066), 1D-LTE CNO products stamped `asplund_3d_shift` for the site combiner; N bar = max(half-separation, propagated). Site: C 8.539 ± 0.045, N 7.855 ± 0.049, O 8.757 ± 0.054. No product A moved.
 - **v175** (2026-10-28) — **RYA-1310 IAG out of VIS; Deep Grade drawn.** PR #603 merged: the orchestrator builds no IAG VIS cell (`excluded_holding_bands` in the run report) and 97 live IAG VIS products moved to archive (Fe 33, Mg 26, Na 25, Si 6, Al 4, C 3); no headline moved. Follow-up (unmerged): `plot_grid` draws Deep Grade in every band (Fe I gains 8 hidden Deep products) and separates the local-continuum Deep pool into its own section, so no product loses its slot; `not_displayed` empty in every solar feed. Strong lines (4571, 4703, 5528, Mg b) kept, not excluded: Deep Grade by definition, shown yellow on the site.

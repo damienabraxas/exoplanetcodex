@@ -10,6 +10,10 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-11-05 — pending RYA-1311 branch
+
+- **RYA-1311** (pending, branch `ryandamienschmitt/rya-1311-ca`, carries RYA-1315 `58bdfc22`) — Ca through the orchestrator on Sirius: 445 cells, 0 failed, zero uncertainty legs (Asplund+2021 sigma from each cell's own products); `Ca.json` v1.324: 177 live (Reference Grade 99 = AGSS21 set 63 + lab-gf pool 36; Codex Grade 78), VIS + red-optical. HARPS AGSS21 3D NLTE 6.405 +/- 0.05, Kitt Peak 6.412/6.413 (HARPS continuum fix 7b28c94f); +0.10 vs A21 is flux vs disk-centre geometry (mu=1 lands on A21). Ca II 5001/6456 gf from AGSS21; 5 Ca I blends registered; near-UV (3 lines, red chi2 28-64) quarantined; near-UV/NIR/H/K are gaps. Fix: the lab-gf REFERENCE pool published as tier ALL (budget scope mismatch -> all quarantined) and as Codex Grade (`18d515ec`).
+
 ## 2026-10-29 — RYA-1317 landed
 
 > **Current as of `main` f8c723a8** (2026-10-29, RYA-1317).

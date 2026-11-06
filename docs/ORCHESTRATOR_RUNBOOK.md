@@ -349,19 +349,20 @@ push and open the PR. Report any failing guard rather than bypassing it silently
 1. In `scripts/generate_cno_publication.py` add the element to `NAMES`, `ASPLUND2021`,
    `ASPLUND2021_SIGMA`, and a reader-facing name for its line set in `INDICATOR_NAMES`.
 2. In `scripts/cno_selection.py` add it to `LINE_SET_SELECTORS` / `LINE_SET_SOURCE` if
-   Asplund's value is one analysis of a line set (Si, Al, Na). If Asplund combines groups
-   (e.g. Mg I and Mg II reported separately, then combined), say so in the ticket and
-   implement that combination the way the C/N/O families are done. No recipe -> the page
-   falls back to the best single product automatically.
+   Asplund's value is one analysis of a line set (Si, Al, Na). **No means on the website**
+   (Ryan): an element Asplund reports as two groups (Ca I and Ca II, Mg I and Mg II) is NOT
+   combined -- the top number is the best single product (`cno_selection.ANCHOR_RULE`:
+   best HARPS Reference Grade 3D NLTE, else best Kitt Peak, never CRIRES+), with Asplund's
+   value beside it. The only combination on the site is the C/N/O family one (Sect. 7a).
 3. In `scripts/generate_solar_report.py` add it to the appendix-link list.
 4. Regenerate against the science checkout:
    `python scripts/generate_cno_publication.py --science-root <science> --elements <El>`
    then `python scripts/generate_solar_report.py --science-root <science>`.
 5. Read the generated page: top value present, matches the Sun table, compares to
    Asplund, no internal IDs. Run `pytest tests/` (compare with main), open the PR.
-6. The top number is measured Asplund's way (`literature_headline`): his line set or his
-   combination of indicator families. A single best product (HARPS Reference Grade first)
-   is only the fallback when Asplund gives no recipe. No per-element exceptions.
+6. The top number is measured on Asplund's line set where he analysed one
+   (`literature_headline`); otherwise it is the best single product (HARPS Reference Grade
+   first). C/N/O alone combine indicator families. No per-element exceptions.
 7. **Sun table: splice, never regenerate whole.** The live `solar-report.generated.js`
    can be built from another session's branch. Generate to a temporary file INSIDE the
    site repo (`--output` outside it fails), copy only the changed element rows into the
