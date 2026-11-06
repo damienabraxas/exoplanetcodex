@@ -23,6 +23,14 @@ A level is labelled only when the routes name ONE atom level; two different leve
 contradiction and stays unlabelled. A line is labelled only when BOTH endpoints are (bsyn
 needs the pair; RYA-1094). A label match is further required to agree with VALD's energy
 within LABEL_DE_EV, so a homonym in a differently-labelled atom cannot slip through.
+
+STAGE ENERGIES ARE MATCHED FROM THE STAGE'S OWN GROUND (RYA-1311)
+------------------------------------------------------------------
+VALD gives a Ca II level's energy above the Ca II ground; `atom.ca105b` stores it above the
+Ca I ground (Ca II 4s 2S at 6.113 eV). Compared raw, no Ca II line could ever match, and every
+Ca II list row came back unlabelled although the atom carries 224 Ca II bound-bound
+transitions. `_stage_levels` re-zeroes each stage on its lowest level, which is a no-op for an
+atom that already stores a stage that way.
 """
 from __future__ import annotations
 
@@ -97,12 +105,36 @@ def _norm(s: str) -> str:
     return re.sub(r"\s+", "", str(s))
 
 
+def _staged_candidates(designation: str, j: float, ion: int) -> set[str]:
+    """`atom.ca105b` spells a level stage + last orbital + term (+ J, or 2J when J is half
+    integer): '14S21S' Ca I 4s2 1S, '14P3P1' Ca I 4p 3P1, '23D2D3' Ca II 3d 2D3/2, and,
+    above its lowest levels, the fine-structure-averaged term alone ('25P2P' Ca II 5p 2P)."""
+    parts = designation.split()
+    if len(parts) < 2:
+        return set()
+    m = _TERM.match(parts[-1])
+    if not m:
+        return set()
+    _, mult, L, _ = m.groups()
+    orb = re.split(r"[.]", " ".join(parts[:-1]))[-1].upper()
+    jj = f"{int(j)}" if float(j).is_integer() else f"{int(round(2 * j))}"
+    return {f"{ion}{orb}{mult}{L}", f"{ion}{orb}{mult}{L}{jj}"}
+
+
+def _stage_levels(levels: pd.DataFrame, ion: int) -> pd.DataFrame:
+    """One stage's levels with energies measured from that stage's own ground, as VALD gives them."""
+    sub = levels[levels.ion == ion].copy()
+    if len(sub):
+        sub["energy_eV"] = sub.energy_eV - sub.energy_eV.min()
+    return sub
+
+
 def _by_term(levels: pd.DataFrame, ion: int, designation: str, j: float, e: float):
     if not designation:
         return set()
-    cand = {_norm(c) for c in label_candidates(designation, j)}
-    c = levels[(levels.ion == ion) & levels.term.map(_norm).isin(cand)
-               & ((levels.energy_eV - e).abs() <= LABEL_DE_EV)]
+    cand = {_norm(c) for c in label_candidates(designation, j) | _staged_candidates(designation, j, ion)}
+    sub = _stage_levels(levels, ion)
+    c = sub[sub.term.map(_norm).isin(cand) & ((sub.energy_eV - e).abs() <= LABEL_DE_EV)]
     return set(int(x) for x in c["index"])
 
 
@@ -127,7 +159,7 @@ def label_list(list_path, element: str, levels: pd.DataFrame, raw_paths,
         ends, routes = [], set()
         for e, j, des in ((r.lower_state_eV, r.lower_j, t.term_low if t is not None else ""),
                           (r.upper_state_eV, r.upper_j, t.term_up if t is not None else "")):
-            sub = levels[levels.ion == ion]
+            sub = _stage_levels(levels, ion)
             v, idx, _ = resolve_level(sub, energy_eV=float(e), j=float(j), tol_eV=tol_eV)
             hit = {int(idx)} if v == "UNIQUE" else set()
             by_t = _by_term(levels, ion, des, j, float(e))

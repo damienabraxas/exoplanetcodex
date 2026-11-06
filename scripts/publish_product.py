@@ -884,6 +884,15 @@ def main() -> int:
                 cur["display"] = row["display"]
                 if k not in backfilled:
                     backfilled.append(k)
+            # RYA-1311 -- GRADE BACKFILL, same guard. `grade` is derived from the row's
+            # selector (cno_grade); when that derivation is corrected (the lab-gf REFERENCE
+            # pool fell through to Codex Grade), only the label moves.
+            if (row.get("grade") and cur.get("grade") != row.get("grade")
+                    and cp.get("sha256") and cp.get("sha256") == npv.get("sha256")):
+                cur["grade_was"] = cur.get("grade")
+                cur["grade"] = row["grade"]
+                if k not in backfilled:
+                    backfilled.append(k)
             # RYA-1233 -- RE-MEASURED, SAME RESULT. A rerun that reproduces every measured
             # field from a NEW artifact must point at that artifact: the old `copied_to` is
             # typically a stage file the rerun itself replaced or deleted. Only provenance

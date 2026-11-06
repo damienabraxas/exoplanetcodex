@@ -15,6 +15,7 @@ the same axis already implies:
   selector MOL-CN_AX_IR      -> Reference Grade  its fit windows ARE AGSS21's own published
                                                   CN A-X (0-0) line positions
                                                   (cno_synthesis._cn_ir_windows)
+  selector REFERENCE         -> Reference Grade  the full laboratory-gf pool (Fe's axis)
   anything else              -> Codex Grade      the Codex's own indicator selection
 
 No CNO pool is depth-split, so Deep Grade is never assigned.
@@ -38,6 +39,10 @@ def grade_for(row: dict) -> str | None:
         return None
     sel = str(row.get("selector") or "")
     if sel.startswith("SET-") or sel in REFERENCE_MOLECULAR_SELECTORS:
+        return "Reference Grade"
+    # RYA-1311: the full laboratory-gf pool is Reference Grade on Fe's own axis
+    # (rya1178_emit_fe_schema.GRADE_FOR_LINE_SET["reference"]); it fell through to Codex Grade.
+    if sel == "REFERENCE" or str(row.get("tier") or "") == "REFERENCE":
         return "Reference Grade"
     # RYA-1233: the Codex's DEEP pool (gf-graded lines above the 0.60 depth gate) is Deep
     # Grade, Fe's own axis -- it used to fall through to Codex Grade.

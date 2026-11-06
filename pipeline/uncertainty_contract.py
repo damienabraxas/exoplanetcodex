@@ -178,10 +178,11 @@ def paired_response(nominal, minus, plus, *, delta, source, parameter_source):
 #: observational terms are NOT in it -- Asplund: "in general ... not attempted". The other
 #: components stay on the document as evidence; they no longer widen the headline bar.
 ASPLUND_COMPONENTS = ("measurement", "model_atmosphere", "nlte")
-ASPLUND_BASIS = ("Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the 3D "
-                 "effect (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 "
-                 "compositional term instead of NLTE, trend term not priced; atomic data and "
-                 "observational terms not included")
+ASPLUND_BASIS = ("Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean "
+                 "(<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from "
+                 "Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: "
+                 "Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic "
+                 "data and observational terms not included")
 
 
 #: Asplund's NLTE floor. It applies to every atomic result, including one whose NLTE is inside
@@ -248,18 +249,21 @@ ASPLUND_STAMPS = ("sigma_asplund", "sigma_asplund_stat", "sigma_asplund_syst",
                   "sigma_asplund_basis")
 ASPLUND_LEGACY_3DNLTE_BASIS = (
     "Asplund, Amarsi & Grevesse 2021 Sect. 2.1 on a 3D-NLTE product with no term-by-term "
-    "budget: the product's measured statistical term (+) half the mean per-line 3D-NLTE "
-    "correction from its own per-line file (+) the 0.03 NLTE floor; atomic data and "
+    "budget: the product's measured statistical term (+) half the mean (<3D> - Holweger & "
+    "Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 on the product's own "
+    "lines (+) the 0.03 NLTE floor (the engine does not split NLTE from 3D); atomic data and "
     "observational terms not included")
 
 
 def legacy_3dnlte_asplund_terms(product, root=None):
     """(stat, syst) for a legacy 3D-NLTE row, from the row and its own per-line file.
 
-    Legacy rows carry no component budget, but a 3D-NLTE row's artifact records each
-    line's 3D-NLTE correction (`aberr`). The engine returns 3D and NLTE as ONE correction,
-    so half of its mean stands for the model term and the NLTE term takes the 0.03 floor,
-    the same split the budgeted ENGINE-A rows carry. None when anything is missing.
+    Legacy rows carry no component budget, but a 3D-NLTE row's artifact records which lines
+    it used. RYA-1315 (Ryan, 11-03: Asplund's method exactly): the systematic part is
+    Asplund+2021 Sect. 2.1's -- half the mean (<3D> - HM74) (+) half the mean (3D - <3D>) from
+    Scott+2015 on the row's own lines (`pipeline.asplund_atmosphere`) (+) NLTE. The engine
+    returns 3D and NLTE as ONE correction (`aberr`), so NLTE cannot be split out and takes
+    Asplund's 0.03 floor. None when anything is missing.
     """
     import csv
     from pathlib import Path
@@ -275,13 +279,17 @@ def legacy_3dnlte_asplund_terms(product, root=None):
         rows = list(csv.DictReader(per_line.open()))
     except OSError:
         return None
-    corrections = [float(r["aberr"]) for r in rows
-                   if r.get("in_domain") == "True" and r.get("status", "ok") == "ok"
-                   and r.get("a_3dnlte") not in ("", None) and r.get("aberr") not in ("", None)]
-    if not corrections:
+    used = [float(r["wavelength_air_A"]) for r in rows
+            if r.get("in_domain") == "True" and r.get("status", "ok") == "ok"
+            and r.get("a_3dnlte") not in ("", None) and r.get("aberr") not in ("", None)]
+    if not used:
         return None
-    half = abs(sum(corrections) / len(corrections)) / 2.0
-    return float(stat), math.hypot(half, ASPLUND_NLTE_FLOOR)
+    from pipeline.asplund_atmosphere import scott_atmosphere
+    scott = scott_atmosphere(str(product.get("element") or "Fe"), str(product.get("ion") or "I"), used)
+    if scott is None:
+        return None
+    return float(stat), math.sqrt(scott["temperature_structure_dex"] ** 2
+                                  + scott["inhomogeneity_dex"] ** 2 + ASPLUND_NLTE_FLOOR ** 2)
 
 
 def legacy_asplund_stamp_problems(product, legacy_row, *, root=None):
@@ -502,9 +510,13 @@ def publication_problems(product):
         scope = product_scope(product, star=star, indicator_ids=ids or [])
         budget = validate(product.get("uncertainty"), scope=scope)
         terms = {c["name"]: c for c in budget["components"]}
-        if product.get("band") in {"NIR", "H", "K"} and terms["telluric"]["state"] == "N/A":
+        #: RYA-1315: a term recorded N/A as outside the Asplund+2021 budget is not owed
+        asplund_na = {k for k, c in terms.items()
+                      if c["state"] == "N/A" and (c.get("evidence") or {}).get("asplund_budget")}
+        if (product.get("band") in {"NIR", "H", "K"} and terms["telluric"]["state"] == "N/A"
+                and "telluric" not in asplund_na):
             raise UncertaintyError("IR products require quantified telluric residual uncertainty")
-        if terms["stellar.xi"]["state"] == "N/A":
+        if terms["stellar.xi"]["state"] == "N/A" and "stellar.xi" not in asplund_na:
             evidence = terms["stellar.xi"]["evidence"]
             if evidence.get("parameter_exists") is not False:
                 raise UncertaintyError("xi N/A requires evidence that this route has no xi parameter")

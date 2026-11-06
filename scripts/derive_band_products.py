@@ -123,12 +123,12 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
                  teff_K=int(round(float(p["teff"]))),
                  logg=float(p["logg"]), feh=feh)]
     if element != "Fe":
-        from pipeline.nlte_corrections import _mpia_element_delta
+        from pipeline.nlte_corrections import _mpia_element_delta, nlte_ions
         from pipeline.species import parse_ion
         from config.constants import NLTE_CORRECTION_ELEMENTS
 
         spec = NLTE_CORRECTION_ELEMENTS.get(element)
-        if spec is None or parse_ion(ion) != int(spec["ion"]):
+        if spec is None or parse_ion(ion) not in nlte_ions(element):
             return cited
         out = dict(cited)
         for wave in waves:
@@ -136,7 +136,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
                 continue
             delta = _mpia_element_delta(
                 element, float(wave), float(p["teff"]), float(p["logg"]), feh,
-                tol=0.06)
+                tol=0.06, ion=ion)
             if delta is not None and np.isfinite(delta):
                 out[float(wave)] = float(delta)
         return out
@@ -1838,8 +1838,13 @@ def synthesis_route(a, pol) -> None:
                     f"data/results/rya1035/mean3d_aux_defect_sweep.csv -- Fe and Mn "
                     f"REQUIRE the plain aux.")
             _layers, _model3d = m3d.load(gnlte.deck_atmosphere(_deck_key))
+            # RYA-1311: Ca@mean3D has an abundance axis (22 nodes), so this probe needs
+            # one like the 1D branch and main()'s <3D> branch (RYA-1250). It only feeds
+            # the depth/tau gates; the fit reads departures per trial A(X).
+            _probe_a = (float(np.mean(gnlte.abundance_axis(_deck_key)))
+                        if gnlte.has_abundance_axis(_deck_key) else None)
             _dep = gnlte.for_node(_deck_key, float(ctx["teff"]), float(ctx["logg"]),
-                                  float(ctx["feh"]))
+                                  float(ctx["feh"]), abundance=_probe_a)
             gnlte.assert_depth_match(_dep, _layers)
             _dtau = m3d.assert_tau_consistent(_dep, _model3d)
             # The <3D> atmosphere REPLACES ctx's for this leg, and the model goes in as a
@@ -2676,6 +2681,8 @@ def engine_a_model(element: str) -> str:
         return "amarsi"
     from config.constants import NLTE_CORRECTION_ELEMENTS
     spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
+    if spec.get("model_axis"):
+        return spec["model_axis"]
     source = f"{spec.get('grid', '')} {spec.get('ref', '')}".lower()
     if "amarsi" in source or "nordlander" in source:
         return "amarsi"

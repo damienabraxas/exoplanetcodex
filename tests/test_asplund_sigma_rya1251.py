@@ -72,10 +72,16 @@ def test_legacy_3dnlte_fe_anchor_gets_its_own_asplund_sigma():
     assert len(rows) == 1
     p = rows[0]
     per_line = ROOT / p["provenance"]["copied_to"].replace("_products.csv", "_per_line.csv")
-    ab = [float(r["aberr"]) for r in csv.DictReader(per_line.open()) if r["in_domain"] == "True"]
+    from pipeline.asplund_atmosphere import scott_atmosphere
+    used = [float(r["wavelength_air_A"]) for r in csv.DictReader(per_line.open())
+            if r["in_domain"] == "True" and r.get("status", "ok") == "ok"
+            and r.get("a_3dnlte") and r.get("aberr")]
+    sc = scott_atmosphere("Fe", "I", used)
     stat, syst = legacy_3dnlte_asplund_terms(p)
     assert stat == p["sigma_stat"]
-    assert syst == pytest.approx(math.hypot(abs(sum(ab) / len(ab)) / 2, 0.03))
+    # RYA-1315: Asplund+2021 Sect. 2.1 -- Scott+2015's <3D>-HM74 and 3D-<3D> halves (+) NLTE floor
+    assert syst == pytest.approx(math.sqrt(sc["temperature_structure_dex"] ** 2
+                                           + sc["inhomogeneity_dex"] ** 2 + 0.03 ** 2))
     assert p["sigma_asplund"] == pytest.approx(math.hypot(stat, syst))
     assert 0.03 < p["sigma_asplund"] < p["sigma_reported"]
 

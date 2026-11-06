@@ -65,6 +65,24 @@ SIGMA_ONLY_DEX = 0.0005      # |authors - canonical| below this: the gf is the a
 RULE_KINDS = ("adopt", "sigma_only", "missing_lines")
 
 
+def engine_a_table(element: str, root: Path | None = None) -> Path:
+    """The element's ENGINE-A PySME table: the registered production grid when it is a PySME
+    table (RYA-1315: Ti is Mallinson 2024, not Amarsi 2020), else `<El>_Amarsi2020_PySME.csv`.
+    A hardcoded Amarsi name read Ti's table as absent and reported 637 lines "not in None"."""
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    grid = str(NLTE_CORRECTION_ELEMENTS.get(element, {}).get("grid", ""))
+    name = grid if grid.endswith("_PySME.csv") else f"{element}_Amarsi2020_PySME.csv"
+    return (root or ROOT) / "data" / "nlte_grids" / name
+
+
+def engine_a_provenance(table: Path) -> Path:
+    """`X.prov.json` beside the table; Ti's RYA-545 file is named `X.csv.prov.json`."""
+    for p in (table.with_suffix(".prov.json"), table.with_name(table.name + ".prov.json")):
+        if p.exists():
+            return p
+    return table.with_suffix(".prov.json")
+
+
 def is_protected(status) -> bool:
     """A row whose adjudication another ticket owns (never rewritten by an adoption)."""
     s = "" if status is None else str(status).strip()
@@ -301,11 +319,11 @@ def prepare(star: str, element: str) -> dict:
                                            "problem_class": "SATURATION_COG", **m})
 
     # D -- NLTE coverage of the graded, un-culled lines
-    nlte = ROOT / "data" / "nlte_grids" / f"{element}_Amarsi2020_PySME.csv"
+    nlte = engine_a_table(element)
     # matched within 0.01 A, never by rounded-key equality: 15431.6502 -> 15431.7 while the
     # table's 15431.65 -> 15431.6, so a present line read as missing
     table = pd.read_csv(nlte) if nlte.exists() else pd.DataFrame(columns=["ion", "wave_A"])
-    provenance_path = nlte.with_suffix(".prov.json")
+    provenance_path = engine_a_provenance(nlte)
     provenance = json.loads(provenance_path.read_text()) if provenance_path.exists() else {}
 
     # Only lines some cell can measure: a line between the instruments' bands (Si has ~100 at

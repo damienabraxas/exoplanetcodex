@@ -171,11 +171,13 @@ def test_a_unit_missing_from_one_run_is_filed_not_deleted(tmp_path):
     assert [(legs / f"unit{i:02d}/nominal/DONE").read_text() for i in range(3)] == ["u2", "u1", "u0"]
 
 
-def test_publish_refuses_a_narrowed_run_report():
-    """RYA-1250: publish on a one-band dry-run report deleted most of Mg's budget legs."""
+def test_publish_refuses_a_dry_run_report():
+    """RYA-1250: publish on a one-band DRY-RUN report deleted most of Mg's budget legs.
+    RYA-1315: a narrowed report that BUILT its cells may publish them (scoped); a dry run never."""
     import pytest
-    rep = {"star": "solar", "element": "Mg", "scope": {"bands": ["red-optical"]}, "cells": []}
-    with pytest.raises(ValueError, match="narrowed"):
+    rep = {"star": "solar", "element": "Mg", "scope": {"bands": ["red-optical"]},
+           "dry_run": True, "cells": []}
+    with pytest.raises(ValueError, match="dry-run"):
         ep.publish("solar", "Mg", report=rep)
     with pytest.raises(ValueError, match="not solar Mg"):
         ep.publish("solar", "Mg", report={"star": "solar", "element": "Si", "cells": []})

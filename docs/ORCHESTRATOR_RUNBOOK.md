@@ -51,6 +51,8 @@ solar correction table or a mean-3D label. The readiness audit at
 
 | Rule | Why |
 |---|---|
+| **Uncertainty is Asplund+2021 Sect. 2.1 for EVERY element, and nothing is re-run for it** (Ryan, 2026-11-03). Statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03), all from the cell's own nominal products. Never run or propose the RYA-587 perturbation legs (xi, continuum quantiles, core, contref, marcs, cscale). If `--publish` would launch them, that is a bug. | The legs cost about 3 days an element and never fed the published bar (Sect. 7a). |
+| **Grades: Asplund Reference Grade (the published set), Reference Grade (lab gf) and Codex Grade all publish; only Deep is dropped.** A band without Asplund lines takes lab lines, then Codex, then Deep only if nothing else exists. | Ryan, 2026-11-03. |
 | **The orchestrator does the work; the agent starts runs and reports.** Change code only after the issue is reported to Ryan and agreed. | The goal is a pipeline that runs A to Z without an agent steering it. |
 | **Data lives on Sirius.** Paths come from `config/path_register.yaml` (Sirius defaults). Never hardcode a path; never keep an env file outside the repo. | Another agent must reproduce your run. |
 | **Raw spectra are never used.** Spectra are telluric-corrected and normalised ONCE per holding and then frozen. Do not re-prepare or re-gate them. | Settled for every element. |
@@ -207,7 +209,8 @@ matcher can resolve. Prepare reports these as `route_requirements`.
 ```bash
 python run_pipeline.py --star solar --element <El> --jobs 8 --publish > publish_<El>.log 2>&1
 ```
-One command: measures every cell, builds the uncertainty budget legs, assembles, publishes
+One command: measures every cell, prices each product's Asplund uncertainty from the cell's
+own products (no re-run), publishes
 to `data/products/solar/<El>.json`, withdraws superseded products, writes the verdict and
 coverage. Resolve permitted compute from current science authority and the ticket; historical
 Mac runs are not general authorization. Expect a long run. Run it in the background and
@@ -216,6 +219,41 @@ report to Ryan, fix only after he agrees.
 
 Done when the coverage table (`python run_pipeline.py --star solar --element <El> --coverage`)
 reads **STALE 0, NOT_RUN 0 or only host-routed cells, DONE**.
+
+### 7b. One-off re-runs (RYA-1315): never the whole element again
+
+Two modes, one entry point (`pipeline/run_request.py`). The CLI and any later front end
+both build a `RunRequest`:
+- **full** runs every cell of the element. This is the first run.
+- **select** runs only the chosen ions, bands, instruments, engines, routes and pools.
+
+To see every value a selection can take:
+```bash
+python run_pipeline.py --star solar --element Fe --options
+```
+To run a saved request, for example
+`{"star":"solar","element":"Fe","mode":"select","bands":["VIS"],"force":true,"publish":true}`:
+```bash
+python run_pipeline.py --request req.json
+```
+Not yet supported: a spectrum the user supplies. It must first be registered and prepared
+as a holding.
+
+
+The full run is the FIRST time only. After that, select the cells:
+```bash
+python run_pipeline.py --star solar --element Fe --band VIS \
+    --instrument solar_harps_molecfit_corrected [--engine ts-lte] [--pool reference] \
+    --force --publish
+```
+- Without `--force`, a narrowed run re-runs only cells whose `inputs_hash` moved.
+- `--force` re-runs the selected cells anyway. Use it for a change the hash cannot see, such
+  as a library module like `pipeline/local_continuum.py`. It is refused without a filter.
+- `--publish` on a narrowed run prices, publishes and withdraws **inside the scope only**:
+  - Budget legs of every other unit are filed by signature, never deleted.
+  - The stage is written into, not rebuilt.
+  - Only an in-scope product the re-run HELD or quarantined is withdrawn.
+  - A narrowed DRY run can never publish.
 
 ### 7a. The published uncertainty is Asplund's (Ryan, 2026-10-28)
 
@@ -255,6 +293,42 @@ Sect. 2.1 and nothing else:
   lines at 4.90 / 5.80 / 7.34) or one poorly constrained line (Al NIR CRIRES+ 0.70). That is
   line quality, not a stale input -- report it, never cull it.
 
+### 7b. Comparing with Asplund: flux vs disk-centre intensity (RYA-1311, 2026-10-31)
+
+Asplund, Amarsi & Grevesse 2021 (and Amarsi's per-line work) fit the **disk-centre
+intensity** (Liege/Jungfraujoch atlas, mu=1). Every spectrum we fit (HARPS, Kitt Peak, IAG)
+is **disk-integrated flux**, and so is every future star. Flux includes the limb, which
+forms higher up, where 1D models are worst. So a per-line gap against A21 that **grows with
+line strength** may be geometry, not a bug. Ca I 1D LTE (HARPS, A21 set): +0.02 on the weak
+lines 5260/5867, rising to +0.22 on the strong ones. The EW route agrees with synthesis on
+the weak lines but quarantines every strong one, so it cannot settle them.
+
+- The Sun is the only star where this can be tested. The test is a 1D LTE fit of the same
+  set on `solar_delbouille_liege` at mu=1, against the flux fit:
+  `scripts/diag_flux_vs_mu1.py flux|mu1` (Sirius; usage in its docstring). It runs the
+  production cell via `run_descriptor.resolve`, wrapped in RYA-441's
+  `ace_co_mu1_bracket.turbospectrum_intensity_at_mu(1.0)`, with vsini=0. The flux leg is the
+  control and must reproduce the published lines.
+- **Result, Ca I (2026-11-01):** the flux control reproduced the published lines exactly. At
+  mu=1, every strong line dropped by 0.04-0.21 and the strength trend vanished. Mean: flux
+  6.363, mu=1 6.295 / 6.262 / 6.228 at vmac 3.8 / 3 / 2 km/s, against A21 1D MARCS 6.24. The
+  residual is flat across line strength; reduced chi2 (45-120) does not move with vmac, so it
+  is not the broadening (likely Liege's low noise plus its +0.37 km/s offset). **Verdict:
+  geometry.** 1D LTE in flux reads strong lines high by up to about 0.2 dex; weak lines are
+  fine.
+- How to read the result:
+  - mu=1 lands on A21: the strong-line excess is the 1D model in flux. For stars, rank 3D or
+    <3D> products and weak lines above 1D-LTE strong lines.
+  - The excess persists at mu=1: it comes from our fitting (damping or line data). Fix that
+    for every star.
+- **`pipeline/synth_cache` keys ignore flux vs intensity.** Run any mu=1 synthesis with
+  `CODEX_SYNTH_CACHE=0`. Otherwise it reads cached flux spectra and writes intensity into the
+  shared cache.
+- Liege has no production HoldingSpec reader (RYA-1030). It is in air, with a +0.37 km/s
+  residual velocity. Never publish it as a product; it is a diagnostic leg.
+- A pool is `set:<NAME>`. `SET-<NAME>` is only the display form, and passing it silently
+  selects lines "by theoretical depth" instead.
+
 ## 8. Check before pushing (local evidence and actual CI status)
 
 ```bash
@@ -275,19 +349,20 @@ push and open the PR. Report any failing guard rather than bypassing it silently
 1. In `scripts/generate_cno_publication.py` add the element to `NAMES`, `ASPLUND2021`,
    `ASPLUND2021_SIGMA`, and a reader-facing name for its line set in `INDICATOR_NAMES`.
 2. In `scripts/cno_selection.py` add it to `LINE_SET_SELECTORS` / `LINE_SET_SOURCE` if
-   Asplund's value is one analysis of a line set (Si, Al, Na). If Asplund combines groups
-   (e.g. Mg I and Mg II reported separately, then combined), say so in the ticket and
-   implement that combination the way the C/N/O families are done. No recipe -> the page
-   falls back to the best single product automatically.
+   Asplund's value is one analysis of a line set (Si, Al, Na). **No means on the website**
+   (Ryan): an element Asplund reports as two groups (Ca I and Ca II, Mg I and Mg II) is NOT
+   combined -- the top number is the best single product (`cno_selection.ANCHOR_RULE`:
+   best HARPS Reference Grade 3D NLTE, else best Kitt Peak, never CRIRES+), with Asplund's
+   value beside it. The only combination on the site is the C/N/O family one (Sect. 7a).
 3. In `scripts/generate_solar_report.py` add it to the appendix-link list.
 4. Regenerate against the science checkout:
    `python scripts/generate_cno_publication.py --science-root <science> --elements <El>`
    then `python scripts/generate_solar_report.py --science-root <science>`.
 5. Read the generated page: top value present, matches the Sun table, compares to
    Asplund, no internal IDs. Run `pytest tests/` (compare with main), open the PR.
-6. The top number is measured Asplund's way (`literature_headline`): his line set or his
-   combination of indicator families. A single best product (HARPS Reference Grade first)
-   is only the fallback when Asplund gives no recipe. No per-element exceptions.
+6. The top number is measured on Asplund's line set where he analysed one
+   (`literature_headline`); otherwise it is the best single product (HARPS Reference Grade
+   first). C/N/O alone combine indicator families. No per-element exceptions.
 7. **Sun table: splice, never regenerate whole.** The live `solar-report.generated.js`
    can be built from another session's branch. Generate to a temporary file INSIDE the
    site repo (`--output` outside it fails), copy only the changed element rows into the
