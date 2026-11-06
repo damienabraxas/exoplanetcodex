@@ -184,6 +184,12 @@ entries:
     env: CODEX_BRIDE_ANCHOR_INFLUENCE
     kind: dir
     desc: Fixed-support signed continuum accounting and source availability; no blend identification or opacity adoption.
+  experiments.bride_lte_screen:
+    root: work
+    rel: bride_mac_checks/rya1281-lte-opacity-screen-v1
+    env: CODEX_BRIDE_LTE_SCREEN
+    kind: dir
+    desc: Local natural-only LTE coefficients at historical frozen anchors; no RT, inferred flux or opacity adoption.
   experiments.bride_ng_extended:
     root: work
     rel: bride_mac_checks/rya1281-ng-extended-v1
