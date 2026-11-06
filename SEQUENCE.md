@@ -10,6 +10,10 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-11-06 — pending RYA-1315 branch (Fe + Ti)
+
+- **RYA-1315** (pending, Fe + Ti follow-up to the Na + C/N/O PR #608) — Fe HARPS VIS Fe I/II on the fixed continuum (Fe I GRADED 7.428 -> 7.401, REFERENCE 7.428 -> 7.346, AGSS21 set 7.486 -> 7.398; Fe II REFERENCE 7.848 -> 7.439, set 7.626 -> 7.432); Deep rebuilt with A unchanged; all Fe products on Asplund+2021 atmosphere terms; Ti first publication through the orchestrator (342 products, 0 quarantined; 2 near-UV <3D>-NLTE cells re-run after the abundance-probe fix); SET-* products publish with their reference line_set (`1d99d504`).
+
 ## 2026-11-06 — pending RYA-1315 branch (Na + C/N/O)
 
 - **RYA-1315** (pending, branch `ryandamienschmitt/rya-1315-solar-ti-orchestrator-ti-i-primary-selective-ti-ii`) — Na HARPS VIS Na I re-measured on the fixed continuum (GRADED 1D-LTE 6.370 -> 6.283; AGSS21 set A unchanged, sigma 0.11 -> 0.05); atomic C/N/O model_atmosphere = Asplund+2021 Table 3 <3D>-HM and 3D-<3D> halves (C 57 / N 9 / O 28 products, median dsigma -0.007/+0.007/-0.009, A unchanged); a pool line without a published gf sigma no longer holds an Asplund-budget product (`4a4a21d0`); Engine-B <3D> probe for abundance-axis decks (Ti@mean3D). HM74 model table (Cowley & Castelli 2002) staged as reference data. Fe, Ti and Na Deep follow.
