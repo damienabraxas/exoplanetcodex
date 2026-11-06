@@ -28,3 +28,11 @@ def test_ionic_stark_modes_zero_density_and_source_temperature_scaling():
     assert feii_stark_gamma(10000.,1e20,row,'provided')==pytest.approx(10**-6.530*1e14)
     assert feii_stark_gamma(10000.,1e20,row,'cowley')==pytest.approx(feii_stark_gamma(4000.,1e20,row,'cowley'))
     with pytest.raises(ValueError):feii_stark_gamma(5772.,1e20,dict(row,ionization_eV=4.),'cowley')
+
+
+def test_native_recipe_requires_unambiguous_delimited_record():
+    from pipeline.bride_feii_profile import native_recipe_record
+    good=' FEII_RECIPE W 0.000000000000000E+00 0.000000000000000E+00\n'
+    assert native_recipe_record(good)==('W',0.,0.)
+    for text in (' FEII_RECIPEW 0.0 0.0\n',good+good,' FEII_RECIPE U 0.0 0.0\n'):
+        with pytest.raises(ValueError):native_recipe_record(text)

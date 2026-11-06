@@ -2,6 +2,15 @@
 import numpy as np
 
 
+def native_recipe_record(stdout):
+    import re
+    rows=re.findall(r'^\s*FEII_RECIPE\s+([A-Z])\s+(\S+)\s+(\S+)\s*$',stdout,re.M)
+    if len(rows)!=1:raise ValueError('Missing or duplicate delimited native recipe')
+    recipe,sigma,alpha=rows[0]
+    if recipe not in ('W','A','B','C','S'):raise ValueError('Unsupported native recipe')
+    return recipe,float(sigma),float(alpha)
+
+
 def feii_stark_gamma(temperature,ne_m3,row,mode):
     from pipeline.bride_fe_stark import stark_gamma
     if mode=='provided':return stark_gamma(temperature,ne_m3,row,'provided')

@@ -11,7 +11,7 @@ def main():
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint
     from pipeline.bride_fe_pressure import pressure_gamma
-    from pipeline.bride_feii_profile import feii_stark_gamma
+    from pipeline.bride_feii_profile import feii_stark_gamma,native_recipe_record
     from scripts.run_bride_feii_transfer import selected_line
     import lightweaver.constants as c
     from lightweaver.atomic_table import PeriodicTable
@@ -49,7 +49,8 @@ def main():
       call anstee(26,2,xlb,elo,chi2,sigmacross,velexp,
      & lo,up,recipe)
       if(recipe.eq.'U'.and.fdamp.lt.0.)recipe='W'
-      write(*,*) 'FEII_RECIPE',recipe,sigmacross,velexp
+      write(*,'(A,1X,A,1X,ES24.15,1X,ES24.15)')
+     & 'FEII_RECIPE',recipe,sigmacross,velexp
       if(recipe.eq.'U')stop 'unsupported recipe'
       i=1
       ijon=2
@@ -105,9 +106,8 @@ def main():
     run=subprocess.run([str(args.output/'feii_oracle')],cwd=args.output,input=text,capture_output=True,text=True,timeout=30)
     (args.output/'stdout.txt').write_text(run.stdout);(args.output/'stderr.txt').write_text(run.stderr)
     if run.returncode:raise RuntimeError('FeII native execution failed')
-    native=[s.split() for s in run.stdout.splitlines() if s.split() and s.split()[0]=='FEII_RECIPE']
-    if len(native)!=1:raise ValueError('Missing native recipe')
-    recipe=dict(recipe=native[0][1],sigma_au=float(native[0][2]),alpha=float(native[0][3]),log_gamma6_10000=float(src['turbospectrum_fdamp']))
+    chosen,sigma,alpha=native_recipe_record(run.stdout)
+    recipe=dict(recipe=chosen,sigma_au=sigma,alpha=alpha,log_gamma6_10000=float(src['turbospectrum_fdamp']))
     starkrow=dict(ionization_eV=ionization,excitation_eV=float(src['lower_state_eV']),wavelength_air_A=float(src['wave_A']),log_gamma_stark_10000=float(src['stark']))
     checks=[]
     for s in run.stdout.splitlines():
