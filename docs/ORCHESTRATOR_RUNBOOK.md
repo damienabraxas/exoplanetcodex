@@ -220,6 +220,24 @@ report to Ryan, fix only after he agrees.
 Done when the coverage table (`python run_pipeline.py --star solar --element <El> --coverage`)
 reads **STALE 0, NOT_RUN 0 or only host-routed cells, DONE**.
 
+**The checklist (RYA-1349).** The coverage table opens with Ryan's questions answered, one
+line per treatment and per instrument family: `[x]` done with nothing owed, `[-]` every cell
+held with its reason (e.g. Ti ENGINE-A-3DNLTE: no cited table exists), `[ ]` work owed.
+`--publish` exits **3** and lists the owed cells when the element is not complete (a FAILED
+cell still exits 1). Run `--coverage` **on Sirius**: STALE compares spectrum fingerprints,
+which only the data host holds.
+- ENGINE-A is HELD only when its grid holds none of the pool's lines; a covering grid with
+  no product is owed, and an ENGINE-A product that moved no line is owed.
+- CODE_DRIFT = only code changed since the build. Reported, not owed (no re-run without a
+  confirmed defect). STALE = an input the cell can see moved: a gf within the fit's read
+  span of its lines, a cull of its own species, a spectrum, a line set, an NLTE table.
+- HOLDINGS THAT DISAGREE: a product further than 2x the other holdings' median sigma from
+  their median, on the same ion/band/grade/treatment, is flagged for Ryan -- never blocked.
+- **Commit the run's bookkeeping with the feed:** `data/results/orchestrator/
+  inputs_hashes.json` and `solar_<El>_latest.json` from the checkout the run used. Ti's
+  were left on Sirius, and the table read every live Ti product as unbuilt. A dry run
+  writes `_latest_dryrun.json` and never replaces `_latest.json`.
+
 ### 7b. One-off re-runs (RYA-1315): never the whole element again
 
 Two modes, one entry point (`pipeline/run_request.py`). The CLI and any later front end
