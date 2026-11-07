@@ -535,8 +535,13 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
         #: bound was the range of the two lines then served; the strong multiplet-42 lines
         #: now served (4923.921, 5169.028) carry MPIA's own +0.015.
         own = {}
-        for f in sorted((ROOT / "data/results/rya1232_fe").glob(
-                f"*/products/FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv")):
+        #: RYA-1315: orchestrator-published products keep their artifact in the budget stage;
+        #: read it first so a RYA-1232 run artifact, where one exists, still has the last word
+        own_files = sorted((ROOT / "data/results/orchestrator/budget/solar_Fe/stage").glob(
+            f"FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv")) + sorted(
+            (ROOT / "data/results/rya1232_fe").glob(
+                f"*/products/FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv"))
+        for f in own_files:
             d_ = pd.read_csv(f)
             for w_, v_ in zip(d_.wavelength_air_A, d_.nlte_delta_dex):
                 if v_ == v_:
