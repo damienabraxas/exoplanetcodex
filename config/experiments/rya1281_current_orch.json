@@ -1,0 +1,28 @@
+{
+  "schema": "codex.bride_current_orch_plan/1",
+  "stark_modes": [
+    "cowley",
+    "provided"
+  ],
+  "cases": [
+    "canonical_refined",
+    "lower_gravity_refined"
+  ],
+  "references": [
+    "synthesis",
+    "iag"
+  ],
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "designs": [
+    "selected_with_clipping",
+    "selected_no_clipping",
+    "coefficient_support_no_clipping"
+  ],
+  "scope": "Actual pinned RYA1315/current-main model-guided continuum implementation on frozen O/FeII spectra, both references and columns. Same input arrays and plus-gravity reference; preceding transfer retains both RVs. Positive synthetic sag and detector-gap refusal controls prove bound is active. No production, adoption, abundance, new RT or claim to full ORCH execution.",
+  "orch_commit": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+  "orch_branch": "origin/ryandamienschmitt/rya-1315-fe-ti"
+}

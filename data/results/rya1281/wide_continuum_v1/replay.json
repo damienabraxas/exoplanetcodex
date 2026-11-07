@@ -1,0 +1,83 @@
+{
+  "schema": "codex.bride_wide_flux_replay/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "replay_bride_wide_flux.py",
+    "bytes": 8437,
+    "sha256": "ea89743cec9402df0145be6c7b853b909f488f820100fa6fd470598827302036"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 10407,
+    "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+  },
+  "source_manifest": {
+    "name": "manifest.json",
+    "bytes": 7118,
+    "sha256": "82c06f7ef8cf8608d439493f447b11ceba6cf8610b6fe960cf3ee21e71bf6720"
+  },
+  "source_populations": {
+    "name": "populations.npz",
+    "bytes": 36823,
+    "sha256": "e754d9df4823bb9c044da898751b022553bb4efbeeb67ff5839db37571cdd14c"
+  },
+  "source_flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "33b1a565df4ac1d1e68b530c3839182151397e38bad8d6ed84dac81c6c99dc24"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "binding": {
+    "name": "experimental_input.json",
+    "bytes": 17148,
+    "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+  },
+  "wave_air_A": [
+    7763.0,
+    7783.0
+  ],
+  "step_A": 0.005,
+  "flux_rays": 5,
+  "original_grid_max_normalized_flux_difference": 3.3121283493642295e-12,
+  "overlap_threshold": 1e-06,
+  "radiation": {
+    "iterations": 65,
+    "final_J_change": 8.29726543027931e-09,
+    "final_boundary_change": 1.117806121881141e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "continuum_radiation": {
+    "iterations": 36,
+    "final_J_change": 6.308356947926086e-09,
+    "final_boundary_change": 4.075227660636093e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "811bf321f12c4834335ff53f84b1c07a44c659aa33c68cf8ed135ef82aa60e13"
+  },
+  "telemetry": {
+    "elapsed_seconds": 5.868436415679753,
+    "process_peak_rss_bytes": 616382464,
+    "peak_rss_units": "Darwin bytes; process lifetime, includes imports/setup",
+    "host_load_start": [
+      2.85107421875,
+      2.85205078125,
+      2.34228515625
+    ],
+    "host_load_end": [
+      2.94287109375,
+      2.87109375,
+      2.3515625
+    ],
+    "context_threads": 1
+  },
+  "caveats": "Fixed saved populations, no SE update. Same O bound-free continuum and Fe intervention; weak neighboring bound-bound/molecular opacity absent. Not full spectrum or continuum adoption."
+}

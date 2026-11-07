@@ -1,0 +1,440 @@
+{
+  "schema": "codex.bride_ts_budget_run/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "run_bride_ts_budget.py",
+    "bytes": 6261,
+    "sha256": "fe33bc829f40ebccae6ad84d9ca9545cb047b46db4358f3b81596b8570d42bae"
+  },
+  "parser": {
+    "name": "bride_ts_budget.py",
+    "bytes": 4494,
+    "sha256": "491ed480ca3151ceb0cc301721de4a68ccecbbcbd276e8fa5669fa173c35b061"
+  },
+  "build": {
+    "name": "manifest.json",
+    "bytes": 18119,
+    "sha256": "23f20fe4ea71ccd890b51c573b71c4c5a2e12a6d1183ccfc356006b6daa3f91c"
+  },
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "input_data": [
+    {
+      "relative_path": "Anstee-1802-2014.dat",
+      "name": "Anstee-1802-2014.dat",
+      "bytes": 4766137,
+      "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+    },
+    {
+      "relative_path": "CIA.H-He.dat",
+      "name": "CIA.H-He.dat",
+      "bytes": 6502,
+      "sha256": "ead41f1d2580ae84a46fbca6f88502526f03f306f2385aaa05531f1404297fc3"
+    },
+    {
+      "relative_path": "CIA.H2-H.dat",
+      "name": "CIA.H2-H.dat",
+      "bytes": 4285,
+      "sha256": "90aa24d64134f907e7d678d1e20c3b5c8e3ada57bead8aa3b66d2a18906a0e39"
+    },
+    {
+      "relative_path": "CIA.H2-H2.Yi.dat",
+      "name": "CIA.H2-H2.Yi.dat",
+      "bytes": 98527,
+      "sha256": "cb7b3d766d94df2f0ea0c93792b3c152949351d53651fa26b1bf5ceada3b0b93"
+    },
+    {
+      "relative_path": "CIA.H2-He.dat",
+      "name": "CIA.H2-He.dat",
+      "bytes": 24041,
+      "sha256": "5eef86e7ae60c7d2993704fc6c289b2892bf4f1de64bb8e777db2ffd3e879f2f"
+    },
+    {
+      "relative_path": "E161",
+      "name": "E161",
+      "bytes": 18602787,
+      "sha256": "c47da242c0e6795d730152fa768b6d1126f2d8b7bd705f65b9e25eea655b1609"
+    },
+    {
+      "relative_path": "Hlinedata",
+      "name": "Hlinedata",
+      "bytes": 9705,
+      "sha256": "c45bd89eabfb850a90168184146c094d2fbfd9b124ad9e1bd93075bf1e01cc1e"
+    },
+    {
+      "relative_path": "IRWIN_atoms_v07.3.dat",
+      "name": "IRWIN_atoms_v07.3.dat",
+      "bytes": 44716,
+      "sha256": "cbc4c2172603c2a068304ab49c788ffc56cf09c172eb1f770877a3221d95b0e2"
+    },
+    {
+      "relative_path": "IRWIN_molecules_v15.1.dat",
+      "name": "IRWIN_molecules_v15.1.dat",
+      "bytes": 86668,
+      "sha256": "7ee013f2cc7d22ae3338115f2833849cafb0aef09afc8ad6bc37a105ae06cd0a"
+    },
+    {
+      "relative_path": "LISTE_molecules_all_v19.1.dat",
+      "name": "LISTE_molecules_all_v19.1.dat",
+      "bytes": 52277,
+      "sha256": "b6af41f1b7f8a7453f1ae2c23340d604977fbb42c28dd7370ce90808e49bd415"
+    },
+    {
+      "relative_path": "NHcont_Stancil_2019.dat",
+      "name": "NHcont_Stancil_2019.dat",
+      "bytes": 1025054,
+      "sha256": "c1b5bc5c47c552fed87b432b0705817d910fa5a0b936096e4c65b263ee562259"
+    },
+    {
+      "relative_path": "SPECIES_LTE_NLTE.dat",
+      "name": "SPECIES_LTE_NLTE.dat",
+      "bytes": 821,
+      "sha256": "e5148c01c80ad26c9f051275887b9649e08b879e8ce7f11630106cd59357e663"
+    },
+    {
+      "relative_path": "atomicweights.dat",
+      "name": "atomicweights.dat",
+      "bytes": 160794,
+      "sha256": "7d9292ee9ef343e21624cc3b5fdea695c55fca2fbe2cf35fbf7356ac88d54b79"
+    },
+    {
+      "relative_path": "bpo_self.grid.DEC",
+      "name": "bpo_self.grid.DEC",
+      "bytes": 611144,
+      "sha256": "37b5b652154ebaea93bd0827b0743d35a3a1308079eac0ca4300d4b3705352e0"
+    },
+    {
+      "relative_path": "bpo_self.grid.SUN",
+      "name": "bpo_self.grid.SUN",
+      "bytes": 611144,
+      "sha256": "87b50e179c46e28af78906d8bc70a11db39a1fae401a8304198896f660c4f3c6"
+    },
+    {
+      "relative_path": "chcont.dat",
+      "name": "chcont.dat",
+      "bytes": 9199,
+      "sha256": "0516137c499909dcfe971bd38b39aacdf2fe4e4287afffdae406080044399f73"
+    },
+    {
+      "relative_path": "energy-levels-BarberH2O.txt",
+      "name": "energy-levels-BarberH2O.txt",
+      "bytes": 11497044,
+      "sha256": "554dafaf39aba4fdd7a857fbce9cc5694d3958701adec68150838d95fbc14110"
+    },
+    {
+      "relative_path": "h2olevels.morbid",
+      "name": "h2olevels.morbid",
+      "bytes": 18952,
+      "sha256": "6a12969e9646e3d3ff064fdba3d0f1d5ec8a1cddfd2c279aa920f820a7dd7701"
+    },
+    {
+      "relative_path": "h2omolk.dat",
+      "name": "h2omolk.dat",
+      "bytes": 475,
+      "sha256": "9107d1dbc7dc166c80e527dc75a39d5d0ec77ec1d2e1768e863ea987abb650a1"
+    },
+    {
+      "relative_path": "jonabs_vac_v19.2.dat",
+      "name": "jonabs_vac_v19.2.dat",
+      "bytes": 269021,
+      "sha256": "867f5a3fae44016afe94e95e12352c43a1f413ece339af37c5307040d082a957"
+    },
+    {
+      "relative_path": "ohcont.dat",
+      "name": "ohcont.dat",
+      "bytes": 9801,
+      "sha256": "7fcd1d002059a0c2ae9f9e2ade9d7cef425a155151d4dd2e67a7df38bb30d6f8"
+    },
+    {
+      "relative_path": "stehle.dat.DEC",
+      "name": "stehle.dat.DEC",
+      "bytes": 88896,
+      "sha256": "79d88826ed9a7194989030670194b842507ea72995912b20d67a2c3a35f58ef3"
+    },
+    {
+      "relative_path": "stehle.dat.SUN",
+      "name": "stehle.dat.SUN",
+      "bytes": 88896,
+      "sha256": "f50fdeab8b03ea3396264155f71c51e61b5901b1333c3891bbf6bcb4762de19b"
+    },
+    {
+      "relative_path": "tableU2.dat",
+      "name": "tableU2.dat",
+      "bytes": 901,
+      "sha256": "66b3108a8bbb1bd170a5334d430edcb0a4db0ca7529d0193af23faf6c33a60b0"
+    },
+    {
+      "relative_path": "tableU3.dat",
+      "name": "tableU3.dat",
+      "bytes": 796,
+      "sha256": "712b65bb64f6f41abf4ef63fbfb0da3c6b877c9290942ae7422e032dc09b1c3d"
+    },
+    {
+      "relative_path": "vcsbalmer.dat",
+      "name": "vcsbalmer.dat",
+      "bytes": 132597,
+      "sha256": "220407a785ec3692a8cf28c2c4a07e4d8f15155cb0b5f4fec3fcc4227e656d99"
+    }
+  ],
+  "source_coordinate_A": 2769.76,
+  "controls": {
+    "seconds_per_case": 60,
+    "threads": 1,
+    "NLTE": false,
+    "spectrum_synthesis": false,
+    "global_abundance_scaling_dex": 0.0,
+    "explicit_abundances": [
+      12.0,
+      10.93,
+      1.05,
+      1.38,
+      2.7,
+      8.39,
+      7.78,
+      8.66,
+      4.56,
+      7.84,
+      6.17,
+      7.53,
+      6.37,
+      7.51,
+      5.36,
+      7.14,
+      5.5,
+      6.18,
+      5.08,
+      6.31,
+      3.17,
+      4.9,
+      4.0,
+      5.64,
+      5.39,
+      7.45,
+      4.92,
+      6.23,
+      4.21,
+      4.6,
+      2.88,
+      3.58,
+      2.29,
+      3.33,
+      2.56,
+      3.25,
+      2.6,
+      2.92,
+      2.21,
+      2.58,
+      1.42,
+      1.92,
+      -99.0,
+      1.84,
+      1.12,
+      1.66,
+      0.94,
+      1.77,
+      1.6,
+      2.0,
+      1.0,
+      2.19,
+      1.51,
+      2.24,
+      1.07,
+      2.17,
+      1.13,
+      1.7,
+      0.58,
+      1.45,
+      -99.0,
+      1.0,
+      0.52,
+      1.11,
+      0.28,
+      1.14,
+      0.51,
+      0.93,
+      0.0,
+      1.08,
+      0.06,
+      0.88,
+      -0.17,
+      1.11,
+      0.23,
+      1.25,
+      1.38,
+      1.64,
+      1.01,
+      1.13,
+      0.9,
+      2.0,
+      0.65,
+      -99.0,
+      -99.0,
+      -99.0,
+      -99.0,
+      -99.0,
+      -99.0,
+      0.06,
+      -99.0,
+      -0.52
+    ]
+  },
+  "cases": [
+    {
+      "name": "OPA_is_vacuum_baseline",
+      "elapsed_seconds": 0.20689208433032036,
+      "effective_wavelength_air_A_range": [
+        2767.942,
+        2869.942
+      ],
+      "effective_nwave": 103,
+      "max_abs_temperature_quantization_K": 0.0004000000008090865,
+      "output": {
+        "name": "continuum.opa",
+        "bytes": 138385,
+        "sha256": "ceb9cc94f0c1c6093ac6d1def8a60f77b02694e9041f16e23d19aa57e48141ea"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 1224,
+        "sha256": "eb75cd0531dac3e5b4ea8d36812fa08020f0a2f0f1a08b5c95a7c4821ab14946"
+      },
+      "stdout": {
+        "name": "stdout.log",
+        "bytes": 31394,
+        "sha256": "8f8f43e888db80dd2503572ec20bf728dffc7821c2cfe3bb645dd3edb0d5da59"
+      },
+      "stderr": {
+        "name": "stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "detail": {
+        "name": "detail.txt",
+        "bytes": 111183,
+        "sha256": "593d373dd311a7dfe12f04b94a13bbfc4a920c97b1b1a3709d49dd62b122a25b"
+      },
+      "max_fractional_electron_pressure_change": 8.06256552632334e-08,
+      "max_fractional_density_change": 0.0006660030309334486,
+      "recovery_messages": []
+    },
+    {
+      "name": "OPA_is_vacuum_reporting",
+      "elapsed_seconds": 0.23172016628086567,
+      "effective_wavelength_air_A_range": [
+        2767.942,
+        2869.942
+      ],
+      "effective_nwave": 103,
+      "max_abs_temperature_quantization_K": 0.0004000000008090865,
+      "output": {
+        "name": "continuum.opa",
+        "bytes": 138385,
+        "sha256": "ceb9cc94f0c1c6093ac6d1def8a60f77b02694e9041f16e23d19aa57e48141ea"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 1224,
+        "sha256": "eb75cd0531dac3e5b4ea8d36812fa08020f0a2f0f1a08b5c95a7c4821ab14946"
+      },
+      "stdout": {
+        "name": "stdout.log",
+        "bytes": 31394,
+        "sha256": "8f8f43e888db80dd2503572ec20bf728dffc7821c2cfe3bb645dd3edb0d5da59"
+      },
+      "stderr": {
+        "name": "stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "detail": {
+        "name": "detail.txt",
+        "bytes": 8228163,
+        "sha256": "d2df90bb424e5b59ad2f232fe7c209858e0c9e01f445bbecd1b5560027e02b29"
+      },
+      "max_fractional_electron_pressure_change": 8.06256552632334e-08,
+      "max_fractional_density_change": 0.0006660030309334486,
+      "recovery_messages": []
+    },
+    {
+      "name": "OPA_is_air_baseline",
+      "elapsed_seconds": 0.16082591703161597,
+      "effective_wavelength_air_A_range": [
+        2768.76,
+        2870.76
+      ],
+      "effective_nwave": 103,
+      "max_abs_temperature_quantization_K": 0.0004000000008090865,
+      "output": {
+        "name": "continuum.opa",
+        "bytes": 138385,
+        "sha256": "b00c78e1deb97a99f18d66eea772a2a666ab27f3755deb53aa9b3e7c3e15353b"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 1224,
+        "sha256": "93be98de890f5cfc59f0941bf7f6c9c43abafea961d191404fcad55f3ec81cdd"
+      },
+      "stdout": {
+        "name": "stdout.log",
+        "bytes": 31394,
+        "sha256": "9fe5ea84fc9a538f27cac2fcfd037d90e2b4ca61306af9c4491c92f596747d55"
+      },
+      "stderr": {
+        "name": "stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "detail": {
+        "name": "detail.txt",
+        "bytes": 111183,
+        "sha256": "3e5ecb4696f818e2801d360e5d22c1a9090ba0ee59f721b7c56e48083b54b0a3"
+      },
+      "max_fractional_electron_pressure_change": 8.06256552632334e-08,
+      "max_fractional_density_change": 0.0006660030309334486,
+      "recovery_messages": []
+    },
+    {
+      "name": "OPA_is_air_reporting",
+      "elapsed_seconds": 0.22818283271044493,
+      "effective_wavelength_air_A_range": [
+        2768.76,
+        2870.76
+      ],
+      "effective_nwave": 103,
+      "max_abs_temperature_quantization_K": 0.0004000000008090865,
+      "output": {
+        "name": "continuum.opa",
+        "bytes": 138385,
+        "sha256": "b00c78e1deb97a99f18d66eea772a2a666ab27f3755deb53aa9b3e7c3e15353b"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 1224,
+        "sha256": "93be98de890f5cfc59f0941bf7f6c9c43abafea961d191404fcad55f3ec81cdd"
+      },
+      "stdout": {
+        "name": "stdout.log",
+        "bytes": 31394,
+        "sha256": "9fe5ea84fc9a538f27cac2fcfd037d90e2b4ca61306af9c4491c92f596747d55"
+      },
+      "stderr": {
+        "name": "stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "detail": {
+        "name": "detail.txt",
+        "bytes": 8228163,
+        "sha256": "90722be399bfc8ac2542c2607df5899b4921b198aad212de811cf2fa6a7a57d1"
+      },
+      "max_fractional_electron_pressure_change": 8.06256552632334e-08,
+      "max_fractional_density_change": 0.0006660030309334486,
+      "recovery_messages": []
+    }
+  ],
+  "reporting_preserves_serialized_coefficients": true,
+  "limitations": "TS source/EOS control, not native MARCS/MULTI producer. OPA medium remains conditional. Output density changes are reported, not silently overwritten. Original sources/data protected."
+}

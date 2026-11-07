@@ -1,0 +1,23 @@
+{
+  "schema": "codex.bride_feii_coupled_plan/1",
+  "line_id": "gf_079010",
+  "seconds_per_leg": 180,
+  "radiation_rtol": 1e-08,
+  "radiation_maxiter": 1000,
+  "baseline_flux_max_absolute": 1e-06,
+  "cases": [
+    "canonical_refined"
+  ],
+  "scope": "Canonical column only, identical original O populations for all three coupled O+radiation solves. Original600s/1e-6 outer accuracy and native collision receipts; exact source atmosphere/EOS/FeI/background fixed, no charge/thermal equilibrium feedback. Recompute standalone continuum at each final O state; retain frozen controls. Independent fresh per-class C plus transition R flow and conservation checks. No new abundance/adoption/production/merge/publication. Current RYA1315 ORCH continuum for downstream analysis.",
+  "stark_modes": [
+    "cowley",
+    "provided"
+  ],
+  "width_source": "data/results/rya1281/feii_profile_source_v1/width_source/report.json",
+  "modes": [
+    "natural",
+    "cowley",
+    "provided"
+  ],
+  "seconds_per_case": 600
+}

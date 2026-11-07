@@ -1,0 +1,745 @@
+{
+  "schema": "codex.bride_author_charge_comparison/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_author_charge.py",
+    "bytes": 8837,
+    "sha256": "bca6b03a637087a3a2d87009ae007ab5d6b7418a88f950b0adfbfa093cbc8d62"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "cases": [
+    {
+      "name": "author_MN_finite_column_cap",
+      "source_run": "rya1281-top-cap-nested-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1507,
+        "sha256": "b0f3881a6be18725e2a4e8767112dfd79137f02633f8e7ba4851200608650b4c"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 3774,
+        "sha256": "7b1a2664e3d388c85cce7dc4129ffee6a97b7a712f5775ae183296a8e41fc3ef"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36601,
+        "sha256": "6855548ca5b50b07848e92e48d8168cdd64ae0e452b46291355e6b18b65bb69a"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "aebe30b5dc70461aa102eb26ebc0d1dcf161f37b32ec2e8d3917e4c837a53a4a"
+      },
+      "departure_curve": {
+        "name": "author_MN_finite_column_cap_departures.csv",
+        "bytes": 9926,
+        "sha256": "8b670fa2f093d305f5dee4bcb5ee34d59bb36008f4e77d2787d9cbb79edf0748"
+      },
+      "iterations": 291,
+      "elapsed_seconds": 199.8075789581053,
+      "final_diagnostics": {
+        "iteration": 291,
+        "population_change": 9.344628521517178e-07,
+        "J_change": 9.35121301771001e-07,
+        "physical_rate_residual": 2.6143623298709306e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 2.481170021003679e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 8.345671931309084e-09,
+          "final_boundary_change": 8.957952723050483e-09,
+          "outer_J_change": 9.35121301771001e-07,
+          "outer_boundary_change": 2.481170021003679e-07
+        }
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.005559675475932502,
+      "upper_max_abs_b_difference_all_depths": 0.026197070800402678,
+      "upper_max_abs_b_difference_excluding_top_point": 0.026197070800402678,
+      "lower_max_abs_b_difference_excluding_top_point": 0.03391778530598144,
+      "all_levels_depths_max_abs_b_difference": 8.083964888945257,
+      "top_lower_upper_ion_b": [
+        0.9738139489045905,
+        1.2796897392471211,
+        16.252022330656683
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.027094413451489,
+        0.8492951955746335,
+        0.9104243309058625
+      ],
+      "triplet_fixed_window_mA": [
+        68.77763297026027,
+        59.230434438467,
+        46.280339800310294
+      ],
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "experimental_fe_background": null,
+      "top_cap_diagnostic": {
+        "snapshot": {
+          "name": "top_cap.npz",
+          "bytes": 74558,
+          "sha256": "22053c493d13de8a63c83f375420bcbc7ab55e290510a9c3f41ad9cbed860733"
+        },
+        "selected_optical_depths": [
+          {
+            "wavelength_vac_nm": 121.5107,
+            "vertical_optical_depth": 2.426018680107467
+          },
+          {
+            "wavelength_vac_nm": 130.20381759487455,
+            "vertical_optical_depth": 3.7655128626393473
+          },
+          {
+            "wavelength_vac_nm": 135.55976694564868,
+            "vertical_optical_depth": 4.432832277267412
+          },
+          {
+            "wavelength_vac_nm": 277.2477,
+            "vertical_optical_depth": 9.341119742875786e-05
+          },
+          {
+            "wavelength_vac_nm": 500.0,
+            "vertical_optical_depth": 2.184555846687436e-05
+          },
+          {
+            "wavelength_vac_nm": 777.4000158138319,
+            "vertical_optical_depth": 2.4661015340749667e-05
+          }
+        ],
+        "gridpoint_flux": {
+          "name": "gridpoint_flux.csv",
+          "bytes": 180130,
+          "sha256": "283846d8c0a7c7af9b68c347d9983ea5987ca1d0e8fedcc772c981db4b629bf1"
+        }
+      },
+      "lte_uv_background_lines": null
+    },
+    {
+      "name": "raw_pair_finite_column_cap",
+      "source_run": "rya1281-top-cap-nested-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1507,
+        "sha256": "b0f3881a6be18725e2a4e8767112dfd79137f02633f8e7ba4851200608650b4c"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 3047,
+        "sha256": "ed9ca42fca260038dcabe6fdbd35b0b2e42d60b152e2f72017fe21dbeab08319"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36609,
+        "sha256": "311b3e1fa9bb24bfcd0854b6b6302deaae1c45f76bc3bc6fe23b0bc3f94befb6"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "fb8a2414fb6f7ad00c113fceeae8ca676a80489df2687cabf16db591616d21c5"
+      },
+      "departure_curve": {
+        "name": "raw_pair_finite_column_cap_departures.csv",
+        "bytes": 9926,
+        "sha256": "2aa403ecf709e426960fc879237658d14d54334ce695856ab7d280bc2eb8894c"
+      },
+      "iterations": 836,
+      "elapsed_seconds": 487.5533441249281,
+      "final_diagnostics": {
+        "iteration": 836,
+        "population_change": 4.039438968987491e-07,
+        "J_change": 4.0423064677944186e-07,
+        "physical_rate_residual": 2.644842264653526e-15,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 2.80106375077573e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 8.443737042895805e-09,
+          "final_boundary_change": 8.498513267240676e-09,
+          "outer_J_change": 4.0423064677944186e-07,
+          "outer_boundary_change": 2.80106375077573e-07
+        }
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.0053956097827907445,
+      "upper_max_abs_b_difference_all_depths": 0.03675477429220697,
+      "upper_max_abs_b_difference_excluding_top_point": 0.03675477429220697,
+      "lower_max_abs_b_difference_excluding_top_point": 0.04159875802713542,
+      "all_levels_depths_max_abs_b_difference": 10.378703409584425,
+      "top_lower_upper_ion_b": [
+        0.9664487667920962,
+        1.2691858778117169,
+        18.54676085129585
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.0269292849669416,
+        0.8490659030951928,
+        0.9405200003707693
+      ],
+      "triplet_fixed_window_mA": [
+        68.77789735432333,
+        59.22948403018073,
+        46.27882259000386
+      ],
+      "experimental_collision_convention": "native_tautsp_lte_balanced_CH0",
+      "author_charge_control": null,
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "experimental_fe_background": null,
+      "top_cap_diagnostic": {
+        "snapshot": {
+          "name": "top_cap.npz",
+          "bytes": 74603,
+          "sha256": "112fea068e145f449835fde267df2b86ec79bd461a5290a4e18f11e2e61a0fd0"
+        },
+        "selected_optical_depths": [
+          {
+            "wavelength_vac_nm": 121.5107,
+            "vertical_optical_depth": 2.4260186801065275
+          },
+          {
+            "wavelength_vac_nm": 130.20381759487455,
+            "vertical_optical_depth": 3.7655126006063493
+          },
+          {
+            "wavelength_vac_nm": 135.55976694564868,
+            "vertical_optical_depth": 4.4328318554125525
+          },
+          {
+            "wavelength_vac_nm": 277.2477,
+            "vertical_optical_depth": 9.341119571868344e-05
+          },
+          {
+            "wavelength_vac_nm": 500.0,
+            "vertical_optical_depth": 2.18455584658104e-05
+          },
+          {
+            "wavelength_vac_nm": 777.4000158138319,
+            "vertical_optical_depth": 2.464941994015782e-05
+          }
+        ],
+        "gridpoint_flux": {
+          "name": "gridpoint_flux.csv",
+          "bytes": 180130,
+          "sha256": "35e2c022e6ea219ef689be4ce975f998ee50011d06dd267fd3ba92294a37a460"
+        }
+      },
+      "lte_uv_background_lines": null
+    },
+    {
+      "name": "author_MN_cap_Fe_neutral",
+      "source_run": "rya1281-fe-neutral-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1238,
+        "sha256": "81071740395f7325dc2e369d938ebbe106ed85b58ac66595ae0d78f0a55f6e22"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4421,
+        "sha256": "90b090af79176fbc7b121a7dc09d9364c853d6e85ae706fc9f02fd4336cdf3af"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36593,
+        "sha256": "86f2f0160e9b9cd4324233a2438ab7f2a48144e912add772bc400f61e9560457"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "6ac78f3988691aa63271394bd2079c5c473cac55210f8b6769441e69f331a2a7"
+      },
+      "departure_curve": {
+        "name": "author_MN_cap_Fe_neutral_departures.csv",
+        "bytes": 9926,
+        "sha256": "0f6c4c08c7453c813d8636d876e0709d967772ed8e65544950b77391fbd4dc46"
+      },
+      "iterations": 358,
+      "elapsed_seconds": 197.3831718750298,
+      "final_diagnostics": {
+        "iteration": 358,
+        "population_change": 9.135613397975974e-07,
+        "J_change": 9.141964197095985e-07,
+        "physical_rate_residual": 2.360974966788853e-15,
+        "particle_conservation_error": 7.771561172376096e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 4.5436714850827296e-07,
+        "fixed_population_radiation": {
+          "iterations": 4,
+          "final_J_change": 6.957475595648077e-09,
+          "final_boundary_change": 8.467212167009993e-10,
+          "outer_J_change": 9.141964197095985e-07,
+          "outer_boundary_change": 4.5436714850827296e-07
+        }
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.00614995206084068,
+      "upper_max_abs_b_difference_all_depths": 0.031240661263612246,
+      "upper_max_abs_b_difference_excluding_top_point": 0.008846849875051133,
+      "lower_max_abs_b_difference_excluding_top_point": 0.009496385890418901,
+      "all_levels_depths_max_abs_b_difference": 1.8907429942416059,
+      "top_lower_upper_ion_b": [
+        1.0025679891583987,
+        1.3126320434810195,
+        10.058800435953032
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.027924351510057,
+        0.847770377391893,
+        0.8696102863348872
+      ],
+      "triplet_fixed_window_mA": [
+        68.92270124357755,
+        59.35592178807688,
+        46.377315918778926
+      ],
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "experimental_fe_background": {
+        "normalization": "local_neutral",
+        "packet": {
+          "name": "manifest.json",
+          "bytes": 1449,
+          "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+        },
+        "adapter": {
+          "name": "bride_fe_background.py",
+          "bytes": 4126,
+          "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+        },
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ],
+        "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+      },
+      "top_cap_diagnostic": {
+        "snapshot": {
+          "name": "top_cap.npz",
+          "bytes": 74571,
+          "sha256": "f2128e3ef41143d4df6c172ff9a7f874432be8d44bc8c6e15d6a3cd962ac3fe9"
+        },
+        "selected_optical_depths": [
+          {
+            "wavelength_vac_nm": 121.5107,
+            "vertical_optical_depth": 2.4260186801100514
+          },
+          {
+            "wavelength_vac_nm": 130.20381759487455,
+            "vertical_optical_depth": 3.765513569831614
+          },
+          {
+            "wavelength_vac_nm": 135.55976694564868,
+            "vertical_optical_depth": 4.4328334157972815
+          },
+          {
+            "wavelength_vac_nm": 277.2477,
+            "vertical_optical_depth": 0.00015135744048898138
+          },
+          {
+            "wavelength_vac_nm": 500.0,
+            "vertical_optical_depth": 2.1845558466436092e-05
+          },
+          {
+            "wavelength_vac_nm": 777.4000158138319,
+            "vertical_optical_depth": 2.4706416148050007e-05
+          }
+        ],
+        "gridpoint_flux": {
+          "name": "gridpoint_flux.csv",
+          "bytes": 180130,
+          "sha256": "ae899a282662ed9efd4ff17f8c44ebf8fade64d4b3f298d25324c5b7cc06d87f"
+        }
+      },
+      "lte_uv_background_lines": null
+    },
+    {
+      "name": "author_MN_cap_Fe_raw",
+      "source_run": "rya1281-fe-raw-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1234,
+        "sha256": "89a653419a377856a0ade3b3cf38f46833a1ea06a3b6a9839492de27a786cccb"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4414,
+        "sha256": "d6c26716fa5e777bc33dce6190918827d73e24c6391c1e5d058936763a36700f"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36606,
+        "sha256": "db98661912326b2a75f599046a2264e9e795dc894b884efc3c4fc06c5d014b4e"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "9fb9d982fa552ac95ed691ee574f55c57c602d9d1b00fbb094c9fdd1cf596cbe"
+      },
+      "departure_curve": {
+        "name": "author_MN_cap_Fe_raw_departures.csv",
+        "bytes": 9926,
+        "sha256": "729e8d7e5a60594f2cd62e20d7ae81f1ce3e2a3ce90097b66ffeaf24ea33b374"
+      },
+      "iterations": 296,
+      "elapsed_seconds": 174.38950937520713,
+      "final_diagnostics": {
+        "iteration": 296,
+        "population_change": 7.153576265665437e-07,
+        "J_change": 7.158543625907618e-07,
+        "physical_rate_residual": 2.736616648641819e-15,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 2.984662102108311e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 5.565772287496884e-09,
+          "final_boundary_change": 5.711880861496362e-09,
+          "outer_J_change": 7.158543625907618e-07,
+          "outer_boundary_change": 2.984662102108311e-07
+        }
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.006163943511075631,
+      "upper_max_abs_b_difference_all_depths": 0.032175499625264115,
+      "upper_max_abs_b_difference_excluding_top_point": 0.008899232246866617,
+      "lower_max_abs_b_difference_excluding_top_point": 0.009141317268488769,
+      "all_levels_depths_max_abs_b_difference": 1.7464196351525842,
+      "top_lower_upper_ion_b": [
+        1.003372579574274,
+        1.3135668818426713,
+        9.91447707686401
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.0279460682622785,
+        0.8477297590775705,
+        0.8685684628802655
+      ],
+      "triplet_fixed_window_mA": [
+        68.92768463272861,
+        59.360328629802915,
+        46.3808451537676
+      ],
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "experimental_fe_background": {
+        "normalization": "raw_specific",
+        "packet": {
+          "name": "manifest.json",
+          "bytes": 1449,
+          "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+        },
+        "adapter": {
+          "name": "bride_fe_background.py",
+          "bytes": 4126,
+          "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+        },
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ],
+        "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+      },
+      "top_cap_diagnostic": {
+        "snapshot": {
+          "name": "top_cap.npz",
+          "bytes": 74594,
+          "sha256": "09ba43e9624c71a31a5b4a3ea2b7a53d9503ea5026569aa38abaffe26a3fc314"
+        },
+        "selected_optical_depths": [
+          {
+            "wavelength_vac_nm": 121.5107,
+            "vertical_optical_depth": 2.4260186801101113
+          },
+          {
+            "wavelength_vac_nm": 130.20381759487455,
+            "vertical_optical_depth": 3.765513586311436
+          },
+          {
+            "wavelength_vac_nm": 135.55976694564868,
+            "vertical_optical_depth": 4.432833442328639
+          },
+          {
+            "wavelength_vac_nm": 277.2477,
+            "vertical_optical_depth": 0.00015361155873323782
+          },
+          {
+            "wavelength_vac_nm": 500.0,
+            "vertical_optical_depth": 2.184555846643109e-05
+          },
+          {
+            "wavelength_vac_nm": 777.4000158138319,
+            "vertical_optical_depth": 2.4707686595575522e-05
+          }
+        ],
+        "gridpoint_flux": {
+          "name": "gridpoint_flux.csv",
+          "bytes": 180130,
+          "sha256": "22b03f7132b2d4af9968bca18b6b93038e44f850c6ea807603e6e119fa82e6d0"
+        }
+      },
+      "lte_uv_background_lines": null
+    },
+    {
+      "name": "author_MN_cap_Fe_neutral_sampled",
+      "source_run": "rya1281-fe-sampled-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1246,
+        "sha256": "9470d601cefcbd480564191584f9b506b1aef7d17f066a5d670c6b889770fefc"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4489,
+        "sha256": "1d4778aad98d2fee69963cad2337ee7b5c8e8c5b802ca07d38b9f858558c9d97"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36591,
+        "sha256": "1868d0b9ba2e8b48dc488e932ff2cee9ee52d4fc637706a0f8adf42463a6bea7"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "920ef27c5d7765beef16e9ba6a380075603d92aed573b8fabee76ea66e932e0c"
+      },
+      "departure_curve": {
+        "name": "author_MN_cap_Fe_neutral_sampled_departures.csv",
+        "bytes": 9926,
+        "sha256": "9297ba312c7cd0776515ce344ba87cec21e7a375ca639652311db0c9a22ca491"
+      },
+      "iterations": 362,
+      "elapsed_seconds": 239.96090116724372,
+      "final_diagnostics": {
+        "iteration": 362,
+        "population_change": 9.703239479606175e-07,
+        "J_change": 9.709982125927433e-07,
+        "physical_rate_residual": 2.6069111982794504e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 5.167971021680912e-07,
+        "fixed_population_radiation": {
+          "iterations": 4,
+          "final_J_change": 8.139997897949058e-09,
+          "final_boundary_change": 9.91559088912803e-10,
+          "outer_J_change": 9.709982125927433e-07,
+          "outer_boundary_change": 5.167971021680912e-07
+        }
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.0061629679156177675,
+      "upper_max_abs_b_difference_all_depths": 0.031751594772515324,
+      "upper_max_abs_b_difference_excluding_top_point": 0.009082677324379063,
+      "lower_max_abs_b_difference_excluding_top_point": 0.009026615117991521,
+      "all_levels_depths_max_abs_b_difference": 1.7964535453723478,
+      "top_lower_upper_ion_b": [
+        1.0030132107424377,
+        1.3131429769899226,
+        9.964510987083774
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.0279363383905744,
+        0.8477492939195311,
+        0.8690330005600245
+      ],
+      "triplet_fixed_window_mA": [
+        68.9245388308918,
+        59.35749562921214,
+        46.378512741441
+      ],
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "experimental_fe_background": {
+        "normalization": "local_neutral",
+        "packet": {
+          "name": "manifest.json",
+          "bytes": 1449,
+          "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+        },
+        "adapter": {
+          "name": "bride_fe_background.py",
+          "bytes": 4126,
+          "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+        },
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ],
+        "packet_sampling": true,
+        "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+      },
+      "top_cap_diagnostic": {
+        "snapshot": {
+          "name": "top_cap.npz",
+          "bytes": 110348,
+          "sha256": "e5869150bf598663ec1f54b7d269ed7681616eea894f2b2c82646b18d18b50a4"
+        },
+        "selected_optical_depths": [
+          {
+            "wavelength_vac_nm": 121.5107,
+            "vertical_optical_depth": 2.42601868011009
+          },
+          {
+            "wavelength_vac_nm": 130.20381759487455,
+            "vertical_optical_depth": 3.765513580598444
+          },
+          {
+            "wavelength_vac_nm": 135.55976694564868,
+            "vertical_optical_depth": 4.432833433131125
+          },
+          {
+            "wavelength_vac_nm": 277.2477,
+            "vertical_optical_depth": 0.00015135744058712288
+          },
+          {
+            "wavelength_vac_nm": 500.0,
+            "vertical_optical_depth": 2.184555846642883e-05
+          },
+          {
+            "wavelength_vac_nm": 777.4000158138319,
+            "vertical_optical_depth": 2.470711903129857e-05
+          }
+        ],
+        "gridpoint_flux": {
+          "name": "gridpoint_flux.csv",
+          "bytes": 180130,
+          "sha256": "63fc42c1110874af784a25d3bd1d3d0a3f364430a19dd38f78c119d35d8b81a2"
+        }
+      },
+      "lte_uv_background_lines": null
+    }
+  ],
+  "failed_controls": [],
+  "scope": "logtau[-3,0] is a declared diagnostic subset, not a contribution function; no abundance fit",
+  "prior_receipt": {
+    "name": "summary.json",
+    "bytes": 15407,
+    "sha256": "b47a36f3e9401569d28aa4524cdb301d3e00220856c31bb8d6e7a0ff4db74ca0"
+  },
+  "status": "DIAGNOSTIC_COMPLETE"
+}

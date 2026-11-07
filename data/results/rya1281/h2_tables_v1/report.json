@@ -1,0 +1,128 @@
+{
+  "schema": "codex.bride_h2_tables_audit/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_h2_tables.py",
+    "bytes": 5830,
+    "sha256": "a8fedc081a5b7e62301e777b21569d836736bad2c647c0b82c3464d424da12e7"
+  },
+  "adapter": {
+    "name": "bride_h2_tables.py",
+    "bytes": 5520,
+    "sha256": "368fbba2359607c3e507c7cca88e179eb38b9c5706ad7833f2c6133ee30ecf86"
+  },
+  "source_receipt": {
+    "name": "receipt.json",
+    "bytes": 4209,
+    "sha256": "1945104907e783471b6dd7cf535f289a0ea603372ce9979bcaf89e922b8b9c92"
+  },
+  "input": {
+    "name": "experimental_input.json",
+    "bytes": 17148,
+    "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+  },
+  "source_domain_qualified_K": [
+    1000.0,
+    10000.0
+  ],
+  "solar_temperature_range_K": [
+    4062.4452,
+    9930.0128
+  ],
+  "covered_depth_count": 56,
+  "interpolation": "Paper Sec 3: cubic spline of log10(Kp)+D0*5040/T versus log10(T); not-a-knot boundary; no extrapolation",
+  "leave_one_knot_out": {
+    "not-a-knot": {
+      "temperature_K": [
+        1500.0,
+        2000.0,
+        3000.0,
+        4000.0,
+        5000.0,
+        6000.0,
+        7000.0,
+        8000.0,
+        9000.0
+      ],
+      "relative_phi_error": [
+        -3.555065960780476e-05,
+        2.3303607826522838e-05,
+        0.0004684796402920031,
+        0.0007474086468106426,
+        0.00038473774725643204,
+        9.144648771485127e-05,
+        -1.358309650533931e-05,
+        -4.291477926663305e-05,
+        5.9995672666610805e-05
+      ],
+      "max_absolute_relative_error": 0.0007474086468106426
+    },
+    "natural": {
+      "temperature_K": [
+        1500.0,
+        2000.0,
+        3000.0,
+        4000.0,
+        5000.0,
+        6000.0,
+        7000.0,
+        8000.0,
+        9000.0
+      ],
+      "relative_phi_error": [
+        0.0017533073855395501,
+        -0.00042173602679482263,
+        0.0005403524609529585,
+        0.0007313893683634144,
+        0.0003858501807243753,
+        9.576739053136504e-05,
+        -2.812839329930159e-05,
+        1.1387939139265044e-05,
+        -0.00021856618097375072
+      ],
+      "max_absolute_relative_error": 0.0017533073855395501
+    },
+    "pchip": {
+      "temperature_K": [
+        1500.0,
+        2000.0,
+        3000.0,
+        4000.0,
+        5000.0,
+        6000.0,
+        7000.0,
+        8000.0,
+        9000.0
+      ],
+      "relative_phi_error": [
+        -0.00589231739161238,
+        0.005254993746638972,
+        0.007273699114134634,
+        0.004904366800239083,
+        0.0029562604909784264,
+        0.0013872973877391093,
+        0.0004849137664339728,
+        8.729895411350538e-05,
+        -0.0005016099090294526
+      ],
+      "max_absolute_relative_error": 0.007273699114134634
+    }
+  },
+  "max_solar_natural_boundary_relative_phi_delta": 5.46167539354242e-05,
+  "H2_corrected_original_exactly_equal": true,
+  "max_nuclei_residual": 4.440892098500626e-16,
+  "max_independent_root_fraction_error": 2.55351295663786e-15,
+  "max_H2_over_total_H": 0.0007835326799274486,
+  "max_HI_depletion_relative_atomic_reservoir": 0.0015670731660614168,
+  "equation7_reconstruction_delta_dex_range": [
+    7.493575479600167e-05,
+    0.0005417830282148373
+  ],
+  "equation7_residual_disposition": "Unassigned finite source reconstruction difference; published Kp unchanged, no fitted constants or correction",
+  "column": {
+    "name": "hydrogen_column.csv",
+    "bytes": 15538,
+    "sha256": "7f05360a0ec84ccf1c9e13f16a4496c228014f0b0ae0f1aa25f94f5091a5bac7"
+  },
+  "scope": "Fixed-ne H I/H II/H minus/H2 nuclei bookkeeping only. No metal/CNO network, charge feedback, continuum, collisions, RT or O SE update. Knot holdout errors are interpolation diagnostics, not physical accuracy bounds."
+}

@@ -1,0 +1,198 @@
+{
+  "schema": "codex.bride_ni6300_prototype/1",
+  "status": "DIAGNOSTIC_COMPLETE",
+  "scientific_admission": "HOLD",
+  "code_commit": "e2233ab0f867840b3a919223796afaa8bbe41cc1",
+  "generator": {
+    "name": "check_bride_ni6300_blend.py",
+    "bytes": 9746,
+    "sha256": "c355b68dc5316ddb234561c62574b9e30d4c024331d9a756d030fb4e781007a6"
+  },
+  "provider": {
+    "name": "bride_lte_blend.py",
+    "bytes": 3429,
+    "sha256": "005a4d1275703888309105f08a1a00dc468a173165ba5cf97f5da702a040d84c"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "canonical": {
+    "name": "canonical_gf.csv",
+    "bytes": 25288767,
+    "sha256": "84a7e338739e06acbf8ef9826a0230783b859263bda70cce05118d9b7879687a"
+  },
+  "canonical_row": {
+    "line_id": "gf_101075",
+    "physical_id": "pk_9bda5a9fb855",
+    "key_z": "28",
+    "ion": "1.0",
+    "species": "Ni I",
+    "wavelength_air_A": "6300.342",
+    "excitation_potential_eV": "4.266",
+    "hfs_n_components": "1",
+    "log_gf": "-2.11",
+    "loggf_reference": "Johansson, Litzen, Lundberg & Zhang 2003, ApJ 584, L107 (arXiv:astro-ph/0301382)",
+    "nist_grade": "",
+    "seed_source": "Johansson2003",
+    "adjudication_status": "adjudicated_rya365",
+    "gf_synth_ges": "-2.11",
+    "gf_regions_vald": "",
+    "gf_linelist_vald": "-2.6994",
+    "in_synth": "True",
+    "in_regions": "False",
+    "in_linelist": "True",
+    "delta_synth_minus_ew": "",
+    "lab_source_tag": "",
+    "gf_sigma_dex": "",
+    "gf_source_doi": "",
+    "is_diagnostic": "False",
+    "gf_tier": "OTHER",
+    "diagnostic_excluded_by_registry": "False"
+  },
+  "installed_ispec_ges": {
+    "name": "atomic_lines.tsv",
+    "bytes": 30604411,
+    "sha256": "9231e3109703afa9abcabf24609ff7a669c7b60731d85d5dafdd86123b263f17"
+  },
+  "ges_row": {
+    "element": "Ni 1",
+    "wave_A": "6300.342",
+    "wave_nm": "630.0342",
+    "loggf": "-2.110",
+    "lower_state_eV": "4.2660",
+    "lower_state_cm1": "34407.609",
+    "lower_j": "1.0",
+    "upper_state_eV": "6.2340",
+    "upper_state_cm1": "50280.603",
+    "upper_j": "0.0",
+    "upper_g": "1.0",
+    "lande_lower": "0.510",
+    "lande_upper": "0.000",
+    "spectrum_transition_type": "GA",
+    "turbospectrum_rad": "1.86E+08",
+    "rad": "8.270",
+    "stark": "-5.400",
+    "waals": "-7.750",
+    "waals_single_gamma_format": "-7.750",
+    "turbospectrum_fdamp": "-7.750",
+    "spectrum_fudge_factor": "1.000",
+    "theoretical_depth": "0.030",
+    "theoretical_ew": "2.060",
+    "lower_orbital_type": "p",
+    "upper_orbital_type": "s",
+    "molecule": "F",
+    "spectrum_synthe_isotope": "0",
+    "ion": "1",
+    "spectrum_moog_species": "28.0",
+    "turbospectrum_species": "28.000000",
+    "width_species": "28.00",
+    "reference_code": "2003ApJ...",
+    "nlte": "T",
+    "nlte_level_low": "50",
+    "nlte_level_up": "116",
+    "nlte_label_low": "3Fsp3P3D1*",
+    "nlte_label_up": "1S4s21S0",
+    "spectrum_support": "T",
+    "turbospectrum_support": "T",
+    "moog_support": "T",
+    "width_support": "T",
+    "synthe_support": "T",
+    "sme_support": "T"
+  },
+  "line": {
+    "wavelength_air_A": 6300.342,
+    "lambda0_vac_nm": 630.2084477356597,
+    "excitation_eV": 4.266,
+    "loggf": -2.11,
+    "gamma_rad_s_inv": 186000000.0
+  },
+  "kurucz_partition": {
+    "name": "pf_Kurucz.input",
+    "bytes": 592244,
+    "sha256": "a7d15b25406b2736331253b6457d8ef4cfa3f3ef2275462120999121b8a734a8"
+  },
+  "A_Ni": 6.2,
+  "Ni_abundance_origin": "config.constants.SOLAR_ASPLUND2021; trace opacity only",
+  "O_atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "reviewed_populations": {
+    "name": "analysis.json",
+    "bytes": 175442,
+    "sha256": "7038f900ae925de0c933e2207f718724cf507a2bc50ad40ffbf44f98de3bea67"
+  },
+  "limitations": [
+    "Natural Voigt only: pressure broadening not implemented",
+    "Single combined canonical Ni line: no isotope splitting or other blends",
+    "Kurucz LTE Ni partition/Saha at fixed MARCS ne/nH; no EOS/atmosphere update",
+    "O populations remain prior RH-convention controls; convention discrepancy unresolved",
+    "No fitted abundance, continuum, width or RV; not a complete O6300 analysis"
+  ],
+  "cases": [
+    {
+      "name": "native5750",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 1313,
+        "sha256": "28e1a2310bf391b4360aebe1fb2ea75ae426989cbe4b72e0b9450bf62df1f039"
+      },
+      "source_populations": {
+        "name": "populations.npz",
+        "bytes": 36607,
+        "sha256": "fc33ac0f17524d290584fc849d80fae2a97987e4e69fe7373d80c270e201ef3d"
+      },
+      "iterations": {
+        "continuum": 35,
+        "oxygen_only": 63,
+        "nickel_only": 35,
+        "oxygen_plus_nickel": 63
+      },
+      "elapsed_seconds": 7.38067283295095,
+      "window_area_mA": {
+        "continuum": 0.0,
+        "oxygen_only": 3.9417032343883496,
+        "nickel_only": 2.00187720437499,
+        "oxygen_plus_nickel": 5.83687410007467,
+        "observed_blended_window": 8.954603156838994
+      },
+      "combined_vs_product_max_absolute_difference": 0.0011302043388179417
+    },
+    {
+      "name": "solar5772",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2693,
+        "sha256": "b44fdc9b841ec3d1484b102488e97b40376db4cf885050496078cd0c4aeca3c6"
+      },
+      "source_populations": {
+        "name": "populations.npz",
+        "bytes": 36180,
+        "sha256": "a698d4ba1bb49d41ee7b2a61afcc0e99a1e7d819223058e116615ea3cfd941e0"
+      },
+      "iterations": {
+        "continuum": 35,
+        "oxygen_only": 64,
+        "nickel_only": 35,
+        "oxygen_plus_nickel": 64
+      },
+      "elapsed_seconds": 7.358757083769888,
+      "window_area_mA": {
+        "continuum": 0.0,
+        "oxygen_only": 4.147331754652551,
+        "nickel_only": 1.987922574263102,
+        "oxygen_plus_nickel": 6.023916387731092,
+        "observed_blended_window": 8.954603156838994
+      },
+      "combined_vs_product_max_absolute_difference": 0.0011771875078203653
+    }
+  ]
+}
