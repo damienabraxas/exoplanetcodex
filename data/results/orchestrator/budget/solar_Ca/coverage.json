@@ -1,10 +1,10 @@
 {
  "star": "solar",
  "element": "Ca",
- "feed_version": "1.345",
+ "feed_version": "1.351",
  "counts": {
-  "PUBLISHED": 46,
-  "HELD": 416,
+  "PUBLISHED": 52,
+  "HELD": 410,
   "NOT_RUN": 172,
   "STALE": 143
  },
@@ -1824,11 +1824,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.047,
+   "sigma": 0.1212288572988632,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -1902,11 +1902,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.047,
+   "sigma": 0.1212288572988632,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2097,11 +2097,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.108,
+   "sigma": 0.1129593905914695,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2175,11 +2175,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.108,
+   "sigma": 0.1129593905914695,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2370,11 +2370,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.0,
+   "sigma": 0.1241799176723,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2448,11 +2448,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.0,
+   "sigma": 0.1241799176723,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
