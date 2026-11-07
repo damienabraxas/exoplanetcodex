@@ -220,6 +220,18 @@ entries:
     env: CODEX_BRIDE_FEII_WIDTH_ANCHORS
     kind: dir
     desc: Exact continuum-record replay and actual support changes for both FeII width alternatives.
+  experiments.bride_crossed_continuum:
+    root: work
+    rel: bride_mac_checks/rya1281-crossed-continuum-v1
+    env: CODEX_BRIDE_CROSSED_CONTINUUM
+    kind: dir
+    desc: Crossed fixed observation supports and natural/source-width references; finite accounting, no adopted continuum.
+  experiments.bride_crossed_continuum_plot:
+    root: work
+    rel: bride_mac_checks/rya1281-crossed-continuum-plot-v1
+    env: CODEX_BRIDE_CROSSED_CONTINUUM_PLOT
+    kind: dir
+    desc: Finite support/denominator path accounting figure; not independent uncertainty terms.
   experiments.bride_feii_analysis:
     root: work
     rel: bride_mac_checks/rya1281-feii-analysis-v1

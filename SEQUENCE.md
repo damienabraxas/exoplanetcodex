@@ -1,3 +1,10 @@
+## 2026-11-07 — crossed continuum accounting
+
+> **Current as of `main` de96ae51** (2026-11-07 integration audit; historical Bride controls retained separately).
+
+- **RYA-1315** — PR #609 landed on main de96ae51; Fe/Ti publications and derived artifacts remain separate from frozen Bride controls.
+- **RYA-1281** — Cross reference/support choices; selection plus clipping dominates canonical7775response,96endpoints exact (register v219).
+
 ## 2026-11-07 — FeII source widths in fixed-O transfer
 
 > **Current as of `main` 459f5614** (2026-11-07 integration audit; historical Bride controls retained separately).

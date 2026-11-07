@@ -28401,3 +28401,15 @@ artifacts:
     generator: "scripts/trace_bride_feii_anchors.py"
     invocation: "python scripts/trace_bride_feii_anchors.py --transfer <registered-feii-width-transfer>/provided --analysis <registered-feii-width-analysis>/provided --output <new-registered-feii-width-anchors>/provided"
     ticket: "RYA-1281"
+  - artifact: rya1281/crossed_continuum_v1/report.json
+    generator: "scripts/audit_bride_crossed_continuum.py"
+    invocation: "python scripts/audit_bride_crossed_continuum.py --output <fresh-registered-crossed-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/crossed_continuum_v1/summary.csv
+    generator: "scripts/audit_bride_crossed_continuum.py"
+    invocation: "python scripts/audit_bride_crossed_continuum.py --output <fresh-registered-crossed-directory>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/crossed_continuum_v1/plot_receipt.json
+    generator: "scripts/plot_bride_crossed_continuum.py"
+    invocation: "python scripts/plot_bride_crossed_continuum.py --source <registered-crossed-directory> --output <fresh-registered-crossed-plot>"
+    ticket: "RYA-1281"
