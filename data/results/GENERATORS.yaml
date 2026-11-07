@@ -28413,3 +28413,11 @@ artifacts:
     generator: "scripts/plot_bride_crossed_continuum.py"
     invocation: "python scripts/plot_bride_crossed_continuum.py --source <registered-crossed-directory> --output <fresh-registered-crossed-plot>"
     ticket: "RYA-1281"
+  - artifact: rya1281/current_orch_v1/report.json
+    generator: "scripts/audit_bride_current_orch.py"
+    invocation: "python scripts/audit_bride_current_orch.py --orch-worktree <registered-current-orch-checkout> --output <fresh-registered-current-orch-analysis>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/current_orch_v1/summary.csv
+    generator: "scripts/audit_bride_current_orch.py"
+    invocation: "python scripts/audit_bride_current_orch.py --orch-worktree <registered-current-orch-checkout> --output <fresh-registered-current-orch-analysis>"
+    ticket: "RYA-1281"

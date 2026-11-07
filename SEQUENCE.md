@@ -1,3 +1,7 @@
+## 2026-11-07 — latest RYA-1315 ORCH comparison
+
+- **RYA-1281** — Pull merged RYA1315ORCH; all48frozen continuum fits exact under actual current implementation (register v220).
+
 ## 2026-11-07 — crossed continuum accounting
 
 > **Current as of `main` de96ae51** (2026-11-07 integration audit; historical Bride controls retained separately).

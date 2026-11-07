@@ -226,6 +226,18 @@ entries:
     env: CODEX_BRIDE_CROSSED_CONTINUUM
     kind: dir
     desc: Crossed fixed observation supports and natural/source-width references; finite accounting, no adopted continuum.
+  experiments.bride_current_orch_checkout:
+    root: work
+    rel: rya1281-orch-current-de96ae51
+    env: CODEX_BRIDE_CURRENT_ORCH_CHECKOUT
+    kind: dir
+    desc: Complete detached current main de96ae51 checkout containing merged RYA1315 ORCH; separate from historical Bride controls.
+  experiments.bride_current_orch:
+    root: work
+    rel: bride_mac_checks/rya1281-current-orch-v2
+    env: CODEX_BRIDE_CURRENT_ORCH
+    kind: dir
+    desc: Accepted actual current-ORCH continuum replay and synthetic bound canaries; no new RT or full ORCH execution.
   experiments.bride_crossed_continuum_plot:
     root: work
     rel: bride_mac_checks/rya1281-crossed-continuum-plot-v1
