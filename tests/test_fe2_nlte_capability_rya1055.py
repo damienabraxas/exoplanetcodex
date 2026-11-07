@@ -618,7 +618,10 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     #: 36 -> 38 (RYA-1232): the near-UV Fe II <3D>-LTE leg on the lab Reference pool (both KP
     #: holdings). New artifacts, swept in like every widening above; the per-row checks run on
     #: them too (LTE, no departure applied).
-    assert len(per) == 38, len(per)
+    #: 38 -> 55 (RYA-1349): the audit reads the artifacts the LIVE feed points at, not the
+    #: legacy data/results/band_products glob -- every live Fe II product, the orchestrator's
+    #: stage files included (18 of the 38 were no longer published).
+    assert len(per) == 55, len(per)
     assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
         "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
     assert any("synth-1D-LTE-gerber" in r["artifact"] for r in per), (
