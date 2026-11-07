@@ -26,6 +26,9 @@ class FeIIControl(BackgroundProvider):
         self.partition=KuruczPfTable(atomicAbundance=radset.abundance)[PeriodicTable['Fe']]
         self.mass=PeriodicTable['Fe'].mass
 
+    def line_width(self,atmosphere):
+        return self.line['gamma_rad_s_inv']
+
     def compute_background(self,atmos,chi,eta,sca):
         self.base.compute_background(atmos,chi,eta,sca)
         if self.line is None or not self.mask.any():return
@@ -38,7 +41,7 @@ class FeIIControl(BackgroundProvider):
             l=self.line
             x,e=lte_line_coefficients(self.wave[self.mask],a.temperature,ions[1]/U,a.vturb,
                 lambda0_nm=l['lambda0_vac_nm'],mass_amu=self.mass,excitation_eV=l['excitation_eV'],
-                loggf=l['loggf'],gamma_s_inv=l['gamma_rad_s_inv'])
+                loggf=l['loggf'],gamma_s_inv=self.line_width(a))
             self.cache=([v.copy() for v in fields],x,e)
         if any(not np.array_equal(a,b) for a,b in zip(fields,self.cache[0])):raise ValueError('FeII cached fields changed')
         chi[self.mask]+=self.cache[1];eta[self.mask]+=self.cache[2]

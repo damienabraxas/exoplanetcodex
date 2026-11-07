@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 
 
-def context(line):
+def context(line,wrapper=None):
     from tests.test_bride_solar_control_rya1281 import inputs
     from pipeline.bride_solar_control import bound_fe_factory
     from pipeline.bride_reference import make_reference_context
@@ -11,7 +11,7 @@ def context(line):
     from pipeline.bride_top_cap import FiniteColumnCap
     folder,base,s,atom,contract=inputs('fine_T5772')
     provider,_=bound_fe_factory(folder,base,s,atom.abundance,column_contract=contract)
-    if line!='bare':provider=feii_factory(provider,line,(777.,779.))
+    if line!='bare':provider=(wrapper or feii_factory)(provider,line,(777.,779.))
     return make_reference_context(s,atom,rays=2,qscale=1,fe_background=provider,
         extra_wavelengths_vac_nm=np.array([777.5,778.,778.5]),experimental_column_cap=FiniteColumnCap(s['column_mass_kg_m2'][0]/s['rho_kg_m3'][0]))
 
