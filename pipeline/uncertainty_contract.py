@@ -380,8 +380,12 @@ def validate(document, *, scope):
     if rebuilt["holds"]:
         raise UncertaintyError("unresolved components: " + ", ".join(rebuilt["holds"]))
     terms = {c["name"]: c for c in rebuilt["components"]}
+    #: RYA-1315: Asplund+2021 Sect. 2.1 leaves atomic data out of the abundance uncertainty, so
+    #: transition_data may be N/A on an Asplund budget (a pool line with no published gf sigma).
+    td_asplund_na = (terms["transition_data"]["state"] == "N/A"
+                     and (terms["transition_data"].get("evidence") or {}).get("asplund_budget") is True)
     for name in ("measurement", "transition_data", "stellar.teff", "stellar.logg"):
-        if terms[name]["state"] == "N/A":
+        if terms[name]["state"] == "N/A" and not (name == "transition_data" and td_asplund_na):
             raise UncertaintyError(f"{name} cannot be omitted from an abundance budget")
     measurement = terms["measurement"]["evidence"]
     method = measurement.get("method")
@@ -403,15 +407,19 @@ def validate(document, *, scope):
     else:
         raise UncertaintyError("measurement method is not declared")
     data = terms["transition_data"]["evidence"]
-    recomputed = transition_data(data.get("indicator_ids", []), data.get("line_sigma_dex", []),
-                                data.get("weights", []), covariance=data.get("covariance", []),
-                                sources=data.get("line_sources", []),
-                                covariance_source=terms["transition_data"]["source"])
-    if (data.get("pool_sha256") != scope["pool_sha256"]
-            or recomputed["evidence"]["pool_sha256"] != scope["pool_sha256"]):
-        raise UncertaintyError("transition-data uncertainty uses a different indicator pool")
-    if not math.isclose(recomputed["sigma_dex"], terms["transition_data"]["sigma_dex"], rel_tol=1e-10):
-        raise UncertaintyError("transition-data sigma is inconsistent with its line evidence")
+    if td_asplund_na:
+        if data.get("pool_sha256") != scope["pool_sha256"]:
+            raise UncertaintyError("transition-data uncertainty uses a different indicator pool")
+    else:
+        recomputed = transition_data(data.get("indicator_ids", []), data.get("line_sigma_dex", []),
+                                    data.get("weights", []), covariance=data.get("covariance", []),
+                                    sources=data.get("line_sources", []),
+                                    covariance_source=terms["transition_data"]["source"])
+        if (data.get("pool_sha256") != scope["pool_sha256"]
+                or recomputed["evidence"]["pool_sha256"] != scope["pool_sha256"]):
+            raise UncertaintyError("transition-data uncertainty uses a different indicator pool")
+        if not math.isclose(recomputed["sigma_dex"], terms["transition_data"]["sigma_dex"], rel_tol=1e-10):
+            raise UncertaintyError("transition-data sigma is inconsistent with its line evidence")
     if method == "line_scatter":
         # RYA-1232: components closer than 0.5 A are ONE resolved feature (fitted in windows
         # that each see the same blend). The scatter is then over features (n_lines) and its

@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Na",
- "generated": "2026-10-27",
+ "generated": "2026-11-03",
  "sets": [
   {
    "set": "NA_AGSS21",
@@ -428,67 +428,6 @@
     0.05
    ],
    "frame_median_dv_kms": 0.88,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag_reiners2016",
-   "band": "VIS",
-   "lo_A": 4047.46,
-   "hi_A": 5001.1,
-   "graded_lines": 19,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [
-    {
-     "wavelength_A": 4242.081,
-     "dv_kms": 4.4
-    },
-    {
-     "wavelength_A": 4252.52,
-     "dv_kms": 4.4
-    },
-    {
-     "wavelength_A": 4273.627,
-     "dv_kms": 4.0
-    },
-    {
-     "wavelength_A": 4291.005,
-     "dv_kms": -4.3
-    }
-   ],
-   "not_served": [],
-   "dv_kms": [
-    4.39,
-    4.4,
-    4.01,
-    -4.26,
-    0.58
-   ],
-   "frame_median_dv_kms": 0.51,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag",
-   "band": "VIS",
-   "lo_A": 5001.1,
-   "hi_A": 6910.0,
-   "graded_lines": 8,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    0.11,
-    0.05,
-    0.31,
-    0.6,
-    -1.16
-   ],
-   "frame_median_dv_kms": 0.53,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
