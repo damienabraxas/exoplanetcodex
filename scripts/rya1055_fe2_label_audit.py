@@ -174,9 +174,22 @@ def main(argv=None) -> int:
     # ── 4. what the RUNS say, line by line ──────────────────────────────────────────
     # The label is read from `nlte_source`/`nlte_delta_dex`, written at the point the
     # correction was applied (RYA-880) -- the run speaking, not a label being believed.
-    BP = ROOT / "data/results/band_products"
+    # RYA-1349: the artifacts the LIVE feed points at (each Fe II product's own
+    # `provenance.copied_to`, RYA-1229's rule). Globbing data/results/band_products/ read 18
+    # files nothing publishes any more and missed 35 of the 55 live Fe II products, whose
+    # artifacts the orchestrator writes under its own stage.
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT))
+    from pipeline.coverage_report import lines_artifact
+    _feed = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
+    _fe2 = [p for p in _feed["products"] if str(p.get("ion")) == "II"]
+    _unpreserved = sorted({p["provenance"]["copied_to"] for p in _fe2 if lines_artifact(p) is None})
+    if _unpreserved:
+        problems.append(f"{len(_unpreserved)} live Fe II product(s) keep no per-line artifact "
+                        "(restored to superseded/ without it): " + ", ".join(
+                            Path(x).name for x in _unpreserved))
     perline = []
-    for f in sorted(BP.glob("FeII_*_lines.csv")):
+    for f in sorted({lines_artifact(p) for p in _fe2} - {None}):
         try:
             import pandas as pd
             d = pd.read_csv(f)

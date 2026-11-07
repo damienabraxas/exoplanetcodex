@@ -2106,8 +2106,11 @@ def _report(star: str, element: str, cells: list[CellResult], *, dry_run: bool,
     (dest / f"{star}_{safe}_{stamp}.json").write_text(
         json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     # A narrowed run never replaces the element's report: it gets its own `_latest_partial`.
-    latest = dest / (f"{star}_{safe}_latest.json" if not doc["scope"]
-                     else f"{star}_{safe}_latest_partial.json")
+    # RYA-1349: nor does a dry run -- it built nothing, and as `_latest` it stood in for the
+    # real run on Ti (10-29 WOULD_RUN over 11-06's) and Mg, so coverage read a plan as state.
+    latest = dest / (f"{star}_{safe}_latest_partial.json" if doc["scope"]
+                     else f"{star}_{safe}_latest_dryrun.json" if doc["dry_run"]
+                     else f"{star}_{safe}_latest.json")
     latest.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     # Repo-relative where it is inside the repo, absolute where a caller redirected it
     # (a test's tmpdir). RYA-1096: an absolute path is a MACHINE fact, so the committed
