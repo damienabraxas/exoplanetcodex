@@ -4,6 +4,14 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
+def source_list(text,target,following):
+    block=text.split(target+'obj =',1)[1]
+    block=block.split(following+'obj =',1)[0]if following else block.split('#clean',1)[0]
+    names=re.findall(r'\$\(SOURCE\)/([\w.-]+)',block)
+    if len(names)<30 or len(set(names))!=len(names):raise ValueError('Unexpected native build recipe')
+    return [n for n in names if n.endswith('.f90')]+[n for n in names if not n.endswith('.f90')]
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
     if platform.system()!='Darwin':raise RuntimeError('Mac-only build')
@@ -23,12 +31,9 @@ def main():
         sources=receipts,compiler=compiler,compiler_version=subprocess.check_output([compiler,'--version'],text=True).splitlines()[0],builds=[])
     text=recipe.read_text()
     for target,following in [('babsma_lu','eqwidt_lu'),('bsyn_lu',None)]:
-        block=text.split(target+'obj =',1)[1]
-        block=block.split(following+'obj =',1)[0]if following else block.split('#clean',1)[0]
-        names=re.findall(r'\$\(SOURCE\)/([\w.]+)',block)
-        if len(names)<30 or len(set(names))!=len(names):raise ValueError('Unexpected native build recipe')
+        names=source_list(text,target,following)
+        if any(not(source/name).is_file()for name in names):raise ValueError('Recipe names nonexistent source file')
         # Make builds modules before users; retain exactly the same source files.
-        names=[n for n in names if n.endswith('.f90')]+[n for n in names if not n.endswith('.f90')]
         directory=a.output/target;shutil.copytree(source,directory)
         command=[compiler,'-fconvert=big-endian','-O3','-fno-automatic','-fbacktrace','-std=legacy','-mcmodel=small','-fallow-argument-mismatch','-o',target,*names]
         r=subprocess.run(command,cwd=directory,capture_output=True,text=True,timeout=plan['build_seconds'])
