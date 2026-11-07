@@ -5,6 +5,20 @@ import numpy as np
 ROOT=Path(__file__).resolve().parents[1]
 
 
+def lte_export(array):
+    """Private LTE export copy; empty source labels must not emit NLTE headers."""
+    result=array.copy()
+    for name in ('nlte_label_low','nlte_label_up'):
+        if name in result.dtype.names:result[name]='none'
+    return result
+
+
+def native_status(returncode,stdout):
+    # Fortran STOP on an input error can return process status zero.
+    if returncode or 'input.f; bad keyword:'in stdout or 'INPUT: bad answer:'in stdout:
+        raise RuntimeError('Native program/input contract failed; inspect retained stdout/stderr')
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--build',type=Path,required=True);p.add_argument('--orch-worktree',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
     if platform.system()!='Darwin':raise RuntimeError('Mac-only diagnostic')
@@ -37,7 +51,7 @@ def main():
     atomic_source=engine/'input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv'
     atomic=ispec.read_atomic_linelist(str(atomic_source));gf_report={};gf_resolver.apply_to_synth_array(atomic,report=gf_report)
     lo,hi=plan['range_air_A'];pad=plan['atomic_padding_A']
-    selected=atomic[(atomic['wave_A']>=lo-pad)&(atomic['wave_A']<=hi+pad)].copy()
+    selected=lte_export(atomic[(atomic['wave_A']>=lo-pad)&(atomic['wave_A']<=hi+pad)])
     a.output.mkdir(parents=True,exist_ok=False);start=time.perf_counter()
     (a.output/'DATA').symlink_to(engine/'synthesizer/turbospectrum/DATA',target_is_directory=True)
     atomic_file=a.output/'atomic.bsyn';ispec.write_atomic_linelist(selected,linelist_filename=str(atomic_file),code='turbospectrum')
@@ -61,7 +75,7 @@ def main():
         (directory/'DATA').symlink_to(engine/'synthesizer/turbospectrum/DATA',target_is_directory=True)
         run=subprocess.run([str(programs[target])],input=text,cwd=directory,text=True,capture_output=True,timeout=plan['seconds_per_program'],env=dict(os.environ,OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1'))
         (directory/'stdout.txt').write_text(run.stdout);(directory/'stderr.txt').write_text(run.stderr)
-        if run.returncode:raise RuntimeError('Native program failed: '+str(directory))
+        native_status(run.returncode,run.stdout)
         return time.perf_counter()-before
     opacity=a.output/'continuum.opa';opacity_dir=a.output/'opacity';opacity_dir.mkdir()
     text=f"'LAMBDA_MIN:' '{lo}'\n'LAMBDA_MAX:' '{hi}'\n'LAMBDA_STEP:' '{plan['opacity_step_A']}'\n'MODELINPUT:' '{model}'\n'MARCS-FILE:' '.true.'\n'MODELOPAC:' '{opacity}'\n"+common+f"'XIFIX:' 'T'\n{plan['xi_km_s']}\n"
@@ -73,7 +87,7 @@ def main():
         directory=a.output/case;directory.mkdir();family=case.replace('_refined','')
         files=[]if family=='off'else [p for group in molecular.values()for p in group]if family=='all'else molecular[family]
         step=plan['refined_line_step_A']if case.endswith('_refined')else plan['line_step_A'];raw=directory/'native_flux.txt'
-        text=f"'NLTE:' '.false.'\n'LAMBDA_MIN:' '{lo}'\n'LAMBDA_MAX:' '{hi}'\n'LAMBDA_STEP:' '{step}'\n'INTENSITY/FLUX:' 'Flux'\n'COS(THETA):' '1.00'\n'ABFIND:' '.false.'\n'MARCS-FILE:' '.true.'\n'MODELOPAC:' '{opacity}'\n'RESULTFILE:' '{raw}'\n"+common+isotope_input+f"'NFILES:' '{len(files)+2}'\n"+'\n'.join(files+['DATA/Hlinedata',str(atomic_file)])+"\n'SPHERICAL:' 'F'\n30\n300.00\n15\n1.30\n"
+        text=f"'NLTE :' '.false.'\n'LAMBDA_MIN:' '{lo}'\n'LAMBDA_MAX:' '{hi}'\n'LAMBDA_STEP:' '{step}'\n'INTENSITY/FLUX:' 'Flux'\n'COS(THETA):' '1.00'\n'ABFIND:' '.false.'\n'MARCS-FILE:' '.true.'\n'MODELOPAC:' '{opacity}'\n'RESULTFILE:' '{raw}'\n"+common+isotope_input+f"'NFILES:' '{len(files)+2}'\n"+'\n'.join(files+['DATA/Hlinedata',str(atomic_file)])+"\n'SPHERICAL:' 'F'\n30\n300.00\n15\n1.30\n"
         elapsed=invoke('bsyn_lu',text,directory);data=np.loadtxt(raw)
         if data.ndim!=2 or data.shape[1]<3 or not np.isfinite(data).all()or np.any(data[:,1:]<=0)or np.any(np.diff(data[:,0])<=0):raise ValueError('Invalid native spectrum')
         expected=np.round(lo+np.arange(int((hi-lo)/step)+1)*step,3)
