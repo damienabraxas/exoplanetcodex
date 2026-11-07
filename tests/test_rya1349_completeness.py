@@ -130,3 +130,8 @@ def test_ti_owes_no_cell_and_ca_owes_exactly_its_engine_a_cells():
     owed = [r for r in ca["rows"] if r["outcome"] == "NOT_RUN"]
     assert owed and all(r["treatment"] == "ENGINE-A" and "Ca_Amarsi2020_PySME.csv covers" in r["reason"]
                         for r in owed)
+    assert {r["band"] for r in owed} == {"red-optical"}
+    # near-UV Reference Grade: the pool is quarantined (RYA-1311), so its ENGINE-A is HELD
+    nuv = [r for r in ca["rows"] if r["band"] == "near-UV" and r["pool"] == "reference"
+           and r["treatment"] == "ENGINE-A" and r["ion"] == "I"]
+    assert nuv and all(r["outcome"] == "HELD" and "quarantined" in r["reason"] for r in nuv)

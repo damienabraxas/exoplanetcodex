@@ -370,8 +370,8 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
             for t in rm.DECK_EMITS[d.engine_deck]:
                 p = index.get((d.band, d.holding, ion, sel, t))
                 applied = None
-                base = (index.get((d.band, d.holding, ion, sel, "1D-LTE"))
-                        or quarantine_rec.get((d.band, d.holding, ion, sel, "1D-LTE")))
+                base = index.get((d.band, d.holding, ion, sel, "1D-LTE"))
+                base_q = quarantine_rec.get((d.band, d.holding, ion, sel, "1D-LTE"))
                 if p is not None:
                     out, why = stale(d, p)
                     out = out or "PUBLISHED"
@@ -394,6 +394,11 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                     out, why = "HELD", budget_held[(d.band, d.holding, sel, t)]
                 elif (d.band, d.holding, ion, sel, t) in quarantined:
                     out, why = "HELD", quarantined[(d.band, d.holding, ion, sel, t)]
+                elif t in ("ENGINE-A", "ENGINE-A-3DNLTE") and base is None and base_q is not None:
+                    # the pool itself is quarantined (Ca I near-UV Reference, RYA-1311): a
+                    # correction of it would be too, so nothing is owed
+                    out, why = "HELD", ("the cell's 1D-LTE is quarantined: "
+                                        + (base_q.get("quarantine_reason") or "")[-160:])
                 elif t in ("ENGINE-A", "ENGINE-A-3DNLTE") and base is not None:
                     # RYA-1349: HELD only when the correction source really holds none of the
                     # pool's lines. A grid that covers them and no product is work owed --
