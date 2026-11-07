@@ -32,8 +32,8 @@ def main():
     if (current.MAX_SHIFT,current.MAX_SHIFT_MODEL,current.MODEL_Q,current.ENV_PERCENTILE)!=(.03,.15,90.,95.):raise ValueError('Unexpected current ORCH controls')
     x=np.linspace(-5,5,1001);unit=np.ones_like(x);synthetic=[]
     for level in (.92,0.):
-        before,_=lc.fit_model_guided(x,level*unit,0.,x,unit)
-        after,_=current.fit_model_guided(x,level*unit,0.,x,unit)
+        before,_=lc.fit_model_guided(x,level*unit,0.,x,unit,exclude_half_width_A=.5)
+        after,_=current.fit_model_guided(x,level*unit,0.,x,unit,exclude_half_width_A=.5)
         synthetic.append(dict(level=level,historical=before.__dict__,current=after.__dict__))
     envelope,_=current.fit(x,.92*unit,0.)
     if synthetic[0]['historical']['applied'] or not synthetic[0]['current']['applied'] or synthetic[1]['current']['applied'] or envelope.applied:raise ValueError('Current ORCH bound canary failed')

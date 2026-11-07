@@ -20,7 +20,9 @@ without editing or monkeypatching its constants. Same held reference arrays and
 plus-gravity convention; prior transfer retains both RVs. This is actual current
 continuum implementation, not a full ORCH engine/abundance/publication rerun.
 
-Current checkout's native continuum tests:8passed in0.20s, exit0 (project Mac
+Current checkout's native continuum tests:8passed in0.08s, exit0 (project Mac
 interpreter,1thread). Exact command: `python -m pytest -q tests/test_rya1230_local_continuum.py`.
 Precommit plan/runner before observational evaluation. No new RT, source/product
 rewrite, adoption/production/merge/publication. Scientific HOLD.
+
+Initial harness v1 refused before any output directory/observational fit: synthetic canary omitted the required exclude_half_width_A keyword. Corrected both calls to explicit0.5A; native/source data unchanged. Fresh v2 output/log follows. No accepted v1 result.
