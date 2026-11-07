@@ -202,6 +202,24 @@ entries:
     env: CODEX_BRIDE_FEII_TRANSFER
     kind: dir
     desc: Immutable fixed-O paired natural FeII transfer; frozen historical source/rule, no opacity adoption.
+  experiments.bride_feii_width_transfer:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-transfer-v1
+    env: CODEX_BRIDE_FEII_WIDTH_TRANSFER
+    kind: dir
+    desc: Fixed-O natural versus W-pressure FeII transfer with separate ionic Cowley and supplied Stark controls.
+  experiments.bride_feii_width_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-analysis-v1
+    env: CODEX_BRIDE_FEII_WIDTH_ANALYSIS
+    kind: dir
+    desc: Both references and RV variants for source-width FeII transfer; historical continuum rule, no adoption.
+  experiments.bride_feii_width_anchors:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-anchors-v1
+    env: CODEX_BRIDE_FEII_WIDTH_ANCHORS
+    kind: dir
+    desc: Exact continuum-record replay and actual support changes for both FeII width alternatives.
   experiments.bride_feii_analysis:
     root: work
     rel: bride_mac_checks/rya1281-feii-analysis-v1

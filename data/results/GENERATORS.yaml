@@ -28217,3 +28217,187 @@ artifacts:
     generator: "scripts/receipt_bride_feii_broadening.py"
     invocation: "python scripts/receipt_bride_feii_broadening.py --first <registered-feii-width-source-v1> --final <registered-feii-width-final> --output <new-registered-feii-width-receipts>"
     ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/canonical_refined/input.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case canonical_refined --output <new-registered-feii-width-transfer>/cowley/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/canonical_refined/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case canonical_refined --output <new-registered-feii-width-transfer>/cowley/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/canonical_refined/zero/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case canonical_refined --output <new-registered-feii-width-transfer>/cowley/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/canonical_refined/zero/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case canonical_refined --output <new-registered-feii-width-transfer>/cowley/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/canonical_refined/feii/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case canonical_refined --output <new-registered-feii-width-transfer>/cowley/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/canonical_refined/feii/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case canonical_refined --output <new-registered-feii-width-transfer>/cowley/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/canonical_refined/zero/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/canonical_refined/zero --continuum-reference synthesis --output <new-registered-feii-width-analysis>/cowley/canonical_refined/zero/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/canonical_refined/zero/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/canonical_refined/zero --continuum-reference iag --output <new-registered-feii-width-analysis>/cowley/canonical_refined/zero/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/canonical_refined/feii/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/canonical_refined/feii --continuum-reference synthesis --output <new-registered-feii-width-analysis>/cowley/canonical_refined/feii/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/canonical_refined/feii/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/canonical_refined/feii --continuum-reference iag --output <new-registered-feii-width-analysis>/cowley/canonical_refined/feii/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/lower_gravity_refined/input.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case lower_gravity_refined --output <new-registered-feii-width-transfer>/cowley/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/lower_gravity_refined/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case lower_gravity_refined --output <new-registered-feii-width-transfer>/cowley/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/lower_gravity_refined/zero/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case lower_gravity_refined --output <new-registered-feii-width-transfer>/cowley/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/lower_gravity_refined/zero/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case lower_gravity_refined --output <new-registered-feii-width-transfer>/cowley/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/lower_gravity_refined/feii/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case lower_gravity_refined --output <new-registered-feii-width-transfer>/cowley/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/cowley/lower_gravity_refined/feii/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode cowley --case lower_gravity_refined --output <new-registered-feii-width-transfer>/cowley/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/lower_gravity_refined/zero/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/lower_gravity_refined/zero --continuum-reference synthesis --output <new-registered-feii-width-analysis>/cowley/lower_gravity_refined/zero/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/lower_gravity_refined/zero/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/lower_gravity_refined/zero --continuum-reference iag --output <new-registered-feii-width-analysis>/cowley/lower_gravity_refined/zero/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/lower_gravity_refined/feii/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/lower_gravity_refined/feii --continuum-reference synthesis --output <new-registered-feii-width-analysis>/cowley/lower_gravity_refined/feii/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/lower_gravity_refined/feii/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/cowley/lower_gravity_refined/feii --continuum-reference iag --output <new-registered-feii-width-analysis>/cowley/lower_gravity_refined/feii/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/report.json
+    generator: "scripts/analyze_bride_feii_width_transfer.py"
+    invocation: "python scripts/analyze_bride_feii_width_transfer.py --stark-mode cowley --source <registered-feii-width-transfer>/cowley --output <new-registered-feii-width-analysis>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/cowley/summary.csv
+    generator: "scripts/analyze_bride_feii_width_transfer.py"
+    invocation: "python scripts/analyze_bride_feii_width_transfer.py --stark-mode cowley --source <registered-feii-width-transfer>/cowley --output <new-registered-feii-width-analysis>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/anchor_trace/cowley/report.json
+    generator: "scripts/trace_bride_feii_anchors.py"
+    invocation: "python scripts/trace_bride_feii_anchors.py --transfer <registered-feii-width-transfer>/cowley --analysis <registered-feii-width-analysis>/cowley --output <new-registered-feii-width-anchors>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/canonical_refined/input.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case canonical_refined --output <new-registered-feii-width-transfer>/provided/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/canonical_refined/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case canonical_refined --output <new-registered-feii-width-transfer>/provided/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/canonical_refined/zero/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case canonical_refined --output <new-registered-feii-width-transfer>/provided/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/canonical_refined/zero/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case canonical_refined --output <new-registered-feii-width-transfer>/provided/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/canonical_refined/feii/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case canonical_refined --output <new-registered-feii-width-transfer>/provided/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/canonical_refined/feii/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case canonical_refined --output <new-registered-feii-width-transfer>/provided/canonical_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/canonical_refined/zero/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/canonical_refined/zero --continuum-reference synthesis --output <new-registered-feii-width-analysis>/provided/canonical_refined/zero/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/canonical_refined/zero/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/canonical_refined/zero --continuum-reference iag --output <new-registered-feii-width-analysis>/provided/canonical_refined/zero/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/canonical_refined/feii/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/canonical_refined/feii --continuum-reference synthesis --output <new-registered-feii-width-analysis>/provided/canonical_refined/feii/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/canonical_refined/feii/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/canonical_refined/feii --continuum-reference iag --output <new-registered-feii-width-analysis>/provided/canonical_refined/feii/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/lower_gravity_refined/input.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case lower_gravity_refined --output <new-registered-feii-width-transfer>/provided/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/lower_gravity_refined/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case lower_gravity_refined --output <new-registered-feii-width-transfer>/provided/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/lower_gravity_refined/zero/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case lower_gravity_refined --output <new-registered-feii-width-transfer>/provided/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/lower_gravity_refined/zero/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case lower_gravity_refined --output <new-registered-feii-width-transfer>/provided/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/lower_gravity_refined/feii/flux.csv
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case lower_gravity_refined --output <new-registered-feii-width-transfer>/provided/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/run/provided/lower_gravity_refined/feii/report.json
+    generator: "scripts/run_bride_feii_width_transfer.py"
+    invocation: "python scripts/run_bride_feii_width_transfer.py --stark-mode provided --case lower_gravity_refined --output <new-registered-feii-width-transfer>/provided/lower_gravity_refined"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/lower_gravity_refined/zero/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/lower_gravity_refined/zero --continuum-reference synthesis --output <new-registered-feii-width-analysis>/provided/lower_gravity_refined/zero/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/lower_gravity_refined/zero/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/lower_gravity_refined/zero --continuum-reference iag --output <new-registered-feii-width-analysis>/provided/lower_gravity_refined/zero/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/lower_gravity_refined/feii/synthesis/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/lower_gravity_refined/feii --continuum-reference synthesis --output <new-registered-feii-width-analysis>/provided/lower_gravity_refined/feii/synthesis"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/lower_gravity_refined/feii/iag/report.json
+    generator: "scripts/audit_bride_kitt_residuals.py"
+    invocation: "python scripts/audit_bride_kitt_residuals.py --comparison data/results/rya1281/solar_bound_v1/kitt_peak/report.json --wide-spectrum <registered-feii-width-transfer>/provided/lower_gravity_refined/feii --continuum-reference iag --output <new-registered-feii-width-analysis>/provided/lower_gravity_refined/feii/iag"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/report.json
+    generator: "scripts/analyze_bride_feii_width_transfer.py"
+    invocation: "python scripts/analyze_bride_feii_width_transfer.py --stark-mode provided --source <registered-feii-width-transfer>/provided --output <new-registered-feii-width-analysis>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/analysis/provided/summary.csv
+    generator: "scripts/analyze_bride_feii_width_transfer.py"
+    invocation: "python scripts/analyze_bride_feii_width_transfer.py --stark-mode provided --source <registered-feii-width-transfer>/provided --output <new-registered-feii-width-analysis>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_width_transfer_v1/anchor_trace/provided/report.json
+    generator: "scripts/trace_bride_feii_anchors.py"
+    invocation: "python scripts/trace_bride_feii_anchors.py --transfer <registered-feii-width-transfer>/provided --analysis <registered-feii-width-analysis>/provided --output <new-registered-feii-width-anchors>/provided"
+    ticket: "RYA-1281"

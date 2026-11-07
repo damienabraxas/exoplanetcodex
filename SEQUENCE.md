@@ -1,3 +1,10 @@
+## 2026-11-07 — FeII source widths in fixed-O transfer
+
+> **Current as of `main` 459f5614** (2026-11-07 integration audit; historical Bride controls retained separately).
+
+- **RYA-1315** — PR #608 landed on main459f5614; CNO/Na product and atmosphere-budget updates remain separate from this experiment.
+- **RYA-1281** — Apply verified FeII depth widths; exact natural replays, tiny direct O response and reference-dependent continuum change (v218).
+
 ## 2026-11-06 — FeII atlas profile and native broadening source
 
 - **RYA-1281** — Compare both atlases without fitted gf/width/RV; expose structured shoulders and verify native FeII pressure/Stark branches before a broadened transfer (register v217).
