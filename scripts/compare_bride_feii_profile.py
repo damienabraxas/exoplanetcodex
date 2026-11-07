@@ -51,6 +51,10 @@ def main():
         native_iag_reader=fingerprint(ROOT/'scripts/measure_band_ew.py'),reference_helper=fingerprint(lc.__file__),policies=policies,
         iag_feature_flag0_count=flag_count,interpolation_step_A=step,rest_air_A=centre,broadening=b,
         caveats='Raw shipped and fixed-shoulder shape views retained. Contrast is not an isolated EW or adopted continuum. No gf/width/RV/LSF fit, pixel covariance/noise significance, extra telluric correction or preferred atlas. IAG native and Gaussian legs are correlated views of one holding. Interpolation adds no resolution.',cases=[])
+    intake_path=ROOT/'data/results/rya1281/anchor_influence_v1/candidate_intake.json'
+    intake=json.loads(intake_path.read_text())['rows'];result['shoulder_intake']=fingerprint(intake_path)
+    result['shoulder_inventory']=[]
+    result['shoulder_limitation']='Fixed bands show structured atlas absorption; range statistics and candidate centres do not identify blends or qualify an isolated FeII profile. Bands are retained, not retuned.'
     rows=[];fig,axes=plt.subplots(2,2,figsize=(13,9))
     velocities={'canonical_broadened':0.,'plus_gravitational_shift':SOLAR_GRAVITATIONAL_REDSHIFT}
     for ci,name in enumerate(('canonical_refined','lower_gravity_refined')):
@@ -68,6 +72,13 @@ def main():
         out=dict(name=name,source=fingerprint(directory/'report.json'),spectra=receipts,metrics=[])
         for rv,velocity in velocities.items():
             beta=velocity*1000/299792458.;c=centre*np.sqrt((1+beta)/(1-beta));core=abs(grid-c)<=plan['core_half_A']
+            shoulder_masks=[]
+            for sign in (-1,1):
+                edges=sorted((c+sign*plan['shoulder_inner_A'],c+sign*plan['shoulder_outer_A']))
+                shoulder_masks.append((grid>=edges[0])&(grid<=edges[1]))
+                if ci==0:
+                    result['shoulder_inventory'].append(dict(rv=rv,side='blue' if sign<0 else 'red',lo_air_A=edges[0],hi_air_A=edges[1],
+                        candidates=[dict(line_id=r['canonical_row']['line_id'],species=r['canonical_row']['species'],wave_air_A=r['canonical_row']['wavelength_air_A'],treatment=r['treatment'],source_matches=r['exact_identity_matches']) for r in intake if edges[0]<=float(r['canonical_row']['wavelength_air_A'])<=edges[1]]))
             observed={label:feature_metrics(grid,f,c,**kw) for label,f in data.items()}
             for mode in models:
                 f=models[mode][rv];m=feature_metrics(grid,f,c,**kw)
@@ -76,7 +87,9 @@ def main():
                     row=dict(case=name,rv=rv,model=mode,observation=label,centre_air_A=c,model_contrast=m['contrast'],observed_contrast=d['contrast'],
                         contrast_difference=m['contrast']-d['contrast'],model_relative_core_area_mA=m['relative_core_area_mA'],observed_relative_core_area_mA=d['relative_core_area_mA'],
                         raw_core_rms=float(np.sqrt(np.mean((f[core]-g[core])**2))),
-                        shoulder_scaled_core_rms=float(np.sqrt(np.mean((f[core]/m['shoulder_level']-g[core]/d['shoulder_level'])**2))))
+                        shoulder_scaled_core_rms=float(np.sqrt(np.mean((f[core]/m['shoulder_level']-g[core]/d['shoulder_level'])**2))),
+                        model_max_shoulder_range_fraction=max(float(np.ptp(f[mask])/m['shoulder_level']) for mask in shoulder_masks),
+                        observed_max_shoulder_range_fraction=max(float(np.ptp(g[mask])/d['shoulder_level']) for mask in shoulder_masks))
                     rows.append(row);out['metrics'].append(row)
         c=centre*np.sqrt((1+SOLAR_GRAVITATIONAL_REDSHIFT*1000/299792458.)/(1-SOLAR_GRAVITATIONAL_REDSHIFT*1000/299792458.))
         for label,f in data.items():

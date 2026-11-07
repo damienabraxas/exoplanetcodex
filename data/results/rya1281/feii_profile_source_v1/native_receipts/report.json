@@ -1,0 +1,72 @@
+{
+  "schema": "codex.bride_feii_native_receipts/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "receipt_bride_feii_broadening.py",
+    "bytes": 2730,
+    "sha256": "c6ed39f26d3a77cf3f9fe44c5dc2a21c9d19b34bb69c2817f835eaca6e58eb4e"
+  },
+  "first_resource": "experiments.bride_feii_width_source",
+  "final_resource": "experiments.bride_feii_width_final",
+  "first_status": "REJECTED_RECIPE_PARSE",
+  "final_status": "ACCEPTED_ARITHMETIC_ONLY",
+  "accepted_report": {
+    "name": "report.json",
+    "bytes": 21962,
+    "sha256": "56346eb6bcf93c96a2c6d84963447cf227adc5e26807b59d9f1dd86ded85b4f3"
+  },
+  "first_code": "9689ef23",
+  "delimiter_fix": "842ede414e49b25051710a0ec7e894deda8f26b2",
+  "first": {
+    "driver.f": {
+      "name": "driver.f",
+      "bytes": 4278,
+      "sha256": "a5bf294e415e52e4290c8671bef68a68852dee87f0dfa1ef48f93d990756af77"
+    },
+    "stdout.txt": {
+      "name": "stdout.txt",
+      "bytes": 5124,
+      "sha256": "3da926c56ff66c606b2cd9a6b5bd230008ad8f1b28953dd30f1af8e47d2b2d70"
+    },
+    "input.txt": {
+      "name": "input.txt",
+      "bytes": 113,
+      "sha256": "bf58b9ec7080ecd3904f60de4ed529b51f02fa6120f31d99546980ca01bf96f7"
+    },
+    "feii_oracle": {
+      "name": "feii_oracle",
+      "bytes": 70056,
+      "sha256": "9fc76a8c26ea89403ee215a27f1a04d836e6f9236f68989165dfc3ea6d329a56"
+    }
+  },
+  "final": {
+    "driver.f": {
+      "name": "driver.f",
+      "bytes": 4316,
+      "sha256": "e419bd3cc18ef8d31cf09d3e1b6aa8ff98433933db5075d80f73e8aafd22f361"
+    },
+    "stdout.txt": {
+      "name": "stdout.txt",
+      "bytes": 5140,
+      "sha256": "2b5487f2b397762d8dcca681d2dc5e6d152dd5659182a38f2aa5ddc39d40e661"
+    },
+    "input.txt": {
+      "name": "input.txt",
+      "bytes": 113,
+      "sha256": "bf58b9ec7080ecd3904f60de4ed529b51f02fa6120f31d99546980ca01bf96f7"
+    },
+    "feii_oracle": {
+      "name": "feii_oracle",
+      "bytes": 70056,
+      "sha256": "922c21793509e01569d5acebe19b66804003587019041bda197f106c7d766fc4"
+    }
+  },
+  "final_recipe": [
+    "W",
+    0.0,
+    0.0
+  ],
+  "native_width_records_equal": 54,
+  "input_bytes_equal": true,
+  "scope": "Raw source-derived drivers/stdout retain padding externally, never stripped or overwritten. Receipts are not rewritten native values or physical profile admission."
+}

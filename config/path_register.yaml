@@ -232,6 +232,18 @@ entries:
     env: CODEX_BRIDE_FEII_WIDTH_FINAL
     kind: dir
     desc: Accepted delimited native FeII source audit; original v1 parser refusal preserved. No opacity/adoption.
+  experiments.bride_feii_profile_final:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-profile-v2
+    env: CODEX_BRIDE_FEII_PROFILE_FINAL
+    kind: dir
+    desc: Same fixed profile metrics plus explicit shoulder structure/candidate limitations; original v1 preserved, no retuning/adoption.
+  experiments.bride_feii_width_receipts:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-receipts-v1
+    env: CODEX_BRIDE_FEII_WIDTH_RECEIPTS
+    kind: dir
+    desc: Byte-exact native padding stays external; driver/stdout/binary hashes and rejected/accepted numeric identity retained.
   experiments.bride_ng_extended:
     root: work
     rel: bride_mac_checks/rya1281-ng-extended-v1

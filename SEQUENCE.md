@@ -1,3 +1,7 @@
+## 2026-11-06 — FeII atlas profile and native broadening source
+
+- **RYA-1281** — Compare both atlases without fitted gf/width/RV; expose structured shoulders and verify native FeII pressure/Stark branches before a broadened transfer (register v217).
+
 ## 2026-11-05 — fixed-oxygen FeII transfer differential
 
 - **RYA-1281** — Replay frozen spectra exactly and isolate FeII7777.12; negligible direct O absorption but2.02-2.09mA7775continuum response, both references/RVs retained (register v216).

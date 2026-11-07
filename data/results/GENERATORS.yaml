@@ -28183,3 +28183,37 @@ artifacts:
     generator: "scripts/trace_bride_feii_anchors.py"
     invocation: "python scripts/trace_bride_feii_anchors.py --transfer <registered-feii-transfer> --analysis <registered-feii-analysis> --output <new-registered-feii-anchor-directory>"
     ticket: "RYA-1281"
+  - artifact: rya1281/feii_profile_source_v1/profile/report.json
+    generator: "scripts/compare_bride_feii_profile.py"
+    invocation: "python scripts/compare_bride_feii_profile.py --output <new-registered-feii-profile-directory>"
+    note: "Final v2 adds shoulder structure inventory; all original24metrics and PNG match v1 exactly."
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_profile_source_v1/profile/summary.csv
+    generator: "scripts/compare_bride_feii_profile.py"
+    invocation: "python scripts/compare_bride_feii_profile.py --output <new-registered-feii-profile-directory>"
+    note: "Final v2 adds shoulder structure inventory; all original24metrics and PNG match v1 exactly."
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_profile_source_v1/width_source/report.json
+    generator: "scripts/prepare_bride_feii_broadening.py"
+    invocation: "python scripts/prepare_bride_feii_broadening.py --output <new-registered-feii-width-final-directory>"
+    note: "Accepted v2 explicit recipe delimiters; original source and all54native widths unchanged."
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_profile_source_v1/width_source/widths.csv
+    generator: "scripts/prepare_bride_feii_broadening.py"
+    invocation: "python scripts/prepare_bride_feii_broadening.py --output <new-registered-feii-width-final-directory>"
+    note: "Accepted v2 explicit recipe delimiters; original source and all54native widths unchanged."
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_profile_source_v1/width_source/input.txt
+    generator: "scripts/prepare_bride_feii_broadening.py"
+    invocation: "python scripts/prepare_bride_feii_broadening.py --output <new-registered-feii-width-final-directory>"
+    note: "Accepted v2 explicit recipe delimiters; original source and all54native widths unchanged."
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_profile_source_v1/rejected_width_v1/input.txt
+    generator: "scripts/prepare_bride_feii_broadening.py"
+    invocation: "python scripts/prepare_bride_feii_broadening.py --output <new-registered-feii-width-source-directory>"
+    note: "Rejected original v1 parser output. Reproduce with historical code9689ef23, before842ede41 delimiter fix; no accepted v1 report."
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_profile_source_v1/native_receipts/report.json
+    generator: "scripts/receipt_bride_feii_broadening.py"
+    invocation: "python scripts/receipt_bride_feii_broadening.py --first <registered-feii-width-source-v1> --final <registered-feii-width-final> --output <new-registered-feii-width-receipts>"
+    ticket: "RYA-1281"
