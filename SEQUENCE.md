@@ -1,3 +1,7 @@
+## 2026-11-07 — coupled oxygen response to FeII
+
+- **RYA-1281** — Fresh canonical O solves pass independent physical-flow checks; tiny matched spectrum response at retained tolerance (v221).
+
 ## 2026-11-07 — latest RYA-1315 ORCH comparison
 
 - **RYA-1281** — Pull merged RYA1315ORCH; all48frozen continuum fits exact under actual current implementation (register v220).

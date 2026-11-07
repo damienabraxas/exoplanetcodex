@@ -238,6 +238,18 @@ entries:
     env: CODEX_BRIDE_CURRENT_ORCH
     kind: dir
     desc: Accepted actual current-ORCH continuum replay and synthetic bound canaries; no new RT or full ORCH execution.
+  experiments.bride_feii_coupled:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-coupled-v1
+    env: CODEX_BRIDE_FEII_COUPLED
+    kind: dir
+    desc: Three canonical O SE/radiation controls with natural and source-width FeII; fixed atmosphere/EOS, fresh physical rates.
+  experiments.bride_feii_coupled_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-coupled-analysis-v1
+    env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
+    kind: dir
+    desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
   experiments.bride_crossed_continuum_plot:
     root: work
     rel: bride_mac_checks/rya1281-crossed-continuum-plot-v1

@@ -28421,3 +28421,83 @@ artifacts:
     generator: "scripts/audit_bride_current_orch.py"
     invocation: "python scripts/audit_bride_current_orch.py --orch-worktree <registered-current-orch-checkout> --output <fresh-registered-current-orch-analysis>"
     ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/natural/input.json
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode natural --output <fresh-registered-feii-coupled>/natural"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/natural/report.json
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode natural --output <fresh-registered-feii-coupled>/natural"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/natural/flux.csv
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode natural --output <fresh-registered-feii-coupled>/natural"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/natural/history.jsonl
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode natural --output <fresh-registered-feii-coupled>/natural"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/natural/populations.npz
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode natural --output <fresh-registered-feii-coupled>/natural"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/natural/independent_rates.npz
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode natural --output <fresh-registered-feii-coupled>/natural"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/cowley/input.json
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode cowley --output <fresh-registered-feii-coupled>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/cowley/report.json
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode cowley --output <fresh-registered-feii-coupled>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/cowley/flux.csv
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode cowley --output <fresh-registered-feii-coupled>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/cowley/history.jsonl
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode cowley --output <fresh-registered-feii-coupled>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/cowley/populations.npz
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode cowley --output <fresh-registered-feii-coupled>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/cowley/independent_rates.npz
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode cowley --output <fresh-registered-feii-coupled>/cowley"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/provided/input.json
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode provided --output <fresh-registered-feii-coupled>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/provided/report.json
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode provided --output <fresh-registered-feii-coupled>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/provided/flux.csv
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode provided --output <fresh-registered-feii-coupled>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/provided/history.jsonl
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode provided --output <fresh-registered-feii-coupled>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/provided/populations.npz
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode provided --output <fresh-registered-feii-coupled>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/run/provided/independent_rates.npz
+    generator: "scripts/run_bride_feii_coupled.py"
+    invocation: "python scripts/run_bride_feii_coupled.py --case canonical_refined --mode provided --output <fresh-registered-feii-coupled>/provided"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/analysis/report.json
+    generator: "scripts/analyze_bride_feii_coupled.py"
+    invocation: "python scripts/analyze_bride_feii_coupled.py --source <registered-feii-coupled> --output <fresh-registered-feii-coupled-analysis>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/feii_coupled_v1/analysis/summary.csv
+    generator: "scripts/analyze_bride_feii_coupled.py"
+    invocation: "python scripts/analyze_bride_feii_coupled.py --source <registered-feii-coupled> --output <fresh-registered-feii-coupled-analysis>"
+    ticket: "RYA-1281"
