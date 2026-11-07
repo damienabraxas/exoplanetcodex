@@ -703,11 +703,15 @@ def xi_terms(prod: dict, idx: dict) -> dict:
     #: repeated here: the disposition does not depend on which route answers, and leaving a
     #: second copy on one branch is how the two routes drifted apart in the first place.
 
+    #: RYA-1315 (Ryan 11-03): the published sigma is Asplund+2021 Sect. 2.1, which has no xi
+    #: term, and no new perturb-and-re-derive legs are run. A pool the RYA-1120 campaign never
+    #: saw -- or saw at a different size -- is therefore UNMEASURED, never NOT_IN_CAMPAIGN and
+    #: never a derivative borrowed from another pool (RYA-1224/1227).
+    no_xi_leg = ("xi APPLIES to this product, but its pool was never run through the RYA-1120 "
+                 "perturb-and-re-derive campaign and, under the Asplund+2021 budget (RYA-1315), "
+                 "no new legs are run. No dA/dxi is inherited from another pool.")
     if not entries:
-        return {**base, "sigma_xi": None, "xi_state": "NOT_IN_CAMPAIGN",
-                "xi_note": ("this (ion, holding, tier, treatment) was never run through "
-                            "the RYA-1120 perturb-and-re-derive campaign, so no dA/dxi "
-                            "exists for it at any band. Not inherited from elsewhere.")}
+        return {**base, "sigma_xi": None, "xi_state": "UNMEASURED", "xi_note": no_xi_leg}
     e = entries[0]
     state = e.get("xi_state")
     if state == "NOT_APPLICABLE":
@@ -752,17 +756,10 @@ def xi_terms(prod: dict, idx: dict) -> dict:
                 "dA_dxi": e["dA_dxi"], "xi_state": "MEASURED",
                 "xi_note": (f"|dA/dxi|={abs(e['dA_dxi']):.4f} x delta_xi={DELTA_XI_KMS} "
                             f"measured on this product's own {e.get('n_paired')} paired lines")}
-    return {**base, "sigma_xi": round(abs(e["dA_dxi"]) * DELTA_XI_KMS, 6),
-            "dA_dxi": e["dA_dxi"], "xi_state": "ALIASED",
-            "xi_note": (
-                f"|dA/dxi|={abs(e['dA_dxi']):.4f} was measured on a pool of "
-                f"{e.get('n_lines')} lines; this product has {prod.get('n_lines')} "
-                f"(bands sharing that campaign key: {sorted(bands)}). The RYA-1120 run "
-                f"unit is (ion x holding x tier) with NO band, so no band-specific "
-                f"derivative exists. Published as ALIASED — the term is carried so the "
-                f"budget is not silently short, and labelled so it is not read as this "
-                f"product's own measurement. Retiring it needs a band-keyed re-run of the "
-                f"campaign (RYA-1114 F2).")}
+    return {**base, "sigma_xi": None, "xi_state": "UNMEASURED",
+            "xi_note": (f"the RYA-1120 campaign measured dA/dxi on a pool of {e.get('n_lines')} "
+                        f"lines; this product has {prod.get('n_lines')}, so that derivative is "
+                        f"not this product's and is not borrowed (RYA-1224). " + no_xi_leg)}
 
 
 def ir_dispersion(prod: dict) -> dict | None:

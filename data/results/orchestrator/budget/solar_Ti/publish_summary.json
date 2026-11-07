@@ -1,0 +1,128 @@
+{
+ "star": "solar",
+ "element": "Ti",
+ "units": [
+  "I near-UV solar_kpno_kurucz2005_corrected gerber-mean3d codex",
+  "I near-UV solar_kpno_kurucz2005_corrected gerber-mean3d reference",
+  "I near-UV solar_kpno_kurucz2005_corrected gerber-mean3d-lte codex",
+  "I near-UV solar_kpno_kurucz2005_corrected gerber-mean3d-lte reference",
+  "I near-UV solar_kpno_molecfit_corrected gerber-mean3d codex",
+  "I near-UV solar_kpno_molecfit_corrected gerber-mean3d reference",
+  "I near-UV solar_kpno_molecfit_corrected gerber-mean3d-lte codex",
+  "I near-UV solar_kpno_molecfit_corrected gerber-mean3d-lte reference"
+ ],
+ "dropped": [
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected REFERENCE ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected REFERENCE ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected REFERENCE ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected REFERENCE ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  }
+ ],
+ "published": [
+  "near-UV solar_kpno_kurucz2005_corrected GRADED synth-mean3D-NLTE-gerber-stagger A=5.455",
+  "near-UV solar_kpno_kurucz2005_corrected REFERENCE synth-mean3D-NLTE-gerber-stagger A=5.506",
+  "near-UV solar_kpno_kurucz2005_corrected GRADED synth-mean3D-LTE-gerber-stagger A=5.348",
+  "near-UV solar_kpno_kurucz2005_corrected REFERENCE synth-mean3D-LTE-gerber-stagger A=5.459",
+  "near-UV solar_kpno_molecfit_corrected GRADED synth-mean3D-NLTE-gerber-stagger A=5.233",
+  "near-UV solar_kpno_molecfit_corrected REFERENCE synth-mean3D-NLTE-gerber-stagger A=5.28",
+  "near-UV solar_kpno_molecfit_corrected GRADED synth-mean3D-LTE-gerber-stagger A=5.186",
+  "near-UV solar_kpno_molecfit_corrected REFERENCE synth-mean3D-LTE-gerber-stagger A=5.164"
+ ],
+ "held": [],
+ "legs_incomplete": [],
+ "withdrawn": [],
+ "scope": {
+  "ions": [
+   "I"
+  ],
+  "bands": [
+   "near-UV"
+  ],
+  "engines": [
+   "gerber-mean3d",
+   "gerber-mean3d-lte"
+  ]
+ },
+ "preserved": [],
+ "verdict": {
+  "element_verdict": "REVIEW",
+  "benchmark": true,
+  "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
+  "n_products_judged": 342,
+  "counts": {
+   "IN_BAND": 101,
+   "OUT_OF_BAND": 241,
+   "NO_REFERENCE": 0,
+   "REPORTED": 0
+  },
+  "n_scale_mismatch": 342
+ },
+ "coverage": {
+  "counts": {
+   "PUBLISHED": 8,
+   "HELD": 260,
+   "NOT_RUN": 175,
+   "STALE": 334
+  },
+  "done": false
+ }
+}

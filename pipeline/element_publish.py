@@ -394,6 +394,14 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]
+        # RYA-1315: a SET-* product replicating a published analysis carries that analysis's
+        # line_set (SOURCES.yaml reference_lineset), and the budget's scope key was built with
+        # it (rya1230_cno_budget). Without it the product keys as our-all and every Fe II
+        # HARPS SET product quarantined "uncertainty belongs to a different ... pool".
+        from pipeline.line_sets import reference_lineset_for_selector
+        ls = reference_lineset_for_selector(o.get("selector"))
+        if ls:
+            cmd += ["--line-set", ls]
         cond = _observed_conditioning(o)
         if cond:
             # RYA-1176: Al publishing requires the observed-conditioning identity, read from

@@ -160,6 +160,8 @@ def test_CANARY_near_uv_fe_i_renders_synth_not_ew():
 def test_CANARY_the_real_near_uv_artifact_on_disk_resolves_to_synth():
     """The canary against the committed artifact, not a hand-built argument."""
     hits = []
+    #: RYA-1315: Ti near-UV stage artifacts carry per-line provenance cells over csv's 128 KiB default
+    csv.field_size_limit(2**31 - 1)
     for f in _committed_csvs():
         if "3000_3780" not in f.name or "products" not in f.name:
             continue
