@@ -687,7 +687,13 @@ def main() -> int:
                 if "uncertainty" not in _df.columns:
                     return False
                 _u = json.loads(_df["uncertainty"].iloc[0])
-                return any(c.get("name") == "transition_data" and c.get("state") == "MEASURED"
+                #: RYA-1315: an Asplund budget records transition_data N/A when a line has no
+                #: published gf sigma (atomic data is not in Asplund+2021's sigma), so no gf
+                #: placeholder reaches the published sigma either.
+                return any(c.get("name") == "transition_data" and (
+                               c.get("state") == "MEASURED"
+                               or (c.get("state") == "N/A"
+                                   and (c.get("evidence") or {}).get("asplund_budget") is True))
                            for c in _u.get("components", []))
             except Exception:                                              # noqa: BLE001
                 return False

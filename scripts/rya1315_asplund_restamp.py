@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -31,9 +32,10 @@ from pipeline.uncertainty_contract import assemble  # noqa: E402
 from pipeline.asplund_atmosphere import scott_atmosphere  # noqa: E402
 
 _GF = pd.read_csv(ROOT / "data/linelists/canonical_gf.csv", low_memory=False,
-                  usecols=["physical_id", "wavelength_air_A"])
+                  usecols=["physical_id", "species", "wavelength_air_A"])
 SOURCE = ("Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the "
-          "mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II")
+          "mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (atomic C/N/O: Asplund+2021 "
+          "Table 3)")
 
 
 def restamp(product: dict, element: str) -> str | None:
@@ -42,11 +44,20 @@ def restamp(product: dict, element: str) -> str | None:
     if not u:
         return "legacy row (no budget)"
     ids = set(product.get("uncertainty_indicator_ids") or [])
+    ion = str(product.get("ion") or "").strip()
     pool = _GF[_GF.physical_id.isin(ids)].drop_duplicates("physical_id")
-    if not ids or len(pool) != len(ids):
+    waves = pool["wavelength_air_A"].astype(float).round(3).tolist()
+    # a single-line ATOM-/FORB- product's id is its fit window (e.g. FORB-OI_6300); the selector
+    # names the line, which is the species' canonical_gf row nearest it (within 1 A)
+    one = re.fullmatch(r"(?:ATOM|FORB)-[A-Z][a-z]?I+_(\d{4,5})", str(product.get("selector") or ""))
+    if one and len(ids) == 1 and pool.empty:
+        g = _GF[_GF.species == f"{element} {ion}"]
+        near = g.loc[(g.wavelength_air_A - float(one.group(1))).abs() <= 1.0, "wavelength_air_A"]
+        if len(near):
+            waves = [round(float(min(near, key=lambda w: abs(w - float(one.group(1))))), 3)]
+    if not ids or len(waves) != len(ids):
         return f"pool ids not all in canonical_gf ({len(pool)}/{len(ids)})"
-    scott = scott_atmosphere(element, str(product.get("ion") or "").strip(),
-                             pool["wavelength_air_A"].astype(float).round(3))
+    scott = scott_atmosphere(element, ion, waves)
     if scott is None:
         return "species not in Scott+2015"
     comps = [dict(c) for c in u["components"] if c["name"] != "model_atmosphere"]
