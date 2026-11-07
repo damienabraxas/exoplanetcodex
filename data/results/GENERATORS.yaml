@@ -28501,3 +28501,27 @@ artifacts:
     generator: "scripts/analyze_bride_feii_coupled.py"
     invocation: "python scripts/analyze_bride_feii_coupled.py --source <registered-feii-coupled> --output <fresh-registered-feii-coupled-analysis>"
     ticket: "RYA-1281"
+  - artifact: rya1281/missing_opacity_v1/report.json
+    generator: "scripts/audit_bride_missing_opacity.py"
+    invocation: "python scripts/audit_bride_missing_opacity.py --output <fresh-registered-missing-opacity>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/missing_opacity_v1/molecular_rows.csv
+    generator: "scripts/audit_bride_missing_opacity.py"
+    invocation: "python scripts/audit_bride_missing_opacity.py --output <fresh-registered-missing-opacity>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/missing_opacity_v1/geometry.csv
+    generator: "scripts/audit_bride_missing_opacity.py"
+    invocation: "python scripts/audit_bride_missing_opacity.py --output <fresh-registered-missing-opacity>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/missing_opacity_v1/atomic_ranks.csv
+    generator: "scripts/audit_bride_missing_opacity.py"
+    invocation: "python scripts/audit_bride_missing_opacity.py --output <fresh-registered-missing-opacity>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/missing_opacity_v1/co_source/report.json
+    generator: "scripts/audit_bride_co_source.py"
+    invocation: "python scripts/audit_bride_co_source.py --output <fresh-registered-co-source>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/missing_opacity_v1/co_source/rows.csv
+    generator: "scripts/audit_bride_co_source.py"
+    invocation: "python scripts/audit_bride_co_source.py --output <fresh-registered-co-source>"
+    ticket: "RYA-1281"

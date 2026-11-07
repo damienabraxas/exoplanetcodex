@@ -121,7 +121,7 @@ rerun or claimed anew; no changed shared solver kernel. No new bug or silent
 fallback discovered; prior ledger dispositions retained.
 
 Latest origin fetch unchanged at main de96ae51. Fresh library audit retains
-195documents/127accounted/68unindexed/12off-Mac declarations, exit1. No new claim
+196documents/127accounted/69unindexed/12off-Mac declarations, exit1. No new claim
 depends on unidentified literature. Existing global-ledger RYA587blank science
 impact/tracker/gold/refinement debts retained. Statev221/SEQUENCE record this
 restricted coupled check, not scientific admission. No Sirius/CI/benchmark,
@@ -151,3 +151,5 @@ abundance/reference star; broader xi/T/g/composition interactions, full source/E
 independent-reference closure and actual adaptive3D/all-band grids remain OPEN.
 RYA1281 In Progress/RYA1278 In Review, draftPR598; no adoption/default/product/
 production/merge/publication change.
+
+Correction in the following omitted-opacity checkpoint: saved coupled-library audit actually records196documents/69unindexed. Earlier195/68was carried forward from the prior phase, not read from this phase log. Corrected here and in the new Linear handoff; no spectrum/rate/physics artifact changed.

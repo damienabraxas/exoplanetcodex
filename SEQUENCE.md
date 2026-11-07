@@ -1,3 +1,7 @@
+## 2026-11-07 — omitted CNO opacity source census
+
+- **RYA-1281** — Account for651held molecular source rows and rank omitted atomic candidates; strengths/source qualification remain open (v222).
+
 ## 2026-11-07 — coupled oxygen response to FeII
 
 - **RYA-1281** — Fresh canonical O solves pass independent physical-flow checks; tiny matched spectrum response at retained tolerance (v221).
