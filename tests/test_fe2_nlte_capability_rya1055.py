@@ -342,7 +342,9 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: 30 -> 54 (RYA-1232): the Asplund-set run adds 24 Fe II products (8 holdings x 1D-LTE,
     #: Gerber 1D-LTE, mean-3D LTE); every one carries the limit, which the EQUALITY asserts.
     #: 54 -> 56: + near-UV Fe II mean-3D LTE on the lab Reference pool (2 holdings)
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 56
+    #: 56 -> 55 (RYA-1349): the feed carries 55 Fe II products since RYA-1315 (v1.577); the
+    #: committed audit already said 55 and this pin failed on main.
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 55
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     #: 🔴 `II == 0` IS THE FINDING; THE Fe I COUNT IS NOT. This was pinned to
     #: `{"I": 159, "II": 0}`, and the Fe I literal tracked the SIZE of
