@@ -10,6 +10,13 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-11-07 — RYA-1315 landed; pending RYA-1311 IR branch
+
+> **Current as of `main` 459f5614** (2026-11-07, RYA-1315 #608).
+
+- **RYA-1315** — `459f5614` PR #608: Na on the fixed HARPS continuum; atomic C/N/O error bars on Asplund's own 3D terms (see the pending entry below for detail).
+- **RYA-1311** (pending, branch `ryandamienschmitt/rya-1311-ca-ir-graded`) — Y/J Ca graded with Elgueta et al. 2024 (Cepheid-calibrated gf, Codex Grade E2024-ASTRO); ENGINE-A now reads the PySME table element_prepare extends when the registered grid lacks the line (`bd3635fe`; Ca was Mashonkina-only, 8 lines): HARPS VIS REFERENCE ENGINE-A 6.322 (12 lines) -> 6.352 (45); new KP NIR / CRIRES+ J Ca I ENGINE-A 6.411 / 6.502. Scoped publish 48/0 held; headline 6.405 unchanged. H/K Ca: no non-solar-tuned graded gf -> gap.
+
 ## 2026-11-06 — pending RYA-1315 branch (Na + C/N/O)
 
 - **RYA-1315** (pending, branch `ryandamienschmitt/rya-1315-solar-ti-orchestrator-ti-i-primary-selective-ti-ii`) — Na HARPS VIS Na I re-measured on the fixed continuum (GRADED 1D-LTE 6.370 -> 6.283; AGSS21 set A unchanged, sigma 0.11 -> 0.05); atomic C/N/O model_atmosphere = Asplund+2021 Table 3 <3D>-HM and 3D-<3D> halves (C 57 / N 9 / O 28 products, median dsigma -0.007/+0.007/-0.009, A unchanged); a pool line without a published gf sigma no longer holds an Asplund-budget product (`4a4a21d0`); Engine-B <3D> probe for abundance-axis decks (Ti@mean3D). HM74 model table (Cowley & Castelli 2002) staged as reference data. Fe, Ti and Na Deep follow.

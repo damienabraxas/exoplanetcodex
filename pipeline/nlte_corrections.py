@@ -737,6 +737,61 @@ def _mpia_element_delta(element: str, wave_A: float, teff: float, logg: float,
     return d
 
 
+def engine_a_extension_table(element: str):
+    """The element's PySME table `element_prepare` EXTENDS for lines its registered grid
+    lacks, when that is a different file from the registered grid; else None.
+
+    RYA-1311: Ca is registered on Mashonkina 2017 (8 optical lines), while prepare derives
+    the Y/J lines into Ca_Amarsi2020_PySME.csv. Derive read only the registered grid, so
+    every IR ENGINE-A product came out "not served" although prepare had served it."""
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    from pipeline.element_prepare import engine_a_table
+    spec = NLTE_CORRECTION_ELEMENTS.get(element)
+    if spec is None:
+        return None
+    table = engine_a_table(element)
+    if table.name == spec['grid'] or not table.exists():
+        return None
+    return table
+
+
+def extension_element_delta(element: str, wave_A: float, teff: float, logg: float,
+                            feh: float, tol: float = 0.06, ion=None) -> float:
+    """delta_nlte from `engine_a_extension_table`, interpolated exactly as the registered
+    grid is; NaN when there is no such table, no line within `tol`, no stage, or out of
+    hull. Called only for a line the registered grid does not serve."""
+    table = engine_a_extension_table(element)
+    if table is None:
+        return np.nan
+    stage = int(parse_ion(ion)) if ion is not None else None
+    ckey = ('extension', element, stage)
+    if ckey not in _mpia_element_cache:
+        from scipy.interpolate import LinearNDInterpolator
+        df = pd.read_csv(table)
+        if stage is not None and 'ion' in df.columns:
+            df = df[df['ion'].map(parse_ion) == stage]
+        placeholders = detect_placeholder_zero_lines(df)
+        if placeholders:
+            raise ValueError(f"[PLACEHOLDER_ZERO] {table.name}: {placeholders} (RYA-413)")
+        df = df[df['delta_nlte'].notna()]
+        interp = {}
+        for wave, g in df.groupby('wave_A'):
+            if len(g) >= 4:
+                try:
+                    interp[round(float(wave), 3)] = LinearNDInterpolator(
+                        g[['teff_K', 'logg', 'feh']].values, g['delta_nlte'].values)
+                except Exception:
+                    continue
+        _mpia_element_cache[ckey] = {'interp': interp, 'waves': np.array(sorted(interp))}
+    c = _mpia_element_cache[ckey]
+    if len(c['waves']) == 0:
+        return np.nan
+    j = int(np.abs(c['waves'] - wave_A).argmin())
+    if abs(float(c['waves'][j]) - wave_A) > tol:
+        return np.nan
+    return float(c['interp'][float(c['waves'][j])]([[teff, logg, feh]])[0])
+
+
 def element_grid_in_bounds(element: str, teff: float, logg: float, feh: float,
                            ion=None) -> bool:
     """Preflight: is (teff,logg,feh) inside the element's MPIA grid box?"""
