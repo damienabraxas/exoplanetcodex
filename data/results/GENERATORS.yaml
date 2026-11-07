@@ -28525,3 +28525,155 @@ artifacts:
     generator: "scripts/audit_bride_co_source.py"
     invocation: "python scripts/audit_bride_co_source.py --output <fresh-registered-co-source>"
     ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/build_report.json
+    generator: "scripts/build_bride_native_lte.py"
+    invocation: "python scripts/build_bride_native_lte.py --output <fresh-native-build>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/input.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/off/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/off/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/off/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/all/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/all/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/all/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/CH/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/CH/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/CH/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/CN/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/CN/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/CN/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/C2/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/C2/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/C2/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/NH/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/NH/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/NH/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/OH/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/OH/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/OH/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/off_refined/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/off_refined/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/off_refined/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/all_refined/input.txt
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/all_refined/report.json
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/run/all_refined/flux.csv
+    generator: "scripts/run_bride_native_molecules.py"
+    invocation: "python scripts/run_bride_native_molecules.py --build <native-build> --orch-worktree <current-orch-checkout> --output <fresh-native-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/analysis/report.json
+    generator: "scripts/analyze_bride_native_molecules.py"
+    invocation: "python scripts/analyze_bride_native_molecules.py --source <native-run> --output <fresh-native-analysis>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/analysis/intrinsic.csv
+    generator: "scripts/analyze_bride_native_molecules.py"
+    invocation: "python scripts/analyze_bride_native_molecules.py --source <native-run> --output <fresh-native-analysis>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/analysis/continuum.csv
+    generator: "scripts/analyze_bride_native_molecules.py"
+    invocation: "python scripts/analyze_bride_native_molecules.py --source <native-run> --output <fresh-native-analysis>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/trace/report.json
+    generator: "scripts/trace_bride_native_molecules.py"
+    invocation: "python scripts/trace_bride_native_molecules.py --source <native-run> --analysis <native-analysis> --output <fresh-native-trace>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/plot/report.json
+    generator: "scripts/plot_bride_native_molecules.py"
+    invocation: "python scripts/plot_bride_native_molecules.py --source <native-run> --analysis <native-analysis> --output <fresh-native-plot>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/plot/profiles.png
+    generator: "scripts/plot_bride_native_molecules.py"
+    invocation: "python scripts/plot_bride_native_molecules.py --source <native-run> --analysis <native-analysis> --output <fresh-native-plot>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/receipts/report.json
+    generator: "scripts/receipt_bride_native_molecules.py"
+    invocation: "python scripts/receipt_bride_native_molecules.py --source <native-run> --build <native-build> --failed-build <failed-build> --failed-run <failed-run> --output <fresh-native-receipts>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/native_molecules_v1/repeat/report.json
+    generator: "scripts/repeat_bride_native_molecules.py"
+    invocation: "python scripts/repeat_bride_native_molecules.py --source <native-run> --build <native-build> --output <fresh-native-repeat>"
+    ticket: "RYA-1281"

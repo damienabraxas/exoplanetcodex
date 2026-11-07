@@ -1,3 +1,7 @@
+## 2026-11-07 — native LTE molecular controls
+
+- **RYA-1281** — Nine molecular-family controls identify CN sensitivity and continuum-support changes; source qualification before Bride insertion, HOLD (v223).
+
 ## 2026-11-07 — omitted CNO opacity source census
 
 - **RYA-1281** — Account for651held molecular source rows and rank omitted atomic candidates; strengths/source qualification remain open (v222).

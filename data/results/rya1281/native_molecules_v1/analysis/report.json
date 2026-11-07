@@ -1,0 +1,2044 @@
+{
+  "schema": "codex.bride_native_molecule_analysis/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_native_molecules.py",
+    "bytes": 7859,
+    "sha256": "a58561b65a30f4e7ecef5a811f4a834bcad2ca370db40127c21681cd9ae41e18"
+  },
+  "source": {
+    "name": "report.json",
+    "bytes": 21601,
+    "sha256": "f8ba99b48b9fcf3e02f79ed9fe4ba26af0e24fe653eacd2da32c6f47206308a1"
+  },
+  "current_orch": {
+    "name": "local_continuum.py",
+    "bytes": 22974,
+    "sha256": "72ea567d378c7995c4372a9c277a0c8fe60ad20596b83dc8f5c5f30628eec6fc"
+  },
+  "comparison": {
+    "name": "report.json",
+    "bytes": 31834,
+    "sha256": "e30ee9d666e1102ddd0d441cb44aad4959f26c49bc0474cb9754b1da9f0c1511"
+  },
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "iag": {
+    "name": "iag_telfree_solaratlas.fits",
+    "bytes": 11658240,
+    "sha256": "2ddd21b78582a7cb2efaf32ff41c98696c941cacf1a8de4cae5a4cd9d0794546"
+  },
+  "intrinsic": [
+    {
+      "case": "off",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.5719630000012,
+      "off_area_mA": 61.5719630000012,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "off",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.432855000000544,
+      "off_area_mA": 52.432855000000544,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "off",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.3428279999993,
+      "off_area_mA": 41.3428279999993,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "all",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.65665500000091,
+      "off_area_mA": 61.5719630000012,
+      "delta_mA": 0.08469199999971266,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010809999999999986
+    },
+    {
+      "case": "all",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.75010500000053,
+      "off_area_mA": 52.432855000000544,
+      "delta_mA": 0.31724999999998715,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010809999999999986
+    },
+    {
+      "case": "all",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.80833299999921,
+      "off_area_mA": 41.3428279999993,
+      "delta_mA": 0.4655049999999079,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010809999999999986
+    },
+    {
+      "case": "CH",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.5719630000012,
+      "off_area_mA": 61.5719630000012,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 1.0000000000065512e-05
+    },
+    {
+      "case": "CH",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.432855000000544,
+      "off_area_mA": 52.432855000000544,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 1.0000000000065512e-05
+    },
+    {
+      "case": "CH",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.3428279999993,
+      "off_area_mA": 41.3428279999993,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 1.0000000000065512e-05
+    },
+    {
+      "case": "CN",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.65660500000092,
+      "off_area_mA": 61.5719630000012,
+      "delta_mA": 0.08464199999972521,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010809999999999986
+    },
+    {
+      "case": "CN",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.75010500000053,
+      "off_area_mA": 52.432855000000544,
+      "delta_mA": 0.31724999999998715,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010809999999999986
+    },
+    {
+      "case": "CN",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.80638299999921,
+      "off_area_mA": 41.3428279999993,
+      "delta_mA": 0.4635549999999071,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010809999999999986
+    },
+    {
+      "case": "C2",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.5719630000012,
+      "off_area_mA": 61.5719630000012,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 3.0000000000085514e-05
+    },
+    {
+      "case": "C2",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.432855000000544,
+      "off_area_mA": 52.432855000000544,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 3.0000000000085514e-05
+    },
+    {
+      "case": "C2",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.34467799999931,
+      "off_area_mA": 41.3428279999993,
+      "delta_mA": 0.0018500000000116756,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 3.0000000000085514e-05
+    },
+    {
+      "case": "NH",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.5719630000012,
+      "off_area_mA": 61.5719630000012,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "NH",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.432855000000544,
+      "off_area_mA": 52.432855000000544,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "NH",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.3428279999993,
+      "off_area_mA": 41.3428279999993,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "OH",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.5719630000012,
+      "off_area_mA": 61.5719630000012,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 1.0000000000065512e-05
+    },
+    {
+      "case": "OH",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.432855000000544,
+      "off_area_mA": 52.432855000000544,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 1.0000000000065512e-05
+    },
+    {
+      "case": "OH",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.3428279999993,
+      "off_area_mA": 41.3428279999993,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 1.0000000000065512e-05
+    },
+    {
+      "case": "off_refined",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.571159999999864,
+      "off_area_mA": 61.571159999999864,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "off_refined",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.43251000000131,
+      "off_area_mA": 52.43251000000131,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "off_refined",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.341970000001936,
+      "off_area_mA": 41.341970000001936,
+      "delta_mA": 0.0,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.0
+    },
+    {
+      "case": "all_refined",
+      "centre_air_A": 7771.944,
+      "area_mA": 61.65561999999965,
+      "off_area_mA": 61.571159999999864,
+      "delta_mA": 0.08445999999978682,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010820000000000052
+    },
+    {
+      "case": "all_refined",
+      "centre_air_A": 7774.166,
+      "area_mA": 52.749330000001336,
+      "off_area_mA": 52.43251000000131,
+      "delta_mA": 0.3168200000000283,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010820000000000052
+    },
+    {
+      "case": "all_refined",
+      "centre_air_A": 7775.388,
+      "area_mA": 41.80741000000193,
+      "off_area_mA": 41.341970000001936,
+      "delta_mA": 0.46543999999999386,
+      "paired_native_rounding_area_bound_mA": 0.01,
+      "max_full_region_flux_delta": 0.010820000000000052
+    }
+  ],
+  "refinement": [
+    {
+      "centre_air_A": 7771.944,
+      "coarse_delta_mA": 0.08469199999971266,
+      "fine_delta_mA": 0.08445999999978682,
+      "difference_mA": -0.00023199999992584708,
+      "sum_family_deltas_mA": 0.08464199999972521,
+      "all_minus_family_sum_mA": 4.999999998744897e-05,
+      "caveat": "Overlap and native cutoff/rounding can contribute; family effects are not independent uncertainty terms."
+    },
+    {
+      "centre_air_A": 7774.166,
+      "coarse_delta_mA": 0.31724999999998715,
+      "fine_delta_mA": 0.3168200000000283,
+      "difference_mA": -0.0004299999999588522,
+      "sum_family_deltas_mA": 0.31724999999998715,
+      "all_minus_family_sum_mA": 0.0,
+      "caveat": "Overlap and native cutoff/rounding can contribute; family effects are not independent uncertainty terms."
+    },
+    {
+      "centre_air_A": 7775.388,
+      "coarse_delta_mA": 0.4655049999999079,
+      "fine_delta_mA": 0.46543999999999386,
+      "difference_mA": -6.499999991405048e-05,
+      "sum_family_deltas_mA": 0.4654049999999188,
+      "all_minus_family_sum_mA": 9.99999999891088e-05,
+      "caveat": "Overlap and native cutoff/rounding can contribute; family effects are not independent uncertainty terms."
+    }
+  ],
+  "continuum": [
+    {
+      "case": "off",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9912258129284139,
+        "slope_per_A": -0.0012468165604215939,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.39229327741381,
+      "model_area_mA": 61.54808505998286
+    },
+    {
+      "case": "off",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.54808505998286
+    },
+    {
+      "case": "off",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982045496288656,
+        "slope_per_A": 0.0002825184420317695,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52234719789945,
+      "model_area_mA": 52.41394202224331
+    },
+    {
+      "case": "off",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.41394202224331
+    },
+    {
+      "case": "off",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9947992981990896,
+        "slope_per_A": -0.00043337766331715043,
+        "n_bins": 72,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.84786790655298,
+      "model_area_mA": 41.33536752578155
+    },
+    {
+      "case": "off",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.33536752578155
+    },
+    {
+      "case": "off",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9915856953002579,
+        "slope_per_A": -0.0011588866439131557,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.72997372480526,
+      "model_area_mA": 61.55303879374235
+    },
+    {
+      "case": "off",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.55303879374235
+    },
+    {
+      "case": "off",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982094137973392,
+        "slope_per_A": 0.000284259534910025,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52689931209356,
+      "model_area_mA": 52.40617685776158
+    },
+    {
+      "case": "off",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.40617685776158
+    },
+    {
+      "case": "off",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9943882234354847,
+        "slope_per_A": -0.00031227395886081194,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.45460727947788,
+      "model_area_mA": 41.34394076342322
+    },
+    {
+      "case": "off",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.34394076342322
+    },
+    {
+      "case": "all",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9987020667480002,
+        "slope_per_A": 0.00039846184321819624,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 76.35727491121128,
+      "model_area_mA": 61.66644170489691
+    },
+    {
+      "case": "all",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.66644170489691
+    },
+    {
+      "case": "all",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9971856070127812,
+        "slope_per_A": -6.212507497180923e-05,
+        "n_bins": 75,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 64.56776760066802,
+      "model_area_mA": 52.73113509324954
+    },
+    {
+      "case": "all",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.73113509324954
+    },
+    {
+      "case": "all",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9968393773218023,
+        "slope_per_A": 0.00010573960252065183,
+        "n_bins": 76,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 50.79416300798051,
+      "model_area_mA": 41.80031938887455
+    },
+    {
+      "case": "all",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.80031938887455
+    },
+    {
+      "case": "all",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9987053208022492,
+        "slope_per_A": 0.0004029042823450799,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 76.3602797057581,
+      "model_area_mA": 61.69121277469838
+    },
+    {
+      "case": "all",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.69121277469838
+    },
+    {
+      "case": "all",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9974504456841038,
+        "slope_per_A": -8.534281284655887e-05,
+        "n_bins": 61,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 64.81615807941489,
+      "model_area_mA": 52.723389925664094
+    },
+    {
+      "case": "all",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.723389925664094
+    },
+    {
+      "case": "all",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9968192290148813,
+        "slope_per_A": 0.00013797307033775602,
+        "n_bins": 76,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 50.77495866874215,
+      "model_area_mA": 41.80914566022254
+    },
+    {
+      "case": "all",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.80914566022254
+    },
+    {
+      "case": "CH",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9912258129284244,
+        "slope_per_A": -0.0012468165604191436,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.39229327742359,
+      "model_area_mA": 61.54808505998287
+    },
+    {
+      "case": "CH",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.54808505998287
+    },
+    {
+      "case": "CH",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982043574286626,
+        "slope_per_A": 0.0002824710033269828,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52216730875962,
+      "model_area_mA": 52.41394202224328
+    },
+    {
+      "case": "CH",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.41394202224328
+    },
+    {
+      "case": "CH",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9947992981990896,
+        "slope_per_A": -0.00043337766331715043,
+        "n_bins": 72,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.84786790655298,
+      "model_area_mA": 41.33536752578156
+    },
+    {
+      "case": "CH",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.33536752578156
+    },
+    {
+      "case": "CH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9915856953002632,
+        "slope_per_A": -0.001158886643911974,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.72997372481025,
+      "model_area_mA": 61.55303879374237
+    },
+    {
+      "case": "CH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.55303879374237
+    },
+    {
+      "case": "CH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982092877030165,
+        "slope_per_A": 0.00028422817051319956,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52678129590687,
+      "model_area_mA": 52.40617685776156
+    },
+    {
+      "case": "CH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.40617685776156
+    },
+    {
+      "case": "CH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9943882234354847,
+        "slope_per_A": -0.00031227395886081194,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.45460727947788,
+      "model_area_mA": 41.34394076342323
+    },
+    {
+      "case": "CH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.34394076342323
+    },
+    {
+      "case": "CN",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9987021036595299,
+        "slope_per_A": 0.00039847337871949597,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 76.35730903643392,
+      "model_area_mA": 61.666390686519314
+    },
+    {
+      "case": "CN",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.666390686519314
+    },
+    {
+      "case": "CN",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9971850165444153,
+        "slope_per_A": -6.2068366254466e-05,
+        "n_bins": 75,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 64.56721365270556,
+      "model_area_mA": 52.73113494292733
+    },
+    {
+      "case": "CN",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.73113494292733
+    },
+    {
+      "case": "CN",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9968383437377748,
+        "slope_per_A": 0.0001065926215806669,
+        "n_bins": 76,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 50.79317832698103,
+      "model_area_mA": 41.798379066131275
+    },
+    {
+      "case": "CN",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.798379066131275
+    },
+    {
+      "case": "CN",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9987053653831243,
+        "slope_per_A": 0.000402917775977349,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 76.36032092158155,
+      "model_area_mA": 61.69116064161364
+    },
+    {
+      "case": "CN",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.69116064161364
+    },
+    {
+      "case": "CN",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9974594657828818,
+        "slope_per_A": -8.63640885293541e-05,
+        "n_bins": 60,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 64.8246158317477,
+      "model_area_mA": 52.72338959531519
+    },
+    {
+      "case": "CN",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.72338959531519
+    },
+    {
+      "case": "CN",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9968182708142447,
+        "slope_per_A": 0.00013873856865411556,
+        "n_bins": 76,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 50.77404577786922,
+      "model_area_mA": 41.8072006228829
+    },
+    {
+      "case": "CN",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.8072006228829
+    },
+    {
+      "case": "C2",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9912257839418285,
+        "slope_per_A": -0.0012468245639014328,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.39226606987886,
+      "model_area_mA": 61.54808607249962
+    },
+    {
+      "case": "C2",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.54808607249962
+    },
+    {
+      "case": "C2",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982045501479001,
+        "slope_per_A": 0.000282518551847037,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.5223476837037,
+      "model_area_mA": 52.413942022254346
+    },
+    {
+      "case": "C2",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.413942022254346
+    },
+    {
+      "case": "C2",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9944061423190654,
+        "slope_per_A": -0.0003293023470617962,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.471762340137616,
+      "model_area_mA": 41.33720998881977
+    },
+    {
+      "case": "C2",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.33720998881977
+    },
+    {
+      "case": "C2",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.991585663830544,
+        "slope_per_A": -0.0011588953356032738,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.72994420810815,
+      "model_area_mA": 61.55304100961517
+    },
+    {
+      "case": "C2",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.55304100961517
+    },
+    {
+      "case": "C2",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982094139767551,
+        "slope_per_A": 0.00028425957287254045,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52689948002107,
+      "model_area_mA": 52.40617685776431
+    },
+    {
+      "case": "C2",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.40617685776431
+    },
+    {
+      "case": "C2",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9944028508479921,
+        "slope_per_A": -0.0003143127492149181,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.46860528969549,
+      "model_area_mA": 41.34578691464873
+    },
+    {
+      "case": "C2",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.34578691464873
+    },
+    {
+      "case": "NH",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9912258129284139,
+        "slope_per_A": -0.0012468165604215939,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.39229327741381,
+      "model_area_mA": 61.54808505998286
+    },
+    {
+      "case": "NH",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.54808505998286
+    },
+    {
+      "case": "NH",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982045496288656,
+        "slope_per_A": 0.0002825184420317695,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52234719789945,
+      "model_area_mA": 52.41394202224331
+    },
+    {
+      "case": "NH",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.41394202224331
+    },
+    {
+      "case": "NH",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9947992981990896,
+        "slope_per_A": -0.00043337766331715043,
+        "n_bins": 72,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.84786790655298,
+      "model_area_mA": 41.33536752578155
+    },
+    {
+      "case": "NH",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.33536752578155
+    },
+    {
+      "case": "NH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9915856953002579,
+        "slope_per_A": -0.0011588866439131557,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.72997372480526,
+      "model_area_mA": 61.55303879374235
+    },
+    {
+      "case": "NH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.55303879374235
+    },
+    {
+      "case": "NH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982094137973392,
+        "slope_per_A": 0.000284259534910025,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52689931209356,
+      "model_area_mA": 52.40617685776158
+    },
+    {
+      "case": "NH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.40617685776158
+    },
+    {
+      "case": "NH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9943882234354847,
+        "slope_per_A": -0.00031227395886081194,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.45460727947788,
+      "model_area_mA": 41.34394076342322
+    },
+    {
+      "case": "NH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.34394076342322
+    },
+    {
+      "case": "OH",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9912258129284139,
+        "slope_per_A": -0.0012468165604215939,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.39229327741381,
+      "model_area_mA": 61.54808505998285
+    },
+    {
+      "case": "OH",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.54808505998285
+    },
+    {
+      "case": "OH",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982045995026901,
+        "slope_per_A": 0.0002825289848538906,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52239387864743,
+      "model_area_mA": 52.413942172549476
+    },
+    {
+      "case": "OH",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.413942172549476
+    },
+    {
+      "case": "OH",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9947992982149061,
+        "slope_per_A": -0.0004333776726179181,
+        "n_bins": 72,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.84786792167996,
+      "model_area_mA": 41.33536752578156
+    },
+    {
+      "case": "OH",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.33536752578156
+    },
+    {
+      "case": "OH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9915856953002579,
+        "slope_per_A": -0.0011588866439131557,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.72997372480526,
+      "model_area_mA": 61.553038793742346
+    },
+    {
+      "case": "OH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.553038793742346
+    },
+    {
+      "case": "OH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982094403161622,
+        "slope_per_A": 0.0002842651415452723,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52692413285594,
+      "model_area_mA": 52.40617718810651
+    },
+    {
+      "case": "OH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.40617718810651
+    },
+    {
+      "case": "OH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9943882234453273,
+        "slope_per_A": -0.000312273964898276,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.454607288899425,
+      "model_area_mA": 41.343940763423234
+    },
+    {
+      "case": "OH",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.343940763423234
+    },
+    {
+      "case": "off_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9912248179053416,
+        "slope_per_A": -0.001246970645107458,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.39135922710398,
+      "model_area_mA": 61.547376365968574
+    },
+    {
+      "case": "off_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.547376365968574
+    },
+    {
+      "case": "off_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982015909048246,
+        "slope_per_A": 0.00028187684947096896,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.51957790603119,
+      "model_area_mA": 52.41362212608208
+    },
+    {
+      "case": "off_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.41362212608208
+    },
+    {
+      "case": "off_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9947980931165804,
+        "slope_per_A": -0.0004336019927318439,
+        "n_bins": 72,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.84671580420333,
+      "model_area_mA": 41.33462856237738
+    },
+    {
+      "case": "off_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.33462856237738
+    },
+    {
+      "case": "off_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9915847018385137,
+        "slope_per_A": -0.0011590370592795508,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 69.72904181635566,
+      "model_area_mA": 61.552367200159026
+    },
+    {
+      "case": "off_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.552367200159026
+    },
+    {
+      "case": "off_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9982067749871765,
+        "slope_per_A": 0.0002836780901882551,
+        "n_bins": 70,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 65.52442948458771,
+      "model_area_mA": 52.40586348192368
+    },
+    {
+      "case": "off_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.40586348192368
+    },
+    {
+      "case": "off_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9943868329065985,
+        "slope_per_A": -0.00031243183670636446,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 48.45327673853862,
+      "model_area_mA": 41.343239008273294
+    },
+    {
+      "case": "off_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.343239008273294
+    },
+    {
+      "case": "all_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9987007262677282,
+        "slope_per_A": 0.00039830088452679293,
+        "n_bins": 86,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 76.35603534478821,
+      "model_area_mA": 61.665454628239644
+    },
+    {
+      "case": "all_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.665454628239644
+    },
+    {
+      "case": "all_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9971847444796776,
+        "slope_per_A": -6.209082639974431e-05,
+        "n_bins": 75,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 64.56695845401323,
+      "model_area_mA": 52.73037909827865
+    },
+    {
+      "case": "all_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.73037909827865
+    },
+    {
+      "case": "all_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9968385958129006,
+        "slope_per_A": 0.00010583140083978554,
+        "n_bins": 76,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 50.793418790299064,
+      "model_area_mA": 41.799524874546506
+    },
+    {
+      "case": "all_refined",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.799524874546506
+    },
+    {
+      "case": "all_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9987032361926047,
+        "slope_per_A": 0.0004025846095384933,
+        "n_bins": 85,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 76.358352113891,
+      "model_area_mA": 61.69023874976723
+    },
+    {
+      "case": "all_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 81.73581499351246,
+      "model_area_mA": 61.69023874976723
+    },
+    {
+      "case": "all_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9974494338309177,
+        "slope_per_A": -8.52759136735181e-05,
+        "n_bins": 61,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 64.81520933750419,
+      "model_area_mA": 52.722641706893086
+    },
+    {
+      "case": "all_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 70.81716468695168,
+      "model_area_mA": 52.722641706893086
+    },
+    {
+      "case": "all_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "synthesis",
+      "record": {
+        "level_at_centre": 0.9968183316696921,
+        "slope_per_A": 0.00013804892368663157,
+        "n_bins": 76,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 50.774104123852744,
+      "model_area_mA": 41.80839972984603
+    },
+    {
+      "case": "all_refined",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "reference": "iag",
+      "record": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "observed_area_mA": 57.7033818543199,
+      "model_area_mA": 41.80839972984603
+    }
+  ],
+  "limitations": "Legacy-source LTE native5750/4.5, not canonical solar5772/4.438 or Bride NLTE correction. EPS1e-4 and native5decimal output retained; correlated finite window/reference diagnostics, no abundance or adopted continuum.",
+  "iag_reader": {
+    "name": "measure_band_ew.py",
+    "bytes": 100317,
+    "sha256": "8bc345a172cf88c428de3546836251079972ba32ea052d756f831d1ca915aac5"
+  }
+}

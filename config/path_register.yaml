@@ -250,6 +250,66 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_native_lte_build_first:
+    root: work
+    rel: bride_mac_checks/rya1281-native-lte-build-v1
+    env: CODEX_BRIDE_NATIVE_LTE_BUILD_FIRST
+    kind: dir
+    desc: Preserved native LTE diagnostic native_lte_build_first; no abundance or production admission.
+  experiments.bride_native_lte_build:
+    root: work
+    rel: bride_mac_checks/rya1281-native-lte-build-v2
+    env: CODEX_BRIDE_NATIVE_LTE_BUILD
+    kind: dir
+    desc: Preserved native LTE diagnostic native_lte_build; no abundance or production admission.
+  experiments.bride_native_molecules_first:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_FIRST
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_first; no abundance or production admission.
+  experiments.bride_native_molecules:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-v2
+    env: CODEX_BRIDE_NATIVE_MOLECULES
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules; no abundance or production admission.
+  experiments.bride_native_molecules_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-analysis-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_ANALYSIS
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_analysis; no abundance or production admission.
+  experiments.bride_native_molecules_trace:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-trace-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_TRACE
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_trace; no abundance or production admission.
+  experiments.bride_native_molecules_plot:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-plot-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_PLOT
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_plot; no abundance or production admission.
+  experiments.bride_native_molecules_receipts:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-receipts-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_RECEIPTS
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_receipts; no abundance or production admission.
+  experiments.bride_native_molecules_repeat_first:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-repeat-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_REPEAT_FIRST
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_repeat_first; no abundance or production admission.
+  experiments.bride_native_molecules_repeat:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-repeat-v2
+    env: CODEX_BRIDE_NATIVE_MOLECULES_REPEAT
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_repeat; no abundance or production admission.
   experiments.bride_missing_opacity:
     root: work
     rel: bride_mac_checks/rya1281-missing-opacity-v1
