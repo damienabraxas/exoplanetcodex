@@ -2,84 +2,181 @@
  "star": "solar",
  "element": "Ca",
  "units": [
-  "I red-optical solar_iag ts-lte codex",
-  "I red-optical solar_iag ts-lte reference",
-  "I red-optical solar_kpno_kurucz2005_corrected ts-lte codex",
-  "I red-optical solar_kpno_kurucz2005_corrected ts-lte reference",
-  "I red-optical solar_kpno_molecfit_corrected ts-lte codex",
-  "I red-optical solar_kpno_molecfit_corrected ts-lte reference"
+  "I H solar_crires_plus_h_rya1094 gerber-1d-lte codex",
+  "I H solar_crires_plus_h_rya1094 gerber-mean3d codex",
+  "I H solar_crires_plus_h_rya1094 gerber-mean3d-lte codex",
+  "I H solar_crires_plus_h_rya1094 gerber-nlte codex",
+  "I H solar_crires_plus_h_rya1094 ts-lte codex",
+  "I H solar_crires_plus_h_rya1232 gerber-1d-lte codex",
+  "I H solar_crires_plus_h_rya1232 gerber-mean3d codex",
+  "I H solar_crires_plus_h_rya1232 gerber-mean3d-lte codex",
+  "I H solar_crires_plus_h_rya1232 gerber-nlte codex",
+  "I H solar_crires_plus_h_rya1232 ts-lte codex",
+  "I K solar_crires_plus_k_rya1219 gerber-1d-lte codex",
+  "I K solar_crires_plus_k_rya1219 gerber-mean3d codex",
+  "I K solar_crires_plus_k_rya1219 gerber-mean3d-lte codex",
+  "I K solar_crires_plus_k_rya1219 gerber-nlte codex",
+  "I K solar_crires_plus_k_rya1219 ts-lte codex"
  ],
  "dropped": [
   {
-   "product": "red-optical solar_iag GRADED ENGINE-B",
+   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-B",
    "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
   },
   {
-   "product": "red-optical solar_iag REFERENCE ENGINE-B",
+   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
+  },
+  {
+   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-B",
    "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
   },
   {
-   "product": "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
+   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
   },
   {
-   "product": "red-optical solar_kpno_kurucz2005_corrected REFERENCE ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
+   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
   },
   {
-   "product": "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
+   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
   },
   {
-   "product": "red-optical solar_kpno_molecfit_corrected REFERENCE ENGINE-B",
+   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
+   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
+   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
+  },
+  {
+   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-B",
    "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
   }
  ],
  "published": [
-  "red-optical solar_iag GRADED 1D-LTE A=6.17",
-  "red-optical solar_iag GRADED ENGINE-A A=6.047",
-  "red-optical solar_iag REFERENCE 1D-LTE A=6.17",
-  "red-optical solar_iag REFERENCE ENGINE-A A=6.047",
-  "red-optical solar_kpno_kurucz2005_corrected GRADED 1D-LTE A=6.231",
-  "red-optical solar_kpno_kurucz2005_corrected GRADED ENGINE-A A=6.108",
-  "red-optical solar_kpno_kurucz2005_corrected REFERENCE 1D-LTE A=6.231",
-  "red-optical solar_kpno_kurucz2005_corrected REFERENCE ENGINE-A A=6.108",
-  "red-optical solar_kpno_molecfit_corrected GRADED 1D-LTE A=6.123",
-  "red-optical solar_kpno_molecfit_corrected GRADED ENGINE-A A=6.0",
-  "red-optical solar_kpno_molecfit_corrected REFERENCE 1D-LTE A=6.123",
-  "red-optical solar_kpno_molecfit_corrected REFERENCE ENGINE-A A=6.0"
+  "H solar_crires_plus_h_rya1094 GRADED synth-1D-LTE-gerber A=6.25",
+  "H solar_crires_plus_h_rya1094 GRADED synth-mean3D-NLTE-gerber-stagger A=6.24",
+  "H solar_crires_plus_h_rya1094 GRADED synth-mean3D-LTE-gerber-stagger A=6.283",
+  "H solar_crires_plus_h_rya1094 GRADED ENGINE-B-NLTE A=6.208",
+  "H solar_crires_plus_h_rya1094 GRADED 1D-LTE A=6.236",
+  "H solar_crires_plus_h_rya1094 GRADED ENGINE-A A=6.23",
+  "H solar_crires_plus_h_rya1232 GRADED synth-1D-LTE-gerber A=6.204",
+  "H solar_crires_plus_h_rya1232 GRADED synth-mean3D-NLTE-gerber-stagger A=6.209",
+  "H solar_crires_plus_h_rya1232 GRADED synth-mean3D-LTE-gerber-stagger A=6.258",
+  "H solar_crires_plus_h_rya1232 GRADED ENGINE-B-NLTE A=6.179",
+  "H solar_crires_plus_h_rya1232 GRADED 1D-LTE A=6.198",
+  "H solar_crires_plus_h_rya1232 GRADED ENGINE-A A=6.185",
+  "K solar_crires_plus_k_rya1219 GRADED synth-1D-LTE-gerber A=6.3",
+  "K solar_crires_plus_k_rya1219 GRADED synth-mean3D-NLTE-gerber-stagger A=6.297",
+  "K solar_crires_plus_k_rya1219 GRADED synth-mean3D-LTE-gerber-stagger A=6.365",
+  "K solar_crires_plus_k_rya1219 GRADED ENGINE-B-NLTE A=6.27",
+  "K solar_crires_plus_k_rya1219 GRADED 1D-LTE A=6.293",
+  "K solar_crires_plus_k_rya1219 GRADED ENGINE-A A=6.286"
  ],
  "held": [],
  "legs_incomplete": [],
  "withdrawn": [],
  "scope": {
   "bands": [
-   "red-optical"
+   "H",
+   "K"
   ],
-  "engines": [
-   "ts-lte"
-  ],
-  "note": "RYA-1311 ENGINE-A fix: red-optical Ca I only (3-line pools, published with a note)"
+  "note": "RYA-1311 Civis 2013 QDT gf adopted for H/K Ca I (sigma 0.11/line); Ca II H/K held (no line deep enough)"
  },
  "preserved": [],
  "verdict": {
   "element_verdict": "REVIEW",
   "benchmark": true,
   "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
-  "n_products_judged": 195,
+  "n_products_judged": 213,
   "counts": {
-   "IN_BAND": 38,
-   "OUT_OF_BAND": 157,
+   "IN_BAND": 44,
+   "OUT_OF_BAND": 169,
    "NO_REFERENCE": 0,
    "REPORTED": 0
   },
-  "n_scale_mismatch": 195
+  "n_scale_mismatch": 213
  },
  "coverage": {
   "counts": {
-   "PUBLISHED": 52,
-   "HELD": 410,
-   "NOT_RUN": 172,
+   "PUBLISHED": 70,
+   "HELD": 371,
+   "NOT_RUN": 193,
    "STALE": 143
   },
   "done": false

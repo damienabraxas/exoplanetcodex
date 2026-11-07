@@ -64325,6 +64325,2106 @@
     ],
     "recorded_at": "2026-11-05T02:10:25Z"
   },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1094|gerber-1d-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "3a621f9c17cae9f1ec0a9d99c29b042657dad0f453ee7b8efdbd4dc3e61f74e8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "629540aa637bb728ea61461d7191f4cfb3914d820be384deb6ec7c8bee3d0d13"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "2b89e20caa09aa8314344719ba2fe5fe71f87ef000716e7504a42efe951e7ba1"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "4a85ac1943aae6f6543f24b98d2ac7c1b1782ca461811615bbb52bb663f505c4"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_budgets.txt",
+        "sha256": "0a49be054040a753f7ca221bd8350357c6af1b23fca868b669ff24357ab694e7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_products.csv",
+        "sha256": "83dfa248b0458241acf64858d3d018de2e50ea2b47d6a812dfc0a52ee56c01f8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_provenance.txt",
+        "sha256": "2f95a4205d3cc49e1c5ef10e0e9f3e21955b4fa991d4f36e04c6e48529b37022"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt",
+        "sha256": "148d1a2dff9fd7e61b87e32d5935918ca7d1a264a9da545b68ee166d17c93b9e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv",
+        "sha256": "11f4743a11e93d5537aca9a240e228a6d1b3c9b6a2d4bc55dc6bdc2a81baa7d6"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
+        "sha256": "6b03e5271a2cb466dfee215ab9c9e43835a4aec1bad139f3bb24290867ec1a60"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt",
+        "sha256": "5522f62246e50543504682907203452b3c954ba6eafb36574eaee9337837e2bf"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "255a8adce1a93d7802372b7a7d19a2c7bf0a3f57c695346a23c0d8fc92fb5af7",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "holding_manifest",
+        "name": "data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "spectrum",
+        "name": "vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "1e64d32e87b8e0808267c14694aaa0876a04b562cecd7792d255654ca9da9dd3",
+    "products": [],
+    "recorded_at": "2026-11-07T18:33:26Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1094|gerber-mean3d-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "3a621f9c17cae9f1ec0a9d99c29b042657dad0f453ee7b8efdbd4dc3e61f74e8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "629540aa637bb728ea61461d7191f4cfb3914d820be384deb6ec7c8bee3d0d13"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "2b89e20caa09aa8314344719ba2fe5fe71f87ef000716e7504a42efe951e7ba1"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "4a85ac1943aae6f6543f24b98d2ac7c1b1782ca461811615bbb52bb663f505c4"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_budgets.txt",
+        "sha256": "0a49be054040a753f7ca221bd8350357c6af1b23fca868b669ff24357ab694e7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_products.csv",
+        "sha256": "83dfa248b0458241acf64858d3d018de2e50ea2b47d6a812dfc0a52ee56c01f8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_provenance.txt",
+        "sha256": "2f95a4205d3cc49e1c5ef10e0e9f3e21955b4fa991d4f36e04c6e48529b37022"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_budgets.txt",
+        "sha256": "fd426be7be035b298b3d84cd3d88428134b899db2ea573b3f042e7dd7a1bf6fd"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
+        "sha256": "e982f3a329740505ceeb215ac51788467900e91a1ece740111ed7d801a4e0bcc"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+        "sha256": "c0ae53df59894540e8633a14b9523235363dfc2a6102500a525d363afd2d4b6f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_provenance.txt",
+        "sha256": "f681c9bf27fd445684aa6bcbb1340c06e7581fcfb41aa0212c8754ea3c14786f"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "5b6117b8a93391a4dbca7fd4f6889428e9b95bcb6f95acf09c95c0163e4bcf03",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "holding_manifest",
+        "name": "data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "spectrum",
+        "name": "vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "39a6f85fb7fcf61861ebc6316df87a77824da35d02c773395e93dc1c34260fca",
+    "products": [],
+    "recorded_at": "2026-11-07T18:49:42Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1094|gerber-mean3d|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "3a621f9c17cae9f1ec0a9d99c29b042657dad0f453ee7b8efdbd4dc3e61f74e8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "629540aa637bb728ea61461d7191f4cfb3914d820be384deb6ec7c8bee3d0d13"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "2b89e20caa09aa8314344719ba2fe5fe71f87ef000716e7504a42efe951e7ba1"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "4a85ac1943aae6f6543f24b98d2ac7c1b1782ca461811615bbb52bb663f505c4"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_budgets.txt",
+        "sha256": "0a49be054040a753f7ca221bd8350357c6af1b23fca868b669ff24357ab694e7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_products.csv",
+        "sha256": "83dfa248b0458241acf64858d3d018de2e50ea2b47d6a812dfc0a52ee56c01f8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_provenance.txt",
+        "sha256": "2f95a4205d3cc49e1c5ef10e0e9f3e21955b4fa991d4f36e04c6e48529b37022"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_budgets.txt",
+        "sha256": "3eee82ac864228aaa6cb30b0ada73639761e0a90f997cdd2973035798855d347"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv",
+        "sha256": "777a714d9403c1ca579d856710e15a000644d38b4ff8a1e1e2cf764d95b15ae9"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+        "sha256": "e8532d81a21e4952d8aaf5f8c19587296fb49230a2a79b71d4d9584f7e57fe13"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_provenance.txt",
+        "sha256": "e48a9988fbc5c2163b2c6a7de14caa80d081e0f75911f9958a3056d8850503d1"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "e28e3391bbba7066660f341cf68e46d429be12df28cea9bacec1f72c2a7ab5e0",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "holding_manifest",
+        "name": "data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "spectrum",
+        "name": "vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "5fafe227845abba93361d44152d6af72d1b3123b0416c9c9eb042948ea538dfe",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ispec_h_15007_17494/nlte_labels.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "1b0ac1e77d1cbe3ed5a3b18374baf130db8676b5f1fb7d315113d6012c41ccfb",
+    "products": [],
+    "recorded_at": "2026-11-07T18:33:11Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1094|gerber-nlte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "3a621f9c17cae9f1ec0a9d99c29b042657dad0f453ee7b8efdbd4dc3e61f74e8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "629540aa637bb728ea61461d7191f4cfb3914d820be384deb6ec7c8bee3d0d13"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "2b89e20caa09aa8314344719ba2fe5fe71f87ef000716e7504a42efe951e7ba1"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "4a85ac1943aae6f6543f24b98d2ac7c1b1782ca461811615bbb52bb663f505c4"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
+        "sha256": "3b02ac15823e2ceb6c0e966953c2231412b92ae539656c1ae1450d73e17e5806"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
+        "sha256": "63771ebd71e59e242ecc7ca0500b9b98d01e5fa95c0d091916f258b9655bd190"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
+        "sha256": "dfbac1bcd4c63034ecb2f8d16d465db1cf3869bbb7f9b230fa70f9b2220ffaf3"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
+        "sha256": "c10a636f2c9f4356a624c1482763c9060dc59bf13bccc30be11ddfb68577cf36"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_budgets.txt",
+        "sha256": "0a49be054040a753f7ca221bd8350357c6af1b23fca868b669ff24357ab694e7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_products.csv",
+        "sha256": "83dfa248b0458241acf64858d3d018de2e50ea2b47d6a812dfc0a52ee56c01f8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_provenance.txt",
+        "sha256": "2f95a4205d3cc49e1c5ef10e0e9f3e21955b4fa991d4f36e04c6e48529b37022"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "a29b3bdf8a77a9bc70c8fc62aa21df03c77dc5acf0ff172b9ce1e6319cb4d84d",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "holding_manifest",
+        "name": "data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "spectrum",
+        "name": "vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "5fafe227845abba93361d44152d6af72d1b3123b0416c9c9eb042948ea538dfe",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ispec_h_15007_17494/nlte_labels.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "7c5554672b98e59dbd2f5d6385ff7b413a2ff1398bd4d6a9390353c6690a9e01",
+    "products": [],
+    "recorded_at": "2026-11-07T18:42:50Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1094|ts-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "3a621f9c17cae9f1ec0a9d99c29b042657dad0f453ee7b8efdbd4dc3e61f74e8"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "629540aa637bb728ea61461d7191f4cfb3914d820be384deb6ec7c8bee3d0d13"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "2b89e20caa09aa8314344719ba2fe5fe71f87ef000716e7504a42efe951e7ba1"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "4a85ac1943aae6f6543f24b98d2ac7c1b1782ca461811615bbb52bb663f505c4"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B_budgets.txt",
+        "sha256": "0a49be054040a753f7ca221bd8350357c6af1b23fca868b669ff24357ab694e7"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B_lines.csv",
+        "sha256": "a71b83372d01aa2e973fd007b6897f9d4045435743d0e38af2a9c958d48deaf2"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B_products.csv",
+        "sha256": "c44fc53e19933fc3e27ebf7fc35c3457dec53ce512e193fb0399b2470b8d6436"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_ENGINE-B_provenance.txt",
+        "sha256": "b6a268594c33f6852a87cadf1a15df024d9cfe1e30064dbc2889caf63cf3d450"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_budgets.txt",
+        "sha256": "0a49be054040a753f7ca221bd8350357c6af1b23fca868b669ff24357ab694e7"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_products.csv",
+        "sha256": "83dfa248b0458241acf64858d3d018de2e50ea2b47d6a812dfc0a52ee56c01f8"
+      },
+      {
+        "path": "data/results/band_products/CaI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_provenance.txt",
+        "sha256": "2f95a4205d3cc49e1c5ef10e0e9f3e21955b4fa991d4f36e04c6e48529b37022"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "68f038b762c6ffe6d59434da073fed2d2d56befbe0b55bc68785d19f75ba2596",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "holding_manifest",
+        "name": "data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "c91cbdea37ba6f84e4867d2d24e5b0cc6e9b66ba7a1bcd9ac89cff9d8be91bad",
+        "kind": "spectrum",
+        "name": "vesta_crires_plus_H_15007_17494_normalized.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "f20ba97147d013c6a01c8dbb61c1ef5d23d708dbe445e37f61779a115aeedbdc",
+    "products": [],
+    "recorded_at": "2026-11-07T18:50:40Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1232|gerber-1d-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "dd87b10424a09d26559645dc64542f541bff93c643f473befa80de2974659f3f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "abd42abfa7f77231cea13ebee5338e6c7ad860f9cd84ab0659bc542cc8e80df8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "a70e1a6a79d4e7c3128bd76b30dc71e6c99dbf7517f66dd8c9ce95c8d76c7188"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "a83073c8970c7067170b35f4260b36b576c077f763cea7a4e5566b958f6f53c5"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_budgets.txt",
+        "sha256": "3e62047ead780949fa491bfc6ca4d2cf37db968fe50887604b374fd8d00dd477"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_products.csv",
+        "sha256": "ebb3b43b7409877b939e4208e3702598643379dac81999835ca9a6416fd71a5e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_provenance.txt",
+        "sha256": "71678813a82f8cb4a3d386f35ad7e01aa23fb4cfbbf6aeece0bc4fe70b48dfa7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt",
+        "sha256": "21c95412ad1ddb8be142e12b20ab8ff2847bc6a6f0f01694c91820704075235c"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv",
+        "sha256": "43185f84f28640b4dcbc976c49a549140a4e56c9ca75f2789b7e180c0cf3be05"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
+        "sha256": "427787c4d8112eb1354a2822470cb51a7bf234e691c866f78f7efe1bac1cbaba"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt",
+        "sha256": "5522f62246e50543504682907203452b3c954ba6eafb36574eaee9337837e2bf"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "1712d53ce53deaacb6df58630077124722421e78ceb9d8297916dbf8b62ca911",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "6264436254bd173f1b74273d6469a0361876a82e562fa85ece792d5d2ac8b490",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1232_crires_h/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "691120184f92993f6508e4c7a8c236144562084a62a0cedabd965683f407430b",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_h_rya1232_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "f3f3790d46cd70248349d92e20a831634689e5788d653c84e9bfa28a33ec75a0",
+    "products": [],
+    "recorded_at": "2026-11-07T19:07:07Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1232|gerber-mean3d-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "dd87b10424a09d26559645dc64542f541bff93c643f473befa80de2974659f3f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "abd42abfa7f77231cea13ebee5338e6c7ad860f9cd84ab0659bc542cc8e80df8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "a70e1a6a79d4e7c3128bd76b30dc71e6c99dbf7517f66dd8c9ce95c8d76c7188"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "a83073c8970c7067170b35f4260b36b576c077f763cea7a4e5566b958f6f53c5"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_budgets.txt",
+        "sha256": "3e62047ead780949fa491bfc6ca4d2cf37db968fe50887604b374fd8d00dd477"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_products.csv",
+        "sha256": "ebb3b43b7409877b939e4208e3702598643379dac81999835ca9a6416fd71a5e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_provenance.txt",
+        "sha256": "71678813a82f8cb4a3d386f35ad7e01aa23fb4cfbbf6aeece0bc4fe70b48dfa7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_budgets.txt",
+        "sha256": "8f609b41348eef1f178629bd774095e3e6ead5a64a57aeddadeb09387a2f54a8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
+        "sha256": "6aea32bb8d3d78d8d484f76e69793bdc34f7532a6077bed91669f9f8e0a1f4d9"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+        "sha256": "469072991916c27bbb697a4388eaf5c6e4ca0b1fdf888ffb5284bdcdc5ad8a74"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_provenance.txt",
+        "sha256": "f681c9bf27fd445684aa6bcbb1340c06e7581fcfb41aa0212c8754ea3c14786f"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "96b81c291258112f62425fc4417ea86b3e19ec9cb02a83a43ec98492f929de57",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "6264436254bd173f1b74273d6469a0361876a82e562fa85ece792d5d2ac8b490",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1232_crires_h/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "691120184f92993f6508e4c7a8c236144562084a62a0cedabd965683f407430b",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_h_rya1232_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "c1e8d5e9e4e45898c95a6dceefe6da68d74af5930cf3d9053cae60f19763d8c4",
+    "products": [],
+    "recorded_at": "2026-11-07T19:11:24Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1232|gerber-mean3d|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "dd87b10424a09d26559645dc64542f541bff93c643f473befa80de2974659f3f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "abd42abfa7f77231cea13ebee5338e6c7ad860f9cd84ab0659bc542cc8e80df8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "a70e1a6a79d4e7c3128bd76b30dc71e6c99dbf7517f66dd8c9ce95c8d76c7188"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "a83073c8970c7067170b35f4260b36b576c077f763cea7a4e5566b958f6f53c5"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_budgets.txt",
+        "sha256": "3e62047ead780949fa491bfc6ca4d2cf37db968fe50887604b374fd8d00dd477"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_products.csv",
+        "sha256": "ebb3b43b7409877b939e4208e3702598643379dac81999835ca9a6416fd71a5e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_provenance.txt",
+        "sha256": "71678813a82f8cb4a3d386f35ad7e01aa23fb4cfbbf6aeece0bc4fe70b48dfa7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_budgets.txt",
+        "sha256": "7df37a98210fa3a92f656c2cc310fadc1e070648c485103aded6926753438b3b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv",
+        "sha256": "4603abccc585b1d210fc6688026a6a257769202b6a9016bebb3afbc828c3f0e7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+        "sha256": "db0fa22b8aef9de5a5ee1d0da26bf002d0df5ae8d8ba99f9850812c67e99dc08"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_provenance.txt",
+        "sha256": "5ee678c8ba4f401cccd0f7b25fa07d48274f1952531bc2a8e7775cb02bd0211d"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "d79a3b6380dd65ac961e37b521b632d96fe195175676fbccdc8a47074a65c0df",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "6264436254bd173f1b74273d6469a0361876a82e562fa85ece792d5d2ac8b490",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1232_crires_h/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "691120184f92993f6508e4c7a8c236144562084a62a0cedabd965683f407430b",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_h_rya1232_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "5fafe227845abba93361d44152d6af72d1b3123b0416c9c9eb042948ea538dfe",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ispec_h_15007_17494/nlte_labels.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "49f9f530020465c3f35981adee98127f5e08bc6c1b7d129ecfb61e79893aa2f6",
+    "products": [],
+    "recorded_at": "2026-11-07T19:12:41Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1232|gerber-nlte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "dd87b10424a09d26559645dc64542f541bff93c643f473befa80de2974659f3f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "abd42abfa7f77231cea13ebee5338e6c7ad860f9cd84ab0659bc542cc8e80df8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "a70e1a6a79d4e7c3128bd76b30dc71e6c99dbf7517f66dd8c9ce95c8d76c7188"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "a83073c8970c7067170b35f4260b36b576c077f763cea7a4e5566b958f6f53c5"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
+        "sha256": "3e709d6eb465fa9c647df218124c0e61759474fa4c2c86bbfcea9d847c248ff6"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
+        "sha256": "99dbc646832c9d16ff86be8e2f877f52b0e3f38c441f7208ab93deea555c2c34"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
+        "sha256": "4545a69a076b2c69388677881beb6ea04c5d87f5582c23678298472ea17f47f2"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
+        "sha256": "83dfc425e64773e1fb6974b7c04fc6409fa0fdac6c255145a9042ba17ac621c7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_budgets.txt",
+        "sha256": "3e62047ead780949fa491bfc6ca4d2cf37db968fe50887604b374fd8d00dd477"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_products.csv",
+        "sha256": "ebb3b43b7409877b939e4208e3702598643379dac81999835ca9a6416fd71a5e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_provenance.txt",
+        "sha256": "71678813a82f8cb4a3d386f35ad7e01aa23fb4cfbbf6aeece0bc4fe70b48dfa7"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "1e5ba0d874f5f27721a9aec582610130a385063a64da6338f4b75dd78f4b5164",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "6264436254bd173f1b74273d6469a0361876a82e562fa85ece792d5d2ac8b490",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1232_crires_h/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "691120184f92993f6508e4c7a8c236144562084a62a0cedabd965683f407430b",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_h_rya1232_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "5fafe227845abba93361d44152d6af72d1b3123b0416c9c9eb042948ea538dfe",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ispec_h_15007_17494/nlte_labels.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "c6a62c154e85a8c15b34dfa151a05aa375f24a5d9460e33f23629873beda5295",
+    "products": [],
+    "recorded_at": "2026-11-07T19:35:59Z"
+  },
+  "solar|Ca|I|H|crires_plus|solar_crires_plus_h_rya1232|ts-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "dd87b10424a09d26559645dc64542f541bff93c643f473befa80de2974659f3f"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "abd42abfa7f77231cea13ebee5338e6c7ad860f9cd84ab0659bc542cc8e80df8"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "a70e1a6a79d4e7c3128bd76b30dc71e6c99dbf7517f66dd8c9ce95c8d76c7188"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "a83073c8970c7067170b35f4260b36b576c077f763cea7a4e5566b958f6f53c5"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B_budgets.txt",
+        "sha256": "3e62047ead780949fa491bfc6ca4d2cf37db968fe50887604b374fd8d00dd477"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B_lines.csv",
+        "sha256": "970678e5ad67f8fcd37096b84bd51c8e88c5ce8f4af0de11892e99aabff64cdd"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B_products.csv",
+        "sha256": "16c314263ff2135312c36ab35dac0944216f431e885fa916a03b0b46dd4286ca"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_ENGINE-B_provenance.txt",
+        "sha256": "b6a268594c33f6852a87cadf1a15df024d9cfe1e30064dbc2889caf63cf3d450"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_budgets.txt",
+        "sha256": "3e62047ead780949fa491bfc6ca4d2cf37db968fe50887604b374fd8d00dd477"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_products.csv",
+        "sha256": "ebb3b43b7409877b939e4208e3702598643379dac81999835ca9a6416fd71a5e"
+      },
+      {
+        "path": "data/results/band_products/CaI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_provenance.txt",
+        "sha256": "71678813a82f8cb4a3d386f35ad7e01aa23fb4cfbbf6aeece0bc4fe70b48dfa7"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "5f287c7b8dc4eb0e3fc2a93e15d62b5e9cf4d6da82b7d23d6b8d40e29732f5e4",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "6264436254bd173f1b74273d6469a0361876a82e562fa85ece792d5d2ac8b490",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1232_crires_h/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "691120184f92993f6508e4c7a8c236144562084a62a0cedabd965683f407430b",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_h_rya1232_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "8be744d027d64a55e74d384d8effbe0f012be2fa3a8f0b3a1d78ec2c712a7414",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[14997-17504]"
+      },
+      {
+        "digest": "0ba0eae716ce6863f7e424aa163b50aa0831e926e8c41129f775599cf8512673",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_h_15007_17494/atomic_lines.tsv[14997-17504]"
+      },
+      {
+        "digest": "8e21b23fd1f1176cd3830c569eb6e1e2e45b038d2af25629ac14a896f9d7d3f9",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[14997-17504]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[14997-17504]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "d46fc6e100ef9aae6f7a53ef83b6fd8d8b66a5433b583a19c4a0302507362ef4",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[14997-17504]"
+      }
+    ],
+    "inputs_hash": "5148ed938fa6d4950c24858c82715c7f9c5a2a67086d5813f428f26c4e339c71",
+    "products": [],
+    "recorded_at": "2026-11-07T19:24:09Z"
+  },
+  "solar|Ca|I|K|crires_plus|solar_crires_plus_k_rya1219|gerber-1d-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "38580984690df49a7f0971bbb9d329d6ce746d534bcf71058758b3558043cbec"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "86d11702beec37ab03163fb85cd38bde12c501401a51578378e9fc8ffc5a4dff"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "d5fdeb4e9723ae3c8fd06af7e0b746330daf9bcab1519de8c8f9b2d6553df1c7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "561979b8b15d40d20cb57af1ed502504c5c5128b38d30a705f383cc7ae63fefe"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_budgets.txt",
+        "sha256": "2e8345d3b7d2716c7b9919990b66648d43fefc5dae7b855767756ee1cea89f2b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_products.csv",
+        "sha256": "fc660158c578f991c18eec07094e2993c4bf204a9b9f5aa5222ffcbe4ccc8277"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_provenance.txt",
+        "sha256": "83df3adcc3ce4cfdd56d257f905db141e2c86889b09ef3408726d965603a9ebb"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt",
+        "sha256": "90ef14b876082beb15c520ac0a4e4cdd87efd88380c22a8d618686a6b262f5f9"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv",
+        "sha256": "75b56752001326e878910b13f3bce93b72c068a66a0a445b1c2d7b53cc2de315"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
+        "sha256": "ead7c9bbe89fcbb78f3b7704e402a8917b33de996a4922f9c20c9947a2bf0910"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt",
+        "sha256": "5522f62246e50543504682907203452b3c954ba6eafb36574eaee9337837e2bf"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "2cda6a23517bf11c665fd00a1139cce7e733a22eef497201847b7622c5bdf167",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "fe96f39f19b9418e42c661162ceb18e292ee785d06a7887fcb5b4407fcb1b151",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1219_crires_jk/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "a51e643c35c936eb3aabcbcbb63b6629bb1aba1c7fb210ce0fff8437414f3799",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_k_rya1219_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "1b618d8035445162de2670ee1dfb9ff665f000e5b83d70eb6140e3af1fbf8286",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[19442-24856]"
+      },
+      {
+        "digest": "46a305a16f52c3d019787f3f53f8961229b27d6220466a134d9efc3020042d49",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_k_19452_24846/atomic_lines.tsv[19442-24856]"
+      },
+      {
+        "digest": "a5df1bf9edbfe3d005a16bc7ec51772bfa0c2a8201f359917f84c2dd88b18d85",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[19442-24856]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[19442-24856]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "bdad918ab2d8e3ec979bd81a4d0b9a5c5683787d8cc3242f7e949cbb8789b906",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[19442-24856]"
+      }
+    ],
+    "inputs_hash": "c23c7c60a1a2e25eb9b503b2a1005959b9d9a0c84f9ebd4ecf58ffce222d4c2c",
+    "products": [],
+    "recorded_at": "2026-11-07T21:08:23Z"
+  },
+  "solar|Ca|I|K|crires_plus|solar_crires_plus_k_rya1219|gerber-mean3d-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "38580984690df49a7f0971bbb9d329d6ce746d534bcf71058758b3558043cbec"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "86d11702beec37ab03163fb85cd38bde12c501401a51578378e9fc8ffc5a4dff"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "d5fdeb4e9723ae3c8fd06af7e0b746330daf9bcab1519de8c8f9b2d6553df1c7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "561979b8b15d40d20cb57af1ed502504c5c5128b38d30a705f383cc7ae63fefe"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_budgets.txt",
+        "sha256": "2e8345d3b7d2716c7b9919990b66648d43fefc5dae7b855767756ee1cea89f2b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_products.csv",
+        "sha256": "fc660158c578f991c18eec07094e2993c4bf204a9b9f5aa5222ffcbe4ccc8277"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_provenance.txt",
+        "sha256": "83df3adcc3ce4cfdd56d257f905db141e2c86889b09ef3408726d965603a9ebb"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_budgets.txt",
+        "sha256": "d84b7238bdecd7e8ccc79ce5e0b3c6457d87c1c92f1dc4eef0eaa716b01c1790"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
+        "sha256": "6df5b7d81faa62789cff07fd60b0626b5b40573d210b2ec75cd35ce32763fca8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+        "sha256": "8c3a41c7dd647d260ba595484ae5c5e6079bef8efc87ce5f9510ff9da279155a"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d-lte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_provenance.txt",
+        "sha256": "f681c9bf27fd445684aa6bcbb1340c06e7581fcfb41aa0212c8754ea3c14786f"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "638369620753615c26a5ed49ccabb1b50666b4148ce5c3078b7f5c7768b092d3",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "fe96f39f19b9418e42c661162ceb18e292ee785d06a7887fcb5b4407fcb1b151",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1219_crires_jk/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "a51e643c35c936eb3aabcbcbb63b6629bb1aba1c7fb210ce0fff8437414f3799",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_k_rya1219_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "1b618d8035445162de2670ee1dfb9ff665f000e5b83d70eb6140e3af1fbf8286",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[19442-24856]"
+      },
+      {
+        "digest": "46a305a16f52c3d019787f3f53f8961229b27d6220466a134d9efc3020042d49",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_k_19452_24846/atomic_lines.tsv[19442-24856]"
+      },
+      {
+        "digest": "a5df1bf9edbfe3d005a16bc7ec51772bfa0c2a8201f359917f84c2dd88b18d85",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[19442-24856]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[19442-24856]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "bdad918ab2d8e3ec979bd81a4d0b9a5c5683787d8cc3242f7e949cbb8789b906",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[19442-24856]"
+      }
+    ],
+    "inputs_hash": "ba28bf897fee342e6dd96f639864aae5885d05233827eb899f67a9fe1178a197",
+    "products": [],
+    "recorded_at": "2026-11-07T22:05:09Z"
+  },
+  "solar|Ca|I|K|crires_plus|solar_crires_plus_k_rya1219|gerber-mean3d|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "38580984690df49a7f0971bbb9d329d6ce746d534bcf71058758b3558043cbec"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "86d11702beec37ab03163fb85cd38bde12c501401a51578378e9fc8ffc5a4dff"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "d5fdeb4e9723ae3c8fd06af7e0b746330daf9bcab1519de8c8f9b2d6553df1c7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "561979b8b15d40d20cb57af1ed502504c5c5128b38d30a705f383cc7ae63fefe"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_budgets.txt",
+        "sha256": "2e8345d3b7d2716c7b9919990b66648d43fefc5dae7b855767756ee1cea89f2b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_products.csv",
+        "sha256": "fc660158c578f991c18eec07094e2993c4bf204a9b9f5aa5222ffcbe4ccc8277"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_provenance.txt",
+        "sha256": "1e775cba2b39414213a5fb0255ca90bb1cd705ca468a783b7d2b32b7c6a68f4f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_budgets.txt",
+        "sha256": "af7dcc55f6841102c020157a2bcb53947de13404417d3da206f1ce377d1cc8d7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv",
+        "sha256": "a0bb67e4fa7f6007dc12117510c71ae61c8505d00302b53f84183b5a98fd6129"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+        "sha256": "9f4e753d18dd9017ea6335db94bc52722a81030503b271154a1691f940bf2638"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-mean3d/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_provenance.txt",
+        "sha256": "101b4464cdf15753793e9c19c88953b740393595c02efe8b507d7e2e127f7640"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "8737e23889ff4a93ab37a22a7829f43f53915c86e2a88d923daf64488c50fc26",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "fe96f39f19b9418e42c661162ceb18e292ee785d06a7887fcb5b4407fcb1b151",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1219_crires_jk/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "a51e643c35c936eb3aabcbcbb63b6629bb1aba1c7fb210ce0fff8437414f3799",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_k_rya1219_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "1b618d8035445162de2670ee1dfb9ff665f000e5b83d70eb6140e3af1fbf8286",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[19442-24856]"
+      },
+      {
+        "digest": "46a305a16f52c3d019787f3f53f8961229b27d6220466a134d9efc3020042d49",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_k_19452_24846/atomic_lines.tsv[19442-24856]"
+      },
+      {
+        "digest": "89364052a325e3a75c4c12cba96e2c18e28bda9666beb7e7119115043308b159",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ispec_k_19452_24846/nlte_labels.tsv[19442-24856]"
+      },
+      {
+        "digest": "a5df1bf9edbfe3d005a16bc7ec51772bfa0c2a8201f359917f84c2dd88b18d85",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[19442-24856]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[19442-24856]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "bdad918ab2d8e3ec979bd81a4d0b9a5c5683787d8cc3242f7e949cbb8789b906",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[19442-24856]"
+      }
+    ],
+    "inputs_hash": "baba7247f6b9ec5fb33b70193cbc80964a29cc53d389cbd168a44c808d4d7b69",
+    "products": [],
+    "recorded_at": "2026-11-07T21:02:19Z"
+  },
+  "solar|Ca|I|K|crires_plus|solar_crires_plus_k_rya1219|gerber-nlte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "38580984690df49a7f0971bbb9d329d6ce746d534bcf71058758b3558043cbec"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "86d11702beec37ab03163fb85cd38bde12c501401a51578378e9fc8ffc5a4dff"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "d5fdeb4e9723ae3c8fd06af7e0b746330daf9bcab1519de8c8f9b2d6553df1c7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "561979b8b15d40d20cb57af1ed502504c5c5128b38d30a705f383cc7ae63fefe"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
+        "sha256": "c56e90b172dffea95e03f19963e74b3903eab444373bc89f0dd78f3e6f6d8bbc"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
+        "sha256": "207213dae7525ca98ec8c3a32ae23ce7e0aa024b72a72983cb58a7fc706703b4"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
+        "sha256": "44acfd5fa0ac975311dda2b44153f29c6cb9ff3bac14674706d1be5b5c829e8c"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
+        "sha256": "7c8f442c02141e1917f3c704c2d6d9ebc900ebcbb8d18abe8d0d19c6c5397b33"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_budgets.txt",
+        "sha256": "2e8345d3b7d2716c7b9919990b66648d43fefc5dae7b855767756ee1cea89f2b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_products.csv",
+        "sha256": "fc660158c578f991c18eec07094e2993c4bf204a9b9f5aa5222ffcbe4ccc8277"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_provenance.txt",
+        "sha256": "1e775cba2b39414213a5fb0255ca90bb1cd705ca468a783b7d2b32b7c6a68f4f"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "6b6c1365568b4302b62a9f1456a9b923ffec4a971381e79ec2fff81f714e2183",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "fe96f39f19b9418e42c661162ceb18e292ee785d06a7887fcb5b4407fcb1b151",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1219_crires_jk/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "a51e643c35c936eb3aabcbcbb63b6629bb1aba1c7fb210ce0fff8437414f3799",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_k_rya1219_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "1b618d8035445162de2670ee1dfb9ff665f000e5b83d70eb6140e3af1fbf8286",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[19442-24856]"
+      },
+      {
+        "digest": "46a305a16f52c3d019787f3f53f8961229b27d6220466a134d9efc3020042d49",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_k_19452_24846/atomic_lines.tsv[19442-24856]"
+      },
+      {
+        "digest": "89364052a325e3a75c4c12cba96e2c18e28bda9666beb7e7119115043308b159",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ispec_k_19452_24846/nlte_labels.tsv[19442-24856]"
+      },
+      {
+        "digest": "a5df1bf9edbfe3d005a16bc7ec51772bfa0c2a8201f359917f84c2dd88b18d85",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[19442-24856]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[19442-24856]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "bdad918ab2d8e3ec979bd81a4d0b9a5c5683787d8cc3242f7e949cbb8789b906",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[19442-24856]"
+      }
+    ],
+    "inputs_hash": "f001a150c4c32a49b90bd4b6997ffd2480dcba825634ae5ea6c5dd51f07e2c63",
+    "products": [],
+    "recorded_at": "2026-11-07T21:41:54Z"
+  },
+  "solar|Ca|I|K|crires_plus|solar_crires_plus_k_rya1219|ts-lte|SYNTH|GRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_1D-LTE_lines.csv",
+        "sha256": "38580984690df49a7f0971bbb9d329d6ce746d534bcf71058758b3558043cbec"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_budgets.txt",
+        "sha256": "86d11702beec37ab03163fb85cd38bde12c501401a51578378e9fc8ffc5a4dff"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_lines.csv",
+        "sha256": "d5fdeb4e9723ae3c8fd06af7e0b746330daf9bcab1519de8c8f9b2d6553df1c7"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_products.csv",
+        "sha256": "561979b8b15d40d20cb57af1ed502504c5c5128b38d30a705f383cc7ae63fefe"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B_budgets.txt",
+        "sha256": "2e8345d3b7d2716c7b9919990b66648d43fefc5dae7b855767756ee1cea89f2b"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B_lines.csv",
+        "sha256": "a1cf2ffa2b70f5d4af333c949ba8acead848c0be6e95363459633cda12f9c726"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B_products.csv",
+        "sha256": "a850600a15eee675beea7f890637ed5de067396d8836dfae806f07a31b6c7e0f"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_ENGINE-B_provenance.txt",
+        "sha256": "b6a268594c33f6852a87cadf1a15df024d9cfe1e30064dbc2889caf63cf3d450"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_budgets.txt",
+        "sha256": "2e8345d3b7d2716c7b9919990b66648d43fefc5dae7b855767756ee1cea89f2b"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_products.csv",
+        "sha256": "fc660158c578f991c18eec07094e2993c4bf204a9b9f5aa5222ffcbe4ccc8277"
+      },
+      {
+        "path": "data/results/band_products/CaI_19455_24842_crires_plus_solar_crires_plus_k_rya1219_SYNTH_GRADED_provenance.txt",
+        "sha256": "83df3adcc3ce4cfdd56d257f905db141e2c86889b09ef3408726d965603a9ebb"
+      }
+    ],
+    "code_commit": "8869aa767f6eb72a84989a04e1fb7ad48a55f438-dirty",
+    "inputs": [
+      {
+        "digest": "0671e6c245142b2aea1e5d7794cfe138ad57ac410118fe02e65576924172b23d",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "fe96f39f19b9418e42c661162ceb18e292ee785d06a7887fcb5b4407fcb1b151",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya1219_crires_jk/corrected_products_manifest.csv"
+      },
+      {
+        "digest": "a51e643c35c936eb3aabcbcbb63b6629bb1aba1c7fb210ce0fff8437414f3799",
+        "kind": "spectrum",
+        "name": "solar_crires_plus_k_rya1219_rest.csv"
+      },
+      {
+        "digest": "3d7396fbf8622cc79f32d771e00b06a9a717be1549957345db59e72b71503f23",
+        "kind": "cited_nlte",
+        "name": "data/reference/solar_nlte_tables.yaml"
+      },
+      {
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
+        "kind": "cited_nlte",
+        "name": "pipeline/solar_nlte_tables.py"
+      },
+      {
+        "digest": "f843b176c506a9cdb07958f6b51443cae2e42491e930d28c8c7c09ad361c628a",
+        "kind": "cited_nlte",
+        "name": "data/reference/ca_agss21/ca_agss21_lines.csv"
+      },
+      {
+        "digest": "1b618d8035445162de2670ee1dfb9ff665f000e5b83d70eb6140e3af1fbf8286",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[19442-24856]"
+      },
+      {
+        "digest": "46a305a16f52c3d019787f3f53f8961229b27d6220466a134d9efc3020042d49",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_k_19452_24846/atomic_lines.tsv[19442-24856]"
+      },
+      {
+        "digest": "a5df1bf9edbfe3d005a16bc7ec51772bfa0c2a8201f359917f84c2dd88b18d85",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Amarsi2020_PySME.csv[19442-24856]"
+      },
+      {
+        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Ca_Mashonkina2017.csv[19442-24856]"
+      },
+      {
+        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
+        "kind": "ledger",
+        "name": "data/catalog/model_registry.csv"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "bdad918ab2d8e3ec979bd81a4d0b9a5c5683787d8cc3242f7e949cbb8789b906",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[19442-24856]"
+      }
+    ],
+    "inputs_hash": "54ec38cde9924cd01a1478e94951a8b5aece7ab581c0709137e12671d30f522f",
+    "products": [],
+    "recorded_at": "2026-11-07T21:49:55Z"
+  },
   "solar|Ca|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-1d-lte|SYNTH|GRADED": {
     "artifacts": [
       {

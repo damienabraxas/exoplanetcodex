@@ -1,6 +1,7 @@
 PREPARE solar Ca  -> READY to measure
   F literature: litscan yes; set bibliography keys ['asplund2021']
   A published sets: 14 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
+  B gf source C2013_qdt: 33 graded lines, classified
   B gf source denhartog2021_ca1:S&R81: 32 graded lines, classified
   B gf source NIST_ASD: 22 graded lines, classified
   B gf source denhartog2021_ca1:UW+M17+Ueda82: 15 graded lines, classified
@@ -10,9 +11,7 @@ PREPARE solar Ca  -> READY to measure
   B gf source CA_AGSS21: 3 graded lines, classified
   B gf source denhartog2021_ca1:Vogt07: 1 graded lines, classified
   B gf source denhartog2021_ca1:Park76: 1 graded lines, classified
-  F2 literature need: 58 Ca I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 10 Ca II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
-  F2 literature need: 112 Ca I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
   F2 literature need: 5 Ca II lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
   C saturated, not a solar-literature line (measured, reported, NOT culled): 66
       Ca I 3948.9004: rew -3.973 depth 0.698
@@ -81,5 +80,5 @@ PREPARE solar Ca  -> READY to measure
       Ca II 3706.024: rew -3.864 depth 0.947
       Ca II 3736.902: rew -3.787 depth 0.955
       Ca I 10343.819: rew -4.819 depth 0.476
-  D NLTE: 0 graded line(s) not in data/nlte_grids/Ca_Amarsi2020_PySME.csv
+  D NLTE: 32 graded line(s) not in data/nlte_grids/Ca_Amarsi2020_PySME.csv -> on Sirius: scripts/extend_nlte_grid.py --element Ca --write
   E holdings: 17 windows; 0 not serving / frame off rest
