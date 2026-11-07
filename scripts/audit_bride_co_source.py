@@ -21,11 +21,11 @@ def main():
     installed=require_codex_path('engines.ispec')/'input/linelists/turbospectrum/molecules'/filename
     if path.read_bytes()!=installed.read_bytes():raise ValueError('Installed CO differs from vendor')
     with path.open()as stream:expected=int(shlex.split(stream.readline())[-1])
-    lo,hi=plan['range_air_A'];rows=[];parsed=0;raw_count=0
+    lo,hi=plan['range_air_A'];rows=[];parsed=0;raw_count=0;raw_ids=set()
     for row in canonical_rows(path,'CO',metadata_for(entry)):
         parsed+=1;vac=row['wavelength']['value_A']
         if not np.isfinite(vac)or vac<=0:raise ValueError('Invalid CO vacuum wavelength')
-        if lo<=vac<=hi:raw_count+=1
+        if lo<=vac<=hi:raw_count+=1;raw_ids.add(row['transition_id'])
         air=float(vac_to_air(vac))
         if lo<=air<=hi:
             rows.append(dict(transition_id=row['transition_id'],isotopologue=row['isotopologue'],stored_vacuum_A=vac,
@@ -36,6 +36,8 @@ def main():
         manifest=fingerprint(MANIFEST_PATH),source=fingerprint(path),installed=fingerprint(installed),conversion=entry['conversion'],
         wavelength_kernel=fingerprint(ROOT/'pipeline/wavelength_util.py'),canonical_parser=fingerprint(ROOT/'pipeline/molecular_canonical.py'),
         parsed_rows=parsed,raw_vacuum_window_count=raw_count,converted_air_window_count=len(rows),
+        raw_air_membership_intersection=len(raw_ids&{row['transition_id']for row in rows}),
+        raw_air_membership_symmetric_difference=len(raw_ids^{row['transition_id']for row in rows}),
         automatic_bsyn_glob_selects_file=path.suffix=='.bsyn',scope=plan['scope'],
         qualification='Canonical source status retained; consumer automatic routing and separate dedicated CO production paths must not be conflated')
     args.output.mkdir(parents=True,exist_ok=False)
