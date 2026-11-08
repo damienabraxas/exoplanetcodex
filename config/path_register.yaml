@@ -250,6 +250,12 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_cn_profiles:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-profiles-v1
+    env: CODEX_BRIDE_CN_PROFILES
+    kind: dir
+    desc: Native Voigt caller and external-state CN SI kernel checks; no chemistry, wavelength-frame or model admission.
   experiments.bride_cn_coefficients_first:
     root: work
     rel: bride_mac_checks/rya1281-cn-coefficients-v1

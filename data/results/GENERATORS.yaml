@@ -28725,3 +28725,23 @@ artifacts:
     generator: "scripts/probe_bride_cn_coefficients.py"
     invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
     ticket: "RYA-1281"
+  - artifact: rya1281/cn_profiles_v1/report.json
+    generator: "scripts/check_bride_cn_profiles.py"
+    invocation: "python scripts/check_bride_cn_profiles.py --output <fresh-cn-profiles>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_profiles_v1/profile_samples.csv
+    generator: "scripts/check_bride_cn_profiles.py"
+    invocation: "python scripts/check_bride_cn_profiles.py --output <fresh-cn-profiles>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_profiles_v1/probe.f90
+    generator: "scripts/check_bride_cn_profiles.py"
+    invocation: "python scripts/check_bride_cn_profiles.py --output <fresh-cn-profiles>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_profiles_v1/input.txt
+    generator: "scripts/check_bride_cn_profiles.py"
+    invocation: "python scripts/check_bride_cn_profiles.py --output <fresh-cn-profiles>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_profiles_v1/stdout.txt
+    generator: "scripts/check_bride_cn_profiles.py"
+    invocation: "python scripts/check_bride_cn_profiles.py --output <fresh-cn-profiles>"
+    ticket: "RYA-1281"

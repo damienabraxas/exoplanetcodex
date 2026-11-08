@@ -1,3 +1,7 @@
+## 2026-11-08 — CN profile and SI unit checks
+
+- **RYA-1281** — Measure native Voigt approximation and verify external-state SI extinction; frame/provider checks next (v226).
+
 ## 2026-11-08 — native CN coefficient reporting
 
 - **RYA-1281** — Preserve spectra while exporting CN states; sampled coefficient arithmetic agrees, profile/SI and primary/EOS checks next (v225).
