@@ -373,6 +373,15 @@ def assert_no_cross_treatment_mix(lines, treatment: str) -> None:
             f"Engines and LTE are separate products and are never combined (RYA-712).")
 
 
+def no_data_reason(wave, flux, centre: float, half_width: float) -> str:
+    """Why a fit window has no data, or ''. Flux exactly 0 or below is a detector gap, never an
+    absorption line. A blanked (non-finite) pixel is not counted: the fit already masks it."""
+    w, f = np.asarray(wave, dtype=float), np.asarray(flux, dtype=float)
+    win = np.abs(w - centre) <= half_width
+    n = int((f[win] <= 0).sum())
+    return f"NO-DATA: {n} of {int(win.sum())} window pixels have zero flux (detector gap)" if n else ""
+
+
 def local_continuum(w: np.ndarray, f: np.ndarray, centre: float, half_width: float,
                     *, sideband_frac: float = 0.5, pct: float = 95.0) -> float:
     """Continuum from clean side-bands, as the 95th percentile of the flanking regions.

@@ -252,3 +252,15 @@ def test_gurell_row_with_a_lower_level_reaching_no_known_level_takes_valds():
     out, counts = g.build(t2, t3, vald)
     assert counts["lower_level_from_vald"] == 1
     assert out.ep_eV.iloc[0] == 4.9274 and out.ep_upper_eV.iloc[0] == 8.3547
+
+
+def test_a_window_touching_a_detector_gap_has_no_data():
+    from pipeline.band_products import no_data_reason
+    w = np.arange(5303.0, 5306.0, 0.01)
+    f = np.where(w < 5304.3, 0.9, 0.0)                 # HARPS: flux exactly 0 redward of the edge
+    assert no_data_reason(w, f, 5304.18, 1.0).startswith("NO-DATA: ")
+    assert no_data_reason(w, f, 5303.5, 0.5) == ""     # clear of the gap
+    f = f.copy()
+    f[f == 0.0] = np.nan                               # blanked pixels are the fit's own mask
+    assert no_data_reason(w, f, 5304.18, 1.0) == ""
+    assert no_data_reason((), (), 5304.18, 1.0) == ""  # nothing served: the fit has failed already
