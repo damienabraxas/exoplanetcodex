@@ -29121,3 +29121,27 @@ artifacts:
     generator: "scripts/run_bride_H_fixed_transfer.py"
     invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
     ticket: "RYA-1281"
+  - artifact: rya1281/H_kitt_orch_v1/contrasts.csv
+    generator: "scripts/analyze_bride_H_kitt_orch.py"
+    invocation: "python scripts/analyze_bride_H_kitt_orch.py --output <fresh-H-kitt-orch>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_kitt_orch_v1/kitt_comparison.png
+    generator: "scripts/analyze_bride_H_kitt_orch.py"
+    invocation: "python scripts/analyze_bride_H_kitt_orch.py --output <fresh-H-kitt-orch>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_kitt_orch_v1/profiles_and_continua.npz
+    generator: "scripts/analyze_bride_H_kitt_orch.py"
+    invocation: "python scripts/analyze_bride_H_kitt_orch.py --output <fresh-H-kitt-orch>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_kitt_orch_v1/report.json
+    generator: "scripts/analyze_bride_H_kitt_orch.py"
+    invocation: "python scripts/analyze_bride_H_kitt_orch.py --output <fresh-H-kitt-orch>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_kitt_orch_v1/summary.csv
+    generator: "scripts/analyze_bride_H_kitt_orch.py"
+    invocation: "python scripts/analyze_bride_H_kitt_orch.py --output <fresh-H-kitt-orch>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_kitt_orch_v1/support.json
+    generator: "scripts/analyze_bride_H_kitt_orch.py"
+    invocation: "python scripts/analyze_bride_H_kitt_orch.py --output <fresh-H-kitt-orch>"
+    ticket: "RYA-1281"

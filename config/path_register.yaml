@@ -250,6 +250,18 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_h_kitt_orch_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-kitt-orch-v3
+    env: CODEX_BRIDE_H_KITT_ORCH_FIRST
+    kind: dir
+    desc: First completed pinned ORCH Kitt Peak replay; nominal results preserved before support-trace metadata extension.
+  experiments.bride_h_kitt_orch:
+    root: work
+    rel: bride_mac_checks/rya1281-H-kitt-orch-v4
+    env: CODEX_BRIDE_H_KITT_ORCH
+    kind: dir
+    desc: Accepted paired-H six-spectrum Kitt Peak replay with actual pinned ORCH continua and coefficient support, no abundance adoption.
   experiments.bride_h_fixed_transfer:
     root: work
     rel: bride_mac_checks/rya1281-H-fixed-transfer-v1

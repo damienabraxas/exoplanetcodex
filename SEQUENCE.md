@@ -1,3 +1,7 @@
+## 2026-11-08 — paired-H Kitt Peak and pinned ORCH replay
+
+- **RYA-1281** — Small H response survives fixed processing; larger solar residual and one-sided continuum extrapolation remain, crossed support controls next (v234).
+
 ## 2026-11-08 — reciprocal fixed-fraction H transfer checks
 
 - **RYA-1281** — Both fraction anchors pass fixed-radiation/replay checks; conditional transfer and SE-feedback contrasts measured, solar diagnostic comparison next (v233).
