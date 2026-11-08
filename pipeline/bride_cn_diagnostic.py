@@ -53,6 +53,8 @@ def frequency_offsets(wavelength_A, lambda0_air_A, doppler_width_Hz, c_cm_s,
             or any(np.any(x<=0)for x in (wave,width,c,legacy))
             or np.any(centre<AIR_VACUUM_BOUNDARY_A)):
         raise ValueError('Invalid explicit CN wavelength/state contract')
+    if input_medium=='air'and np.any(wave<AIR_VACUUM_BOUNDARY_A):
+        raise ValueError('AIR wavelengths undefined below canonical boundary')
     if mode=='native_linear_air':
         if input_medium!='air':raise ValueError('Native mapping requires AIR grid')
         delta=(wave[:,None]-centre[None,:])*1e-8*c[None,:]/legacy[None,:]**2

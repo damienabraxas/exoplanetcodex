@@ -14,6 +14,7 @@ def test_explicit_frames_and_zero_centres():
         v=coords(grid,mode,medium);assert v.shape==(3,1);assert v[1,0]==0.;assert v[0,0]<0<v[2,0]
     for mode,medium in [('native_linear_air','vacuum'),('exact_vacuum_frequency','air'),('unknown','air')]:
         with pytest.raises(ValueError):coords(air,mode,medium)
+    with pytest.raises(ValueError):coords([1900.],'native_linear_air','air')
 
 
 def test_linear_limit_and_two_dimensional_kernel_contract():
