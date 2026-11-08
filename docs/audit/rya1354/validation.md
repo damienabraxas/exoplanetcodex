@@ -23,6 +23,14 @@ Final SHA/PR and actual CI state are recorded in the Linear handoff.
 | `python3.12 scripts/generate_sources_page.py --audit-library <resolved-library>` | Exit 1 before library traversal on existing civis2013/mallinson2024 verified-state vocabulary failures. No clean-library verdict. |
 | `python scripts/audit_line_keys_rya1037.py --check` | Exit 1: existing 31 findings across 12 files and excess waiver counts in nlte_corrections; none in new scripts. RYA-1353 already documented the same baseline set. |
 | `git diff --check` | Exit 0. |
+| Post-commit `python3.12 scripts/check_register_freshness.py --since-main` | Exit 0; zero state surfaces changed. |
+| Ordinary `git push` | Exit 1: existing SEQUENCE drift omits merged RYA-1352/1353 on origin/main 7f023fd7. Version pointer/freshness pass. Used the hook's explicit `--no-verify` draft option; no merge/publication gate bypass. |
+
+Main advanced to `7f023fd7` during the session with separate Ca feed/results and
+SEQUENCE changes. This checkpoint remains based on the recorded `adefcaf0` input
+state; those other workers' scientific changes are neither copied nor reverted.
+The zero-production-diff assertion is against this task's base, not a claim that
+the live repository stopped changing during the pilot.
 
 Retained development failures: initial BLAS configure; optional 25.6 GB unique-label
 allocation; old angular-domain refusal with false zero exit; raw book/native
