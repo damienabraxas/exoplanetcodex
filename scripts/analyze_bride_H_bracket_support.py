@@ -11,6 +11,7 @@ def main():
  from pipeline.bride_reference import fingerprint
  from pipeline.bride_fixed_support import shared_masks,fixed_fit
  from pipeline.bride_observables import window_integral
+ from pipeline.bride_crossed_continuum import finite_accounting
  plan_path=ROOT/'config/experiments/rya1281_H_bracket_support.json';plan=json.loads(plan_path.read_text());source=ROOT/plan['source_archive'];checks=[]
  def check(path,receipt):
   if fingerprint(path)!=receipt:raise ValueError('Changed source '+str(path))
@@ -63,10 +64,19 @@ def main():
     for anchor in ['coupled','model_anchor','native_anchor']:
      for ref in plan['references']:
       A=by[anchor+'_model_mass_H',ref];B=by[anchor+'_native_network_H',ref];contrasts.append(dict(kind='H_residual',label=anchor,rv=rv,centre_air_A=centre,support=name,reference=ref,area_contrast_mA=None if A['area_residual_mA']is None or B['area_residual_mA']is None else B['area_residual_mA']-A['area_residual_mA']))
+ accounting=[]
+ for rv in plan['RVs']:
+  for centre in plan['centres_air_A']:
+   for label in labels:
+    by={(r['support'],r['reference']):r for r in rows if r['rv']==rv and r['centre_air_A']==centre and r['label']==label}
+    corners={support+'_'+ref:dict(area=by[name,reference]['observed_area_mA'])for support,name in [('before','native_coeff_synthesis'),('after','balanced_iag_per_side')]for ref,reference in [('before','synthesis'),('after','iag')]}
+    change=finite_accounting(corners,'area')
+    if change['available']and abs(change['closure'])>1e-10:raise ValueError('Finite accounting closure failed')
+    accounting.append(dict(label=label,rv=rv,centre_air_A=centre,**change))
  for path,receipt in checks:
   if fingerprint(path)!=receipt:raise ValueError('Source changed during fixed-support analysis')
  a.output.mkdir(parents=True,exist_ok=False)
- for name,data in [('summary.csv',rows),('contrasts.csv',contrasts)]:
+ for name,data in [('summary.csv',rows),('contrasts.csv',contrasts),('accounting.csv',accounting)]:
   with(a.output/name).open('w',newline='')as stream:writer=csv.DictWriter(stream,fieldnames=list(data[0]),lineterminator='\n');writer.writeheader();writer.writerows(data)
  (a.output/'fits.json').write_text(json.dumps(records,indent=2,allow_nan=False)+'\n')
  import matplotlib
@@ -83,6 +93,7 @@ def main():
   for ax in axes[:,ci]:ax.legend(fontsize=8)
  fig.suptitle('Diagnostic balanced IAG-per-side support, no clipping; fixed plus-gravity models\nNo continuum/abundance adoption; original native supports retained separately');fig.tight_layout();fig.savefig(a.output/'fixed_support.png',dpi=140);plt.close(fig)
  result=dict(schema='codex.bride_H_bracket_support_analysis/1',scientific_admission='HOLD',scope=plan['scope'],generator=fingerprint(__file__),helper=fingerprint(ROOT/'pipeline/bride_fixed_support.py'),plan=fingerprint(plan_path),source_files=plan['source_files'],orch_commit=pin,pinned_native=fingerprint(native),maximum_shift=lc.MAX_SHIFT_MODEL,minimum_pixels=lc.MIN_MODEL_PIX,observation=parent['observation'],iag=parent['iag'],frame=parent['frame'],broadening=parent['broadening'],RV_km_s=parent['RV_km_s'],rows=len(rows),applied=sum(r['applied']for r in rows),refused=sum(not r['applied']for r in rows),native_coefficient_replays=replay,by_support={name:dict(applied=sum(r['applied']for r in rows if r['support']==name),refused=sum(not r['applied']for r in rows if r['support']==name))for name in plan['supports']},limitations=['Fixed support is an intervention, not a new validated continuum or ratified estimator.','Shared bracketing criteria are prospective diagnostic guards, not physical error bounds.','No clipping; original native selected/exact coefficient supports retained as controls.','No new broadening, RV, observation conditioning outside saved local diagnostics, RT/EOS/provider/abundance or product admission.','Finite areas/unweighted residuals have no noise/significance/abundance interpretation.'])
+ result['finite_accounting']=dict(quartets=len(accounting),source_support='native_coeff_synthesis',target_support='balanced_iag_per_side',scope='Finite path-average changes in conditioned observed area only; correlated interventions, not unique causal/error-budget terms',helper=fingerprint(ROOT/'pipeline/bride_crossed_continuum.py'))
  (a.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');print(json.dumps({k:result[k]for k in ['rows','applied','refused','by_support']}))
 
 if __name__=='__main__':main()
