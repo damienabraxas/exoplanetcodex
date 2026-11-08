@@ -58,7 +58,7 @@ def compare_states(rows,partition_record,eps_multiple):
     gf=10.**r['loggf'];constant=np.sqrt(np.pi)*r['e_esu']**2/(r['electron_mass_g']*r['c_cm_s'])
     plez=lower*stim/r['doppler_width_Hz']/r['standard_opacity_cm2_g']
     derived={'ntt_per_g':total,'ntot_per_g':total,'Q':Q,'lower_population_per_g':lower,'stim':stim,'gf':gf,'constant':constant,'calf':constant*gf,'plez':plez,'pre_voigt_amplitude_over_standard':constant*gf*plez}
-    bound=eps_multiple*np.finfo(np.float32).eps;checks={}
+    bound=float(eps_multiple*np.finfo(np.float32).eps);checks={}
     for name,value in derived.items():
         rel=float(np.max(np.abs(value/r[name]-1)));checks[name]=dict(max_relative_difference=rel,prospective_relative_bound=bound,passed=rel<=bound)
     return checks
