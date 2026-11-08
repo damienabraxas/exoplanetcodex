@@ -10,6 +10,14 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-11-08 — RYA-1311 (#610) and RYA-1349 (#611) landed; pending RYA-1311 Ca close-out
+
+> **Current as of `main` 3baabba9** (2026-11-07, RYA-1349 #611).
+
+- **RYA-1349** — `3baabba9` PR #611: the orchestrator's per-element checklist proves an element complete (`456b8124`): CODE_DRIFT (only code changed since the build) is reported, not owed; an unbuilt Deep cell owes nothing; ENGINE-A on a quarantined pool is HELD with the quarantine's reason (`a967cd74`); holdings that disagree are flagged. Ti coverage DONE (330 CODE_DRIFT, 0 owed, `ceaf3526`); Ti bookkeeping committed (355 build records); Fe_perline regenerated with the 10 restored Fe II line files, RYA-1055 audit pin 38 -> 55; runbook updated (`87d99e34`).
+- **RYA-1311** — `2763973c` PR #610: Ca IR graded (Y/J Elgueta 2024, H/K Civis et al. 2013 QDT, sigma 0.11/line), ENGINE-A extension-table fix, red-optical Ca I ENGINE-A on 3 lines with a note; 213 live, headline 6.405 unchanged.
+- **RYA-1311** (pending, branch `ryandamienschmitt/rya-1311-ca-close`) — near-UV Ca I Reference ENGINE-A built (2 cells, 6.63-6.68) and quarantined with its cell (chi2 28-64); live products unchanged (213), quarantine 56 -> 58; Ca checklist DONE (PUBLISHED 70 / CODE_DRIFT 143 / HELD 564 / NOT_RUN 0 / STALE 0).
+
 ## 2026-11-07 — RYA-1315 landed; pending RYA-1311 IR branch
 
 > **Current as of `main` 459f5614** (2026-11-07, RYA-1315 #608).
