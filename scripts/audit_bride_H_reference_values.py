@@ -47,21 +47,23 @@ def main():
    for label in labels:
     A=lookup[label,rv,centre,'synthesis'];B=lookup[label,rv,centre,'iag']
     if not A['applied']or not B['applied']or A['indices']!=B['indices']:raise ValueError('Unmatched accepted balanced support')
-    idx=np.array(A['indices'],int);x=w-centre;syn=arrays[f'reference_{rv}_{ci}_synthesis_{label}'];iag=arrays[f'reference_{rv}_{ci}_iag_{label}'];ratio_s=obs/syn;ratio_i=obs/iag;point=obs*(syn-iag)/(iag*syn)
-    np.testing.assert_allclose((ratio_i-ratio_s)[idx],point[idx],rtol=0,atol=16*np.finfo(float).eps)
-    geometry=support_geometry(w,centre,idx);weights=np.array(geometry['centre_weights']);cs=np.polyfit(x[idx],ratio_s[idx],1);ct=np.polyfit(x[idx],ratio_i[idx],1);diff=np.polyfit(x[idx],point[idx],1);bound=1024*np.finfo(float).eps*geometry['design_condition_2']
+    idx=np.array(A['indices'],int);x=w-centre;syn=arrays[f'reference_{rv}_{ci}_synthesis_{label}'];iag=arrays[f'reference_{rv}_{ci}_iag_{label}'];
+    if any(not np.isfinite(z[idx]).all()or np.any(z[idx]<=0)for z in [obs,syn,iag]):raise ValueError('Invalid selected reference values')
+    ratio_s=obs[idx]/syn[idx];ratio_i=obs[idx]/iag[idx];point=obs[idx]*(syn[idx]-iag[idx])/(iag[idx]*syn[idx])
+    np.testing.assert_allclose(ratio_i-ratio_s,point,rtol=0,atol=16*np.finfo(float).eps)
+    geometry=support_geometry(w,centre,idx);weights=np.array(geometry['centre_weights']);cs=np.polyfit(x[idx],ratio_s,1);ct=np.polyfit(x[idx],ratio_i,1);diff=np.polyfit(x[idx],point,1);bound=1024*np.finfo(float).eps*geometry['design_condition_2']
     np.testing.assert_array_equal(cs,np.array([A['slope_per_A'],A['level']]));np.testing.assert_array_equal(ct,np.array([B['slope_per_A'],B['level']]))
-    np.testing.assert_allclose(ct-cs,diff,rtol=0,atol=bound);weighted=float(weights@point[idx])
+    np.testing.assert_allclose(ct-cs,diff,rtol=0,atol=bound);weighted=float(weights@point)
     if abs(weighted-(B['level']-A['level']))>bound:raise ValueError('Level influence reconstruction failed')
     area=lambda level,slope:1000*window_integral(w,obs/(level+slope*x),centre-plan['half_width_A'],centre+plan['half_width_A'])
     corners={lev+'_'+sl:dict(area=area(level,slope))for lev,level in [('before',A['level']),('after',B['level'])]for sl,slope in [('before',A['slope_per_A']),('after',B['slope_per_A'])]};account=finite_accounting(corners,'area');ca=A['level']+A['slope_per_A']*x;cb=B['level']+B['slope_per_A']*x;direct=1000*integral(w,obs*(1/ca-1/cb),centre-plan['half_width_A'],centre+plan['half_width_A'])
     if not account['available']or abs(account['closure'])>1e-10 or abs(direct-account['total'])>1e-10:raise ValueError('Finite observed-area identity failed')
     base=dict(label=label,rv=rv,centre_air_A=centre,count=len(idx));row=dict(**base,synthesis_level=A['level'],iag_level=B['level'],level_difference=B['level']-A['level'],weighted_ratio_difference=weighted,slope_difference_per_A=B['slope_per_A']-A['slope_per_A'],observed_area_difference_mA=account['total'],direct_area_difference_mA=direct,level_path_average_mA=account['support_path_average'],slope_path_average_mA=account['denominator_path_average'],level_slope_interaction_mA=account['interaction'],closure_mA=account['closure'])
-    for key,values in [('kitt',obs),('synthesis',syn),('iag',iag),('iag_minus_synthesis',iag-syn),('kitt_over_synthesis',ratio_s),('kitt_over_iag',ratio_i)]:
-     row[key+'_median']=float(np.median(values[idx]));row[key+'_mean']=float(np.mean(values[idx]));row[key+'_min']=float(np.min(values[idx]));row[key+'_max']=float(np.max(values[idx]))
+    for key,values in [('kitt',obs[idx]),('synthesis',syn[idx]),('iag',iag[idx]),('iag_minus_synthesis',(iag-syn)[idx]),('kitt_over_synthesis',ratio_s),('kitt_over_iag',ratio_i)]:
+     row[key+'_median']=float(np.median(values));row[key+'_mean']=float(np.mean(values));row[key+'_min']=float(np.min(values));row[key+'_max']=float(np.max(values))
     rows.append(row)
-    for j,weight in zip(idx,weights):pixels.append(dict(**base,index=int(j),wave_air_A=float(w[j]),offset_air_A=float(x[j]),side='blue'if x[j]<0 else'red',kitt=float(obs[j]),synthesis=float(syn[j]),iag=float(iag[j]),kitt_over_synthesis=float(ratio_s[j]),kitt_over_iag=float(ratio_i[j]),ratio_difference=float(ratio_i[j]-ratio_s[j]),algebraic_ratio_difference=float(point[j]),centre_influence_weight=float(weight)))
-    if label==plan['baseline']and rv=='plus_gravity':plot_data.append((centre,x[idx],obs[idx],syn[idx],iag[idx],ratio_s[idx],ratio_i[idx]))
+    for pos,(j,weight)in enumerate(zip(idx,weights)):pixels.append(dict(**base,index=int(j),wave_air_A=float(w[j]),offset_air_A=float(x[j]),side='blue'if x[j]<0 else'red',kitt=float(obs[j]),synthesis=float(syn[j]),iag=float(iag[j]),kitt_over_synthesis=float(ratio_s[pos]),kitt_over_iag=float(ratio_i[pos]),ratio_difference=float(ratio_i[pos]-ratio_s[pos]),algebraic_ratio_difference=float(point[pos]),centre_influence_weight=float(weight)))
+    if label==plan['baseline']and rv=='plus_gravity':plot_data.append((centre,x[idx],obs[idx],syn[idx],iag[idx],ratio_s,ratio_i))
  for key,value in arrays.items():np.testing.assert_array_equal(value,original[key])
  for path,receipt in checks:
   if fingerprint(path)!=receipt:raise ValueError('Source changed during value audit')
