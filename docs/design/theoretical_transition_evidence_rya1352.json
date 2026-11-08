@@ -1,0 +1,63 @@
+{
+  "contract_id": "rya1352.transition-evidence.v0",
+  "status": "DRAFT_REQUIRES_SCIENTIFIC_REVIEW",
+  "runtime_consumers": [],
+  "purpose": "Field contract for an append-only atomic evidence sidecar; this is not a deployed validator or a scientific dataset.",
+  "entities": {
+    "transition": {
+      "required": ["transition_id", "atomic_number", "ion_stage", "lower_level", "upper_level", "wavelength", "component_identity", "identity_status", "legacy_links"],
+      "lower_level_and_upper_level": "source-qualified level ID, configuration, term, parity, J, energy value/unit/origin/uncertainty; preserve mixing and assignment ambiguity",
+      "wavelength": "value, unit, air/vacuum medium, rest/observed frame, observed/Ritz/calculated origin, conversion source/version and uncertainty",
+      "component_identity": "transition/component/feature type, isotope mass or explicit unresolved state, HFS F_lower/F_upper, parent feature ID, component IDs and normalization; never equate a summed feature with an individual component",
+      "identity_status": ["RESOLVED", "AMBIGUOUS", "MISSING_LEVELS", "UNRESOLVED_COMPONENTS"],
+      "legacy_links": "canonical physical_id AND line_id at an immutable canonical CSV hash; ID alone is not proof of identical physical levels"
+    },
+    "evidence_record": {
+      "required": ["evidence_id", "transition_id", "quantity", "value", "unit", "origin", "underlying_origin", "theoretical_method", "source", "quality", "uncertainty", "covariance_block_id", "calculation", "version"],
+      "quantity": ["loggf", "f", "A_ki", "lifetime", "branching_fraction", "lande_g", "hfs_constant", "isotope_shift", "natural_broadening"],
+      "origin": ["experimental", "theoretical", "evaluated", "astrophysical", "unknown"],
+      "underlying_origin": "For evaluated: experimental/theoretical/astrophysical/mixed/unknown plus IDs of the original evidence; otherwise equals origin. Evaluation never erases underlying nature.",
+      "theoretical_method": "For theoretical or evaluated-underlying-theoretical: method family (MCDHF/RCI, MCHF, CI, orthogonal-operator, other), code/version/commit, correlation/configuration expansion, relativistic treatment, gauge, observed-level substitutions and their source IDs. Null with reason for non-theoretical evidence.",
+      "source": "primary DOI or explicit DOI_UNAVAILABLE with reason and stable bibcode/catalog/URL; bibliography key, table/row, original reference code, aggregator/release/query, retrieval UTC and source artifact SHA256. Preserve full parent-source chain and license.",
+      "quality": "assessment state CANDIDATE/BENCHMARKED/REVIEWED/REJECTED/UNKNOWN; diagnostics and limitations; nist_evaluation null or exact published accuracy code (including prime), ASD release, TP reference and row evidence. MQ measurement quality is stored only in observation records. No local NIST letter assignment.",
+      "uncertainty": "status REPORTED/ESTIMATED/UNKNOWN/NOT_APPLICABLE; absolute/relative/asymmetric representation, native units, finite positive bounds when known, distribution, confidence/coverage definition, systematic groups, derivation and source. Native percentage accuracy is not automatically 1-sigma Gaussian. Any loggf conversion retains native bounds and convention.",
+      "covariance_block_id": "Reference to an immutable block or an explicit UNKNOWN block; never assume independence from different citations alone",
+      "calculation": "For theory: immutable input/output manifests with hashes, executable and environment/container versions, exact CLI, numerics, convergence sequence, gauge comparison, observed-energy substitutions, blind benchmark partition/hash and report IDs, independent-method comparison, failures and rejected candidates. No Solar-abundance fitting.",
+      "version": "immutable evidence version, content hash, created UTC, supersedes IDs and correction reason; retraction retains prior bytes"
+    },
+    "covariance_block": {
+      "required": ["block_id", "status", "ordered_evidence_ids", "quantity", "unit_squared", "matrix_artifact", "assumptions", "source"],
+      "status": ["KNOWN", "ASSUMED_WITH_REVIEW", "UNKNOWN"],
+      "matrix_artifact": "When known: URI plus SHA256, finite symmetric PSD matrix, dimensions matching unique ordered IDs, diagonal matching the same uncertainty convention; include cross-transition shared lifetimes/branching fractions, scale and calculation errors. UNKNOWN retains null matrix and materiality/hold reason.",
+      "assumptions": "Explicit independence or shared-error model, confidence convention, reviewer and scope; neither zero-fill nor sigma/sqrt(N) for a shared scale"
+    },
+    "adoption_decision": {
+      "required": ["decision_id", "transition_id", "quantity", "adopted_evidence_id", "alternative_evidence_ids", "policy_version", "rationale", "review", "effective_version"],
+      "adopted_evidence_id": "Exactly one existing eligible evidence ID or null with HOLD; does not overwrite alternatives or legacy adopted gf",
+      "rationale": "Physical identity, source suitability, conflicts, uncertainty, covariance and benchmark evidence; no selection by Solar-abundance proximity",
+      "review": "named scientific reviewer, UTC, decision URI, input/output hashes and scope (schema/benchmark/adoption/measurement/publication); an approval for one scope confers no other approval"
+    },
+    "line_selection": {
+      "required": ["transition_id", "policy_version", "legacy_grade", "reference_memberships", "depth_record", "proposed_memberships"],
+      "legacy_grade": "Preserve the exact current emitted label and selector/line_set/tier; do not infer origin from that label",
+      "reference_memberships": "Independent list of published set/version, source-used/rejected status, published gf evidence ID and lineage. Distinguish AGSS21 replication, other published sets, full-lab-pool Reference variant and evaluated amalgamation.",
+      "depth_record": "feature ID, component window and rule, value or UNKNOWN, Solar holding/instrument and spectrum hash, measured/predicted basis, generator version; below-observability stays a separate flag",
+      "proposed_memberships": "Separate CODEX/DEEP/THEORETICAL_CODEX proposals with CANDIDATE/HOLD/APPROVED/REJECTED, policy version and review. v0 approves none. Theory approval must never confer experimental origin or primary-lab membership."
+    },
+    "eligibility": {
+      "required": ["transition_id", "adoption_decision_id", "star", "holding_id", "instrument", "band", "route", "engine_model", "status", "reasons", "evidence_hashes"],
+      "status": ["CANDIDATE", "HOLD", "ELIGIBLE", "FAILED", "NOT_APPLICABLE"],
+      "reasons": "Identity, depth/route, blends, isotope/HFS, correction/normalization state, verified IR tellurics for exact product, model coverage, magnetic/pressure/molecular applicability and fit validity. A failed observation never downgrades intrinsic atomic evidence.",
+      "publication": "ELIGIBLE is measurement-only. Abundance publication separately invokes existing RYA-587 uncertainty and product eligibility contracts plus explicit human publication approval."
+    }
+  },
+  "invariants": [
+    "No production imports, classifier edits, canonical writes, feed updates, website changes or adopted theoretical values in v0.",
+    "Match species/ion plus wavelength medium/frame plus level/EP/J and isotope/HFS/component identity. Ambiguity or missing required identity is HOLD, never nearest-wavelength selection.",
+    "A cited NIST evaluation of theory is retained as an evaluated accuracy assessment, never an experimental pedigree.",
+    "Internal convergence or gauge agreement alone cannot qualify a theoretical value. Blind primary experimental benchmarks and uncertainty review are required; thresholds must be predeclared and approved before inspecting withheld results.",
+    "Separate collision, photoionization, Stark/van der Waals/ABO and NLTE-atom completeness evidence domains; a loggf benchmark does not validate them.",
+    "Propagate accepted line-data covariance through the existing RYA-587 transition-data component using product response weights; preserve matched Sun/target covariance for differential products.",
+    "Version schema, evidence, calculation, policy, adoption and scientific products separately; retain rejected candidates and immutable historical source values."
+  ]
+}

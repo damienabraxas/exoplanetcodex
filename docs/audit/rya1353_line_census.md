@@ -243,3 +243,13 @@ isotope adjudication of `source_records.csv.gz` and exact HoldingSpec associatio
 of `holding_spans.csv`, starting with O I, then the withheld Fe experiments.
 Missing experimental gf, missing any gf, and unavailable observation must remain
 separate states throughout. No automatic publication or Linear Done transition.
+
+## Main integration
+
+Merged main `d70d932a` into the review branch to resolve the append-only
+`run_bug_ledger.csv` conflict. Both branches' records are preserved. The versioned
+v4 census remains tied to its original inputs; its checksum test now authenticates
+Git blobs at the snapshot's creation commit, so main's later bibliography addition
+does not require rewriting historical evidence. No census artifact was regenerated.
+Integration validation: census, shared matcher and incoming grade-governance tests
+pass together (24 tests); staged whitespace checks pass and no conflicts remain.

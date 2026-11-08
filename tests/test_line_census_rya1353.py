@@ -3,6 +3,7 @@ import importlib.util
 import csv
 import gzip
 import hashlib
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -68,9 +69,16 @@ def test_committed_census_conserves_every_canonical_row_without_science_mutation
 
 
 def test_committed_input_manifest_authenticates_all_inputs():
-    manifest = census.read(census.ROOT / "data/audit/rya1353_line_census/v4/input_manifest.csv")
+    manifest_path = "data/audit/rya1353_line_census/v4/input_manifest.csv"
+    manifest = census.read(census.ROOT / manifest_path)
+    # This is a versioned historical census. Later bibliography additions must
+    # not rewrite its source hashes; authenticate the inputs at snapshot creation.
+    revision = subprocess.check_output(
+        ['git', 'log', '--diff-filter=A', '--format=%H', '-1', '--', manifest_path],
+        cwd=census.ROOT, text=True).strip()
+    assert revision, 'Snapshot creation commit must be available for provenance verification'
     for row in manifest:
-        data = (census.ROOT / row['path']).read_bytes()
+        data = subprocess.check_output(['git', 'show', f"{revision}:{row['path']}"], cwd=census.ROOT)
         assert len(data) == int(row['bytes'])
         assert hashlib.sha256(data).hexdigest() == row['sha256'], row['path']
 
