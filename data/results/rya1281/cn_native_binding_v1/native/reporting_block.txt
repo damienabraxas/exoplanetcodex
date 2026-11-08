@@ -1,0 +1,29 @@
+* BRIDE read-only EOS inventory. Counters only; no physics assignment.
+      write(*,'(A,3I7,1P,9E25.16)') 'BRIDE_BIND_EQ ',
+     & kk,nmetal,nmol,tt,pe,pgin,pgas,rho,xmytsuji,fictpres_h,
+     & atmass(1),atmass(99)
+      do j=1,nmetal
+        do m=0,3
+          write(*,'(A,3I7,1P,2E25.16)') 'BRIDE_BIND_SPEC ',
+     &    kk,j+m*nmetal,merge(1,0,nelemx(j).eq.1),
+     &    parptsuji(j+m*nmetal),xmass(j+m*nmetal)
+        enddo
+        if (kk.eq.1) then
+          write(*,'(A,I7,1P,3E25.16)') 'BRIDE_BIND_COMP ',
+     &    nelemx(j),ccomp(nelemx(j)),atmass(nelemx(j)),
+     &    inputabund(nelemx(j))
+        endif
+      enddo
+      do j=1,nmol
+        bride_hcount=0
+        do jjj=1,mmax(j)
+          if (nelem(jjj,j).eq.1) then
+            bride_hcount=bride_hcount+natom(jjj,j)
+          endif
+        enddo
+        write(*,'(A,3I7,1P,2E25.16)') 'BRIDE_BIND_SPEC ',
+     &    kk,j+4*nmetal,bride_hcount,parptsuji(j+4*nmetal),
+     &    xmass(j+4*nmetal)
+      enddo
+        write(*,'(A,I7,1P,9E25.16)') 'BRIDE_BIND_ATMOS ',
+     &  k,t(k),pe(k),pg(k),ro(k),xi(k),boltz,mh,rhotsuji,xmytsuji

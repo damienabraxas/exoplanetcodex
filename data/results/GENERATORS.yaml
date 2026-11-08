@@ -28781,3 +28781,63 @@ artifacts:
     generator: "scripts/check_bride_cn_provider.py"
     invocation: "python scripts/check_bride_cn_provider.py --output <fresh-cn-provider-arrays>"
     ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/report.json
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/state_binding.csv
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/composition.json
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/implemented_species.npz
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/reporting_block.txt
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/off/original/input.txt
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/off/reporting/input.txt
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/CN/original/input.txt
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/CN/reporting/input.txt
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/all/original/input.txt
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/native/all/reporting/input.txt
+    generator: "scripts/probe_bride_cn_native_binding.py"
+    invocation: "python scripts/probe_bride_cn_native_binding.py --output <fresh-native-binding>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/closure/report.json
+    generator: "scripts/analyze_bride_cn_binding_closure.py"
+    invocation: "python scripts/analyze_bride_cn_binding_closure.py --source <native-binding> --output <fresh-binding-closure>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/closure/closure.csv
+    generator: "scripts/analyze_bride_cn_binding_closure.py"
+    invocation: "python scripts/analyze_bride_cn_binding_closure.py --source <native-binding> --output <fresh-binding-closure>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/closure_v2/report.json
+    generator: "scripts/analyze_bride_cn_binding_closure.py"
+    invocation: "python scripts/analyze_bride_cn_binding_closure.py --source <native-binding> --output <fresh-binding-closure>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_native_binding_v1/closure_v2/closure.csv
+    generator: "scripts/analyze_bride_cn_binding_closure.py"
+    invocation: "python scripts/analyze_bride_cn_binding_closure.py --source <native-binding> --output <fresh-binding-closure>"
+    ticket: "RYA-1281"

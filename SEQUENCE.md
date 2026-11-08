@@ -1,3 +1,11 @@
+## 2026-11-08 — native H/density binding inventory
+
+> **Current as of `main` adefcaf0** (integration audit; Bride remains stacked separately).
+
+- **RYA-1353** — PR #614 merged O/Fe transition census; native H/EOS/source inputs remain pinned, no provider/runtime policy change.
+
+- **RYA-1281** — Quantify native EOS versus retained density/H normalization; explicit paired bindings precede native provider use (v229).
+
 ## 2026-11-08 — synthetic CN provider array integration
 
 > **Current as of `main` d70d932a** (integration audit; Bride remains stacked separately).
