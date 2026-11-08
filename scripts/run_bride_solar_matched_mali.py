@@ -61,7 +61,16 @@ def main():
  if a.dry_run:
   result.update(dry_run=True,telemetry=dict(seconds=time.perf_counter()-started,process_peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss));(a.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');return
  original=dict(controls=controls,experimental_collision_convention='barklem2018_MN_LTE_pair',native_spline_control=warm['coupled']['source_spline'],author_charge_control=warm['coupled']['source_mn'])
- final,coupled=solve_coupled(ctx,atom,original,a.output,started);np.testing.assert_array_equal(active.nStar,nstar)
+ try:final,coupled=solve_coupled(ctx,atom,original,a.output,started)
+ except Exception as error:
+  failed=dict(result,completed=False,SE_balance_claimed=False,initialization_only=True,error_type=type(error).__name__,error=str(error),elapsed_seconds=time.perf_counter()-started)
+  current=active.n.copy();conservation=float(np.max(abs(current.sum(axis=0)/active.nTotal-1)))
+  if np.isfinite(current).all()and np.all(current>0)and conservation<1e-10:
+   np.savez(a.output/'failure_seed.npz',populations=current,nstar=active.nStar.copy());failed['failure_seed']=fingerprint(a.output/'failure_seed.npz')
+  failed['conservation']=conservation if np.isfinite(conservation)else None
+  (a.output/'failure.json').write_text(json.dumps(failed,indent=2,allow_nan=False)+'\n')
+  raise
+ np.testing.assert_array_equal(active.nStar,nstar)
  groups=collision_classes(active.atomicModel,ctx.atmos.pyAtmos,ctx.kwargs['eqPops']);collision=sum(groups.values());active.compute_collisions(fillDiagonal=False);np.testing.assert_allclose(collision,active.C,rtol=256*np.finfo(float).eps,atol=0)
  radiation=np.zeros_like(collision)
  for line in active.trans:radiation[line.j,line.i]+=line.Rij;radiation[line.i,line.j]+=line.Rji
