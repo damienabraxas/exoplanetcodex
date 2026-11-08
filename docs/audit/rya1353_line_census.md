@@ -218,6 +218,8 @@ The scan is applicable-source inspection, not a successful whole-library audit.
 | `python -m pipeline.refinement_debt_join --report` | Exit 0; informational outstanding debt preserved |
 | `python scripts/generate_sources_page.py --audit-library '<resolved refs.library>'` | Exit 1 on both this branch and clean baseline; `civis2013` verified state `vizier` and `mallinson2024` free-text verified state are not accepted by the validator; no complete library-coverage verdict available |
 | `python scripts/audit_line_keys_rya1037.py --check` | Exit 1 on both branch and clean baseline; identical 31 AST findings across 12 files and excess waiver counts in `pipeline/nlte_corrections.py`; no finding in this census script |
+| `python scripts/check_register_freshness.py --since-main` after commit | Exit 0; zero state surfaces changed; register bump not required |
+| Ordinary `git push` pre-push ledger gate | Exit 1: current origin/main contains merged RYA-1349 / PR 611 without a SEQUENCE landing entry. The hook explicitly documents `--no-verify` for ledger-incomplete draft work; used to push this review branch, with the baseline failure disclosed. No merge/publication gate bypassed. |
 
 Self-review: **CRITICAL gate** — full physical identity and exact conditioning are
 unproven; all new candidates remain inadmissible. **WARNING** — grading conflict,
