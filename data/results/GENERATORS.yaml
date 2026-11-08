@@ -28745,3 +28745,27 @@ artifacts:
     generator: "scripts/check_bride_cn_profiles.py"
     invocation: "python scripts/check_bride_cn_profiles.py --output <fresh-cn-profiles>"
     ticket: "RYA-1281"
+  - artifact: rya1281/cn_coordinates_v1/report.json
+    generator: "scripts/check_bride_cn_coordinates.py"
+    invocation: "python scripts/check_bride_cn_coordinates.py --output <fresh-cn-coordinates>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coordinates_v1/summary.csv
+    generator: "scripts/check_bride_cn_coordinates.py"
+    invocation: "python scripts/check_bride_cn_coordinates.py --output <fresh-cn-coordinates>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coordinates_v1/probe_comparison.csv
+    generator: "scripts/check_bride_cn_coordinates.py"
+    invocation: "python scripts/check_bride_cn_coordinates.py --output <fresh-cn-coordinates>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coordinates_v1/probe.f90
+    generator: "scripts/check_bride_cn_coordinates.py"
+    invocation: "python scripts/check_bride_cn_coordinates.py --output <fresh-cn-coordinates>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coordinates_v1/input.txt
+    generator: "scripts/check_bride_cn_coordinates.py"
+    invocation: "python scripts/check_bride_cn_coordinates.py --output <fresh-cn-coordinates>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coordinates_v1/stdout.txt
+    generator: "scripts/check_bride_cn_coordinates.py"
+    invocation: "python scripts/check_bride_cn_coordinates.py --output <fresh-cn-coordinates>"
+    ticket: "RYA-1281"

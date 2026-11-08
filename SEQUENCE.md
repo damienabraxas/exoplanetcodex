@@ -1,3 +1,7 @@
+## 2026-11-08 — CN wavelength-coordinate controls
+
+- **RYA-1281** — Measure explicit AIR/vacuum profile mappings and define external-state provider contract; array-level provider checks next (v227).
+
 ## 2026-11-08 — CN profile and SI unit checks
 
 - **RYA-1281** — Measure native Voigt approximation and verify external-state SI extinction; frame/provider checks next (v226).
