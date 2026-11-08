@@ -1,3 +1,7 @@
+## 2026-11-08 — O777 observational-shape milestone
+
+- **RYA-1281** — Complete shape/broadening suite separates reference-level sensitivity from persistent relative line-strength deficit; matched canonical-solar T/g experiment next, science HOLD (v237).
+
 ## 2026-11-08 — same-pixel reference values and lineage
 
 - **RYA-1281** — Reference-level values algebraically explain conditioned-area contrast; held source/helper parity and continuum-lineage limits verified, shape-only diagnostics next (v236).

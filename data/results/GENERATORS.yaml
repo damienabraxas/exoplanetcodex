@@ -29189,3 +29189,43 @@ artifacts:
     generator: "scripts/audit_bride_H_reference_values.py"
     invocation: "python scripts/audit_bride_H_reference_values.py --output <fresh-reference-values>"
     ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/broadening_intervals.csv
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/comparisons.csv
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/metrics.csv
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/profiles.npz
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/report.json
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/sampling.csv
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/shape_milestone.png
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/run/shoulder_inventory.json
+    generator: "scripts/analyze_bride_O_shape_milestone.py"
+    invocation: "python scripts/analyze_bride_O_shape_milestone.py --output <fresh-O-shape-run>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/assessment/report.json
+    generator: "scripts/assess_bride_O_shape_milestone.py"
+    invocation: "python scripts/assess_bride_O_shape_milestone.py --source <O-shape-run> --output <fresh-O-shape-assessment>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/O_shape_milestone_v1/assessment/summary.csv
+    generator: "scripts/assess_bride_O_shape_milestone.py"
+    invocation: "python scripts/assess_bride_O_shape_milestone.py --source <O-shape-run> --output <fresh-O-shape-assessment>"
+    ticket: "RYA-1281"
