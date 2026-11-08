@@ -9,7 +9,7 @@ Branch/worktree: `ryandamienschmitt/rya-1352-grade-governance-audit-codexdeep`,
 | --- | --- |
 | `git fetch origin` | Initial sandbox DNS failure; authorized retry succeeded, base pinned above. |
 | `python scripts/audit_grade_governance_rya1352.py --base 3baabba95f728342f069f708dc815e729a1d0447 --output docs/audit/rya1352/baseline.json` | 0; 1,388 protected files unchanged, all-row classifier unchanged, 10 feeds with product arrays counted. Full report includes hashes for other protected feed files too. |
-| `python -m pytest tests/test_grade_governance_rya1352.py tests/test_rya1233_gf_graded_definition.py tests/test_rya1233_grade_every_element.py -q` | 0; 10 passed. Covers all canonical accepted IDs, working-tree protected hashes, legacy grade behavior and synthetic invalid-sigma admission. |
+| `python -m pytest tests/test_grade_governance_rya1352.py tests/test_rya1233_gf_graded_definition.py tests/test_rya1233_grade_every_element.py -q` | 0; 11 passed. The audit covers all canonical accepted IDs and protected hashes; tests prove mutation detection on a disposable Git fixture, legacy grade behavior and synthetic invalid-sigma admission. |
 | `python -m pipeline.refinement_debt_join --report` | 0 with project interpreter; 21 registry rows, 10 not-fired ticket rows, 5 no-ticket rows. No debt cleared. Initial system Python attempt failed missing pandas. |
 | `python3.12 scripts/generate_sources_page.py --audit-library "<resolved refs.library>"` | 1; pre-existing bibliography vocabulary failures on civis2013 and mallinson2024; library traversal not certified. |
 | `python3.12 scripts/check_register_freshness.py` | 0; register structure/freshness passes, existing stale generated tracker notice retained. |

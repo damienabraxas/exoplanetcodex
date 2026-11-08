@@ -43,7 +43,7 @@ executable behavior and measured artifact counts are therefore stated separately
 
 Descriptions and all returned comments for RYA-1351, 946, 1169, 709, 587, 161,
 945, 822 and 1131 are archived in [linear_preflight.json](linear_preflight.json).
-Follow-up RYA-1233, 1185, 1213, 1174, 1278, 1279 and 1281 records are in
+Follow-up RYA-1233, 1185, 1213, 1174, 1278, 1279 and 1281 topic excerpts are in
 [linear_followup.json](linear_followup.json). Every response reports
 `hasNextPage: false`; comments are assessed by creation time, not server order.
 The task itself had no comments at intake. Searches covered theoretical grading,
@@ -199,10 +199,12 @@ No website patch or deployment is part of this PR.
 6. Scientific review precedes any production calculation or publication. Schema
    migration rollback selects prior immutable policy/evidence versions; no deletion.
 
-The present regression tests characterize widened theory/NIST admission and the
-invalid-sigma failure mode, verify all baseline protected-file hashes against the
-working tree, and recompute the accepted-ID hash on every canonical row. Existing
-grade tests are also run. Future migration tests above are explicitly **owed**,
+The audit verifies all baseline protected-file hashes against the working tree
+and recomputes the accepted-ID hash on every canonical row. Regression tests
+characterize widened theory/NIST admission and invalid-sigma admission, and prove
+on a disposable Git fixture that product and classifier mutations are detected.
+They do not permanently freeze future scientific changes to this baseline.
+Existing grade tests are also run. Future migration tests above are explicitly **owed**,
 not presented as implemented validation of a deployed theoretical schema.
 
 ## 7. Findings, failures and reproduction
