@@ -250,6 +250,18 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_h_fixed_transfer:
+    root: work
+    rel: bride_mac_checks/rya1281-H-fixed-transfer-v1
+    env: CODEX_BRIDE_H_FIXED_TRANSFER
+    kind: dir
+    desc: Same model-H oxygen fractions under both H totals, fresh fixed-population transfer and same-H replay; no SE update.
+  experiments.bride_h_fixed_transfer_reciprocal:
+    root: work
+    rel: bride_mac_checks/rya1281-H-fixed-transfer-reciprocal-v1
+    env: CODEX_BRIDE_H_FIXED_TRANSFER_RECIPROCAL
+    kind: dir
+    desc: Reciprocal native-H fraction anchor for fixed-population transfer attribution; no SE or EOS admission.
   experiments.bride_h_nlte_pair_analysis:
     root: work
     rel: bride_mac_checks/rya1281-H-nlte-pair-analysis-v1

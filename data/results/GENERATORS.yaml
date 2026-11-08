@@ -29025,3 +29025,99 @@ artifacts:
     generator: "scripts/analyze_bride_H_nlte_pair.py"
     invocation: "python scripts/analyze_bride_H_nlte_pair.py --source <pair-directory> --output <fresh-analysis>"
     ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/contrasts.npz
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/contrasts.png
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/model_mass_H/flux.csv
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/model_mass_H/input.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/model_mass_H/populations.npz
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/model_mass_H/report.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/native_network_H/flux.csv
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/native_network_H/input.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/native_network_H/populations.npz
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/native_network_H/report.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/report.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/model_anchor/windows.csv
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --output <fresh-fixed-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/contrasts.npz
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/contrasts.png
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/model_mass_H/flux.csv
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/model_mass_H/input.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/model_mass_H/populations.npz
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/model_mass_H/report.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/native_network_H/flux.csv
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/native_network_H/input.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/native_network_H/populations.npz
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/native_network_H/report.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/report.json
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_fixed_transfer_v1/native_anchor/windows.csv
+    generator: "scripts/run_bride_H_fixed_transfer.py"
+    invocation: "python scripts/run_bride_H_fixed_transfer.py --plan config/experiments/rya1281_H_fixed_transfer_reciprocal.json --output <fresh-reciprocal-transfer>"
+    ticket: "RYA-1281"
