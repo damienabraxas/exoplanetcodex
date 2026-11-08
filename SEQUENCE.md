@@ -1,3 +1,7 @@
+## 2026-11-08 — completed common-seed paired O NLTE response
+
+- **RYA-1281** — Both H normalizations pass original NLTE controls after common-seed restart; small VIS triplet/departure response measured, transfer-versus-SE attribution next (v232).
+
 ## 2026-11-08 — bounded paired-H O NLTE attempts
 
 - **RYA-1281** — Model-H fresh O solve passes; native-H hits original600second budget, no admitted paired spectrum; common closer initialization next (v231).

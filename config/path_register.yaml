@@ -250,6 +250,24 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_h_nlte_pair_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-pair-analysis-v1
+    env: CODEX_BRIDE_H_NLTE_PAIR_ANALYSIS
+    kind: dir
+    desc: Independently audited common-seed paired O NLTE departures and intrinsic flux; no observation fit or normalization adoption.
+  experiments.bride_h_nlte_pair_restart:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-pair-v2
+    env: CODEX_BRIDE_H_NLTE_PAIR_RESTART
+    kind: dir
+    desc: Fresh paired O NLTE cases from identical completed v1 bare-background fractions, original budgets and independent audits; HOLD.
+  experiments.bride_h_nlte_restart_dry:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-restart-dry-v1
+    env: CODEX_BRIDE_H_NLTE_RESTART_DRY
+    kind: dir
+    desc: Shared closer-seed paired O NLTE Context dry run.
   experiments.bride_h_nlte_pair:
     root: work
     rel: bride_mac_checks/rya1281-H-nlte-pair-v1
