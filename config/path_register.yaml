@@ -250,6 +250,18 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_cn_provider_arrays_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-provider-arrays-v1
+    env: CODEX_BRIDE_CN_PROVIDER_ARRAYS_FIRST
+    kind: dir
+    desc: Disposable H-only LW synthetic CN background-array checks; no native population, RT or physical model admission.
+  experiments.bride_cn_provider_arrays:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-provider-arrays-v2
+    env: CODEX_BRIDE_CN_PROVIDER_ARRAYS
+    kind: dir
+    desc: Disposable H-only LW synthetic CN background-array checks; no native population, RT or physical model admission.
   experiments.bride_cn_coordinates_first:
     root: work
     rel: bride_mac_checks/rya1281-cn-coordinates-v1

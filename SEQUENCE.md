@@ -1,3 +1,12 @@
+## 2026-11-08 — synthetic CN provider array integration
+
+> **Current as of `main` d70d932a** (integration audit; Bride remains stacked separately).
+
+- **RYA-1352** — PR #613 merged grade-governance audit/design proposal; no CN/provider/wavelength code or ratified policy changed.
+- **RYA-1311** — PR #612 merged Ca close-out artifacts; no Bride inputs or results replaced.
+
+- **RYA-1281** — Prove installed-LW CN array plumbing on disposable state; matched native H/EOS binding precedes real-column use (v228).
+
 ## 2026-11-08 — CN wavelength-coordinate controls
 
 - **RYA-1281** — Measure explicit AIR/vacuum profile mappings and define external-state provider contract; array-level provider checks next (v227).

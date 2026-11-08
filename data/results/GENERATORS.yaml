@@ -28769,3 +28769,15 @@ artifacts:
     generator: "scripts/check_bride_cn_coordinates.py"
     invocation: "python scripts/check_bride_cn_coordinates.py --output <fresh-cn-coordinates>"
     ticket: "RYA-1281"
+  - artifact: rya1281/cn_provider_arrays_v1/report.json
+    generator: "scripts/check_bride_cn_provider.py"
+    invocation: "python scripts/check_bride_cn_provider.py --output <fresh-cn-provider-arrays>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_provider_arrays_v1/packet.json
+    generator: "scripts/check_bride_cn_provider.py"
+    invocation: "python scripts/check_bride_cn_provider.py --output <fresh-cn-provider-arrays>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_provider_arrays_v1/arrays.npz
+    generator: "scripts/check_bride_cn_provider.py"
+    invocation: "python scripts/check_bride_cn_provider.py --output <fresh-cn-provider-arrays>"
+    ticket: "RYA-1281"
