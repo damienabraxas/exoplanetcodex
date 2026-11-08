@@ -24,3 +24,10 @@ def test_invalid_choice_depth_and_nonfinite_state_refused():
     with pytest.raises(ValueError):control_state(s,r,'model_mass_H',kBoltzmann_SI=1.38e-23)
     s,r=fixture();r['temperature_K'][0]=np.nan
     with pytest.raises(ValueError):control_state(s,r,'native_network_H',kBoltzmann_SI=1.38e-23)
+
+
+def test_zero_microturbulence_allowed_and_negative_refused():
+    s,r=fixture();r['xi_cm_s']=0
+    assert control_state(s,r,'model_mass_H',kBoltzmann_SI=1.38e-23).vturb_m_s==(0.,0.)
+    r['xi_cm_s'][0]=-1
+    with pytest.raises(ValueError):control_state(s,r,'model_mass_H',kBoltzmann_SI=1.38e-23)

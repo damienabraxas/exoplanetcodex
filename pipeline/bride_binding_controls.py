@@ -24,7 +24,7 @@ def control_state(structure,records,case,*,kBoltzmann_SI):
     if any(k not in names for k in required)or len(records)!=n or not np.array_equal(records['depth_index'],np.arange(1,n+1)):raise ValueError('Invalid binding depth identity')
     fields=[np.asarray(records[k],float)for k in required[1:]];height=np.asarray(structure['height_m'],float)
     if not np.isfinite(kBoltzmann_SI)or kBoltzmann_SI<=0 or height.shape!=(n,)or not np.isfinite(height).all()or np.any(np.diff(height)>=0):raise ValueError('Invalid unit/geometry binding')
-    if any(not np.isfinite(x).all()or np.any(x<=0)for x in fields):raise ValueError('Invalid exported thermodynamic state')
+    if any(not np.isfinite(x).all()for x in fields)or any(np.any(records[k]<=0)for k in ['temperature_K','electron_pressure_dyn_cm2',*choices.values()])or np.any(records['xi_cm_s']<0):raise ValueError('Invalid exported thermodynamic state')
     T=records['temperature_K'].astype(float).copy();Pe=records['electron_pressure_dyn_cm2'].astype(float)*.1;ne=Pe/(kBoltzmann_SI*T)
     return BindingControl(case,tuple(height),tuple(T),tuple(Pe),tuple(ne),tuple(records[choices[case]].astype(float)),tuple(records['xi_cm_s'].astype(float)*.01),
         'exported native Pe/(LW k * exported native T)',choices[case])

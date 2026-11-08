@@ -8,3 +8,9 @@ def test_source_table_axes_and_bilinear_interpolation():
     tables=pair_tables(text);np.testing.assert_allclose(interpolate_pair([5],[150],tables),[[15]])
     with pytest.raises(ValueError):pair_tables(text+text)
     with pytest.raises(ValueError):interpolate_pair([10],[150],tables)
+
+
+def test_nonfinite_interpolation_coordinates_refused():
+    tables=(np.array([0.,10.]),np.array([100.,200.]),np.ones((2,2)))
+    for wave,temp in [([np.nan],[150]),([5],[np.inf])]:
+        with pytest.raises(ValueError):interpolate_pair(wave,temp,tables)

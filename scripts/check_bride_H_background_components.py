@@ -18,7 +18,7 @@ def pair_tables(text):
 
 def interpolate_pair(wave,temp,tables):
     L,T,Q=tables;wave=np.asarray(wave);temp=np.asarray(temp)
-    if np.any(wave<L[0])or np.any(wave>=L[-1])or np.any(temp<T[0])or np.any(temp>T[-1]):raise ValueError('Pair table domain requires explicit no-extrapolation')
+    if not np.isfinite(wave).all()or not np.isfinite(temp).all()or np.any(wave<L[0])or np.any(wave>=L[-1])or np.any(temp<T[0])or np.any(temp>T[-1]):raise ValueError('Pair table domain requires explicit no-extrapolation')
     i=np.clip(np.searchsorted(L,wave,side='right')-1,0,len(L)-2);j=np.clip(np.searchsorted(T,temp,side='right')-1,0,len(T)-2);f=(wave-L[i])/(L[i+1]-L[i]);g=(temp-T[j])/(T[j+1]-T[j])
     return (1-f[:,None])*(1-g[None,:])*Q[i[:,None],j[None,:]]+f[:,None]*(1-g[None,:])*Q[i[:,None]+1,j[None,:]]+(1-f[:,None])*g[None,:]*Q[i[:,None],j[None,:]+1]+f[:,None]*g[None,:]*Q[i[:,None]+1,j[None,:]+1]
 
@@ -31,7 +31,6 @@ def main():
  import lightweaver.LwCompiled as compiled
  from config.constants import require_codex_path
  from pipeline.bride_reference import fingerprint
- from pipeline.wavelength_util import vac_to_air
  plan_path=ROOT/'config/experiments/rya1281_H_background_components.json';plan=json.loads(plan_path.read_text());parent=json.loads((a.source/'report.json').read_text())
  if fingerprint(compiled.__file__)!=parent['backend']or fingerprint(c.__file__)!=parent['LW_constants']:raise ValueError('Changed paired-control backend/constants')
  arrays=[];inputs=[]
@@ -55,7 +54,7 @@ def main():
  with(a.output/'summary.csv').open('w',newline='')as f:w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n');w.writeheader();w.writerows(rows)
  # Match the parent's predeclared original AIR sample coordinates by their
  # recorded vacuum indices, without a roundtrip conversion in the physics.
- samples=np.load(a.source/'sampled_backgrounds.npz');indices=np.searchsorted(wave,samples['wavelength_vac_nm']);np.testing.assert_array_equal(wave[indices],samples['wavelength_vac_nm']);np.savez(a.output/'sampled_components.npz',wavelength_vac_nm=wave[indices],pair_chi_m_inv=pair[indices],Thomson_chi_m_inv=thomson,**{k+'_predicted':v[indices]for k,v in prediction.items()});samples.close()
+ samples=np.load(a.source/'sampled_backgrounds.npz');np.testing.assert_array_equal(samples['requested_air_A'],plan['sample_air_A']);indices=np.searchsorted(wave,samples['wavelength_vac_nm']);np.testing.assert_array_equal(wave[indices],samples['wavelength_vac_nm']);np.savez(a.output/'sampled_components.npz',wavelength_vac_nm=wave[indices],pair_chi_m_inv=pair[indices],Thomson_chi_m_inv=thomson,**{k+'_predicted':v[indices]for k,v in prediction.items()});samples.close()
  if source.read_bytes()!=original:raise ValueError('Inspected source changed')
  result=dict(schema='codex.bride_H_background_components/1',scientific_admission='HOLD',scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),parent=fingerprint(a.source/'report.json'),inspected_source=fingerprint(source),backend=parent['backend'],constants=parent['LW_constants'],closure_max_relative_errors=errors,prospective_arithmetic_bound=bound,closure_passed=all(x<=bound for x in errors.values()),summary={k:[min(row[k]for row in rows),max(row[k]for row in rows)]for k in ['pair_fraction_of_baseline_chi_min','pair_fraction_of_baseline_chi_max','Thomson_fraction_of_baseline_sca_min','Thomson_fraction_of_baseline_sca_max']},limitations=['Source-table/runtime closure on fixed state, not independent physical continuum validation or source-to-binary rebuild attestation.','H0*H+ pair continuum is present despite empty LW molecular population table; no additional molecular equilibrium inferred.','No fitted amplitude, background/default change, formal solution or O NLTE solve.'])
  (a.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');print(json.dumps({k:result[k]for k in ['closure_max_relative_errors','closure_passed','summary']}))
