@@ -5,6 +5,14 @@ import numpy as np
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
+def validate_processed_flux(wave,flux,centres):
+ """Retain iSpec zero padding, but prohibit it in any analysed +/-5A window."""
+ wave=np.asarray(wave);flux=np.asarray(flux);support=np.zeros(len(wave),bool)
+ for centre in centres:support|=abs(wave-centre)<=5
+ if flux.shape!=wave.shape or not np.isfinite(flux).all()or np.any(flux<0)or np.any(flux[support]<=0):raise ValueError('Invalid broadened flux in comparison support')
+ return np.flatnonzero(flux==0).tolist()
+
+
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
  from config.constants import require_codex_path
@@ -60,11 +68,11 @@ def main():
   if wave[0]>c-5 or wave[-1]<c+5:raise ValueError('Incomplete model continuum coverage')
  w,obs=read_kurucz2005_residual(observation,7765,7782);keep=(w>=wave[0])&(w<=wave[-1]);w=w[keep];obs=obs[keep];original_obs=obs.copy()
  if not np.all(np.diff(w)>0)or not np.isfinite(obs).all()or np.any(obs<=0)or w[0]>min(plan['centres_air_A'])-5 or w[-1]<max(plan['centres_air_A'])+5:raise ValueError('Invalid/short observed AIR coverage')
- segment=np.array([(wave[0]/10,wave[-1]/10)],dtype=[('wave_base',float),('wave_top',float)]);models={};arrays=dict(observed_wave_air_A=w,observed_shipped_flux=obs,model_wave_air_A=wave);rv_values=dict(no_gravity=0.,plus_gravity=SOLAR_GRAVITATIONAL_REDSHIFT)
+ segment=np.array([(wave[0]/10,wave[-1]/10)],dtype=[('wave_base',float),('wave_top',float)]);models={};padding=[];arrays=dict(observed_wave_air_A=w,observed_shipped_flux=obs,model_wave_air_A=wave);rv_values=dict(no_gravity=0.,plus_gravity=SOLAR_GRAVITATIONAL_REDSHIFT)
  for rvlabel in plan['RVs']:
   for label,data in raw.items():
    flux=ispec.apply_post_fundamental_effects(wave/10,data['normalized_flux'].copy(),segment,macroturbulence=b['vmac_km_s'],vsini=b['vsini_km_s'],limb_darkening_coeff=b['limb_darkening'],R=b['R'],vrad=(rv_values[rvlabel],))
-   if not np.isfinite(flux).all()or np.any(flux<=0):raise ValueError('Invalid broadened flux')
+   zero_indices=validate_processed_flux(wave,flux,plan['centres_air_A']);padding.append(dict(rv=rvlabel,label=label,zero_indices=zero_indices,zero_wavelengths_air_A=wave[zero_indices].tolist()))
    models[rvlabel,label]=flux;arrays['model_'+rvlabel+'_'+label]=flux
  fits={};iag_cache={}
  for rvlabel in plan['RVs']:
@@ -134,6 +142,7 @@ def main():
   for ax in axes[:,ci]:ax.set_xlabel('AIR A');ax.legend(fontsize=7)
  fig.suptitle('Bare-background O diagnostics: fixed broadening, plus-gravity, pinned IAG continuum\nNo abundance/continuum/RV tuning; no Fe/CN replacement');fig.tight_layout();fig.savefig(a.output/'kitt_comparison.png',dpi=140);plt.close(fig)
  result=dict(schema='codex.bride_H_kitt_orch_analysis/1',scientific_admission='HOLD',scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),orch_plan=fingerprint(orch_plan),orch_commit=pin,current_native=fingerprint(native),comparison=fingerprint(comparison_path),observation=fingerprint(observation),holding=holding,policy_reason=reason,frame='Delivered observed vacuum nm -> canonical AIR Angstrom once by established reader; model AIR sampled output is already AIR. No further observation wavelength/telluric correction.',iag=fingerprint(iag),iag_reader=fingerprint(reader.__file__),ispec_effects=fingerprint(effects),broadening=b,RV_km_s=rv_values,sources=source_receipts,continuum_records=records,rows=len(rows),contrasts=len(contrasts),applied=sum(r['continuum']['applied']for r in records),refused=sum(not r['continuum']['applied']for r in records),common_continuum_baseline=baseline,model_dependent_continuum_is_diagnostic=True,statistic='Unweighted sampled residuals/finite AIR areas; no noise model, chi-square, abundance fit or significance claim.',limitations=['Bare-background O column has no added Fe/CN opacity; not a replacement product or direct blanketed-baseline comparison.','Only VIS triplet output/continuum windows, not all-band validation; frozen populations are not SE solutions.','Pinned native local-continuum replay and existing broadening only, not a full ORCH pipeline execution.','Both RV controls retained, no optimization; no preferred H/EOS/abundance or observed normalization adoption.','Common and per-model continuum paths retained separately; input observation stays byte-protected.'])
+ result['preserved_ispec_zero_padding_outside_comparison_support']=padding
  (a.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');print(json.dumps({k:result[k]for k in ['rows','contrasts','applied','refused','orch_commit']}))
 
 if __name__=='__main__':main()
