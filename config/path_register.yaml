@@ -250,6 +250,30 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_cn_paired_bindings_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-paired-bindings-v1
+    env: CODEX_BRIDE_CN_PAIRED_BINDINGS_FIRST
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
+  experiments.bride_cn_paired_bindings:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-paired-bindings-v2
+    env: CODEX_BRIDE_CN_PAIRED_BINDINGS
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
+  experiments.bride_h_background_components_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-background-components-v1
+    env: CODEX_BRIDE_H_BACKGROUND_COMPONENTS_FIRST
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
+  experiments.bride_h_background_components:
+    root: work
+    rel: bride_mac_checks/rya1281-H-background-components-v2
+    env: CODEX_BRIDE_H_BACKGROUND_COMPONENTS
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
   experiments.bride_cn_native_binding:
     root: work
     rel: bride_mac_checks/rya1281-cn-native-binding-v1

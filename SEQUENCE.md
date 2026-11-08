@@ -1,3 +1,10 @@
+## 2026-11-08 — paired H background and LTE controls
+
+> **Current as of `main` 7f023fd7** (integration audit; Bride remains stacked separately).
+
+- **RYA-1311** — PR #615 merged Ca near-UV product/budget notes; no pipeline/config/native source changed.
+- **RYA-1281** — Isolate paired H budgets; O LTE normalization and nonlinear continuum components close before fresh O NLTE tests (v230).
+
 ## 2026-11-08 — native H/density binding inventory
 
 > **Current as of `main` adefcaf0** (integration audit; Bride remains stacked separately).

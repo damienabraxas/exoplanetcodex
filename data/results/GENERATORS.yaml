@@ -28841,3 +28841,47 @@ artifacts:
     generator: "scripts/analyze_bride_cn_binding_closure.py"
     invocation: "python scripts/analyze_bride_cn_binding_closure.py --source <native-binding> --output <fresh-binding-closure>"
     ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/report.json
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/summary.csv
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/sampled_backgrounds.npz
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/normalization.png
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/model_mass_H/input.json
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/model_mass_H/oxygen_LTE.npz
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/native_network_H/input.json
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/paired/native_network_H/oxygen_LTE.npz
+    generator: "scripts/check_bride_cn_paired_bindings.py"
+    invocation: "python scripts/check_bride_cn_paired_bindings.py --output <fresh-paired-bindings>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/components/report.json
+    generator: "scripts/check_bride_H_background_components.py"
+    invocation: "python scripts/check_bride_H_background_components.py --source <paired-bindings> --output <fresh-components>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/components/summary.csv
+    generator: "scripts/check_bride_H_background_components.py"
+    invocation: "python scripts/check_bride_H_background_components.py --source <paired-bindings> --output <fresh-components>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_paired_bindings_v1/components/sampled_components.npz
+    generator: "scripts/check_bride_H_background_components.py"
+    invocation: "python scripts/check_bride_H_background_components.py --source <paired-bindings> --output <fresh-components>"
+    ticket: "RYA-1281"
