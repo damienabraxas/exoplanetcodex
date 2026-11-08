@@ -123,20 +123,25 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
                  teff_K=int(round(float(p["teff"]))),
                  logg=float(p["logg"]), feh=feh)]
     if element != "Fe":
-        from pipeline.nlte_corrections import _mpia_element_delta, nlte_ions
+        from pipeline.nlte_corrections import (_mpia_element_delta, extension_element_delta,
+                                               nlte_ions)
         from pipeline.species import parse_ion
         from config.constants import NLTE_CORRECTION_ELEMENTS
 
         spec = NLTE_CORRECTION_ELEMENTS.get(element)
-        if spec is None or parse_ion(ion) not in nlte_ions(element):
+        if spec is None:
             return cited
+        registered = parse_ion(ion) in nlte_ions(element)
         out = dict(cited)
         for wave in waves:
             if float(wave) in cited:
                 continue
-            delta = _mpia_element_delta(
-                element, float(wave), float(p["teff"]), float(p["logg"]), feh,
-                tol=0.06, ion=ion)
+            args = (element, float(wave), float(p["teff"]), float(p["logg"]), feh)
+            delta = _mpia_element_delta(*args, tol=0.06, ion=ion) if registered else np.nan
+            # RYA-1311: a line the registered grid lacks is read from the PySME table
+            # element_prepare extended for it (Ca Y/J: Amarsi 2020), never left "not served".
+            if delta is None or not np.isfinite(delta):
+                delta = extension_element_delta(*args, tol=0.06, ion=ion)
             if delta is not None and np.isfinite(delta):
                 out[float(wave)] = float(delta)
         return out
@@ -2694,7 +2699,10 @@ def engine_a_source(element: str) -> str:
     spec = NLTE_CORRECTION_ELEMENTS.get(element)
     if spec is None:
         return "no registered Engine-A source"
-    return f"{spec['grid']} ({spec['ref']}); PER-LINE additive correction"
+    from pipeline.nlte_corrections import engine_a_extension_table
+    ext = engine_a_extension_table(element)
+    tail = f"; lines it does not serve from {ext.name} (PySME)" if ext is not None else ""
+    return f"{spec['grid']} ({spec['ref']}){tail}; PER-LINE additive correction"
 
 
 def engine_a_model(element: str) -> str:

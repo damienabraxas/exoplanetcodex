@@ -1,12 +1,12 @@
 {
  "star": "solar",
  "element": "Ca",
- "feed_version": "1.323",
+ "feed_version": "1.369",
  "counts": {
-  "PUBLISHED": 185,
-  "HELD": 478,
-  "NOT_RUN": 114,
-  "STALE": 0
+  "PUBLISHED": 70,
+  "HELD": 371,
+  "NOT_RUN": 193,
+  "STALE": 143
  },
  "done": false,
  "rows": [
@@ -43,11 +43,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.671,
-   "sigma": 0.0883752432415218,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -82,11 +82,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.795,
-   "sigma": 0.0644193316067842,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -121,11 +121,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.808,
-   "sigma": 0.0920058286571403,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -160,11 +160,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.635,
-   "sigma": 0.1492744126924128,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -251,11 +251,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.652,
-   "sigma": 0.1219743381763301,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -264,8 +264,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -277,8 +277,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -316,11 +316,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.628,
-   "sigma": 0.1276560711712805,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -355,11 +355,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.704,
-   "sigma": 0.0604112319964713,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -394,11 +394,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
-   "A": 6.777,
-   "sigma": 0.0734405674769162,
-   "n_lines": 3
+   "outcome": "HELD",
+   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
+   "A": null,
+   "sigma": null,
+   "n_lines": null
   },
   {
    "band": "near-UV",
@@ -563,8 +563,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.363,
    "sigma": 0.0354933317075059,
    "n_lines": 17
@@ -589,8 +589,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.342,
    "sigma": 0.0349309034103025,
    "n_lines": 45
@@ -602,8 +602,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.365,
    "sigma": 0.0388171092002825,
    "n_lines": 10
@@ -615,8 +615,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.436,
    "sigma": 0.0366846451174677,
    "n_lines": 17
@@ -641,8 +641,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.402,
    "sigma": 0.0350188655206421,
    "n_lines": 45
@@ -654,8 +654,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.441,
    "sigma": 0.0418702515715712,
    "n_lines": 10
@@ -667,8 +667,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.449,
    "sigma": 0.0370238250309243,
    "n_lines": 17
@@ -693,8 +693,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.449,
    "sigma": 0.0357895551171585,
    "n_lines": 45
@@ -706,8 +706,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.455,
    "sigma": 0.0416821727147496,
    "n_lines": 10
@@ -719,8 +719,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.341,
    "sigma": 0.0353407075415854,
    "n_lines": 17
@@ -745,8 +745,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.298,
    "sigma": 0.0346630971296879,
    "n_lines": 45
@@ -758,8 +758,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.357,
    "sigma": 0.0394733548668521,
    "n_lines": 10
@@ -786,9 +786,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.35,
-   "sigma": 0.0479923606954686,
-   "n_lines": 11
+   "A": 6.357,
+   "sigma": 0.0458639193612929,
+   "n_lines": 17
   },
   {
    "band": "VIS",
@@ -864,9 +864,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.341,
-   "sigma": 0.0478322155881679,
-   "n_lines": 12
+   "A": 6.348,
+   "sigma": 0.045925932572291,
+   "n_lines": 45
   },
   {
    "band": "VIS",
@@ -888,8 +888,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.362,
    "sigma": 0.0392766706271745,
    "n_lines": 10
@@ -901,8 +901,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.341,
    "sigma": 0.0478349380683198,
    "n_lines": 10
@@ -914,8 +914,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.412,
    "sigma": 0.0518240953182547,
    "n_lines": 10
@@ -927,8 +927,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.369,
    "sigma": 0.035235487388109,
    "n_lines": 17
@@ -953,8 +953,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.346,
    "sigma": 0.0345910175575062,
    "n_lines": 45
@@ -966,8 +966,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.368,
    "sigma": 0.0382915449036874,
    "n_lines": 10
@@ -979,8 +979,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.444,
    "sigma": 0.0363350391936997,
    "n_lines": 17
@@ -1005,8 +1005,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.42,
    "sigma": 0.0346576898445449,
    "n_lines": 45
@@ -1018,8 +1018,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.45,
    "sigma": 0.0411714325176517,
    "n_lines": 10
@@ -1031,8 +1031,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.46,
    "sigma": 0.0367123538392564,
    "n_lines": 17
@@ -1057,8 +1057,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.462,
    "sigma": 0.0355777014307845,
    "n_lines": 45
@@ -1070,8 +1070,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.459,
    "sigma": 0.0410416884263901,
    "n_lines": 10
@@ -1083,8 +1083,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.357,
    "sigma": 0.0350073490137771,
    "n_lines": 17
@@ -1109,8 +1109,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.31,
    "sigma": 0.0341155332183862,
    "n_lines": 45
@@ -1122,8 +1122,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.367,
    "sigma": 0.0385523910484881,
    "n_lines": 10
@@ -1150,9 +1150,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.356,
-   "sigma": 0.047600359823975,
-   "n_lines": 11
+   "A": 6.359,
+   "sigma": 0.0457424345193467,
+   "n_lines": 17
   },
   {
    "band": "VIS",
@@ -1228,9 +1228,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.345,
-   "sigma": 0.0474328553406649,
-   "n_lines": 12
+   "A": 6.355,
+   "sigma": 0.045640754683788,
+   "n_lines": 45
   },
   {
    "band": "VIS",
@@ -1252,8 +1252,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.364,
    "sigma": 0.0387501708956804,
    "n_lines": 10
@@ -1265,8 +1265,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.345,
    "sigma": 0.0474666920645999,
    "n_lines": 10
@@ -1278,8 +1278,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.413,
    "sigma": 0.0513320148099063,
    "n_lines": 10
@@ -1291,8 +1291,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.349,
    "sigma": 0.0372545803671012,
    "n_lines": 17
@@ -1317,8 +1317,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.343,
    "sigma": 0.037716421053704,
    "n_lines": 45
@@ -1330,8 +1330,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.346,
    "sigma": 0.0398162888219828,
    "n_lines": 10
@@ -1343,8 +1343,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.409,
    "sigma": 0.0374249854625959,
    "n_lines": 17
@@ -1369,8 +1369,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.411,
    "sigma": 0.0372489142895936,
    "n_lines": 45
@@ -1382,8 +1382,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.434,
    "sigma": 0.0426914403338394,
    "n_lines": 10
@@ -1395,8 +1395,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.438,
    "sigma": 0.0387201804521332,
    "n_lines": 17
@@ -1421,8 +1421,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.448,
    "sigma": 0.0379869860702713,
    "n_lines": 45
@@ -1434,8 +1434,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.438,
    "sigma": 0.0431553546310689,
    "n_lines": 10
@@ -1447,8 +1447,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.336,
    "sigma": 0.0366746278209179,
    "n_lines": 17
@@ -1473,8 +1473,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.31,
    "sigma": 0.0370311180400427,
    "n_lines": 45
@@ -1486,8 +1486,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.346,
    "sigma": 0.040253463205046,
    "n_lines": 10
@@ -1514,9 +1514,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.336,
-   "sigma": 0.0487175187744325,
-   "n_lines": 11
+   "A": 6.352,
+   "sigma": 0.0469227640283942,
+   "n_lines": 17
   },
   {
    "band": "VIS",
@@ -1592,9 +1592,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.322,
-   "sigma": 0.0482964079000605,
-   "n_lines": 12
+   "A": 6.352,
+   "sigma": 0.0481565247226605,
+   "n_lines": 45
   },
   {
    "band": "VIS",
@@ -1616,8 +1616,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.343,
    "sigma": 0.0404164731266843,
    "n_lines": 10
@@ -1629,8 +1629,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.322,
    "sigma": 0.0485233754665384,
    "n_lines": 10
@@ -1642,8 +1642,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.405,
    "sigma": 0.0527506310652088,
    "n_lines": 10
@@ -1655,8 +1655,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.173,
    "sigma": 0.0832360048710115,
    "n_lines": 3
@@ -1681,8 +1681,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.173,
    "sigma": 0.0832360048710115,
    "n_lines": 3
@@ -1694,8 +1694,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.229,
    "sigma": 0.0804059786071654,
    "n_lines": 3
@@ -1720,8 +1720,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.229,
    "sigma": 0.0804059786071654,
    "n_lines": 3
@@ -1733,8 +1733,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.258,
    "sigma": 0.0861543141126454,
    "n_lines": 3
@@ -1759,8 +1759,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.258,
    "sigma": 0.0861543141126454,
    "n_lines": 3
@@ -1772,8 +1772,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.153,
    "sigma": 0.0806467555054368,
    "n_lines": 3
@@ -1798,8 +1798,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.153,
    "sigma": 0.0806467555054368,
    "n_lines": 3
@@ -1824,11 +1824,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.047,
+   "sigma": 0.1212288572988632,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -1902,11 +1902,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.047,
+   "sigma": 0.1212288572988632,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -1928,8 +1928,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.235,
    "sigma": 0.0743722562982127,
    "n_lines": 3
@@ -1954,8 +1954,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.235,
    "sigma": 0.0743722562982127,
    "n_lines": 3
@@ -1967,8 +1967,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.295,
    "sigma": 0.0695502157213552,
    "n_lines": 3
@@ -1993,8 +1993,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.295,
    "sigma": 0.0695502157213552,
    "n_lines": 3
@@ -2006,8 +2006,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.322,
    "sigma": 0.077529272294035,
    "n_lines": 3
@@ -2032,8 +2032,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.322,
    "sigma": 0.077529272294035,
    "n_lines": 3
@@ -2045,8 +2045,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.228,
    "sigma": 0.0685679651165205,
    "n_lines": 3
@@ -2071,8 +2071,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.228,
    "sigma": 0.0685679651165205,
    "n_lines": 3
@@ -2097,11 +2097,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.108,
+   "sigma": 0.1129593905914695,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2175,11 +2175,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.108,
+   "sigma": 0.1129593905914695,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2201,8 +2201,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.127,
    "sigma": 0.0863398276592,
    "n_lines": 3
@@ -2227,8 +2227,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.127,
    "sigma": 0.0863398276592,
    "n_lines": 3
@@ -2240,8 +2240,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.176,
    "sigma": 0.0814119105140869,
    "n_lines": 3
@@ -2266,8 +2266,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.176,
    "sigma": 0.0814119105140869,
    "n_lines": 3
@@ -2279,8 +2279,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.209,
    "sigma": 0.0895873828926467,
    "n_lines": 3
@@ -2305,8 +2305,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.209,
    "sigma": 0.0895873828926467,
    "n_lines": 3
@@ -2318,8 +2318,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.121,
    "sigma": 0.0838365423918494,
    "n_lines": 3
@@ -2344,8 +2344,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.121,
    "sigma": 0.0838365423918494,
    "n_lines": 3
@@ -2370,11 +2370,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.0,
+   "sigma": 0.1241799176723,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -2448,11 +2448,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "no ENGINE-A correction emitted for this pool's lines by its registered grid or cited solar table",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.0,
+   "sigma": 0.1241799176723,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -3020,11 +3020,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.441,
+   "sigma": 0.1401116192191796,
+   "n_lines": 4
   },
   {
    "band": "NIR",
@@ -3033,8 +3033,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3059,11 +3059,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.486,
+   "sigma": 0.15167834847392,
+   "n_lines": 3
   },
   {
    "band": "NIR",
@@ -3072,8 +3072,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3098,11 +3098,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.5,
+   "sigma": 0.1392950077122425,
+   "n_lines": 4
   },
   {
    "band": "NIR",
@@ -3111,8 +3111,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3137,11 +3137,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.396,
+   "sigma": 0.1526433361219631,
+   "n_lines": 3
   },
   {
    "band": "NIR",
@@ -3150,8 +3150,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3176,11 +3176,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.439,
+   "sigma": 0.1401455166611489,
+   "n_lines": 4
   },
   {
    "band": "NIR",
@@ -3189,11 +3189,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.411,
+   "sigma": 0.148193992031113,
+   "n_lines": 4
   },
   {
    "band": "NIR",
@@ -3203,7 +3203,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3215,8 +3215,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3228,8 +3228,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3241,8 +3241,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 27 Ca I lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3294,7 +3294,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3306,8 +3306,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3333,7 +3333,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3345,8 +3345,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3372,7 +3372,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3384,8 +3384,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3411,7 +3411,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3423,8 +3423,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3450,7 +3450,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3463,7 +3463,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3476,7 +3476,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3488,8 +3488,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3501,8 +3501,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3514,8 +3514,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca I lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3567,7 +3567,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3579,8 +3579,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3606,7 +3606,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3618,8 +3618,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3645,7 +3645,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3657,8 +3657,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3684,7 +3684,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3696,8 +3696,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3723,7 +3723,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3736,7 +3736,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3749,7 +3749,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3761,8 +3761,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3774,8 +3774,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3787,8 +3787,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 2 Ca I lines in 10280-10680 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3839,11 +3839,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.511,
+   "sigma": 0.1606762246679754,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -3852,8 +3852,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3878,11 +3878,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.498,
+   "sigma": 0.1606692228572532,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -3891,8 +3891,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3917,11 +3917,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.562,
+   "sigma": 0.1606723348107997,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -3930,8 +3930,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3956,11 +3956,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
+   "A": 6.473,
+   "sigma": 0.161154736739426,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -3969,8 +3969,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -3995,11 +3995,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.508,
+   "sigma": 0.1606723348107997,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -4008,11 +4008,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.502,
+   "sigma": 0.1635487200582636,
+   "n_lines": 2
   },
   {
    "band": "NIR",
@@ -4022,7 +4022,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4034,8 +4034,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4047,8 +4047,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4060,8 +4060,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 11 Ca I lines in 11159.9-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4112,11 +4112,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.25,
+   "sigma": 0.1172525444225144,
+   "n_lines": 5
   },
   {
    "band": "H",
@@ -4125,8 +4125,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4151,11 +4151,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.24,
+   "sigma": 0.1647947182817268,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4164,8 +4164,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4190,11 +4190,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.283,
+   "sigma": 0.1744039667496073,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4203,8 +4203,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4229,11 +4229,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.208,
+   "sigma": 0.1174928047735422,
+   "n_lines": 5
   },
   {
    "band": "H",
@@ -4242,8 +4242,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4268,11 +4268,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.236,
+   "sigma": 0.1174044256983258,
+   "n_lines": 5
   },
   {
    "band": "H",
@@ -4281,11 +4281,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.23,
+   "sigma": 0.1207585334945918,
+   "n_lines": 5
   },
   {
    "band": "H",
@@ -4295,7 +4295,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4307,8 +4307,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4320,8 +4320,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4333,8 +4333,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4385,11 +4385,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.204,
+   "sigma": 0.1254771969376567,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4398,8 +4398,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4424,11 +4424,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.209,
+   "sigma": 0.1226056426841691,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4437,8 +4437,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4463,11 +4463,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.258,
+   "sigma": 0.1202384171192032,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4476,8 +4476,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4502,11 +4502,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.179,
+   "sigma": 0.1230428527708869,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4515,8 +4515,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4541,11 +4541,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.198,
+   "sigma": 0.1261008161758693,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4554,11 +4554,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.185,
+   "sigma": 0.1285528014683388,
+   "n_lines": 6
   },
   {
    "band": "H",
@@ -4568,7 +4568,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4580,8 +4580,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4593,8 +4593,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4606,8 +4606,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 58 Ca I lines in 15007.1-17493.7 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4658,11 +4658,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.3,
+   "sigma": 0.1282236649171498,
+   "n_lines": 22
   },
   {
    "band": "K",
@@ -4671,8 +4671,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4697,11 +4697,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.297,
+   "sigma": 0.1277700607802431,
+   "n_lines": 19
   },
   {
    "band": "K",
@@ -4710,8 +4710,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4736,11 +4736,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.365,
+   "sigma": 0.1289619027972271,
+   "n_lines": 22
   },
   {
    "band": "K",
@@ -4749,8 +4749,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4775,11 +4775,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.27,
+   "sigma": 0.1259977797794443,
+   "n_lines": 19
   },
   {
    "band": "K",
@@ -4788,8 +4788,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4814,11 +4814,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.293,
+   "sigma": 0.1279630601612833,
+   "n_lines": 22
   },
   {
    "band": "K",
@@ -4827,11 +4827,11 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.286,
+   "sigma": 0.1336792205973866,
+   "n_lines": 19
   },
   {
    "band": "K",
@@ -4841,7 +4841,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4853,8 +4853,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4866,8 +4866,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -4879,8 +4879,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 112 Ca I lines in 19452.4-24845.6 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -5477,8 +5477,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.296,
    "sigma": 0.1446426631391996,
    "n_lines": 2
@@ -5516,8 +5516,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.296,
    "sigma": 0.1446426631391996,
    "n_lines": 2
@@ -5529,8 +5529,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.351,
    "sigma": 0.1452015840133984,
    "n_lines": 2
@@ -5568,8 +5568,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.351,
    "sigma": 0.1452015840133984,
    "n_lines": 2
@@ -5581,8 +5581,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.373,
    "sigma": 0.1446426631391996,
    "n_lines": 2
@@ -5620,8 +5620,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.373,
    "sigma": 0.1446426631391996,
    "n_lines": 2
@@ -5633,8 +5633,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.263,
    "sigma": 0.1413727342877685,
    "n_lines": 2
@@ -5672,8 +5672,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.263,
    "sigma": 0.1413727342877685,
    "n_lines": 2
@@ -5802,8 +5802,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.317,
    "sigma": 0.1457858017778137,
    "n_lines": 2
@@ -5815,8 +5815,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.315,
    "sigma": 0.1495902737479946,
    "n_lines": 2
@@ -5828,8 +5828,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.325,
    "sigma": 0.1556606886789338,
    "n_lines": 2
@@ -5841,8 +5841,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.298,
    "sigma": 0.1431205785343254,
    "n_lines": 2
@@ -5880,8 +5880,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.298,
    "sigma": 0.1431205785343254,
    "n_lines": 2
@@ -5893,8 +5893,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.354,
    "sigma": 0.1433579436236443,
    "n_lines": 2
@@ -5932,8 +5932,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.354,
    "sigma": 0.1433579436236443,
    "n_lines": 2
@@ -5945,8 +5945,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.374,
    "sigma": 0.1428898176918146,
    "n_lines": 2
@@ -5984,8 +5984,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.374,
    "sigma": 0.1428898176918146,
    "n_lines": 2
@@ -5997,8 +5997,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.287,
    "sigma": 0.1443727813682343,
    "n_lines": 2
@@ -6036,8 +6036,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.287,
    "sigma": 0.1443727813682343,
    "n_lines": 2
@@ -6166,8 +6166,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.319,
    "sigma": 0.1438523548642843,
    "n_lines": 2
@@ -6179,8 +6179,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.317,
    "sigma": 0.1475881092771364,
    "n_lines": 2
@@ -6192,8 +6192,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.327,
    "sigma": 0.1529615964874842,
    "n_lines": 2
@@ -6205,8 +6205,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.271,
    "sigma": 0.1473550134878349,
    "n_lines": 2
@@ -6244,8 +6244,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.271,
    "sigma": 0.1473550134878349,
    "n_lines": 2
@@ -6257,8 +6257,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.332,
    "sigma": 0.1481966598813887,
    "n_lines": 2
@@ -6296,8 +6296,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.332,
    "sigma": 0.1481966598813887,
    "n_lines": 2
@@ -6309,8 +6309,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.349,
    "sigma": 0.1467088954358255,
    "n_lines": 2
@@ -6348,8 +6348,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.349,
    "sigma": 0.1467088954358255,
    "n_lines": 2
@@ -6361,8 +6361,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.258,
    "sigma": 0.1485437645948154,
    "n_lines": 2
@@ -6400,8 +6400,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.258,
    "sigma": 0.1485437645948154,
    "n_lines": 2
@@ -6530,8 +6530,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.293,
    "sigma": 0.1487195346953451,
    "n_lines": 2
@@ -6543,8 +6543,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.29,
    "sigma": 0.1525983289554638,
    "n_lines": 2
@@ -6556,8 +6556,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.3,
    "sigma": 0.1595156732111297,
    "n_lines": 2
@@ -6569,8 +6569,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.464,
    "sigma": 0.0666450631663323,
    "n_lines": 3
@@ -6608,8 +6608,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.43,
    "sigma": 0.088442382374063,
    "n_lines": 2
@@ -6621,8 +6621,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.368,
    "sigma": 0.0581196849421757,
    "n_lines": 3
@@ -6660,8 +6660,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.362,
    "sigma": 0.0702214710754481,
    "n_lines": 2
@@ -6673,8 +6673,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.523,
    "sigma": 0.0676010190587226,
    "n_lines": 3
@@ -6712,8 +6712,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.485,
    "sigma": 0.0899905828406507,
    "n_lines": 2
@@ -6725,8 +6725,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.327,
    "sigma": 0.0580048656962882,
    "n_lines": 3
@@ -6764,8 +6764,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.32,
    "sigma": 0.0703921515511494,
    "n_lines": 2
@@ -6792,9 +6792,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.422,
-   "sigma": 0.087493171162097,
-   "n_lines": 2
+   "A": 6.379,
+   "sigma": 0.0722524294602038,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -6894,8 +6894,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.458,
    "sigma": 0.0909398427533277,
    "n_lines": 2
@@ -6907,8 +6907,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.422,
    "sigma": 0.087493171162097,
    "n_lines": 2
@@ -6920,8 +6920,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.472,
    "sigma": 0.1014645504597539,
    "n_lines": 2
@@ -6933,8 +6933,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.485,
    "sigma": 0.064646972946234,
    "n_lines": 3
@@ -6972,8 +6972,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.448,
    "sigma": 0.0835242779076838,
    "n_lines": 2
@@ -6985,8 +6985,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.393,
    "sigma": 0.0590189046925737,
    "n_lines": 3
@@ -7024,8 +7024,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.377,
    "sigma": 0.071960440521164,
    "n_lines": 2
@@ -7037,8 +7037,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.544,
    "sigma": 0.0657005665458407,
    "n_lines": 3
@@ -7076,8 +7076,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.502,
    "sigma": 0.0851956865105271,
    "n_lines": 2
@@ -7089,8 +7089,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.35,
    "sigma": 0.0593680422823966,
    "n_lines": 3
@@ -7128,8 +7128,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.335,
    "sigma": 0.0717377515677762,
    "n_lines": 2
@@ -7156,9 +7156,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.441,
-   "sigma": 0.0838513863928319,
-   "n_lines": 2
+   "A": 6.406,
+   "sigma": 0.0707094312232239,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -7258,8 +7258,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.477,
    "sigma": 0.0860584394466923,
    "n_lines": 2
@@ -7271,8 +7271,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.441,
    "sigma": 0.0838513863928319,
    "n_lines": 2
@@ -7284,8 +7284,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.491,
    "sigma": 0.0963693675396905,
    "n_lines": 2
@@ -7297,8 +7297,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.455,
    "sigma": 0.0622343956345684,
    "n_lines": 3
@@ -7336,8 +7336,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.425,
    "sigma": 0.0787531269220467,
    "n_lines": 2
@@ -7349,8 +7349,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.383,
    "sigma": 0.0620905074154746,
    "n_lines": 3
@@ -7388,8 +7388,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.351,
    "sigma": 0.0780788383622604,
    "n_lines": 2
@@ -7401,8 +7401,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.514,
    "sigma": 0.0630494338682838,
    "n_lines": 3
@@ -7440,8 +7440,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.479,
    "sigma": 0.079926872827604,
    "n_lines": 2
@@ -7453,8 +7453,8 @@
    "grade": "Codex Grade",
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.321,
    "sigma": 0.059448465076905,
    "n_lines": 3
@@ -7492,8 +7492,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.318,
    "sigma": 0.0740409008589171,
    "n_lines": 2
@@ -7520,9 +7520,9 @@
    "treatment": "ENGINE-A",
    "outcome": "PUBLISHED",
    "reason": "",
-   "A": 6.417,
-   "sigma": 0.0800393965494492,
-   "n_lines": 2
+   "A": 6.392,
+   "sigma": 0.0696417849381129,
+   "n_lines": 3
   },
   {
    "band": "red-optical",
@@ -7622,8 +7622,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "1D-LTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.453,
    "sigma": 0.0804133384458075,
    "n_lines": 2
@@ -7635,8 +7635,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.417,
    "sigma": 0.0800393965494492,
    "n_lines": 2
@@ -7648,8 +7648,8 @@
    "grade": "Reference Grade",
    "pool": "set:CA_AGSS21",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "PUBLISHED",
-   "reason": "",
+   "outcome": "STALE",
+   "reason": "inputs changed since the build",
    "A": 6.466,
    "sigma": 0.0903233358551375,
    "n_lines": 2
@@ -7662,7 +7662,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7674,8 +7674,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7701,7 +7701,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7713,8 +7713,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7740,7 +7740,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7752,8 +7752,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7779,7 +7779,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7791,8 +7791,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7818,7 +7818,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7831,7 +7831,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7844,7 +7844,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7856,8 +7856,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7869,8 +7869,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7882,8 +7882,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7935,7 +7935,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7947,8 +7947,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7974,7 +7974,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -7986,8 +7986,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8013,7 +8013,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8025,8 +8025,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8052,7 +8052,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8064,8 +8064,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8091,7 +8091,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8104,7 +8104,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8117,7 +8117,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8129,8 +8129,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8142,8 +8142,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8155,8 +8155,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9199-10010 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8208,7 +8208,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8220,8 +8220,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8247,7 +8247,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8259,8 +8259,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8286,7 +8286,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8298,8 +8298,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8325,7 +8325,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8337,8 +8337,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8364,7 +8364,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8377,7 +8377,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8390,7 +8390,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8402,8 +8402,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8415,8 +8415,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8428,8 +8428,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 5 Ca II lines in 9199-13000 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8481,7 +8481,7 @@
    "pool": "codex",
    "treatment": "synth-1D-LTE-gerber",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8493,8 +8493,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8520,7 +8520,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8532,8 +8532,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8559,7 +8559,7 @@
    "pool": "codex",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8571,8 +8571,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-mean3D-LTE-gerber-stagger",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8598,7 +8598,7 @@
    "pool": "codex",
    "treatment": "ENGINE-B-NLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8610,8 +8610,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-B-NLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8637,7 +8637,7 @@
    "pool": "codex",
    "treatment": "1D-LTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8650,7 +8650,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8663,7 +8663,7 @@
    "pool": "codex",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
+   "reason": "HELD: PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no codex pool exists here",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8675,8 +8675,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8688,8 +8688,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -8701,8 +8701,8 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "HELD",
-   "reason": "PROCESS step 7 (graded lines): none of the 3 Ca II lines in 9800-10796 A carries a published gf uncertainty, so no deep pool exists here",
+   "outcome": "NOT_RUN",
+   "reason": "",
    "A": null,
    "sigma": null,
    "n_lines": null

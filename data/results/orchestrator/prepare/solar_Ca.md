@@ -1,21 +1,19 @@
 PREPARE solar Ca  -> READY to measure
   F literature: litscan yes; set bibliography keys ['asplund2021']
   A published sets: 14 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
+  B gf source C2013_qdt: 33 graded lines, classified
   B gf source denhartog2021_ca1:S&R81: 32 graded lines, classified
   B gf source NIST_ASD: 22 graded lines, classified
   B gf source denhartog2021_ca1:UW+M17+Ueda82: 15 graded lines, classified
+  B gf source E2024_astro: 7 graded lines, classified
   B gf source denhartog2021_ca1:Smith88: 7 graded lines, classified
   B gf source denhartog2021_ca1:M17+UW: 6 graded lines, classified
   B gf source CA_AGSS21: 3 graded lines, classified
   B gf source denhartog2021_ca1:Vogt07: 1 graded lines, classified
   B gf source denhartog2021_ca1:Park76: 1 graded lines, classified
-  F2 literature need: 27 Ca I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
-  F2 literature need: 5 Ca II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
-  F2 literature need: 58 Ca I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 10 Ca II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
-  F2 literature need: 112 Ca I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
   F2 literature need: 5 Ca II lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
-  C saturated, not a solar-literature line (measured, reported, NOT culled): 65
+  C saturated, not a solar-literature line (measured, reported, NOT culled): 66
       Ca I 3948.9004: rew -3.973 depth 0.698
       Ca I 3957.0537: rew -4.082 depth 0.883
       Ca I 3973.7075: rew -3.923 depth 0.856
@@ -81,5 +79,6 @@ PREPARE solar Ca  -> READY to measure
       Ca I 3644.996: rew -3.918 depth 0.663
       Ca II 3706.024: rew -3.864 depth 0.947
       Ca II 3736.902: rew -3.787 depth 0.955
-  D NLTE: 68 graded line(s) not in None
+      Ca I 10343.819: rew -4.819 depth 0.476
+  D NLTE: 32 graded line(s) not in data/nlte_grids/Ca_Amarsi2020_PySME.csv -> on Sirius: scripts/extend_nlte_grid.py --element Ca --write
   E holdings: 17 windows; 0 not serving / frame off rest

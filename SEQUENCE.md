@@ -10,6 +10,12 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-11-07 — RYA-1315 landed; pending RYA-1311 IR branch
+
+> **Current as of `main` 459f5614** (2026-11-07, RYA-1315 #608).
+
+- **RYA-1315** — `459f5614` PR #608: Na on the fixed HARPS continuum; atomic C/N/O error bars on Asplund's own 3D terms (see the pending entry below for detail).
+- **RYA-1311** (pending, branch `ryandamienschmitt/rya-1311-ca-ir-graded`) — Y/J Ca graded with Elgueta et al. 2024 (Cepheid-calibrated gf, Codex Grade E2024-ASTRO); ENGINE-A now reads the PySME table element_prepare extends when the registered grid lacks the line (`bd3635fe`; Ca was Mashonkina-only, 8 lines): HARPS VIS REFERENCE ENGINE-A 6.322 (12 lines) -> 6.352 (45); new KP NIR / CRIRES+ J Ca I ENGINE-A 6.411 / 6.502. Scoped publish 48/0 held; headline 6.405 unchanged. H/K Ca: no non-solar-tuned graded gf -> gap.
 ## 2026-11-06 — pending RYA-1315 branch (Fe + Ti)
 
 - **RYA-1315** (pending, Fe + Ti follow-up to the Na + C/N/O PR #608) — Fe HARPS VIS Fe I/II on the fixed continuum (Fe I GRADED 7.428 -> 7.401, REFERENCE 7.428 -> 7.346, AGSS21 set 7.486 -> 7.398; Fe II REFERENCE 7.848 -> 7.439, set 7.626 -> 7.432); Deep rebuilt with A unchanged; all Fe products on Asplund+2021 atmosphere terms; Ti first publication through the orchestrator (342 products, 0 quarantined; 2 near-UV <3D>-NLTE cells re-run after the abundance-probe fix); SET-* products publish with their reference line_set (`1d99d504`).
