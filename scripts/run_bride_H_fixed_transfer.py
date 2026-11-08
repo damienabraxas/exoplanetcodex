@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--plan',type=Path,default=ROOT/'config/experiments/rya1281_H_fixed_transfer.json');a=p.parse_args()
  from importlib.metadata import version
  import lightweaver.constants as constants
  import lightweaver.LwCompiled as compiled
@@ -20,7 +20,7 @@ def main():
  from pipeline.bride_observables import flux_quadrature,integrate_flux,window_integral
  from pipeline.wavelength_util import air_to_vac
  if platform.system()!='Darwin'or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 required')
- plan_path=ROOT/'config/experiments/rya1281_H_fixed_transfer.json';plan=json.loads(plan_path.read_text());source=ROOT/plan['paired_archive'];reports=[];parents=[];pops=[];checks=[]
+ plan_path=a.plan;plan=json.loads(plan_path.read_text());source=ROOT/plan['paired_archive'];reports=[];parents=[];pops=[];checks=[]
  def check(path,receipt):
   if fingerprint(path)!=receipt:raise ValueError('Changed source '+str(path))
   checks.append((path,receipt))
@@ -40,10 +40,10 @@ def main():
  model_path=require_codex_path('grids.marcs_standard')/A['source_model']['name'];atom_path=require_codex_path('experiments.bride_oxygen_atom');check(model_path,A['source_model']);check(atom_path,A['atom']);structure=read_marcs_structure(model_path)
  np.testing.assert_array_equal(parents[0]['wavelength_air_A'],parents[1]['wavelength_air_A']);wave=parents[0]['wavelength_air_A'];vac=air_to_vac(wave)/10;extra=np.array([vac[0],vac[-1]]);mu,weights=flux_quadrature(A['controls']['flux_rays'])
  np.testing.assert_allclose(pops[1].sum(axis=0)/pops[0].sum(axis=0),np.array(B['state']['nH_m3'])/np.array(A['state']['nH_m3']),rtol=256*np.finfo(float).eps,atol=0)
- if plan['fraction_source']!=plan['cases'][0]:raise ValueError('Unsupported common fraction source')
+ fraction_index=plan['cases'].index(plan['fraction_source'])
  a.output.mkdir(parents=True,exist_ok=False);spectra=[];fixed_fields=[]
  for case,r,target in zip(plan['cases'],reports,pops):
-  folder=a.output/case;folder.mkdir();started=time.perf_counter();deadline=started+plan['seconds_per_case'];state=BindingControl(**{k:tuple(v)if isinstance(v,list)else v for k,v in r['state'].items()});fixed=scale_initial_fractions(pops[0],target.sum(axis=0));fixed_fields.append(fixed)
+  folder=a.output/case;folder.mkdir();started=time.perf_counter();deadline=started+plan['seconds_per_case'];state=BindingControl(**{k:tuple(v)if isinstance(v,list)else v for k,v in r['state'].items()});fixed=scale_initial_fractions(pops[fraction_index],target.sum(axis=0));fixed_fields.append(fixed)
   manifest=dict(schema='codex.bride_H_fixed_transfer/1',scientific_admission='HOLD',case=case,scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),parent_report=fingerprint(source/case/'report.json'),fraction_source=fingerprint(source/plan['fraction_source']/'populations.npz'),state=r['state'],controls=r['controls'],cap_length_m=r['cap_length_m'],source_model=r['source_model'],atom=r['atom'],context_helper=r['context_helper'],backend=r['backend'],LW_constants=r['LW_constants'])
   (folder/'input.json').write_text(json.dumps(manifest,indent=2,allow_nan=False)+'\n')
   def construct(continuum_only):return make_context(state,structure,read_multi_atom(atom_path),rays=r['controls']['rays'],qscale=r['controls']['qscale'],extra_vac_nm=extra,cap_length_m=r['cap_length_m'],ng=False,fixed=fixed,continuum_only=continuum_only)
@@ -65,7 +65,7 @@ def main():
   (folder/'report.json').write_text(json.dumps(manifest,indent=2,allow_nan=False)+'\n');spectra.append(dict(flux=flux,continuum=cont,normalized=flux/cont));print(json.dumps(dict(case=case,telemetry=manifest['telemetry'],radiation=rad,conservation=conservation)),flush=True)
  fractions=[n/n.sum(axis=0)for n in fixed_fields];fraction_delta=float(np.max(abs(fractions[1]/fractions[0]-1)))
  if fraction_delta>16*41*np.finfo(float).eps:raise ValueError('Different frozen fractions')
- replay=float(np.max(abs(spectra[0]['normalized']-parents[0]['normalized_flux'])));creplay=float(np.max(abs(spectra[0]['continuum']/parents[0]['continuum_Fnu_W_m2_Hz']-1)))
+ replay=float(np.max(abs(spectra[fraction_index]['normalized']-parents[fraction_index]['normalized_flux'])));creplay=float(np.max(abs(spectra[fraction_index]['continuum']/parents[fraction_index]['continuum_Fnu_W_m2_Hz']-1)))
  if replay>plan['replay_max_absolute_normalized_flux']or creplay>plan['replay_max_relative_continuum']:raise ValueError('Same-H fixed/coupled replay screen failed')
  coupled=parents[1]['normalized_flux']-parents[0]['normalized_flux'];frozen=spectra[1]['normalized']-spectra[0]['normalized'];feedback=coupled-frozen;rows=[]
  for centre in plan['centres_air_A']:

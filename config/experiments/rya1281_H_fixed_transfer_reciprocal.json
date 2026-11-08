@@ -1,0 +1,21 @@
+{
+  "schema": "codex.bride_H_fixed_transfer_plan/1",
+  "paired_archive": "data/results/rya1281/H_nlte_pair_v2",
+  "cases": [
+    "model_mass_H",
+    "native_network_H"
+  ],
+  "fraction_source": "native_network_H",
+  "radiation_rtol": 1e-08,
+  "radiation_maxiter": 1000,
+  "seconds_per_case": 600,
+  "replay_max_absolute_normalized_flux": 1e-08,
+  "replay_max_relative_continuum": 1e-08,
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "half_width_A": 0.5,
+  "scope": "Reciprocal fixed-fraction transfer intervention: completed v2 native-H fractions mapped to BOTH named totals. Same-H replay against coupled native-H. Fresh radiation/background/continuum, no SE or chemistry update; compare with the model-H anchor to measure intervention dependence. All budgets/guards unchanged; no unique additive physical decomposition, EOS/model/abundance admission."
+}
