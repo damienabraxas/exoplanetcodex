@@ -250,6 +250,24 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_h_nlte_pair:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-pair-v1
+    env: CODEX_BRIDE_H_NLTE_PAIR
+    kind: dir
+    desc: Bounded serial fixed-column O NLTE H-normalization attempts; completed manifests required for comparison, scientific HOLD.
+  experiments.bride_h_nlte_dry:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-dry-v1
+    env: CODEX_BRIDE_H_NLTE_DRY
+    kind: dir
+    desc: Model-mass H paired NLTE input and Context dry run.
+  experiments.bride_h_nlte_dry_native:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-dry-native-v1
+    env: CODEX_BRIDE_H_NLTE_DRY_NATIVE
+    kind: dir
+    desc: Native-network H paired NLTE input and Context dry run.
   experiments.bride_cn_paired_bindings_first:
     root: work
     rel: bride_mac_checks/rya1281-cn-paired-bindings-v1

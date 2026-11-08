@@ -28885,3 +28885,55 @@ artifacts:
     generator: "scripts/check_bride_H_background_components.py"
     invocation: "python scripts/check_bride_H_background_components.py --source <paired-bindings> --output <fresh-components>"
     ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/dry_model_mass_H/input.json
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/dry_model_mass_H/report.json
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/dry_native_network_H/input.json
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case native_network_H --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/dry_native_network_H/report.json
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case native_network_H --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/model_mass_H/flux.csv
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/model_mass_H/history.jsonl
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/model_mass_H/independent_rates.npz
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/model_mass_H/input.json
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/model_mass_H/populations.npz
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/model_mass_H/rates.npz
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/model_mass_H/report.json
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case model_mass_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/native_network_H/input.json
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case native_network_H --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_nlte_pair_v1/native_network_H/history.jsonl
+    generator: "scripts/run_bride_H_nlte_pair.py"
+    invocation: "python scripts/run_bride_H_nlte_pair.py --case native_network_H --output <fresh-case>"
+    ticket: "RYA-1281"

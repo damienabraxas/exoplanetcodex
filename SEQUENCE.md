@@ -1,3 +1,7 @@
+## 2026-11-08 — bounded paired-H O NLTE attempts
+
+- **RYA-1281** — Model-H fresh O solve passes; native-H hits original600second budget, no admitted paired spectrum; common closer initialization next (v231).
+
 ## 2026-11-08 — paired H background and LTE controls
 
 > **Current as of `main` 7f023fd7** (integration audit; Bride remains stacked separately).
