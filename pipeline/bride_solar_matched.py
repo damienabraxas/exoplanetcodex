@@ -2,6 +2,14 @@
 import numpy as np
 
 
+def departure_seed(populations,source_nstar,target_nstar,target_total):
+ """Map one positive b-pattern to each local LTE state; initialization only."""
+ from pipeline.bride_H_nlte_control import scale_initial_fractions
+ p,s,t=[np.asarray(x,float)for x in [populations,source_nstar,target_nstar]]
+ if p.shape!=s.shape or s.shape!=t.shape or p.ndim!=2 or any(not np.isfinite(x).all()or np.any(x<=0)for x in [p,s,t]):raise ValueError('Invalid departure-pattern seed')
+ return scale_initial_fractions((p/s)*t,target_total)
+
+
 def column_state(structure):
  from pipeline.bride_binding_controls import BindingControl
  from pipeline.bride_reference import marcs_number_densities

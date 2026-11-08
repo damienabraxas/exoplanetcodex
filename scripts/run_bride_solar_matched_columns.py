@@ -16,7 +16,7 @@ def main():
  from config.constants import require_codex_path,get_star_params
  from pipeline.bride_reference import fingerprint,read_marcs_structure
  from pipeline.multi_atom import read_multi_atom
- from pipeline.bride_solar_matched import prepare_columns,column_state
+ from pipeline.bride_solar_matched import prepare_columns,column_state,departure_seed
  from pipeline.bride_H_nlte_control import make_context,scale_initial_fractions
  from pipeline.bride_coupled_control import solve_coupled
  from pipeline.bride_top_cap import converge_cap_radiation,emergent_rays
@@ -32,7 +32,7 @@ def main():
   checks.append((path,receipt))
  check(warm_report,fingerprint(warm_report));check(plan_path,fingerprint(plan_path));check(Path(__file__),fingerprint(__file__))
  warm_path=ROOT/plan['warm_populations'];check(warm_path,warm['coupled']['populations']);check(ROOT/'pipeline/bride_coupled_control.py',warm['coupled']['helper'])
- with np.load(warm_path)as data:pop=data['populations'].copy()
+ with np.load(warm_path)as data:pop=data['populations'].copy();seed_nstar=data['nstar'].copy()
  check(Path(compiled.__file__),warm['backend']);check(Path(c.__file__),warm['LW_constants'])
  solar=get_star_params('solar');target=next(x for x in plan['cases']if x['name']=='solar')
  if(target['teff'],target['logg'],plan['xi_km_s'])!=(solar['teff'],solar['logg'],solar['xi']):raise ValueError('Changed canonical solar experiment target')
@@ -47,10 +47,14 @@ def main():
  cap_length=plan['cap_length_m']
  if cap_length!=warm['cap_length_m']or not np.isfinite(cap_length)or cap_length<=0:raise ValueError('Changed fixed geometric cap policy')
  a.output.mkdir(parents=True,exist_ok=False)
- result=dict(schema='codex.bride_solar_matched_column/1',scientific_admission='HOLD',case=a.case,scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),state=asdict(state),state_helper=fingerprint(ROOT/'pipeline/bride_solar_matched.py'),context_helper=fingerprint(ROOT/'pipeline/bride_H_nlte_control.py'),case_parameters=case,source_nodes=preparation['sources'],column_preparation=preparation,field_ownership=plan['field_ownership'],binding_change_from_prior= binding_change,density_helper=fingerprint(ROOT/'pipeline/bride_reference.py'),interpolator=fingerprint(ROOT/'pipeline/bride_parameter_checks.py'),atom=fingerprint(atom_path),warm_report=fingerprint(warm_report),warm_populations=fingerprint(warm_path),initialization=plan['initialization'],controls=controls,cap_length_m=cap_length,background=plan['background'],backend=fingerprint(compiled.__file__),LW_constants=fingerprint(c.__file__))
+ result=dict(schema='codex.bride_solar_matched_column/1',scientific_admission='HOLD',case=a.case,scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),state=asdict(state),state_helper=fingerprint(ROOT/'pipeline/bride_solar_matched.py'),context_helper=fingerprint(ROOT/'pipeline/bride_H_nlte_control.py'),case_parameters=case,source_nodes=preparation['sources'],column_preparation=preparation,field_ownership=plan['field_ownership'],binding_change_from_prior= binding_change,density_helper=fingerprint(ROOT/'pipeline/bride_reference.py'),interpolator=fingerprint(ROOT/'pipeline/bride_parameter_checks.py'),atom=fingerprint(atom_path),warm_report=fingerprint(warm_report),warm_populations=fingerprint(warm_path),initialization=plan['initialization'],initialization_mode=plan.get('initialization_mode','common_fractions'),controls=controls,cap_length_m=cap_length,background=plan['background'],backend=fingerprint(compiled.__file__),LW_constants=fingerprint(c.__file__))
  (a.output/'input.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');started=time.perf_counter()
  def construct(*,fixed=None,continuum_only=False):return make_context(state,structure,read_multi_atom(atom_path),rays=controls['rays'],qscale=controls['qscale'],extra_vac_nm=extra,cap_length_m=cap_length,ng=controls['ng'],fixed=fixed,continuum_only=continuum_only)
- ctx,audits=construct();active=ctx.activeAtoms[0];nstar=active.nStar.copy();active.n[:]=scale_initial_fractions(pop,active.nTotal)
+ ctx,audits=construct();active=ctx.activeAtoms[0];nstar=active.nStar.copy()
+ mode=plan.get('initialization_mode','common_fractions')
+ if mode=='common_fractions':active.n[:]=scale_initial_fractions(pop,active.nTotal)
+ elif mode=='common_departure_pattern':active.n[:]=departure_seed(pop,seed_nstar,nstar,active.nTotal)
+ else:raise ValueError('Unknown predeclared initialization mode')
  result['initial_total_conservation_error']=float(np.max(abs(active.n.sum(axis=0)/active.nTotal-1)));result['SE_wavelength_rows']=len(ctx.spect.wavelength)
  if result['SE_wavelength_rows']!=warm['SE_wavelength_rows']:raise ValueError('Changed spectral layout')
  result['source_collision_contract']=dict(spline=warm['coupled']['source_spline'],MN=warm['coupled']['source_mn']);print(json.dumps(dict(case=a.case,dry_run=a.dry_run,SE_rows=result['SE_wavelength_rows'],load=os.getloadavg())),flush=True)

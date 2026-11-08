@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--run-plan',type=Path,default=ROOT/'config/experiments/rya1281_solar_matched_columns.json');a=p.parse_args()
  from config.constants import require_codex_path
  from pipeline.bride_reference import fingerprint
  from pipeline.bride_rate_audit import process_flow
@@ -14,7 +14,7 @@ def main():
  from pipeline.bride_crossed_continuum import finite_accounting
  from scripts.analyze_bride_O_shape_milestone import shape_metrics
  from scripts.analyze_bride_H_kitt_orch import validate_processed_flux
- plan_path=ROOT/'config/experiments/rya1281_solar_matched_analysis.json';plan=json.loads(plan_path.read_text());run_plan=ROOT/'config/experiments/rya1281_solar_matched_columns.json';rp=json.loads(run_plan.read_text());checks=[]
+ plan_path=ROOT/'config/experiments/rya1281_solar_matched_analysis.json';plan=json.loads(plan_path.read_text());run_plan=a.run_plan;rp=json.loads(run_plan.read_text());checks=[]
  def check(path,receipt):
   if fingerprint(path)!=receipt:raise ValueError('Changed matched analysis input '+str(path))
   checks.append((path,receipt))
@@ -32,12 +32,12 @@ def main():
   f=np.genfromtxt(folder/'flux.csv',delimiter=',',names=True)
   if not all(np.isfinite(f[k]).all()for k in f.dtype.names)or any(np.any(f[k]<=0)for k in ['Fnu_W_m2_Hz','continuum_Fnu_W_m2_Hz']):raise ValueError('Invalid matched flux')
   np.testing.assert_array_equal(f['normalized_flux'],f['Fnu_W_m2_Hz']/f['continuum_Fnu_W_m2_Hz']);reports.append(r);populations.append(pop);fluxes.append(f);rates.append(dict(case=case,rate_residual=residual,conservation=conservation,iterations=r['coupled']['iterations'],seconds=r['telemetry']['seconds'],peak_rss_bytes=r['telemetry']['process_peak_rss_bytes']))
- base=reports[0];base_fraction=populations[0]['initial_populations']/populations[0]['initial_populations'].sum(axis=0);seed_deltas=[]
+ base=reports[0];mode=rp.get('initialization_mode','common_fractions');seed0=populations[0]['initial_populations']/(populations[0]['nstar']if mode=='common_departure_pattern'else 1);base_fraction=seed0/seed0.sum(axis=0);seed_deltas=[]
  for r,pop,f in zip(reports,populations,fluxes):
   for key in ['atom','source_nodes','column_preparation','field_ownership','controls','cap_length_m','background','backend','LW_constants','context_helper','state_helper','interpolator','density_helper','warm_report','warm_populations','source_collision_contract']:
    if r[key]!=base[key]:raise ValueError('Changed common matched input '+key)
   if r['state']['case']!='model_mass_H'or r['state']['ne_owner']!=base['state']['ne_owner']or r['state']['nH_owner']!=base['state']['nH_owner']or r['state']['vturb_m_s']!=base['state']['vturb_m_s']:raise ValueError('Changed field ownership/microturbulence')
-  np.testing.assert_array_equal(f['wavelength_air_A'],fluxes[0]['wavelength_air_A']);fraction=pop['initial_populations']/pop['initial_populations'].sum(axis=0);delta=float(np.max(abs(fraction/base_fraction-1)));seed_deltas.append(delta)
+  np.testing.assert_array_equal(f['wavelength_air_A'],fluxes[0]['wavelength_air_A']);seed=pop['initial_populations']/(pop['nstar']if mode=='common_departure_pattern'else 1);fraction=seed/seed.sum(axis=0);delta=float(np.max(abs(fraction/base_fraction-1)));seed_deltas.append(delta)
   if delta>16*41*np.finfo(float).eps:raise ValueError('Different common starting fractions')
  old=np.genfromtxt(ROOT/'data/results/rya1281/H_nlte_pair_v2/model_mass_H/flux.csv',delimiter=',',names=True);np.testing.assert_array_equal(old['wavelength_air_A'],fluxes[0]['wavelength_air_A']);replay=float(np.max(abs(old['normalized_flux']-fluxes[0]['normalized_flux'])));creplay=float(np.max(abs(fluxes[0]['continuum_Fnu_W_m2_Hz']/old['continuum_Fnu_W_m2_Hz']-1)))
  if replay>plan['baseline_max_normalized_flux_difference']or creplay>plan['baseline_max_relative_continuum_difference']:raise ValueError('Source precision baseline replay screen failed')
@@ -88,7 +88,7 @@ def main():
   axes[0,ci].set_title(f'{rest:.3f} AIR A');axes[0,ci].set_ylabel('Fixed-shoulder ratio');axes[1,ci].set_ylabel('Case minus matched baseline ratio')
   for ax in axes[:,ci]:ax.set_xlabel('AIR offset from fixed +gravity centre (A)');ax.legend(fontsize=7)
  fig.suptitle('Matched native/T-only/g-only/solar O columns: source abundance unchanged\nFixed cap/physics; no optimized model, broadening, RV or continuum');fig.tight_layout();fig.savefig(a.output/'matched_columns.png',dpi=140);plt.close(fig)
- result=dict(schema='codex.bride_solar_matched_analysis/1',scientific_admission='HOLD',scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),run_plan=fingerprint(run_plan),source_reports=[fingerprint(a.source/case/'report.json')for case in plan['case_order']],rates=rates,source_files=plan['source_files'],baseline_replay=dict(max_absolute_normalized_flux_difference=replay,max_relative_continuum_difference=creplay,source_field_changes=base['binding_change_from_prior']),max_common_seed_fraction_difference=max(seed_deltas),rows=dict(metrics=len(metrics),comparisons=len(comparisons),factorial=len(factorial)),total_solved_seconds=sum(r['seconds']for r in rates),limitations=['Exact canonical labels are interpolated input controls, not independent atmosphere/EOS/interpolation accuracy or physical model validation.','Fixed original geometric cap is an experimental control, not an interpolated/validated column mass.','Only this model-H source ownership; exported native-network packet not transplanted.','Finite T/g effects/interactions are correlated controlled differences, not independent uncertainty components or inverse parameter fits.','Current source atom/collision/cap/MULTI/opacity/reference/3D/all-band and CNO gates remain open; no adopted abundance/model/continuum/production.'])
+ result=dict(schema='codex.bride_solar_matched_analysis/1',scientific_admission='HOLD',scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),run_plan=fingerprint(run_plan),source_reports=[fingerprint(a.source/case/'report.json')for case in plan['case_order']],rates=rates,source_files=plan['source_files'],baseline_replay=dict(max_absolute_normalized_flux_difference=replay,max_relative_continuum_difference=creplay,source_field_changes=base['binding_change_from_prior']),initialization_mode=mode,max_common_seed_pattern_difference=max(seed_deltas),rows=dict(metrics=len(metrics),comparisons=len(comparisons),factorial=len(factorial)),total_solved_seconds=sum(r['seconds']for r in rates),limitations=['Exact canonical labels are interpolated input controls, not independent atmosphere/EOS/interpolation accuracy or physical model validation.','Fixed original geometric cap is an experimental control, not an interpolated/validated column mass.','Only this model-H source ownership; exported native-network packet not transplanted.','Finite T/g effects/interactions are correlated controlled differences, not independent uncertainty components or inverse parameter fits.','Current source atom/collision/cap/MULTI/opacity/reference/3D/all-band and CNO gates remain open; no adopted abundance/model/continuum/production.'])
  (a.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');print(json.dumps(dict(baseline_replay=result['baseline_replay'],rates=rates,total_seconds=result['total_solved_seconds'])))
 
 if __name__=='__main__':main()

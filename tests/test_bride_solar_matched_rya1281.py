@@ -4,6 +4,13 @@ import numpy as np
 import pytest
 
 
+def test_departure_pattern_maps_to_local_lte_without_changing_sources():
+ from pipeline.bride_solar_matched import departure_seed
+ p=np.array([[2.,4.],[3.,6.]]);s=np.array([[1.,2.],[4.,8.]]);t=np.array([[2.,1.],[7.,3.]]);before=[a.copy()for a in [p,s,t]];out=departure_seed(p,s,t,[20.,30.]);np.testing.assert_allclose(out.sum(axis=0),[20.,30.]);actual=out/t;expected=p/s;np.testing.assert_allclose(actual/actual.sum(axis=0),expected/expected.sum(axis=0))
+ for x,old in zip([p,s,t],before):np.testing.assert_array_equal(x,old)
+ with pytest.raises(ValueError):departure_seed(p,s*0,t,[20.,30.])
+
+
 def test_held_four_columns_keep_explicit_owners_and_all_native_depths():
  pytest.importorskip('lightweaver')
  from config.constants import require_codex_path,get_star_params
