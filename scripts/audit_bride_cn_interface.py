@@ -53,10 +53,12 @@ def main():
     plan_path=ROOT/'config/experiments/rya1281_cn_interface.json';plan=json.loads(plan_path.read_text());baseline=ROOT/plan['baseline'];run=json.loads(baseline.read_text())
     engine=require_codex_path('engines.ispec');source=engine/'synthesizer/turbospectrum/source';data=engine/'synthesizer/turbospectrum/DATA';pin=plan['source_commit'];checks=[]
     if subprocess.check_output(['git','rev-parse','HEAD'],cwd=engine,text=True).strip()!=pin:raise ValueError('Wrong source lineage')
-    def protected(path):
+    def protected(path,expected=None):
         relative=path.relative_to(engine)
-        if path.read_bytes()!=subprocess.check_output(['git','show',pin+':'+str(relative)],cwd=engine):raise ValueError('Changed native source '+str(relative))
-        receipt=fingerprint(path);checks.append(dict(path=str(relative),receipt=receipt));return receipt
+        if expected is None:
+            if path.read_bytes()!=subprocess.check_output(['git','show',pin+':'+str(relative)],cwd=engine):raise ValueError('Changed native source '+str(relative))
+        elif fingerprint(path)!=expected:raise ValueError('Changed separately held input '+str(relative))
+        receipt=fingerprint(path);checks.append(dict(path=str(relative),receipt=receipt,authority='pinned native git'if expected is None else 'accepted original input receipt'));return receipt
     snippets=[]
     owners={'bsyn.f':['ntt(k)=partryck(k,molindex)/boltz/t(k)/ro(k)*symmfactor','call partffordepth(ntau,t,lele,fpartition)','ntt(k)=ntt(k)*isotopfrac(atom(i),isotope(i))','f=10**(gfelog)'],
       'partffordepth.f':['fpartition(k)=sngl(qmol(molindex))'],
@@ -73,7 +75,7 @@ def main():
     record=cn_partition_record(partition_path.read_text());model=require_codex_path('grids.marcs_standard')/run['model']['name']
     if fingerprint(model)!=run['model']:raise ValueError('Changed reference model')
     structure=read_marcs_structure(model);temperature=structure['temperature_K'];Q=project_partition(temperature,record['coefficients'])
-    isotope_path=engine/'input/isotopes/SPECTRUM.lst';protected(isotope_path)
+    isotope_path=engine/'input/isotopes/SPECTRUM.lst';protected(isotope_path,run['isotopes'])
     if fingerprint(isotope_path)!=run['isotopes']:raise ValueError('Changed original isotope source')
     rows,weights=isotope_weights(isotope_path.read_text())
     old=require_codex_path('experiments.bride_native_molecules')/'CN/input.txt';case=next(c for c in run['cases']if c['name']=='CN')
@@ -81,9 +83,9 @@ def main():
     for z,m in [(6,12),(6,13),(7,14),(7,15)]:
         expected=f'{z}.{m:03d} {rows[z,m]:.3f}'
         if old.read_text().splitlines().count(expected)!=1:raise ValueError('Native input isotope serialization mismatch')
-    families=[]
+    inventory=json.loads((ROOT/'data/results/rya1281/missing_opacity_v1/report.json').read_text());families=[]
     for name in plan['families']:
-        path=engine/'input/linelists/turbospectrum/molecules'/name;protected(path);header=path.read_text().splitlines()[:2]
+        path=engine/'input/linelists/turbospectrum/molecules'/name;protected(path,next(item['installed']for item in inventory['files']if item['filename']==name));header=path.read_text().splitlines()[:2]
         families.append(dict(filename=name,header=header,declared_count=int(shlex.split(header[0])[-1])))
     for item in checks:
         if fingerprint(engine/item['path'])!=item['receipt']:raise ValueError('Source mutated during audit')
