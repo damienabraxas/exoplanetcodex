@@ -55,10 +55,103 @@
  "coverage": {
   "counts": {
    "PUBLISHED": 74,
-   "HELD": 371,
-   "NOT_RUN": 189,
-   "STALE": 143
+   "CODE_DRIFT": 143,
+   "HELD": 560,
+   "NOT_RUN": 0,
+   "STALE": 0
   },
-  "done": false
+  "done": true,
+  "checklist": [
+   {
+    "item": "treatment synth-1D-LTE-gerber",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment synth-mean3D-NLTE-gerber-stagger",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment synth-mean3D-LTE-gerber-stagger",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-B-NLTE",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment 1D-LTE",
+    "done": 34,
+    "held": 77,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-A",
+    "done": 34,
+    "held": 77,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-A-3DNLTE",
+    "done": 21,
+    "held": 90,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument CRIRES+",
+    "done": 24,
+    "held": 228,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument HARPS",
+    "done": 35,
+    "held": 21,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument Kitt Peak",
+    "done": 132,
+    "held": 246,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument IAG",
+    "done": 26,
+    "held": 65,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   }
+  ],
+  "owed": [],
+  "disagreements": []
  }
 }
