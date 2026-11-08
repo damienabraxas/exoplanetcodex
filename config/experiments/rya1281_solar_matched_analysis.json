@@ -1,0 +1,58 @@
+{
+  "schema": "codex.bride_solar_matched_analysis_plan/1",
+  "source_files": {
+    "data/results/rya1281/H_nlte_pair_v2/model_mass_H/report.json": {
+      "name": "report.json",
+      "bytes": 17385,
+      "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+    },
+    "data/results/rya1281/H_nlte_pair_v2/model_mass_H/flux.csv": {
+      "name": "flux.csv",
+      "bytes": 400167,
+      "sha256": "e7341fcebe74d957878f175fc3e3eaac6bce622ba45ae13d8a27e69198ea6e95"
+    },
+    "data/results/rya1281/O_shape_milestone_v1/run/report.json": {
+      "name": "report.json",
+      "bytes": 22509,
+      "sha256": "ac84cca6f630d77b39305fe305fbd97796329f330ea82a50cea028acb571a2d9"
+    },
+    "data/results/rya1281/O_shape_milestone_v1/run/profiles.npz": {
+      "name": "profiles.npz",
+      "bytes": 890014,
+      "sha256": "5f4869ea6a4fef007d98fd65319a2756a36ef781ce5c94eb50ff4e9378dce990"
+    },
+    "data/results/rya1281/O_shape_milestone_v1/run/metrics.csv": {
+      "name": "metrics.csv",
+      "bytes": 139082,
+      "sha256": "a6f38c0d41d41919c93c6c0c7ca83bd2fc6d978ff8d2e3f227a900dc022c4586"
+    },
+    "data/results/rya1281/H_kitt_orch_v1/report.json": {
+      "name": "report.json",
+      "bytes": 46275,
+      "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+    }
+  },
+  "case_order": [
+    "baseline",
+    "temperature",
+    "gravity",
+    "solar"
+  ],
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "shoulders": [
+    "inner",
+    "outer"
+  ],
+  "RVs": [
+    "no_gravity",
+    "plus_gravity"
+  ],
+  "step_air_A": 0.005,
+  "baseline_max_normalized_flux_difference": 1e-06,
+  "baseline_max_relative_continuum_difference": 1e-06,
+  "scope": "Admit only all four completed source-owned column solves after independent fresh rate/conservation replay and common-input/starting-fraction checks. Same retained atlas shape data/geometry/RVs/nominal broadening; measure T,g and finite interaction without inversion/adoption. Baseline replay screen is numerical interoperability, not physical error. No solar abundance, source/EOS/atom/cap/provider/production/merge/publication admission."
+}
