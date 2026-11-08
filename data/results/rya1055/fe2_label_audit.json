@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-1055",
   "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
-  "generated_at": "2026-11-07T00:03:05Z",
+  "generated_at": "2026-11-07T16:40:04Z",
   "n_live_fe_ii_products": 55,
   "n_stamped": 55,
   "n_taking_nlte_from_the_gerber_deck": 0,
@@ -11,49 +11,7 @@
   },
   "band_product_per_line_nlte_sources": [
     {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 12,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 7,
-      "n_with_a_nonzero_departure": 7,
-      "nlte_delta_dex_values": [
-        -0.001
-      ],
-      "nlte_source": [
-        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
-        "registered per-line delta_nlte (NOT SERVED)"
-      ],
-      "excluded_reasons": [
-        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
-      ]
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 12,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
       "n_lines": 12,
       "n_in_aggregate": 12,
       "n_with_a_nonzero_departure": 0,
@@ -81,8 +39,8 @@
     {
       "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
       "n_lines": 12,
-      "n_in_aggregate": 7,
-      "n_with_a_nonzero_departure": 7,
+      "n_in_aggregate": 6,
+      "n_with_a_nonzero_departure": 6,
       "nlte_delta_dex_values": [
         -0.001
       ],
@@ -93,19 +51,6 @@
       "excluded_reasons": [
         "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
       ]
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 12,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
     },
     {
       "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv",
@@ -121,49 +66,7 @@
       "excluded_reasons": []
     },
     {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 12,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 7,
-      "n_with_a_nonzero_departure": 7,
-      "nlte_delta_dex_values": [
-        -0.001
-      ],
-      "nlte_source": [
-        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
-        "registered per-line delta_nlte (NOT SERVED)"
-      ],
-      "excluded_reasons": [
-        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
-      ]
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 12,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-mean3D-LTE-gerber-stagger_lines.csv",
       "n_lines": 12,
       "n_in_aggregate": 12,
       "n_with_a_nonzero_departure": 0,
@@ -178,35 +81,6 @@
     {
       "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
       "n_lines": 12,
-      "n_in_aggregate": 12,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
-      "n_lines": 12,
-      "n_in_aggregate": 7,
-      "n_with_a_nonzero_departure": 7,
-      "nlte_delta_dex_values": [
-        -0.001
-      ],
-      "nlte_source": [
-        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
-        "registered per-line delta_nlte (NOT SERVED)"
-      ],
-      "excluded_reasons": [
-        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
-      ]
-    },
-    {
-      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B_lines.csv",
-      "n_lines": 12,
       "n_in_aggregate": 11,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
@@ -217,6 +91,23 @@
       ],
       "excluded_reasons": [
         "LEG-UNSTABLE (RYA-1232 budget assembly): core: FIT-NOT-PHYSICAL: A(Fe) = 10.454 is 2.99 dex from solar 7.46, outside the +/-1.5 dex valid"
+      ]
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 5,
+      "n_with_a_nonzero_departure": 6,
+      "nlte_delta_dex_values": [
+        -0.001
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction.",
+        "LEG-UNSTABLE (RYA-1232 budget assembly): core: "
       ]
     },
     {
@@ -233,9 +124,9 @@
       "excluded_reasons": []
     },
     {
-      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 8,
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 12,
+      "n_in_aggregate": 12,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -246,13 +137,31 @@
       "excluded_reasons": []
     },
     {
-      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 2,
-      "n_with_a_nonzero_departure": 2,
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "n_lines": 171,
+      "n_in_aggregate": 145,
+      "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
-        -0.002,
-        -0.001
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "FIT-NOT-PHYSICAL: A(Fe) = 10.001 is 2.54 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.550 is 2.91 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.579 is 2.88 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.650 is 2.81 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
+      "n_lines": 145,
+      "n_in_aggregate": 3,
+      "n_with_a_nonzero_departure": 3,
+      "nlte_delta_dex_values": [
+        -0.001,
+        0.001
       ],
       "nlte_source": [
         "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
@@ -263,9 +172,9 @@
       ]
     },
     {
-      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 8,
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 171,
+      "n_in_aggregate": 145,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -273,7 +182,30 @@
       "nlte_source": [
         "none \u2014 LTE, no departure applied"
       ],
-      "excluded_reasons": []
+      "excluded_reasons": [
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.600 is 2.86 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 5.697 is 1.76 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 9.493 is 2.03 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 9.766 is 2.31 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 171,
+      "n_in_aggregate": 141,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.550 is 2.91 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.663 is 2.80 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.743 is 2.72 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "FIT-NOT-PHYSICAL: A(Fe) = 9.574 is 2.11 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+      ]
     },
     {
       "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
@@ -319,20 +251,7 @@
       "excluded_reasons": []
     },
     {
-      "artifact": "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
-      "n_lines": 9,
-      "n_in_aggregate": 9,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_synth-mean3D-LTE-gerber-stagger_lines.csv",
       "n_lines": 8,
       "n_in_aggregate": 8,
       "n_with_a_nonzero_departure": 0,
@@ -345,10 +264,257 @@
       "excluded_reasons": []
     },
     {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 2,
-      "n_with_a_nonzero_departure": 2,
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_1D-LTE_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 9,
+      "n_in_aggregate": 9,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_1D-LTE_lines.csv",
+      "n_lines": 6,
+      "n_in_aggregate": 6,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_1D-LTE_lines.csv",
+      "n_lines": 6,
+      "n_in_aggregate": 6,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_1D-LTE_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_1D-LTE_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_1D-LTE_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "2accbc52b5d7_FeII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "7bd1e0b4e5d4_FeII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "95a23bc7877a_FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 6,
+      "n_in_aggregate": 6,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "a85be8a429be_FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 6,
+      "n_in_aggregate": 6,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "bce33f1d4a8d_FeII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "bd8962bbee08_FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 6,
+      "n_in_aggregate": 6,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "bfbf63bb1cb5_FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 6,
+      "n_in_aggregate": 6,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "cca682082845_FeII_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "ceedbb643ba4_FeII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "d4a06ab5ce06_FeII_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 1,
+      "n_in_aggregate": 1,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 31,
+      "n_in_aggregate": 31,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 31,
+      "n_in_aggregate": 16,
+      "n_with_a_nonzero_departure": 16,
       "nlte_delta_dex_values": [
         -0.002,
         -0.001
@@ -362,9 +528,9 @@
       ]
     },
     {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
-      "n_lines": 9,
-      "n_in_aggregate": 9,
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 31,
+      "n_in_aggregate": 31,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -375,36 +541,10 @@
       "excluded_reasons": []
     },
     {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 8,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 8,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 2,
-      "n_with_a_nonzero_departure": 2,
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 30,
+      "n_in_aggregate": 16,
+      "n_with_a_nonzero_departure": 17,
       "nlte_delta_dex_values": [
         -0.002,
         -0.001
@@ -414,13 +554,14 @@
         "registered per-line delta_nlte (NOT SERVED)"
       ],
       "excluded_reasons": [
-        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction.",
+        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool"
       ]
     },
     {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv",
-      "n_lines": 8,
-      "n_in_aggregate": 8,
+      "artifact": "FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 31,
+      "n_in_aggregate": 29,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -428,7 +569,10 @@
       "nlte_source": [
         "none \u2014 LTE, no departure applied"
       ],
-      "excluded_reasons": []
+      "excluded_reasons": [
+        "FIT-NOT-PHYSICAL: A(Fe) = 9.024 is 1.56 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool"
+      ]
     },
     {
       "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
@@ -461,35 +605,9 @@
       ]
     },
     {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
-      "n_lines": 9,
-      "n_in_aggregate": 9,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
       "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
       "n_lines": 8,
       "n_in_aggregate": 8,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": []
-    },
-    {
-      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
-      "n_lines": 9,
-      "n_in_aggregate": 9,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -531,6 +649,149 @@
     },
     {
       "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 8,
+      "n_in_aggregate": 8,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 25,
+      "n_in_aggregate": 23,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "FIT-NOT-PHYSICAL: A(Fe) = 9.960 is 2.50 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool"
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 24,
+      "n_in_aggregate": 10,
+      "n_with_a_nonzero_departure": 10,
+      "nlte_delta_dex_values": [
+        -0.002,
+        -0.001,
+        0.015
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 25,
+      "n_in_aggregate": 23,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool",
+        "SYNTHESIS: edge_pinned"
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 25,
+      "n_in_aggregate": 23,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool",
+        "SYNTHESIS: edge_pinned"
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 24,
+      "n_in_aggregate": 10,
+      "n_with_a_nonzero_departure": 10,
+      "nlte_delta_dex_values": [
+        -0.002,
+        -0.001,
+        0.015
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 25,
+      "n_in_aggregate": 23,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "FIT-NOT-PHYSICAL: A(Fe) = 4.529 is 2.93 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
+        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool"
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
+      "n_lines": 8,
+      "n_in_aggregate": 8,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": []
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
+      "n_lines": 8,
+      "n_in_aggregate": 2,
+      "n_with_a_nonzero_departure": 2,
+      "nlte_delta_dex_values": [
+        -0.002,
+        -0.001
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv",
       "n_lines": 8,
       "n_in_aggregate": 8,
       "n_with_a_nonzero_departure": 0,
