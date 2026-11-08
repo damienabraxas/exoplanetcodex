@@ -22,6 +22,7 @@ def main():
  from pipeline.telluric_policy import gate_holding
  from pipeline.prenormalised_guard import assert_not_renormalising
  from pipeline.bride_observables import window_integral
+ from pipeline.bride_continuum_audit import selection,trace_fit
  plan_path=ROOT/'config/experiments/rya1281_H_kitt_orch.json';plan=json.loads(plan_path.read_text());orch_plan=ROOT/plan['orch_plan'];pin=json.loads(orch_plan.read_text())['orch_commit'];orch=require_codex_path('experiments.bride_current_orch_checkout');checks=[]
  def check(path,receipt):
   if fingerprint(path)!=receipt:raise ValueError('Changed source '+str(path))
@@ -74,7 +75,7 @@ def main():
    flux=ispec.apply_post_fundamental_effects(wave/10,data['normalized_flux'].copy(),segment,macroturbulence=b['vmac_km_s'],vsini=b['vsini_km_s'],limb_darkening_coeff=b['limb_darkening'],R=b['R'],vrad=(rv_values[rvlabel],))
    zero_indices=validate_processed_flux(wave,flux,plan['centres_air_A']);padding.append(dict(rv=rvlabel,label=label,zero_indices=zero_indices,zero_wavelengths_air_A=wave[zero_indices].tolist()))
    models[rvlabel,label]=flux;arrays['model_'+rvlabel+'_'+label]=flux
- fits={};iag_cache={}
+ fits={};iag_cache={};support=[]
  for rvlabel in plan['RVs']:
   for ci,centre in enumerate(plan['centres_air_A']):
    for reference in plan['references']:
@@ -90,6 +91,12 @@ def main():
      if cont is not None and(not np.isfinite(cont).all()or np.any(cont<=0)):raise ValueError('Invalid ORCH continuum')
      fits[rvlabel,ci,reference,label]=(record,cont)
      if cont is not None:arrays[f'continuum_{rvlabel}_{ci}_{reference}_{label}']=cont
+     arrays[f'reference_{rvlabel}_{ci}_{reference}_{label}']=ref
+     mask,threshold=selection(w,obs,centre,ref);trace,_=trace_fit(w,obs,centre,ref,mask)
+     # Legacy helper's bound is NOT used for application; only identical fit/support arithmetic.
+     bound=512*np.finfo(float).eps*trace['geometry']['design_condition_2']
+     if abs(trace['level']-rec.level_at_centre)>bound or abs(trace['slope_per_A']-rec.slope_per_A)>bound:raise ValueError('Support trace differs from pinned coefficients')
+     support.append(dict(label=label,rv=rvlabel,centre_air_A=centre,reference=reference,selector_threshold=threshold,selected_indices=np.flatnonzero(mask).tolist(),pinned_record=record,trace_scope='Coefficient/support arithmetic only; legacy helper application bound ignored',**{k:trace[k]for k in ['level','slope_per_A','geometry','fit_indices','surviving_indices','coefficient_support_count','postfit_survivor_count','clipping_stop_reason','clipping_limit_reached']}))
  for rvlabel in plan['RVs']:
   for ci in range(len(plan['centres_air_A'])):
    first=fits[rvlabel,ci,'iag',baseline]
@@ -126,6 +133,7 @@ def main():
  for name,data in [('summary.csv',rows),('contrasts.csv',contrasts)]:
   with(a.output/name).open('w',newline='')as stream:writer=csv.DictWriter(stream,fieldnames=list(data[0]),lineterminator='\n');writer.writeheader();writer.writerows(data)
  np.savez(a.output/'profiles_and_continua.npz',**arrays)
+ (a.output/'support.json').write_text(json.dumps(support,indent=2,allow_nan=False)+'\n')
  import matplotlib
  matplotlib.use('Agg');import matplotlib.pyplot as plt
  fig,axes=plt.subplots(3,3,figsize=(15,11));rv=plan['plot_rv'];ref=plan['plot_reference']
@@ -143,6 +151,7 @@ def main():
  fig.suptitle('Bare-background O diagnostics: fixed broadening, plus-gravity, pinned IAG continuum\nNo abundance/continuum/RV tuning; no Fe/CN replacement');fig.tight_layout();fig.savefig(a.output/'kitt_comparison.png',dpi=140);plt.close(fig)
  result=dict(schema='codex.bride_H_kitt_orch_analysis/1',scientific_admission='HOLD',scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),orch_plan=fingerprint(orch_plan),orch_commit=pin,current_native=fingerprint(native),comparison=fingerprint(comparison_path),observation=fingerprint(observation),holding=holding,policy_reason=reason,frame='Delivered observed vacuum nm -> canonical AIR Angstrom once by established reader; model AIR sampled output is already AIR. No further observation wavelength/telluric correction.',iag=fingerprint(iag),iag_reader=fingerprint(reader.__file__),ispec_effects=fingerprint(effects),broadening=b,RV_km_s=rv_values,sources=source_receipts,continuum_records=records,rows=len(rows),contrasts=len(contrasts),applied=sum(r['continuum']['applied']for r in records),refused=sum(not r['continuum']['applied']for r in records),common_continuum_baseline=baseline,model_dependent_continuum_is_diagnostic=True,statistic='Unweighted sampled residuals/finite AIR areas; no noise model, chi-square, abundance fit or significance claim.',limitations=['Bare-background O column has no added Fe/CN opacity; not a replacement product or direct blanketed-baseline comparison.','Only VIS triplet output/continuum windows, not all-band validation; frozen populations are not SE solutions.','Pinned native local-continuum replay and existing broadening only, not a full ORCH pipeline execution.','Both RV controls retained, no optimization; no preferred H/EOS/abundance or observed normalization adoption.','Common and per-model continuum paths retained separately; input observation stays byte-protected.'])
  result['preserved_ispec_zero_padding_outside_comparison_support']=padding
+ result['support_trace_helper']=fingerprint(ROOT/'pipeline/bride_continuum_audit.py')
  (a.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');print(json.dumps({k:result[k]for k in ['rows','contrasts','applied','refused','orch_commit']}))
 
 if __name__=='__main__':main()
