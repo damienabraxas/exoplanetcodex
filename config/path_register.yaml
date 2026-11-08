@@ -250,6 +250,18 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_h_bracket_support_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-bracket-support-v1
+    env: CODEX_BRIDE_H_BRACKET_SUPPORT_FIRST
+    kind: dir
+    desc: First completed fixed-support crossed denominator controls, preserved before finite-accounting extension.
+  experiments.bride_h_bracket_support:
+    root: work
+    rel: bride_mac_checks/rya1281-H-bracket-support-v2
+    env: CODEX_BRIDE_H_BRACKET_SUPPORT
+    kind: dir
+    desc: Six-spectrum fixed-support synthesis/IAG controls with explicit bracketing refusals and finite intervention accounting; no adoption.
   experiments.bride_h_kitt_orch_first:
     root: work
     rel: bride_mac_checks/rya1281-H-kitt-orch-v3

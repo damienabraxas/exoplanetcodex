@@ -1,3 +1,7 @@
+## 2026-11-08 — fixed bracketing continuum controls
+
+- **RYA-1281** — Bracketing removes large synthesis extrapolation, but same-pixel denominator contrast persists; reference-value/lineage audit next (v235).
+
 ## 2026-11-08 — paired-H Kitt Peak and pinned ORCH replay
 
 - **RYA-1281** — Small H response survives fixed processing; larger solar residual and one-sided continuum extrapolation remain, crossed support controls next (v234).

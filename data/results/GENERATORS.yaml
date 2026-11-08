@@ -29145,3 +29145,27 @@ artifacts:
     generator: "scripts/analyze_bride_H_kitt_orch.py"
     invocation: "python scripts/analyze_bride_H_kitt_orch.py --output <fresh-H-kitt-orch>"
     ticket: "RYA-1281"
+  - artifact: rya1281/H_bracket_support_v1/accounting.csv
+    generator: "scripts/analyze_bride_H_bracket_support.py"
+    invocation: "python scripts/analyze_bride_H_bracket_support.py --output <fresh-bracketing-support>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_bracket_support_v1/contrasts.csv
+    generator: "scripts/analyze_bride_H_bracket_support.py"
+    invocation: "python scripts/analyze_bride_H_bracket_support.py --output <fresh-bracketing-support>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_bracket_support_v1/fits.json
+    generator: "scripts/analyze_bride_H_bracket_support.py"
+    invocation: "python scripts/analyze_bride_H_bracket_support.py --output <fresh-bracketing-support>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_bracket_support_v1/fixed_support.png
+    generator: "scripts/analyze_bride_H_bracket_support.py"
+    invocation: "python scripts/analyze_bride_H_bracket_support.py --output <fresh-bracketing-support>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_bracket_support_v1/report.json
+    generator: "scripts/analyze_bride_H_bracket_support.py"
+    invocation: "python scripts/analyze_bride_H_bracket_support.py --output <fresh-bracketing-support>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_bracket_support_v1/summary.csv
+    generator: "scripts/analyze_bride_H_bracket_support.py"
+    invocation: "python scripts/analyze_bride_H_bracket_support.py --output <fresh-bracketing-support>"
+    ticket: "RYA-1281"
