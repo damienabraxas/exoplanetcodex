@@ -30,6 +30,26 @@
       "name": "report.json",
       "bytes": 46275,
       "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+    },
+    "data/results/rya1281/solar_matched_v1/run/baseline/report.json": {
+      "name": "report.json",
+      "bytes": 21398,
+      "sha256": "4fd754e36948140710f86fc9f05f92392501660b12fd602b0c2918b65c5d7dec"
+    },
+    "data/results/rya1281/solar_matched_v1/run/baseline/flux.csv": {
+      "name": "flux.csv",
+      "bytes": 400167,
+      "sha256": "8198e04d1bb8e26da071f015826343ae7cd29d11de6c794b39bf4fabc250180b"
+    },
+    "data/results/rya1281/solar_matched_v1/run/gravity/report.json": {
+      "name": "report.json",
+      "bytes": 22617,
+      "sha256": "af1700608c08b4f400006aa673a61ff7c71aa7c8be277bd2551c99233f76c9fe"
+    },
+    "data/results/rya1281/solar_matched_v1/run/gravity/flux.csv": {
+      "name": "flux.csv",
+      "bytes": 400167,
+      "sha256": "b9127e5a13cf38808d6b5f6775e11a7c4076e2691ca3f4bd0d2b4f9c12fb52bd"
     }
   },
   "case_order": [
@@ -54,5 +74,17 @@
   "step_air_A": 0.005,
   "baseline_max_normalized_flux_difference": 1e-06,
   "baseline_max_relative_continuum_difference": 1e-06,
-  "scope": "Admit only all four completed source-owned column solves after independent fresh rate/conservation replay and common-input/starting-fraction checks. Same retained atlas shape data/geometry/RVs/nominal broadening; measure T,g and finite interaction without inversion/adoption. Baseline replay screen is numerical interoperability, not physical error. No solar abundance, source/EOS/atom/cap/provider/production/merge/publication admission."
+  "scope": "Admit only all four completed source-owned column solves after independent fresh rate/conservation replay and common-input/starting-fraction checks. Same retained atlas shape data/geometry/RVs/nominal broadening; measure T,g and finite interaction without inversion/adoption. Baseline replay screen is numerical interoperability, not physical error. No solar abundance, source/EOS/atom/cap/provider/production/merge/publication admission.",
+  "endpoint_controls": [
+    {
+      "case": "baseline",
+      "path": "data/results/rya1281/solar_matched_v1/run/baseline"
+    },
+    {
+      "case": "gravity",
+      "path": "data/results/rya1281/solar_matched_v1/run/gravity"
+    }
+  ],
+  "endpoint_max_normalized_flux_difference": 1e-06,
+  "endpoint_max_relative_continuum_difference": 1e-06
 }
