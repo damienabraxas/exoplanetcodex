@@ -1,11 +1,11 @@
 {
  "star": "solar",
  "element": "Ca",
- "feed_version": "1.374",
+ "feed_version": "1.378",
  "counts": {
-  "PUBLISHED": 70,
+  "PUBLISHED": 74,
   "CODE_DRIFT": 143,
-  "HELD": 564,
+  "HELD": 560,
   "NOT_RUN": 0,
   "STALE": 0
  },
@@ -45,16 +45,16 @@
   },
   {
    "item": "treatment 1D-LTE",
-   "done": 32,
-   "held": 79,
+   "done": 34,
+   "held": 77,
    "owed": 0,
    "unverified": 0,
    "ok": true
   },
   {
    "item": "treatment ENGINE-A",
-   "done": 32,
-   "held": 79,
+   "done": 34,
+   "held": 77,
    "owed": 0,
    "unverified": 0,
    "ok": true
@@ -85,8 +85,8 @@
   },
   {
    "item": "instrument Kitt Peak",
-   "done": 128,
-   "held": 250,
+   "done": 132,
+   "held": 246,
    "owed": 0,
    "unverified": 0,
    "ok": true
@@ -361,11 +361,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "quarantined: .30. Model-inadequate blends; no near-UV Ca line is usable, declared gap. Same cell re-run 2026-11-08 to build its ENGINE-A row (6.63-6.68, same lines and fits); quarantined with the rest of the cell.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null,
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.652,
+   "sigma": 0.1219743381763301,
+   "n_lines": 3,
    "correction_applied": null
   },
   {
@@ -375,12 +375,15 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "quarantined: .30. Model-inadequate blends; no near-UV Ca line is usable, declared gap. Same cell re-run 2026-11-08 to build its ENGINE-A row (6.63-6.68, same lines and fits); quarantined with the rest of the cell.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null,
-   "correction_applied": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.675,
+   "sigma": 0.126710166113771,
+   "n_lines": 3,
+   "correction_applied": [
+    3,
+    3
+   ]
   },
   {
    "band": "near-UV",
@@ -390,7 +393,7 @@
    "pool": "reference",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "the cell's 1D-LTE is quarantined:  Ca line is usable, declared gap. Same cell re-run 2026-11-08 to build its ENGINE-A row (6.63-6.68, same lines and fits); quarantined with the rest of the cell.",
+   "reason": "no ENGINE-A-3DNLTE correction for this pool's lines: data/reference/ca_agss21/ca_agss21_lines.csv",
    "A": null,
    "sigma": null,
    "n_lines": null,
@@ -655,11 +658,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "quarantined: .30. Model-inadequate blends; no near-UV Ca line is usable, declared gap. Same cell re-run 2026-11-08 to build its ENGINE-A row (6.63-6.68, same lines and fits); quarantined with the rest of the cell.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null,
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.609,
+   "sigma": 0.1573840499337645,
+   "n_lines": 3,
    "correction_applied": null
   },
   {
@@ -669,12 +672,15 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "HELD",
-   "reason": "quarantined: .30. Model-inadequate blends; no near-UV Ca line is usable, declared gap. Same cell re-run 2026-11-08 to build its ENGINE-A row (6.63-6.68, same lines and fits); quarantined with the rest of the cell.",
-   "A": null,
-   "sigma": null,
-   "n_lines": null,
-   "correction_applied": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.632,
+   "sigma": 0.1613631749405124,
+   "n_lines": 3,
+   "correction_applied": [
+    3,
+    3
+   ]
   },
   {
    "band": "near-UV",
@@ -684,7 +690,7 @@
    "pool": "reference",
    "treatment": "ENGINE-A-3DNLTE",
    "outcome": "HELD",
-   "reason": "the cell's 1D-LTE is quarantined:  Ca line is usable, declared gap. Same cell re-run 2026-11-08 to build its ENGINE-A row (6.63-6.68, same lines and fits); quarantined with the rest of the cell.",
+   "reason": "no ENGINE-A-3DNLTE correction for this pool's lines: data/reference/ca_agss21/ca_agss21_lines.csv",
    "A": null,
    "sigma": null,
    "n_lines": null,
