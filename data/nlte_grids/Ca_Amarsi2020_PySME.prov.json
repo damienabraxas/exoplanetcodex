@@ -93,12 +93,84 @@
       "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
       "existing_rows": "untouched",
       "script": "scripts/extend_nlte_grid.py"
+    },
+    {
+      "ticket": "RYA-1233",
+      "date": "2026-11-06",
+      "ion": 1,
+      "added_waves": [
+        10343.819,
+        10838.97,
+        11955.955,
+        12105.841
+      ],
+      "why": "prepare check D: 4 gf-graded Ca I lines had no ENGINE-A row",
+      "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
+      "existing_rows": "untouched",
+      "script": "scripts/extend_nlte_grid.py"
+    },
+    {
+      "ticket": "RYA-1233",
+      "date": "2026-11-06",
+      "ion": 2,
+      "added_waves": [
+        9854.759
+      ],
+      "why": "prepare check D: 1 gf-graded Ca II lines had no ENGINE-A row",
+      "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
+      "existing_rows": "untouched",
+      "script": "scripts/extend_nlte_grid.py"
+    },
+    {
+      "ticket": "RYA-1233",
+      "date": "2026-11-07",
+      "ion": 1,
+      "added_waves": [
+        16136.823,
+        16150.762,
+        16155.236,
+        16157.364,
+        16197.075,
+        16204.087,
+        16208.59,
+        19815.017,
+        19853.092,
+        19933.727,
+        19961.832,
+        20921.822,
+        20937.903,
+        20956.394,
+        20962.41,
+        20972.529,
+        20973.378,
+        21113.904,
+        21246.817,
+        22277.963,
+        22298.345,
+        22308.222,
+        22626.723,
+        22653.579,
+        22655.345,
+        22821.064,
+        24618.875,
+        24620.96,
+        24623.798
+      ],
+      "why": "prepare check D: 32 gf-graded Ca I lines had no ENGINE-A row",
+      "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
+      "existing_rows": "untouched",
+      "script": "scripts/extend_nlte_grid.py"
     }
   ],
   "not_derivable_by_ion": {
     "2": {
       "3933.664": "Ca 2 3933.664: need one identified synthesis component, got 0",
       "3968.469": "Ca 2 3968.469: need one identified synthesis component, got 0"
+    },
+    "1": {
+      "22607.945": "Unbracketed NLTE EW or non-monotonic LTE curve at one or more nodes (no value)",
+      "22624.962": "Unbracketed NLTE EW or non-monotonic LTE curve at one or more nodes (no value)",
+      "22651.177": "Unbracketed NLTE EW or non-monotonic LTE curve at one or more nodes (no value)"
     }
   }
 }
