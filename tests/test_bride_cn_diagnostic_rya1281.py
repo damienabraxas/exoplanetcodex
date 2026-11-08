@@ -20,6 +20,6 @@ def test_frequency_integral_and_population_scaling():
     np.testing.assert_allclose(evaluate(lower_population_m3=np.array([6.])),2*evaluate())
 
 
-@pytest.mark.parametrize('override',[dict(damping_a=[-1.]),dict(doppler_width_Hz=[0.]),dict(stimulated_emission=[1.1]),dict(lower_population_m3=[float('nan')]),dict(gf=[1.,2.]),dict(offset_doppler=[[0.]])])
+@pytest.mark.parametrize('override',[dict(damping_a=[-1.]),dict(doppler_width_Hz=[0.]),dict(stimulated_emission=[1.1]),dict(lower_population_m3=[float('nan')]),dict(gf=[1.,2.]),dict(offset_doppler=[[0.,1.]])])
 def test_invalid_external_state_refused(override):
     with pytest.raises(ValueError):evaluate(**override)
