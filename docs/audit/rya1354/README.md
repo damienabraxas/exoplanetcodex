@@ -1,9 +1,10 @@
 # RYA-1354 — O I atomic-structure pilot checkpoint
 
 **Status: exploratory candidates and benchmark infrastructure; scientific HOLD.**
-This is not a completed blind benchmark. An independently curated experimental
-holdout, approved two-method convergence and
-uncertainty criteria, and UV/IR/forbidden-line calculations remain owed.
+This is not a completed blind benchmark. Calibrated uncertainty, reviewed two-method convergence and adoption criteria remain owed.
+See [the 2026-11-08 continuation](continuation_2026-11-08.md) for the new nonblind
+reference matrix, correlation ladder and native operator attempts. A named external
+curator is not a prerequisite for exploratory calculations or honest external validation.
 
 Base `adefcaf073ff70035954cf45a9a2283774ac7d06`, branch
 `ryandamienschmitt/rya-1354-oxygen-pilot-blind-mcdhf`, worktree `codex/rya1354`.
@@ -130,9 +131,12 @@ There are no approved numerical acceptance thresholds yet.
 
 Existing project gf, NIST, theoretical and published experimental-comparison tables
 have already been exposed. Their values cannot become a genuinely withheld
-benchmark simply by renaming files or splitting multiplet components. Ryan was
-asked to identify an independent curator. No answer, curator receipt, primary
-experimental holdout, model freeze or prediction freeze is recorded yet.
+benchmark simply by renaming files or splitting multiplet components. The earlier curator request is superseded by the 2026-11-08 issue amendment:
+curation is a distinct role, potentially agent-assisted with human review, not a
+requirement for an external employee. No genuinely withheld experimental set,
+model freeze or prediction freeze is established; exploratory work continues.
+The historical v0 plan is retained; [v1](../../../config/atomic/rya1354/benchmark_plan.v1.json)
+records the amended exploratory and nonblind validation routes.
 
 The curator must inspect actual primary experiments, source uncertainties,
 branching/lifetime normalization, complete physical identity and overlap with
@@ -153,7 +157,7 @@ selection rules, E1 A/gf conversion with vacuum A and upper degeneracy, complete
 decay-inventory lifetime/BF, and covariance-aware log-residual scoring. E1 conversion
 refuses M1/E2. Angular parity/triangle checks are necessary, not sufficient;
 relativistic mixing means a spin-forbidden label does not imply zero amplitude.
-No forbidden-line rate was computed. No guessed E1 formula supplies a missing
+No forbidden-line rate was computed in the original checkpoint; the dated continuation now retains native M1/E2 diagnostics on HOLD. No guessed E1 formula supplies a missing
 M1/E2 matrix element.
 
 The scoring CLI requires frozen prediction and benchmark byte hashes, exact ordered
@@ -259,10 +263,10 @@ scientific publication, merge or Done transition is requested or implied.
 
 The native modern software control and value-preserving record exporter now
 support the limited O I multiplet comparison. Keep the initial incompatible inputs
-and old angular output as failures, not physical predictions. Ryan/curator must
-identify independent primary experimental holdouts and review the v0 calculation
-plan. Then freeze a
-bounded active-space/correlation/Hamiltonian and multipole convergence campaign
-before any reveal. Extend UV/IR and forbidden cases only after their identities
-and operators are qualified. The current three uncalibrated E1 rows are a starting
+and old angular output as failures, not physical predictions. Continue the v1 correlation and UV/IR/forbidden-operator work without waiting
+for an external curator. Maintain the exposed nonblind matrix and resolve primary
+provenance, physical identities and common-scale dependencies. Establish a distinct
+curation role and genuinely unexposed sources only if undertaking a prospective
+blind test; freeze that model and predictions before reveal. Reviewed criteria and
+calibrated uncertainty remain prerequisites for adoption. The current three uncalibrated E1 rows are a starting
 diagnostic, not fulfillment of the full RYA-1354 blind-benchmark acceptance.
