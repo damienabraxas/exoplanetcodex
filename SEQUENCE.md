@@ -10,6 +10,13 @@
 
 # Codex Ticket Sequence — chronological landing log
 
+## 2026-11-08 — RYA-1349 landed; pending RYA-1350 Al + Si redo
+
+> **Current as of `main` 3baabba9** (2026-11-08, RYA-1349 #611).
+
+- **RYA-1349** — `3baabba9` PR #611: the orchestrator's per-element completeness checklist (each treatment and instrument done / held with its reason / owed; `--publish` exits 3 when work is owed), ENGINE-A owed wherever its grid covers the pool, holdings that disagree flagged (> 2x the others' median sigma), CODE_DRIFT separated from STALE, per-line files kept with superseded products; Ti DONE, Ca owed 6 red-optical ENGINE-A cells at the time.
+- **RYA-1350** (pending, branch `ryandamienschmitt/rya-1350-solar-al-si-redo-through-the-orch`) — Al + Si rebuilt through the orchestrator on today's inputs: Al 86 products (all four Gerber treatments, new), Si Reference Grade pool and a cited 3D NLTE treatment (Amarsi & Asplund 2017 Table 2 on Scott+2015 MARCS LTE, `6e24720f`). The RYA-1315 15% continuum bound let local features through (Si I 9891.725 7.56 -> 6.11); a level beyond 3% now needs the same smooth sag in its +/-50 A neighbourhood (`01f51846`).
+
 ## 2026-11-07 — RYA-1315 landed; pending RYA-1311 IR branch
 
 > **Current as of `main` 459f5614** (2026-11-07, RYA-1315 #608).
