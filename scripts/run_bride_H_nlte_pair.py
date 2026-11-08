@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--case',choices=['model_mass_H','native_network_H'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--case',choices=['model_mass_H','native_network_H'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');p.add_argument('--plan',type=Path,default=ROOT/'config/experiments/rya1281_H_nlte_pair.json');a=p.parse_args()
  import lightweaver as lw
  import lightweaver.constants as c
  import lightweaver.LwCompiled as compiled
@@ -25,7 +25,7 @@ def main():
  from pipeline.wavelength_util import air_to_vac
  from scripts.analyze_bride_cn_binding_closure import read_binding_table
  if platform.system()!='Darwin'or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 required')
- plan_path=ROOT/'config/experiments/rya1281_H_nlte_pair.json';plan=json.loads(plan_path.read_text());warm_report=ROOT/plan['warm_report'];warm=json.loads(warm_report.read_text());controls=plan['controls']
+ plan_path=a.plan;plan=json.loads(plan_path.read_text());warm_report=ROOT/plan['warm_report'];warm=json.loads(warm_report.read_text());controls=plan['controls']
  if controls!=warm['controls']:raise ValueError('Changed inherited joint solver controls')
  checks=[]
  def check(path,receipt):
