@@ -5,6 +5,14 @@ import numpy as np
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
+def read_binding_table(path):
+ data=np.genfromtxt(path,delimiter=',',names=True,dtype=None,encoding='utf-8')
+ if data.dtype.names is None or 'arithmetic_passed'not in data.dtype.names:raise ValueError('Missing binding arithmetic flag')
+ if data.dtype['arithmetic_passed'].kind!='b' or not np.all(data['arithmetic_passed']):raise ValueError('Binding arithmetic flag is not explicit true boolean')
+ if any(data.dtype[k].kind not in 'biuf' or not np.isfinite(data[k]).all()for k in data.dtype.names):raise ValueError('Invalid/nonfinite binding table')
+ return data
+
+
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
  from config.constants import require_codex_path
@@ -13,7 +21,7 @@ def main():
  from lightweaver.atomic_table import PeriodicTable
  plan_path=ROOT/'config/experiments/rya1281_cn_binding_closure.json';plan=json.loads(plan_path.read_text());report=json.loads((a.source/'report.json').read_text())
  if not report['arithmetic_passed']or not report['molecular_switch_state_identity']:raise ValueError('Binding input not admitted as a numerical inventory')
- data=np.genfromtxt(a.source/'state_binding.csv',delimiter=',',names=True);composition=json.loads((a.source/'composition.json').read_text());species=np.load(a.source/'implemented_species.npz')
+ data=read_binding_table(a.source/'state_binding.csv');composition=json.loads((a.source/'composition.json').read_text());species=np.load(a.source/'implemented_species.npz')
  native=require_codex_path('engines.ispec')/'synthesizer/turbospectrum/source/eqmol_pe_lu.f'
  if native.read_text().count('      rho=rho*1.2123e-8/tt\n')!=1:raise ValueError('Changed legacy density equation')
  cn_dir=require_codex_path('experiments.bride_cn_coefficients');archive=ROOT/'data/results/rya1281/cn_coefficients_v1'
