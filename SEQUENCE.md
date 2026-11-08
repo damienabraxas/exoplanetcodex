@@ -1,3 +1,7 @@
+## 2026-11-08 — native CN coefficient reporting
+
+- **RYA-1281** — Preserve spectra while exporting CN states; sampled coefficient arithmetic agrees, profile/SI and primary/EOS checks next (v225).
+
 ## 2026-11-08 — CN interface audit
 
 > **Current as of `main` 3baabba9** (integration audit; Bride remains on stacked review branch).

@@ -28685,3 +28685,43 @@ artifacts:
     generator: "scripts/audit_bride_cn_interface.py"
     invocation: "python scripts/audit_bride_cn_interface.py --output <fresh-cn-interface>"
     ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/report.json
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/reporting_block.txt
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/CN/states.csv
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/all/states.csv
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/off/original/input.txt
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/off/reporting/input.txt
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/CN/original/input.txt
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/CN/reporting/input.txt
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/all/original/input.txt
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_coefficients_v1/all/reporting/input.txt
+    generator: "scripts/probe_bride_cn_coefficients.py"
+    invocation: "python scripts/probe_bride_cn_coefficients.py --output <fresh-cn-coefficients>"
+    ticket: "RYA-1281"

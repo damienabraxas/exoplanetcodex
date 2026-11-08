@@ -250,6 +250,18 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_cn_coefficients_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-coefficients-v1
+    env: CODEX_BRIDE_CN_COEFFICIENTS_FIRST
+    kind: dir
+    desc: Private native reporting build and CN state/coefficient checks; spectrum parity required, no primary or production admission.
+  experiments.bride_cn_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-coefficients-v2
+    env: CODEX_BRIDE_CN_COEFFICIENTS
+    kind: dir
+    desc: Private native reporting build and CN state/coefficient checks; spectrum parity required, no primary or production admission.
   experiments.bride_cn_interface:
     root: work
     rel: bride_mac_checks/rya1281-cn-interface-v2
