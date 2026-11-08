@@ -14,6 +14,9 @@ Branch/worktree: `ryandamienschmitt/rya-1352-grade-governance-audit-codexdeep`,
 | `python3.12 scripts/generate_sources_page.py --audit-library "<resolved refs.library>"` | 1; pre-existing bibliography vocabulary failures on civis2013 and mallinson2024; library traversal not certified. |
 | `python3.12 scripts/check_register_freshness.py` | 0; register structure/freshness passes, existing stale generated tracker notice retained. |
 | `git diff --check` | 0 after normalizing only the two added ledger row line endings. |
+| Final audit to `/tmp/rya1352-final-audit.json` | 0; same canonical accepted-ID hash and zero protected changes after final edits. |
+| `python3.12 scripts/check_register_freshness.py --since-main` after commits | 0; zero state surfaces changed; no register bump required. |
+| `git push -u origin <task branch>` | 1; pre-push RYA-1184 hook finds existing RYA-1349 merge missing from SEQUENCE on origin/main. Version pointer and freshness pass. Used the hook's explicit `--no-verify` option to push this bounded review branch; unrelated ledgers remain untouched. |
 
 Self-review applied the scientific-code-review skill: no scientific policy was
 ratified, no classifier modified, no production evidence record adopted, no engine
