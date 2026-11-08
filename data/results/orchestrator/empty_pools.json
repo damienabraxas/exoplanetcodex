@@ -1,0 +1,147 @@
+{
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-1d-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:02:40Z",
+    "inputs_hash": "40445f6ca1691adaabd4b5f4af8b318d26f494419ab58751de761f1a7209825b",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-1d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:02:47Z",
+    "inputs_hash": "ce6c3ad53f62e742f53aab013d007bbd1adad053fd4572dd59aa85a903fca305",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 11162-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-mean3d-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:03:16Z",
+    "inputs_hash": "b350bca4e140efd83d17e42a52a129c75d127f5651f26c347ebbc819fa860b11",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-mean3d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:03:25Z",
+    "inputs_hash": "6789e49939f5ab4d8c07c5d7716bc89cc4c53b1f5dadeb9740399b1deb5993d8",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 11162-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-mean3d|SYNTH|GRADED": {
+    "at": "2026-11-08T00:02:57Z",
+    "inputs_hash": "0033178e5b7e4c6084b541c06be22fcfdc7b721dfa4df0ea1769d323dc1f048a",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-mean3d|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:03:06Z",
+    "inputs_hash": "a80be57e72d93017f13262bcc71c0d3856c4d0ed09ec4dd1a0a5df467ef7bf80",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 11162-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-nlte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:03:34Z",
+    "inputs_hash": "8f1e206c93dd7ad99543b241f3f2654b6d2e3b9d4906b1374e1fa107e44a776e",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|gerber-nlte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:03:44Z",
+    "inputs_hash": "60bc5bb00335fb27c2a18f5ff3e8e5c247e048dd7786dc4ad7b07dc829f35d12",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 11162-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:03:50Z",
+    "inputs_hash": "27f46c9e1ee1e25cecb2a265fa49c655803f3bbaf99e1df52f8873dcc1eec40f",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_j_rya1219|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:03:52Z",
+    "inputs_hash": "3f80f00b4533035714d07d9f8a376a71dff5f768dc31d142b495c806d12b9e66",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 11162-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-1d-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:00:48Z",
+    "inputs_hash": "b4cbcc9243445532940b82df22ccfad70059493284b66b434b26d84945d3f5a2",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:01:23Z",
+    "inputs_hash": "799ae37dd6f96a034c8fe932cb7b73e70a69de733f01672b036ff2fa569299b4",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d|SYNTH|GRADED": {
+    "at": "2026-11-08T00:00:59Z",
+    "inputs_hash": "bc7682d2f9311c9efb973abda55b21abd9cb89d0acdbe951985259cb3aecb76e",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-nlte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:01:49Z",
+    "inputs_hash": "ab85deeff909c1f650eabdd97d1c6e688150bec2fab9fa3859aa970ff7a7d244",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T00:02:19Z",
+    "inputs_hash": "76e38e4b09d987f4802cb7faeb5f0c019328e03c5b0dbe97ce06ce42143c1a26",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-07T23:48:33Z",
+    "inputs_hash": "3fde7eb15f77ce91b1c2e56996f40e132838e04f70fbf39d61c98643d55b080e",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 9203-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-07T23:54:42Z",
+    "inputs_hash": "21943b8e30d4868ca2bfa4bfefd9619af6ad9797533dfe67ab3bed1e0d95dfa5",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 9203-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|SYNTH|REFERENCE": {
+    "at": "2026-11-07T23:52:41Z",
+    "inputs_hash": "4afa6cd598a83e6ca3f757b9b5dc9e434e6fe2bb3e2f4461f317ee40b9be3fed",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 9203-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|REFERENCE": {
+    "at": "2026-11-07T23:57:14Z",
+    "inputs_hash": "73b9ea84530cef54e188f0d327f2016b02fe584bbb851d99fcf6e114af2e51f2",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 9203-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Al|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:00:26Z",
+    "inputs_hash": "fc8174393e5e118f4d8998fd9aea5b0e30517751b59e6e593f4944e9bf15e368",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 9203-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:43:23Z",
+    "inputs_hash": "cb7118811f8e341588cfe489eff324e6152062867b9d6f32db438dcffadc2bdf",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Si 2 line(s) in 4200-6909 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:30:11Z",
+    "inputs_hash": "e43c50a8cac14dbfd34286534933e15ecdfae25f7b99a0a60db46943bf2e49f5",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Si 2 line(s) in 4200-6910 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-08T00:39:07Z",
+    "inputs_hash": "fcb059b13533b7379876da6c3a28505e35f33ae9f561d3830028f8e90f40594d",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Si 2 line(s) in 4200-6910 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Si|II|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-08T01:22:20Z",
+    "inputs_hash": "76358d3bedf0ad009cae4636dcada882a2211c66cf874d2b36a4ac5360ca8c6d",
+    "why": "derive_products: exit 1: Si II has no line in 6910-9199 A that the profile fitter measured (SiII_6910_9199_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv is empty)"
+  },
+  "solar|Si|II|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T01:22:44Z",
+    "inputs_hash": "ad2fc42454c462cca651e27622e09efe83dde91ccf6361b9e25958c7ca09dc0e",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-08T03:35:15Z",
+    "inputs_hash": "361cb682b5c410d5d81d2f690e893e5f13eb1e077c490cc37d4dc39e025e24ea",
+    "why": "derive_products: exit 1: Si II has no line in 6910-9199 A that the profile fitter measured (SiII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_ew.csv is empty)"
+  },
+  "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T03:35:35Z",
+    "inputs_hash": "580ada0eb196f673a6ee82a820beb73c50998cb7b8d267da5c188f71d4bbc12a",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-08T03:38:49Z",
+    "inputs_hash": "da212933231ca376ae06879e428ef6cbb10fd27b78b6a7cb1bccf9f16bb45ae5",
+    "why": "derive_products: exit 1: Si II has no line in 6910-9199 A that the profile fitter measured (SiII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv is empty)"
+  },
+  "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-08T03:39:12Z",
+    "inputs_hash": "505c372be026519926757ca4881a553bb68ff894aa0f874f17ca5a9dc1559e80",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  }
+}

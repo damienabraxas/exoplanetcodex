@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Si",
- "generated": "2026-10-15",
+ "generated": "2026-11-07",
  "sets": [
   {
    "set": "SI_AGSS21",
@@ -207,6 +207,7 @@
     "centroid_A": 10025.7433,
     "vald_total_loggf": -1.79,
     "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+    "synthesis_existing": false,
     "clashes": []
    }
   },
@@ -902,6 +903,8 @@
   }
  ],
  "adopt": [],
+ "sigma_only": [],
+ "adopt_conflicts": [],
  "missing_lines": [
   {
    "set": "SI_ELGUETA2026",
@@ -927,6 +930,7 @@
     "centroid_A": 10025.7433,
     "vald_total_loggf": -1.79,
     "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+    "synthesis_existing": false,
     "clashes": []
    }
   }
@@ -958,6 +962,8 @@
    "classified": false
   }
  ],
+ "scoped_readiness": true,
+ "route_requirements": [],
  "cull_candidates": [],
  "nlte_missing": [],
  "holdings": [
@@ -1073,57 +1079,6 @@
     0.73
    ],
    "frame_median_dv_kms": 0.88,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag_reiners2016",
-   "band": "VIS",
-   "lo_A": 4047.46,
-   "hi_A": 5001.1,
-   "graded_lines": 3,
-   "served": 3,
-   "tested": 3,
-   "off_rest": [
-    {
-     "wavelength_A": 4075.4519,
-     "dv_kms": -4.3
-    },
-    {
-     "wavelength_A": 4130.8927,
-     "dv_kms": -3.2
-    }
-   ],
-   "not_served": [],
-   "dv_kms": [
-    0.77,
-    -4.33,
-    -3.18
-   ],
-   "frame_median_dv_kms": 0.51,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag",
-   "band": "VIS",
-   "lo_A": 5001.1,
-   "hi_A": 6910.0,
-   "graded_lines": 18,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    0.0,
-    0.25,
-    0.35,
-    0.02,
-    -0.23
-   ],
-   "frame_median_dv_kms": 0.53,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
@@ -1467,6 +1422,11 @@
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0
+ },
+ "pending_rule_plan": {
+  "adopt": 0,
+  "sigma_only": 0,
+  "add_lines": 1
  },
  "ready": true
 }
