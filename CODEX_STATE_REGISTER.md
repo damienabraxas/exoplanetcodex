@@ -20,16 +20,16 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v223** · _Last updated: 2026-11-07 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v224** · _Last updated: 2026-11-08 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
 
 ## Bride native molecular diagnostic — NATIVE
 
-| Component | Status | Current evidence |
-|---|---|---|
-| RYA-1281 molecular controls | OPEN | Nine native LTE VIS cases identify CN response and larger continuum-support sensitivity; source qualification and matched Bride NLTE insertion remain open. Scientific HOLD. [Review](docs/audit/rya1279/native_molecules_review.md), v223. |
+| component | verdict | value | established by | status | reopen-only-if |
+|---|---|---|---|---|---|
+| RYA-1281 molecular controls | Scientific HOLD | Nine native LTE VIS cases; CN source semantics now traced, original isotope rounding quantified; full-network coefficient/native-runtime/primary qualification open | [Native control review](docs/audit/rya1279/native_molecules_review.md); [CN audit](docs/audit/rya1279/cn_interface_review.md), v224 | OPEN | Native reporting parity, matched-state CN coefficient and primary conventions qualified before Bride insertion |
 
 ## Targets & stellar parameters — MIRROR ← config/constants.py
 
@@ -643,3 +643,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v222** (2026-11-07) — **RYA1281 omitted CNO source census.** Existing canonical parser finds651source rows in7763-7783Aconsumer coordinates(CN355/C2149/OH121/CH26/NH0);9files/19504parsed rows exact vendor/install matches. All remain provenance-blocked; geometry is not strength/identity.200remaining natural atomic ranks per column, top V I7768.902current row unchanged.13tests pass;6results archived. Separate CO holding117783rows parsed,191in AIR region versus192raw/171shared/41membership changes; automatic bsyn routing does not select its dat file, not a dedicated-CO production verdict. Corrected previous-phase library count195/68 to actual saved196/69, documentation only. No opacity/RT/abundance/product/default/adoption/production/merge; HOLD.
 
 - **v223** (2026-11-07) — **RYA1281 native LTE molecular controls.** Nine fixed-composition Mac cases, latest ORCH canonical gf and continuum. CN dominates all-minus-off intrinsic O-aperture areas0.084692/0.317250/0.465505mA; synthesis-guided observed areas change+6.630306/-0.710741/+2.320351mA with fixed gravitational RV. IAG-guided observed areas invariant;7771 support remains one-sided. Native5750/4.5 LTE differs from Bride NLTE; not an abundance correction. Refined line steps and byte-identical off/all repeats retained;35focused tests and136source checks pass. Native opacity requested0.1A but source enforces1A,121points/56depths. Five-decimal flux imposes paired1A rounding bound0.01mA only. Build/input harness failures fixed; original attempts preserved. Source provenance/EOS/interface qualifications remain open; HOLD. Evidence: docs/audit/rya1279/native_molecules_review.md.
+
+- **v224** (2026-11-08) — **RYA1281 CN interface audit.** Eleven protected source/input receipts pass. Native full-network pressure -> isotope factors -> shared elemental Q -> Boltzmann/stimulated-emission path traced. Three-decimal input fractions change12C14N/13C14N/12C15Nweights by-0.06243/+2.77072/+8.66269percent, not spectral error estimates. Source polynomial projected to56model temperatures, no native runtime/physical partition validation.16tests pass;2results archived. Installed-input versus native-Git auditor failure fixedfb590dd2, original log retained. Main3baabba9inspected; retained ORCH experiment still pinnedde96ae51. No source/old spectrum/abundance/default/production change; HOLD. Evidence: docs/audit/rya1279/cn_interface_review.md.

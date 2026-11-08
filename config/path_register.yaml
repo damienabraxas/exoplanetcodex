@@ -250,6 +250,12 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_cn_interface:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-interface-v2
+    env: CODEX_BRIDE_CN_INTERFACE
+    kind: dir
+    desc: Read-only CN source semantics and isotope serialization audit; no native partition runtime or chemistry validation.
   experiments.bride_native_lte_build_first:
     root: work
     rel: bride_mac_checks/rya1281-native-lte-build-v1

@@ -28677,3 +28677,11 @@ artifacts:
     generator: "scripts/repeat_bride_native_molecules.py"
     invocation: "python scripts/repeat_bride_native_molecules.py --source <native-run> --build <native-build> --output <fresh-native-repeat>"
     ticket: "RYA-1281"
+  - artifact: rya1281/cn_interface_v1/report.json
+    generator: "scripts/audit_bride_cn_interface.py"
+    invocation: "python scripts/audit_bride_cn_interface.py --output <fresh-cn-interface>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/cn_interface_v1/partition_projection.csv
+    generator: "scripts/audit_bride_cn_interface.py"
+    invocation: "python scripts/audit_bride_cn_interface.py --output <fresh-cn-interface>"
+    ticket: "RYA-1281"

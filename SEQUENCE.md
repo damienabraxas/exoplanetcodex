@@ -1,3 +1,12 @@
+## 2026-11-08 — CN interface audit
+
+> **Current as of `main` 3baabba9** (integration audit; Bride remains on stacked review branch).
+
+- **RYA-1311** — PR #610 merged Ca IR inputs and products; no Bride source or result replaced.
+- **RYA-1349** — PR #611 merged per-element ORCH completeness changes; Bride diagnostic inputs remain pinned separately.
+
+- **RYA-1281** — Trace CN chemistry/partition/isotope conventions; quantify existing serialization, prepare coefficient parity checks (v224).
+
 ## 2026-11-07 — native LTE molecular controls
 
 - **RYA-1281** — Nine molecular-family controls identify CN sensitivity and continuum-support changes; source qualification before Bride insertion, HOLD (v223).
