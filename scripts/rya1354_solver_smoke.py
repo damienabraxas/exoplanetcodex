@@ -75,8 +75,11 @@ def run(executable: Path, stdin: str, cwd: Path, timeout: int = 180) -> dict:
     output = ((cwd / f"{name}.stdout").read_text(errors="replace") +
               (cwd / f"{name}.stderr").read_text(errors="replace")).upper()
     record["semantic_errors"] = [marker for marker in
-        ("TOO MANY ELECTRONS FOR THIS CODE", "CONFIGURATION DATA WRONG", "PROGRAM HALTED")
+        ("TOO MANY ELECTRONS FOR THIS CODE", "CONFIGURATION DATA WRONG", "PROGRAM HALTED",
+         "MAXIMUM ITERATIONS IN SCF EXCEEDED")
         if marker in output]
+    if 'THE ORDER OF' in output and 'IS INCONSISTENT' in output:
+        record['semantic_errors'].append('INCONSISTENT_ORBITAL_ORDER')
     if p.returncode:
         raise RuntimeError(f"{name}: exit {p.returncode}; retained logs in {cwd}")
     return record
