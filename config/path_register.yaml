@@ -250,6 +250,18 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_h_reference_values_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-reference-values-v1
+    env: CODEX_BRIDE_H_REFERENCE_VALUES_FIRST
+    kind: dir
+    desc: Preserved first same-pixel reference audit; valid selected outputs but unused padded-grid division warned before v2 domain fix.
+  experiments.bride_h_reference_values:
+    root: work
+    rel: bride_mac_checks/rya1281-H-reference-values-v2
+    env: CODEX_BRIDE_H_REFERENCE_VALUES
+    kind: dir
+    desc: Same-pixel value/level/slope/area identities and held IAG/Kitt source-lineage audit; no atlas rescaling or abundance adoption.
   experiments.bride_h_bracket_support_first:
     root: work
     rel: bride_mac_checks/rya1281-H-bracket-support-v1

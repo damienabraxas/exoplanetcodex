@@ -29169,3 +29169,23 @@ artifacts:
     generator: "scripts/analyze_bride_H_bracket_support.py"
     invocation: "python scripts/analyze_bride_H_bracket_support.py --output <fresh-bracketing-support>"
     ticket: "RYA-1281"
+  - artifact: rya1281/H_reference_values_v1/lineage.json
+    generator: "scripts/audit_bride_H_reference_values.py"
+    invocation: "python scripts/audit_bride_H_reference_values.py --output <fresh-reference-values>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_reference_values_v1/pixels.csv
+    generator: "scripts/audit_bride_H_reference_values.py"
+    invocation: "python scripts/audit_bride_H_reference_values.py --output <fresh-reference-values>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_reference_values_v1/reference_values.png
+    generator: "scripts/audit_bride_H_reference_values.py"
+    invocation: "python scripts/audit_bride_H_reference_values.py --output <fresh-reference-values>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_reference_values_v1/report.json
+    generator: "scripts/audit_bride_H_reference_values.py"
+    invocation: "python scripts/audit_bride_H_reference_values.py --output <fresh-reference-values>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/H_reference_values_v1/summary.csv
+    generator: "scripts/audit_bride_H_reference_values.py"
+    invocation: "python scripts/audit_bride_H_reference_values.py --output <fresh-reference-values>"
+    ticket: "RYA-1281"

@@ -1,3 +1,7 @@
+## 2026-11-08 — same-pixel reference values and lineage
+
+- **RYA-1281** — Reference-level values algebraically explain conditioned-area contrast; held source/helper parity and continuum-lineage limits verified, shape-only diagnostics next (v236).
+
 ## 2026-11-08 — fixed bracketing continuum controls
 
 - **RYA-1281** — Bracketing removes large synthesis extrapolation, but same-pixel denominator contrast persists; reference-value/lineage audit next (v235).
