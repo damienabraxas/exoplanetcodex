@@ -24,6 +24,7 @@ data/audit/rya1268_line_coverage/canonical_adoption.csv. Culls are not this scri
 """
 from __future__ import annotations
 
+import io
 import sys
 from pathlib import Path
 
@@ -40,6 +41,7 @@ AUD = ROOT / "data" / "audit" / "rya1268_line_coverage"
 PRIMARY = ROOT / "data" / "linelists" / "primary_gf"
 WTOL_A = 0.03           # lab / NIST / VALD wavelengths share the same energy levels
 SAME_GF_DEX = 0.03
+SAME_GF_WTOL_A = 0.06
 UP_TOL_EV = 0.02
 A_TOL_DEX = 0.05
 NO_VALD_MAX_DEX = 0.5
@@ -63,7 +65,9 @@ CITE = {"wood2013_ti2": "Wood et al. 2013 (ApJS 208, 27)", "lawler2014_v1": "Law
         "bw2006_ti1": "Blackwell-Whitehead et al. 2006 (MNRAS 373, 1603)",
         "bw2011_mn1": "Blackwell-Whitehead et al. 2011 (A&A 525, A44)",
         "denhartog2021_ca1": "Den Hartog et al. 2021 (ApJS 255, 27)",
-        "lawler2018_co2": "Lawler et al. 2018 (ApJS 238, 7)"}
+        "lawler2018_co2": "Lawler et al. 2018 (ApJS 238, 7)",
+        "gurell2010_cr2": "Gurell et al. 2010 (A&A 511, A68)",
+        "nilsson2006_cr2": "Nilsson et al. 2006 (A&A 445, 1165)"}
 
 
 def nist() -> pd.DataFrame:
@@ -78,11 +82,45 @@ def nist() -> pd.DataFrame:
 
 
 def match(cg: pd.DataFrame, by_sp: dict, sp: str, w: float, ep: float):
+    """The open row at this wavelength and lower level, when exactly one row of the species is
+    there. Uniqueness is judged on ALL the species' rows: canonical_gf can hold a transition twice
+    (Cr I 4351.762 / 4351.788), and once one is adopted the other only looks unique (RYA-728)."""
     c = by_sp.get(sp)
     if c is None:
         return None
-    h = c[((c.wavelength_air_A - w).abs() <= WTOL_A) & ((c.excitation_potential_eV - ep).abs() <= 0.02)]
-    return h.index[0] if len(h) == 1 else None
+    every = cg[cg.species == sp]
+    h = every[((every.wavelength_air_A - w).abs() <= WTOL_A) & ((every.excitation_potential_eV - ep).abs() <= 0.02)]
+    return h.index[0] if len(h) == 1 and h.index[0] in c.index else None
+
+
+def match_same_gf(cg: pd.DataFrame, by_sp: dict, sp: str, w: float, ep: float, gf: float):
+    """A lab wavelength printed to 2 decimals can sit past WTOL_A from VALD's for the same
+    transition (RYA-728: Sobeck 5224.97 / canonical 5224.925, both log gf +0.07). The wider
+    window holds only when the lower level and the gf agree too, and exactly one row qualifies."""
+    c = by_sp.get(sp)
+    if c is None:
+        return None
+    every = cg[cg.species == sp]
+    h = every[((every.wavelength_air_A - w).abs() <= SAME_GF_WTOL_A)
+              & ((every.excitation_potential_eV - ep).abs() <= 0.02) & ((every.log_gf - gf).abs() <= SAME_GF_DEX)]
+    return h.index[0] if len(h) == 1 and h.index[0] in c.index else None
+
+
+def write_only_rows(cg: pd.DataFrame, rows: list[int]) -> None:
+    """Replace only the adopted rows' lines. A full to_csv reformats floats in rows nobody touched
+    (RYA-728: 157 Ti I and Ca I lines changed text and no value), and those bytes key finished
+    elements' cells."""
+    buf = io.StringIO(newline="")
+    cg.loc[rows].to_csv(buf, index=False, header=False)
+    new = buf.getvalue().splitlines(keepends=True)
+    with CANON.open(encoding="utf-8", newline="") as fh:
+        lines = fh.readlines()
+    for i, text in zip(rows, new):
+        if lines[i + 1].split(",", 1)[0] != text.split(",", 1)[0]:
+            raise SystemExit(f"canonical_gf row {i}: line_id does not match line {i + 1}; nothing written")
+        lines[i + 1] = text
+    with CANON.open("w", encoding="utf-8", newline="") as fh:
+        fh.writelines(lines)
 
 
 def nist_upper(raw: str) -> float:
@@ -92,9 +130,13 @@ def nist_upper(raw: str) -> float:
         return np.nan
 
 
-def main() -> None:
+def main(only_element: str | None = None) -> None:
+    """`only_element` (RYA-728) adopts one element's new sources and leaves every other row and
+    every other element's audit rows as they are: finished elements are not re-planned."""
     cg = pd.read_csv(CANON, low_memory=False)
     species = sorted(set(pd.read_csv(LAB).species) | set(nist().species))
+    if only_element:
+        species = [s for s in species if s.split()[0] == only_element]
     graded0 = is_gf_graded(cg) | ~cg.adjudication_status.fillna("").isin(OPEN_STATUS)
     by_sp = {sp: cg[(cg.species == sp) & ~graded0] for sp in species}
     log, taken = [], set()
@@ -166,6 +208,8 @@ def main() -> None:
                 (outranked[r.paper].wavelength_air_A - r.wavelength_air_A).abs() <= 0.06).any():
             continue
         i = match(cg, by_sp, r.species, r.wavelength_air_A, r.ep_eV)
+        if i is None:
+            i = match_same_gf(cg, by_sp, r.species, r.wavelength_air_A, r.ep_eV, r.loggf)
         if i is None or i in taken or not ok(i, r.loggf, r.ep_upper_eV, src=r.paper):
             continue
         key, _, sub = r.paper.partition(":")
@@ -227,14 +271,29 @@ def main() -> None:
         write(i, round(float(r.log_gf), 3), round(nist_sigma_dex(r.nist_grade), 4), "NIST-C+",
               f"NIST ASD (accuracy {r.nist_grade}; TP ref {r.ref_transition_probability})", None,
               "NIST_ASD", "adopted_rya1268_nist_asd", grade=r.nist_grade)
-    cg.to_csv(CANON, index=False)
+    if only_element:
+        write_only_rows(cg, sorted(taken))
+    else:
+        cg.to_csv(CANON, index=False)
     a = pd.DataFrame(log)
-    a.to_csv(AUD / "canonical_adoption.csv", index=False)
+    h = pd.DataFrame(held).drop_duplicates("line_id") if held else pd.DataFrame()
+    if only_element:
+        old_a = pd.read_csv(AUD / "canonical_adoption.csv")
+        old_h = pd.read_csv(AUD / "held_large_gf_moves.csv")
+        a_out = pd.concat([old_a, a], ignore_index=True) if len(a) else old_a
+        h_new = h[~h.line_id.isin(old_h.line_id)] if len(h) else h
+        h_out = pd.concat([old_h, h_new], ignore_index=True) if len(h_new) else old_h
+    else:
+        a_out, h_out = a, h
+    a_out.to_csv(AUD / "canonical_adoption.csv", index=False)
+    h_out.to_csv(AUD / "held_large_gf_moves.csv", index=False)
+    if a.empty:
+        print("no rows adopted")
+        return
     print(a.groupby(["species", "new_tier"]).size().unstack(fill_value=0).to_string())
-    pd.DataFrame(held).drop_duplicates("line_id").to_csv(AUD / "held_large_gf_moves.csv", index=False)
     print("refused:", refused, "| held (>", HOLD_MOVE_DEX, "dex):", len({h["line_id"] for h in held}))
     print(len(a), "rows adopted;", int((a.old_loggf - a.new_loggf).abs().gt(0.1).sum()), "moved > 0.1 dex")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1] if len(sys.argv) > 1 else None)

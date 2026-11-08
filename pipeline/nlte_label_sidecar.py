@@ -31,6 +31,23 @@ Ca I ground (Ca II 4s 2S at 6.113 eV). Compared raw, no Ca II line could ever ma
 Ca II list row came back unlabelled although the atom carries 224 Ca II bound-bound
 transitions. `_stage_levels` re-zeroes each stage on its lowest level, which is a no-op for an
 atom that already stores a stage that way.
+
+A LEVEL'S TERM BELONGS TO THE LEVEL, NOT THE LINE (RYA-728)
+-----------------------------------------------------------
+A depth-cut VALD extract omits weak lines, so a line can be absent while both its levels appear
+on other transitions (Cr II 4848.235: no VALD record, but a4F and z4F* are on dozens). Hence
+`read_vald_levels`: (species, energy, J) -> term, from every transition of every extract, kept
+only when one term answers. This is a term join keyed on the level; it never picks the nearest
+atom energy, which RYA-818 measured naming a wrong level 18% (Cr I) / 35% (Cr II) of the time.
+
+THE GES LIST CAN NEED A SIDECAR TOO (RYA-728)
+---------------------------------------------
+GES v6 labels most elements well, but its Cr labels were energy-assigned: 0 of the 27 graded
+Cr I lines and 1 of 8 Cr II carry both levels, and that one disagrees with VALD's terms. The GES
+list lives in the engine install, so its sidecar is committed at `GES_SIDECAR`. It is
+AUTHORITATIVE for an element it names (that element's GES labels are cleared first), and it is
+applied only when the caller names the cell's own element, so every other element's list, and
+therefore its synthesis-cache digest, stays byte-identical.
 """
 from __future__ import annotations
 
@@ -41,6 +58,13 @@ import numpy as np
 import pandas as pd
 
 SIDECAR_NAME = "nlte_labels.tsv"
+ROOT = Path(__file__).resolve().parents[1]
+GES_SIDECAR = ROOT / "data" / "linelists" / "ges_v6_nlte_labels" / SIDECAR_NAME
+GES_LIST_DIRS = {"GESv6_atom_hfs_iso.420_920nm", "ges_v6"}
+#: A term must be this close (eV) to be the same level across VALD extracts (rounding only).
+LEVEL_KEY_EV = 0.0015
+#: Below this share of the element's graded lines labelled, GES cannot serve its NLTE cells.
+GES_MIN_GRADED_SHARE = 0.5
 KEY = ["element", "wave_A", "lower_state_eV", "lower_j", "upper_j"]
 FIELDS = ["nlte", "nlte_level_low", "nlte_level_up", "nlte_label_low", "nlte_label_up"]
 #: A label match must sit this close to VALD's energy. mg86d's largest term offset is
@@ -51,8 +75,12 @@ _REC = re.compile(r"^'(\w+ \d)',\s*([-\d.]+),\s*([-\d.]+),\s*([-\d.]+),\s*([-\d.
 _TERM = re.compile(r"^([a-zA-Z]?)(\d+)([SPDFGHIKLMNOQRT])(\*?)$")
 
 
+def is_ges_list(list_path) -> bool:
+    return Path(list_path).parent.name in GES_LIST_DIRS
+
+
 def sidecar_path(list_path) -> Path:
-    return Path(list_path).parent / SIDECAR_NAME
+    return GES_SIDECAR if is_ges_list(list_path) else Path(list_path).parent / SIDECAR_NAME
 
 
 def read_vald_terms(raw_path, species: set[str], lo_A: float, hi_A: float) -> pd.DataFrame:
@@ -75,6 +103,52 @@ def read_vald_terms(raw_path, species: set[str], lo_A: float, hi_A: float) -> pd
                             j_low=float(m.group(5)), e_up=float(m.group(6)),
                             j_up=float(m.group(7)), term_low=terms[0], term_up=terms[1]))
     return pd.DataFrame(out)
+
+
+def read_vald_levels(raw_paths, species: set[str]) -> dict:
+    """{(species, 2J): (energies, terms, designations)} from every transition of every extract.
+    A level seen with two different terms within LEVEL_KEY_EV answers nothing (`_level_term`)."""
+    t = pd.concat([read_vald_terms(p, species, 0.0, 1e9) for p in raw_paths], ignore_index=True)
+    if t.empty:
+        return {}
+    ends = pd.concat([
+        t[["species", "e_low", "j_low", "term_low"]].set_axis(["sp", "e", "j", "des"], axis=1),
+        t[["species", "e_up", "j_up", "term_up"]].set_axis(["sp", "e", "j", "des"], axis=1)])
+    ends = ends[ends.des != ""].drop_duplicates()
+    ends["des"] = ends.des.str.split().str.join(" ")
+    out = {}
+    for (sp, j), g in ends.groupby(["sp", "j"]):
+        out[(sp, int(round(2 * j)))] = (g.e.to_numpy(float), g.des.str.split().str[-1].to_numpy(),
+                                        g.des.to_numpy())
+    return out
+
+
+def _level_term(table: dict, species: str, e: float, j: float) -> str:
+    """The VALD designation of this level, '' unless exactly one term answers."""
+    hit = table.get((species, int(round(2 * j))))
+    if hit is None:
+        return ""
+    m = np.abs(hit[0] - e) < LEVEL_KEY_EV
+    return str(hit[2][m][0]) if m.any() and len(set(hit[1][m])) == 1 else ""
+
+
+def ges_term_join(element: str, levels: pd.DataFrame, nlte_list) -> dict:
+    """RYA-818's label join on the GES NLTE list: {(wave mA, ep cdex, ion): (low, up)} for lines
+    with both endpoints identified. A key answered two ways is dropped. {} if not applicable."""
+    from pipeline import nlte_line_identification as nli
+    out, bad = {}, set()
+    for ion in (1, 2):
+        try:
+            d = nli.identify_lines(nli.read_species_lines(nlte_list, element, ion), levels, element, ion)
+        except (KeyError, ValueError):
+            continue
+        for r in d[d.nlte].itertuples():
+            k = (int(round(r.wave_A * 1000)), int(round(r.ep_eV * 100)), ion)
+            v = (int(r.level_low), int(r.level_up))
+            if out.get(k, v) != v:
+                bad.add(k)
+            out[k] = v
+    return {k: v for k, v in out.items() if k not in bad}
 
 
 def label_candidates(designation: str, j: float) -> set[str]:
@@ -139,8 +213,13 @@ def _by_term(levels: pd.DataFrame, ion: int, designation: str, j: float, e: floa
 
 
 def label_list(list_path, element: str, levels: pd.DataFrame, raw_paths,
-               *, tol_eV: float = 0.001) -> tuple[pd.DataFrame, dict]:
-    """Sidecar rows for `element` in one synthesis list, and a per-ion verdict count."""
+               *, tol_eV: float = 0.001, level_paths=None,
+               term_join: dict | None = None) -> tuple[pd.DataFrame, dict]:
+    """Sidecar rows for `element` in one synthesis list, and a per-ion verdict count.
+
+    `level_paths` adds the level table for lines with no VALD record; `term_join` (from
+    `ges_term_join`) adds RYA-818's route. Routes that name different levels leave the line
+    unlabelled and count it as `conflict`."""
     from pipeline.model_atom import resolve_level
     d = pd.read_csv(list_path, sep="\t", low_memory=False)
     sp = {f"{element} {i}" for i in (1, 2)}
@@ -149,6 +228,7 @@ def label_list(list_path, element: str, levels: pd.DataFrame, raw_paths,
         return pd.DataFrame(columns=KEY + FIELDS + ["route"]), {}
     lo, hi = float(d.wave_A.min()) - 1, float(d.wave_A.max()) + 1
     terms = pd.concat([read_vald_terms(p, sp, lo, hi) for p in raw_paths], ignore_index=True)
+    level_table = read_vald_levels(level_paths, sp) if level_paths else {}
     rows, stats = [], {}
     for _, r in d.iterrows():
         ion = int(r.element.split()[1])
@@ -159,6 +239,9 @@ def label_list(list_path, element: str, levels: pd.DataFrame, raw_paths,
         ends, routes = [], set()
         for e, j, des in ((r.lower_state_eV, r.lower_j, t.term_low if t is not None else ""),
                           (r.upper_state_eV, r.upper_j, t.term_up if t is not None else "")):
+            if not des and level_table:
+                des = _level_term(level_table, r.element, float(e), float(j))
+                routes |= {"level-table"} if des else set()
             sub = _stage_levels(levels, ion)
             v, idx, _ = resolve_level(sub, energy_eV=float(e), j=float(j), tol_eV=tol_eV)
             hit = {int(idx)} if v == "UNIQUE" else set()
@@ -174,8 +257,16 @@ def label_list(list_path, element: str, levels: pd.DataFrame, raw_paths,
             else:
                 ends.append(None)
         key = f"{r.element}"
-        st = stats.setdefault(key, {"lines": 0, "labelled": 0})
+        st = stats.setdefault(key, {"lines": 0, "labelled": 0, "conflict": 0})
         st["lines"] += 1
+        joined = (term_join or {}).get((int(round(r.wave_A * 1000)),
+                                        int(round(r.lower_state_eV * 100)), ion))
+        if joined is not None:
+            if any(a is not None and a != b for a, b in zip(ends, joined)):
+                st["conflict"] += 1
+                continue
+            ends = list(joined)
+            routes.add("ges-term-join")
         if None in ends:
             continue
         st["labelled"] += 1
@@ -202,15 +293,27 @@ def write_sidecar(list_path, frames: list[pd.DataFrame]) -> Path:
     return p
 
 
-def apply_sidecar(linelist, list_path):
+def apply_sidecar(linelist, list_path, element: str | None = None):
     """Merge `nlte_labels.tsv` into a loaded iSpec array. A row the list already labels is
     left alone (Fe IR/H from RYA-1094), and a sidecar row matching no list row raises:
-    the sidecar must describe THIS list."""
+    the sidecar must describe THIS list.
+
+    On the GES list (RYA-728) only `element`'s rows apply, after that element's own GES labels
+    are cleared; with no element, or an element the sidecar does not name, nothing changes."""
     p = sidecar_path(list_path)
     if not p.exists():
         return linelist, 0
     s = pd.read_csv(p, sep="\t")
     el = np.char.strip(linelist["element"].astype(str))
+    if is_ges_list(list_path):
+        s = s[s.element.str.split().str[0] == element] if element else s.iloc[0:0]
+        if s.empty:
+            return linelist, 0
+        clear = np.char.startswith(el, f"{element} ")
+        linelist["nlte_label_low"][clear] = "none"
+        linelist["nlte_label_up"][clear] = "none"
+        linelist["nlte_level_low"][clear] = 0
+        linelist["nlte_level_up"][clear] = 0
     wl = linelist["wave_A"].astype(float)
     n = 0
     for _, r in s.iterrows():
@@ -227,6 +330,23 @@ def apply_sidecar(linelist, list_path):
                 linelist[f][i] = r[f]
             n += 1
     return linelist, n
+
+
+def ges_graded_share(element: str, ges_list, graded_csvs) -> tuple[int, int]:
+    """(graded lines labelled at both ends in the GES list itself, graded lines it holds)."""
+    d = pd.read_csv(ges_list, sep="\t", low_memory=False,
+                    usecols=["element", "wave_A", "nlte_label_low", "nlte_label_up"])
+    d = d[d.element.astype(str).str.split().str[0] == element]
+    n = lab = 0
+    for c in graded_csvs:
+        for w in pd.read_csv(c).wavelength_air_A:
+            hit = d[(d.wave_A - float(w)).abs() < 0.02]
+            if hit.empty:
+                continue
+            n += 1
+            lab += bool(((hit.nlte_label_low.astype(str) != "none")
+                         & (hit.nlte_label_up.astype(str) != "none")).any())
+    return lab, n
 
 
 def fingerprint_rows(list_path, element: str, lo: float, hi: float) -> str | None:

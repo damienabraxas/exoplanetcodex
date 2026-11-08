@@ -25302,7 +25302,7 @@ gf_032984,pk_304b4186f610,24,1.0,Cr I,4319.629,2.889,1,-1.14,"Sobeck et al. 2007
 gf_032985,pk_5089800b45c2,24,1.0,Cr I,4319.693,3.892,1,-0.463,K10,,synth(GES),single_source,-0.463,,,True,False,False,,,,,False,KURUCZ,False
 gf_032986,pk_d2420dba58eb,24,1.0,Cr I,4319.7176,3.8923,1,-0.463,VALD3,,linelist(VALD3),single_source,,,-0.463,False,False,True,,,,,False,VALD3,False
 gf_032987,pk_bb3d491efb71,24,1.0,Cr I,4320.165,3.079,1,-2.992,K10,,synth(GES),pending,-2.992,,-3.05,True,False,True,,,,,False,KURUCZ,False
-gf_032988,pk_9486aa3c7891,24,1.0,Cr I,4320.573,2.9,1,-1.42,SLS,,synth(GES),single_source,-1.42,,-1.42,True,False,True,,,,,False,OTHER,False
+gf_032988,pk_9486aa3c7891,24,1.0,Cr I,4320.573,2.9,1,-1.42,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-1.42,,-1.42,True,False,True,,sobeck2007,0.0458,10.1086/519987,False,LAB,False
 gf_032989,pk_2da3f27c9e6d,24,1.0,Cr I,4320.602,2.914,1,-1.99,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-1.99,,-1.99,True,False,True,,sobeck2007,0.0902,10.1086/519987,False,LAB,False
 gf_032990,pk_45abfecfe702,24,1.0,Cr I,4321.236,2.872,1,-1.54,MFW,,synth(GES),single_source,-1.54,,-1.54,True,False,True,,,,,False,OTHER,False
 gf_032991,pk_c6de880cd938,24,1.0,Cr I,4321.451,2.983,1,-0.897,K10,,synth(GES),pending,-0.897,,-1.373,True,False,True,,,,,False,KURUCZ,False
@@ -25437,7 +25437,7 @@ gf_033119,pk_1179a1f7c845,24,1.0,Cr I,4370.763,3.98,1,-0.97,MFW,,synth(GES),sing
 gf_033120,pk_cafa1bb1da14,24,1.0,Cr I,4370.898,3.85,1,-0.89,MFW,,synth(GES),single_source,-0.89,,-0.89,True,False,True,,,,,False,OTHER,False
 gf_033121,pk_d06ba294e685,24,1.0,Cr I,4371.2461,1.004,2,-0.8697,MFW,,synth(GES),single_source,-0.8697,,,True,False,False,,,,,False,OTHER,False
 gf_033122,pk_d53e1386aa7b,24,1.0,Cr I,4371.274,4.449,1,0.112,K10,,synth(GES),pending,0.112,,0.128,True,False,True,,,,,False,KURUCZ,False
-gf_033123,pk_050307cab516,24,1.0,Cr I,4371.2748,1.0037,1,-1.27,VALD3,,linelist(VALD3),single_source,,,-1.27,False,False,True,,,,,False,VALD3,False
+gf_033123,pk_050307cab516,24,1.0,Cr I,4371.2748,1.0037,1,-1.27,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-1.27,False,False,True,,sobeck2007,0.022,10.1086/519987,False,LAB,False
 gf_033124,pk_8a7296684434,24,1.0,Cr I,4372.297,4.532,1,-0.809,K10,,synth(GES),pending,-0.809,,-0.769,True,False,True,,,,,False,KURUCZ,False
 gf_033125,pk_9803846c9899,24,1.0,Cr I,4373.255,0.983,1,-2.323,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 29 Cr I + 10 Cr II (gf: mean of Sobeck07 and Blackwell84)",,synth(GES),adopted_rya1233_cr_agss21,-2.3,,-2.3,True,False,True,,CR_AGSS21,0.029,10.1051/0004-6361/201424110,False,PUBLISHED-SET,False
 gf_033126,pk_781fde236088,24,1.0,Cr I,4373.646,4.447,1,-0.14,MFW,,synth(GES),single_source,-0.14,,-0.14,True,False,True,,,,,False,OTHER,False
@@ -26235,7 +26235,7 @@ gf_033917,pk_86f5400c5408,24,1.0,Cr I,4653.279,4.618,1,-2.336,K10,,synth(GES),si
 gf_033918,pk_d40566cc78ad,24,1.0,Cr I,4653.7031,4.4161,1,-1.546,VALD3,,linelist(VALD3),single_source,,,-1.546,False,False,True,,,,,False,VALD3,False
 gf_033919,pk_4a167c071cca,24,1.0,Cr I,4653.729,4.416,1,-1.613,K10,,synth(GES),single_source,-1.613,,,True,False,False,,,,,False,KURUCZ,False
 gf_033920,pk_068fc359023b,24,1.0,Cr I,4654.641,4.416,1,-1.937,K10,,synth(GES),pending,-1.937,,-1.968,True,False,True,,,,,False,KURUCZ,False
-gf_033921,pk_cf049b2696f5,24,1.0,Cr I,4654.724,3.096,1,-0.844,K10,,synth(GES),single_source,-0.844,,-0.84,True,False,True,,,,,False,KURUCZ,False
+gf_033921,pk_cf049b2696f5,24,1.0,Cr I,4654.724,3.096,1,-0.84,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-0.844,,-0.84,True,False,True,,sobeck2007,0.0258,10.1086/519987,False,LAB,False
 gf_033922,pk_d306193868a8,24,1.0,Cr I,4655.7924,4.4464,1,-1.617,VALD3,,linelist(VALD3),single_source,,,-1.617,False,False,True,,,,,False,VALD3,False
 gf_033923,pk_e00b1365b7ad,24,1.0,Cr I,4655.847,4.446,1,-1.715,K10,,synth(GES),single_source,-1.715,,,True,False,False,,,,,False,KURUCZ,False
 gf_033924,pk_8192eeb472c8,24,1.0,Cr I,4656.183,3.087,1,-1.128,NIST ASD (accuracy B; TP ref u10),B,synth(GES),adopted_rya1268_nist_asd,-1.016,,-1.129,True,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
@@ -27437,7 +27437,7 @@ gf_035119,pk_ee6d77e98e9c,24,1.0,Cr I,5198.409,4.447,1,-1.956,K10,,synth(GES),pe
 gf_035120,pk_0a988d3a1e0f,24,1.0,Cr I,5198.896,3.551,1,-3.077,K10,,synth(GES),single_source,-3.077,,,True,False,False,,,,,False,KURUCZ,False
 gf_035121,pk_b0653d3d7883,24,1.0,Cr I,5199.364,4.106,1,-5.637,K10,,synth(GES),single_source,-5.637,,,True,False,False,,,,,False,KURUCZ,False
 gf_035122,pk_3d57aa79c4ef,24,1.0,Cr I,5199.866,5.8,1,-8.184,K10,,synth(GES),single_source,-8.184,,,True,False,False,,,,,False,KURUCZ,False
-gf_035123,pk_450e5fa21e7a,24,1.0,Cr I,5200.172,3.385,1,-0.58,SLS,,synth(GES),single_source,-0.58,,-0.58,True,False,True,,,,,False,OTHER,False
+gf_035123,pk_450e5fa21e7a,24,1.0,Cr I,5200.172,3.385,1,-0.58,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-0.58,,-0.58,True,False,True,,sobeck2007,0.0291,10.1086/519987,False,LAB,False
 gf_035124,pk_c90adad424e1,24,1.0,Cr I,5201.079,5.822,1,-7.113,K10,,synth(GES),single_source,-7.113,,,True,False,False,,,,,False,KURUCZ,False
 gf_035125,pk_7f9771d1858e,24,1.0,Cr I,5204.498,0.941,1,-0.19,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-0.19,,-0.19,True,False,True,,sobeck2007,0.021,10.1086/519987,False,LAB,False
 gf_035126,pk_2c4657dae6c2,24,1.0,Cr I,5206.023,0.941,1,0.02,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,0.02,,0.02,True,False,True,,sobeck2007,0.0212,10.1086/519987,False,LAB,False
@@ -27504,7 +27504,7 @@ gf_035186,pk_eef7e1c06cff,24,1.0,Cr I,5224.1653,5.6555,1,-0.886,VALD3,,linelist(
 gf_035187,pk_f96359e781d7,24,1.0,Cr I,5224.498,3.85,1,-3.074,K10,,synth(GES),single_source,-3.074,,,True,False,False,,,,,False,KURUCZ,False
 gf_035188,pk_4bded3c876e7,24,1.0,Cr I,5224.533,3.368,1,-1.503,K10,,synth(GES),pending,-1.503,,-1.189,True,False,True,,,,,False,KURUCZ,False
 gf_035189,pk_6292d4bb21d7,24,1.0,Cr I,5224.583,2.709,1,-1.97,K10,,synth(GES),pending,-1.97,,-2.13,True,False,True,,,,,False,KURUCZ,False
-gf_035190,pk_17efceb24f27,24,1.0,Cr I,5224.925,3.45,1,0.07,SLS,,synth(GES),single_source,0.07,,0.07,True,False,True,,,,,False,OTHER,False
+gf_035190,pk_17efceb24f27,24,1.0,Cr I,5224.925,3.45,1,0.07,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,0.07,,0.07,True,False,True,,sobeck2007,0.0244,10.1086/519987,False,LAB,False
 gf_035191,pk_e60e91f63243,24,1.0,Cr I,5225.02,3.428,1,-0.3,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-0.3,,-0.3,True,False,True,,sobeck2007,0.0278,10.1086/519987,False,LAB,False
 gf_035192,pk_bfcd02c222e6,24,1.0,Cr I,5225.342,3.556,1,-3.846,K10,,synth(GES),single_source,-3.846,,,True,False,False,,,,,False,KURUCZ,False
 gf_035193,pk_97e7332be374,24,1.0,Cr I,5225.737,3.122,1,-3.825,K10,,synth(GES),single_source,-3.825,,,True,False,False,,,,,False,KURUCZ,False
@@ -27606,7 +27606,7 @@ gf_035288,pk_afd4609257cb,24,1.0,Cr I,5271.147,4.618,1,-2.491,K10,,synth(GES),si
 gf_035289,pk_368b78a1380d,24,1.0,Cr I,5271.208,5.659,1,-3.828,K10,,synth(GES),single_source,-3.828,,,True,False,False,,,,,False,KURUCZ,False
 gf_035290,pk_11b8d75ab162,24,1.0,Cr I,5271.897,3.966,1,-3.932,K10,,synth(GES),single_source,-3.932,,,True,False,False,,,,,False,KURUCZ,False
 gf_035291,pk_2a480f48aee3,24,1.0,Cr I,5272.0,3.449,1,-0.421,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 29 Cr I + 10 Cr II (gf: mean of Sobeck07 and Blackwell86)",,synth(GES),adopted_rya1233_cr_agss21,-0.42,,-0.42,True,False,True,,CR_AGSS21,0.0328,10.1051/0004-6361/201424110,False,PUBLISHED-SET,False
-gf_035292,pk_2354c5c3f970,24,1.0,Cr I,5273.425,3.45,1,-0.535,K10,,synth(GES),pending,-0.535,,-0.51,True,False,True,,,,,False,KURUCZ,False
+gf_035292,pk_2354c5c3f970,24,1.0,Cr I,5273.425,3.45,1,-0.51,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-0.535,,-0.51,True,False,True,,sobeck2007,0.0307,10.1086/519987,False,LAB,False
 gf_035293,pk_f46eb825f961,24,1.0,Cr I,5274.784,4.455,1,-1.017,K10,,synth(GES),single_source,-1.017,,-1.025,True,False,True,,,,,False,KURUCZ,False
 gf_035294,pk_fe3e1af11f49,24,1.0,Cr I,5274.857,4.468,1,-1.796,K10,,synth(GES),single_source,-1.796,,,True,False,False,,,,,False,KURUCZ,False
 gf_035295,pk_abeb35e10ec7,24,1.0,Cr I,5275.173,3.375,1,-0.628,K10,,synth(GES),pending,-0.628,,-0.471,True,False,True,,,,,False,KURUCZ,False
@@ -27748,7 +27748,7 @@ gf_035430,pk_24b852a160e2,24,1.0,Cr I,5343.388,4.613,1,-1.996,K10,,synth(GES),si
 gf_035431,pk_612e6424ae49,24,1.0,Cr I,5344.292,2.915,1,-3.388,K10,,synth(GES),pending,-3.388,,-3.419,True,False,True,,,,,False,KURUCZ,False
 gf_035432,pk_d0b77c949b13,24,1.0,Cr I,5344.585,3.887,1,-2.607,K10,,synth(GES),single_source,-2.607,,,True,False,False,,,,,False,KURUCZ,False
 gf_035433,pk_e7c88687a85a,24,1.0,Cr I,5344.6355,3.8872,1,-2.528,VALD3,,linelist(VALD3),single_source,,,-2.528,False,False,True,,,,,False,VALD3,False
-gf_035434,pk_c9fc71eace1a,24,1.0,Cr I,5344.756,3.449,1,-0.99,SLS,,synth(GES),single_source,-0.99,,-0.99,True,False,True,,,,,False,OTHER,False
+gf_035434,pk_c9fc71eace1a,24,1.0,Cr I,5344.756,3.449,1,-0.99,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-0.99,,-0.99,True,False,True,,sobeck2007,0.0263,10.1086/519987,False,LAB,False
 gf_035435,pk_ab2d6cf4fc4b,24,1.0,Cr I,5345.405,3.888,1,-2.801,K10,,synth(GES),pending,-2.801,,-2.576,True,False,True,,,,,False,KURUCZ,False
 gf_035436,pk_8de0fe639b3a,24,1.0,Cr I,5345.538,3.464,1,-1.857,K10,,synth(GES),pending,-1.857,,-1.731,True,False,True,,,,,False,KURUCZ,False
 gf_035437,pk_1051cca8ea68,24,1.0,Cr I,5345.796,1.004,1,-0.95,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-0.95,,-0.95,True,False,True,,sobeck2007,0.0219,10.1086/519987,False,LAB,False
@@ -29555,7 +29555,7 @@ gf_037237,pk_58b06e369b7e,24,1.0,Cr I,6319.968,3.847,1,-3.029,K10,,synth(GES),si
 gf_037238,pk_6db2d51db3ba,24,1.0,Cr I,6320.395,3.839,1,-3.74,K10,,synth(GES),single_source,-3.74,,,True,False,False,,,,,False,KURUCZ,False
 gf_037239,pk_b651a1b3c34f,24,1.0,Cr I,6321.243,5.808,1,-2.448,K10,,synth(GES),single_source,-2.448,,,True,False,False,,,,,False,KURUCZ,False
 gf_037240,pk_c8ee72a0a041,24,1.0,Cr I,6322.255,5.782,1,-3.985,K10,,synth(GES),single_source,-3.985,,,True,False,False,,,,,False,KURUCZ,False
-gf_037241,pk_56e4d1834872,24,1.0,Cr I,6322.57,3.8904,1,-1.8,VALD3,,linelist(VALD3),single_source,,,-1.8,False,False,True,,,,,False,VALD3,False
+gf_037241,pk_56e4d1834872,24,1.0,Cr I,6322.57,3.8904,1,-1.8,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-1.8,False,False,True,,sobeck2007,0.0792,10.1086/519987,False,LAB,False
 gf_037242,pk_6b2a69a02e5e,24,1.0,Cr I,6322.6,3.89,1,-1.8,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-1.8,,,True,False,False,,sobeck2007,0.0792,10.1086/519987,False,LAB,False
 gf_037243,pk_cd9485de07c4,24,1.0,Cr I,6322.984,5.8,2,-3.2653,K10,,synth(GES),single_source,-3.2653,,,True,False,False,,,,,False,KURUCZ,False
 gf_037244,pk_6deae7f694cc,24,1.0,Cr I,6323.172,5.239,1,-7.664,K10,,synth(GES),single_source,-7.664,,,True,False,False,,,,,False,KURUCZ,False
@@ -33219,7 +33219,7 @@ gf_040901,pk_7ac9cddc040e,24,2.0,Cr II,4072.5564,3.7136,1,-2.56,"Lawler et al. 2
 gf_040902,pk_1eeddb4f69d3,24,2.0,Cr II,4075.623,3.104,1,-3.44,VALD3,,linelist(VALD3),single_source,,,-3.44,False,False,True,,,,,False,VALD3,False
 gf_040903,pk_d0687c8a0160,24,2.0,Cr II,4076.8623,3.1049,1,-3.019,VALD3,,linelist(VALD3),single_source,,,-3.019,False,False,True,,,,,False,VALD3,False
 gf_040904,pk_7587b67fdcc5,24,2.0,Cr II,4077.511,3.1054,1,-2.9,VALD3,,linelist(VALD3),single_source,,,-2.9,False,False,True,,,,,False,VALD3,False
-gf_040905,pk_22399d7c170c,24,2.0,Cr II,4082.2908,5.3187,1,-1.58,VALD3,,linelist(VALD3),single_source,,,-1.58,False,False,True,,,,,False,VALD3,False
+gf_040905,pk_22399d7c170c,24,2.0,Cr II,4082.2908,5.3187,1,-1.816,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-1.58,False,False,True,,gurell2010_cr2,0.1206,10.1051/0004-6361/200913672,False,LAB,False
 gf_040906,pk_1092335e80cf,24,2.0,Cr II,4083.5908,5.3187,1,-2.876,VALD3,,linelist(VALD3),single_source,,,-2.876,False,False,True,,,,,False,VALD3,False
 gf_040907,pk_349ee57d3044,24,2.0,Cr II,4086.1279,3.7136,1,-2.27,"Lawler et al. 2017 (ApJS 228, 10), machine-readable table J/ApJS/228/10 (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-2.27,False,False,True,,lawler2017_cr2,0.0646,10.3847/1538-4365/228/1/10,False,LAB,False
 gf_040908,pk_38a5e09736dc,24,2.0,Cr II,4087.593,3.104,1,-3.136,VALD3,,linelist(VALD3),single_source,,,-3.136,False,False,True,,,,,False,VALD3,False
@@ -33227,7 +33227,7 @@ gf_040909,pk_28aa1aa17623,24,2.0,Cr II,4088.8335,3.1049,1,-3.582,VALD3,,linelist
 gf_040910,pk_488afb0b4cbc,24,2.0,Cr II,4089.4857,5.3187,1,-2.618,VALD3,,linelist(VALD3),single_source,,,-2.618,False,False,True,,,,,False,VALD3,False
 gf_040911,pk_b4a0708c3666,24,2.0,Cr II,4091.1977,5.3187,1,-3.358,VALD3,,linelist(VALD3),single_source,,,-3.358,False,False,True,,,,,False,VALD3,False
 gf_040912,pk_95ed3914a99e,24,2.0,Cr II,4097.1211,5.3297,1,-2.819,VALD3,,linelist(VALD3),single_source,,,-2.819,False,False,True,,,,,False,VALD3,False
-gf_040913,pk_05784a04a728,24,2.0,Cr II,4098.4306,5.3297,1,-1.746,VALD3,,linelist(VALD3),single_source,,,-1.746,False,False,True,,,,,False,VALD3,False
+gf_040913,pk_05784a04a728,24,2.0,Cr II,4098.4306,5.3297,1,-1.713,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-1.746,False,False,True,,gurell2010_cr2,0.1038,10.1051/0004-6361/200913672,False,LAB,False
 gf_040914,pk_3fa9c03db75f,24,2.0,Cr II,4104.3683,5.3297,1,-2.863,VALD3,,linelist(VALD3),single_source,,,-2.863,False,False,True,,,,,False,VALD3,False
 gf_040915,pk_3c95cd1d32fc,24,2.0,Cr II,4110.9818,3.7576,1,-2.19,"Lawler et al. 2017 (ApJS 228, 10), machine-readable table J/ApJS/228/10 (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-2.19,False,False,True,,lawler2017_cr2,0.0843,10.3847/1538-4365/228/1/10,False,LAB,False
 gf_040916,pk_d9be12ba1ca8,24,2.0,Cr II,4111.0092,3.1038,1,-2.697,VALD3,,linelist(VALD3),single_source,,,-2.697,False,False,True,,,,,False,VALD3,False
@@ -33235,7 +33235,7 @@ gf_040917,pk_84ad1a7fcb17,24,2.0,Cr II,4112.544,3.1049,1,-3.082,VALD3,,linelist(
 gf_040918,pk_5c61f92dd050,24,2.0,Cr II,4113.2155,3.1054,1,-2.86,"Lawler et al. 2017 (ApJS 228, 10), machine-readable table J/ApJS/228/10 (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-2.86,False,False,True,,lawler2017_cr2,0.0784,10.3847/1538-4365/228/1/10,False,LAB,False
 gf_040919,pk_7b9bc3a42ede,24,2.0,Cr II,4127.065,5.6699,1,-1.938,VALD3,,linelist(VALD3),single_source,,,-1.938,False,False,True,,,,,False,VALD3,False
 gf_040920,pk_39a09fda2e88,24,2.0,Cr II,4132.411,3.7576,1,-2.48,"Lawler et al. 2017 (ApJS 228, 10), machine-readable table J/ApJS/228/10 (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-2.48,False,False,True,,lawler2017_cr2,0.0631,10.3847/1538-4365/228/1/10,False,LAB,False
-gf_040921,pk_d4627edac89b,24,2.0,Cr II,4145.7788,5.3187,1,-1.106,VALD3,,linelist(VALD3),single_source,,,-1.106,False,False,True,,,,,False,VALD3,False
+gf_040921,pk_d4627edac89b,24,2.0,Cr II,4145.7788,5.3187,1,-0.902,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,linelist(VALD3),adopted_rya1268_lab_table,,,-1.106,False,False,True,,gurell2010_cr2,0.0492,10.1051/0004-6361/200913672,False,LAB,False
 gf_040922,pk_10ad6301965c,24,2.0,Cr II,4146.3861,3.7576,1,-3.359,VALD3,,linelist(VALD3),single_source,,,-3.359,False,False,True,,,,,False,VALD3,False
 gf_040923,pk_839bd0ff7242,24,2.0,Cr II,4150.9907,5.3297,1,-2.071,VALD3,,linelist(VALD3),single_source,,,-2.071,False,False,True,,,,,False,VALD3,False
 gf_040924,pk_8561d91cbd2e,24,2.0,Cr II,4161.0747,5.3297,1,-2.433,VALD3,,linelist(VALD3),single_source,,,-2.433,False,False,True,,,,,False,VALD3,False
@@ -33407,7 +33407,7 @@ gf_041089,pk_23367d64d43f,24,2.0,Cr II,4684.753,5.67,1,-2.345,RU,,synth(GES),sin
 gf_041090,pk_91fa36fada1d,24,2.0,Cr II,4690.081,11.688,1,-1.045,K10,,synth(GES),single_source,-1.045,,,True,False,False,,,,,False,KURUCZ,False
 gf_041091,pk_fdbe8530362e,24,2.0,Cr II,4690.202,1.526,2,-10.8954,K10,,synth(GES),single_source,-10.8954,,,True,False,False,,,,,False,KURUCZ,False
 gf_041092,pk_9b9462992273,24,2.0,Cr II,4695.762,7.331,1,-2.263,RU,,synth(GES),single_source,-2.263,,,True,False,False,,,,,False,OTHER,False
-gf_041093,pk_e2a5c6695d07,24,2.0,Cr II,4697.598,5.67,1,-1.584,GNEL,,synth(GES),pending,-1.584,,-1.913,True,False,True,,,,,False,OTHER,False
+gf_041093,pk_e2a5c6695d07,24,2.0,Cr II,4697.598,5.67,1,-1.584,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,synth(GES),adopted_rya1268_lab_table,-1.584,,-1.913,True,False,True,,gurell2010_cr2,0.1139,10.1051/0004-6361/200913672,False,LAB,False
 gf_041094,pk_810507fe1bbd,24,2.0,Cr II,4698.66,3.758,1,-5.436,RU,,synth(GES),single_source,-5.436,,,True,False,False,,,,,False,OTHER,False
 gf_041095,pk_a239fb9488ea,24,2.0,Cr II,4700.01,8.147,1,-5.11,K10,,synth(GES),single_source,-5.11,,,True,False,False,,,,,False,KURUCZ,False
 gf_041096,pk_0ee86671de09,24,2.0,Cr II,4700.105,1.506,2,-11.0473,K10,,synth(GES),single_source,-11.0473,,,True,False,False,,,,,False,KURUCZ,False
@@ -138541,7 +138541,7 @@ gf_147515,pk_a5d509178d1b,26,1.0,Fe I,3053.559,3.0173,1,-1.729,VALD3,,nearuv_val
 gf_147516,pk_76668fdb4b38,64,2.0,Gd II,3053.572,0.4925,1,-0.34,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.34,False,False,True,,,,,False,VALD3,False
 gf_147517,pk_0f065ff9d9eb,23,2.0,V II,3053.588,4.5241,1,-0.796,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.796,False,False,True,,,,,False,VALD3,False
 gf_147518,pk_fe7531d9ce4c,77,1.0,Ir I,3053.597,1.4669,1,-1.22,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.22,False,False,True,,,,,False,VALD3,False
-gf_147519,pk_8e7b0be080f4,24,2.0,Cr II,3053.652,4.2937,1,-1.538,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.538,False,False,True,,,,,False,VALD3,False
+gf_147519,pk_8e7b0be080f4,24,2.0,Cr II,3053.652,4.2937,1,-1.24,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.538,False,False,True,,gurell2010_cr2,0.0755,10.1051/0004-6361/200913672,False,LAB,False
 gf_147520,pk_6608b33c55d6,23,1.0,V I,3053.654,0.0,10,-0.12,"Lawler et al. 2014 (ApJS 215, 20), machine-readable table J/ApJS/215/20 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.1199456098583781,False,False,True,,lawler2014_v1,0.0216,10.1088/0067-0049/215/2/20,False,LAB,False
 gf_147521,pk_b35595c5c364,26,1.0,Fe I,3053.723,3.2657,1,-2.123,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.123,False,False,True,,,,,False,VALD3,False
 gf_147522,pk_798db4d92bed,26,1.0,Fe I,3053.757,3.2515,1,-2.096,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.096,False,False,True,,,,,False,VALD3,False
@@ -138856,7 +138856,7 @@ gf_147830,pk_d62bb42714b3,72,1.0,Hf I,3063.779,0.6846,1,-0.9,VALD3,,nearuv_vald(
 gf_147831,pk_397d4aef0bc0,41,2.0,Nb II,3063.78,1.6943,25,-0.3400355702794634,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.3400355702794634,False,False,True,,,,,False,VALD3,False
 gf_147832,pk_742a68ca084b,26,2.0,Fe II,3063.782,8.2404,1,-0.966,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.966,False,False,True,,,,,False,VALD3,False
 gf_147833,pk_5a22393a5340,24,1.0,Cr I,3063.832,2.9872,1,-2.288,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.288,False,False,True,,,,,False,VALD3,False
-gf_147834,pk_dd90ac8c09af,24,2.0,Cr II,3063.834,3.8707,1,-1.497,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.497,False,False,True,,,,,False,VALD3,False
+gf_147834,pk_dd90ac8c09af,24,2.0,Cr II,3063.834,3.8707,1,-1.337,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.497,False,False,True,,gurell2010_cr2,0.0569,10.1051/0004-6361/200913672,False,LAB,False
 gf_147835,pk_6d5215c9c01d,26,1.0,Fe I,3063.856,3.0713,1,-4.158,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.158,False,False,True,,,,,False,VALD3,False
 gf_147836,pk_af2430cad51e,25,1.0,Mn I,3063.886,4.1938,1,-2.624,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.624,False,False,True,,,,,False,VALD3,False
 gf_147837,pk_627703b1570c,26,1.0,Fe I,3063.926,2.2227,1,-4.879,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.879,False,False,True,,,,,False,VALD3,False
@@ -139138,7 +139138,7 @@ gf_148112,pk_2bf908ddd99c,58,2.0,Ce II,3072.386,0.2954,1,-1.32,VALD3,,nearuv_val
 gf_148113,pk_bac7513b0ccb,27,2.0,Co II,3072.386,2.3524,20,-4.527980214236192,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.527980214236192,False,False,True,,,,,False,VALD3,False
 gf_148114,pk_8a9f38642090,24,1.0,Cr I,3072.431,3.8887,1,-0.958,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.958,False,False,True,,,,,False,VALD3,False
 gf_148115,pk_c563e63829b5,22,2.0,Ti II,3072.459,3.6866,1,-0.03,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.03,False,False,True,,,,,False,VALD3,False
-gf_148116,pk_4cfb696cb61a,24,2.0,Cr II,3072.467,3.8644,1,-1.507,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.507,False,False,True,,,,,False,VALD3,False
+gf_148116,pk_4cfb696cb61a,24,2.0,Cr II,3072.467,3.8644,1,-1.393,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.507,False,False,True,,gurell2010_cr2,0.0682,10.1051/0004-6361/200913672,False,LAB,False
 gf_148117,pk_6478925072dd,26,1.0,Fe I,3072.49,3.417,1,-1.351,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.351,False,False,True,,,,,False,VALD3,False
 gf_148118,pk_dc1e45b8e4e4,24,2.0,Cr II,3072.5,4.7504,1,-1.972,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.972,False,False,True,,,,,False,VALD3,False
 gf_148119,pk_d71d13eec36b,41,2.0,Nb II,3072.511,1.6265,9,-0.4400023979377653,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.4400023979377653,False,False,True,,,,,False,VALD3,False
@@ -139296,7 +139296,7 @@ gf_148270,pk_fef8bf1e27e5,21,2.0,Sc II,3077.379,3.4026,1,-1.802,VALD3,,nearuv_va
 gf_148271,pk_030978352ab7,76,1.0,Os I,3077.434,1.3676,1,-0.6,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.6,False,False,True,,,,,False,VALD3,False
 gf_148272,pk_04cc4c63443e,26,1.0,Fe I,3077.436,3.2657,1,-4.282,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.282,False,False,True,,,,,False,VALD3,False
 gf_148273,pk_87b01a833220,26,1.0,Fe I,3077.549,3.3965,1,-1.444,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.444,False,False,True,,,,,False,VALD3,False
-gf_148274,pk_9d09fc862c69,24,2.0,Cr II,3077.589,3.8581,1,-1.858,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.858,False,False,True,,,,,False,VALD3,False
+gf_148274,pk_9d09fc862c69,24,2.0,Cr II,3077.589,3.8581,1,-1.633,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.858,False,False,True,,gurell2010_cr2,0.0792,10.1051/0004-6361/200913672,False,LAB,False
 gf_148275,pk_b2c57e7efbe7,58,2.0,Ce II,3077.598,1.3247,1,-1.61,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.61,False,False,True,,,,,False,VALD3,False
 gf_148276,pk_77b0f3a9399c,71,2.0,Lu II,3077.605,1.5418,15,0.1599763348564019,VALD3,,nearuv_vald(RYA-759),single_source,,,0.1599763348564019,False,False,True,,,,,False,VALD3,False
 gf_148277,pk_bb555328dfea,58,2.0,Ce II,3077.635,0.7007,1,-1.0,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.0,False,False,True,,,,,False,VALD3,False
@@ -139524,7 +139524,7 @@ gf_148498,pk_af3570532fe6,23,1.0,V I,3084.383,1.2181,18,-2.4958878507483915,VALD
 gf_148499,pk_5fa5d9cfa55e,58,2.0,Ce II,3084.398,0.6347,1,-1.5,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.5,False,False,True,,,,,False,VALD3,False
 gf_148500,pk_41091edb2c56,24,1.0,Cr I,3084.45,2.7079,1,-3.031,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.031,False,False,True,,,,,False,VALD3,False
 gf_148501,pk_208a92099f3c,24,1.0,Cr I,3084.45,3.8875,1,-1.294,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.294,False,False,True,,,,,False,VALD3,False
-gf_148502,pk_a0a6e05fa6d0,24,2.0,Cr II,3084.458,4.2972,1,-1.086,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.086,False,False,True,,,,,False,VALD3,False
+gf_148502,pk_a0a6e05fa6d0,24,2.0,Cr II,3084.458,4.2972,1,-1.009,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.086,False,False,True,,gurell2010_cr2,0.0492,10.1051/0004-6361/200913672,False,LAB,False
 gf_148503,pk_b53d859d107d,58,2.0,Ce II,3084.464,0.6742,1,-0.41,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.41,False,False,True,,,,,False,VALD3,False
 gf_148504,pk_4b8d83d6999a,23,1.0,V I,3084.527,2.2533,1,-0.669,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.669,False,False,True,,,,,False,VALD3,False
 gf_148505,pk_731f0cd7a2cd,25,2.0,Mn II,3084.573,4.1223,1,-1.774,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.774,False,False,True,,,,,False,VALD3,False
@@ -140656,7 +140656,7 @@ gf_149630,pk_7b93af64109f,77,1.0,Ir I,3120.762,0.7841,1,-1.16,VALD3,,nearuv_vald
 gf_149631,pk_94df91ee8c54,26,1.0,Fe I,3120.875,3.283,1,-0.491,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.491,False,False,True,,,,,False,VALD3,False
 gf_149632,pk_fdf82d68382d,25,1.0,Mn I,3120.931,4.6656,1,-1.503,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.503,False,False,True,,,,,False,VALD3,False
 gf_149633,pk_2e7a577baffb,26,1.0,Fe I,3121.045,3.417,1,-2.959,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.959,False,False,True,,,,,False,VALD3,False
-gf_149634,pk_3460b733a6c1,24,2.0,Cr II,3121.052,4.3836,1,-1.141,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.141,False,False,True,,,,,False,VALD3,False
+gf_149634,pk_3460b733a6c1,24,2.0,Cr II,3121.052,4.3836,1,-1.234,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.141,False,False,True,,gurell2010_cr2,0.0682,10.1051/0004-6361/200913672,False,LAB,False
 gf_149635,pk_1a37bf1ff54a,25,1.0,Mn I,3121.066,4.2679,1,-0.9,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.9,False,False,True,,,,,False,VALD3,False
 gf_149636,pk_4b46aaec3c10,23,2.0,V II,3121.147,0.3922,1,-0.46,"Wood et al. 2014 (ApJS 214, 18), machine-readable table J/ApJS/214/18 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.46,False,False,True,,wood2014_v2,0.0214,10.1088/0067-0049/214/2/18,False,LAB,False
 gf_149637,pk_2e15dcc732a1,26,1.0,Fe I,3121.15,2.4821,1,-4.335,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.335,False,False,True,,,,,False,VALD3,False
@@ -140673,7 +140673,7 @@ gf_149647,pk_363c92cd20d1,45,1.0,Rh I,3121.754,0.4104,1,-1.02,VALD3,,nearuv_vald
 gf_149648,pk_d679ff3851f1,26,1.0,Fe I,3121.757,2.2227,1,-3.333,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.333,False,False,True,,,,,False,VALD3,False
 gf_149649,pk_593956406bb1,77,1.0,Ir I,3121.776,1.6227,1,-0.6,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.6,False,False,True,,,,,False,VALD3,False
 gf_149650,pk_ce4150ef6e62,26,1.0,Fe I,3121.779,3.2657,1,-2.107,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.107,False,False,True,,,,,False,VALD3,False
-gf_149651,pk_fce2c534cf79,24,2.0,Cr II,3121.811,4.3836,1,-1.02,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.02,False,False,True,,,,,False,VALD3,False
+gf_149651,pk_fce2c534cf79,24,2.0,Cr II,3121.811,4.3836,1,-0.988,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.02,False,False,True,,gurell2010_cr2,0.0531,10.1051/0004-6361/200913672,False,LAB,False
 gf_149652,pk_bed19174cada,26,1.0,Fe I,3121.828,2.8654,1,-4.618,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.618,False,False,True,,,,,False,VALD3,False
 gf_149653,pk_778cf49f4bce,23,2.0,V II,3121.829,4.6128,1,-1.033,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.033,False,False,True,,,,,False,VALD3,False
 gf_149654,pk_14fe1e603717,25,2.0,Mn II,3121.873,8.7604,1,-0.1119999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.1119999999999999,False,False,True,,,,,False,VALD3,False
@@ -141278,7 +141278,7 @@ gf_150252,pk_8069ec5009e5,26,1.0,Fe I,3142.464,3.2918,1,-1.055,VALD3,,nearuv_val
 gf_150253,pk_14f0e931fd3d,23,2.0,V II,3142.491,2.2207,1,0.364,NIST ASD (accuracy A; TP ref T9770),A,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,0.371,False,False,True,,NIST_ASD,0.0128,,False,NIST-C+,False
 gf_150254,pk_ffeecab5c7c1,58,2.0,Ce II,3142.547,0.4954,1,-1.87,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.87,False,False,True,,,,,False,VALD3,False
 gf_150255,pk_1b911d2387fc,25,1.0,Mn I,3142.671,2.8884,1,-1.31,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.31,False,False,True,,,,,False,VALD3,False
-gf_150256,pk_4ca7425fb61e,24,2.0,Cr II,3142.744,4.41,1,-1.065,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.065,False,False,True,,,,,False,VALD3,False
+gf_150256,pk_4ca7425fb61e,24,2.0,Cr II,3142.744,4.41,1,-1.017,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.065,False,False,True,,gurell2010_cr2,0.0531,10.1051/0004-6361/200913672,False,LAB,False
 gf_150257,pk_acf2de940ddd,42,1.0,Mo I,3142.749,2.595,1,-0.518,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.518,False,False,True,,,,,False,VALD3,False
 gf_150258,pk_3e2dea17dfe2,29,1.0,Cu I,3142.754,5.4214,1,-1.005,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.005,False,False,True,,,,,False,VALD3,False
 gf_150259,pk_2bb7d6ef2ca1,46,1.0,Pd I,3142.755,3.1121,1,0.27,VALD3,,nearuv_vald(RYA-759),single_source,,,0.27,False,False,True,,,,,False,VALD3,False
@@ -141396,7 +141396,7 @@ gf_150370,pk_c7d1a55a613d,25,2.0,Mn II,3145.68,4.31,1,-2.15,VALD3,,nearuv_vald(R
 gf_150371,pk_9e197d030f17,26,2.0,Fe II,3145.695,7.4943,1,-1.783,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.783,False,False,True,,,,,False,VALD3,False
 gf_150372,pk_4c732f5e1e2f,28,1.0,Ni I,3145.702,0.1652,10,-2.076,NIST ASD (accuracy C+; TP ref T4812),C+,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.5843178223586485,False,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
 gf_150373,pk_a9ce36f2c0aa,25,1.0,Mn I,3145.732,3.0733,1,-3.531,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.531,False,False,True,,,,,False,VALD3,False
-gf_150374,pk_0bbd70227c9b,24,2.0,Cr II,3145.763,4.4148,1,-0.838,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.838,False,False,True,,,,,False,VALD3,False
+gf_150374,pk_0bbd70227c9b,24,2.0,Cr II,3145.763,4.4148,1,-0.919,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.838,False,False,True,,gurell2010_cr2,0.0531,10.1051/0004-6361/200913672,False,LAB,False
 gf_150375,pk_8af46d5a8b82,58,2.0,Ce II,3145.779,0.5874,1,-2.61,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.61,False,False,True,,,,,False,VALD3,False
 gf_150376,pk_d00a5f1a7b5d,23,2.0,V II,3145.864,3.7575,1,-1.114,NIST ASD (accuracy C; TP ref T9770),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.415,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
 gf_150377,pk_db877390006a,23,2.0,V II,3145.976,0.368,20,-1.57,"Wood et al. 2014 (ApJS 214, 18), machine-readable table J/ApJS/214/18 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.5699802142361916,False,False,True,,wood2014_v2,0.0322,10.1088/0067-0049/214/2/18,False,LAB,False
@@ -141582,7 +141582,7 @@ gf_150556,pk_54b20f55fd56,62,2.0,Sm II,3152.09,0.3785,1,-1.13,VALD3,,nearuv_vald
 gf_150557,pk_f5ecf401a160,27,1.0,Co I,3152.127,2.28,10,-2.5969456098583783,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.5969456098583783,False,False,True,,,,,False,VALD3,False
 gf_150558,pk_9941dd7a014b,22,2.0,Ti II,3152.154,1.08,1,-3.567,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.567,False,False,True,,,,,False,VALD3,False
 gf_150559,pk_0db3c9c4a378,41,2.0,Nb II,3152.164,2.6127,28,-0.1299599136203545,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.1299599136203545,False,False,True,,,,,False,VALD3,False
-gf_150560,pk_9d68e2b82ada,24,2.0,Cr II,3152.215,4.3836,1,-0.2099999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.2099999999999999,False,False,True,,,,,False,VALD3,False
+gf_150560,pk_9d68e2b82ada,24,2.0,Cr II,3152.215,4.3836,1,-0.123,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.2099999999999999,False,False,True,,gurell2010_cr2,0.0334,10.1051/0004-6361/200913672,False,LAB,False
 gf_150561,pk_0e487b711c40,25,1.0,Mn I,3152.24,4.7125,1,-0.84,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.84,False,False,True,,,,,False,VALD3,False
 gf_150562,pk_5e352d58d616,58,2.0,Ce II,3152.25,0.32,1,-1.71,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.71,False,False,True,,,,,False,VALD3,False
 gf_150563,pk_11366a3b6032,22,2.0,Ti II,3152.25,0.122,1,-1.07,"Wood et al. 2013 (ApJS 208, 27), machine-readable table J/ApJS/208/27 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.07,False,False,True,,wood2013_ti2,0.0223,10.1088/0067-0049/208/2/27,False,LAB,False
@@ -141752,7 +141752,7 @@ gf_150726,pk_7f702893f1cc,23,2.0,V II,3157.897,2.2207,20,-0.815,NIST ASD (accura
 gf_150727,pk_cb39da42d75e,73,2.0,Ta II,3157.951,0.6609,7,-0.4598452532892521,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.4598452532892521,False,False,True,,,,,False,VALD3,False
 gf_150728,pk_6886e6731a9a,26,1.0,Fe I,3157.987,2.4254,1,-1.6274561992409295,NIST ASD (astroquery) T5720,C+,nearuv_vald(RYA-759),nist_rya822,,,-1.628,False,False,True,,NIST-C+,0.0719,https://physics.nist.gov/asd,True,NIST-C+,False
 gf_150729,pk_f5fa7b7ea8d2,26,1.0,Fe I,3158.012,2.845,1,-3.167,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.167,False,False,True,,,,,False,VALD3,False
-gf_150730,pk_68669a480eae,24,2.0,Cr II,3158.027,4.3836,1,-0.8920000000000001,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.8920000000000001,False,False,True,,,,,False,VALD3,False
+gf_150730,pk_68669a480eae,24,2.0,Cr II,3158.027,4.3836,1,-0.59,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.8920000000000001,False,False,True,,gurell2010_cr2,0.0492,10.1051/0004-6361/200913672,False,LAB,False
 gf_150731,pk_0dae4e5836ae,25,1.0,Mn I,3158.05,3.7716,1,-1.817,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.817,False,False,True,,,,,False,VALD3,False
 gf_150732,pk_c5f9b09e6515,42,1.0,Mo I,3158.166,0.0,1,-0.315,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.315,False,False,True,,,,,False,VALD3,False
 gf_150733,pk_c17136f233fb,25,1.0,Mn I,3158.191,4.7125,1,-1.695,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.695,False,False,True,,,,,False,VALD3,False
@@ -142204,7 +142204,7 @@ gf_151178,pk_e0b347c6da2d,26,1.0,Fe I,3173.407,2.882,1,-2.356,VALD3,,nearuv_vald
 gf_151179,pk_8390a826de41,25,2.0,Mn II,3173.455,6.4934,1,-1.179,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.179,False,False,True,,,,,False,VALD3,False
 gf_151180,pk_d84ae8f67dce,24,1.0,Cr I,3173.463,3.3752,1,-3.133,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.133,False,False,True,,,,,False,VALD3,False
 gf_151181,pk_7269dc8a8701,27,1.0,Co I,3173.548,1.8826,12,-3.448943618667468,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.448943618667468,False,False,True,,,,,False,VALD3,False
-gf_151182,pk_eb0558efaf21,24,2.0,Cr II,3173.558,4.41,1,-1.288,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.288,False,False,True,,,,,False,VALD3,False
+gf_151182,pk_eb0558efaf21,24,2.0,Cr II,3173.558,4.41,1,-1.317,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.288,False,False,True,,gurell2010_cr2,0.0682,10.1051/0004-6361/200913672,False,LAB,False
 gf_151183,pk_01c579488f8f,69,2.0,Tm II,3173.579,2.2678,1,0.37,VALD3,,nearuv_vald(RYA-759),single_source,,,0.37,False,False,True,,,,,False,VALD3,False
 gf_151184,pk_9a04911027b6,24,2.0,Cr II,3173.582,7.3867,1,-0.762,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.762,False,False,True,,,,,False,VALD3,False
 gf_151185,pk_84c19e223772,73,1.0,Ta I,3173.585,0.0,6,-1.3800383066154909,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.3800383066154909,False,False,True,,,,,False,VALD3,False
@@ -143636,7 +143636,7 @@ gf_152610,pk_17a9d61c14ca,22,1.0,Ti I,3225.36,2.0922,1,-1.469,VALD3,,nearuv_vald
 gf_152611,pk_7aaf4387be63,90,2.0,Th II,3225.411,1.2041,1,-0.174,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.174,False,False,True,,,,,False,VALD3,False
 gf_152612,pk_49385bf4ce41,26,1.0,Fe I,3225.421,2.8325,1,-4.348,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.348,False,False,True,,,,,False,VALD3,False
 gf_152613,pk_5710ea19f0ca,26,2.0,Fe II,3225.446,5.2571,1,-3.845,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.845,False,False,True,,,,,False,VALD3,False
-gf_152614,pk_de9895dbf05b,24,2.0,Cr II,3225.453,4.0734,1,-1.746,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.746,False,False,True,,,,,False,VALD3,False
+gf_152614,pk_de9895dbf05b,24,2.0,Cr II,3225.453,4.0734,1,-2.126,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.746,False,False,True,,gurell2010_cr2,0.0645,10.1051/0004-6361/200913672,False,LAB,False
 gf_152615,pk_7566b57b848d,64,2.0,Gd II,3225.464,1.1273,1,-0.261,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.261,False,False,True,,,,,False,VALD3,False
 gf_152616,pk_f35dbd8a055a,41,2.0,Nb II,3225.471,0.2922,9,-0.0100023979377653,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.0100023979377653,False,False,True,,,,,False,VALD3,False
 gf_152617,pk_14e0aed8f830,58,2.0,Ce II,3225.489,1.5456,1,-0.95,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.95,False,False,True,,,,,False,VALD3,False
@@ -144022,7 +144022,7 @@ gf_152996,pk_b5b0826176ae,22,1.0,Ti I,3238.22,2.0169,1,-0.495,NIST ASD (accuracy
 gf_152997,pk_10b8dccc4800,26,1.0,Fe I,3238.314,3.0469,1,-0.572,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.572,False,False,True,,,,,False,VALD3,False
 gf_152998,pk_822a3246facb,69,2.0,Tm II,3238.335,1.1106,1,-1.31,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.31,False,False,True,,,,,False,VALD3,False
 gf_152999,pk_a40e56232190,22,1.0,Ti I,3238.401,2.1535,1,-2.858,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.858,False,False,True,,,,,False,VALD3,False
-gf_153000,pk_860b850b85b2,24,2.0,Cr II,3238.499,4.0712,1,-1.76,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.76,False,False,True,,,,,False,VALD3,False
+gf_153000,pk_860b850b85b2,24,2.0,Cr II,3238.499,4.0712,1,-1.966,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.76,False,False,True,,gurell2010_cr2,0.0792,10.1051/0004-6361/200913672,False,LAB,False
 gf_153001,pk_031e0319b670,24,1.0,Cr I,3238.509,3.1044,1,-1.316,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.316,False,False,True,,,,,False,VALD3,False
 gf_153002,pk_51b2aca72722,44,1.0,Ru I,3238.531,1.8665,1,0.08,VALD3,,nearuv_vald(RYA-759),single_source,,,0.08,False,False,True,,,,,False,VALD3,False
 gf_153003,pk_ed14627c3c83,64,2.0,Gd II,3238.624,1.2884,1,-0.1989999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.1989999999999999,False,False,True,,,,,False,VALD3,False
@@ -145603,7 +145603,7 @@ gf_154577,pk_a748619b82ff,58,2.0,Ce II,3295.287,0.4954,1,-0.27,VALD3,,nearuv_val
 gf_154578,pk_8efd4891db5d,90,2.0,Th II,3295.327,0.7742,1,-0.843,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.843,False,False,True,,,,,False,VALD3,False
 gf_154579,pk_7d6158e60d2f,25,2.0,Mn II,3295.349,4.9363,1,-2.971,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.971,False,False,True,,,,,False,VALD3,False
 gf_154580,pk_c8256adda0ec,58,2.0,Ce II,3295.376,0.9025,1,-2.13,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.13,False,False,True,,,,,False,VALD3,False
-gf_154581,pk_9bd1acfbeeed,24,2.0,Cr II,3295.425,4.1775,1,-0.326,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.326,False,False,True,,,,,False,VALD3,False
+gf_154581,pk_9bd1acfbeeed,24,2.0,Cr II,3295.425,4.1775,1,-0.648,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.326,False,False,True,,gurell2010_cr2,0.0569,10.1051/0004-6361/200913672,False,LAB,False
 gf_154582,pk_bce6c9088499,62,2.0,Sm II,3295.439,0.5438,1,-0.544,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.544,False,False,True,,,,,False,VALD3,False
 gf_154583,pk_71695f7170ad,23,1.0,V I,3295.463,1.3763,1,-1.92,"Lawler et al. 2014 (ApJS 215, 20), machine-readable table J/ApJS/215/20 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.92,False,False,True,,lawler2014_v1,0.0486,10.1088/0067-0049/215/2/20,False,LAB,False
 gf_154584,pk_961b3d1a8083,90,2.0,Th II,3295.524,1.1234,1,-0.639,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.639,False,False,True,,,,,False,VALD3,False
@@ -145929,7 +145929,7 @@ gf_154903,pk_35e4c04b2e64,25,1.0,Mn I,3306.999,3.3825,6,-1.2098160962029183,VALD
 gf_154904,pk_9cb047843007,26,1.0,Fe I,3307.006,2.9488,1,-2.498,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.498,False,False,True,,,,,False,VALD3,False
 gf_154905,pk_253c0bb725d2,28,1.0,Ni I,3307.015,3.4195,1,-0.756,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.756,False,False,True,,,,,False,VALD3,False
 gf_154906,pk_f755684b6d96,62,2.0,Sm II,3307.027,0.6593,1,-0.065,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.065,False,False,True,,,,,False,VALD3,False
-gf_154907,pk_48d878fb8005,24,2.0,Cr II,3307.046,4.1682,1,-0.426,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.426,False,False,True,,,,,False,VALD3,False
+gf_154907,pk_48d878fb8005,24,2.0,Cr II,3307.046,4.1682,1,-0.712,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.426,False,False,True,,gurell2010_cr2,0.0569,10.1051/0004-6361/200913672,False,LAB,False
 gf_154908,pk_1ccc88534907,42,1.0,Mo I,3307.125,1.4703,1,-0.733,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.733,False,False,True,,,,,False,VALD3,False
 gf_154909,pk_775831b4861c,27,1.0,Co I,3307.156,1.9557,12,-0.83,"Lawler et al. 2015 (ApJS 220, 13), machine-readable table J/ApJS/220/13 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.6549436186674673,False,False,True,,lawler2015,0.0253,10.1088/0067-0049/220/1/13,False,LAB,False
 gf_154910,pk_6355a38e2717,25,1.0,Mn I,3307.198,4.6788,1,-0.754,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.754,False,False,True,,,,,False,VALD3,False
@@ -146077,13 +146077,13 @@ gf_155051,pk_bc30608fe769,25,1.0,Mn I,3311.577,4.6656,1,-0.286,VALD3,,nearuv_val
 gf_155052,pk_06e87ede9697,21,2.0,Sc II,3311.698,3.6876,1,-0.12,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.12,False,False,True,,,,,False,VALD3,False
 gf_155053,pk_804d26efd993,58,2.0,Ce II,3311.734,0.6213,1,-2.15,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.15,False,False,True,,,,,False,VALD3,False
 gf_155054,pk_15667b4f6c5e,25,1.0,Mn I,3311.901,2.1782,12,-1.709979304661504,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.709979304661504,False,False,True,,,,,False,VALD3,False
-gf_155055,pk_64f7ffd975c2,24,2.0,Cr II,3311.933,4.1561,1,-0.51,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.51,False,False,True,,,,,False,VALD3,False
+gf_155055,pk_64f7ffd975c2,24,2.0,Cr II,3311.933,4.1561,1,-0.808,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.51,False,False,True,,gurell2010_cr2,0.0607,10.1051/0004-6361/200913672,False,LAB,False
 gf_155056,pk_3a6f3a383d36,26,1.0,Fe I,3311.986,3.2918,1,-5.082,VALD3,,nearuv_vald(RYA-759),single_source,,,-5.082,False,False,True,,,,,False,VALD3,False
 gf_155057,pk_77d33c8abf8f,24,1.0,Cr I,3312.073,2.7088,1,-1.691,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.691,False,False,True,,,,,False,VALD3,False
 gf_155058,pk_dbb09f68d817,71,1.0,Lu I,3312.11,0.0,12,0.2600563813325326,VALD3,,nearuv_vald(RYA-759),single_source,,,0.2600563813325326,False,False,True,,,,,False,VALD3,False
 gf_155059,pk_f67872240004,77,1.0,Ir I,3312.138,1.4669,1,-1.3,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.3,False,False,True,,,,,False,VALD3,False
 gf_155060,pk_313c720cc5b6,27,1.0,Co I,3312.15,1.9557,6,-0.85,"Lawler et al. 2015 (ApJS 220, 13), machine-readable table J/ApJS/220/13 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.7960383066154906,False,False,True,,lawler2015,0.0225,10.1088/0067-0049/220/1/13,False,LAB,False
-gf_155061,pk_a5299f4b5be6,24,2.0,Cr II,3312.183,4.1433,1,-0.5800000000000001,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.5800000000000001,False,False,True,,,,,False,VALD3,False
+gf_155061,pk_a5299f4b5be6,24,2.0,Cr II,3312.183,4.1433,1,-0.874,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.5800000000000001,False,False,True,,gurell2010_cr2,0.0607,10.1051/0004-6361/200913672,False,LAB,False
 gf_155062,pk_66f90ca9796a,58,2.0,Ce II,3312.217,1.1031,1,0.0099999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,0.0099999999999999,False,False,True,,,,,False,VALD3,False
 gf_155063,pk_c6728c81b7d6,26,1.0,Fe I,3312.222,2.9904,1,-1.706,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.706,False,False,True,,,,,False,VALD3,False
 gf_155064,pk_cafdef30be51,27,1.0,Co I,3312.265,2.28,6,-1.1890383066154906,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.1890383066154906,False,False,True,,,,,False,VALD3,False
@@ -146201,7 +146201,7 @@ gf_155175,pk_1c4ceecc0bac,44,1.0,Ru I,3315.229,0.1476,1,-1.22,VALD3,,nearuv_vald
 gf_155176,pk_7f53ccd41371,22,1.0,Ti I,3315.23,2.0923,1,-0.26,NIST ASD (accuracy B+; TP ref T6897),B+,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-0.26,False,False,True,,NIST_ASD,0.0294,,False,NIST-C+,False
 gf_155177,pk_92ade63b15ed,25,2.0,Mn II,3315.267,5.3969,1,-2.567,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.567,False,False,True,,,,,False,VALD3,False
 gf_155178,pk_a2ba06e23929,22,2.0,Ti II,3315.267,3.9707,1,-2.584,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.584,False,False,True,,,,,False,VALD3,False
-gf_155179,pk_c400dfcdb1e3,24,2.0,Cr II,3315.295,4.1775,1,-1.666,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.666,False,False,True,,,,,False,VALD3,False
+gf_155179,pk_c400dfcdb1e3,24,2.0,Cr II,3315.295,4.1775,1,-1.984,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.666,False,False,True,,gurell2010_cr2,0.0569,10.1051/0004-6361/200913672,False,LAB,False
 gf_155180,pk_c2b87dd61a3c,22,2.0,Ti II,3315.322,1.2241,1,-0.64,"Wood et al. 2013 (ApJS 208, 27), machine-readable table J/ApJS/208/27 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.64,False,False,True,,wood2013_ti2,0.0254,10.1088/0067-0049/208/2/27,False,LAB,False
 gf_155181,pk_352f2c5d44ee,25,1.0,Mn I,3315.33,4.6788,1,-0.4349999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.4349999999999999,False,False,True,,,,,False,VALD3,False
 gf_155182,pk_2e02d37aa683,27,2.0,Co II,3315.383,5.0364,1,-2.091,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.091,False,False,True,,,,,False,VALD3,False
@@ -146413,7 +146413,7 @@ gf_155387,pk_604fdf0b76a2,75,1.0,Re I,3322.481,1.4574,1,-0.34,VALD3,,nearuv_vald
 gf_155388,pk_3e686704b6bc,77,1.0,Ir I,3322.604,1.6227,1,-0.76,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.76,False,False,True,,,,,False,VALD3,False
 gf_155389,pk_fa6b34fac493,58,2.0,Ce II,3322.629,0.1224,1,-2.09,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.09,False,False,True,,,,,False,VALD3,False
 gf_155390,pk_f1d5db625821,26,1.0,Fe I,3322.656,3.4302,1,-1.937,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.937,False,False,True,,,,,False,VALD3,False
-gf_155391,pk_1180d746bb74,24,2.0,Cr II,3322.704,4.1682,1,-1.535,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.535,False,False,True,,,,,False,VALD3,False
+gf_155391,pk_1180d746bb74,24,2.0,Cr II,3322.704,4.1682,1,-1.821,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.535,False,False,True,,gurell2010_cr2,0.0719,10.1051/0004-6361/200913672,False,LAB,False
 gf_155392,pk_8c17ca099db1,27,2.0,Co II,3322.856,5.055,9,-2.197999641575864,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.197999641575864,False,False,True,,,,,False,VALD3,False
 gf_155393,pk_f6b05d2597bc,77,1.0,Ir I,3322.873,2.3632,1,-0.48,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.48,False,False,True,,,,,False,VALD3,False
 gf_155394,pk_33ba98ef1d34,25,2.0,Mn II,3322.914,6.1282,1,-2.213,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.213,False,False,True,,,,,False,VALD3,False
@@ -146436,7 +146436,7 @@ gf_155410,pk_f36e9613061a,25,1.0,Mn I,3323.286,4.6788,1,-1.394,VALD3,,nearuv_val
 gf_155411,pk_6ea6e7860559,58,2.0,Ce II,3323.293,0.3267,1,-1.37,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.37,False,False,True,,,,,False,VALD3,False
 gf_155412,pk_39c2f77b0a41,72,2.0,Hf II,3323.32,2.8697,1,-0.34,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.34,False,False,True,,,,,False,VALD3,False
 gf_155413,pk_a73c1af5fb2f,22,2.0,Ti II,3323.388,1.1649,1,-1.99,"Wood et al. 2013 (ApJS 208, 27), machine-readable table J/ApJS/208/27 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.99,False,False,True,,wood2013_ti2,0.0322,10.1088/0067-0049/208/2/27,False,LAB,False
-gf_155414,pk_74d1bc935a8c,24,2.0,Cr II,3323.537,4.1561,1,-1.631,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.631,False,False,True,,,,,False,VALD3,False
+gf_155414,pk_74d1bc935a8c,24,2.0,Cr II,3323.537,4.1561,1,-1.988,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.631,False,False,True,,gurell2010_cr2,0.0864,10.1051/0004-6361/200913672,False,LAB,False
 gf_155415,pk_c981a2248390,24,1.0,Cr I,3323.545,2.8895,1,-2.86,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.86,False,False,True,,,,,False,VALD3,False
 gf_155416,pk_fa60ae9c3d1f,24,1.0,Cr I,3323.555,3.847,1,-2.362,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.362,False,False,True,,,,,False,VALD3,False
 gf_155417,pk_73863618d098,24,2.0,Cr II,3323.609,4.9376,1,-2.884,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.884,False,False,True,,,,,False,VALD3,False
@@ -149242,9 +149242,9 @@ gf_158216,pk_84e381e4daf4,25,2.0,Mn II,3421.44,6.6578,1,-1.952,VALD3,,nearuv_val
 gf_158217,pk_6462ad1ad594,24,1.0,Cr I,3421.462,2.7079,1,-2.076,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.076,False,False,True,,,,,False,VALD3,False
 gf_158218,pk_e344b964882b,22,1.0,Ti I,3421.485,1.8792,1,-2.465,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.465,False,False,True,,,,,False,VALD3,False
 gf_158219,pk_cfb761e168fe,25,2.0,Mn II,3421.559,4.9379,1,-2.919,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.919,False,False,True,,,,,False,VALD3,False
-gf_158220,pk_1d8a872ec663,24,2.0,Cr II,3421.592,4.2937,1,-2.23,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.23,False,False,True,,,,,False,VALD3,False
+gf_158220,pk_1d8a872ec663,24,2.0,Cr II,3421.592,4.2937,1,-2.081,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-2.23,False,False,True,,gurell2010_cr2,0.2455,10.1051/0004-6361/200913672,False,LAB,False
 gf_158221,pk_331addf69d44,67,2.0,Ho II,3421.6,0.7253,22,0.0902040109652818,VALD3,,nearuv_vald(RYA-759),single_source,,,0.0902040109652818,False,False,True,,,,,False,VALD3,False
-gf_158222,pk_4d0682e1c627,24,2.0,Cr II,3421.616,4.3163,1,-1.653,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.653,False,False,True,,,,,False,VALD3,False
+gf_158222,pk_4d0682e1c627,24,2.0,Cr II,3421.616,4.3163,1,-1.863,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.653,False,False,True,,gurell2010_cr2,0.0792,10.1051/0004-6361/200913672,False,LAB,False
 gf_158223,pk_1781d48cead1,27,1.0,Co I,3421.628,2.0421,12,-1.43,"Lawler et al. 2015 (ApJS 220, 13), machine-readable table J/ApJS/220/13 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.2319436186674673,False,False,True,,lawler2015,0.0317,10.1088/0067-0049/220/1/13,False,LAB,False
 gf_158224,pk_af71148410af,76,1.0,Os I,3421.687,1.2604,1,-1.33,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.33,False,False,True,,,,,False,VALD3,False
 gf_158225,pk_8da78f1d0ef4,24,1.0,Cr I,3421.714,3.4488,1,-1.73,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.73,False,False,True,,,,,False,VALD3,False
@@ -149341,7 +149341,7 @@ gf_158315,pk_0a87ca704e5e,58,2.0,Ce II,3425.942,0.9563,1,-0.7,VALD3,,nearuv_vald
 gf_158316,pk_131c280a3dbc,90,2.0,Th II,3425.944,1.1656,1,-0.689,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.689,False,False,True,,,,,False,VALD3,False
 gf_158317,pk_157ed1199b28,24,1.0,Cr I,3425.962,3.0869,1,-2.104,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.104,False,False,True,,,,,False,VALD3,False
 gf_158318,pk_3d7a86d697e2,26,1.0,Fe I,3426.085,3.111,1,-3.307,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.307,False,False,True,,,,,False,VALD3,False
-gf_158319,pk_0d688a335168,24,2.0,Cr II,3426.143,4.7448,1,-1.707,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.707,False,False,True,,,,,False,VALD3,False
+gf_158319,pk_0d688a335168,24,2.0,Cr II,3426.143,4.7448,1,-1.856,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.707,False,False,True,,gurell2010_cr2,0.0864,10.1051/0004-6361/200913672,False,LAB,False
 gf_158320,pk_01f1ae22866e,58,2.0,Ce II,3426.205,0.1224,1,-0.66,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.66,False,False,True,,,,,False,VALD3,False
 gf_158321,pk_6e4f285fab8d,62,2.0,Sm II,3426.206,0.6593,1,-0.847,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.847,False,False,True,,,,,False,VALD3,False
 gf_158322,pk_ad1f19223b73,64,2.0,Gd II,3426.244,0.3821,1,-1.5,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.5,False,False,True,,,,,False,VALD3,False
@@ -150605,7 +150605,7 @@ gf_159579,pk_2e579f536d98,26,1.0,Fe I,3474.907,2.8852,1,-5.689,VALD3,,nearuv_val
 gf_159580,pk_fb830eb7966d,27,1.0,Co I,3474.951,2.1367,18,-4.088887850748392,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.088887850748392,False,False,True,,,,,False,VALD3,False
 gf_159581,pk_f4c78579ecec,42,1.0,Mo I,3475.029,2.2912,1,-0.595,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.595,False,False,True,,,,,False,VALD3,False
 gf_159582,pk_c235a24c0c8f,21,1.0,Sc I,3475.03,2.0012,16,-0.3878978738325068,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.3878978738325068,False,False,True,,,,,False,VALD3,False
-gf_159583,pk_ec0f10ebe710,24,2.0,Cr II,3475.116,2.434,1,-1.619,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.619,False,False,True,,,,,False,VALD3,False
+gf_159583,pk_ec0f10ebe710,24,2.0,Cr II,3475.116,2.434,1,-1.619,"Nilsson et al. 2006 (A&A 445, 1165), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.619,False,False,True,,nilsson2006_cr2,0.0792,10.1051/0004-6361:20054152,False,LAB,False
 gf_159584,pk_d3ae11569c5d,28,1.0,Ni I,3475.173,3.4646,1,-4.266,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.266,False,False,True,,,,,False,VALD3,False
 gf_159585,pk_6e55f10733a3,24,2.0,Cr II,3475.245,5.6623,1,-1.868,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.868,False,False,True,,,,,False,VALD3,False
 gf_159586,pk_dbd3e0f2174c,26,2.0,Fe II,3475.253,1.6953,1,-4.687,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.687,False,False,True,,,,,False,VALD3,False
@@ -151100,7 +151100,7 @@ gf_160074,pk_708d69b0e44b,74,1.0,W I,3495.239,2.4361,1,0.65,VALD3,,nearuv_vald(R
 gf_160075,pk_b90db884fad4,28,1.0,Ni I,3495.28,3.7963,1,-2.418,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.418,False,False,True,,,,,False,VALD3,False
 gf_160076,pk_b92a43ca6634,26,1.0,Fe I,3495.286,2.5592,1,-0.915423722065669,NIST ASD (astroquery) T4293,B,nearuv_vald(RYA-759),nist_rya822,,,-0.916,False,False,True,,NIST-C+,0.0414,https://physics.nist.gov/asd,True,NIST-C+,False
 gf_160077,pk_bff1060c723e,40,1.0,Zr I,3495.342,1.4824,1,-0.2099999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.2099999999999999,False,False,True,,,,,False,VALD3,False
-gf_160078,pk_09e0ca77b485,24,2.0,Cr II,3495.373,2.4546,1,-1.705,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.705,False,False,True,,,,,False,VALD3,False
+gf_160078,pk_09e0ca77b485,24,2.0,Cr II,3495.373,2.4546,1,-1.705,"Nilsson et al. 2006 (A&A 445, 1165), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.705,False,False,True,,nilsson2006_cr2,0.0864,10.1051/0004-6361:20054152,False,LAB,False
 gf_160079,pk_a5f05083ce0e,58,2.0,Ce II,3495.477,0.3267,1,-1.83,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.83,False,False,True,,,,,False,VALD3,False
 gf_160080,pk_eaa1282d1e8b,24,2.0,Cr II,3495.523,4.9441,1,-1.079,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.079,False,False,True,,,,,False,VALD3,False
 gf_160081,pk_34996051d719,25,1.0,Mn I,3495.546,4.3599,1,-2.156,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.156,False,False,True,,,,,False,VALD3,False
@@ -151497,7 +151497,7 @@ gf_160471,pk_be2ab40767ea,21,1.0,Sc I,3511.648,1.4478,22,-1.8020417067971133,VAL
 gf_160472,pk_d4c91362f1a5,66,2.0,Dy II,3511.67,2.6204,1,1.313,VALD3,,nearuv_vald(RYA-759),single_source,,,1.313,False,False,True,,,,,False,VALD3,False
 gf_160473,pk_c3ea3aada68e,26,1.0,Fe I,3511.738,2.5592,1,-2.382999658879101,NIST ASD (astroquery) T2578n,E,nearuv_vald(RYA-759),nist_rya822,,,-2.43,False,False,True,,,,,False,OTHER,False
 gf_160474,pk_f68ae9c0cb10,25,1.0,Mn I,3511.816,4.6395,1,-0.2199999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.2199999999999999,False,False,True,,,,,False,VALD3,False
-gf_160475,pk_e129f8eccf8f,24,2.0,Cr II,3511.824,2.4827,1,-1.461,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.461,False,False,True,,,,,False,VALD3,False
+gf_160475,pk_e129f8eccf8f,24,2.0,Cr II,3511.824,2.4827,1,-1.461,"Nilsson et al. 2006 (A&A 445, 1165), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.461,False,False,True,,nilsson2006_cr2,0.0682,10.1051/0004-6361:20054152,False,LAB,False
 gf_160476,pk_be011eb5d561,29,1.0,Cu I,3511.85,3.8167,18,-1.0709345791312812,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.0709345791312812,False,False,True,,,,,False,VALD3,False
 gf_160477,pk_d814b0337751,23,1.0,V I,3511.871,2.3737,1,-1.357,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.357,False,False,True,,,,,False,VALD3,False
 gf_160478,pk_53b0b1f9d33e,28,1.0,Ni I,3511.885,3.7398,2,-0.2826173101490337,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.2826173101490337,False,False,True,,,,,False,VALD3,False
@@ -154143,7 +154143,7 @@ gf_163117,pk_c574cc30eafc,64,2.0,Gd II,3617.168,1.2884,1,0.2289999999999999,VALD
 gf_163118,pk_80db84e8dc3d,22,1.0,Ti I,3617.204,2.1747,1,-1.147,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.147,False,False,True,,,,,False,VALD3,False
 gf_163119,pk_d4292bad2501,77,1.0,Ir I,3617.209,1.2247,1,-1.49,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.49,False,False,True,,,,,False,VALD3,False
 gf_163120,pk_a7bdc2acd833,23,1.0,V I,3617.269,1.3505,1,-2.476,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.476,False,False,True,,,,,False,VALD3,False
-gf_163121,pk_f7591a9227ad,24,2.0,Cr II,3617.273,4.9274,1,-1.616,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.616,False,False,True,,,,,False,VALD3,False
+gf_163121,pk_f7591a9227ad,24,2.0,Cr II,3617.273,4.9274,1,-1.423,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.616,False,False,True,,gurell2010_cr2,0.0682,10.1051/0004-6361/200913672,False,LAB,False
 gf_163122,pk_5840aa4a99b6,26,1.0,Fe I,3617.318,3.4149,1,-0.493,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.493,False,False,True,,,,,False,VALD3,False
 gf_163123,pk_5c4c9aa27de6,26,1.0,Fe I,3617.357,2.6924,1,-5.031,VALD3,,nearuv_vald(RYA-759),single_source,,,-5.031,False,False,True,,,,,False,VALD3,False
 gf_163124,pk_0e79e6ba1328,26,1.0,Fe I,3617.429,3.274,1,-1.816,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.816,False,False,True,,,,,False,VALD3,False
@@ -154578,7 +154578,7 @@ gf_163552,pk_c887b4540529,44,1.0,Ru I,3633.908,2.1197,1,-0.37,VALD3,,nearuv_vald
 gf_163553,pk_d4fef67041a3,22,2.0,Ti II,3633.913,3.0948,1,-3.702,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.702,False,False,True,,,,,False,VALD3,False
 gf_163554,pk_76b310eef1bf,26,1.0,Fe I,3633.937,3.9286,1,-1.948,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.948,False,False,True,,,,,False,VALD3,False
 gf_163555,pk_2e8f5e436f52,23,1.0,V I,3633.965,1.3763,1,-2.315,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.315,False,False,True,,,,,False,VALD3,False
-gf_163556,pk_82142639ddde,24,2.0,Cr II,3633.998,4.9441,1,-1.635,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.635,False,False,True,,,,,False,VALD3,False
+gf_163556,pk_82142639ddde,24,2.0,Cr II,3633.998,4.9441,1,-1.508,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.635,False,False,True,,gurell2010_cr2,0.0828,10.1051/0004-6361/200913672,False,LAB,False
 gf_163557,pk_b3009e9f5e36,60,2.0,Nd II,3634.09,0.3206,1,-1.89,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.89,False,False,True,,,,,False,VALD3,False
 gf_163558,pk_36e2fd0d642f,23,2.0,V II,3634.137,3.1233,1,-2.756,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.756,False,False,True,,,,,False,VALD3,False
 gf_163559,pk_9a55c37911d9,40,1.0,Zr I,3634.15,0.1538,1,-0.76,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.76,False,False,True,,,,,False,VALD3,False
@@ -155847,7 +155847,7 @@ gf_164821,pk_5c0069e73bf1,26,1.0,Fe I,3684.137,3.3014,1,-0.878440155812499,NIST 
 gf_164822,pk_e484c44ae33f,62,2.0,Sm II,3684.15,0.5438,1,-1.89,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.89,False,False,True,,,,,False,VALD3,False
 gf_164823,pk_587680621108,22,2.0,Ti II,3684.164,4.0088,1,-2.451,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.451,False,False,True,,,,,False,VALD3,False
 gf_164824,pk_28b5bffbb132,24,1.0,Cr I,3684.198,3.9659,1,-1.742,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.742,False,False,True,,,,,False,VALD3,False
-gf_164825,pk_2ae60ae8861b,24,2.0,Cr II,3684.223,4.9441,1,-1.151,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.151,False,False,True,,,,,False,VALD3,False
+gf_164825,pk_2ae60ae8861b,24,2.0,Cr II,3684.223,4.9441,1,-0.844,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.151,False,False,True,,gurell2010_cr2,0.0492,10.1051/0004-6361/200913672,False,LAB,False
 gf_164826,pk_930602816771,58,2.0,Ce II,3684.242,1.5201,1,-0.63,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.63,False,False,True,,,,,False,VALD3,False
 gf_164827,pk_a014c9656b29,68,2.0,Er II,3684.278,0.6364,1,-0.62,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.62,False,False,True,,,,,False,VALD3,False
 gf_164828,pk_e812c1a3c1bc,24,1.0,Cr I,3684.294,3.847,1,-2.241,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.241,False,False,True,,,,,False,VALD3,False
@@ -157412,7 +157412,7 @@ gf_166386,pk_61b1912f725c,25,1.0,Mn I,3750.367,4.4349,1,-2.395,VALD3,,nearuv_val
 gf_166387,pk_90434b9a3a07,22,1.0,Ti I,3750.448,2.1603,1,-2.624,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.624,False,False,True,,,,,False,VALD3,False
 gf_166388,pk_f5378d7338ec,58,2.0,Ce II,3750.454,0.8085,1,-1.3,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.3,False,False,True,,,,,False,VALD3,False
 gf_166389,pk_6f018ce3bc1c,25,2.0,Mn II,3750.474,5.107,1,-1.414,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.414,False,False,True,,,,,False,VALD3,False
-gf_166390,pk_67ce146833cb,24,2.0,Cr II,3750.525,5.0108,1,-1.77,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.77,False,False,True,,,,,False,VALD3,False
+gf_166390,pk_67ce146833cb,24,2.0,Cr II,3750.525,5.0108,1,-1.724,"Gurell et al. 2010 (A&A 511, A68), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.77,False,False,True,,gurell2010_cr2,0.0645,10.1051/0004-6361/200913672,False,LAB,False
 gf_166391,pk_094a83078eb7,68,2.0,Er II,3750.54,1.6538,1,0.161,VALD3,,nearuv_vald(RYA-759),single_source,,,0.161,False,False,True,,,,,False,VALD3,False
 gf_166392,pk_6bbf2a433082,24,2.0,Cr II,3750.59,4.7448,1,-2.479,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.479,False,False,True,,,,,False,VALD3,False
 gf_166393,pk_9de7308d5f45,23,1.0,V I,3750.633,1.8726,21,-1.5069602424776094,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.5069602424776094,False,False,True,,,,,False,VALD3,False
@@ -158299,7 +158299,7 @@ gf_167273,pk_716742958202,6,1.0,C I,9658.44,7.4878,1,-0.279841,"NIST ASD v5.11 g
 gf_167274,pk_d4cd9053f608,26,1.0,Fe I,9659.075,5.0638,1,-1.106,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.106,False,False,True,,,,,False,VALD3,False
 gf_167275,pk_5498c2ffbfc6,20,1.0,Ca I,9659.343,4.7386,1,-0.446,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.446,False,False,True,,,,,False,VALD3,False
 gf_167276,pk_c63de230b9cf,12,1.0,Mg I,9665.479,6.1182,1,-1.767,"NIST ASD T5539 (grade of the line; gf unchanged, RYA-1250 IR sweep) | prior: VALD3",C+,ir_vald_9200_13000(RYA-762),adopted_rya1250_nist_ir_grade,,,-1.767,False,False,True,,,,,False,NIST-C+,False
-gf_167277,pk_4cec70878e06,24,1.0,Cr I,9670.54,2.5443,1,-1.79,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.79,False,False,True,,,,,False,VALD3,False
+gf_167277,pk_4cec70878e06,24,1.0,Cr I,9670.54,2.5443,1,-1.79,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,ir_vald_9200_13000(RYA-762),adopted_rya1268_lab_table,,,-1.79,False,False,True,,sobeck2007,0.0532,10.1086/519987,False,LAB,False
 gf_167278,pk_2b1045616736,22,1.0,Ti I,9675.544,0.836,1,-0.804,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.804,False,False,True,,,,,False,VALD3,False
 gf_167279,pk_c1d5422297ce,20,1.0,Ca I,9676.294,4.7353,1,-0.522,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.522,False,False,True,,,,,False,VALD3,False
 gf_167280,pk_01bf7ff27f32,20,1.0,Ca I,9688.669,4.7386,1,-0.1689999999999999,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.1689999999999999,False,False,True,,,,,False,VALD3,False
@@ -158314,7 +158314,7 @@ gf_167288,pk_6cc07a5d6c8d,22,1.0,Ti I,9718.96,1.5025,1,-1.181,VALD3,,ir_vald_920
 gf_167289,pk_0ae962f0ae6e,26,1.0,Fe I,9723.132,5.0117,1,-1.608,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.608,False,False,True,,,,,False,VALD3,False
 gf_167290,pk_c8a6bca0227f,22,1.0,Ti I,9728.405,0.8181,1,-1.206,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.206,False,False,True,,,,,False,VALD3,False
 gf_167291,pk_1ef7fa6ff4cb,24,1.0,Cr I,9730.315,3.5505,1,-0.77,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-0.77,False,False,True,,,,,False,VALD3,False
-gf_167292,pk_dd71c0638a94,24,1.0,Cr I,9734.562,2.5438,1,-1.95,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.95,False,False,True,,,,,False,VALD3,False
+gf_167292,pk_dd71c0638a94,24,1.0,Cr I,9734.562,2.5438,1,-1.95,"Sobeck et al. 2007 (ApJ 667, 1267), machine-readable table J/ApJ/667/1267 (stated uncertainty)",,ir_vald_9200_13000(RYA-762),adopted_rya1268_lab_table,,,-1.95,False,False,True,,sobeck2007,0.06,10.1086/519987,False,LAB,False
 gf_167293,pk_95dcb62592a1,26,1.0,Fe I,9738.573,4.9913,1,0.15,VALD3,D+,ir_vald_9200_13000(RYA-762),single_source,,,0.15,False,False,True,,,,,False,VALD3,False
 gf_167294,pk_3afcfd086131,26,1.0,Fe I,9738.9,5.3194,1,-1.387,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.387,False,False,True,,,,,False,VALD3,False
 gf_167295,pk_027199abfb2e,22,1.0,Ti I,9743.606,0.8129,1,-1.306,VALD3,,ir_vald_9200_13000(RYA-762),single_source,,,-1.306,False,False,True,,,,,False,VALD3,False
@@ -169722,3 +169722,7 @@ gf_179282,pk_266dcade97ca,15,1.0,P I,10681.406,6.954,1,-0.19,"Asplund 2021 -> Sc
 gf_179283,pk_436bfe163d61,15,1.0,P I,10813.146,6.985,1,-0.41,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.41,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
 gf_179277,pk_fb5da66e2194,15,1.0,P I,9525.741,6.985,1,-0.1,"Asplund 2021 -> Scott et al. 2015 (A&A 573, A25) Table 1: 8 P I (gf: Berzinsh et al.\ (ber))",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",added_rya1233_p_agss21,,,-0.1,True,,True,,P_AGSS21,,10.1051/0004-6361/201424109,False,PUBLISHED-SET,
 gf_179284,pk_767f07abfccc,12,2.0,Mg II,10092.217,11.6297,1,1.033,"Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1 (10092.20 feature 1.283 split over the two NIST/VALD components in VALD ratio; sigma = AGSS21 Sect. 2.4 Mg II bound)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",rya1250_fix_component_of_agss21_feature,,,1.02,True,,True,,MG_AGSS21,0.01,10.1051/0004-6361/202140445,False,PUBLISHED-SET,
+gf_179285,pk_43d0980260f9,24,1.0,Cr I,9446.804,2.5446,1,-2.21,"Sobeck et al. 2007 (ApJ 667, 1267) (gf: Sobeck+2007)",,"vald_solar_redopt_6910_9500_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",adopted_rya728_lab_table_added,,,-2.21,True,,True,,sobeck2007,0.0633,10.1086/519987,False,LAB,
+gf_179286,pk_7e3e3b92d412,24,1.0,Cr I,9571.813,2.5443,1,-2.3,"Sobeck et al. 2007 (ApJ 667, 1267) (gf: Sobeck+2007)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",adopted_rya728_lab_table_added,,,-2.3,True,,True,,sobeck2007,0.0548,10.1086/519987,False,LAB,
+gf_179287,pk_6a9e6f8101d4,24,1.0,Cr I,9667.286,2.5438,1,-2.51,"Sobeck et al. 2007 (ApJ 667, 1267) (gf: Sobeck+2007)",,"vald_solar_ir_9500_17000_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",adopted_rya728_lab_table_added,,,-2.51,True,,True,,sobeck2007,0.0544,10.1086/519987,False,LAB,
+gf_179288,pk_7dc14905d8ce,24,1.0,Cr I,9294.228,2.5446,1,-2.45,"Sobeck et al. 2007 (ApJ 667, 1267) (gf: Sobeck+2007)",,"vald_solar_redopt_6910_9500_hfson_raw.txt (orchestrator prepare --apply, RYA-1233)",adopted_rya728_lab_table_added,,,-2.45,True,,True,,sobeck2007,0.0492,10.1086/519987,False,LAB,
