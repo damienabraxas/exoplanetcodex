@@ -1,0 +1,1142 @@
+{
+  "retrieved_at": "2026-11-08",
+  "issues": [
+    {
+      "issue": {
+        "id": "RYA-1351",
+        "uuid": "bbbb4b95-ec0c-4dff-bc1f-9cabeaf892f4",
+        "title": "UMBRELLA: Computational Atomic Physics — Theoretical Codex transition-data initiative",
+        "description": "## Mission\n\nEstablish an independent, reproducible computational atomic-physics workstream producing critically assessed theoretical transition data for UV/VIS/IR abundance analysis, beginning with O I/O II as applicable and Fe I/II. This is NOT permission to relabel theoretical predictions as laboratory measurements or publish unvalidated abundances.\n\n## Mandatory preflight\n\nRead current GitHub Project Register, Target Star List, Canonical Element List, SCIENCE_STANDARDS, docs/ELEMENT_PROTOCOL.md and current canonical_gf/line-grade schemas; review full Linear <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" /> (including comments), <issue id=\"ba14af3e-7806-4c30-a118-5a0cc43999a9\" label=\"RYA-1169\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1169/si-build-gf-graded-line-sets-agss21-reference-census-asplund-codex\" />, <issue id=\"be8bf507-78b1-4ec2-a238-f33af47d19cf\" label=\"RYA-709\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-709/umbrella-the-26-element-sweep-every-element-gets-the-protocol-10852\" />, <issue id=\"8eb95d16-a86e-4de7-86f4-b17df02b1cab\" label=\"RYA-587\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-587/architecture-27-element-reported-uncertainty-generalization-rya-282-5\" />, <issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" />, <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" />, <issue id=\"a93ba5bf-5b56-42fe-9610-56e51df57d19\" label=\"RYA-822\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-822/build-extend-adjudicate-canonical-gf-blueward-of-3780-a-the-near-uv-fe\" />, <issue id=\"c51601ef-a026-4a70-a542-96d4cb42e331\" label=\"RYA-1131\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1131/intake-cno-solar-reference-lines-across-fuvnuvir-agss21-lineage-plus\" />, and current O/Fe Bridge work. GitHub connector discovery was incomplete at ticket creation: verify actual repository state before changing code. Identify any contradictory historical grading policy and report it.\n\n## Scientific contract\n\nPreserve existing Asplund, Reference, Codex (primary experimental gf, depth <=0.60), and Deep (primary experimental gf, depth >0.60) semantics. Proposed new class: THEORETICAL_CODEX; approval is conditional on governance review. Separate origin/evidence type, grade/line-selection, accuracy/uncertainty, and usability status. Never confer NIST experimental-grade status on theoretical values. Preserve independent primary experimental, NIST evaluated, VALD/Kurucz, theoretical, and astrophysical gf records without silent overwrites. A theoretical transition is a *candidate* until blind benchmarks and uncertainty review pass. No tuning to the Solar abundance.\n\n## Deliverables\n\n1. Reproducible all-band census of currently used, excluded, ungraded, and theoretically tractable lines, matched by species/ion, energy levels, wavelength medium/frame, and HFS/isotope component identity (never wavelength alone).\n2. Atomic-property scope: observed/theoretical levels and wavelengths, f/loggf, Einstein A, lifetimes, branching fractions, selection rules, level mixing, Landé g, HFS/isotope constants where tractable, natural broadening; separately scoped Stark/van der Waals/ABO, photoionization, electron/H collision data and NLTE completeness, with method-appropriate solvers and limitations.\n3. Benchmark GRASP/MCDHF against independent atomic structure method where scientifically appropriate; convergence, correlation, relativistic, gauge, observed-level substitution and uncertainty validation; blind withheld primary lab comparisons, not just internal agreement.\n4. Machine-readable versioned atomic-data products with code/version/input provenance, atomic source DOI, confidence/uncertainty covariance, reproducible commands, benchmark reports and rejected candidates.\n5. Integration gates with <issue id=\"8eb95d16-a86e-4de7-86f4-b17df02b1cab\" label=\"RYA-587\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-587/architecture-27-element-reported-uncertainty-generalization-rya-282-5\" /> uncertainty budget, <issue id=\"be8bf507-78b1-4ec2-a238-f33af47d19cf\" label=\"RYA-709\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-709/umbrella-the-26-element-sweep-every-element-gets-the-protocol-10852\" /> accounting, stellar line-selection, website provenance, and mandatory verified IR telluric correction.\n6. O first, Fe cross-band stress test second, M-dwarf applicability assessment including molecular blends, pressure broadening and magnetism.\n\n## Acceptance\n\nNo current line grade silently changes; no existing published abundance is altered; all additions opt-in behind explicit scientific review. Maintain critical/warning/suggestion audit and create PRs for review, not direct publication.",
+        "priority": {
+          "value": 2,
+          "name": "High"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1351/umbrella-computational-atomic-physics-theoretical-codex-transition",
+        "gitBranchName": "ryandamienschmitt/rya-1351-umbrella-computational-atomic",
+        "createdAt": "2026-11-08T12:12:22.842Z",
+        "updatedAt": "2026-11-08T12:12:22.842Z",
+        "archivedAt": null,
+        "completedAt": null,
+        "startedAt": null,
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Backlog",
+        "statusType": "backlog",
+        "labels": [],
+        "attachments": [],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-11-08T12:12:22.842Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-946",
+        "uuid": "f1039187-38b1-463a-98eb-ed3b4e9e7c5e",
+        "title": "UMBRELLA: all-element laboratory-gf sweep + literature validation (replicate the line list, not the model) — canonical elements beyond Fe",
+        "description": "## Goal\n\nSweep the <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" /> Fe lab-gf template across every canonical element. For each element: ingest the definitive laboratory-gf line list, collect the published literature abundance values, run our full multi-engine x multi-atlas matrix on the FIXED line list, and produce an error plot — literature consensus band vs our per-engine results.\n\n## Governing method (ratified this session — applies to every child)\n\nThe validation is NOT reproduction of a reference study's model atmosphere or code. \"Replicate the experiment\" means replicate the **line list**, not the 1974 model. Precisely:\n\n* **Fixed asset:** the atomic line list (wavelengths + lab/graded gf) is established ONCE per element from the reference lab studies, and is shared across all engines AND all target stars. It does not change between engines or between stars. This is why it must be right — every Codex target inherits it.\n* **Variable:** the engine (route . scale . model . atmos . code) and the atlas/instrument. We run the fixed lines through the full matrix (EW/synth x 1D-LTE/1D-NLTE/3D-NLTE x MARCS x Bergemann/Amarsi/Gerber x Kurucz-flux / Delbouille-intensity / HARPS / CRIRES+).\n* **Reference comparison isolates the engine:** hold what the reference study held — same lines, same gf, same spectrum — and the ONLY difference is our engine vs theirs. We do NOT match their model atmosphere or code. Their published value is \"what they got with their setup,\" a point on the plot.\n* **The deliverable is an error plot**, not a bit-match: published literature values with their error bars (Lodders meteoritic; Asplund/AAG photospheric; the element's lab-study solar values e.g. Den Hartog/Ruffoni; Scott 2015; Caffau; Bergemann) = the consensus band. Overlay OUR per-engine results on the same fixed lines. Question: given the same lines and gf, what does our engine get, and does it land in the band?\n* Validate-don't-tune (<issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" />) holds: nothing tuned to match; each engine reports what the fixed lines give. Agreement validates line list + engine; the engine-to-engine and engine-vs-literature spread IS the systematic meter, not error to hide.\n\n## Per-element child structure\n\n### Mandatory uncertainty inheritance (2026-09-15)\n\nEvery element child inherits <issue id=\"8eb95d16-a86e-4de7-86f4-b17df02b1cab\" label=\"RYA-587\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-587/architecture-27-element-reported-uncertainty-generalization-rya-282-5\" /> as the single canonical uncertainty protocol. This includes product-specific statistical/fit uncertainty, atomic/molecular-data uncertainty, stellar-parameter perturbations, ξ where physically applicable, observation/reduction terms, model/physics terms, covariance, and matched Solar/reference differential uncertainty before target-star publication. A child that merely reports `sigma_stat`/gf/ξ without the applicable <issue id=\"8eb95d16-a86e-4de7-86f4-b17df02b1cab\" label=\"RYA-587\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-587/architecture-27-element-reported-uncertainty-generalization-rya-282-5\" /> stack is incomplete. Do not fork/rewrite the recipe locally; reference and execute the canonical implementation.\n\nOne child ticket per element (Mr. Code brief, <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" /> pattern). Each child:\n\n1. Ingest the definitive lab-gf sources into `canonical_gf` (crossmatch-verified; precedence lab > NIST-C+ > Kurucz > VALD; EP cut where the literature applies one).\n2. Collect the literature abundance values (litscan band, <issue id=\"63bfeeb4-1363-4208-ac3f-83e5f5f52d54\" label=\"RYA-714\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-714/litscan-findings-fe-i-solar-photospheric-uvvisir-audit\" /> pattern) with verified citations.\n3. Run the multi-engine x multi-atlas matrix on the fixed lines.\n4. Produce the error plot: literature band + our per-engine results.\n\n**Every source verified against ADS/VizieR per child — NO fabricated citations (the** <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" /> **discipline, learned the hard way this session).**\n\n## Lab-gf source map (POINTERS ONLY — each child verifies exact ref + VizieR ID + DOI before ingesting)\n\n* **Fe I/II** — O'Brian 1991 / Den Hartog 2014 / Ruffoni 2014 / Belmonte 2017 / Den Hartog 2019 — DONE, <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" /> (the template)\n* **Ti I / Ti II** — Lawler+2013 / Wood+2013 (Wisconsin)\n* **V I / V II** — Lawler+2014 / Wood+2014\n* **Cr I / Cr II** — Sobeck, Lawler & Sneden 2007 / Cr II lab\n* **Mn I/II** — Den Hartog / Blackwell-Whitehead & Bergemann 2007\n* **Ni I** — Wood+2014\n* **Co I, Sc II** — Lawler group\n* **Alphas (Mg, Si, Ca)** — element-specific lab studies (e.g. Mg: Pehlivan Rhodin+) + NIST-C+\n* **C, N, O** — high-excitation atomic + molecular (Amarsi 2021 3D-LTE molecular for solar CNO); NLTE-sensitive, treat carefully\n* **Neutron-capture (Ba, Sr, Y, Zr, Eu)** — Lawler group r/s-process transition-probability papers\n* **Na, Al, K, P, Cu, Li** — NIST-C+ + dedicated per-element lab studies\n\nEach entry is a POINTER, not a citation. The child ticket pins the exact reference, VizieR catalogue, and DOI, and verifies before ingesting.\n\n## Priority sequencing (science-first, not alphabetical)\n\n1. **Fe** — <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" /> (template, in progress)\n2. **C, N, O** — flagship C/O ratio (the Codex's headline science)\n3. **CHNOPS + alphas** (Mg, Si, Ca, S, Ti) — habitability set\n4. **Fe-peak** (Cr, Mn, Co, Ni, V, Sc, Cu)\n5. **Neutron-capture** (Ba, Sr, Y, Zr, Eu) + Na, Al, K, P, Li\n\nThis lands the Sun's flagship deliverables (C/O, CHNOPS) first; Alpha Cen and 55 Cnc inherit the validated lists.\n\n## Gate\n\nChildren open AFTER <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" /> validates the template — i.e., Fe lands in the literature band on the Den Hartog 2014 flux reproduction (7.45 on the Kurucz flux atlas). If the crossmatch / precedence / HFS machinery needs fixing, fix it on Fe ONCE, then clone. One validated template beats 27 speculative tickets.\n\n## Reconcile\n\n<issue id=\"4096f5f6-0ee8-4046-b45a-a79601ac6f1e\" label=\"RYA-752\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-752/umbrella-systematic-gf-scale-audit-codex-kitt-peak-chain-nssi-036-042\" /> (N/S/Si gf-scale audit umbrella) and <issue id=\"634dcd19-0f7a-45cc-aee3-325aa65d9731\" label=\"RYA-697\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-697/science-gf-zero-point-floor-cluster-s-i-n-i-p-i-cu-i-successor-home\" /> (S/N/P/Cu zero-point cluster) predate this and are unexecuted — assess whether they are subsumed/superseded by this systematic sweep and fold in or close as part of the C/N/O and alpha children.\n\nRelated: <issue id=\"49d10ad1-6867-4ac1-86b8-031b6001329c\" label=\"RYA-945\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog\" /> (Fe template), <issue id=\"63bfeeb4-1363-4208-ac3f-83e5f5f52d54\" label=\"RYA-714\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-714/litscan-findings-fe-i-solar-photospheric-uvvisir-audit\" /> (litscan reference bands), <issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" /> (validate-don't-tune), <issue id=\"a93ba5bf-5b56-42fe-9610-56e51df57d19\" label=\"RYA-822\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-822/build-extend-adjudicate-canonical-gf-blueward-of-3780-a-the-near-uv-fe\" />/834 (canonical_gf machinery), <issue id=\"4096f5f6-0ee8-4046-b45a-a79601ac6f1e\" label=\"RYA-752\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-752/umbrella-systematic-gf-scale-audit-codex-kitt-peak-chain-nssi-036-042\" /> / <issue id=\"634dcd19-0f7a-45cc-aee3-325aa65d9731\" label=\"RYA-697\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-697/science-gf-zero-point-floor-cluster-s-i-n-i-p-i-cu-i-successor-home\" /> (prior gf-cluster umbrellas to reconcile).\n\n## Mandatory Solar reference-line-set census — AGSS21 lineage, all bands (added 2026-08-29)\n\nFor **every canonical element**, before the lab-gf sweep is called complete, reconstruct the exact transition set(s) used to derive the adopted Solar photospheric value and cross-reference those rows against Codex. This is the all-element generalisation of <issue id=\"c0ab6b71-4ad1-4182-8796-f7a80c74b437\" label=\"RYA-1109\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1109/source-create-the-asplund-agss21-solar-fe-line-list-gf-the-reference\" />, not merely a citation/value litscan.\n\n### Scope\n\n* Trace the adopted value in Asplund, Amarsi & Grevesse 2021 (AGSS21) to its actual line-level source.\n* Search **all wavelength regions used by the source analysis**: FUV, NUV, VIS, red optical, NIR, and IR, including atomic, forbidden, molecular, isotopologue, and blend-component indicators where applicable.\n* If AGSS21 publishes the rows directly, transcribe that table with extraction controls, as <issue id=\"c0ab6b71-4ad1-4182-8796-f7a80c74b437\" label=\"RYA-1109\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1109/source-create-the-asplund-agss21-solar-fe-line-list-gf-the-reference\" /> did for Fe.\n* If AGSS21 only summarizes an earlier element-specific analysis, follow its citations to the source paper/table/catalog and reconstruct the rows there. Do not label a generic canonical candidate as “Asplund-used.”\n* Preserve explicit negative selections and scope statements. Example: AGSS21's Fe footnote rejects available Ruffoni IR Fe I lines as too strong/blended; that is a published selection fact, not a missing-band accident.\n* Keep separate line sets when the adopted Solar value combines indicators or papers (for example atomic vs molecular, permitted vs forbidden, or UV vs optical/IR).\n\n### Required per-line join\n\nEach literature-used line must carry, at minimum:\n\n`reference_line_set | adopted_solar_value_lineage | source_paper/table/catalog | species/isotopologue | wavelength + medium | EP/transition identity | published loggf | published gf source if stated | published EW/profile/weight/exclusion | source band | Codex canonical_line_id | Codex loggf | Codex gf_tier | Codex nist_grade | Codex lab source/sigma/DOI | delta_loggf | join_status | ambiguity/status note`\n\nCrossmatch through the canonical physical-transition matcher (species/ion + wavelength/frame + EP/levels/component identity), never wavelength alone.\n\n### Deliverables and gates\n\n1. A machine-readable **published Solar reference line set** for every element, including excluded/quarantined rows rather than silently dropping them.\n2. A per-band coverage matrix: published-used, published-explicitly-rejected, Codex-matched, Codex-graded, Codex-ungraded, missing, ambiguous.\n3. A source-lineage note proving how those lines lead to the adopted AGSS21 Solar value, or an explicit `SOURCE_LINE_LIST_NOT_PUBLISHED` wall after the cited primary sources/supplements/catalogues were checked.\n4. A Codex comparison separating:\n   * used by AGSS21/source analysis **and** graded by Codex;\n   * used there but ungraded/fallback in Codex;\n   * graded in Codex but not used there;\n   * absent from Codex;\n   * excluded by the source analysis.\n5. No element is `FROZEN_READY_FOR_MEASUREMENT` until this cross-reference is complete or a documented, approved source-publication exception exists.\n\n“AGSS21 adopted this abundance” is not evidence that AGSS21 used every line in Codex, and an AGSS21 abundance value is not a gf grade. Never infer the line set from the final abundance or from proximity to familiar diagnostic wavelengths.\n\n## 2026-09-13 bibliography/provenance gate — required for every element gf/reference sweep\n\nAll children of this umbrella must scan the applicable project **Reference Documents** holdings and reconcile them with the canonical bibliography while performing the line/gf/reference audit.\n\nRequirements:\n\n* inventory applicable local papers/tables/supplements before external searching;\n* every adopted gf/atomic-data source, reference-line study, model/NLTE/3D source, molecular/indicator source, and validation paper must resolve to one canonical bibliography entry;\n* new sources discovered during the sweep must add/update the bibliography in the same ticket/PR;\n* deduplicate alternate citations/copies and retain authoritative DOI/ADS/bibcode or equivalent metadata where available;\n* bibliography identity must remain distinct from local PDF availability — valid sources without a local copy are still cited and their document state recorded;\n* no fabricated citation metadata; unresolved metadata remains explicit;\n* line/gf provenance keys and later abundance/product references must resolve back to these canonical records.\n\n**Freeze gate addition:** no element line/gf pool is `FROZEN_READY_FOR_MEASUREMENT` until its adopted scientific provenance is bibliography-resolvable and the applicable Reference Documents scan is documented.\n\nCloseout must report: `reference_documents_scanned`, bibliography additions/updates, duplicate reconciliation, missing-local-copy sources, unresolved metadata, and provenance-key validation.\n\nThis implements the standing <issue id=\"be8bf507-78b1-4ec2-a238-f33af47d19cf\" label=\"RYA-709\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-709/umbrella-the-26-element-sweep-every-element-gets-the-protocol-10852\" /> Reference Documents ↔ bibliography requirement.",
+        "priority": {
+          "value": 2,
+          "name": "High"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation",
+        "gitBranchName": "ryandamienschmitt/rya-946-umbrella-all-element-laboratory-gf",
+        "createdAt": "2026-08-21T22:19:27.914Z",
+        "updatedAt": "2026-11-08T12:12:37.781Z",
+        "archivedAt": null,
+        "completedAt": "2026-09-03T13:43:21.579Z",
+        "startedAt": "2026-09-03T08:06:52.150Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Done",
+        "statusType": "completed",
+        "labels": [],
+        "attachments": [
+          {
+            "id": "3e7820c5-539b-49e8-a5a3-363cf7cf0167",
+            "title": "RYA-1173: the AGSS21-lineage solar Al reference line set + RYA-946 census, and the gate that enforces it",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/498"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-08-21T22:19:27.914Z",
+            "endedAt": "2026-09-03T08:06:52.182Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-09-03T08:06:52.182Z",
+            "endedAt": "2026-09-03T13:43:21.633Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-09-03T13:43:21.633Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "assignee": "Ryan Schmitt",
+        "assigneeId": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [
+          {
+            "id": "62392940-ffb9-4500-b529-1ae831a66b8c",
+            "body": "RATIFIED (Ryan, 2026-09-03) -- top-grade construction for lab-poor elements + its firewall. Amends the 2026-08-30 grade definitions.\n\nPOLICY. The top reference grade is built by AMALGAMATING the best available gf for each line from every source we can find -- the same construction Asplund et al. use to assemble their line set. Best lab result per line where one exists; evaluated-theoretical (Opacity Project / MCHF and the like) where no lab measurement exists. We will NOT get lab-only every time, and that is acceptable by design: the deliverable is \"best available per line, sourced with inline citation,\" not \"lab-only.\"\n\nTHE ONE FIREWALL (non-circular). We never adopt another analysis's SOLAR-DERIVED values -- no astrophysical/solar-fitted gf, no borrowed solar abundance. We amalgamate the INPUT gf compilations they used; we never import their OUTPUT. That is the line between replicating a line list (allowed -- the whole point) and circularity (forbidden, RYA-161).\n\nSCOPE. This activates the evaluated tier as the honest ACTIVE headline for every element where no primary-lab tier exists above it -- resolving the CNO \"too good to be nothing, not lab so not Codex, Consistent is parked\" hole and generalizing to every lab-gf-less element in the roster. Labeled evaluated/amalgamated, NEVER lab: the Codex/Deep = primary-lab-only firewall (2026-08-30) stays intact. This adds a top reference tier beside the depth grid; it does NOT loosen Codex/Deep.\n\nCONFIRMED IN PRACTICE. The pattern is already how intake runs: Al amalgamated Vujnovic + Burheim + Johnson (RYA-1132/1001); Si built the same Asplund/Codex/Deep census (RYA-1169); CNO amalgamated NIST ASD + Amarsi (RYA-1160). This ratifies what the intake already does.\n\nNAME -- OPEN. The tier is currently called \"Asplund,\" which reads as a person and risks implying we import his values (we do not). Candidates: Reference Grade, Consensus Grade, Benchmark Grade, Compilation Grade. Policy is ratified now; the name is to be pinned separately (Ryan's pick).",
+            "attachments": [],
+            "createdAt": "2026-09-03T06:26:23.817Z",
+            "updatedAt": "2026-09-03T06:26:23.769Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "2b66928c-0cfe-4ce3-9fea-fce5f9c3cba3",
+            "body": "RATIFIED LINE-GRADE DEFINITIONS (Ryan, 2026-08-30). Resolves RYA-1105's open mapping + the drift Mr Code surfaced. THREE active grades, PRIMARY-LAB gf only. Two orthogonal axes -- do not conflate them (that conflation WAS the drift).\n\nAXIS 1 -- measurement route (feature-depth / saturation; settled, correct):\nAXIS 2 -- gf provenance (primary-lab only for active grades; the drift is resolved by pinning CODE as truth).\n\nActive grades:\n- CODEX GRADE (code: graded) = primary-laboratory gf, solar feature depth <= 0.60. Unsaturated, EW-valid. The adopted-abundance workhorse. Feature depth = max component depth within 0.05 A, measured from the solar spectrum.\n- DEEP GRADE (code: deepgraded) = primary-laboratory gf, feature depth > 0.60. Saturated -> EW inversion breaks down -> routed to SYNTHESIS. Same lab-gf quality as Codex Grade; differs ONLY by route (the strong-line axis). NOT a lower-quality tier.\n- ASPLUND GRADE (code: asplund) = ORTHOGONAL to the depth grid: the external reference line-set (AGSS21 + reference gf), the replication/validation anchor. Not part of the graded/deep-graded provenance grid.\n\nFloor + gaps (unchanged): depth < 0.05 = below observability, reported separately; empty graded/deep-graded cells = REAL coverage gaps, never backfilled with fallback lines.\n\nPARKED (gated, reversible -- RYA-1105):\n- CONSISTENT = the EVALUATED provenance tier (NIST-C+/evaluated gf, distinct from primary-lab). A FUTURE product when processing time + a faster machine allow. Gated-not-deleted. Do NOT merge evaluated gf into Codex/Deep Grade -- provenance stays unblurred.\n\nDRIFT RESOLUTION: code selects LAB-only; RYA-946 policy text said 'LAB or NIST-C+'. Pin the CODE as truth; the policy text is the error -> fix it to primary-LAB-only. Do not loosen the headline tier to swallow NIST-evaluated gf.\n\nFOLLOW-ON (separate, do not block CNO): one alignment pass so code, policy text, register (RYA-1101), and the tier/line_set CSVs all state this ONE definition (single source of truth). OPEN to verify in that pass: the exact 'NIST-C+' threshold -- if it means 'C or better' it conflicts with the method doc's A+/A/B-only rule (a second drift to clean). CNO graded/deep-graded pools now unblocked against these definitions.",
+            "attachments": [],
+            "createdAt": "2026-08-30T13:48:15.466Z",
+            "updatedAt": "2026-08-30T13:48:15.399Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "19d24f78-a309-46e6-9c88-0ccc9e36810f",
+            "body": "## Missing-band intake opened\n\nCreated **RYA-1131** and started it immediately for the missing CNO FUV/NUV/IR and molecular Solar reference assets.\n\nIt owns AGSS21/source-line tracing, acquisition, verified transcription, all-band coverage, and the physical-transition join to Codex for C I/C II, N I/N II, O I/[O I]/O II plus CH, C2, CN, NH, OH, CO and relevant isotopologues/blend components.\n\nRYA-1130 remains the schema owner. RYA-1131 source acquisition/audit is active now; only final molecular canonicalization waits for RYA-1130.",
+            "attachments": [],
+            "createdAt": "2026-08-30T05:49:28.222Z",
+            "updatedAt": "2026-08-30T05:49:28.193Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "93a576b6-74e0-4f6a-a809-8097067c7d07",
+            "body": "## Wave 1 CNO intake checkpoint\n\nPR: https://github.com/damienabraxas/exoplanetcodex/pull/477\nBranch: `ryandamienschmitt/rya-1129-phase-a-intake`\nCommit: `15a6d90`\n\n### Live registry result\n\n- authoritative `data/config/elements_master.json`: 27 target rows, **26 unique atomic symbols**\n- Zn is absent from that registry despite RYA-757-era artifacts calling it the 28th canonical element\n- the new ledger follows the registry and records the contradiction; it does not invent a Zn row\n\n### C/N/O atomic findings\n\n| element | atomic rows | primary-lab tagged | evaluated/NIST | fallback | explicit source DOI | verdict |\n|---|---:|---:|---:|---:|---:|---|\n| C | 1,788 | 0 | 1 | 1,392 | 0 | CROSSMATCH_REVIEW |\n| N | 474 | 0 | 0 | 14 | 0 | CROSSMATCH_REVIEW |\n| O | 559 | 0 | 4 | 158 | 0 | CROSSMATCH_REVIEW |\n\nGenerated:\n- `data/audit/rya1129_atomic_intake/{C,N,O}_atomic_manifest.csv`\n- `data/audit/rya1129_atomic_intake/intake_status_ledger.csv`\n- `data/audit/rya1129_atomic_intake/manifest_metadata.json`\n- `docs/science/rya1129_cno_atomic_intake.md`\n- reproducible builder + tests\n\nNo gf was changed and no abundance was generated or tuned.\n\n### Mandatory schema stop\n\nMolecular rows cannot meet the ticket's provenance contract in the current atomic schema: CH 2,265; C2 2,654; CN 2,766; NH 114; OH 1; CO 0. Existing molecular rows are effectively VALD3-labelled without row-level DOI/release/isotopologue/transition/partition-function/dissociation-energy provenance. Created **RYA-1130** for the typed molecular provenance schema and linked it as blocking RYA-1129.\n\n### Verification\n\n- builder reproduced all artifacts\n- targeted tests: **8 passed**\n- `git diff --check`: clean\n- broader stewardship collection is blocked on this host's Python 3.9 by pre-existing PEP 604 syntax (`str | None`), not by this change\n\n### Resume point\n\nLand/review PR 477, reconcile the registry/Zn contradiction, then resolve exact row-level sources for the pipeline C I/N I/O I indicators while RYA-1130 establishes the molecular representation. C/N/O are **not** `FROZEN_READY_FOR_MEASUREMENT`.",
+            "attachments": [],
+            "createdAt": "2026-08-30T05:21:53.717Z",
+            "updatedAt": "2026-08-30T05:21:53.419Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "adb31d3b-f271-4caa-90c6-03526b98c3d2",
+            "body": "INTAKE STAGING + TIERED-RIGOR (Ryan, 2026-08-29). Two additions to this umbrella.\n\n## A. TIERED-RIGOR SWEEP POLICY\nThe sweep runs each element at its HIGHEST VALIDATED RUNG, not Fe-depth on every element (1123 Rule 5). Fe got the full ladder because it is the anchor + proving ground; that work is DONE and the recipe (uncertainty stack RYA-282, line tiers, model ladder, firewalls) is now reusable infrastructure. Per element: run the fidelity its available grids + line data support (e.g. 1D-NLTE Bergemann if that is the ceiling; do NOT build a bespoke <3D> deck an element will never need), report that rung honestly with its real uncertainty, mark missing higher rungs visibly (never zero-fill). Depth matched to what exists, not forced uniform. THIS is the speed unlock: the other elements are recipe APPLICATION, not re-derivation. NOT a rigor cut -- you report the tier you actually have, never fake a higher one (RYA-161).\n\n## B. INTAKE RUNS AHEAD OF THE SWEEP (ungated)\nThis umbrella's gate (\"children open after the Fe template validates\") governs the SWEEP children (ingest lab-gf, run matrix, error plot). It does NOT block INTAKE. Line-list prep (VALD extraction -> verification -> build -> data audit) is MECHANICAL, recipe-fixed, and needed REGARDLESS of how the sweep lands -- so it stages + runs NOW, in parallel, for every element. When an element's sweep opens, its lines are already in hand. This is the cheap-token, ChatGPT-executable layer.\n\n## C. PER-ELEMENT INTAKE TEMPLATE (clone per element)\nFixed recipe (skills carry it: codex-vald-extraction, codex-data-audit), element params plugged in:\n1. VALD extraction -- Extract Stellar form recipe, HFS-splitting ON (mandatory), 100k truncation trap, per-element naming, solar params; element-specific diagnostic wavelength ranges (UV/VIS/IR).\n2. Intake verification -- truncation / coverage / HFS / ACCEPT-REJECT gate.\n3. Line-list build -- assemble + crossmatch to canonical_gf, lambda+EP dual key (RYA-1037).\n4. Data audit -- codex-data-audit on the holdings covering the element's bands (product type, BERV, telluric, SNR, units, FITS).\nFirewall: NO fabricated citations -- every source verified vs ADS/VizieR (the RYA-945 discipline).\n\n## D. ROSTER (25 beyond Fe, RYA-946 priority order; HFS = HFS-on especially critical)\n- CNO flagship: C, N, O (molecular bands relevant CH/CN/OH/CO; NLTE-sensitive).\n- CHNOPS + alphas: Mg, Si, Ca, S, Ti.\n- Fe-peak: Cr, Mn(HFS), Co(HFS), Ni, V(HFS), Sc(HFS), Cu(HFS).\n- n-capture + light odd-Z: Ba(HFS/iso), Sr, Y, Zr, Eu(HFS/iso), Na(HFS), Al(HFS), K(HFS), P, Li.\n(Zn pending RYA-757, 27->28.)\n\n## E. INSTANTIATION\nThe per-element intake tickets are MECHANICAL CLONES of template C. Instantiate via ChatGPT / batch (Ryan: save Claude tokens) -- one intake ticket per roster element, linked to this umbrella, sweep child kept gated. Claude provides the template + roster (this comment); the cloning + execution is the cheap-token layer.",
+            "attachments": [],
+            "createdAt": "2026-08-30T04:59:58.587Z",
+            "updatedAt": "2026-08-30T04:59:58.510Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "1c6d68d8-94f0-41f7-a5d5-2729d6bbfc4e",
+            "body": "STANDING CONVENTION -- gf treatment is MANDATORY for every canonical element (Ryan, 2026-08-23). This umbrella (RYA-946) is its authoritative home; RYA-179 carries the cross-copy; element sweeps (RYA-709) and per-element umbrellas reference it, not restate it (RYA-270).\n\nTHE CONVENTION: every element runs the full gf pipeline Fe established, in order:\n1. LAB-GF CENSUS -- find EVERY line with lab-grade gf available (the rya824-style sub-pool selection). Fe found 99 unused lab-gf lines this way; do not assume the swapped set is the complete available set.\n2. LAB-GF SWAP -- swap to lab values with per-line sigma + citation (the Burheim/DH14/RU14/BEL17 pattern).\n3. GRADED SUB-POOL -- build the graded anchor (the Fe 163-line analogue).\n4. ZERO-POINT CAP -- compute the RYA-987/968 cap. This is the OFFSET DETECTOR: it is the step that reveals a gf zero-point systematic. An element without a computed cap has an UNDETECTED gf offset (this is exactly the suspected Al defect, RYA-1023).\n5. PER-BAND COVERAGE -- run the treatment across ALL bands the element is measured in, not just the headline band (Fe's red-optical/NIR were the miss; check every element for the same).\n\nBEST-EFFORT ON COVERAGE, HONEST ON THE WALL (Ryan's framing -- \"fine if we can't find all the graded lines in the world, but we better try our damn best\"):\n- The gf treatment is a MANDATORY STEP, not optional. Every element gets it.\n- Coverage is BEST-EFFORT: grade every line that HAS lab gf.\n- Where lab gf genuinely does NOT exist for a line/band, that is a DOCUMENTED WALL, never a silent skip -- record it explicitly (like Fe's >11013 A NIR: ungraded by absence of laboratory measurement, honestly recorded). \"Better lab gf is the only lever\" is a legitimate, publishable end-state for a line -- but only once we have PROVEN the lab gf does not exist, not assumed it.\n- DELIVERABLE per element: \"graded what has lab gf + documented what does not,\" NOT \"everything graded.\" An element is NOT DONE until its gf treatment is run and its ungraded remainder is explicitly recorded.\n\nANTI-TUNING FIREWALL (RYA-161, absolute): grade to get the gf RIGHT, never to hit a literature value. If correct gf happens to move an element toward Asplund/Lodders, good; but the target is the correct gf scale, never the reference band. Uniform-vs-subset per-line check (RYA-1021) distinguishes a zero-point offset from a per-line gf error.\n\nTEMPLATE: RYA-1023 (the Al gf-treatment audit) is the worked checklist -- every element's gf treatment gets audited against those five steps. Fe (RYA-961/968/987/824) is the reference implementation.\n\nRelated: RYA-946 (this umbrella), RYA-179 (convention cross-copy), RYA-709 (26-element sweep -- references this), RYA-968/987/824/961 (the Fe reference implementation), RYA-1023 (the Al audit template), RYA-161 (anti-tuning), RYA-1021 (uniform-vs-subset), RYA-752 (the N/S/Si gf-offset umbrella -- a symptom this convention systematically addresses).",
+            "attachments": [],
+            "createdAt": "2026-08-23T21:56:29.259Z",
+            "updatedAt": "2026-08-23T21:56:29.098Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "a11a7737-42f7-45bf-a195-1edeed1b89c8",
+            "body": "## Umbrella assessment — gate status, sweep size, and the RYA-752 / RYA-697 reconcile (2026-08-22)\n\nRead-only assessment against `main` @ `94c380e` (RYA-945 merged). Nothing committed.\n\n### 1. Gate status: NOT met — and RYA-951 will not satisfy it\n\nThe gate is *\"Fe lands in the literature band on the Den Hartog 2014 flux reproduction (**7.45 on the Kurucz flux atlas**).\"*\n\nRYA-951 runs the graded pool on **telluric-corrected HARPS** — a different atlas, so it answers a different question. The gate needs its own graded Fe I run on the Kurucz flux holding. Decision needed: widen 951 to both atlases, or file a separate gate run.\n\n### 2. Sweep size: lab gf exists for **Fe only**\n\nMeasured on `canonical_gf` (167,739 rows):\n\n| | rows |\n| -- | --: |\n| carrying a `lab_source_tag` | **2,157** |\n| — Fe I | 1,576 |\n| — Fe II | 581 |\n| — **every other species** | **0** |\n\nTags: NIST-C+ 1710, DH14 199, RU14 129, BEL17 73, DH19 22.\n\nEverything else in the table — Cr I 10,740 · Ti I 8,124 · Ca I 6,679 · V I 6,188 · Mn I 5,285 · Co I 4,372 · Ni I 2,717 · S I 1,950 — is seeded from `synth(GES)`, `linelist(VALD3)` or `NIST` with **no lab pedigree at all**. The umbrella's scope estimate is accurate: 1 species done, ~26 elements to go.\n\n### 3. 🔴 Fe II is not gradeable — filed as RYA-953\n\nRYA-945 ingested 581 Fe II lab-tagged rows, but no Fe II product can be graded, so every Fe II cell still charges the ungraded 0.17.\n\nThe trap: `LAB_GRADED_SPECIES = frozenset({(\"Fe\",\"I\")})` **is correct today.** `gf_grades.LAB_CSV` is `fe1_lab_loggf.csv` — 465 rows, **Fe I only**. Flipping the constant would referee Fe II against Fe I lab rows on wavelength and EP alone — the exact \"manufacture a graded pool out of a coincidence\" failure its own docstring names. The table must exist first.\n\nAlso, of those 581 Fe II rows: **559 are NIST-C+** (an accuracy *grade*, not a measurement) and only **22 are DH19** (genuine primary lab). Median σ 0.0719 dex.\n\nRYA-953 carries the verified FERRUM-project source map (all DOIs Crossref-resolved), including which FERRUM papers to **exclude** — Hartman 2003 and Gurell 2009 are *forbidden* [Fe II] lines, nebular diagnostics that a wavelength/EP crossmatch would happily accept into a photospheric pool.\n\n**This generalises:** step 3 of RYA-953 is to make `gf_grades` species-keyed rather than Fe I hardcoded. Every child of this umbrella needs that, so it should land once, on Fe II, as part of the template — not 26 times.\n\n### 4. ⚠️ The bar will not land where the children expect\n\n`gf_rung.decide()` computes the cited term as the **RMS** of per-line sigmas, not the median. On the post-945 table:\n\n| band | n lab lines | median σ | **RMS σ** | coverage |\n| -- | --: | --: | --: | --: |\n| near-UV | 89 | 0.0300 | 0.0527 | 100% |\n| VIS | 225 | 0.0300 | **0.0503** | 100% |\n| red-optical | 65 | 0.0300 | 0.0503 | 100% |\n| IR | 42 | 0.0400 | 0.0597 | 100% |\n\nThe distribution is skewed, so a child expecting \"0.03\" from the median will see **~0.05**. That is still 3.3× better than the ungraded 0.17, but it sits **above** the 0.041 generic bound — rung 3 *widens* relative to the bound, exactly as `gf_rung`'s docstring warns (\"Rung 3 is not 'the smaller number' — it is the MEASURED one, and it moves either way\"). Worth stating in the child template so nobody reads a correct result as a regression.\n\n### 5. Reconcile verdict: fold both in, **close neither**\n\n**RYA-697 → re-scope as required triage step 0 of each child.** Not a duplicate — a precondition. Its whole finding is that \"gf\" was the *recorded* blocker for elements whose real blocker was something else: Al was saturation, Y was saturation + ion-label, and **P I's 6.610 is a railed fit** (`status='edge_pinned'`, bound = Asplund + 1.2 = 6.61 exactly). Ti was the one that genuinely was gf.\n\nThis collides directly with the showcase convention ratified above. SHOWCASE = the graded pool is *always* the reported value, with its tight cited-σ bar. Ingest good lab gf for P I without first clearing the rail, and the showcase tier publishes a **railed number wearing a ~0.05 dex bar** — strictly worse than today, where P is honestly flagged owed. Good gf lends false authority to a number whose problem was never gf. Same trap for whichever of S/N/Cu turns out to be saturation.\n\n**RYA-752 → half superseded, keep the diagnostic half.** Its *remedy* (get better gf on N/S/Si) is this umbrella's step 1 and can retire. Its *diagnostic* must survive: the line-by-line delta against the anchor paper's own values on the overlap set is what tells you **why** a value did not move. This umbrella produces a point on a plot, not an explanation. So keep 752 as the **escalation path when a child fails to land in the band**, and fold 749/753/754 under the corresponding element children rather than running both.\n\nOne caveat on 752's premise, for when it runs: it attributes the +0.36–0.42 cluster to \"non-Amarsi gf lineage,\" but the split it observes (C/O small, N/S/Si large) also tracks **which elements have Amarsi's NLTE grid wired**. Those two are confounded in its table, and only the line-by-line overlap separates them.\n\n### 6. Suggested child template additions\n\n1. **Step 0 — RYA-697 triage** (saturation / ion-label / railed / genuine gf) before any line list is touched.\n2. **Exclude forbidden lines explicitly** when the element has a forbidden-line lab literature (Fe II, and this will recur for the Fe-peak and n-capture children).\n3. **Report the RMS, and say so** — do not quote the median cited σ as the expected bar.\n4. **Escalate to RYA-752's line-by-line diagnostic** if the value misses the band.",
+            "attachments": [],
+            "createdAt": "2026-08-22T00:49:35.697Z",
+            "updatedAt": "2026-08-22T00:49:35.461Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "498f6b34-b520-4bfe-9282-94a8a044e685",
+            "body": "RATIFIED CONVENTION (amendment) -- showcase-graded / document-ungraded, per region, uniform across ALL elements\n\nRatified 2026-08-22. Extends the presentation convention (2026-06-18) and this umbrella's \"all products shown; gold is the per-band physics/quality winner\" principle onto the gf-quality axis. Applies to every element, same format.\n\nTHE FORMAT (two quality tiers, per region UV/VIS/IR):\n- SHOWCASE = the graded pool (lab / NIST C+ gf). ALWAYS the reported/headline value, with its cited-sigma bar.\n- DOCUMENT = the ungraded pool (Kurucz semi-empirical). Shown as a diagnostic with its honest wide bar (0.17-0.30 dex). Present, never hidden.\n\nFIREWALL (non-negotiable, RYA-161 class):\n- The reported value is ALWAYS the graded pool. Ungraded is documented, NEVER showcased, NEVER averaged into the headline, NEVER allowed to move the reported number.\n- Graded and ungraded are distinct QUALITY TIERS, treated exactly like disagreeing regions (presentation spec 2026-06-18): both shown, never merged. Blending ungraded into a thin graded pool to buy statistics IS the provenance-trust failure -- forbidden.\n\nTHIN / EMPTY graded pool (handled IN-format, not special-cased):\n- Thin graded (e.g. Al may be 3-5 lines): still showcase graded, honestly, with small N and its real bar. Ungraded documentation then shows whether the few graded lines are corroborated.\n- Zero graded for a line/region: showcase slot reads \"not established\"; ungraded is documented as best-available-but-unqualified. Never silently promoted to fill the gap.\n\nCOST + PAYOFF:\n- Nearly free: this is retention + presentation, not extra inversions. Keep the ungraded per-line abundances instead of discarding them post-selection.\n- Emergent: because the format is identical for every element, the graded-vs-ungraded SPREAD becomes a per-element gf-limitation index. Fe = tiny spread (gf-rich); Al = large spread (gf-starved). Read across all 28 elements, that pattern is a free prioritization map for which elements this sweep should attack first.\n\nFIRST STRESS TEST = Al. Al is funky on TWO axes at once -- thin graded gf (this axis) AND the NLTE-split near-UV resonance doublet vs the high-excitation workhorses (the engine-matrix axis). The format must document both axes without conflating them: a wide Al spread could be gf OR NLTE, and only showing both axes lets a reader tell which. Al validates the format's edge cases; Fe validates the common case.\n\nPROPAGATION: fold into the presentation spec; flag RYA-179 for the Glossary / Method / Science Architecture doc sync. Every child of this umbrella inherits this format.",
+            "attachments": [],
+            "createdAt": "2026-08-22T00:34:39.741Z",
+            "updatedAt": "2026-08-22T00:34:39.354Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          }
+        ],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1169",
+        "uuid": "ba14af3e-7806-4c30-a118-5a0cc43999a9",
+        "title": "Si: build gf-graded line sets + AGSS21 reference census (Asplund / Codex / Deep)",
+        "description": "## Goal\n\nProcess **silicon (Si)** using the ratified all-element recipe in <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" />, producing defensible, provenance-complete Si line sets for the three active categories:\n\n* **ASPLUND GRADE (**`asplund`**)** — external Solar reference line set used in the AGSS21 abundance lineage; orthogonal validation anchor.\n* **CODEX GRADE (**`graded`**)** — **primary-laboratory gf only**, Solar feature depth `<= 0.60`; unsaturated/EW-valid workhorse set.\n* **DEEP GRADE (**`deepgraded`**)** — **primary-laboratory gf only**, Solar feature depth `> 0.60`; same gf-quality standard, but routed to synthesis because of saturation.\n\nDo **not** promote NIST evaluated values into Codex/Deep Grade. NIST is evidence/cross-check/future evaluated-tier material unless the project policy is explicitly changed. Do not tune gf values to reproduce AGSS21 or any other abundance.\n\nThis is a **child of** <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" /> and inherits its scientific method, provenance rules, all-band census, anti-tuning firewall, and freeze gate.\n\n## Scope\n\nCover the Si species/indicators relevant to the Solar/FGK abundance analysis, at minimum **Si I and Si II**, and search every wavelength region actually used by the reference analyses (FUV/NUV/VIS/red optical/NIR/IR as applicable). Preserve forbidden, blended, rejected, saturated, unavailable, and otherwise excluded transitions as explicit statuses rather than silently dropping them.\n\n### 0. Read the recipe before touching data\n\nRead <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" /> **in full, including all comments/results**, and use Fe as the reference implementation. Reconcile this work with <issue id=\"4096f5f6-0ee8-4046-b45a-a79601ac6f1e\" label=\"RYA-752\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-752/umbrella-systematic-gf-scale-audit-codex-kitt-peak-chain-nssi-036-042\" /> (existing N/S/Si gf-scale diagnostic) rather than duplicating or losing its diagnostic findings.\n\n### 1. Reconstruct the Asplund/AGSS21 Si reference line set\n\nTrace the adopted Solar Si abundance in **Asplund, Amarsi & Grevesse 2021 (AGSS21)** to the actual element-specific source paper(s), table(s), supplements, catalogues, and line-level atomic data.\n\nFor every published-used or explicitly rejected Si transition, capture at minimum:\n\n`reference_line_set | adopted_solar_value_lineage | source_paper/table/catalog | species | wavelength + medium | EP/transition identity | published loggf | published gf source | EW/profile/weight/exclusion | source band | notes`\n\nRules:\n\n* Do not infer “Asplund-used” from a generic Si candidate list.\n* If AGSS21 points to an earlier analysis, follow the citation chain to the primary line table.\n* Verify exact bibliographic metadata/DOI and catalogue identifiers against authoritative literature services before recording them.\n* If the primary line list is genuinely unavailable after checking paper, supplement, catalogue, and cited source, record `SOURCE_LINE_LIST_NOT_PUBLISHED` with the search trail.\n\nOutput this population as **ASPLUND GRADE**, keeping its published/reference gf distinct from the Codex adopted gf where they differ.\n\n### 2. Primary-laboratory gf census — exhaustive best effort\n\nFind **every usable Si transition with primary experimental laboratory oscillator-strength / transition-probability data** relevant to the Codex wavelength holdings, not merely the lines already in VALD or already used by AGSS21.\n\nSearch the primary literature and laboratory datasets for Si I and Si II. Establish, per source:\n\n* exact paper / authors / year / DOI;\n* laboratory method and whether the reported gf is genuinely experimental;\n* wavelength/species/transition coverage;\n* uncertainty per transition or the most defensible source-level uncertainty when line-level values are unavailable;\n* known limitations, blends, branching-fraction/lifetime issues, or superseding measurements.\n\n**No fabricated citations.** Every claimed primary-lab source must be verified before ingest.\n\n### 3. Cross-check against existing atomic holdings\n\nCrossmatch the laboratory census and AGSS21 line set against:\n\n* Codex `canonical_gf` / current line assets;\n* existing **VALD3** extraction(s);\n* **NIST ASD** values/grades if already present locally; retrieve NIST if the required Si evidence is not on file.\n\nCrossmatch through the canonical physical-transition matcher: species/ion + wavelength/frame + EP/levels/component identity — **never wavelength alone**.\n\nFor each matched transition retain both the authoritative primary-lab value and comparison values from NIST/VALD, with source provenance. Do not overwrite disagreement without adjudication.\n\n### 4. Grade the primary-lab pool by Solar feature depth\n\nUsing the <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" /> ratified definitions, measure Solar feature depth consistently from the approved Solar spectrum and classify primary-lab lines:\n\n* depth `< 0.05`: below observability floor; report separately, not active graded pool;\n* depth `0.05–0.60`: **CODEX GRADE (**`graded`**)**;\n* depth `> 0.60`: **DEEP GRADE (**`deepgraded`**)**, synthesis route.\n\nDepth is the route axis, **not** a gf-quality ranking. Codex and Deep Grade require the same primary-laboratory provenance.\n\nDocument blends/contamination and any line for which depth classification is ambiguous.\n\n### 5. Required per-line joined product\n\nProduce a machine-readable Si table with at least:\n\n`canonical_line_id | species | wavelength | medium/frame | EP | transition/levels | canonical_loggf | gf_tier | primary_lab_source | DOI | lab_sigma | NIST_loggf | NIST_grade | VALD_loggf/source | AGSS21/reference_used | reference_loggf | delta_reference_vs_codex | solar_feature_depth | depth_status | grade={asplund,graded,deepgraded,below_floor,ungraded} | band | blend/exclusion/status | join_status | ambiguity_note`\n\nKeep the Asplund reference membership orthogonal: a line may be both an external reference transition and independently qualify for a Codex/Deep primary-lab pool, but the two provenance roles must remain distinguishable in the data model.\n\n### 6. Coverage + gap accounting\n\nProduce per-band counts/matrices for:\n\n* AGSS21/source-used;\n* AGSS21/source-explicitly-rejected;\n* Codex matched;\n* primary-lab gf available;\n* Codex Grade;\n* Deep Grade;\n* below observability floor;\n* evaluated/NIST-only;\n* fallback/ungraded;\n* missing from Codex;\n* ambiguous crossmatches.\n\nEmpty graded cells are **real coverage gaps**. Never backfill them with evaluated/fallback lines merely to make the grid look complete.\n\n### 7. Si gf-scale diagnostic / <issue id=\"4096f5f6-0ee8-4046-b45a-a79601ac6f1e\" label=\"RYA-752\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-752/umbrella-systematic-gf-scale-audit-codex-kitt-peak-chain-nssi-036-042\" /> reconciliation\n\nBecause Si is already implicated in <issue id=\"4096f5f6-0ee8-4046-b45a-a79601ac6f1e\" label=\"RYA-752\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-752/umbrella-systematic-gf-scale-audit-codex-kitt-peak-chain-nssi-036-042\" />, preserve and execute the useful diagnostic portion of that work:\n\n* compare line-by-line `delta_loggf` on the overlap between the external reference analysis and Codex;\n* test whether any abundance discrepancy is consistent with a uniform gf zero-point shift versus line-specific errors/subset selection/model physics;\n* compute the applicable <issue id=\"3c0918f0-e567-429c-b87d-46ca2e606a15\" label=\"RYA-987\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-987/compute-rya-968-zero-point-cap-on-the-163-line-graded-anchor-up-from-7\" />/968-style zero-point cap for the Si primary-lab pool;\n* do not attribute an abundance offset to gf until this separation is demonstrated.\n\n### 8. Measurement-readiness gate\n\nDo **not** mark Si `FROZEN_READY_FOR_MEASUREMENT` until:\n\n1. AGSS21/reference Solar line census is complete or a documented source-publication exception is approved;\n2. primary-lab gf census is best-effort exhaustive and sources are verified;\n3. physical-transition crossmatches are adjudicated;\n4. Codex/Deep depth grading is complete;\n5. all-band gaps/ungraded remainder are explicitly documented;\n6. zero-point diagnostic/cap is computed;\n7. no unresolved provenance ambiguity could silently change the adopted gf scale.\n\n## Deliverables\n\n1. Machine-readable **Si AGSS21/reference line set** including used and rejected rows.\n2. Machine-readable **Si primary-lab gf census** with uncertainties and citations.\n3. Joined Si line product with **Asplund / Codex / Deep** classifications.\n4. Per-band coverage/gap matrix.\n5. Source-lineage note explaining how the reference lines lead to the adopted Solar Si abundance.\n6. Si gf-scale / zero-point diagnostic tied back to <issue id=\"4096f5f6-0ee8-4046-b45a-a79601ac6f1e\" label=\"RYA-752\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-752/umbrella-systematic-gf-scale-audit-codex-kitt-peak-chain-nssi-036-042\" />.\n7. Short science note listing unresolved walls, ambiguity, saturation/blend issues, and recommended next actions.\n8. Reproducible scripts/tests used to build and validate every artifact.\n\n## Scientific firewalls\n\n* **Primary-lab gf only** for Codex Grade and Deep Grade.\n* **ASPLUND GRADE is a reference membership, not a gf-quality tier.**\n* Never tune gf, line selection, continuum, or model settings to force agreement with AGSS21/literature (<issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" />).\n* NIST/VALD disagreements are evidence to adjudicate, not permission to choose whichever value gives the preferred abundance.\n* Every scientific value gets one authoritative provenance path.\n* Preserve negative results and documented walls.\n* IR lines cannot support an IR abundance product unless telluric correction has been verified.\n\n## Relationship\n\nParent/recipe: <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" /> — all-element laboratory-gf sweep + literature validation.\n\nReference implementation: Fe workflow cited by <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" />.\n\nDiagnostic predecessor to reconcile: <issue id=\"4096f5f6-0ee8-4046-b45a-a79601ac6f1e\" label=\"RYA-752\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-752/umbrella-systematic-gf-scale-audit-codex-kitt-peak-chain-nssi-036-042\" /> — N/S/Si gf-scale audit.\n\nAnti-tuning: <issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" />.",
+        "priority": {
+          "value": 2,
+          "name": "High"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1169/si-build-gf-graded-line-sets-agss21-reference-census-asplund-codex",
+        "gitBranchName": "ryandamienschmitt/rya-1169-si-build-gf-graded-line-sets",
+        "createdAt": "2026-09-02T00:24:23.710Z",
+        "updatedAt": "2026-11-08T12:12:23.257Z",
+        "archivedAt": null,
+        "completedAt": "2026-09-03T06:20:04.368Z",
+        "startedAt": "2026-09-02T01:10:49.610Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Done",
+        "statusType": "completed",
+        "labels": [],
+        "attachments": [
+          {
+            "id": "e5887ae5-e65c-474f-991f-0a80997717c5",
+            "title": "RYA-1169: Si Asplund census, grading, and corrected-atlas run",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/495"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-09-02T00:24:23.710Z",
+            "endedAt": "2026-09-02T01:10:49.655Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-09-02T01:10:49.655Z",
+            "endedAt": "2026-09-03T06:20:04.382Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-09-03T06:20:04.382Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "assignee": "Ryan Schmitt",
+        "assigneeId": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "parentId": "RYA-946",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [
+          {
+            "id": "a51c0a9b-e80f-45e0-9b04-588c330c57c1",
+            "body": "PR [#495](https://github.com/damienabraxas/exoplanetcodex/pull/495) is merged (`5f095a3fe0dbb1f0743672c2fd077956a4a18279`).\n\nCI diagnosis and resolution:\n- The scientific suite was already clean: 3,591 passed, 25 skipped, 7 expected failures.\n- The sole failure was the RYA-686 result-generator guard: all eight RYA-1169 result artifacts were missing from `data/results/GENERATORS.yaml`.\n- Fix `fcf6d8b` registers the five active grading/EW outputs against their committed generators.\n- The superseded raw-1984 EW artifacts are explicitly frozen as `UNREPRODUCIBLE`, and `QUARANTINED.md` as `HAND_AUTHORED`; they remain an audit trail and cannot be presented as current/reproducible output.\n- The active runner remains restricted to the telluric-corrected 1984 spectrum and corrected Kurucz 2005 spectrum.\n\nVerification:\n- Local focused set: 19 passed.\n- GitHub Actions run [33721612046](https://github.com/damienabraxas/exoplanetcodex/actions/runs/33721612046): passed in 14m31s, including the full suite and RYA-686 guard.",
+            "attachments": [],
+            "createdAt": "2026-09-03T06:20:28.906Z",
+            "updatedAt": "2026-09-03T06:20:28.833Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "7e06953c-dd41-4465-aa83-22089a503c29",
+            "body": "## RYA-1169 implementation checkpoint — PR opened\n\nGitHub: https://github.com/damienabraxas/exoplanetcodex/pull/495  \nBranch: `ryandamienschmitt/rya-1169-si-intake`  \nHead: `ce890d4`\n\n### Source census and joined artifacts\n\n- Reconstructed the adopted Solar Si lineage: AGSS21 7.51 → Amarsi & Asplund (2017) → Scott et al. (2015) line table.\n- Preserved **10 source-used rows** (9 Si I + 1 Si II) and **2 explicitly rejected violet Si I rows**.\n- All 12 reference rows uniquely join to `canonical_gf` on species + wavelength + EP.\n- Ingested **22 primary-laboratory rows** from Den Hartog et al. (2023), including reported uncertainties converted to dex.\n- Of those 22 modern lab rows, 2 currently join to canonical holdings and 20 expose real UV canonical-coverage gaps.\n\n### Asplund grading / all-band result\n\n- All **10 source-used lines pass** the project feature-depth test.\n- All 10 are EW-valid: depth range **0.066–0.388**.\n- None of the active Asplund rows requires the deep-synthesis route.\n- The two explicitly rejected violet lines are independently confirmed deep: **0.969** and **0.881**.\n- Adopted source coverage is **VIS 8 + red-optical 2**.\n- No adopted FUV/NUV/IR rows were found. Scott et al. explicitly says the available near-IR Si I population was discarded because only low-accuracy theoretical gf and large/uncertain NLTE effects were available. Empty cells were not backfilled.\n\n### Corrected Kitt Peak observational run\n\nThe first observational attempt accidentally called the **raw 1984** `lm####` reader. That run is withdrawn and retained only under `_quarantined_raw1984_iag_run/` with a QUARANTINED marker. It is not consumed by the current runner.\n\nValid rerun uses only:\n\n- **Kurucz 2005 residual atlas:** 10/10 source lines served; median EW ours/Scott = **0.91837**.\n- **1984 molecfit-corrected composite:** 9/10 served; median EW ours/Scott = **0.96694**.\n\nThe 1984 corrected product cannot serve Si I 7226.21 Å from the current repository assets. RYA-940 explicitly records that its 7160–7340 Å H2O fit failed (zero-width LSF for all starts), and no corrected file was emitted. The runner refuses to fall back to raw flux. Kurucz 2005 serves 7226.21 Å normally.\n\n### Verification and gate\n\n- **8 targeted tests passed**\n- `git diff --check` clean\n- Generated machine-readable reference, lab, joined, coverage, line-test, and per-holding EW artifacts are included in PR #495.\n- **Not FROZEN_READY_FOR_MEASUREMENT** yet: historical lab census beyond the verified modern source, row-level NIST adjudication, Solar-depth grading of the broader lab pool, zero-point cap, and published-gf abundance inversion remain open.\n\nLiterature:\n- https://doi.org/10.1093/mnras/stw2445\n- https://doi.org/10.1051/0004-6361/201424109\n- https://doi.org/10.3847/1538-4365/acb642",
+            "attachments": [],
+            "createdAt": "2026-09-02T01:11:20.359Z",
+            "updatedAt": "2026-09-02T01:11:20.318Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          }
+        ],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-709",
+        "uuid": "be8bf507-78b1-4ec2-a238-f33af47d19cf",
+        "title": "UMBRELLA: the 26-element sweep — every element gets the protocol, 10,852 reachable lines unmeasured",
+        "description": "Ryan, 2026-08-09: *\"we create 27 tickets, for each element, and we go through each one, and verify, rerun, give it the Al treatment. If it fails, why, and document.\"*\n\n## First — \"the Al treatment\" needed defining, because Al is not done\n\nAluminium was worked hard for a full session and reached **4 of its 26 reachable lines — 15%** — with **nothing promoted to the pool**. Stamping that phrase on twenty-six elements would have industrialised a 15% pass and called it a sweep.\n\n`docs/ELEMENT_PROTOCOL.md` (RYA-711) now defines it. **DONE = every reachable usable line has an OUTCOME**, not a value. A line that cannot be measured is done when its reason is recorded and checkable. `scripts/line_accounting_rya709.py` is the scoreboard: an element is done when `unmeasured_reachable` reaches zero.\n\n**Al is IN PROGRESS**, not done — rung 2 blocked (no IR NLTE grid), rung 3 never run, IR cross-check not done, 22 reachable lines untouched.\n\n## The eight gates\n\n**ACCOUNT** → **COVER** → **MEASURE** → **GRADE** → **REACH** → **LADDER** → **CROSS-CHECK** → **REPORT**\n\nFull text in the protocol. The ones that bite: measure on *every* covering instrument; window half-width from the **line separation**, not the FWHM; unresolved NIST components are **summed**; ungraded gf **holds** the promotion; the ladder is **executed, not narrated**; report per **(instrument × band)**.\n\n## Three outcomes, and a fourth that is a defect\n\n**RESOLVED** · **BOUNDED** · **UNRESOLVED**. The fourth — *unresolved where a rung was never attempted* — is a finding against the pipeline, not against the star.\n\n## The work\n\n**10,852 unmeasured-reachable lines across 26 elements.**\n\n| tranche | elements | unmeasured |\n| -- | -- | -- |\n| **LARGE** — needs batching | Fe 4000 · Cr 1584 · Ti 1119 · Ni 819 · Co 805 · V 653 · Mn 560 | 9,540 |\n| **medium** | Si 352 · Zr 280 · Ca 199 · Mg 124 | 955 |\n| **small** — single session | Sc 81 · Y 64 · C 45 · Cu 38 · Na 32 · S 30 · **Al 26** · K 10 · Eu 10 · Sr 9 · Ba 6 · O 5 · P 1 | 357 |\n| **acquisition only** | **Li 0 reachable** · **N 0 reachable** | — |\n\n**Gold elements are not exempt.** Fe is frozen at gold on **223 of 4223** reachable lines and is the anchor for the entire scale. Mn 560 unmeasured, Sc 81, C 45, K 10, O 5.\n\n## Sequencing\n\n1. **Small tranche first** — thirteen elements, \\~357 lines, and it validates the protocol at low cost before committing to Fe.\n2. **Li and N** need no measurement work at all — file the acquisition requirement and close.\n3. **Medium**, then **LARGE**.\n4. **Fe last and deliberately.** It is the anchor; re-measuring it moves every differential abundance in the Codex. That is a decision, not a task.\n\n## Do NOT\n\n* Do NOT read `measured = 0` as \"never measured\". It counts the **EW pool only** — K, Sc, Co and N are synthesis-measured and have zero pool lines by design.\n* Do NOT promote anything into `sol_ew_results_v1.csv` without the reviewed act (`promote_solar_ew.py`). Every row now requires an `instrument` stamp (RYA-710) and it is never defaulted.\n* Do NOT infer an NLTE correction for any line the grid does not cover. Grid-building is future work.\n* Do NOT collapse an element to one number. Per-(instrument × band) is ratified.\n\n## The honest cost\n\nAl's four lines produced **thirteen defects in one adapted harness**, a false NO-DATA claim that reached the state register, a duplicated instrument catalog, and six broken consumers from a CSV header. Budget for that rate rather than being surprised by it.\n\n## 2026-09-13 protocol hardening — mandatory framework for every element from here forward\n\nThe Fe finalization, CNO publication work, and Al restart exposed several recurring failure modes that the original eight-gate protocol did not state strongly enough. From this point forward, **every canonical element must pass the same evidence → line → measurement → correction → validation → publication framework**. Existing child tickets should be interpreted through this strengthened contract; new element tickets must inherit it explicitly.\n\nThe existing `ACCOUNT → COVER → MEASURE → GRADE → REACH → LADDER → CROSS-CHECK → REPORT` structure remains valid, but each gate now carries the following mandatory requirements.\n\n### 0. AUTHORITATIVE-STATE preflight\n\nBefore doing new scientific work:\n\n* read the current Project Register, Target Star List, Canonical Element List, element state/register, current product feed, and active methodology/standards;\n* inspect prior element tickets/results, but treat old abundance values and old classifications as historical until reproduced on the current pipeline;\n* identify pipeline/schema/model/telluric/normalization blockers before manufacturing products;\n* repository + authoritative data assets win over stale ticket prose.\n\n### 1. REFERENCES — complete element literature/provenance dossier\n\nEvery element gets a verified UV/VIS/IR literature audit following the <issue id=\"63bfeeb4-1363-4208-ac3f-83e5f5f52d54\" label=\"RYA-714\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-714/litscan-findings-fe-i-solar-photospheric-uvvisir-audit\" />/719/720/721 family, not merely an AGSS21 citation.\n\nGather and verify, where applicable:\n\n* adopted/reference Solar abundance analyses (AGSS21 plus other relevant independent modern determinations);\n* line/indicator-specific Solar abundance studies;\n* atomic transition-probability/gf authorities and uncertainty sources;\n* HFS/isotope/component sources;\n* NLTE grids/calculations and 3D/mean-3D line-formation sources;\n* molecular indicator and molecular line-list sources where relevant;\n* relevant UV/NIR/IR abundance studies;\n* instrument/data references where scientifically material.\n\nEvery citation used in a public product must resolve through the authoritative bibliography/provenance system. Literature values are validation/comparison anchors, **never tuning targets**.\n\n### 2. LINE CENSUS + PHYSICAL-IDENTITY AUDIT\n\nAudit the complete scientifically relevant line/indicator census across **all bands and all applicable Solar holdings/instruments**, including atomic, forbidden, molecular, isotopologue and blend-component indicators where applicable.\n\nFor every transition preserve physical identity — species/ion, wavelength frame/medium, energy levels/EP, J/component/HFS/isotope semantics — and never promote or crossmatch by wavelength alone.\n\nEvery line must end with an explicit disposition. Coverage gaps, saturation, blends, tellurics, absent model support, and failed fits are documented outcomes, not silent omissions.\n\n### 3. CURRENT GRADING — Reference / Codex / Deep + external lineage\n\nRe-derive line-set membership under the **current** cross-element grading definitions. Do not inherit classifications made before Reference Grade or later grading-policy changes.\n\nKeep separate axes for:\n\n* atomic/molecular data provenance and uncertainty;\n* **Reference Grade** membership;\n* **Codex Grade** membership;\n* **Deep Grade** membership;\n* external/reference-study membership (AGSS21, Scott, element-specific studies, etc.);\n* measurement eligibility on each holding/instrument.\n\nThese axes are not interchangeable. A high-quality reference transition may be unusable on one spectrum without losing its atomic-data grade. Conversely, observability does not make weak atomic data Reference Grade.\n\nReference Grade must follow the current <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" /> cross-element scientific policy and the best available evidence for that species; **do not assume Fe's primary-LAB implementation is universally appropriate**. CNO already demonstrates that critically evaluated theoretical data can be the correct authority.\n\nEvery graded transition requires authoritative provenance and a defensible uncertainty or an explicit unresolved/HOLD state. No blanket uncertainty placeholders where line-specific evidence exists or is required.\n\n### 4. BAND × HOLDING/INSTRUMENT ELIGIBILITY MATRIX\n\nFor every line/indicator, audit every applicable observing path. Record at minimum coverage, route (EW/synthesis), saturation/depth, blends/components, telluric risk and actual correction state, normalization state, observed conditioning, engine/model applicability, and final eligibility/reason.\n\nInstrument differences affect measurement eligibility, **not the intrinsic atomic/molecular grade**.\n\nPermanent rule: **no infrared abundance is reportable unless telluric correction is verified for that exact holding/product.** Unknown telluric state is not equivalent to corrected.\n\n### 5. MEASUREMENT — current pipeline, from scratch when provenance is stale\n\nMeasurements must be generated from current authoritative inputs, not copied from banked legacy values. If pipeline changes affect line identity, conditioning, tellurics, normalization, gf grading, uncertainties, model treatment, or product schema, rerun rather than patching the old abundance.\n\nMaintain a per-line proof ledger carrying line ID, holding/instrument/band, line set/grade, gf source + uncertainty, route, engine/model, measurement/fit result, quality/disposition, conditioning/telluric state, and exclusion reason.\n\nEW and synthesis are distinct scientific routes. Failed/railed/unconstrained fits are not measurements and must not emit plausible-looking abundance/uncertainty values.\n\n### 6. ALL APPLICABLE ENGINES + PHYSICAL CORRECTIONS\n\nFor every scientifically eligible pool × band × holding, execute **every applicable validated engine/model route** rather than choosing the engine that agrees best with literature.\n\nDepending on actual element support this may include 1D-LTE, 1D-NLTE, mean-3D/<3D>, mean-3D-NLTE, and full 3D/3D-NLTE. Label treatments exactly: never call mean-3D full 3D and never claim NLTE/3D where no validated calculation exists.\n\nApply all scientifically required corrections supported by the evidence/model: NLTE, 3D/mean-3D, HFS/isotope/component treatment, blends, molecular equilibrium/coupling, tellurics, continuum/normalization/conditioning, and other element-specific physics. A missing required correction becomes an explicit HOLD/limitation, not an inferred correction.\n\nNo silent engine cells. Every expected engine/model cell must contain a valid product or explicit `N/A / HOLD / FAILED` reason.\n\n**Never average engines merely to manufacture a preferred abundance.** Engine/model products remain independent measurements/diagnostics.\n\n### 7. UNCERTAINTY — full authoritative stack\n\n**Canonical implementation:** <issue id=\"8eb95d16-a86e-4de7-86f4-b17df02b1cab\" label=\"RYA-587\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-587/architecture-27-element-reported-uncertainty-generalization-rya-282-5\" /> is the universal, element-agnostic uncertainty contract. Every current and future element child MUST invoke that recipe; do not restate a reduced local subset and do not create an element-specific replacement. Publication is gated on <issue id=\"8eb95d16-a86e-4de7-86f4-b17df02b1cab\" label=\"RYA-587\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-587/architecture-27-element-reported-uncertainty-generalization-rya-282-5\" />-compatible absolute uncertainty plus, for target-star abundance ratios/differentials, the matched Solar/reference differential covariance treatment.\n\nEvery abundance product must carry the current project uncertainty model and propagate the applicable components explicitly: statistical/fit or line-to-line term, gf/line-data uncertainty, stellar-parameter sensitivities, microturbulence where relevant, model/NLTE/3D terms where defined, continuum/normalization/telluric terms where scientifically required, plus total uncertainty from the authoritative component model.\n\nDo not use zero/sentinel uncertainties for failed fits. Do not reuse obsolete fixed systematic values after the uncertainty framework changes. State assumptions/covariances and avoid double-counting correlated terms.\n\n### 8. CROSS-CHECK / VALIDATE — never tune\n\nCompare independent bands, holdings, instruments, routes, grades, indicators, ionization stages and engines where available. Compare against the verified literature dossier only **after** measurement.\n\nInvestigate offsets direction-first: line/gf scale, physical identity, blends/HFS, saturation, continuum/normalization, tellurics, model treatment, NLTE/3D sign/magnitude, and stellar parameters before astrophysical interpretation.\n\nDo not tune gf, line selection, continuum, correction magnitude, or product highlighting to recover an accepted Solar abundance.\n\n### 9. REPORT + PUBLICATION APPENDIX\n\nEvery element ultimately receives the same generated reporting architecture used for Fe/CNO:\n\n* highlighted scientifically identified products;\n* full error-bar forest with independent products preserved;\n* grade/engine/indicator explanation;\n* concise element context;\n* complete **applicable** references for the products and claims displayed — not Asplund-only;\n* problem-line/failure diagnostics;\n* downloadable per-line/product data;\n* downloadable element PDF generated from the same reporting data;\n* reproducibility metadata (source artifacts, generator/version, git SHA, timestamp, holdings/instruments, model/engine identity).\n\nNo hand-authored scientific values in production pages/PDFs. Every publication-eligible product is visible or has a documented hide reason. Experimental/held products retain their disposition.\n\n### 10. COMPLETENESS GATE — what `DONE` means now\n\nAn element is not scientifically complete merely because an abundance number exists. `DONE` requires:\n\n 1. reference/literature dossier reconciled;\n 2. complete line/indicator census accounted for;\n 3. current Reference/Codex/Deep grading audit complete;\n 4. all applicable bands + holdings/instruments audited;\n 5. all scientifically eligible lines measured or explicitly dispositioned;\n 6. all applicable validated engines/model treatments executed or explicitly N/A/HOLD;\n 7. required corrections verified/applied or the affected product held;\n 8. uncertainty stack complete;\n 9. independent cross-checks/literature validation documented;\n10. authoritative products + per-line proof + generated appendix/PDF/reproducibility block produced.\n\nA blank with documented evidence can be scientifically complete. A numerical abundance produced while a required gate was skipped is **not complete**.\n\n### Standing anti-pitfall rules learned from Fe / Al / CNO\n\n* Do not trust legacy abundance products across material pipeline changes — reproduce them.\n* Do not conflate gf provenance, Reference/Codex/Deep grade, literature membership, and measurement eligibility.\n* Do not assume every element has Fe-like laboratory gf evidence.\n* Do not crossmatch/promote atomic data by wavelength alone.\n* Do not let instrument-level metadata stand in for holding-specific telluric/conditioning state.\n* Do not report IR without verified telluric correction.\n* Do not silently omit an instrument, band, indicator, engine, failed line, or unavailable model.\n* Do not label mean-3D as full 3D or inferred corrections as calculated corrections.\n* Do not tune to AGSS21/Lodders/other accepted values.\n* Do not average engines/indicator families to hide disagreement.\n* Do not publish failed fits, sentinel uncertainties, or stale ticket values as measurements.\n* Do not let website/PDF references collapse to the single comparison paper when additional model/data/indicator sources actually support the result.\n\nThis hardened framework should also be reflected in `docs/ELEMENT_PROTOCOL.md` / the active successor protocol so future element tickets inherit it automatically rather than rediscovering these lessons element by element.\n\n## 2026-09-13 mandatory Reference Documents ↔ bibliography reconciliation gate\n\nEvery element-preparation/reference-gathering ticket must update the project bibliography **during the scientific intake**, not as a publication cleanup step.\n\nFor each element:\n\n1. Inventory the applicable files already present in the project **Reference Documents** folder before searching externally.\n2. Reconcile every scientifically applicable local reference document to one canonical bibliography record.\n3. For every new paper, table, supplement, atomic-data source, model paper, line-list paper, or other scientific source discovered/used during the audit, create or update the canonical bibliography entry as part of the same work.\n4. Deduplicate alternate copies/citations and preserve one authoritative bibliographic identity (DOI/ADS/bibcode or equivalent authoritative identifier where available).\n5. Every scientific citation/provenance key emitted by line lists, gf records, model metadata, abundance products, appendix pages, or PDFs must resolve to the canonical bibliography.\n6. Conversely, applicable local Reference Documents should be traceable to their bibliography record and scientific role/usage where practical.\n7. A valid scientific source does **not** require a locally archived PDF. If no legal/local copy exists, retain canonical citation/identifier/source metadata and record the local-document state rather than omitting the source.\n8. Do not fabricate DOI, ADS/bibcode, journal metadata, page/table identifiers, or source lineage. If metadata cannot be verified, mark it unresolved and hold that provenance branch as needed.\n9. The generated website/PDF reference list must derive from/reconcile against this canonical bibliography and product provenance rather than a hand-maintained element-specific citation list.\n\n### Gate / Definition of Done addition\n\nAn element is not `FROZEN_READY_FOR_MEASUREMENT` / scientifically intake-complete until the applicable Reference Documents inventory and bibliography reconciliation are complete enough that every adopted gf/line-data source, NLTE/3D model source, indicator/molecular source, and literature validation source used by the measurement has a resolvable canonical citation.\n\nRequired closeout summary per element:\n\n`reference_documents_scanned | bibliography_entries_added | bibliography_entries_updated | duplicates_reconciled | sources_without_local_copy | unresolved_metadata | provenance_keys_verified`\n\nThis is now a standing cross-element requirement and should be reflected in `docs/ELEMENT_PROTOCOL.md` / active successor protocol.",
+        "priority": {
+          "value": 1,
+          "name": "Urgent"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-709/umbrella-the-26-element-sweep-every-element-gets-the-protocol-10852",
+        "gitBranchName": "ryandamienschmitt/rya-709-umbrella-the-26-element-sweep",
+        "createdAt": "2026-08-09T15:20:24.967Z",
+        "updatedAt": "2026-11-08T12:12:23.232Z",
+        "archivedAt": null,
+        "completedAt": null,
+        "startedAt": "2026-08-09T21:06:29.862Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "In Progress",
+        "statusType": "started",
+        "labels": [
+          "Phase: Solar Beta",
+          "Science Architecture",
+          "Abundance Modeling"
+        ],
+        "attachments": [
+          {
+            "id": "7b74ffdc-6c9e-4f22-9503-806f680326bc",
+            "title": "RYA-759: near-UV Fe synthesis on the production atmosphere path (carries the RYA-709/710/711/712/713 + 765 stack)",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/217"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-08-09T15:20:24.967Z",
+            "endedAt": "2026-08-09T21:06:29.888Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-08-09T21:06:29.888Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "assignee": "Ryan Schmitt",
+        "assigneeId": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [
+          {
+            "id": "441a9a69-9ab4-47da-9ec4-75edeec241cd",
+            "body": "# Scope note for the sweep: Fe I gf provenance is 76% K07 semi-empirical (Claude.ai, from committed canonical_gf.csv)\n\nSurfaced while verifying RYA-760's Fe IR gf work. Recomputed the Fe I source-provenance breakdown directly from canonical_gf.csv (15458 Fe I rows):\n\n| source | accuracy | Fe I rows | share |\n| -- | -- | -- | -- |\n| **K07 (Kurucz semi-empirical, COMPUTED)** | 0.20 | **11684** | **76%** |\n| other / bare VALD3 / none | -- | 2661 | 17% |\n| FMW (Fuhr Martin Wiese, NIST compilation) | 0.08 | 302 | 2% |\n| BWL (Blackwell furnace) | 0.02 | 291 | 2% |\n| MRW | 0.08 | 253 | 2% |\n| 2014MNRAS. / GESHRL14 (Ruffoni FTS) | 0.03 | 147 | 1% |\n| BK / BKK (Bard-Kock) | 0.04 | 107 | <1% |\n| GESB82c | 0.08 | 13 | <1% |\n\n**The measured/lab tier (FMW+BWL+MRW+Ruffoni+BK combined) is ~1100 lines. K07 semi-empirical is 11684.** So the whole RYA-760 FMW question (+0.29 dex on 12 IR lines) is a real but SMALL fish next to the structural reality: three-quarters of Fe I gf provenance is Kurucz COMPUTED values at 0.20 dex accuracy -- and only 8 of 15458 Fe I lines carry a NIST grade.\n\n**Why this belongs on the sweep and not just on Fe:** every element's frontier product hits the same distribution. The near-UV/IR is where the measured sources thin out and K07 fills the gap -- exactly the bands the sweep is opening. So for most reachable frontier lines, the binding uncertainty is not NLTE (0.05 dex) or the measurement -- it is a 0.20-dex semi-empirical gf that does not average down (a scale systematic, RYA-161). Two consequences worth a sweep-level decision:\n\n1. The per-element frontier error budget must carry the K07 systematic as a floor term wherever the pool is K07-dominated -- not sigma/sqrt(N).\n2. Grading/re-sourcing effort should be prioritized by K07 share x science leverage, not by chasing individual compilation offsets like FMW. FMW is 2% of Fe; the 76% is where the uncertainty lives.\n\nNot proposing a ticket here -- this is a scope input to the sweep's planning. Recorded so it is visible before the per-element budgets are set. (Fe-specific follow-ons from the same verification: RYA-780 FMW adjudication, RYA-781 MRW catalogue split, RYA-782 REW trend.)",
+            "attachments": [],
+            "createdAt": "2026-08-11T22:49:23.818Z",
+            "updatedAt": "2026-08-11T22:49:23.742Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          }
+        ],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-587",
+        "uuid": "8eb95d16-a86e-4de7-86f4-b17df02b1cab",
+        "title": "ARCHITECTURE: 27-element reported-uncertainty generalization (RYA-282 §5) — per-element σ_stat + σ_stellar, the committed budget σ_recon reads",
+        "description": "## 2026-09-15 STAT DIRECTIVE — THIS IS THE UNIVERSAL ELEMENT UNCERTAINTY CONTRACT\n\nThis ticket is the existing cross-element generalization; do NOT create a competing uncertainty framework. <issue id=\"d617c30e-7b0f-4c75-a40f-b0defeb06d20\" label=\"RYA-1213\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1213/reference-grade-complete-build-reference-products-from-all-450-lab-fe\" /> proved the per-product/pool perturbation machinery on Fe, including the completed shell ξ campaign whose RESULTS must be audited rather than assumed absent. Mean-3D Gerber is experimental and is NOT a completeness requirement unless separately ratified as publication-grade.\n\n**Scope correction:** this protocol is ELEMENT-AGNOSTIC and PRODUCT-AGNOSTIC. It must apply to Fe, Al, Si, C/N/O, and every future element/indicator/holding. Element tickets may add physics-specific terms, but may not omit this base contract.\n\n### Required authoritative uncertainty recipe per publication-eligible product\n\n1. **Statistical / measurement term:** line-to-line scatter / √N for vetted independent line pools where valid; fit/profile likelihood or χ²-derived uncertainty for synthesis/molecular products; explicitly flag small-N and correlated-pixel/line cases.\n2. **Atomic/molecular data:** propagate line-specific gf/transition-data uncertainty from the authoritative grade/provenance model. No blanket placeholder where line-specific evidence exists. Account for covariance when a common gf scale/source affects multiple lines.\n3. **Stellar-parameter perturbations:** re-derive the product at the star's sourced ±1σ Teff, log g, ξmic where physically applicable, and \\[M/H\\]/\\[Fe/H\\] where the model/product depends on it. Sensitivities belong to the actual product/line/indicator pool; do not borrow Fe or sibling-tier derivatives. 3D routes with no ξ parameter record ξ as N/A, not zero.\n4. **Observation/reduction terms where applicable:** continuum/normalization, EW/profile measurement, pseudo-continuum, telluric residuals (mandatory for IR), instrumental/holding conditioning. Quantify rather than narrate where feasible.\n5. **Model/physics terms where defined:** NLTE correction/grid/interpolation uncertainty, 3D/mean-3D model uncertainty, HFS/isotopic/component treatment, blends, molecular-equilibrium/coupling (especially C-N-O), and other element-specific physics. Do not invent a term when no defensible uncertainty model exists; mark unresolved/HOLD if scientifically material.\n6. **Covariance:** do not blindly quadrature-sum correlated terms. Preserve/propagate known covariance among stellar parameters, common atomic-data scales, coupled molecular abundances, and derived ratios. State independence assumptions where covariance is unavailable.\n7. **Differential abundance requirement:** before any target-star \\[X/H\\], \\[X/Fe\\], C/O, etc. is published, compute the differential uncertainty on matched line/indicator + engine/model routes against the Solar/reference anchor. Propagate covariance/cancellation explicitly; do NOT obtain differential σ by naively adding two independent absolute budgets. Retain both absolute A(X) uncertainty and differential uncertainty/provenance.\n8. **Reported fields:** preserve component terms + provenance + applicability state and compute the authoritative `sigma_reported`/total only from measured/defined components. Missing required terms make the product HOLD/INCOMPLETE, never silently zero.\n\n### Immediate audit / implementation deliverable\n\nAudit <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" />, 283, 1120, 1213, 158, 1088/1089 and current pipeline implementation against the recipe above. Reuse what exists; identify only genuine gaps. Specifically inspect the completed <issue id=\"d617c30e-7b0f-4c75-a40f-b0defeb06d20\" label=\"RYA-1213\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1213/reference-grade-complete-build-reference-products-from-all-450-lab-fe\" /> ξ shell outputs and verify ingestion/product stamping. Produce one canonical machine-readable uncertainty schema/API used by all element pipelines, not element-specific copies.\n\nThen audit the ACTIVE element work (Al, Si, CNO including <issue id=\"7b0d27fc-4b1a-49d0-b0dc-2ab2a70be715\" label=\"RYA-1214\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1214/cno-product-campaign-adjudicate-the-nisttachiev-gf-into-canonical-gf\" /> and N <issue id=\"7cbd3810-4c68-4fc5-97e3-1219128030be\" label=\"RYA-1220\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1220/nitrogen-method-adjudication-literature-deep-audit-of-n-i-vs-cnnh\" />) and patch their product gates so none can publish without invoking this canonical recipe. Future element children of <issue id=\"be8bf507-78b1-4ec2-a238-f33af47d19cf\" label=\"RYA-709\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-709/umbrella-the-26-element-sweep-every-element-gets-the-protocol-10852\" />/946 inherit it automatically.\n\n**Definition of done:** one canonical recipe documented + implemented; Fe regression passes; <issue id=\"d617c30e-7b0f-4c75-a40f-b0defeb06d20\" label=\"RYA-1213\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1213/reference-grade-complete-build-reference-products-from-all-450-lab-fe\" /> ξ results audited; Al/Si/CNO/N explicitly wired; differential covariance path defined and tested; every publication product can prove component provenance/applicability; no duplicate uncertainty definitions.\n\n## 1. Context\n\nThis is the <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" /> **§5 follow-up** (\"extend the reported-uncertainty layer to all canonical elements\"), explicitly scoped there but never ticketed. The <issue id=\"ea1cd998-e9c8-463f-b568-c5afdcfad874\" label=\"RYA-586\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-586/science-arch-dynamic-per-element-reconciliation-band-replace-flat-tol\" /> non-invasive run made it the **linchpin**: of the 4 required σ\\_recon terms, **σ\\_stat and σ\\_stellar are each missing for 19/26 elements**, and both come from the <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" />/283 layer that currently exists **for Fe only**. Fe is the sole complete budget; the `changed_vs_flat` set (C/K/Mn/O/Sc/V) flips PASS→OWED purely because these terms aren't committed. This ticket commits them per element so σ\\_recon (<issue id=\"ea1cd998-e9c8-463f-b568-c5afdcfad874\" label=\"RYA-586\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-586/science-arch-dynamic-per-element-reconciliation-band-replace-flat-tol\" />) can read a real budget.\n\n**Depends on** <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" /> **(Fe layer) landing first** — that validates the machinery against Amarsi+2022 before it's generalized. **Gates the Procyon rerun:** σ\\_stellar (the parameter-perturbation term) DOMINATES for F-stars, so without per-element σ\\_stellar the Procyon in-bounds/questionable/garbage classification is undefined for exactly the star that needs it.\n\n## 2. Spec\n\nGeneralize the <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" /> Fe machinery to all 26 canonical species, writing per-element rows into the committed uncertainty artifact (`data/audit/uncertainty/solar_uncertainty_rya158.json`, the file <issue id=\"ea1cd998-e9c8-463f-b568-c5afdcfad874\" label=\"RYA-586\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-586/science-arch-dynamic-per-element-reconciliation-band-replace-flat-tol\" /> reads):\n\n* **σ\\_stat per element** = raw line-to-line σ / √N over the element's vetted final pool. Report raw σ, N, σ\\_stat separately (the <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" /> two-quantity discipline). Honest caveat flagged where N=2–3 (statistically weak).\n* **σ\\_stellar per element** = perturb Teff, log g, ξ\\_mic (and \\[Fe/H\\] where relevant) each by their adopted 1σ, re-derive A(X), quadrature-sum the responses. **Per element** — some species are far more Teff-/ξ-sensitive than Fe. Source the 1σ parameter uncertainties from the single declared star-parameter record; STOP-and-report if absent for a star (no guessed uncertainties).\n* **Channel-aware:** EW-pool, HFS-synthesis, kittpeak, and CNO-synthesis elements compute σ\\_stat differently (line scatter vs synthesis χ²) — follow the <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" /> §5 synthesis-vs-EW sub-question; record which form each element used.\n* Persist per element: raw σ, N, σ\\_stat, ΔA_Teff/logg/ξ/\\[Fe/H\\], σ\\_stellar, + provenance. Do NOT touch the raw-σ gate (<issue id=\"012b3cf1-c821-4e01-9cf8-07abf875ad85\" label=\"RYA-277\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-277/architecture-per-spectral-type-acceptance-profiles-thresholds-are-a\" />) — this is the additive reported layer.\n\n**Validate-don't-tune / delta-blind:** these are error terms, computed with no reference to Δ-vs-Asplund. They feed σ\\_recon's blind budget.\n\n## 3. Smoke Test\n\n```\n# per-element budget committed for all 26; σ_recon re-run picks them up:\npython3 -m pipeline.reconciliation_band            # complete_budget now ⊋ {Fe}; the all-4 set shrinks\n```\n\nRequired evidence: solar_uncertainty rows populated for all 26 (no placeholders); Fe row unchanged vs <issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" /> (regression); the <issue id=\"ea1cd998-e9c8-463f-b568-c5afdcfad874\" label=\"RYA-586\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-586/science-arch-dynamic-per-element-reconciliation-band-replace-flat-tol\" /> `diff_summary.incomplete_budget` list shrinks to only the genuinely-unmeasured (owed-no-value) elements; each element names which σ\\_stat form (scatter vs χ²) it used. Report the before/after complete-budget set.\n\n## 4. End-of-Session Requirements\n\n> Post a Linear comment with: the committed per-element budget table (raw σ, N, σ\\_stat, σ\\_stellar, dominant param); confirmation Fe is unchanged (<issue id=\"519b4513-a369-40db-89b2-59a69091840f\" label=\"RYA-282\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-282/architecture-standard-reported-uncertainty-layer-fe-sn-stellar\" /> regression); the <issue id=\"ea1cd998-e9c8-463f-b568-c5afdcfad874\" label=\"RYA-586\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-586/science-arch-dynamic-per-element-reconciliation-band-replace-flat-tol\" /> complete-budget delta (before {Fe} → after); which elements remain OWED and why (unmeasured, not un-budgeted); branch/SHA. Feeds <issue id=\"52dd1334-1dc4-4d28-9e09-41b55d75ba13\" label=\"RYA-283\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-283/docs-methodology-uncertainty-budget-section-full-27-element-per-line\" /> (docs) + <issue id=\"ea1cd998-e9c8-463f-b568-c5afdcfad874\" label=\"RYA-586\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-586/science-arch-dynamic-per-element-reconciliation-band-replace-flat-tol\" /> (wiring). Never merge — Ryan reviews.",
+        "projectMilestone": {
+          "id": "ef9e402b-b2db-437f-a466-353348431af6",
+          "name": "Milestone 1: Single Star End-to-End"
+        },
+        "priority": {
+          "value": 1,
+          "name": "Urgent"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-587/architecture-27-element-reported-uncertainty-generalization-rya-282-5",
+        "gitBranchName": "ryandamienschmitt/rya-587-architecture-27-element-reported",
+        "createdAt": "2026-07-19T15:33:35.016Z",
+        "updatedAt": "2026-11-08T12:12:46.134Z",
+        "archivedAt": null,
+        "completedAt": "2026-09-16T02:01:13.244Z",
+        "startedAt": "2026-09-15T13:14:20.928Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Done",
+        "statusType": "completed",
+        "labels": [
+          "Science Architecture",
+          "Validation & Calibration",
+          "Abundance Modeling"
+        ],
+        "attachments": [
+          {
+            "id": "d7e0d24a-b4ff-4b50-b3f9-324f5e69bb69",
+            "title": "RYA-1232: Fe finished -- every Fe product fully RYA-587 budgeted; telluric-contaminated lines out",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/586"
+          },
+          {
+            "id": "6f94b56a-3895-44d6-afee-82edfd6d4b80",
+            "title": "RYA-1233: publish solar Si -- 26 products with RYA-587 budgets (Si.json v1.26)",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/578"
+          },
+          {
+            "id": "20149f3b-1321-4fe4-af72-5eb792b46547",
+            "title": "RYA-1230: solar CNO re-run (molecules + model-guided continuum) published with RYA-587 budgets",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/568"
+          },
+          {
+            "id": "eba3e784-125d-4835-b0f3-9d92ff56b421",
+            "title": "RYA-1223: take Fe live — refresh the appendices from feed v1.222 (all five bands, xi-closed)",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex-site/pull/38"
+          },
+          {
+            "id": "8795e9b8-b19a-424c-9704-4c93c2aac01c",
+            "title": "RYA-1226: near-UV Fe uncertainty close-out — six rows publish a complete RYA-587 budget",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/559"
+          },
+          {
+            "id": "03f219a8-bdbd-4d26-aa2e-b6677f31fb50",
+            "title": "RYA-587: shared uncertainty contract, guarded admission, and existing-result audit",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/550"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-07-19T15:33:35.016Z",
+            "endedAt": "2026-09-15T13:14:20.943Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-09-15T13:14:20.943Z",
+            "endedAt": "2026-09-16T02:01:13.256Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-09-16T02:01:13.256Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "assignee": "Ryan Schmitt",
+        "assigneeId": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-161",
+        "uuid": "68caa0a1-dd50-4c03-8386-a6c7ab48d24b",
+        "title": "Science: Solar astrophysical log gf calibration + blue-edge cut + saturation weighting",
+        "description": "**Context from ChatGPT analysis of sol_ew_results_v1.csv + science architecture discussion.**\n\nThe ChatGPT analysis of the actual solar EW data confirmed that the EW engine is working — 444 Fe lines, median χ² ≈ 0.005. The pipeline has reached the point where astrophysical systematics dominate over implementation bugs. This issue captures the three highest-ROI improvements identified.\n\n---\n\n## Problem 1: Static log gf values are the dominant abundance error source\n\nWith 444 Fe lines the scatter averages out, but for elements with 2–4 lines (C, P, O), a single bad log gf shifts the abundance by 0.5–2 dex. The solution used by high-precision differential studies (σ ≈ 0.02–0.05 dex) is **astrophysical log gf calibration**.\n\n### Method\n\nFor each line in the solar spectrum:\n\n```python\n# Known: A(X)_solar from Asplund 2021\n# Measured: EW from solar_ew.csv\n# Invert the COG to get: log_gf_astro that produces correct A(X) at known solar params\nlog_gf_astro = invert_COG(EW_measured, A_solar, Teff, logg, vturb, EP)\n\n# Store correction:\ndelta_log_gf = log_gf_astro - log_gf_VALD\n```\n\nLines with `|delta_log_gf| > 0.3` dex flagged as unreliable — either blend, bad VALD value, or saturation.\n\n### Output\n\nAdd `log_gf_astro` and `delta_log_gf` columns to `linelist_solar.csv`. When the same lines are used for 55 Cnc A and Alpha Cen A, use `log_gf_astro` instead of VALD values → eliminates systematic log gf error via solar differential calibration.\n\nThis is the single highest-impact improvement available to the current pipeline.\n\n---\n\n## Problem 2: Blue-edge lines (< 4500 Å) are corrupting element averages\n\nFrom analysis of the EW CSV:\n\n* Cr at \\~4028 Å: EW_err = 102 mÅ (unusable)\n* Mn at \\~4030 Å: EW_err = 20 mÅ\n* Zr at \\~4024 Å: EW_err = 16 mÅ\n\nThese lines are in HARPS' blue edge where SNR drops and blending explodes. They're pulling element mean abundances away from the true value.\n\n### Fix\n\nAdd hard wavelength cut to `_build_worklist()` in `lines_fit.py`:\n\n```python\nBLUE_EDGE_EXCLUDE_A = 4500.0  # configurable in constants.py\n\n# In _build_worklist:\nclean = clean[clean['wavelength_air_A'] >= BLUE_EDGE_EXCLUDE_A]\n# Special measures still bypass this (force-measured with flag)\n```\n\nAdd `blue_edge_excluded` count to the worklist summary print.\n\n---\n\n## Problem 3: Saturated lines (EW > 100–120 mÅ) are entering the abundance average equally weighted\n\nFrom the EW CSV:\n\n* Zr median EW: 165 mÅ (heavily saturated)\n* Na median EW: 161 mÅ (Na D — dominated by damping wings)\n* Ba median EW: 121 mÅ\n\nAt EW > \\~100 mÅ the line enters the saturation/flat part of the curve of growth, where EW becomes insensitive to abundance changes and microturbulence sensitivity explodes. These lines should have drastically reduced weight, not equal weight.\n\n### Fix\n\nThe `line_quality_weight` in `loader.py` already has a `saturation_penalty` — confirm it's tuned to give near-zero weight at EW > 120 mÅ:\n\n```python\n# In loader.py saturation_penalty:\ndf['saturation_penalty'] = np.exp(-5 * (depth - 0.6).clip(lower=0))\n# Verify this maps to weight ≈ 0.05 for EW ~ 150 mÅ\n```\n\nCross-check: after fixing [loader.py](<http://loader.py>) (<issue id=\"846e2b53-cdda-4c84-8118-20a0d7a3bc00\" label=\"RYA-155\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-155/bug-loaderpy-fix-syntax-error-duplicate-blend-score-and-double-return\" />), run `load_linelist()` and print `line_quality_weight` distribution for Na and Ba — should be << 1.0.\n\n---\n\n## Validation\n\nAfter all three fixes, re-run the diagnostic plots (<issue id=\"e42180b0-1c1f-4c97-bf2a-ecd8a97a5072\" label=\"RYA-160\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-160/science-solar-abundance-diagnostic-plots-fe-excitation-reduced-ew\" />). Expected improvement:\n\n* Fe I excitation slope should move toward 0 (once log gf_astro applied)\n* Blue-edge scatter should disappear from the wavelength plot\n* Element abundance scatter should decrease for multi-line elements\n\n**Depends on:** <issue id=\"846e2b53-cdda-4c84-8118-20a0d7a3bc00\" label=\"RYA-155\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-155/bug-loaderpy-fix-syntax-error-duplicate-blend-score-and-double-return\" /> (loader fixes), <issue id=\"e42180b0-1c1f-4c97-bf2a-ecd8a97a5072\" label=\"RYA-160\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-160/science-solar-abundance-diagnostic-plots-fe-excitation-reduced-ew\" /> (diagnostic plots to validate before/after)",
+        "projectMilestone": {
+          "id": "ef944098-defd-42dc-9fe4-d03378f497af",
+          "name": "Science Architecture"
+        },
+        "priority": {
+          "value": 3,
+          "name": "Medium"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut",
+        "gitBranchName": "ryandamienschmitt/rya-161-science-solar-astrophysical-log-gf",
+        "createdAt": "2026-06-04T05:35:36.345Z",
+        "updatedAt": "2026-11-08T12:12:23.257Z",
+        "archivedAt": null,
+        "completedAt": "2026-08-23T13:57:35.573Z",
+        "startedAt": "2026-06-30T03:59:20.469Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Done",
+        "statusType": "completed",
+        "labels": [
+          "Science Architecture"
+        ],
+        "attachments": [
+          {
+            "id": "477342d7-1162-426c-b443-1913e928d592",
+            "title": "[RYA-1001] Al Phase 0 census: Burheim 2023 covers 8 of our lines, not zero",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/361"
+          },
+          {
+            "id": "97a30901-1d0a-431c-997e-048f0d5dd930",
+            "title": "RYA-492 solar S gf: adopt Costa Silva+2020 log gf — gf is NOT the +0.40 fix, escalate to RYA-161",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/113"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "dffc4070-81d1-4cdf-a843-c5c9b7ef3edd",
+              "name": "Todo",
+              "type": "unstarted"
+            },
+            "startedAt": "2026-06-04T05:35:36.345Z",
+            "endedAt": "2026-06-28T02:15:32.920Z"
+          },
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-06-28T02:15:32.920Z",
+            "endedAt": "2026-06-30T03:59:20.482Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-06-30T03:59:20.482Z",
+            "endedAt": "2026-06-30T03:59:27.671Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-06-30T03:59:27.671Z",
+            "endedAt": "2026-08-23T04:48:10.833Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-08-23T04:48:10.833Z",
+            "endedAt": "2026-08-23T13:57:35.594Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-08-23T13:57:35.594Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "assignee": "Ryan Schmitt",
+        "assigneeId": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [
+          {
+            "id": "87cbf19a-5f06-49f8-9507-a0e63cec90c5",
+            "body": "## ⚠️ Self-correction to my two comments above — firewall constraint (don't tune solar S to 7.12)\n\nRe-read 161's own history (the 2026-06-28 PARK + 2026-06-21 scope-boundary comments). My two comments above slightly overstated the S path and need fencing to stay firewall-compliant:\n\n### The correction\nI wrote \"calibrate S toward 7.12, store the delta, S banks at its correct differential value.\" That's right for the **differential** but must NOT be read as fixing **solar absolute** S. Per RYA-398/399 firewall + the 161 scope-boundary comment:\n- **161's COG-inversion toward the known abundance = tuning-the-Sun-to-Asplund IF applied to the solar verdict.** That's the cardinal sin the firewall forbids. A loud guard already prevents the solar-validation path from consuming `log_gf_astro`/`delta_log_gf`.\n- So **161 is differential-survey-ONLY:** compute the per-line gf correction on the Sun (calibration step), apply it **differentially** to Procyon/α Cen/55 Cnc where the systematic cancels in [S/H]. Target-precision tool on the benchmark track.\n\n### What this means for S — the accurate final state\n- **Solar absolute A(S):** stays where RYA-492 left it — measured ~7.49–7.52, LOW_CONFIDENCE, the +0.37 escalated as a **real physical floor** (gf-zero-point + 1D→3D + NLTE), **documented never erased.** 161 does NOT improve this, by design. The Sun's S is honestly high in our engine, and that's the recorded verdict.\n- **Differential [S/H] on targets:** THIS is where 161 helps — the common-mode gf zero-point cancels Sun−star, so [S/H] for α Cen/55 Cnc/Procyon is correct even though solar absolute S carries +0.37. Lands on the benchmark/target track, not the solar baseline.\n\n### So \"can we do 161 for S?\" — precise answer\n**Yes, as the differential-survey gf calibration, executed when the targets run — NOT as a solar-completion step tonight.** S's solar verdict is already final (492: measured, escalated, LOW_CONFIDENCE). 161 for S is a *target-track* action that rides the Procyon/α Cen differential, where it makes [S/H] precise without ever tuning the solar anchor.\n\n**Open check still valid:** whether 161's machinery (PR #113) includes S in its line set or needs S added to the differential worklist — that's the small remaining wiring, to be confirmed when the target-track gf calibration runs. But it is NOT a tonight/solar task, and it does NOT change solar S.\n\nNet: solar S is done and honest (492). 161-for-S is a future target-track precision step, firewall-fenced from the solar verdict. My earlier \"banks at its correct differential value\" = true for [S/H] on targets, NOT for solar absolute. Corrected.",
+            "attachments": [],
+            "createdAt": "2026-06-30T04:14:51.604Z",
+            "updatedAt": "2026-06-30T04:14:51.548Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "2af326e0-df39-4a38-8a71-e122c95b2d4c",
+            "body": "## 📌 Closing the loop on S: this is gf RE-ANCHORING, not a missing model (clarification for the record)\n\nRyan asked the right closing question — does parking S on 161 mean we lack a model for sulphur? **No. We have the model; S needs the 161 astrophysical-gf calibration, which is exactly what this ticket does for every element.** Recording so the framing is unambiguous.\n\n### Why the published 7.12 didn't transfer (the mechanism)\n- **How 7.12 was determined:** Costa Silva (and the solar-abundance lineage) synthesized Mult. 8 against the Kurucz atlas in **MOOG + Kurucz ATLAS9**, tuning gf so the lines reproduce 7.12 *in that engine*. It's a differential anchor bound to a specific code+atmosphere, not engine-independent.\n- **Why our HARPS read +0.40:** we ran the SAME lines through **Turbospectrum + MARCS + IAG**. The gf carrying MOOG+ATLAS9's zero-point doesn't transfer to MARCS — different model-atmosphere structure at the line-forming depths + different continuum placement → ~0.37 dex. The DATA is fine; the published gf's zero-point is engine-bound.\n\n### S is NOT a \"no-model\" element — it has full coverage\n- **NLTE:** Korotin model atom, <0.1 dex Mult. 8, applied + flagged.\n- **In the GALAH PySME grid set** (Sirius) alongside C/N/O + 10 others.\n- **Synthesizes cleanly:** the χ²ᵣ 138 was the wrong-line (6748) artifact; on the correct 6743/6757 lines the fit is fine and the CS gf tightened σ to 0.045.\n- It measured, produced a value, responded correctly to the gf swap. The model works.\n\n### Parking on 161 = applying the fix, not shelving the problem\n**161 Problem 1 IS the engine-zero-point fix:** invert the curve-of-growth at known solar params → find `log_gf_astro` that yields the correct A(X) *in OUR engine* → store `delta_log_gf` → use it for the science targets. That re-anchors S's gf to Turbospectrum+MARCS+IAG the same way Costa Silva's gf was anchored to MOOG+ATLAS9. **S doesn't need a new model — it needs its gf re-anchored to our engine, which is what 161 does uniformly.** Cu (RYA-466) is the identical case.\n\n### Net — nothing missing\nS: model ✓, NLTE ✓, synthesis ✓, improved cited gf ✓ (CS, σ 0.045). Outstanding = the 161 astrophysical-gf re-anchoring (the engine-zero-point absorption), applied to S exactly as to Fe/Cu/the metals. The frozen-gold S stays LOW_CONFIDENCE 7.753 until that re-anchoring lands → then S banks at its correct differential value.\n\n**161 is now Done (PR #113) — confirm whether the S astrophysical-gf re-anchoring is INCLUDED in that completion or is a follow-up application.** If 161's calibration machinery is built but not yet *applied to S's specific lines*, that application is the remaining step (small — run the COG inversion on 6743/6757 at solar params, store delta_log_gf). Worth confirming so S's path to banked is explicit.",
+            "attachments": [],
+            "createdAt": "2026-06-30T04:09:23.124Z",
+            "updatedAt": "2026-06-30T04:09:23.083Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "e2ecef06-ec6a-4be1-b7ea-550127c7ccb1",
+            "body": "## ➕ Escalation from RYA-492: solar Sulphur joins the gf-floor/zero-point residual set (like Cu)\n\nRYA-492 (solar S gf) re-measure **disproved the gf hypothesis by direct test** → the S offset is a code/atmosphere zero-point, not a gf error. Routing it here as a genuine astrophysical-gf-calibration residual.\n\n### The measured result (not asserted)\n| | A(S) | vs Asplund 7.12 |\n|---|---|---|\n| Control (GES gf) | 7.516, χ²ᵣ 138 | +0.396 |\n| Costa Silva gf | 7.486 | +0.366 |\n\n**The gf swap moved A(S) only −0.03 dex** — mechanically cannot close 0.40. Reason: our 6757 triplet already had Costa-Silva-identical gf, so the whole lever was the 6743 triplet (+0.063 dex total). Costa Silva's 7.12 is a MOOG+Kurucz-ATLAS-tuned differential zero-point that does not transfer to our Turbospectrum+MARCS+IAG engine.\n\n### What this means for RYA-161\nS I Mult. 8 (6743/6757) carries a **~0.37 dex code/atmosphere zero-point residual** on our engine — same class as **Cu** (RYA-466: measured, sits high, 3D/fuller-NLTE owed). Both are \"measured value real, absolute zero-point offset is an engine/atmosphere systematic, escalate not tune.\"\n- S is **measured-not-banked, LOW_CONFIDENCE** in the frozen gold ref (7.753 untouched).\n- The **Costa Silva gf is now the canonical cited value** (banked in 492) — it tightened internal agreement (σ 0.088 → 0.045), so it's a better line value regardless of the zero-point question. The residual is a SEPARATE, additive finding on top of the improved gf.\n\n### The 161 question for S (when this ticket runs)\nIs the ~0.37 dex a true astrophysical-gf residual, or a MARCS/IAG continuum-placement / NLTE-depth systematic specific to the high-excitation Mult. 8 lines? S forms its Mult. 8 lines high-excitation (χ ~7.87 eV) + deep — candidate causes to partition: (a) MARCS vs Kurucz-ATLAS model-atmosphere structure at those depths; (b) our IAG continuum vs their Kurucz-atlas continuum placement; (c) the Korotin NLTE (<0.1, applied) leaving a residual. Same partition logic as the metals gf-floor work (RYA-398/399).\n\n**Cross-ref:** RYA-492 (the disproof + the banked CS gf), RYA-466 (Cu — the sibling residual), RYA-398/399 (gf-floor budgeting), RYA-491 (where S +0.40 was first surfaced), RYA-488 (S-in-HARPS scoping). S = the α-element gf-floor case; rides the same calibration pass as the iron-peak metals.",
+            "attachments": [],
+            "createdAt": "2026-06-30T03:56:55.459Z",
+            "updatedAt": "2026-06-30T03:56:55.338Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "d9f9b157-630e-4f6a-a1f5-f31fdab9e233",
+            "body": "## ⏸️ PARKED + NOTES & CORRECTIONS (2026-06-27)\n\nThis is an early ticket (June 4) that has been partly overtaken by the curation + firewall work. Parking it (→ Backlog, de-prioritized from Urgent) and recording corrections so it isn't run as-written. **Do not execute in its current form.**\n\n### Correction 1 — Problems 2 & 3 are SUPERSEDED (do not re-implement)\n- **Blue-edge cut (<4500 Å)** and **saturation weighting (EW>120 mÅ)** are now handled by the non-Fe curation: RYA-395 (COG/saturation cut + blend vetting) + RYA-398 (graded-gf firewall), wired into the default run via RYA-456. Re-implementing them here would duplicate that. If anything, audit that the curation's COG/saturation thresholds cover the specific blue-edge lines this ticket flagged (Cr 4028, Mn 4030, Zr 4024) — but that's a check, not new code.\n\n### Correction 2 — Problem 1 (astrophysical log-gf) is FIREWALL-CONSTRAINED (the important one)\nThe ticket as written says: *invert the COG to get log_gf_astro that produces the correct A(X) at known solar params … the single highest-impact improvement.* **As stated for solar absolute abundances, this is exactly the cardinal-sin the RYA-398/399 firewall forbids** — tuning the Sun to Asplund. The solar absolute residual (Cr +0.40, etc.) is a *real* physical floor (gf-zero-point + 1D→3D + NLTE) and must NOT be erased by solar-calibrated gf.\n\n**The legitimate, firewall-compliant version** (per RYA-398/399): astrophysical log-gf is **differential-survey-only**. Compute the per-line gf correction on the Sun, then apply it **differentially** to the targets (55 Cnc / α Cen / Procyon), where the *systematic* gf error cancels in [X/H]. It is a **target-precision tool executed on the benchmark track — NOT a solar-completion task.** It does not, and must not, change the solar verdict.\n\n### Reframe for when un-parked\nRescope to: \"Differential gf calibration for the benchmark/target track.\" The solar COG inversion is the *calibration step*; the *payoff* is differential precision on the targets; the solar absolute residual stays documented (escalated, never erased). Belongs with the Procyon/α Cen differential work, not the solar baseline.\n\n### Status\nParked → Backlog, priority Urgent→Medium. Superseded-in-part by RYA-395/398/456; live core (differential gf) deferred to the benchmark track. Related: RYA-398, RYA-399, RYA-395, RYA-456.",
+            "attachments": [],
+            "createdAt": "2026-06-28T02:15:27.950Z",
+            "updatedAt": "2026-06-28T02:15:27.434Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "611e3da9-dacb-4091-8ad4-7ae93408589a",
+            "body": "## Scope boundary — 161 is the differential-survey gf path, NOT a solar-validation escalation\n\nFlagging so this doesn't get misapplied: 161's astrophysical gf inverts the COG with the known Asplund abundance, so it makes the **solar** metal abundances reproduce Asplund *by construction*. That's correct and powerful for the **differential survey** (55 Cnc / α Cen), where the gf error is common-mode Sun↔target and cancels in [X/H] — but it is **circular/tuning if used in the solar validation** (RYA-371/239).\n\nSo 161 stays survey-only. The solar-validation metals validate against Asplund using **independent (graded) gf** instead — see RYA-398, which also adds a loud guard preventing the solar-validation path from consuming `log_gf_astro`/`delta_log_gf`. No change to 161's own scope; just fencing where its output may be consumed.",
+            "attachments": [],
+            "createdAt": "2026-06-21T17:22:30.218Z",
+            "updatedAt": "2026-06-21T17:22:30.165Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "246032c2-cccb-4e88-a545-fc39959239a2",
+            "body": "Lest revisit this and see if this is still relevant or needs to be tied to another issue.",
+            "attachments": [],
+            "createdAt": "2026-06-09T06:30:22.430Z",
+            "updatedAt": "2026-06-09T06:30:22.408Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          }
+        ],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-945",
+        "uuid": "49d10ad1-6867-4ac1-86b8-031b6001329c",
+        "title": "INGEST: Fe I/II laboratory gf into canonical_gf (O'Brian/NIST-C+, Den Hartog 2014, Ruffoni 2014, Belmonte 2017; Fe II Den Hartog 2019)",
+        "description": "## 1. Context\n\nAudit this session: `data/linelists/canonical_gf.csv` (167,739 rows) is dominated by VALD3 (\\~41k) and Kurucz vintages (K07/K09/K10/K13, \\~75k combined). **Ruffoni 2014 (**`RU`**) is partially wired; O'Brian 1991 and Den Hartog 2014 Fe I lab gf are ABSENT.** The ungraded Kurucz pool carries a measured +0.10 dex zero-point offset (<issue id=\"0c807ff4-2585-4977-a054-a8b04152a1f1\" label=\"RYA-819\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-819/reconcile-gold-anchors-magic-2013-1d-3d-correction-005-vs-amarsi-2022\" />/831): the 148-line VIS Fe I pool reads 7.586 while the 9-line lab-gf pool reads 7.445 (on Asplund 7.46). That gap is atomic-data, not measurement — every engine/telluric fix sits under it (<issue id=\"d644fd7f-6ac5-4948-b701-48aa3fb799a4\" label=\"RYA-855\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-855/fix-derive-band-products-hardcodes-gf-gradedfalse-at-both-call-sites\" /> moved 0/36 bars).\n\nThe field's solar Fe uses **NIST grade C or better (<=0.12 dex, mostly O'Brian 1991) + Den Hartog 2014 + Ruffoni 2014 (lab, <=0.02 dex), EP >= 1.2 eV**, with **Fe II from Den Hartog 2019** (NOT Melendez & Barbuy 2009, which is solar-fitted -> firewalled, <issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" />). This ticket ingests that backbone into `canonical_gf` so the reported Fe value lands in the literature band by construction, not by offset cancellation.\n\n**Fe first, thoroughly, no cherry-picking** — ingest the full lab set. This is the template for the later all-element sweep; get it right here. Do NOT re-run abundances in this ticket.\n\nRelated: <issue id=\"63bfeeb4-1363-4208-ac3f-83e5f5f52d54\" label=\"RYA-714\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-714/litscan-findings-fe-i-solar-photospheric-uvvisir-audit\" />, <issue id=\"0c807ff4-2585-4977-a054-a8b04152a1f1\" label=\"RYA-819\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-819/reconcile-gold-anchors-magic-2013-1d-3d-correction-005-vs-amarsi-2022\" />/831, <issue id=\"a93ba5bf-5b56-42fe-9610-56e51df57d19\" label=\"RYA-822\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-822/build-extend-adjudicate-canonical-gf-blueward-of-3780-a-the-near-uv-fe\" />/834 (canonical_gf precedence machinery), <issue id=\"d1add25a-194e-4217-9600-9357c95597aa\" label=\"RYA-824\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-824/build-primary-lab-gf-fe-sub-pool-re-measure-every-fe-line-that-has-a\" />/852 (prior Fe lab-gf sub-pool), <issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" /> (validate-don't-tune firewall).\n\n## 2. Spec\n\nExtend `canonical_gf` via the EXISTING precedence machinery — `scripts/rya822_extend_canonical_gf.py` and `scripts/rya834_extend_canonical_gf_redward.py`. Follow that pattern; do NOT reinvent it.\n\n**Fe I sources to ingest (all crossmatch-verified by air wavelength + excitation potential):**\n\n1. **NIST ASD Fe I, grade C or better** (<=0.12 dex) — the O'Brian 1991 backbone as curated by NIST. Pull via NIST ASD; stamp `nist_grade` from ASD; `loggf_reference='NIST-C+'` (or the per-line NIST-listed source).\n2. **Den Hartog et al. 2014, ApJS 215, 23** — VizieR **J/ApJS/215/23** (astroquery). \\~203 lab lines, <=0.02 dex. tag `DH14`. DOI 10.1088/0067-0049/215/2/23.\n3. **Ruffoni et al. 2014, MNRAS 441, 3127** (GES Fe I) — VERIFY the existing `RU` rows against the published table; fill any gaps. tag `RU14`. DOI 10.1093/mnras/stu780.\n4. **Belmonte et al. 2017, ApJ 848, 125** (Fe I high-lying odd-parity) — VizieR J/ApJ/848/125. tag `BEL17`. DOI 10.3847/1538-4357/aa8cd3.\n\n**Fe II source:** **Den Hartog et al. 2019** (ApJS, Fe II UV/blue lab gf) — already in `bibliography.csv` as `den_hartog_2019`; ingest its table. tag `DH19`. **Do NOT use Melendez & Barbuy 2009 for Fe II abundance (firewalled).**\n\n**Precedence (highest to lowest):** lab (DH14 / RU14 / BEL17 / DH19) > NIST grade A/B/C > Kurucz K## > VALD3. Record `loggf_reference` + `nist_grade` + `seed_source` per line. **A lab value is NEVER overwritten by Kurucz or VALD.**\n\n**Crossmatch rules:** match on air wavelength within <=5 mA AND excitation_potential within \\~0.05 eV (both, to prevent mis-assignment). Be HFS-aware — do not merge/split HFS components. Where several lab sources give the same line, apply precedence AND record the inter-source spread as a diagnostic. VERIFY each match; **loud-fail on any ambiguous match — never silently pick** (this is the provenance-trust failure class).\n\n**Diagnostic-line flag** (do NOT delete other lines — flag only): a line is abundance-diagnostic if it has reliable gf (lab or NIST C+), EP >= 1.2 eV (lines below bias high), and is not blend-flagged. This flag defines the pool the derive step will later report from.\n\nPermanent rules: no fabricated values; every ingested gf carries source + grade + DOI; no silent fallbacks; VALD/Kurucz never override lab.\n\n## 3. Smoke Test\n\n```\npython3 - <<'PY'\nimport csv\nrows=list(csv.DictReader(open('data/linelists/canonical_gf.csv')))\ndef isFeI(r): return r['species'].strip() in ('Fe I','FeI') or (r.get('key_z')=='26' and r.get('ion') in ('1','I'))\nlab={'DH14','RU14','BEL17','NIST-C+'}\ndiag=[r for r in rows if isFeI(r) and (r['loggf_reference'] in lab or (r['nist_grade'] in ('A','A+','B','C')))\n      and float(r['excitation_potential_eV'] or 0)>=1.2]\nprint(\"Fe I diagnostic lines (lab/NIST-C+, EP>=1.2):\", len(diag))     # expect >> 9, into the hundreds\n# no lab value overwritten by Kurucz/VALD\nbad=[r for r in rows if isFeI(r) and r['loggf_reference'].startswith(('K','VALD')) and r['seed_source'] in lab]\nassert not bad, f\"PRECEDENCE VIOLATION: {len(bad)} lab lines overwritten\"\nfor r in diag[:5]: print(r['wavelength_air_A'], r['excitation_potential_eV'], r['log_gf'], r['loggf_reference'], r['nist_grade'])\nPY\n```\n\nExpected: Fe I diagnostic count jumps from \\~9 (VIS) into the hundreds across bands; zero precedence violations; 5 sample lab-graded lines print with source + grade.\n\n## 4. End-of-Session Requirements\n\n> Post a Linear comment on this ticket AND on <issue id=\"63bfeeb4-1363-4208-ac3f-83e5f5f52d54\" label=\"RYA-714\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-714/litscan-findings-fe-i-solar-photospheric-uvvisir-audit\" /> with:\n>\n> * Files modified (confirm `canonical_gf.csv` + any script)\n> * COVERAGE REPORT: Fe I and Fe II, per band (near-UV / VIS / red / NIR) — lines now carrying lab / NIST-C+ / Kurucz / VALD gf; and diagnostic-line count (post-filter) with lab-or-graded gf, before vs after (was \\~9 in VIS)\n> * Per-source counts ingested (DH14 / RU14 / BEL17 / DH19 / NIST-C+), each with its VizieR ID or DOI\n> * Any crossmatch ambiguities and how resolved (or flagged)\n> * Smoke test output verbatim\n> * Exact resume point if incomplete",
+        "priority": {
+          "value": 2,
+          "name": "High"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-945/ingest-fe-iii-laboratory-gf-into-canonical-gf-obriannist-c-den-hartog",
+        "gitBranchName": "ryandamienschmitt/rya-945-ingest-fe-iii-laboratory-gf-into",
+        "createdAt": "2026-08-21T21:58:02.946Z",
+        "updatedAt": "2026-11-08T12:12:44.449Z",
+        "archivedAt": null,
+        "completedAt": "2026-08-21T23:37:37.647Z",
+        "startedAt": "2026-08-21T22:58:19.472Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Done",
+        "statusType": "completed",
+        "labels": [],
+        "attachments": [
+          {
+            "id": "1f103467-812d-4c07-821e-f7f850721f6f",
+            "title": "[RYA-945] ingest the Fe I/II primary-laboratory gf backbone into canonical_gf",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/334"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-08-21T21:58:02.946Z",
+            "endedAt": "2026-08-21T22:58:19.495Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-08-21T22:58:19.495Z",
+            "endedAt": "2026-08-21T23:37:37.657Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-08-21T23:37:37.657Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "assignee": "Ryan Schmitt",
+        "assigneeId": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [
+          {
+            "id": "3a4c3f54-1255-4940-ae5f-15cfb72784a3",
+            "body": "## MERGED — `94c380e` (PR #334). Register **v102**, not v101.\n\n**⚠️ Rebase renumber.** RYA-944 (PR #333) landed on main while this was open and took **v101**, so this ticket's Changelog row was renumbered to **v102** on rebase — both rows kept, newest first, `**Version:` pointer updated to name v102. Same shape as RYA-822's v76→v77. `SEQUENCE.md` auto-merged; the register was the only conflict.\n\nRYA-944 also edits `data/catalog/holdings_manifest_registry.csv` — which is precisely the file the `coverage.load_registry` fix in §7 reads, so that fix is more load-bearing after the rebase, not less.\n\n**Post-rebase re-check** (Sirius, venv_ci): `test_fe_lab_gf_ingest_rya945` + `test_gf_column_honesty_rya825` + `test_data_stewardship` + `test_redward_gf_extension_rya834` → **55 passed**.\n\n**Verified on main after merge:** `canonical_gf.csv` 167,739 rows with all six new columns present; register at v102 with zero conflict markers.\n\n---\n\n### 🔴 CI NEVER RAN ON THIS PR — do not read \"suite green\" as \"CI green\"\n\nThe **Sirius self-hosted runner was down** for the whole session, so the required `test` check is **BLOCKED, never executed**, and this landed via `--admin`. The evidence it stands on is the full suite run **by hand** on Sirius (venv_ci, `ISPEC_DIR`): **2283 passed, 20 skipped, 4 xfailed, 0 failed** pre-rebase, plus the 55 targeted tests post-rebase. The full suite was *not* re-run after the rebase.\n\n**The runner shut itself down cleanly at 21:32Z** after a job was cancelled:\n\n```\nJob test completed with result: Canceled\nRunner listener exited with error code 0\nRunner listener exit with 0 return code, stop the service, no retry needed.\n```\n\nNot the RYA-660 read-only-disk incident — `/` is `rw`, disks healthy. The unit is now **`disabled`**; note `systemctl list-units 'actions.runner*'` reports **0 loaded units** (reads like \"never installed\") while `list-unit-files` still shows it as `disabled` — check both.\n\n**Still down as far as I know, and RYA-944's PR run plus a main push were queued behind it.** I did not restart it: a `disabled` unit may be deliberate on a shared box. Worth confirming it is back up before the next PR, and worth a re-run of the suite on main to give this merge a real CI verdict retroactively.",
+            "attachments": [],
+            "createdAt": "2026-08-21T23:56:11.891Z",
+            "updatedAt": "2026-08-21T23:56:11.826Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "3db6dd0a-a7ff-4c42-b06b-21691ec3f82d",
+            "body": "## RYA-945 — DONE. PR #334, suite 2283 passed / 0 failed on Sirius.\n\nBranch `ryandamienschmitt/rya-945-ingest-fe-lab-gf`. **Nothing re-derived**, per the ticket.\n\n---\n\n## 1. Files modified\n\n| file | what |\n|---|---|\n| `data/linelists/canonical_gf.csv` | **167,739 rows unchanged** (an UPDATE, not RYA-834's extension); **1,597 rewritten**; 6 new columns (`gf_tier`, `lab_source_tag`, `gf_sigma_dex`, `gf_source_doi`, `is_diagnostic`, `diagnostic_excluded_by_registry`) |\n| `scripts/rya945_ingest_fe_lab_gf.py` | the ingest (new) |\n| `scripts/rya945_fetch_fe2_gf_dh19.py` | Den Hartog 2019 Table 6 vendoring (new) |\n| `data/reference/fe_gf_lab/fe2_lab_loggf_dh19.csv` + `.prov.json` | 131 Fe II lab lines (new) |\n| `data/linelists/primary_gf/nist_asd_FeI_3780_9199.tsv` | the VIS/red ASD gap between RYA-822's and RYA-834's pulls (new) |\n| `data/linelists/primary_gf/nist_asd_FeII_3000_10502.tsv` | the repo's **first** Fe II ASD pull (new) |\n| `data/audit/rya945_fe_lab_gf/` | `lab_crossmatch.csv`, `nist_crossmatch.csv`, `update_plan.csv`, `outlier_ledger.csv`, `demoted_nist_rows.csv`, `rya945_summary.json` |\n| `tests/test_fe_lab_gf_ingest_rya945.py` | 13 tests, all re-derived from the written file |\n| `docs/science/rya945_fe_lab_gf_ingest.md` | new |\n| `pipeline/coverage.py` | **unblock** — see §7 |\n| `data/audit/line_accounting/per_line.csv` | RYA-825 drift-guard refresh — see §7 |\n| `CODEX_STATE_REGISTER.md` (v101) + `SEQUENCE.md` | bumped in the same PR |\n\n---\n\n## 2. COVERAGE REPORT — rows by gf tier, per band\n\n| species | band | LAB | NIST-C+ | Kurucz | VALD3 | other | total | **diagnostic** |\n|---|---|---|---|---|---|---|---|---|\n| Fe I | near-UV (3000–3780) | 59 | 501 | 0 | 3610 | 104 | 4274 | **452** |\n| Fe I | VIS (3780–5500) | 199 | 522 | 3418 | 1963 | 338 | 6440 | **630** |\n| Fe I | red (5500–9199.9) | 115 | 128 | 8260 | 249 | 266 | 9018 | **228** |\n| Fe I | NIR (9199.9–13000) | 28 | 0 | 0 | 207 | 0 | 235 | **28** |\n| Fe II | near-UV | 12 | 35 | 0 | 618 | 0 | 665 | **29** |\n| Fe II | VIS | 10 | 249 | 1979 | 143 | 1082 | 3463 | **203** |\n| Fe II | red | 0 | 275 | 7207 | 13 | 3655 | 11150 | **256** |\n| Fe II | NIR | 0 | 0 | 0 | 2 | 0 | 2 | **0** |\n\n**Diagnostic-line count (lab or NIST-C+, EP ≥ 1.2 eV, not registry-excluded): 475 → 1,826.**\nThe ticket's \"was ~9 in VIS\" is the *measured pool*'s count; the line-list count for VIS Fe I is now **630**.\n\n**The number that actually matters is the σ, not the count:**\n\n| tier | rows | median cited σ | vs the 0.20 blanket |\n|---|---|---|---|\n| LAB | 423 | **0.030 dex** | **6.7× tighter** |\n| NIST-C+ | 1,710 | **0.041 dex** | **4.8× tighter** |\n\nThat is RYA-824's corrected one-liner — *the Kurucz floor is in the σ we assign, not uniformly in the values* — now actionable across ~1,600 lines instead of 29.\n\n---\n\n## 3. Per-source counts ingested\n\n| tag | source | DOI / access | in table | matched | **adopted** |\n|---|---|---|---|---|---|\n| `DH14` | Den Hartog+ 2014, ApJS 215, 23 | `10.1088/0067-0049/215/2/23` · VizieR **J/ApJS/215/23** | 203 | 199 | **199** |\n| `RU14` | Ruffoni+ 2014, MNRAS 441, 3127 | `10.1093/mnras/stu780` · VizieR **J/MNRAS/441/3127** | 142 | 129 | **129** |\n| `BEL17` | Belmonte+ 2017, ApJ 848, 125 | `10.3847/1538-4357/aa8cd3` · **arXiv:1710.07571 source** (J/ApJ/848/125 is a 404) | 120 | 74 | **73** |\n| `DH19` | Den Hartog+ 2019, ApJS 243, 33 | `10.3847/1538-4365/ab322e` · **published PDF — not on VizieR** | 131 | 22 | **22** |\n| `NIST-C+` | NIST ASD via `astroquery.nist` | `physics.nist.gov/asd` | 2,180 graded C+ | — | **1,202** |\n\nFe I ASD coverage is now **continuous 3000–12935 Å**; Fe II ASD is the repo's first, **3000–10502 Å**.\n\n### 🔴 Den Hartog 2019 is not on VizieR — VERIFIED, not assumed\n\n`Vizier.get_catalogs('J/ApJS/243/33')` returns **0 tables**; `cdsarc.cds.unistra.fr/ftp/J/ApJS/243/33/` is a hard **404**; **arXiv:1907.11760 is a PDF-only submission**, so the Belmonte LaTeX-source route does not exist either. Parsed from the published PDF with four controls: **131 rows vs the 131 the caption states**, 0 duplicate wavelengths, 0 rows with E_upper ≤ E_lower, and **level splitting reproducing the quoted wavelength to 1.65e-06 eV**.\n\n⚠️ pypdf renders that paper's `±` as the private-use pair **U+F0A0**, so a regex written against the characters you *see* matched **zero** rows. The count control is the only reason a silent empty parse became a loud one.\n\n---\n\n## 4. 🔴 The ticket's `RU` premise is a reference-code collision\n\nThe ticket says Ruffoni 2014 (`RU`) is partially wired. **It is not wired at all under that code.**\n\n- All **5,113** `RU` rows are **Fe II** — plus Cr II. Ruffoni 2014 is an **Fe I** paper.\n- VALD's own reference block, read from `VALD/Procyon/RyanSchmitt.019514`: **`Fe 2: Raassen & Uylings … gf:RU`**. `RU` is a theoretical orthogonal-operator calculation.\n- Ruffoni's Fe I values *do* reach `canonical_gf`, under the GES codes **`GESHRL14`** and the truncated bibcode **`2014MNRAS.`**.\n\nTreating `RU` as \"lab already wired\" would have credited **5,113 theoretical Fe II rows as primary laboratory data**. Pinned by test so it cannot regress.\n\n### Ticket item 3, answered from the data\n\nDo the rows `canonical_gf` *already* attributes to a lab paper carry that paper's number? A reference code is a claim; the delta is the check.\n\n| existing reference | n | median Δ | max \\|Δ\\| | agree ≤0.02 |\n|---|---|---|---|---|\n| `2014MNRAS.` (Ruffoni) | 81 | +0.000 | 0.040 | **74** |\n| `GESHRL14` (Den Hartog) | 57 | +0.000 | 0.250 | 39 |\n| `BWL+GESHRL` | 25 | +0.006 | 0.086 | 15 |\n| `VALD3` | 122 | +0.017 | **2.961** | 24 |\n| `NIST ASD … T5720` | 44 | −0.025 | 0.635 | 6 |\n\nRuffoni's existing rows check out (74/81). The GES-coded Den Hartog rows are 39/57 — the residual is RYA-799's SCALE-MISMATCH class, and this ingest fixes it by writing the paper's own value.\n\n---\n\n## 5. Crossmatch: ambiguities and how resolved\n\n**Zero ambiguous matches.** Every one that could have been is reported, none guessed.\n\n| | Fe I | Fe II |\n|---|---|---|\n| lab lines | 465 | 131 |\n| matched | **402 (86.5 %)** | **22 (16.8 %)** |\n| ambiguous (>1 candidate) | **0** | **0** |\n| absent | 63 | 109 |\n| randomised null | **0.04 %** | **0.0 %** |\n\n### 🔴 The wavelength window is MEASURED, not chosen\n\nBinning the 2,023 graded NIST matches by wavelength residual and asking how often the two sources then disagree by more than 0.2 dex:\n\n| residual (Å) | n | frac \\|Δ\\| > 0.2 dex | median \\|Δ\\| |\n|---|---|---|---|\n| 0 – 0.001 | 1783 | 1.9 % | 0.0003 |\n| 0.001 – 0.003 | 184 | 3.8 % | 0.0009 |\n| 0.003 – 0.006 | 29 | 3.4 % | 0.0006 |\n| 0.006 – 0.012 | 17 | **11.8 %** | 0.0025 |\n| 0.012 – 0.020 | 10 | **30.0 %** | **0.1201** |\n\nThe last two bins are a **different population** — RYA-822's chance-pairing signature, where coincidences pile up at the tolerance *wall* while real matches sit at the fourth decimal. Window set inside that separation, at **the ticket's 5 mÅ**, which the data independently vindicates. It costs 27 of 2,023 graded matches (1.3 %) and removes the contaminated tail.\n\n### Other refusals, all reported\n\n- **1 lab line** fell on a multi-component canonical row — **HFS refusal**: a per-transition lab gf cannot replace a gf-summed one.\n- **6 ASD rows** share a canonical row with another ASD row ⇒ neither identifies it, both refused.\n- **560 candidate rewrites refused** as tier downgrades or lateral moves (28 LAB→LAB are RYA-834's, untouched by design).\n\n### ⚠️ Inter-source spread has an EMPTY population, and that is a fact about the sources\n\nThe ticket asks for it as a diagnostic. **No canonical row is measured by more than one lab paper** — the three Fe I sets are disjoint by construction: DH14 is high-lying **even**-parity, BEL17 high-lying **odd**-parity, RU14 the GES set.\n\n### 🔴 RYA-834's band-specific ruling overrules this ticket's blanket precedence\n\nIn 9199.9–12935 Å, RYA-834 measured ASD against the band's own line list: 34 of 56 matched, **median |Δ| 0.0003 dex**. That is the same number arriving twice (RYA-760), so there NIST is **recorded, never adopted**. Honoured here: **24 rows take the grade and its σ without their value moving.** A band-specific measurement outranks a general rule. Its test caught me the first time I did not.\n\n### ⚠️ 58 outliers, every one on a ledger\n\nPer TP reference the NIST-minus-incumbent delta is **median 0.000, MAD 0.000–0.002** — this ingest is very largely a **null on values**. 58 rows move by more than the 0.20 dex Kurucz systematic; all are in `outlier_ledger.csv`. Largest:\n\n| species | λ (Å) | EP | old | new | Δ |\n|---|---|---|---|---|---|\n| Fe I | 5487.738 | 2.18 | −6.643 (K07) | −1.994 (NIST-C+, grade C) | **+4.649** |\n| Fe I | 8432.174 | 3.88 | −5.755 (K07) | −1.770 (RU14) | +3.985 |\n| Fe II | 6841.663 | 11.23 | −2.692 (RU) | +0.441 (NIST-C+, B+) | +3.133 |\n| Fe I | 3026.056 | 2.18 | −5.038 (VALD3) | −2.077 (BEL17) | +2.961 |\n\nBoth top cases were re-queried against **live ASD** and are internally consistent with their own A-values (5487.738: f_ik 0.00145, g_i 7 ⇒ log gf −1.994; an **intercombination** transition, where a Kurucz semi-empirical value is exactly what you would expect to be wrong). Match residuals for these are ≤0.003 Å / ≤0.0004 eV — real identifications, real source disagreement.\n\n### ⚠️ Nine pre-existing rows demoted, not papered over\n\nMy own test found them. `demoted_nist_rows.csv`:\n- **5** carry a per-transition ASD gf on a **2-component HFS cluster** (RYA-822) — the same error this script refuses to make on the way in.\n- **4** carry a stored `NIST ASD v5.11 grade A/B` with no verified σ (RYA-354). **RYA-852 already showed two are stale**: 6149.246 and 6247.557 stored as B while live ASD reports **E (0.301)** and **D (0.176)** — understated **7.3×** and **4.3×**. Re-deriving a σ from the stored letter would launder that staleness into a number.\n\nDemoted to `OTHER`: value and note kept, **claim** withdrawn.\n\n---\n\n## 6. Smoke test output — verbatim\n\nThe ticket's script reads `r['loggf_reference'] in {'DH14',…}`, but `loggf_reference` keeps the repo's existing `PRIMARY LAB <Source>` wording, which `test_redward_gf_extension_rya834` asserts on and `generate_sources_page.py` renders. The ticket's short tags live in the new **`lab_source_tag`** column. Only that column name differs from the ticket's text; the logic is unchanged.\n\n```\nFe I diagnostic lines (lab/NIST-C+, EP>=1.2): 1364\nprecedence violations: 0\n3781.1861 2.1979 -1.9393 NIST-C+ T5720 C 0.0969\n3782.4478 2.998 -1.7518 NIST-C+ T5720 C 0.0969\n3785.706 3.2367 -1.3755 NIST-C+ T5720 C+ 0.0719\n3785.9479 2.4327 -0.9374 NIST-C+ T5720 B+ 0.0294\n3789.1755 2.7275 -1.33 PRIMARY LAB Belmonte2017  0.03\n```\n\n(1,364 is the ticket's own Fe I-only, `nist_grade in (A,A+,B,C)` filter; the full Fe I+II diagnostic flag is **1,826**.)\n\n---\n\n## 7. Two things unblocked en route\n\n**`coverage.load_registry` was broken on main.** It fed every holding's `manifest_path` to `read_csv`, and **RYA-929 and RYA-931 both registered a JSON intake manifest**, so it died with `Expected 2 fields in line 7, saw 3` — a tokenizer message naming neither the file nor the registry, so it reads as data corruption rather than a format assumption. It took out **every caller**, `scripts/line_accounting_rya709.py` among them. The \"not a spectrum-location manifest\" skip already in that loop was the right idea; it simply never ran, because the parse raised first. Extended by suffix, so a `.csv` that will not parse is still a loud failure.\n\n**RYA-825's two-sided drift guard fired as designed** once `canonical_gf` moved: 197 of 10,215 accounting rows reported a `log_gf` that was no longer the resolver's. Regenerated on Sirius — **197 in / 197 out**, with `summary.csv` and `thresholds.json` byte-identical, so the line population and every coverage verdict are untouched and only the gf column moved.\n\n---\n\n## 8. Limits, stated\n\n- **Fe II lab coverage is 22 lines and the binding constraint is OUR BLUE EDGE, not the source.** **109 of DH19's 131 lines lie blueward of `canonical_gf`'s 3000.06 Å edge.** Of the 22 reachable, **22 matched** — a 100 % hit rate on what could be reached. Extending the table below 3000 Å would make ~109 more available; that is a follow-on, not this ticket.\n- **63 Fe I lab lines found no canonical row** (BEL17 46, RU14 13, DH14 4) — mostly Belmonte's deep-UV lines below 3000 Å, same edge.\n- **The diagnostic flag carries two of the three criteria.** `blend_flag` is a column of the **measured EW table**, set per observation by the fitter and applied by `abundances_derive._prefilter`. A line list cannot carry it. The line-level criterion used here is the problem-children registry's standing `exclude` rows; the measurement-time filter still runs downstream. Not silently narrowed — recorded in the summary JSON.\n- **Nothing was re-derived**, per the ticket. Whether the reported Fe value now lands in the literature band **by construction** is the next ticket's measurement, not this one's claim.\n\n---\n\n## 9. Owed / next\n\n1. **Re-derive the Fe products on the new backbone** — the payoff test. RYA-855's \"0 of 36 bars move\" should now be testable properly, since ~1,600 lines carry a cited σ instead of the 0.20 blanket.\n2. **Extend `canonical_gf` below 3000 Å** to reach DH19's other 109 Fe II lines and Belmonte's deep-UV Fe I.\n3. **The 58-row outlier ledger wants adjudication** — each is a genuine Kurucz/VALD-vs-graded-experiment disagreement, several on lines that now enter the diagnostic pool.\n4. **`pipeline/gf_rung.py`'s `LAB_GRADED_SPECIES` is still `{(\"Fe\",\"I\")}`** — Fe II now has a primary lab table (DH19) and could be added. Deliberately not done here: it would change what the grader referees, which is a product decision.\n5. **Bibliography audit** flags two library documents with no row: `HARPS-telluric-STOP-2026-08-19.md` and `TICKET-DRAFT-kpno-telluric-line-selection.md`. Both look like internal working notes rather than external references, so I did not add rows — your call whether the bibliography should carry them.",
+            "attachments": [],
+            "createdAt": "2026-08-21T22:59:41.938Z",
+            "updatedAt": "2026-08-21T22:59:41.481Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          }
+        ],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-822",
+        "uuid": "a93ba5bf-5b56-42fe-9610-56e51df57d19",
+        "title": "BUILD: extend + adjudicate canonical_gf BLUEWARD of 3780 A -- the near-UV Fe I gf gap (3000-3780) that RYA-759's 0.354-dex scatter made visible (blueward twin of RYA-379)",
+        "description": "## Context\n\n<issue id=\"d17f8f5c-2c6f-40fb-aed0-f71600f2a9e6\" label=\"RYA-759\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-759/fe-near-uv-synthesis-validate-the-valdturbospectrum-conversion-bsyn\" /> landed near-UV Fe I 1D-LTE = 7.487 +/- 0.120 (n=40, 3000-3780 A) and DIAGNOSED the dominant error: line-to-line scatter **0.354 dex**, correlating with nothing measurable (wavelength, chi2r, continuum, depth, EP, log gf all |r| <= 0.21), best/worst fit quartiles differ only 0.08 dex -- so it is NOT fit quality, it is **per-line gf error**. And it blows up blueward: MAD **0.755** in 3000-3300 A vs 0.236 in 3600-3780 A. Root cause: `canonical_gf.csv` STARTS at 3780.04 A -- the near-UV band has NO gf adjudication at all.\n\nSo this is the single biggest lever on the near-UV number. It is the **BLUEWARD twin of** <issue id=\"dc477121-9a04-424f-819e-4c8a6d3523df\" label=\"RYA-379\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-379/build-extend-canonical-gfcsv-rya-355-guard-past-9199-a-to-cover-the\" /> (which extends canonical_gf REDWARD past 9199). Consumes <issue id=\"19c9a25e-065e-4550-9f83-ba8e5b8fc622\" label=\"RYA-381\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-381/intake-assemble-new-non-optical-vald-extractions-solar-uvred-opticalir\" />'s UV VALD intake.\n\n**Parallel to, not overlapping,** <issue id=\"9d9a3162-0988-4dcd-8744-4164bd358948\" label=\"RYA-799\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-799/investigate-build-grade-or-honestly-bound-the-271-pass-fe-i-ir-lines\" /> (which Ryan is starting now): 799 GRADES existing IR lines (6910-9199) with Ruffoni-2014/Belmonte-2017/NIST/GES; THIS extends + adjudicates a NEW band (3000-3780) with UV-appropriate sources. Different band, different sources -- no collision.\n\n## Spec\n\n1. Extend `canonical_gf.csv` (+ the <issue id=\"4ff86822-9ee8-47d1-9ea8-665c1c5f296d\" label=\"RYA-355\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-355/build-data-stewardship-invariant-check-ci-fail-loudly-on-any-canonical\" /> blue-edge guard) blueward of 3780.04 A down to 3000 A, covering the near-UV Fe I pool (759's 40 lines + the full-band candidates).\n2. Adjudicate per-line gf against UV-appropriate primary sources: NIST-ASD, GES flags, and **Peterson & Kurucz 2022 (PK-III/PK21)** -- currently SHELVED as a candidate Fe I line-ID resource in <issue id=\"d7bb9041-77e5-4d2f-bef8-49e5cb3b0689\" label=\"RYA-779\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-779/docs-record-peterson-and-kurucz-2022-apjs-260-28-pk-iiipk21-as-a\" />; un-shelve and evaluate it as the blueward gf/line-ID source. Confirm whether Ruffoni-2014/Belmonte-2017 reach blueward (likely IR-only) and record.\n3. Attach grade-or-systematic per line (the <issue id=\"ef9283c3-ba34-467b-93cd-7362e18014fa\" label=\"RYA-711\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-711/traceability-our-line-grade-collides-with-nists-letters-is-circular\" /> MQ-grade vocabulary) so the near-UV lines carry defensible gf provenance instead of flat VALD3 scatter.\n4. Re-derive the near-UV Fe I product with the adjudicated gf and report the scatter change (0.354 dex is the target to shrink; 3000-3300 A, MAD 0.755, is the worst sub-band).\n\n## Do NOT\n\n* Do NOT tune to the optical or to Asplund (<issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" /> firewall) -- adjudicate against primary gf sources only.\n* Do NOT drop lines to reduce scatter without a per-line cause (<issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" />).\n\n## End-of-Session\n\nExtended canonical_gf blueward to 3000 A, per-line gf grade/systematic for the near-UV band, the re-derived near-UV Fe I product with its new scatter, the PK22 evaluation verdict, branch + SHA. Do NOT merge.",
+        "priority": {
+          "value": 2,
+          "name": "High"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-822/build-extend-adjudicate-canonical-gf-blueward-of-3780-a-the-near-uv-fe",
+        "gitBranchName": "ryandamienschmitt/rya-822-build-extend-adjudicate",
+        "createdAt": "2026-08-15T14:38:19.659Z",
+        "updatedAt": "2026-11-08T12:12:23.257Z",
+        "archivedAt": null,
+        "completedAt": "2026-08-16T01:39:16.895Z",
+        "startedAt": "2026-08-16T01:18:05.964Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Done",
+        "statusType": "completed",
+        "labels": [],
+        "attachments": [
+          {
+            "id": "8f857783-a9f1-43ac-bc81-68e6c0ad3bf8",
+            "title": "RYA-825 follow-up: two-sided gf drift guard + regenerate against the RYA-822 canonical extension",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/271"
+          },
+          {
+            "id": "340f9358-7372-4ba9-ae3c-31eb5c14fc0f",
+            "title": "RYA-822: canonical_gf reaches 3000 Å — and grading the near-UV gf changes nothing, because the scatter is the Kurucz floor",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/268"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-08-15T14:38:19.659Z",
+            "endedAt": "2026-08-16T01:18:05.978Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-08-16T01:18:05.978Z",
+            "endedAt": "2026-08-16T01:39:16.895Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-08-16T01:39:16.895Z",
+            "endedAt": "2026-08-16T02:08:17.678Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-08-16T02:08:17.678Z",
+            "endedAt": "2026-08-16T02:23:31.407Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-08-16T02:23:31.407Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "assignee": "Ryan Schmitt",
+        "assigneeId": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "parentId": "RYA-713",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [
+          {
+            "id": "fc6a13f1-100b-4206-9fbc-4cdcc03b9302",
+            "body": "CORRECTION (Ryan pushback, 2026-08-15): I claimed the near-UV has \"no lab gf to lean on.\" WRONG -- verified against the literature. Substantial primary lab gf DOES exist in 3000-3780 A:\n\n- **Belmonte, Pickering, Ruffoni, Den Hartog, Lawler et al. 2017** (A&A; arXiv:1710.07571): experimental Fe I log gf spanning **213-1033 nm (2130-10330 A)** -- covers the ENTIRE near-UV band. 120 values from 15 odd-parity levels, many <=0.05 dex.\n- **Den Hartog et al. 2014** (ApJS 215, 23): 203 Fe I lines, high-lying even-parity levels.\n- **O'Brian et al. 1991** + **NIST ASD** (Kramida et al.): the classic broad Fe I lab set, grades C+ (<=0.12 dex).\n\nSo the RYA-759 0.354-dex near-UV scatter is NOT because lab gf don't exist -- it is because canonical_gf.csv does not INGEST them below 3780. This is an UN-INGESTED band, not an ungraded one.\n\nREFRAMED DELIVERABLE: 822 is no longer \"extend + flag most SCALE-MISMATCH.\" It is: extend canonical_gf blueward by **INGESTING the real near-UV lab gf** -- Belmonte 2017 first (it spans the whole band), then O'Brian 1991 / Den Hartog 2014 / NIST ASD -- GRADE the pool against them, and re-derive. Expect the 0.354 scatter to drop substantially, not just get annotated. The near-UV joins the lab-gf sub-pool story (RYA-824), NOT the hopeless-ungraded story.\n\nStill applies: GF- vocabulary (799), positivity guard (825), do NOT tune to optical/Asplund (161). SCALE-MISMATCH stays only for lines where a lab value genuinely does not exist. This ticket just got more valuable -- it can tighten the near-UV bar, not merely label it. Count the actually-gradeable fraction as a deliverable.",
+            "attachments": [],
+            "createdAt": "2026-08-16T02:25:42.556Z",
+            "updatedAt": "2026-08-16T02:25:42.487Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "63a64975-6176-4f22-8b5a-19155c42bdcf",
+            "body": "## Done — PR #268, branch `ryandamienschmitt/rya-822-nearuv-gf`, tip `d98d05e`. **NOT merged.**\n\nYour inline comment was right on every count, and the payoff test says so.\n\n### The payoff test is a NULL\n\n| | A(Fe I) | scatter | n |\n|---|---|---|---|\n| VALD as delivered | 7.487 | 0.354 | 40 |\n| NIST-adjudicated canonical gf | **7.488** | **0.355** | 40 |\n\n### 🔴 Because the scatter IS the Kurucz floor — measured twice, independently\n\n- Per-line gf source recovered from VALD's **4th physical line** (our built list had flattened it to a uniform `'VALD3'`): **84.3% `gf:K14`, 15.7% no gf tag, ZERO primary lab.**\n- Grading the pool through 799's scale: **84.4% `systematic:K07`.**\n\n### 🔴 The actionable finding — your point 3, quantified\n\n> **61 near-UV Fe I lines have a primary laboratory gf. Our list was measured on that value for 6.**\n> The other **55 are SCALE-MISMATCH**, |Δ| median 0.092, max 2.961 dex.\n\n799: 36-of-271, 2 used, in the IR. Same shape one band bluer. Re-inverting the 55 is a **pool rebuild, not a grading job** — same conclusion 799 reached; wants its own ticket under RYA-161/398.\n\n### Your three consequences, each honoured\n\n1. **SCALE-MISMATCH reused, not reinvented** — 55 lines. And note the near-UV case differs from 799's in one way worth recording: the synthesis resolves *through* `canonical_gf`, so for adjudicated lines the value and the grade travel together — no fabricated pedigree there.\n2. **GF- vocabulary, not MQ-.** Single-sourced through `pipeline/gf_grades.py`. One addition, `GF-NIST`, living in that module with the rest.\n3. **Bounded count of real lab gf: six.** Exactly the \"honest deliverable\" you predicted.\n\n### ⚠️ GF-NIST is deliberately NOT GF-LAB\n\nNIST Fe I here is largely a **compilation** (RYA-760: `FMW` *is* NIST, VALD copies it), so agreement proves no transcription error, not independence. **`is_graded` left unchanged** (still primary-lab only) so this cannot silently restate 799's headline; `GF-NIST` gets its own `has_cited_sigma`.\n\n| grade | n | % |\n|---|---|---|\n| `systematic:K07` | 3609 | 84.4 |\n| `GF-NIST` | 604 | 14.1 |\n| `SCALE-MISMATCH` | 55 | 1.3 |\n| `GF-LAB` | 6 | 0.1 |\n\n**610 lines now carry a citable per-line σ** — median 0.0414 dex vs the blanket 0.20 (4.8× tighter).\n\n### 🔴 NIST ASD is NOT blocked — this also closes 799's owed item 2\n\nBisected: server-side fault confined to the **`unit`** parameter. `astroquery.nist` works and returns the `TP`/`Line` refs curl never gave. **`wavelength_type` defaults to `'vacuum'` and our lists are air** (~0.95 Å at 3400 Å) — caught by an offset scan peaking at −1.00 Å, harmless meanwhile only because the matcher also demands EP. Commented on 799 separately.\n\n### Positivity guard adopted\n\nOn the VALD parse and on every emitted σ, per your last paragraph.\n\n### ⚠️ Two corrections to my own earlier claims here\n\n1. \"Ruffoni/Den Hartog have zero lines below 3780 Å\" — true of the **partial** VizieR extracts in `primary_gf/`, **false of the sources**: 799's table spans 2132–11316 Å with **105 Fe I below 3780** (Belmonte2017 70, DenHartog 31, Ruffoni 4).\n2. I nearly reported \"0 orphans in 3000–3780\" off a list **capped at 20**. Real confirmation instead: the guard now treats that window as covered, so an orphan there is **untracked and fails** — stewardship 38 tracked, **0 untracked**.\n\n### Other deliverables\n\n- `canonical_gf.csv` **145,886 → 167,165**, blue edge **3780.038 → 3000.003 Å**, via `cluster_physical_lines` (rounding-based grouping produced rows the resolver couldn't find — caught loudly).\n- **PK21: evaluated, NOT adopted as gf.** Table 3 Note 2 makes `log(gf)₀ = log(gf)+dgf` a reference fit — the RYA-161 violation RYA-779 ratified. Its **line IDs** are the value: **~465 of 860** absent from our list (chance-corrected).\n- **Stewardship guard fixed** — attribution was direction-blind, sending a 1150 Å line to \"past 9199 Å\".\n- ⚠️ **Scope wider than specified**: `apply_to_synth_array` resolves every species (died on Cr II), so the table had to cover the band, not one element.\n\nSuite **1737 passed / 0 failed**, path gate 0, register **v76**.",
+            "attachments": [],
+            "createdAt": "2026-08-16T01:18:33.079Z",
+            "updatedAt": "2026-08-16T01:18:32.794Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "884c000b-10ed-4b85-905f-f4af4a5815aa",
+            "body": "INLINE (RYA-799 result, 2026-08-14) -- read before continuing. 799 just proved the Fe line pool's log_gf is **100% Kurucz K14, IR AND optical alike** (un-flattening the VALD3 provenance recovered the source; only 2/271 IR lines were actually measured on a primary lab value). Expect the SAME here: the near-UV pool is almost certainly Kurucz-floored, and the 0.354 scatter IS that floor, worse blueward.\n\nThree consequences for THIS ticket:\n\n1. **Expect SCALE-MISMATCH, not graded recovery.** 799 found canonical_gf carries lab references the POOL DID NOT USE (pool vs canonical log_gf disagree up to 0.96 dex). Attaching those references' accuracy to a Kurucz-derived abundance FABRICATES a pedigree -- graded-looking, ungraded in fact. 799 invented a third state, SCALE-MISMATCH (same bar + flag) for exactly this. Reuse it; do NOT report \"graded\" off canonical_gf refs the near-UV pool wasn't measured on.\n\n2. **Use the GF- grade vocabulary 799 established, NOT MQ-.** A gf grade is a claim about the atomic datum, not our measurement quality -- 799 keeps GF-/systematic disjoint from MQ- and NIST letters with a test. Single-source through 799's GF- scale.\n\n3. **The near-UV likely has even fewer primary lab gf than the IR** (poorly measured in the lab). So 822's honest deliverable is probably: extend canonical_gf blueward + SCALE-MISMATCH-flag most lines + a bounded count of any with a real lab gf. The actual error lever (re-measuring on primary lab gf) is the separate re-pool ticket.\n\nAdopt 799's permanent **positivity guard** on any UV lab-gf table you parse: a mis-parsed fixed-width table put log gf into the uncertainty column and produced a -2.62 dex sigma that a not-null check waved through; only positivity caught it.",
+            "attachments": [],
+            "createdAt": "2026-08-15T15:45:48.126Z",
+            "updatedAt": "2026-08-15T15:45:48.102Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          }
+        ],
+        "hasNextPage": false
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1131",
+        "uuid": "c51601ef-a026-4a70-a542-96d4cb42e331",
+        "title": "INTAKE: CNO Solar reference lines across FUV/NUV/IR — AGSS21 lineage plus CH/C2/CN/NH/OH/CO molecular assets",
+        "description": "## Goal\n\nClose the missing-band hole exposed by <issue id=\"36530b59-568d-4890-9183-357e17e25eac\" label=\"RYA-1129\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1129/phase-a-intake-freeze-laboratorygraded-gf-assets-for-every-canonical\" />: acquire and verify the **actual Solar C/N/O reference transitions used in the AGSS21 adopted-abundance lineage across FUV, NUV, VIS, red optical, NIR, and IR**, including the molecular indicators CH, C2, CN, NH, OH, and CO.\n\nThe committed <issue id=\"36530b59-568d-4890-9183-357e17e25eac\" label=\"RYA-1129\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1129/phase-a-intake-freeze-laboratorygraded-gf-assets-for-every-canonical\" /> manifests are the Codex canonical denominator, not the published Solar numerator. Current gaps are material:\n\n* atomic FUV: zero C/N/O rows in the intake manifests;\n* near-UV: C 0, N 1, O 1 atomic rows;\n* molecular IR: CO 0 canonical rows; OH 1 VIS-only row;\n* CH/C2/CN/NH are overwhelmingly VIS/near-UV and carry insufficient typed source provenance.\n\nThis ticket owns source discovery, acquisition, transcription, verification, and cross-reference. <issue id=\"a89a870e-c3a6-44f3-ade2-0a8937798375\" label=\"RYA-1130\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1130/schema-separate-molecular-transition-provenance-from-atomic-canonical\" /> owns the molecular schema. Source acquisition and audit proceed immediately; only final molecular canonicalization is blocked on <issue id=\"a89a870e-c3a6-44f3-ade2-0a8937798375\" label=\"RYA-1130\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1130/schema-separate-molecular-transition-provenance-from-atomic-canonical\" />.\n\n## Authoritative method\n\nInherit the mandatory “Solar reference-line-set census — AGSS21 lineage, all bands” section of <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" /> and the <issue id=\"c0ab6b71-4ad1-4182-8796-f7a80c74b437\" label=\"RYA-1109\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1109/source-create-the-asplund-agss21-solar-fe-line-list-gf-the-reference\" /> Fe treatment.\n\nDo not infer “Asplund-used” from familiar wavelengths or from the final abundance. For each C/N/O adopted value:\n\n1. read AGSS21 and identify the exact element-specific source analysis;\n2. follow the citations to primary paper, supplement, CDS/VizieR/ExoMol/MARCS/Turbospectrum asset, or author table;\n3. transcribe the used and explicitly rejected transitions;\n4. validate extraction by published counts/means/identities where the paper permits;\n5. crossmatch to Codex on physical transition identity, never wavelength alone.\n\n## Required source scope\n\n### Atomic\n\n* C I/C II and any UV ion/forbidden indicators actually used in the adopted Solar lineage;\n* N I/N II and relevant UV/IR indicators;\n* O I/\\[O I\\]/O II and relevant UV/IR indicators;\n* blend components that materially enter a Solar indicator, including Ni I at \\[O I\\] 6300;\n* all source-used bands, including negative published band selections.\n\n### Molecular\n\nKeep independent source lineages for:\n\n* C: CH, C2, CN, CO;\n* N: CN, NH;\n* O: OH, CO;\n* isotopologues where used or supplied.\n\nAcquire exact transition-data release/table/version plus DOI/ADS/catalogue identifier, wavelength convention, isotopologue/component normalization, partition-function source, dissociation-energy source, license, and retrieval metadata. Do not equate a VALD delivery label with primary molecular provenance.\n\n## Machine-readable output\n\nOne row per published-used or explicitly rejected transition:\n\n`reference_line_set | adopted_solar_value_lineage | source_paper/table/catalog | use_status | species/isotopologue | transition_identity | wavelength | medium | EP/energies | published_loggf | published_gf_source | EW/profile/weight | source_band | canonical_line_id | Codex_loggf | Codex_gf_tier | Codex_nist_grade | Codex_lab_source | Codex_sigma | Codex_DOI | delta_loggf | join_status | ambiguity_note`\n\nAlso emit:\n\n* per-band coverage matrix: used, rejected, Codex-matched, graded, ungraded, absent, ambiguous;\n* source/provenance manifest with checksums and retrieval dates;\n* source-lineage report showing how each set contributes to AGSS21's adopted C/N/O values;\n* explicit `SOURCE_LINE_LIST_NOT_PUBLISHED` findings only after primary sources and supplements/catalogues are checked.\n\n## Gates\n\n- [ ] Every AGSS21 C/N/O adopted value traced to its line-level source(s).\n- [ ] All source-used FUV/NUV/VIS/red-optical/NIR/IR bands represented.\n- [ ] Atomic and molecular lineages remain distinct.\n- [ ] CO and OH IR gaps explicitly closed or proven unpublished/unavailable.\n- [ ] Zero silent wavelength-only matches.\n- [ ] Zero unresolved ambiguous matches in any adopted set.\n- [ ] Codex comparison distinguishes used+graded, used+ungraded, graded-not-used, absent, rejected.\n- [ ] No abundance derived or gf tuned.\n- [ ] Molecular canonicalization uses the ratified <issue id=\"a89a870e-c3a6-44f3-ade2-0a8937798375\" label=\"RYA-1130\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1130/schema-separate-molecular-transition-provenance-from-atomic-canonical\" /> schema.\n\n## Sequencing\n\n1. Begin source tracing/acquisition now.\n2. Merge <issue id=\"36530b59-568d-4890-9183-357e17e25eac\" label=\"RYA-1129\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1129/phase-a-intake-freeze-laboratorygraded-gf-assets-for-every-canonical\" />/PR 477 as the baseline denominator.\n3. Land <issue id=\"a89a870e-c3a6-44f3-ade2-0a8937798375\" label=\"RYA-1130\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1130/schema-separate-molecular-transition-provenance-from-atomic-canonical\" /> molecular schema.\n4. Canonicalize molecular assets and complete the joins.\n5. Return the frozen-ready verdict to <issue id=\"36530b59-568d-4890-9183-357e17e25eac\" label=\"RYA-1129\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1129/phase-a-intake-freeze-laboratorygraded-gf-assets-for-every-canonical\" /> and <issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" />.",
+        "priority": {
+          "value": 1,
+          "name": "Urgent"
+        },
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1131/intake-cno-solar-reference-lines-across-fuvnuvir-agss21-lineage-plus",
+        "gitBranchName": "ryandamienschmitt/rya-1131-intake-cno-solar-reference-lines",
+        "createdAt": "2026-08-30T05:49:07.210Z",
+        "updatedAt": "2026-11-08T12:12:23.257Z",
+        "archivedAt": null,
+        "completedAt": "2026-08-31T02:05:23.756Z",
+        "startedAt": "2026-08-30T05:49:19.186Z",
+        "canceledAt": null,
+        "dueDate": null,
+        "slaStartedAt": null,
+        "slaMediumRiskAt": null,
+        "slaHighRiskAt": null,
+        "slaBreachesAt": null,
+        "status": "Done",
+        "statusType": "completed",
+        "labels": [],
+        "attachments": [
+          {
+            "id": "509f398a-8a42-4f27-97b0-31a456c36344",
+            "title": "RYA-1136 primary molecular CNO intake — merged PR #487",
+            "subtitle": null,
+            "url": "https://github.com/damienabraxas/exoplanetcodex/pull/487"
+          }
+        ],
+        "documents": [],
+        "stateHistory": [
+          {
+            "state": {
+              "id": "6d16f1e2-fd54-41af-8c3b-b8e8618ee1da",
+              "name": "Backlog",
+              "type": "backlog"
+            },
+            "startedAt": "2026-08-30T05:49:07.210Z",
+            "endedAt": "2026-08-30T05:49:19.199Z"
+          },
+          {
+            "state": {
+              "id": "feb159f6-6fad-4ace-b036-8734f3af33da",
+              "name": "In Progress",
+              "type": "started"
+            },
+            "startedAt": "2026-08-30T05:49:19.199Z",
+            "endedAt": "2026-08-31T02:05:23.787Z"
+          },
+          {
+            "state": {
+              "id": "b62a7ea6-118c-46ea-bee0-e2b8baab7db8",
+              "name": "Done",
+              "type": "completed"
+            },
+            "startedAt": "2026-08-31T02:05:23.787Z",
+            "endedAt": null
+          }
+        ],
+        "createdBy": "Ryan Schmitt",
+        "createdById": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+        "project": "Stellar Spectral Analysis & Exoplanet Abundance",
+        "projectId": "cb280685-511b-48bd-b92e-f286db2f458e",
+        "parentId": "RYA-1129",
+        "team": "Ryan's Adventure Zone",
+        "teamId": "5379727a-dbe9-4d8a-a6d8-568bb0051958"
+      },
+      "discussion": {
+        "comments": [
+          {
+            "id": "b8e6a70e-174e-4931-9fad-919a2c29399d",
+            "body": "Final intake closeout\n\nPR #487 merged as `bf913e4eefe59e9de3b1a0ec2c610936180540d9` with required CI passing.\n\nDelivered:\n- complete 408-row Amarsi et al. (2021) molecular abundance-feature census;\n- official C₂, CH, CN, NH, OH, CO, and Barklem–Collet primary holdings;\n- 457,814 parsed primary transitions;\n- 390/408 exact or explicitly summed physical identities;\n- UV/NUV through IR coverage and rejected-indicator ledger;\n- complete five-line Amarsi et al. (2020) / AGSS21 N I census;\n- checksummed bibliography, molecular constants, conflict, coverage, and crossmatch ledgers;\n- no wavelength-only joins, abundance derivation, or gf tuning.\n\nGate reconciliation:\n- nine rounded component sets, five source-release strength differences, and four OH source inconsistencies remain explicit review/fallback rows;\n- none of those 18 rows is silently promoted into the measurement-ready adopted set;\n- therefore the source intake is complete as `FROZEN_WITH_DOCUMENTED_FALLBACKS` / `INTAKE_COMPLETE_REVIEW_REQUIRED`, while measurement readiness remains withheld for those rows.\n\nRYA-1130 and RYA-1136 are Done. The stale RYA-1130 blocker relation is cleared.",
+            "attachments": [],
+            "createdAt": "2026-08-31T02:05:14.966Z",
+            "updatedAt": "2026-08-31T02:05:14.930Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          },
+          {
+            "id": "77d869e2-da7c-4fee-aad9-104a8c4a25eb",
+            "body": "RYA-946's 2026-08-30 ratified definitions are now the binding grading contract for this intake:\n\n- **Codex Grade**: primary-laboratory gf and measured Solar feature depth <= 0.60. Depth below 0.05 is reported separately as below observability, so the operational observable Codex pool is 0.05–0.60.\n- **Deep Grade**: the same primary-laboratory gf requirement, with feature depth > 0.60; route to synthesis rather than EW inversion.\n- **Asplund Grade**: an orthogonal AGSS21/source-paper reference-line membership axis. It does not imply Codex or Deep grade.\n- **Consistent**: parked future evaluated-provenance tier (including the still-open exact NIST threshold); it must not be merged into Codex/Deep.\n\nFeature depth is the maximum component within 0.05 Å in the measured Solar spectrum, matching the Fe treatment. This explicitly supersedes earlier RYA-946 wording that admitted NIST into the active graded pool.\n\nInitial AGSS21 lineage trace is concrete: §2.3 points atomic C/N/O to Amarsi et al. 2019/2020/2018a and the 879-line molecular analysis to Amarsi et al. 2021. AGSS21 reports 39 C2 Swan, 51 CH Δv=1, 7 CH A–X, 28 CO Δv=1, 52 CO Δv=2, 13 NH Δv=0, 15 NH Δv=1, 59 CN 0–0, 463 CN Δv≥1, 84 OH Δv=0, 50 OH Δv=1, and 15 OH Δv=2 transitions. These counts are the extraction completeness checks for the all-band molecular intake. Atomic counts called out are 14 C I plus [C I] 872.7 nm, five N I, and the O indicators [O I] 557.7/630.0/636.4 nm and O I 615.8/777/844.7/926.9 nm.\n\nSource acquisition continues here while final molecular canonicalization remains sequenced behind RYA-1130.",
+            "attachments": [],
+            "createdAt": "2026-08-30T13:51:56.634Z",
+            "updatedAt": "2026-08-30T13:51:56.594Z",
+            "parentId": null,
+            "resolvedAt": null,
+            "quotedText": null,
+            "author": {
+              "id": "8e29f660-4fee-4a3f-b72a-c602e0caeb82",
+              "name": "Ryan Schmitt"
+            },
+            "onBehalfOf": null
+          }
+        ],
+        "hasNextPage": false
+      }
+    }
+  ]
+}
