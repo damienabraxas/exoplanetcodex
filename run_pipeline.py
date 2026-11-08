@@ -427,11 +427,21 @@ def main() -> None:
             print(f"publish: {len(s['published'])} published, {len(s['held'])} held, "
                   f"{len(s['dropped'])} dropped -- "
                   f"{element_publish.budget_dir(req.star, req.element)}/publish_summary.json")
+        incomplete = s is not None and not s["coverage"]["done"]
+        if incomplete:
+            # RYA-1349: the element is not complete -- a treatment, instrument or cell is
+            # still owed (the Ca ENGINE-A miss). The products written stay; the run says
+            # NOT DONE and exits 3, the code `--coverage` uses (a FAILED cell keeps 1).
+            owed = s["coverage"]["owed"]
+            print(f"\nELEMENT NOT COMPLETE: {len(owed)} cell(s) owed")
+            for r in owed[:40]:
+                print(f"  {r['outcome']:8} {r['band']:11} {r['holding'][:32]:32} {r['ion']:2} "
+                      f"{r['grade'][:16]:16} {r['treatment']:20} {r['reason'][:80]}")
         # A cell that FAILED is a real failure and the exit code must say so, or a
         # CI job reads a green run off a report full of broken cells. BLOCKED and
         # NOT_READY are honest empties and do NOT fail the run -- they are the
         # documented output this layer exists to produce (RYA-1187).
-        sys.exit(1 if report["counts"][run_matrix.FAILED] else 0)
+        sys.exit(1 if report["counts"][run_matrix.FAILED] else 3 if incomplete else 0)
 
     # RYA-1233: the legacy path is announced before anything of it runs.
     print(f"\n{'#'*78}\n# {LEGACY_BANNER}\n{'#'*78}", flush=True)

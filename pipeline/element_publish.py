@@ -232,6 +232,15 @@ def _preserve_history(star: str, element: str, *, work: Path, prev_stage: Path) 
                     continue                 # left as is: reconciliation keeps naming it
                 keep_dir.mkdir(parents=True, exist_ok=True)
                 dst.write_bytes(data)
+                # RYA-1349: the per-line artifact beside it, or the restored record's evidence
+                # is its aggregate alone (10 restored Fe II products had no lines file).
+                stem = name[: -len("_products.csv")] if name.endswith("_products.csv") else None
+                for lines in ([f"{stem}_lines.csv", f"{stem}_{rec.get('treatment')}_lines.csv"]
+                              if stem else []):
+                    if (prev_stage / lines).exists():
+                        (keep_dir / f"{(sha or 'nosha')[:12]}_{lines}").write_bytes(
+                            (prev_stage / lines).read_bytes())
+                        break
             rec["provenance"] = {**prov, "copied_to": str(dst.relative_to(ROOT)),
                                  "copied_to_was": ct}
             done.append(f"{sec}: {name}")
@@ -424,7 +433,12 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     from pipeline import coverage_report, element_verdict
     summary["verdict"] = {k: v for k, v in element_verdict.judge_feed(star, element).items() if k != "cells"}
     cov = coverage_report.coverage(star, element)
-    summary["coverage"] = {"counts": cov["counts"], "done": cov["done"]}
+    # RYA-1349: the checklist (did every treatment and instrument get done?), the cells still
+    # owed, and the holdings that contradict each other, in the summary the run prints.
+    summary["coverage"] = {"counts": cov["counts"], "done": cov["done"],
+                           "checklist": cov["checklist"],
+                           "owed": [r for r in cov["rows"] if r["outcome"] in ("NOT_RUN", "STALE")],
+                           "disagreements": cov["disagreements"]}
     (work / "coverage.json").write_text(json.dumps(cov, indent=1, default=str) + "\n")
     (work / "publish_summary.json").write_text(json.dumps(summary, indent=1, default=str) + "\n")
     print(coverage_report.render(cov))
