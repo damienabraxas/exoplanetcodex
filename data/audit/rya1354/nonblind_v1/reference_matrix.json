@@ -1,0 +1,3870 @@
+{
+  "schema": "rya1354.nonblind-reference-matrix.v1",
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "data/audit/rya1136_cno_intake/atomic_source_census.csv": "b1fd33d2ddc1e90e2c4ed2e3db32f1f52cb008182ca14abb9c03bb594c5b2c3f",
+    "data/linelists/canonical_gf.csv": "30e8e4bc0c7ce899313a6ecadde93e1b444696d5920dc9124a7fa0f07043ea72",
+    "data/audit/rya1354/nonblind_v1/nist_OI_3000_10000.csv": "4c00c21f1ce420f695745ce819bc45282a10d0cc863b3d5d140a9942b8058431",
+    "data/audit/rya1354/exploratory_candidates_v3.json": "0fe1d2b26b774a51b01a28afb9979cfb9625bfd191a72578107d9d47b9a0f7c3",
+    "data/products/solar/O.json": "6093a4771418bb4cf714974a885f3281b3d4feb452a2af1e8d4cbd2610becf32",
+    "data/config/elements_master.json": "6c0376637083267de97e25cb9ffa35a015ff6a56dbfa1f3f3ecad733da4ea0e4",
+    "data/audit/rya1354/nonblind_v1/native_summary.json": "a7fd80732b5e5452dc9a060f8067f1c8d887659af01aace324a944ebe6bcbf5f",
+    "data/audit/rya1354/nonblind_v1/nist_T5803.html": "d54f47308b8b66c8139add72f80f27a65bbcabe21cbd54c8cb824f5e1c6947f2",
+    "data/audit/rya1354/nonblind_v1/nist_T4539.html": "ed1f270195011e416f45fbe99c6d19fa72cfb74ebb0b48cce60fe0145640caf8",
+    "data/audit/rya1354/nonblind_v1/nist_T5081.html": "c4ab9d56f45825ade4b6b7c530856d34ed4e1312f00a16bf31368f99309b1984"
+  },
+  "scope": "ALL_26_SOURCE_GRID_COMPONENTS_NOT_ALL_PROVEN_ADOPTED_REFERENCE_LINES",
+  "nist_wavelength_frame": "VACUUM_ANGSTROM_SHOW_AV_3",
+  "matching_tolerance_vac_A": 0.03,
+  "matching_status": "DISCOVERY_ONLY_EXCEPT_EXPLICIT_TRIPLET_LABEL_CHECK",
+  "rows": [
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.6nm",
+        "wavelength_air_A": "6155.960",
+        "wavelength_vac_A": "6157.660",
+        "lower_EP_eV": "10.7402250",
+        "published_loggf": "-1.363",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6157.665",
+          "Transition": "16239.922",
+          "Rel.": "",
+          "Aki": "7620000.0",
+          "fik": "0.0144",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.679",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 0",
+          "gi   gk": "3 - 1",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "6157.68",
+          "Ritz": "6157.674",
+          "Transition": "16239.9",
+          "Rel.": "400",
+          "Aki": "5720000.0",
+          "fik": "0.0325",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.655",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 1",
+          "gi   gk": "3 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.6nm",
+        "wavelength_air_A": "6155.970",
+        "wavelength_vac_A": "6157.670",
+        "lower_EP_eV": "10.7402250",
+        "published_loggf": "-1.011",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6157.665",
+          "Transition": "16239.922",
+          "Rel.": "",
+          "Aki": "7620000.0",
+          "fik": "0.0144",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.679",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 0",
+          "gi   gk": "3 - 1",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "6157.68",
+          "Ritz": "6157.674",
+          "Transition": "16239.9",
+          "Rel.": "400",
+          "Aki": "5720000.0",
+          "fik": "0.0325",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.655",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 1",
+          "gi   gk": "3 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        },
+        {
+          "Observed": "",
+          "Ritz": "6157.693",
+          "Transition": "16239.849",
+          "Rel.": "",
+          "Aki": "2670000.0",
+          "fik": "0.0253",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.606",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 2",
+          "gi   gk": "3 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.6nm",
+        "wavelength_air_A": "6155.990",
+        "wavelength_vac_A": "6157.690",
+        "lower_EP_eV": "10.7402250",
+        "published_loggf": "-1.120",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6157.665",
+          "Transition": "16239.922",
+          "Rel.": "",
+          "Aki": "7620000.0",
+          "fik": "0.0144",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.679",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 0",
+          "gi   gk": "3 - 1",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "6157.68",
+          "Ritz": "6157.674",
+          "Transition": "16239.9",
+          "Rel.": "400",
+          "Aki": "5720000.0",
+          "fik": "0.0325",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.655",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 1",
+          "gi   gk": "3 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        },
+        {
+          "Observed": "",
+          "Ritz": "6157.693",
+          "Transition": "16239.849",
+          "Rel.": "",
+          "Aki": "2670000.0",
+          "fik": "0.0253",
+          "Acc.": "B+",
+          "Ei           Ek": "86625.757  -   102865.606",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 2",
+          "gi   gk": "3 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.7nm",
+        "wavelength_air_A": "6156.730",
+        "wavelength_vac_A": "6158.440",
+        "lower_EP_eV": "10.7404755",
+        "published_loggf": "-1.487",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6158.441",
+          "Transition": "16237.877",
+          "Rel.": "",
+          "Aki": "1910000.0",
+          "fik": "0.00652",
+          "Acc.": "B+",
+          "Ei           Ek": "86627.778  -   102865.655",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 1",
+          "gi   gk": "5 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "",
+          "Ritz": "6158.459",
+          "Transition": "16237.828",
+          "Rel.": "",
+          "Aki": "4450000.0",
+          "fik": "0.0253",
+          "Acc.": "B+",
+          "Ei           Ek": "86627.778  -   102865.606",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 2",
+          "gi   gk": "5 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.7nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.7nm",
+        "wavelength_air_A": "6156.750",
+        "wavelength_vac_A": "6158.460",
+        "lower_EP_eV": "10.7404755",
+        "published_loggf": "-0.898",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6158.441",
+          "Transition": "16237.877",
+          "Rel.": "",
+          "Aki": "1910000.0",
+          "fik": "0.00652",
+          "Acc.": "B+",
+          "Ei           Ek": "86627.778  -   102865.655",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 1",
+          "gi   gk": "5 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "",
+          "Ritz": "6158.459",
+          "Transition": "16237.828",
+          "Rel.": "",
+          "Aki": "4450000.0",
+          "fik": "0.0253",
+          "Acc.": "B+",
+          "Ei           Ek": "86627.778  -   102865.606",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 2",
+          "gi   gk": "5 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "6158.47",
+          "Ritz": "6158.482",
+          "Transition": "16237.8",
+          "Rel.": "450",
+          "Aki": "5080000.0",
+          "fik": "0.0404",
+          "Acc.": "B+",
+          "Ei           Ek": "86627.778  -   102865.547",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 3",
+          "gi   gk": "5 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.7nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.7nm",
+        "wavelength_air_A": "6156.770",
+        "wavelength_vac_A": "6158.480",
+        "lower_EP_eV": "10.7404755",
+        "published_loggf": "-0.694",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6158.459",
+          "Transition": "16237.828",
+          "Rel.": "",
+          "Aki": "4450000.0",
+          "fik": "0.0253",
+          "Acc.": "B+",
+          "Ei           Ek": "86627.778  -   102865.606",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 2",
+          "gi   gk": "5 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "6158.47",
+          "Ritz": "6158.482",
+          "Transition": "16237.8",
+          "Rel.": "450",
+          "Aki": "5080000.0",
+          "fik": "0.0404",
+          "Acc.": "B+",
+          "Ei           Ek": "86627.778  -   102865.547",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 3",
+          "gi   gk": "5 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.7nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.8nm",
+        "wavelength_air_A": "6158.150",
+        "wavelength_vac_A": "6159.850",
+        "lower_EP_eV": "10.7409313",
+        "published_loggf": "-1.841",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6159.854",
+          "Transition": "16234.152",
+          "Rel.": "",
+          "Aki": "507000.0",
+          "fik": "0.00206",
+          "Acc.": "B+",
+          "Ei           Ek": "86631.454  -   102865.606",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 2",
+          "gi   gk": "7 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "",
+          "Ritz": "6159.876",
+          "Transition": "16234.093",
+          "Rel.": "",
+          "Aki": "2540000.0",
+          "fik": "0.0144",
+          "Acc.": "B+",
+          "Ei           Ek": "86631.454  -   102865.547",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 3",
+          "gi   gk": "7 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.8nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.8nm",
+        "wavelength_air_A": "6158.170",
+        "wavelength_vac_A": "6159.880",
+        "lower_EP_eV": "10.7409313",
+        "published_loggf": "-0.995",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6159.854",
+          "Transition": "16234.152",
+          "Rel.": "",
+          "Aki": "507000.0",
+          "fik": "0.00206",
+          "Acc.": "B+",
+          "Ei           Ek": "86631.454  -   102865.606",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 2",
+          "gi   gk": "7 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "",
+          "Ritz": "6159.876",
+          "Transition": "16234.093",
+          "Rel.": "",
+          "Aki": "2540000.0",
+          "fik": "0.0144",
+          "Acc.": "B+",
+          "Ei           Ek": "86631.454  -   102865.547",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 3",
+          "gi   gk": "7 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "6159.88",
+          "Ritz": "6159.892",
+          "Transition": "16234.1",
+          "Rel.": "490",
+          "Aki": "7620000.0",
+          "fik": "0.0557",
+          "Acc.": "B+",
+          "Ei           Ek": "86631.454  -   102865.506",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 4",
+          "gi   gk": "7 - 9",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.8nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "615.8nm",
+        "wavelength_air_A": "6158.180",
+        "wavelength_vac_A": "6159.890",
+        "lower_EP_eV": "10.7409313",
+        "published_loggf": "-0.409",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108768",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "VALD3",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "VALD3",
+      "canonical_physical_id": "pk_0975b48a913a",
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": "",
+      "actual_canonical_gf_reference": "VALD3",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6159.876",
+          "Transition": "16234.093",
+          "Rel.": "",
+          "Aki": "2540000.0",
+          "fik": "0.0144",
+          "Acc.": "B+",
+          "Ei           Ek": "86631.454  -   102865.547",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 3",
+          "gi   gk": "7 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        },
+        {
+          "Observed": "6159.88",
+          "Ritz": "6159.892",
+          "Transition": "16234.1",
+          "Rel.": "490",
+          "Aki": "7620000.0",
+          "fik": "0.0557",
+          "Acc.": "B+",
+          "Ei           Ek": "86631.454  -   102865.506",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).4d      | 5D*  | 4",
+          "gi   gk": "7 - 9",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "615.8nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "HOLD_AMBIGUOUS_GRID_COMPONENT_IDENTITY",
+      "experimental_gf_accuracy_score": null,
+      "related_native_table": "runs/coverage_v8/optical_4d_E1/lower.upper.t"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "630.0nm",
+        "wavelength_air_A": "6300.300",
+        "wavelength_vac_A": "6302.050",
+        "lower_EP_eV": "0.0000000",
+        "published_loggf": "-9.776",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "PRIMARY_DIAGNOSTIC_IN_A_BLEND",
+        "blend_partner_A": "6300.342",
+        "blend_note": "Ni I 6300.34 sits inside this feature; pipeline.cno_synthesis requires a joint synthesis with A(Ni) pinned. Component carried in this census (RYA-1183)."
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6302.046",
+          "Transition": "15867.862",
+          "Rel.": "",
+          "Aki": "0.00563",
+          "fik": "3.35e-11",
+          "Acc.": "B+",
+          "Ei           Ek": "0.000  -    15867.862",
+          "Lower level": "2s2.2p4          | 3P   | 2",
+          "Upper level": "2s2.2p4               | 1D   | 2",
+          "gi   gk": "5 - 5",
+          "Type": "M1",
+          "TP": "T4539,T5081",
+          "Line": ""
+        },
+        {
+          "Observed": "",
+          "Ritz": "6302.046",
+          "Transition": "15867.862",
+          "Rel.": "",
+          "Aki": "2.11e-05",
+          "fik": "1.26e-13",
+          "Acc.": "C+",
+          "Ei           Ek": "0.000  -    15867.862",
+          "Lower level": "2s2.2p4          | 3P   | 2",
+          "Upper level": "2s2.2p4               | 1D   | 2",
+          "gi   gk": "5 - 5",
+          "Type": "E2",
+          "TP": "T4539,T5081",
+          "Line": ""
+        }
+      ],
+      "nist_gf_provenance": {
+        "T4539": {
+          "doi": "10.1103/PhysRevA.28.3169",
+          "origin": "THEORY_MCHF_BREIT_PAULI",
+          "inspected": "NIST citation/title only"
+        },
+        "T5081": {
+          "doi": "10.1088/0953-4075/21/9/007",
+          "origin": "UNVERIFIED_PRIMARY_METHOD",
+          "inspected": "NIST citation/title only; not accepted as laboratory measurement"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "630.0nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "NATIVE_OPERATORS_AVAILABLE_REVIEW_NOT_SCORED",
+      "experimental_gf_accuracy_score": null,
+      "native_table": "runs/coverage_v8/ground_M1_E2/lower.upper.t",
+      "operator_warning": "Identical states in f1/f2 yield duplicate directional records; do not sum duplicates. Very large E2 gauge disagreements. No E1 conversion, uncertainty or lifetime supplied."
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "636.4nm",
+        "wavelength_air_A": "6363.770",
+        "wavelength_vac_A": "6365.540",
+        "lower_EP_eV": "0.0196224",
+        "published_loggf": "-10.257",
+        "source_band": "VIS",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108775",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "VALD3",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "NIST-C+",
+      "canonical_physical_id": "pk_533413defd97",
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": "B+",
+      "actual_canonical_gf_reference": "NIST ASD v5.11 grade B+ (T4539,T5081)",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "PROVISIONAL_PROXIMITY_CANDIDATES_NOT_CANONICAL_JOIN",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "6365.536",
+          "Transition": "15709.597",
+          "Rel.": "",
+          "Aki": "0.00182",
+          "fik": "1.84e-11",
+          "Acc.": "B+",
+          "Ei           Ek": "158.265  -    15867.862",
+          "Lower level": "2s2.2p4          | 3P   | 1",
+          "Upper level": "2s2.2p4               | 1D   | 2",
+          "gi   gk": "3 - 5",
+          "Type": "M1",
+          "TP": "T4539,T5081",
+          "Line": ""
+        },
+        {
+          "Observed": "",
+          "Ritz": "6365.536",
+          "Transition": "15709.597",
+          "Rel.": "",
+          "Aki": "3.39e-06",
+          "fik": "3.43e-14",
+          "Acc.": "C+",
+          "Ei           Ek": "158.265  -    15867.862",
+          "Lower level": "2s2.2p4          | 3P   | 1",
+          "Upper level": "2s2.2p4               | 1D   | 2",
+          "gi   gk": "3 - 5",
+          "Type": "E2",
+          "TP": "T4539,T5081",
+          "Line": ""
+        }
+      ],
+      "nist_gf_provenance": {
+        "T4539": {
+          "doi": "10.1103/PhysRevA.28.3169",
+          "origin": "THEORY_MCHF_BREIT_PAULI",
+          "inspected": "NIST citation/title only"
+        },
+        "T5081": {
+          "doi": "10.1088/0953-4075/21/9/007",
+          "origin": "UNVERIFIED_PRIMARY_METHOD",
+          "inspected": "NIST citation/title only; not accepted as laboratory measurement"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "636.4nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "NATIVE_OPERATORS_AVAILABLE_REVIEW_NOT_SCORED",
+      "experimental_gf_accuracy_score": null,
+      "native_table": "runs/coverage_v8/ground_M1_E2/lower.upper.t",
+      "operator_warning": "Identical states in f1/f2 yield duplicate directional records; do not sum duplicates. Very large E2 gauge disagreements. No E1 conversion, uncertainty or lifetime supplied."
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "777.2nm",
+        "wavelength_air_A": "7771.940",
+        "wavelength_vac_A": "7774.080",
+        "lower_EP_eV": "9.1460911",
+        "published_loggf": "0.369",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108794",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "NIST-C+",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "NIST-C+",
+      "canonical_physical_id": "pk_a84cbacc85c8",
+      "product_pool_membership_via_existing_canonical_tuple": [
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        }
+      ],
+      "actual_canonical_nist_grade": "A",
+      "actual_canonical_gf_reference": "NIST ASD v5.11 grade A",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "7774.08",
+          "Ritz": "7774.083",
+          "Transition": "12863.26",
+          "Rel.": "870",
+          "Aki": "36900000.0",
+          "fik": "0.468",
+          "Acc.": "A",
+          "Ei           Ek": "73768.200  -    86631.454",
+          "Lower level": "2s2.2p3.(4S*).3s | 5S*  | 2",
+          "Upper level": "2s2.2p3.(4S*).3p      | 5P   | 3",
+          "gi   gk": "5 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "777.2nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "SINGLE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "prediction_id": "OI_2p3-4S-3s_5So_J2__2p3-4S-3p_5P_J3",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 12863.254,
+        "native_prediction_cm1": 12020.99,
+        "residual_cm1": -842.264000000001,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.004469641159214444,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "777.4nm",
+        "wavelength_air_A": "7774.160",
+        "wavelength_vac_A": "7776.300",
+        "lower_EP_eV": "9.1460911",
+        "published_loggf": "0.223",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108795",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "NIST-C+",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "NIST-C+",
+      "canonical_physical_id": "pk_cfb62bba158c",
+      "product_pool_membership_via_existing_canonical_tuple": [
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        }
+      ],
+      "actual_canonical_nist_grade": "A",
+      "actual_canonical_gf_reference": "NIST ASD v5.11 grade A",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "7776.31",
+          "Ritz": "7776.305",
+          "Transition": "12859.57",
+          "Rel.": "810",
+          "Aki": "36900000.0",
+          "fik": "0.335",
+          "Acc.": "A",
+          "Ei           Ek": "73768.200  -    86627.778",
+          "Lower level": "2s2.2p3.(4S*).3s | 5S*  | 2",
+          "Upper level": "2s2.2p3.(4S*).3p      | 5P   | 2",
+          "gi   gk": "5 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "777.4nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "SINGLE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "prediction_id": "OI_2p3-4S-3s_5So_J2__2p3-4S-3p_5P_J2",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 12859.578000000009,
+        "native_prediction_cm1": 12017.4,
+        "residual_cm1": -842.178000000009,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.00472977374733996,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "777.5nm",
+        "wavelength_air_A": "7775.380",
+        "wavelength_vac_A": "7777.530",
+        "lower_EP_eV": "9.1460911",
+        "published_loggf": "0.002",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108796",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "NIST-C+",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "NIST-C+",
+      "canonical_physical_id": "pk_d74bfb642674",
+      "product_pool_membership_via_existing_canonical_tuple": [
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        }
+      ],
+      "actual_canonical_nist_grade": "A",
+      "actual_canonical_gf_reference": "NIST ASD v5.11 grade A",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "7777.53",
+          "Ritz": "7777.527",
+          "Transition": "12857.55",
+          "Rel.": "750",
+          "Aki": "36900000.0",
+          "fik": "0.201",
+          "Acc.": "A",
+          "Ei           Ek": "73768.200  -    86625.757",
+          "Lower level": "2s2.2p3.(4S*).3s | 5S*  | 2",
+          "Upper level": "2s2.2p3.(4S*).3p      | 5P   | 1",
+          "gi   gk": "5 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "777.5nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "SINGLE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "prediction_id": "OI_2p3-4S-3s_5So_J2__2p3-4S-3p_5P_J1",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 12857.557,
+        "native_prediction_cm1": 12015.03,
+        "residual_cm1": -842.527,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.005659978130678291,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "844.6nm",
+        "wavelength_air_A": "8446.240",
+        "wavelength_vac_A": "8448.570",
+        "lower_EP_eV": "9.5213637",
+        "published_loggf": "-0.463",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108814",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "OTHER",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "NIST-C+",
+      "canonical_physical_id": "pk_9b06012714f8",
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": "B",
+      "actual_canonical_gf_reference": "NIST ASD v5.11 grade B (T5803,LS)",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "8448.57",
+          "Ritz": "8448.568",
+          "Transition": "11836.32",
+          "Rel.": "810",
+          "Aki": "32200000.0",
+          "fik": "0.115",
+          "Acc.": "B",
+          "Ei           Ek": "76794.978  -    88631.303",
+          "Lower level": "2s2.2p3.(4S*).3s | 3S*  | 1",
+          "Upper level": "2s2.2p3.(4S*).3p      | 3P   | 0",
+          "gi   gk": "3 - 1",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "844.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 0,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10790.24,
+        "A_B_s1": 27004800.0,
+        "A_C_s1": 24218300.0,
+        "gf_B": 0.347726,
+        "gf_C": 0.311846,
+        "gauge_fraction_A": 0.10318535963976774
+      },
+      "native_table": "runs/coverage_v8/triplet_8446_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 11836.324999999997,
+        "native_prediction_cm1": 10790.24,
+        "residual_cm1": -1046.0849999999973,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": 0.004237164753928047,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "844.6nm",
+        "wavelength_air_A": "8446.350",
+        "wavelength_vac_A": "8448.680",
+        "lower_EP_eV": "9.5213637",
+        "published_loggf": "0.236",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108815",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "OTHER",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "NIST-C+",
+      "canonical_physical_id": "pk_d304a78bdd33",
+      "product_pool_membership_via_existing_canonical_tuple": [
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "iag_fts_solar_atlas",
+          "holding": "solar_iag",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Reference Grade",
+          "selector": "SET-AGSS21",
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_cfb62bba158c",
+            "pk_d304a78bdd33",
+            "pk_d74bfb642674"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "1D-LTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A-3DNLTE",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        },
+        {
+          "grade": "Codex Grade",
+          "selector": null,
+          "tier": "ALL",
+          "band": "red-optical",
+          "instrument": "kpno_solar_atlas",
+          "holding": "solar_kpno_molecfit_corrected",
+          "route": "SYNTH",
+          "treatment": "ENGINE-A",
+          "recorded_indicator_ids": [
+            "pk_a84cbacc85c8",
+            "pk_d304a78bdd33"
+          ]
+        }
+      ],
+      "actual_canonical_nist_grade": "B",
+      "actual_canonical_gf_reference": "NIST ASD v5.11 grade B (T5803,LS)",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "8448.68",
+          "Ritz": "8448.680",
+          "Transition": "11836.17",
+          "Rel.": "1000",
+          "Aki": "32200000.0",
+          "fik": "0.574",
+          "Acc.": "B",
+          "Ei           Ek": "76794.978  -    88631.146",
+          "Lower level": "2s2.2p3.(4S*).3s | 3S*  | 1",
+          "Upper level": "2s2.2p3.(4S*).3p      | 3P   | 2",
+          "gi   gk": "3 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "844.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 2,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10791.2,
+        "A_B_s1": 27011600.0,
+        "A_C_s1": 24216400.0,
+        "gf_B": 1.73876,
+        "gf_C": 1.55883,
+        "gauge_fraction_A": 0.10348146722149003
+      },
+      "native_table": "runs/coverage_v8/triplet_8446_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 11836.16799999999,
+        "native_prediction_cm1": 10791.2,
+        "residual_cm1": -1044.9679999999898,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": 0.004239640732571798,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "844.7nm",
+        "wavelength_air_A": "8446.750",
+        "wavelength_vac_A": "8449.080",
+        "lower_EP_eV": "9.5213637",
+        "published_loggf": "0.014",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "gf_108816",
+        "join_status": "PHYSICAL_TUPLE_MATCH",
+        "codex_gf_tier": "OTHER",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": "NIST-C+",
+      "canonical_physical_id": "pk_1686ddd64be7",
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": "B",
+      "actual_canonical_gf_reference": "NIST ASD v5.11 grade B (T5803,LS)",
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "8449.08",
+          "Ritz": "8449.079",
+          "Transition": "11835.61",
+          "Rel.": "935",
+          "Aki": "32200000.0",
+          "fik": "0.345",
+          "Acc.": "B",
+          "Ei           Ek": "76794.978  -    88630.587",
+          "Lower level": "2s2.2p3.(4S*).3s | 3S*  | 1",
+          "Upper level": "2s2.2p3.(4S*).3p      | 3P   | 1",
+          "gi   gk": "3 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "844.7nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 2,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10790.48,
+        "A_B_s1": 27006400.0,
+        "A_C_s1": 24217400.0,
+        "gf_B": 1.04319,
+        "gf_C": 0.935461,
+        "gauge_fraction_A": 0.10327181705077315
+      },
+      "native_table": "runs/coverage_v8/triplet_8446_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 11835.608999999997,
+        "native_prediction_cm1": 10790.48,
+        "residual_cm1": -1045.1289999999972,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": 0.0043634152689467475,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.1nm",
+        "wavelength_air_A": "9260.800",
+        "wavelength_vac_A": "9263.350",
+        "lower_EP_eV": "10.7402250",
+        "published_loggf": "-0.241",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9263.35",
+          "Ritz": "9263.347",
+          "Transition": "10795.23",
+          "Rel.": "450",
+          "Aki": "44600000.0",
+          "fik": "0.191",
+          "Acc.": "A",
+          "Ei           Ek": "86625.757  -    97420.991",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 0",
+          "gi   gk": "3 - 1",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.1nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 0,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10253.89,
+        "A_B_s1": 39468300.0,
+        "A_C_s1": 39872000.0,
+        "gf_B": 0.562767,
+        "gf_C": 0.568523,
+        "gauge_fraction_A": 0.010124899678972713
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10795.233999999997,
+        "native_prediction_cm1": 10253.89,
+        "residual_cm1": -541.3439999999973,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.008671377012153675,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.1nm",
+        "wavelength_air_A": "9260.840",
+        "wavelength_vac_A": "9263.390",
+        "lower_EP_eV": "10.7402250",
+        "published_loggf": "0.110",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9263.38",
+          "Ritz": "9263.389",
+          "Transition": "10795.19",
+          "Rel.": "490",
+          "Aki": "33400000.0",
+          "fik": "0.43",
+          "Acc.": "A",
+          "Ei           Ek": "86625.757  -    97420.942",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 1",
+          "gi   gk": "3 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.1nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10253.89,
+        "A_B_s1": 29601300.0,
+        "A_C_s1": 29904100.0,
+        "gf_B": 1.26623,
+        "gf_C": 1.27918,
+        "gauge_fraction_A": 0.010125701826839797
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10795.184999999998,
+        "native_prediction_cm1": 10253.89,
+        "residual_cm1": -541.2949999999983,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.007487401223555901,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.1nm",
+        "wavelength_air_A": "9260.930",
+        "wavelength_vac_A": "9263.480",
+        "lower_EP_eV": "10.7402250",
+        "published_loggf": "0.002",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9263.48",
+          "Ritz": "9263.478",
+          "Transition": "10795.08",
+          "Rel.": "450",
+          "Aki": "15600000.0",
+          "fik": "0.334",
+          "Acc.": "A",
+          "Ei           Ek": "86625.757  -    97420.839",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 1",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 2",
+          "gi   gk": "3 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.1nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10253.89,
+        "A_B_s1": 13814000.0,
+        "A_C_s1": 13955400.0,
+        "gf_B": 0.984853,
+        "gf_C": 0.994928,
+        "gauge_fraction_A": 0.010132278544506068
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10795.08200000001,
+        "native_prediction_cm1": 10253.89,
+        "residual_cm1": -541.19200000001,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.00862858783041406,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.3nm",
+        "wavelength_air_A": "9262.580",
+        "wavelength_vac_A": "9265.120",
+        "lower_EP_eV": "10.7404755",
+        "published_loggf": "-0.368",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9265.12",
+          "Ritz": "9265.124",
+          "Transition": "10793.17",
+          "Rel.": "400",
+          "Aki": "11100000.0",
+          "fik": "0.0857",
+          "Acc.": "A",
+          "Ei           Ek": "86627.778  -    97420.942",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 1",
+          "gi   gk": "5 - 3",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.3nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 10251.52,
+        "A_B_s1": 9861930.0,
+        "A_C_s1": 9964840.0,
+        "gf_B": 0.422051,
+        "gf_C": 0.426455,
+        "gauge_fraction_A": 0.010327310824860209
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10793.16399999999,
+        "native_prediction_cm1": 10251.52,
+        "residual_cm1": -541.6439999999893,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.0066350663835955115,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.3nm",
+        "wavelength_air_A": "9262.660",
+        "wavelength_vac_A": "9265.210",
+        "lower_EP_eV": "10.7404755",
+        "published_loggf": "0.224",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9265.21",
+          "Ritz": "9265.212",
+          "Transition": "10793.06",
+          "Rel.": "540",
+          "Aki": "26000000.0",
+          "fik": "0.335",
+          "Acc.": "A",
+          "Ei           Ek": "86627.778  -    97420.839",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 2",
+          "gi   gk": "5 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.3nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 10251.52,
+        "A_B_s1": 23011300.0,
+        "A_C_s1": 23251400.0,
+        "gf_B": 1.64131,
+        "gf_C": 1.65844,
+        "gauge_fraction_A": 0.0103262599241336
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10793.061000000002,
+        "native_prediction_cm1": 10251.52,
+        "residual_cm1": -541.5410000000011,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.008809384471314713,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.3nm",
+        "wavelength_air_A": "9262.770",
+        "wavelength_vac_A": "9265.320",
+        "lower_EP_eV": "10.7404755",
+        "published_loggf": "0.427",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9265.31",
+          "Ritz": "9265.318",
+          "Transition": "10792.94",
+          "Rel.": "590",
+          "Aki": "29700000.0",
+          "fik": "0.535",
+          "Acc.": "A",
+          "Ei           Ek": "86627.778  -    97420.716",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 2",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 3",
+          "gi   gk": "5 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.3nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 10251.51,
+        "A_B_s1": 26298700.0,
+        "A_C_s1": 26573300.0,
+        "gf_B": 2.62612,
+        "gf_C": 2.65354,
+        "gauge_fraction_A": 0.010333680799900652
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10792.937999999995,
+        "native_prediction_cm1": 10251.51,
+        "residual_cm1": -541.4279999999944,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.007685432798287151,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.6nm",
+        "wavelength_air_A": "9265.820",
+        "wavelength_vac_A": "9268.370",
+        "lower_EP_eV": "10.7409313",
+        "published_loggf": "-0.718",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "",
+          "Ritz": "9268.369",
+          "Transition": "10789.385",
+          "Rel.": "",
+          "Aki": "2970000.0",
+          "fik": "0.0273",
+          "Acc.": "A",
+          "Ei           Ek": "86631.454  -    97420.839",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 2",
+          "gi   gk": "7 - 5",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": ""
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 10247.93,
+        "A_B_s1": 2627820.0,
+        "A_C_s1": 2656070.0,
+        "gf_B": 0.187565,
+        "gf_C": 0.189581,
+        "gauge_fraction_A": 0.010636014864066082
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10789.38500000001,
+        "native_prediction_cm1": 10247.93,
+        "residual_cm1": -541.455000000009,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.008848198606112523,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.6nm",
+        "wavelength_air_A": "9265.930",
+        "wavelength_vac_A": "9268.470",
+        "lower_EP_eV": "10.7409313",
+        "published_loggf": "0.125",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9268.48",
+          "Ritz": "9268.475",
+          "Transition": "10789.25",
+          "Rel.": "490",
+          "Aki": "14800000.0",
+          "fik": "0.191",
+          "Acc.": "A",
+          "Ei           Ek": "86631.454  -    97420.716",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 3",
+          "gi   gk": "7 - 7",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 10247.93,
+        "A_B_s1": 13139100.0,
+        "A_C_s1": 13280400.0,
+        "gf_B": 1.31295,
+        "gf_C": 1.32707,
+        "gauge_fraction_A": 0.010639739766874491
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10789.262000000002,
+        "native_prediction_cm1": 10247.93,
+        "residual_cm1": -541.3320000000022,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.006751812476828281,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    },
+    {
+      "source_grid": {
+        "reference_line_set": "AmarsiEtAl2019_AA630_A104_Table1",
+        "use_status": "SOURCE_ANALYSIS_GRID_SET",
+        "element": "O",
+        "species": "O I",
+        "line_label": "926.6nm",
+        "wavelength_air_A": "9266.000",
+        "wavelength_vac_A": "9268.550",
+        "lower_EP_eV": "10.7409313",
+        "published_loggf": "0.712",
+        "source_band": "RED_OPTICAL",
+        "gf_source": "Amarsi2019 adopted grid input; upstream gf source follow-up required",
+        "gf_source_type": "COMPILED_IN_SOURCE_ANALYSIS",
+        "canonical_line_id": "",
+        "join_status": "ABSENT",
+        "codex_gf_tier": "",
+        "codex_loggf": "",
+        "codex_EP_eV": "",
+        "ambiguity_note": "Grid input is not by itself proof of final AGSS21 adopted-line use",
+        "blend_role": "",
+        "blend_partner_A": "",
+        "blend_note": ""
+      },
+      "actual_canonical_tier": null,
+      "canonical_physical_id": null,
+      "product_pool_membership_via_existing_canonical_tuple": [],
+      "actual_canonical_nist_grade": null,
+      "actual_canonical_gf_reference": null,
+      "reference_use": "SOURCE_ANALYSIS_GRID_NOT_PROOF_OF_FINAL_ADOPTION",
+      "grade_scope": "REFERENCE_PRODUCT_DESIGNATION_IS_NOT_LAB_GF",
+      "identity_status": "CONFIGURATION_TERM_J_PARITY_CHECKED_ISOTOPE_UNSPECIFIED",
+      "nist_candidates": [
+        {
+          "Observed": "9268.55",
+          "Ritz": "9268.548",
+          "Transition": "10789.17",
+          "Rel.": "640",
+          "Aki": "44500000.0",
+          "fik": "0.737",
+          "Acc.": "A",
+          "Ei           Ek": "86631.454  -    97420.630",
+          "Lower level": "2s2.2p3.(4S*).3p | 5P   | 3",
+          "Upper level": "2s2.2p3.(4S*).3d      | 5D*  | 4",
+          "gi   gk": "7 - 9",
+          "Type": "",
+          "TP": "T5803,LS",
+          "Line": "L3760"
+        }
+      ],
+      "nist_gf_provenance": {
+        "T5803": {
+          "doi": "10.1088/0953-4075/24/18/010",
+          "origin": "THEORY_CIV3_WITH_EMPIRICAL_ENERGY_ADJUSTMENTS",
+          "inspected": "NIST citation and publisher abstract; full line tables not inspected"
+        }
+      },
+      "gf_origin": "COMPILED_ANALYSIS_GRID_UPSTREAM_PRIMARY_PROVENANCE_UNRESOLVED",
+      "uncertainty": null,
+      "covariance": null,
+      "dependence_group": "926.6nm",
+      "dependence_note": "Shared multiplet/upper-level and common source scale must be curated before covariance scoring",
+      "isotope_hfs": "UNSPECIFIED_NOT_RESOLVED_BY_WAVELENGTH",
+      "exposure": "EXPOSED_NONBLIND",
+      "prediction_status": "REFERENCE_CONFIGURATION_EXPLORATORY",
+      "experimental_gf_accuracy_score": null,
+      "native_prediction": {
+        "upper_ordinal": 1,
+        "upper_J": 4,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 10247.92,
+        "A_B_s1": 39417400.0,
+        "A_C_s1": 39841300.0,
+        "gf_B": 5.06427,
+        "gf_C": 5.11873,
+        "gauge_fraction_A": 0.010639713061571786
+      },
+      "native_table": "runs/coverage_v8/IR_3d_E1/lower.upper.t",
+      "energy_comparison": {
+        "reference_level_difference_cm1": 10789.176000000007,
+        "native_prediction_cm1": 10247.92,
+        "residual_cm1": -541.2560000000067,
+        "uncertainty": null,
+        "purpose": "LEVEL_SEPARATION_NOT_EXPERIMENTAL_GF_TEST"
+      },
+      "exposed_grid_loggf_residual_dex": -0.007483148096500858,
+      "comparison_kind": "THEORY_VERSUS_COMPILED_GRID_NOT_LAB_ACCURACY"
+    }
+  ],
+  "canonical_target_screen": [
+    {
+      "target": "Fe",
+      "priority": 1,
+      "canonical_species": "Fe I",
+      "canonical_lines": 25671,
+      "held_lab_tier_rows": 428,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Fe II",
+      "priority": 1,
+      "canonical_species": "Fe II",
+      "canonical_lines": 15369,
+      "held_lab_tier_rows": 22,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "C",
+      "priority": 1,
+      "canonical_species": "C I",
+      "canonical_lines": 1320,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "O",
+      "priority": 1,
+      "canonical_species": "O I",
+      "canonical_lines": 145,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Mg",
+      "priority": 1,
+      "canonical_species": "Mg I",
+      "canonical_lines": 473,
+      "held_lab_tier_rows": 16,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Si",
+      "priority": 1,
+      "canonical_species": "Si I",
+      "canonical_lines": 2251,
+      "held_lab_tier_rows": 25,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Ca",
+      "priority": 1,
+      "canonical_species": "Ca I",
+      "canonical_lines": 6981,
+      "held_lab_tier_rows": 62,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Ti",
+      "priority": 1,
+      "canonical_species": "Ti I",
+      "canonical_lines": 8644,
+      "held_lab_tier_rows": 207,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Ni",
+      "priority": 1,
+      "canonical_species": "Ni I",
+      "canonical_lines": 3436,
+      "held_lab_tier_rows": 246,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Na",
+      "priority": 1,
+      "canonical_species": "Na I",
+      "canonical_lines": 113,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "P",
+      "priority": 1,
+      "canonical_species": "P I",
+      "canonical_lines": 467,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "S",
+      "priority": 1,
+      "canonical_species": "S I",
+      "canonical_lines": 2201,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "N",
+      "priority": 2,
+      "canonical_species": "N I",
+      "canonical_lines": 178,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Co",
+      "priority": 2,
+      "canonical_species": "Co I",
+      "canonical_lines": 4966,
+      "held_lab_tier_rows": 537,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Cr",
+      "priority": 2,
+      "canonical_species": "Cr I",
+      "canonical_lines": 10993,
+      "held_lab_tier_rows": 192,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Al",
+      "priority": 2,
+      "canonical_species": "Al I",
+      "canonical_lines": 173,
+      "held_lab_tier_rows": 1,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "K",
+      "priority": 2,
+      "canonical_species": "K I",
+      "canonical_lines": 157,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Ba",
+      "priority": 2,
+      "canonical_species": "Ba I",
+      "canonical_lines": 85,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Y",
+      "priority": 2,
+      "canonical_species": "Y I",
+      "canonical_lines": 1069,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "V",
+      "priority": 2,
+      "canonical_species": "V I",
+      "canonical_lines": 6388,
+      "held_lab_tier_rows": 715,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Cu",
+      "priority": 2,
+      "canonical_species": "Cu I",
+      "canonical_lines": 1359,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Zn",
+      "priority": 2,
+      "canonical_species": "Zn I",
+      "canonical_lines": 43,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Mn",
+      "priority": 3,
+      "canonical_species": "Mn I",
+      "canonical_lines": 5601,
+      "held_lab_tier_rows": 47,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Sc",
+      "priority": 3,
+      "canonical_species": "Sc I",
+      "canonical_lines": 2990,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Li",
+      "priority": 3,
+      "canonical_species": "Li I",
+      "canonical_lines": 17,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Eu",
+      "priority": 3,
+      "canonical_species": "Eu I",
+      "canonical_lines": 140,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Zr",
+      "priority": 3,
+      "canonical_species": "Zr I",
+      "canonical_lines": 651,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    },
+    {
+      "target": "Sr",
+      "priority": 3,
+      "canonical_species": "Sr I",
+      "canonical_lines": 89,
+      "held_lab_tier_rows": 0,
+      "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
+      "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
+      "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
+    }
+  ],
+  "actual_product_scopes": [
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "NIR",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_0d25a4205505",
+        "pk_69edca0efd0d",
+        "pk_b1da70b0b885"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": "FORB-OI_6300",
+      "tier": "ALL",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "OI_6300:vis:solar_harps_molecfit_corrected:windows_sha256:637a9f245e477f74d9ade8cd"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Reference Grade",
+      "selector": "SET-AGSS21",
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_cfb62bba158c",
+        "pk_d304a78bdd33",
+        "pk_d74bfb642674"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "1D-LTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A-3DNLTE",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    },
+    {
+      "grade": "Codex Grade",
+      "selector": null,
+      "tier": "ALL",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "treatment": "ENGINE-A",
+      "recorded_indicator_ids": [
+        "pk_a84cbacc85c8",
+        "pk_d304a78bdd33"
+      ]
+    }
+  ],
+  "product_scope_warning": "Actual Reference Grade products use SET-AGSS21; this does not establish which of all 26 grid components enter each fitted pool. No grade propagated from wavelength proximity.",
+  "prospective_shortlist": [
+    "Na",
+    "Mg"
+  ],
+  "shortlist_basis": "Canonical priority-1 light atoms with simpler valence structures than oxygen; selection is methodological, not a blindness claim. Curator must verify new independent measurements and coverage before registration.",
+  "scoring_summary": {
+    "grid_rows": 26,
+    "native_prediction_rows": 17,
+    "scored_nonblind_compiled_gf_rows": 15,
+    "unresolved_grid_identity_rows": 9,
+    "experimental_gf_accuracy_rows": 0,
+    "calibrated_chi_square": null,
+    "missing_predictions_retained": true
+  }
+}
