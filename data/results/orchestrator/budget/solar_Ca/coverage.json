@@ -1,11 +1,11 @@
 {
  "star": "solar",
  "element": "Ca",
- "feed_version": "1.369",
+ "feed_version": "1.373",
  "counts": {
-  "PUBLISHED": 70,
+  "PUBLISHED": 74,
   "HELD": 371,
-  "NOT_RUN": 193,
+  "NOT_RUN": 189,
   "STALE": 143
  },
  "done": false,
@@ -251,11 +251,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "quarantined: 4.112, 3630.752, 3644.413) in the near-UV line jungle, red_chi2 28-64; reads 6.60-6.81 vs 6.30-6.45 in VIS/red-optical and A21 6.30. Model-inadequate blends; no near-UV Ca line is usable, declared gap",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.652,
+   "sigma": 0.1219743381763301,
+   "n_lines": 3
   },
   {
    "band": "near-UV",
@@ -264,11 +264,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
+   "outcome": "PUBLISHED",
    "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "A": 6.675,
+   "sigma": 0.126710166113771,
+   "n_lines": 3
   },
   {
    "band": "near-UV",
@@ -277,8 +277,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
+   "outcome": "HELD",
+   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
    "A": null,
    "sigma": null,
    "n_lines": null
@@ -524,11 +524,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "1D-LTE",
-   "outcome": "HELD",
-   "reason": "quarantined: not supersede anything. [ANOMALOUS_SCATTER] line-to-line scatter 0.2548 dex is 3.10x the median of the 3 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0).",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 6.609,
+   "sigma": 0.1573840499337645,
+   "n_lines": 3
   },
   {
    "band": "near-UV",
@@ -537,11 +537,11 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A",
-   "outcome": "NOT_RUN",
+   "outcome": "PUBLISHED",
    "reason": "",
-   "A": null,
-   "sigma": null,
-   "n_lines": null
+   "A": 6.632,
+   "sigma": 0.1613631749405124,
+   "n_lines": 3
   },
   {
    "band": "near-UV",
@@ -550,8 +550,8 @@
    "grade": "Reference Grade",
    "pool": "reference",
    "treatment": "ENGINE-A-3DNLTE",
-   "outcome": "NOT_RUN",
-   "reason": "",
+   "outcome": "HELD",
+   "reason": "no ENGINE-A-3DNLTE correction emitted for this pool's lines by its registered grid or cited solar table",
    "A": null,
    "sigma": null,
    "n_lines": null
