@@ -1,0 +1,77 @@
+{
+  "schema": "rya1354.oxygen-pilot-plan.v0",
+  "status": "DRAFT_NOT_PREREGISTERED_NOT_APPROVED",
+  "scientific_admission": "HOLD",
+  "species": "O I",
+  "oxygen_II": "DEFERRED_NO_TARGET_OR_DIAGNOSTIC_JUSTIFICATION_YET",
+  "census_input": "data/audit/rya1353_line_census/v4/source_records.csv.gz",
+  "identity_contract": "species/ion, source-qualified lower and upper configuration/term/J/parity, energy origin, wavelength medium/frame, isotope/HFS/component identity; no wavelength-only matching",
+  "initial_scope": [
+    {
+      "group": "permitted_quintet_3s_3p",
+      "lower": "2s2 2p3(4S) 3s 5S(o), J=2",
+      "upper": "2s2 2p3(4S) 3p 5P, J=1,2,3",
+      "multipole": "E1",
+      "current_status": "EXPOSED_EXPLORATORY_SINGLE_CONFIGURATION_ONLY"
+    },
+    {
+      "group": "UV_ground_triplet_to_excited_triplet",
+      "multipole": "E1",
+      "current_status": "HOLD_FULL_PHYSICAL_IDENTITY_AND_PRIMARY_BENCHMARK_SELECTION"
+    },
+    {
+      "group": "higher_n_IR_transitions",
+      "multipole": "E1",
+      "current_status": "HOLD_IDENTITY_OBSERVABILITY_AND_BENCHMARK_SCOPE"
+    },
+    {
+      "group": "ground_configuration_forbidden",
+      "levels": "2s2 2p4 3P/1D/1S fine structure",
+      "multipole": "M1_AND_E2_AS_SOURCE_VERIFIED",
+      "current_status": "HOLD_SEPARATE_OPERATOR_AND_MIXING_VALIDATION_NO_E1_SUBSTITUTION"
+    }
+  ],
+  "methods": {
+    "primary": "GRASP MCDHF then RCI; pinned source, compiler, libraries, every input/output and executable hash",
+    "independent": "MCHF plus Breit-Pauli/CI where needed; native modern biorthogonal application reproduces upstream Si E2 reference bytes and yields an exploratory O I E1 result through a value-preserving layout exporter. Converged O models remain owed.",
+    "shared_ancestry_caveat": "Both implementations share development lineage; method agreement is not independent experimental validation",
+    "existing_comparators": "Tachiev/Froese Fischer 2002, Li et al. 2023 and existing ASD/AGSS21 values are exposed theoretical/evaluated diagnostics, never the withheld experimental set"
+  },
+  "calculation_design_for_review": {
+    "reference_configurations": "Start with source-justified O I even 2s2 2p4 and 2s2 2p3 np; odd 2s2 2p3 ns/nd. Specify every additional reference and target ASF explicitly before freeze.",
+    "active_spaces": "Nested n/l expansions with separately logged valence-valence and core-valence substitutions, closed/open 1s policy and CSF counts; actual n/l ladder and memory cap require review. Do not call the current zero-substitution diagnostic an active-space convergence study.",
+    "optimization": "Freeze EOL/EAL weights, target ASFs, orbital optimization/frozen sets, radial grid, SCF controls and state tracking before reveal. Track LS composition across avoided crossings.",
+    "relativistic": "Separate Dirac-Coulomb, Breit and QED sensitivity runs, and the independent Breit-Pauli approximation; agreement of labels does not equate Hamiltonians.",
+    "gauges": "Record Babushkin/length and Coulomb/velocity with native energy and line-strength convention; gauge_fraction=abs(A_B-A_C)/max(A_B,A_C). This is a diagnostic, not a calibrated sigma.",
+    "observed_energies": "Native predictions and any observed-level substitution are separate records. Preserve original and substituted energy source; scaling follows multipole/operator convention and is never silently applied to both gauges.",
+    "lifetimes_branching": "Require complete downward decay inventory for each upper level, including intercombination and applicable other multipoles. The three current E1 rows do not establish complete lifetimes or branching fractions.",
+    "uncertainty": "Predeclare an uncertainty model from convergence, independent method, neglected physics and calibration data; retain multiplet/common-scale covariance. No sigma from gauge spread alone and no invented confidence for NIST letters.",
+    "thresholds": null,
+    "threshold_status": "HOLD_REVIEWER_MUST_APPROVE_SPECIES_AND_MULTIPOLE_SPECIFIC_CRITERIA_BEFORE_REVEAL"
+  },
+  "blindness": {
+    "curator": null,
+    "primary_experimental_source_receipts": [],
+    "sealed_benchmark_sha256": null,
+    "model_manifest_sha256": null,
+    "frozen_prediction_sha256": null,
+    "curator_witness_uri": null,
+    "status": "HOLD_NO_INDEPENDENT_CURATOR_OR_WITHHELD_BENCHMARK_YET",
+    "partition": "Group all transitions sharing an upper lifetime, branching normalization, multiplet or experimental scale into the same partition. Do not split components across training/calibration/holdout.",
+    "exposure": "Existing source tables, literature comparison tables and all numerical exploratory outputs are exposed. Record prior knowledge. If no genuinely unexposed data exist, report a preregistered external validation rather than calling it blind.",
+    "sequence": [
+      "curator verifies primary experimental method, uncertainties, covariance, identity and independence",
+      "curator commits the sealed benchmark bytes/hash and independent witness before model choices freeze",
+      "scientific reviewer approves scope, methods, uncertainty model, thresholds and split",
+      "freeze model inputs, code/binaries and calculation manifests",
+      "run and freeze all predictions and failure ledgers before reveal",
+      "curator reveals the original byte-identical benchmark",
+      "score all preregistered rows, preserve failures and exclusions without retuning",
+      "review calibration and systematic covariance; any changed model starts a new version and new independent test"
+    ]
+  },
+  "forbidden_lines": "No M1/E2 rates computed in this diagnostic; missing is HOLD, never zero. Validate multipole operators and relativistic mixing before a forbidden-line candidate exists.",
+  "stellar_connection": "Atomic gf candidates do not validate the O Bridge atom, collisions, photoionization, NLTE, atmosphere, Solar abundance, damping or telluric correction. IR stellar publication remains exact-holding telluric-verified and RYA-587 gated.",
+  "learning_track": "RYA-1365 is a separate optional learning task. It may consume exposed diagnostics and synthetic fixtures, never the sealed holdout. No labs or learner sign-off claimed here.",
+  "publication_allowed": false
+}

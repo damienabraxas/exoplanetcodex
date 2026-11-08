@@ -1,0 +1,89 @@
+{
+  "schema": "rya1354.toolchain-provenance.v1",
+  "host": "Sirius",
+  "compute_root": "/mnt/codex-data/codex/rya1354",
+  "base_sha": "adefcaf073ff70035954cf45a9a2283774ac7d06",
+  "compiler": "GNU Fortran (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "4.2.3",
+  "source_pins": {
+    "grasp": {
+      "url": "https://github.com/compas/grasp",
+      "commit": "9006157730a82ac839f2b4ff4e938bcba63a539e",
+      "tracked_source_changes": false,
+      "license": "MIT",
+      "license_sha256": "79da11b5bb611cbfa6871e34950e9f7b4da9cf38bd1f5c55bad10deba6b105e3"
+    },
+    "atsp_book": {
+      "url": "https://github.com/compas/atsp-book",
+      "commit": "26a2c5a2d3cafc07a8d2d37b40d035d43e938b3e",
+      "tracked_source_changes": false,
+      "license": "NOT_VERIFIED_NO_ROOT_LICENSE_FILE; original held archive and official source retained; source code not redistributed"
+    },
+    "atsp2k": {
+      "url": "https://github.com/compas/atsp",
+      "commit": "66689d96b409ac94b003b4bacace6e72f4e69294",
+      "tracked_source_changes": false,
+      "license": "MIT",
+      "license_sha256": "9618e155fe2bea535d94c235221992cd4d5c99f34698a537b2109fbd0dec8799"
+    }
+  },
+  "numerical_libraries": {
+    "blas": {
+      "path": "/usr/lib/x86_64-linux-gnu/libblas.so.3",
+      "sha256": "4be5ab222fc4061b5d7ceac873a91b2b7e7d6a8e5506b30f45f8196082aae340"
+    },
+    "lapack": {
+      "path": "/usr/lib/x86_64-linux-gnu/liblapack.so.3",
+      "sha256": "3037aa528bd93990919f3f1b3d2a42e56bd1ff24ff7fb837ffe4eb604c25e1f0"
+    }
+  },
+  "builds": {
+    "grasp": "cmake -S <grasp> -B <grasp>/build -DCMAKE_Fortran_FLAGS='-std=legacy -fallow-argument-mismatch' -DCMAKE_DISABLE_FIND_PACKAGE_MPI=TRUE -DBLAS_LIBRARIES=/usr/lib/x86_64-linux-gnu/libblas.so.3 -DLAPACK_LIBRARIES=/usr/lib/x86_64-linux-gnu/liblapack.so.3; cmake --build <grasp>/build -j2",
+    "atsp_book": "make -C lib_src/{ang,com,rad3,rad6} sequentially, then make -C atsp_src all; FFLAGS='-O2 -std=legacy -fallow-argument-mismatch'",
+    "atsp2k": "ATSP=<clone>, FC=gfortran, FC_FLAGS='-O2 -fno-automatic -fcray-pointer -std=legacy -fallow-argument-mismatch', FC_LD=-static-libgfortran, LAPACK_LIB=<exact sonames>, FC_MALLOC=LINUX; src90 install attempted but MPI utility builds failed; then serial src/lib/{libang,libcom,libdvdson,librad,libnet} and src/appl/biotr built separately",
+    "warnings": "Legacy argument-mismatch/COMMON-layout warnings retained; a successful build is not numerical or scientific certification. No compiler-warning suppression asserted.",
+    "logs": [
+      "toolchains/grasp-configure.log",
+      "toolchains/grasp-configure-with-libs.log",
+      "toolchains/grasp-build.log",
+      "toolchains/atsp2k-build.log"
+    ],
+    "local_logs": [
+      "/tmp/rya1354-atsp-build.log",
+      "/tmp/rya1354-atsp2k-serial-build.log"
+    ]
+  },
+  "upstream_validation": {
+    "quadrature_actual": 0.5000000000000193,
+    "quadrature_expected": 0.5,
+    "quadrature_absolute_difference": 1.9317880628477724e-14,
+    "serial_workflow": "PASS upstream integration script --preserve-tmp serial; uranium fixture, NOT an oxygen benchmark",
+    "full_suite": "NOT_RUN; MPI unavailable; only the named numerical/workflow checks were executed",
+    "retained_dir": "validation/grasp-test-mpitmp.s7mfcSUWX",
+    "atsp2k_native_control": "PASS: official native Si E2 fixture output byte-identical to examples/tr_ls/1De1.1Se1.14_4.ls; receipt at docs/audit/rya1354/atsp2k_native_control.json; not an O experimental benchmark"
+  },
+  "retained_attempts": {
+    "v1": "O I single-configuration solver steps and nonrelativistic ground-state HF completed; no transitions",
+    "v2": "FAILED unique LS labeling attempts 25.6 GB allocation; all logs retained",
+    "v3": "ordinary LS compositions and GRASP E1 transition completed",
+    "v4": "book MCHF transition explicitly refuses open-shell overlap; process exit 0 and invalid near-zero gf retained",
+    "v5": "modern biorthogonal application rejects book coupling records; process exit 0 despite CONFIGURATION DATA WRONG",
+    "v6": "same exploratory physics, final runner reports semantic refusals and exits 1",
+    "v7": "Coupling columns translated without changing labels; coefficient/eigenvector record read fails",
+    "v8": "Retained coefficient-record failure plus an extra interactive input",
+    "v9": "Native orbital inventory, coefficient columns and coupling layout exported preserving values; finite MCHF E1 result, extra zero-rank operator request excluded",
+    "v10": "Final exact prompt sequence; native MCHF E1 result and GRASP diagnostics retained; runner exit 1 still records intentionally retained legacy angular refusal"
+  },
+  "capsule": {
+    "path": "data/audit/rya1354/solver_smoke_v10.tar.gz",
+    "sha256": "fe096c8978a577409454a52c1f599458b1599ec59f8241fcadac81ac6f7322f2",
+    "content": "all final native two-method inputs, wavefunctions, outputs and receipts; legacy angular refusal preserved; no experimental holdout"
+  },
+  "production_environment": "NOT_MODIFIED; research copies only; nothing on shared PATH changed",
+  "scientific_admission": "HOLD",
+  "superseded_capsule": {
+    "path": "data/audit/rya1354/solver_smoke_v6.tar.gz",
+    "sha256": "d0e2dc9df588e5d273b9f218a4022c216d030a536ddb6e5eff02c8facc035f21",
+    "content": "all native run inputs, outputs, wavefunctions, logs and per-file/binary receipts; no experimental holdout or upstream source code"
+  }
+}
