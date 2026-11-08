@@ -7,6 +7,7 @@ def test_reporting_patch_preserves_source_outside_single_insertion():
     patched,block=reporting_patch(source,rows)
     assert patched.replace(block,'')==source
     assert 'BRIDE_CN_STATE'in block
+    assert all('&'not in line[6:]for line in block.splitlines()if not line.startswith('*'))
     assert all(len(x)<=72 for x in block.splitlines()if not x.startswith('*'))
     for bad in [source+ANCHOR,'no anchor']:
         with pytest.raises(ValueError):reporting_patch(bad,rows)

@@ -15,7 +15,8 @@ def reporting_patch(text,selections):
     condition='\n     &    .or.\n'.join(clauses)
     block="""* BRIDE reporting only: no assignment to native physical variables.
       if (lele.eq.'C N'.and.(
-"""+condition+"""     &    )) then
+"""+condition+"""
+     &    )) then
         do k=1,ntau
           write(*,'(A,4I7,1P,32E25.16)') 'BRIDE_CN_STATE ',
      &      isotope(1),isotope(2),iline,k,
