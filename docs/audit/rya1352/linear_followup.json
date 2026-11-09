@@ -1,0 +1,414 @@
+{
+  "retrieved_at": "2026-11-08",
+  "issues": [
+    {
+      "issue": {
+        "id": "RYA-1233",
+        "title": "BUILD: Orchestrator front door \u2014 `run_pipeline.py --element X` / `--all-elements` (Fe-first sweep) over run_matrix; one sweep report",
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1233/build-orchestrator-front-door-run-pipelinepy-element-x-all-elements-fe",
+        "status": "Done",
+        "description": "## GOVERNING PROCESS (Ryan's map, 2026-10-01) -- follow IN ORDER, no skipping, no reordering\n\n 1. Star selected (config/stars.yaml SSOT).\n 2. Determine instruments + data holdings for the star (ledgers).\n 3. Data audit / preflight per holding (codex-data-audit; measurement_ready).\n 4. Continuum + telluric correction, per band, per instrument holding -- done ONCE, then frozen for every element. Raw spectra never used.\n 5. All literature on the target star retrieved (litscan).\n 6. Secure correct VALD/NIST lines (codex-vald-extraction).\n 7. Cross-check vs known solar graded lines (Reference / Codex / Deep grades).\n 8. Stellar parameters (pinned from STAR_PARAMS, or solved).\n 9. Begin elemental measurements -- IRON FIRST. Fe result sets \\[Fe/H\\] for every other element.\n10. Measure every band, every instrument, every engine (engines never combined).\n11. Uncertainty analysis.\n12. Check against known literature values.\n13. Report any problem lines on the target star's element Linear ticket ("
+      },
+      "discussion": {
+        "hasNextPage": false,
+        "selection": "Topic excerpts from complete retrieved discussion; not a full transcript",
+        "comments": [
+          {
+            "id": "674ea020-19d0-4481-ac9b-4b0fd2ab013b",
+            "createdAt": "2026-10-02T18:40:26.698Z",
+            "excerpt": "C   ... BLOCKED 208 WOULD_RUN 52 / O 208/52 / Mg Si Ca Ti Na P Ba Li 104/26 / N 208/52 / Al 0/130\nNi S Co Cr K Y V Cu Mn Sc Eu Zr Sr   NO_GRADED_POOL\nVERDICT  solar  fe_gate HALT (dry-run: not enforced)  elements RAN 14 NOT_RUN_FE_GATE 0 NO_GRADED_POOL 13 MATRIX_ERROR 0 CRASHED 0 of 27  cells DONE 0 SKIP 0 FAILED 0 BLOCKED 1456 NOT_READY 0 WOULD_RUN 754 UNPUBLISHED 0 of 2210  executed 0\n```\n- Element count = len(elements_master.json[\"elements\"]) = **27**. Order begins Fe I, Fe II.\n- **Fe gate** passes only once RYA-1232's Fe cells are DONE (see the handoff there). 14 live Fe products (ENGINE-A-3DNLTE x12, ENGINE-B x2) have no orchestrator cell.\n- **13 elements have no graded line on main** (RYA-1218's Si grading never merged either).\n- **The EW route reads high against synthesis** on the same lines (Si: +0.12 to +0.5 dex).\n- `rya1227/codex_deep_xi_dadxi.json` is still unregistered in GENERATORS.yaml. Its entry exists only on RYA-1227 branch commits."
+          },
+          {
+            "id": "811f72c4-ad08-4d81-b48c-fb00f579ce1e",
+            "createdAt": "2026-10-03T09:55:40.341Z",
+            "excerpt": "\n**Process conflict, stated as the header requires.** As merged in #569/#570/#571, the orchestrator measured (steps 9-10) without checking steps 5-8, and it measured the ungraded `--lines-tier all` pool. The 2026-10-02 solar Si run therefore violated the process:\n- no `litscan/Si.yaml` (step 5);\n- an ungraded pool (step 7);\n- its gaps (CRIRES+ J/K serving no line, an IAG-Reiners VIS outlier at 7.043) surfaced only after hours of synthesis.\n\nThose 22 Si builds are diagnostic only: not graded products, and not to be published.\n\n**Fix:** PR #572, branch `ryandamienschmitt/rya-1233-process-order` @ `b7430d6c`. Not merged.\n  - Step 6: `canonical_gf` holds the species in the window.\n  - Step 7: at least one lab-graded line in the window.\n- **A missing step** makes the cell **HELD**; the reason names the step and the missing artifact. Nothing is dispatched.\n- **Each report** begins with the process steps (done / NOT DONE plus evidence).\n\n**Graded pool is now a cell axis:**\n- SYNTH x {Reference (`--lines-tier reference`), Codex (`--lines-tier graded`), Deep (`--lines-deep-graded`)}; PROFILEFIT x {Codex}.\n- The all-lines pool is never dispatched. `--pool` filter added.\n- Pool joins the cell / ledger / product key (product `selector`) and the artifact stem.\n- **Fe I:** HELD 30, WOULD_RUN 280.\n- **Fe II:** HELD 120, WOULD_RUN 190. Held = step 6/7: no lab-graded Fe II past VIS, none in outer NIR / K.\n- **C, O, N, Mg, Si, Ca, Ti, Na, P, Ba, Li:** 100% HELD at **step 5**, because only Fe and Al have a litscan YAML. This includes C/N/O, which were measured and published under RYA-1230 without a litscan.\n- **Al:** HELD 200, WOULD_RUN 110.\n- **Ni S Co Cr K Y V Cu Mn Sc Eu Zr Sr:** NO_GRADED_POOL (step 7, no lab-graded line at any ion).\n\n**Tests:**\n- 4 new process tests (step 5 hold, iron first, step 7 hold, no ungraded pool dispatched).\n- The orchestrator suite passes except the pre-existing `test_the_orchestrator_never_writes_into_the_science_feed` (two Fe near-UV stale sigma rows; fails on main too).\n\n- Step 5 litscans for the elements waiting on them.\n- Step 6/7 grading where Fe II / outer-NIR have no lab-graded lines.\n\nFe measurement belongs to RYA-1232."
+          },
+          {
+            "id": "7782abea-bab0-408f-93c2-546f129a2e80",
+            "createdAt": "2026-10-18T06:26:15.293Z",
+            "excerpt": "9. **No progress visibility inside a leg.** Si unit16 (IAG red-optical Codex pool, 111 lines) ran 3+ h per leg under load; run.log says only 'fitting 111 lines' until the end. Telling slow from hung needed counting iSpec temp dirs (~2770). Legs should log per-line progress, and the orchestrator should flag a leg with no progress for N minutes.\n10. **Fixed 2 h per-cell measure timeout (run_matrix `step_timeout=7200`), not scaled for pool size or host load.** 2026-10-16 05:2x: Si publish exited rc=1 -- 5 Codex-grade measure cells TIMED OUT (red-optical IAG / KP-Kurucz / KP-molecfit, NIR KP-molecfit, H CRIRES+ rya1094), the largest pools, under load 50-100. Their budget legs (same fits, no timeout) all completed. The orchestrator handled it correctly: the old products stay marked STALE, coverage NOT DONE (64 published / 520 held / 5 not run / 5 stale), nothing wrong was published. FIXED 2026-10-16 per Ryan: step_timeout default 7200 -> None (run_matrix, run_sweep); the 5 cells then measured cleanly.\n11. **Budget legs are all-or-nothing per element.** pipeline/element_publish.py wipes the whole legs dir when ANY unit or ANY cell inputs_hash changes. Rerunning only the 5 timed-out Si cells therefore re-runs all 45 units x 9 = 405 legs (~8 h under load) instead of the ~45 legs those 5 units own. Should invalidate per unit (key each unit dir by its own command + inputs_hash).\n12. **Leg log order.** The legs runner prints results in submission order (ThreadPoolExecutor.map), so the log count stalls behind one slow leg while later legs finish -- count DONE files on disk instead.\n- Den Hartog 2023 Si gf source not in the gf correlation registry (paper not local); both lines culled for the Sun.\n- Al 6696/6698: the AGSS21 adoption puts TOPbase gf in place of Burheim 2023 lab gf (Nordlander & Lind 2017 used TOPbase; Codex grade does too).\n- Fe/C/N/O have no orchestrator prepare report, so the gate holds their reruns until prepare is run for them.\n- PySME default accrt/accwi (1e-4/3e-3) is too coarse for lines < ~1% deep."
+          },
+          {
+            "id": "cdac8e7c-89fd-4fc8-8e24-3b87846a9e92",
+            "createdAt": "2026-10-18T15:52:21.346Z",
+            "excerpt": "RYA-1250 checkpoint: MG_AGSS21 registers 8 Mg I + 6 Mg II but 0 graded/adopted rows because published gf sigma is unknown; cull wording overstates registered-set absence as absence from all solar literature (5711 is explicitly used per Lodders 2025). Mg II has no ENGINE-A table rows. Runbook corrections prepared; no orchestrator code edited, awaiting Ryan's OK. Details on RYA-1250."
+          },
+          {
+            "id": "92b839fa-025c-45ce-b257-4ada9f76559a",
+            "createdAt": "2026-10-18T16:32:32.073Z",
+            "excerpt": "RYA-1250 investigation correction: the generic uncertainty recipe is already wired through element_publish -> rya1230_cno_budget; the issue is published-set admission when gf sigma is absent. All six currently graded Mg I lines would be excluded by the current cull plan. An unchanged-code, read-only Magg 2022 source-declaration probe protects 5528/5711 and proposes their published gf/errors, demonstrating a data-only route. General findings to review: prepare ignores --ion; culls turn EW saturation plus absence from registered sets into all-method exclusion and do not consult the loaded disposition table; empty required sets are not a readiness blocker. Ryan authorized investigation, not one-off code changes. No orchestrator changes made; full report on RYA-1250."
+          },
+          {
+            "id": "e441263b-62ec-4214-a495-f293308dec01",
+            "createdAt": "2026-10-18T18:49:30.544Z",
+            "excerpt": "RYA-1250 shared integration fixes are in draft science PR #585: declared mean survives budget restatistics and paired perturbations; applied-source provenance is carried into correction product CSVs; declared solar sets with no graded lines stay visible as held coverage cells. Existing uncertainty recipe and too-small-pool holds are reused. All 22 initially branch-only test failures pass on recheck. Mg production run v3 is active; no final coverage/result claimed. https://github.com/damienabraxas/exoplanetcodex/pull/585"
+          },
+          {
+            "id": "3bc881e7-7e54-46a2-bcd2-f3e3d2c8b03e",
+            "createdAt": "2026-10-25T12:19:48.837Z",
+            "excerpt": "Orchestrator: Na (RYA-1251) ran end to end -- PR #595. 360 cells, 0 failed cells, 0 failed legs; 38 published / 37 held (35 on hfs_isotopes). Five orchestrator fixes landed with it (hfs-centroid set match, SET-vs-GRADED budget alias, unpairable leg holds the component, NLTE fit clamped to the deck axis, all-lines-failed-SYNTHESIS cells re-run). Full suite identical failure set to main. Details on RYA-1251."
+          }
+        ]
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1185",
+        "title": "RECONCILE canonical surfaces to merged reality + final Fe.json consolidation -- rebuild register/SEQUENCE/ledgers from git+artifacts (stamp current-as-of-SHA), fold the merged per-band xi into the feed, carry the Asplund products, fix the grade labels",
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1185/reconcile-canonical-surfaces-to-merged-reality-final-fejson",
+        "status": "Done",
+        "description": "DIRECTIVE TO MR. CODE: do NOT file child/extra tickets. Report everything in the end-of-session comment on this ticket for Ryan to triage. Rebuild every surface FROM THE ARTIFACTS (git log on main + the live files), never from the old ledger text or from memory -- the stale ledgers are the problem, not a source.\n\n## 1. Context\n\nThe \u03be campaign and <issue id=\"603d057b-757e-43df-9fd2-bb6c5b4f87c0\" label=\"RYA-1178\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1178/cleanup-re-emit-fejson-to-a-complete-publication-grade-product-schema\" /> are merged, but the canonical state surfaces do not reflect it, so every session restarts by re-deriving reality (a new chat off these ledgers is unusable). This ticket makes docs AND feed true at once, as of a stamped main SHA.\n\nGround truth captured 2026-09-03: main HEAD **f3688d5**. Merged since the ledgers went stale include: <issue id=\"9de0bd97-fd7d-4b93-96e9-ed57f1fb7f2c\" label=\"RYA-1168\" href=\"https://linear.app/ryans-adventure-zone/issue/"
+      },
+      "discussion": {
+        "hasNextPage": false,
+        "selection": "Topic excerpts from complete retrieved discussion; not a full transcript",
+        "comments": [
+          {
+            "id": "1b74806e-708f-4220-967b-0f5e5936b66d",
+            "createdAt": "2026-09-03T21:15:43.485Z",
+            "excerpt": "\n\ud83d\udd34 **Published `tier=ALL`, not GRADED \u2014 the publisher refused GRADED and was right.** The budget's own verdict is `gf rung 1`: *3 of 21 Fe I lines are GF-LAB, the rest GF-NIST \u00d72, systematic:K07 \u00d715*. A tier is a claim about the gf **scale**. `ALL` is the honest value (AGSS21's list taken wholesale, lab and non-lab together); the Reference grade comes from `line_set`, not the tier. Feed keys stay unique: 70 products, 70 distinct keys.\n\n**Grade taxonomy \u2014 ratified, and the placeholder is NOT needed.**\n\n| was | now | count |\n|---|---|---|\n| `Our Grade` | **Codex Grade** | 42 |\n| `Deep Grade` | Deep Grade | 24 |\n| `Asplund Grade` | **Reference Grade** | 4 |\n\n\ud83d\udccc **Pinning your ruling from this session: the top reference tier is `Reference Grade`.** The ticket asked for a clearly-marked placeholder flagged for you; you settled it mid-session, so **no placeholder shipped**. `gbs` joins `Reference Grade` for the same reason \u2014 `line_set` says *which* reference, which is why RYA-1127 put it in the identity key. No GBS product is live, so nothing published was renamed.\n\n**Null audit clean:** 0 `NULL` on every field (was 4 on `wavelength_range_A`); `sigma_reported` = complete quadrature on all 70. The RYA-1106 artifacts record **no window anywhere**, so those four fall back to the declared band definition (`pipeline.band_policy`) with `wavelength_range_basis` saying exactly that \u2014 a weaker claim, labelled as one, so a genuinely missing window cannot hide behind it.\n| `LEDGERS.md` + register header + notes | model roster **8 models** | **9** (7 live tokens; models 8 *The Bride* and 9 *Frankenstein's Dog* declared, emitting nothing) |\n| `model_registry_notes.md:142` | going-forward set = *Asplund Grade / Our Grade / Deep Grade* | **Reference / Codex / Deep**, with a was/now table |\n| `SEQUENCE.md` | stopped **2026-08-30** | **+14 landings**; the 2026-08-31 and 2026-09-03 blocks were missing entirely while **16 PRs** merged |\n\n\n1. **RYA-1112's audit gained four over-dig-in products carrying `rca_verdict: \"OPEN \u2014 no named cause yet\"`** \u2014 precisely what that test forbids. The cause is in their own budget (0.1700 `gf scale (UNGRADED)` blanket over a mixed pool), so `rca()` now names it **IRREDUCIBLE-BY-CONSTRUCTION**: a property of AGSS21's line list, not ours to re-select without ceasing to be a replication (RYA-946 fixed asset). 9 \u2192 13 over dig-in.\n2. **RYA-1080's guard records 4 new `REGENERABILITY_GAP` entries**, one per Asplund product \u2014 produced on the Mac, holding not on the committed runner (RYA-1011). Committed as honest generated output.\n\n- \u26a0\ufe0f **`element_status_tracker.csv` is ~12 days behind its inputs.** `phase_c` refuses to run \u2014 `solar_scale_provenance` raises on gold v3's Fe row (3D value, 1D label, the RYA-669 defect). The fix is a **gold re-freeze**, not a code change.\n- \u26a0\ufe0f **Asplund tier is `ALL`, not a \"Reference tier\"** \u2014 the publisher has no such tier and the gf rung does not support GRADED. If you want a first-class reference *tier* (not just a grade label), that is a vocabulary change to `publish_product.py --tier` + `_TIER_TO_LINE_SET`.\n- \u26a0\ufe0f `main` is red on 2 pre-existing `test_cno_closure_rya1136` failures (`assert 364 == 390`, the RYA-1150 drift). Inherited, not caused here.\n"
+          },
+          {
+            "id": "b1ed2031-561c-4f42-872a-5a40efcfaa6b",
+            "createdAt": "2026-09-03T21:44:30.671Z",
+            "excerpt": "\n**Verification:** full-suite failure set **byte-identical** to the `f3688d5` baseline in the same environment (70 both sides) \u2014 zero regressions. Null audit still clean; grades unchanged (Codex 42 / Deep 24 / Reference 4).\n\n**Branch** `ryandamienschmitt/rya-1185-reconcile-canonical-surfaces` @ **`4913000`** (3 commits). Merged nothing."
+          }
+        ]
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1213",
+        "title": "REFERENCE GRADE COMPLETE: build Reference products from ALL 450 LAB Fe lines across ALL 5 bands \u00d7 ALL engines \u2014 currently VIS-only (21-line AGSS21 subset); 429 lab lines in near-UV/red-optical/NIR/H have no Reference products",
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1213/reference-grade-complete-build-reference-products-from-all-450-lab-fe",
+        "status": "Done",
+        "description": "DIRECTIVE TO MR. CODE: create NO tickets; findings -> EOS. validate-don't-tune (<issue id=\"68caa0a1-dd50-4c03-8386-a6c7ab48d24b\" label=\"RYA-161\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-161/science-solar-astrophysical-log-gf-calibration-blue-edge-cut\" />). This is the LAST Fe coverage gap. After it, Fe is genuinely done \u2014 every grade \u00d7 band \u00d7 engine cell either has a product or a documented N/A.\n\n## 1. Context\n\n450 primary-LAB Fe lines exist in canonical_gf across all 5 bands. Reference Grade (<issue id=\"f1039187-38b1-463a-98eb-ed3b4e9e7c5e\" label=\"RYA-946\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-946/umbrella-all-element-laboratory-gf-sweep-literature-validation\" />: \"amalgamation of best available gf per line from every source, lab where it exists\") should produce products from ALL of them. Currently Reference Grade exists ONLY as 4 VIS products on the 21-line AGSS21 subset. The other 429 lab lines \u2014 including 70 in red-optical, 29 in NIR, 27 in H, and 7"
+      },
+      "discussion": {
+        "hasNextPage": false,
+        "selection": "Topic excerpts from complete retrieved discussion; not a full transcript",
+        "comments": [
+          {
+            "id": "044dd123-116a-4584-af3a-a8fa8e86fea6",
+            "createdAt": "2026-09-12T13:15:53.704Z",
+            "excerpt": "REQUIRED (Ryan, 2026-09-11): Reference Grade gets the SAME uncertainty treatment as Codex and Deep. The \u03be campaign must run for Reference Grade pools \u2014 measured, not borrowed from a sibling tier.\n\nThe gap Mr. Code found is real: all 51 Reference products have sigma_xi = absent because the campaign keys on tier and Reference is new. In VIS that's a 40% understatement. Mr. Code was RIGHT to refuse to borrow a sibling's derivative (175 lines against 67/108 is a genuinely different pool sensitivity), and RIGHT to flag it. But it cannot ship this way.\n\nREQUIRED: run the same paired \u03be-perturbation campaign (\u03be \u00b1 delta_xi) on every Reference Grade pool, same method as the Codex/Deep campaign (RYA-1120). Publish sigma_xi and sigma_reported from the measured derivatives. This is not a separate ticket \u2014 it is part of completing Reference Grade. Every Reference product must carry sigma_xi before it is published. An incomplete error bar on the flagship VIS Reference number (7.435) is not publishable.\n\nNote: the campaign keys on (band \u00d7 holding \u00d7 treatment \u00d7 TIER). Adding Reference as a tier means ~51 new paired runs. Size the cost and report it, but DO run them \u2014 do not publish Reference products with an absent \u03be term."
+          }
+        ]
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1174",
+        "title": "FIX (CRITICAL): Al's entire red-optical band is Opacity Project THEORY typed CRITICALLY_EVALUATED \u2014 source_type() tests NIST before THEORY, so it structurally cannot be seen",
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1174/fix-critical-als-entire-red-optical-band-is-opacity-project-theory",
+        "status": "Backlog",
+        "description": "Filed by <issue id=\"92ec8cd9-3d9d-43ab-8891-51e34281d89c\" label=\"RYA-1141\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1141/qa-audit-independent-verification-of-the-rya-1132-al-atomic-data\" />. Checks **D4 / D4-lineage / D4-grades \u2014 FAIL**. This corrects <issue id=\"92ec8cd9-3d9d-43ab-8891-51e34281d89c\" label=\"RYA-1141\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1141/qa-audit-independent-verification-of-the-rya-1132-al-atomic-data\" />'s own first-pass `A5-lab` **PASS**: that check asked only whether a *GF-LAB* row is theory. None is. It never asked what the **evaluated** tier rests on.\n\n## 1. All 19 `CRITICALLY_EVALUATED` rows are theory\n\nKelleher & Podobedova 2008 (JPCRD 37, 709) Table 4 carries a **Source** column and decodes it in its own header:\n\n> *\"1 = Mendoza et al., 2 = Tachiev and Froese Fischer, 3 = Vujnovi\u0107 et al., 4 = Davidson et al., 5 = Hannaford\"*\n\nEvery Al I multiplet feeding the 19 rows \u2014 **16\u201321 and 23\u201330** \u2014 carries **Source 1 = Mendoza et al."
+      },
+      "discussion": {
+        "hasNextPage": false,
+        "selection": "Topic excerpts from complete retrieved discussion; not a full transcript",
+        "comments": []
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1281",
+        "title": "Bride G4: gated one-column O I 777 runner, diagnostics and measured budget",
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1281/bride-g4-gated-one-column-o-i-777-runner-diagnostics-and-measured",
+        "status": "In Progress",
+        "description": "Parent <issue id=\"13612c4c-3926-4170-8925-3b48f0e1da5e\" label=\"RYA-1278\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1278/bride-reboot-oxygen-first-3d-nlte-foundation-validation-gates-and-cno\" />; see docs/decisions/bride_oxygen_foundation_rya1278.md on its review branch.\n\nAfter G1 and G2, implement a standalone CLI with immutable input manifest, canonical cgs-to-SI gravity, explicit EOS/H, velocities, boundary objects, atom and opacity hashes, observable and numerics. Dry-run validates without RT. Require Ryan's explicit authorization of the concrete manifest before a real O column. Capture populations, rates, residual histories, LTE comparator, emergent spectra and setup/solve times, peak memory, threads and host load. No abundance fitting or target-number tuning. Derive prospective subset budget from measured O timing with iteration/convergence limits; no Ca/Mg proxy as an O measurement."
+      },
+      "discussion": {
+        "hasNextPage": false,
+        "selection": "Topic excerpts from complete retrieved discussion; not a full transcript",
+        "comments": [
+          {
+            "id": "975a4d0d-f2af-4ad6-8195-7a107b704b1d",
+            "createdAt": "2026-10-26T23:19:48.871Z",
+            "excerpt": "\nThese are **fixed-input MARCS5750/4.5/A8.70 reference-node experiments**, not measured solar oxygen, STAGGER, flux,1.5D or full3D. Independent MULTI departure discrepancy~0.18 remains unresolved. Keep In Progress pending Ryan's review and G1/G2 resolution; no production, merge or publication requested/performed."
+          },
+          {
+            "id": "22e9cf20-30e2-41f9-8f7a-83209de4b2f7",
+            "createdAt": "2026-10-28T10:09:02.474Z",
+            "excerpt": "FIRST REAL MIXED O+Ni OPACITY\nNew trace LTE Ni provider adds absorption/emission into native LW background; O+Ni enter one transfer calculation, all normalize to one true continuum with both bound-bound contributions removed. Canonical A(Ni)6.20, loggf-2.110, excitation4.266eV; installed Kurucz Saha/partitions at fixed MARCS ne/nH. Installed-iSpec GES natural damping1.86e8s^-1 explicitly fingerprinted; separate registered GES path is absent on Mac, no silent fallback.\nNatural Voigt prototype ONLY: no pressure broadening, isotope splitting, other blends or new EOS/atmosphere. Original RH-convention O populations frozen.\n"
+          },
+          {
+            "id": "92a659f0-88df-4930-95a1-d50fea659bc1",
+            "createdAt": "2026-10-29T03:31:20.298Z",
+            "excerpt": "\n2. Same sourced pair plus 47 native background lines centered 100-300 nm, fixed LTE/CRD: H2, C5, N4, Mg16, Al7, Si10, S1, Fe2.\n396 iterations, 250.2854 s; terminal physical residual 3.76e-15.\nAreas: 69.1461 / 59.5468 / 46.5247 mA."
+          },
+          {
+            "id": "e0904abe-5a25-498b-b812-80422647b29d",
+            "createdAt": "2026-10-29T20:53:56.599Z",
+            "excerpt": "- Reporting NTO/NTPO, field capacity/precision, Fe state and post-DETABS writes only. BOTH coordinate cases have byte-identical serialized continuum.opa baseline/reporting outputs. This certifies native output precision, not unexported internal bits.\n- Exact92 MARCS abundances, zero global rescaling, xi1. T/Pe verified against source-defined REAL32 input + E14.7 output, no empirical tolerance widening. T quantization max0.0004K, Pe relative8.06e-8. EOS density changes up to0.06660% retained; no Pe recovery. Native code extends the requested3samples to103 by adding100 wavelengths; effective domains receipted.\n- DETABS fractions apply to an INTERMEDIATE sum. ABSKO adds improved H bf and NH afterwards. Those are separately dumped and closure checked. At top H/NH additions2.30307e-7/4.89117e-7m2/kg. Intermediate FeI fraction73.9213%, final73.8630%; no application of intermediate fractions to the final total.\n"
+          },
+          {
+            "id": "38f71ef1-6a15-42b5-8186-9251fcb57ed1",
+            "createdAt": "2026-10-31T18:03:47.540Z",
+            "excerpt": "\nActual solar/10 K input audit: 90 field candidates at existing 5752/5762/5772/5782/5792 K, canonical logg4.438. Three cells (nearest250K/0.5dex, widerT500K/0.5dex, widerT+g500K/1dex), two methods, three field conventions. Eight native sources, full56 depths, 354 comparisons and three diagnostic column constructions. Earlier fine-temperature oxygen solves ALREADY used the nearest cell; this is a separate input comparison, no new RT/SE.\n\nAt5772/4.438 using logPe/rho/log-layer geometry:"
+          },
+          {
+            "id": "dd829f59-26a8-47a3-af1d-3c64565b2395",
+            "createdAt": "2026-11-01T20:46:45.113Z",
+            "excerpt": "\nAll six exact matches pass.94 controlled mismatches refused: one-representable-float changes in six arrays and three scalars; changed Fe mixture/O; changed or added column; depth cut; unmodeled velocity; legacy provider schema for all six; four neighboring10K cases trying another temperature certificate. Adding a constructed column invalidates existing solar bindings; it cannot silently enable a cap.\n\n17 binding tests +29 preceding input/adapter tests =46 pass. Three actual native-provider backend regressions also pass separately. Integrity tests reject appended NPZ bytes (even if reader could ignore them), modified source report, changed binding digest and provider-admission flag. Three existing LW import/default-config warnings retained; no config/dependency/benchmark change. No new verified run bug or material anomaly discovered, so no fabricated bug-ledger row."
+          },
+          {
+            "id": "48571a50-2cf5-43e0-8e21-f808b533aae4",
+            "createdAt": "2026-11-02T01:03:35.149Z",
+            "excerpt": "\nCompleted40 pressure/EOS/geometry/column input cases:9 native MARCS models(5500/5750/6000 by g4/4.5/5),5 held-out comparisons and6 producer-point cases. Read Gustafsson2008 pp953-954/Eqs1-5; official readmarcs.f confirms Pg/Prad/Pturb dyn/cm2 and RHOX g/cm2. Difference-based diagnostic removes pressure intercept; it does NOT recover top mass from P/g. Supplemental Pg log-interpolated, Prad/Pturb linear with existing simplex weights. Source fields unchanged.\n\nImportant native reference limitation: native printed total-pressure differences vs RHOX show max adjacent3.814-4.222%, top-anchored3.792-4.103%, while native rho*dz mass closure is only0.0669-0.3073%. This is NOT proof MARCS violates equilibrium or a verified producer bug. Printed pressure/radiative-force/discretization contract remains unassigned. Open WARNING/model_domain ledger row records the diagnostic anomaly. Do not attribute it all to interpolation or fit a correction."
+          },
+          {
+            "id": "febd6e31-d985-4b8c-8221-efbd390f90d3",
+            "createdAt": "2026-11-02T14:33:44.169Z",
+            "excerpt": "\nFixed solar5772/g4.438/xi1/O8.70 O777 comparison, unchanged corrected2005 Kitt AIR observation:\nObserved p95 levels 0.9962762/0.9962957/0.9959505.\nShipped areas 77.55651/67.20039/53.79430 mA."
+          },
+          {
+            "id": "963ced18-28c4-463b-a80d-226cf3fa0085",
+            "createdAt": "2026-11-03T00:43:33.783Z",
+            "excerpt": "\nWide fixed-population O777 replay now spans7763-7783 AIR A,4001points/.005A and five flux rays, with >=2.6A padding beyond every +/-5A continuum neighborhood. Same nominal5772/g4.438/xi1/O8.70 populations, Fe binding/column/cap, O bound-free continuum. Reconstructed complete binding and input hashes validated, archived fresh-rate population identity checked, detailed-static populations array-identical. Original-grid normalized flux replay differs only3.31213e-12, below original1e-6 outer tolerance. No new SE or abundance fit.\n\nFinal replay5.86844s; process-lifetime peak RSS616382464bytes (~588MiB), including imports/setup. Timing starts after input reconstruction. Load averages start2.8511/2.8521/2.3423, end2.9429/2.8711/2.3516; context1thread. This does NOT retroactively measure earlier SE memory or full3D/grid scaling.\n\nCanonical inventory388 atomic wavelength candidates in7763-7783A, including47FeI/51FeII/45CaI/3OI. Counts are NOT strengths, installed blends or molecular completeness. Native passive atom scan has no bound-bound centres in span, so simply enabling existing native lines cannot supply these neighbors. Canonical table alone lacks upper-level identity/complete damping fields needed for qualified LW models. No mixed opacity installed or normalized-spectra multiplication.\n\nEvidence/figures: https://github.com/damienabraxas/exoplanetcodex/blob/75758f85db0b2567ef7a06acf659312fcb45cb2a/docs/audit/rya1279/wide_continuum_control_review.md"
+          },
+          {
+            "id": "6d491e29-8ef2-4031-9a45-1140b688cf5e",
+            "createdAt": "2026-11-03T03:59:36.794Z",
+            "excerpt": "\nImplemented actual mixed transfer with fixed solar5772/g4.438/xi1/O8.70 O populations. Existing LTE Voigt kernel reused; new wrapper delegates exact-bound Fe continuum every callback, preserving field/composition/cap refusals. Adds bound-bound chi and LTE eta in SAME RT equation, scattering unchanged; no normalized-spectra multiplication, opacity multiplier or fitted Fe abundance.\n\nSource intake:41 exact single-component canonical/GES FeI matches across7763-7783 AIR A. Original lower excitation/loggf retained, natural gamma from GES turbospectrum_rad s^-1 cross-checked against log10 rad; AIR->vacuum conversion once. Full source rows/hashes retained. Six combined-component canonical entries explicitly excluded:gf_064803/064804/064809/064813/064824/064829. Other341 candidates in prior inventory are non-FeI, outside this control. Pressure/Stark/van-der-Waals, components/isotopes/molecules/other species NOT implemented.\n\nRunner rebuilds source selection before consuming derived packet. Altered loggf with unchanged source-file hashes is refused by negative test. Source tables/atom/certificates unchanged. LTE Kurucz trace Fe reservoir uses actual native composition/fixed T/ne/nH/xi. Trace/native limited-atom neutral Fe ratio1.030915-1.184614 retained by depth, no forced agreement. This mixed-reservoir approximation remains a physical qualification gap; no atmosphere/EOS or FeNLTE solution."
+          },
+          {
+            "id": "40a7567a-8d82-4d15-bc3d-b29a32704ff8",
+            "createdAt": "2026-11-03T04:46:55.611Z",
+            "excerpt": "\nActual transfer control uses neutral H/He from local LTE states, not total H nuclei. H0/Htotal0.954446-0.9999998. H2=0 is explicit omission, not physical absence; molecular table remains empty. Original native MARCS corner0.85*nH2/nHI maxima0.00037968/0.00070700/0.00023411/0.00044609 at5750g4/5750g4.5/6000g4/6000g4.5. Rounded native-corner screen is NOT target5772 chemistry or rigorous error bound.\nStark is explicitly absent: source supplied-width/Cowley fallback branches differ, and installed iSpec export does not forward original row Stark field in this path (BSYN GAMST=0). Qualify those separately next, not an implicit producer substitution.\n\nDepth-dependent Gamma now supported while scalar behavior retained. Same41 FeI lines, abundance/Fe continuum/bindings/cap, dense VIS/UV grid, fixed solar5772/g4.438/xi1/O8.70 populations. New natural-only flux array-identical to previous natural control. Paired continuum arrays exactly equal, O populations array-identical. Collider cache refuses changed H/He populations; inherited complete-input checks remain live. No normalized-spectra multiplication or fitted damping/opacity/abundance.\n\nIntrinsic O-window areas mA natural -> HHe:"
+          },
+          {
+            "id": "313113f4-b92f-4eb4-94b4-4082a3d17c54",
+            "createdAt": "2026-11-03T05:34:36.224Z",
+            "excerpt": "FIXED-POPULATION STARK RESULTS\nSame solar5772/g4.438/xi1/O8.70,56depths,41FeI source lines, bound continuum/cap, source collision conventions. No-Stark flux array-identical to previous HHe result. Fixed-case continuum arrays identical.\nIntrinsic window areas mA, NONE/provided/Cowley:\n7771.944:72.13042972/72.13088389/72.13049279;"
+          },
+          {
+            "id": "043f908f-4cc6-4405-9176-045afd342ace",
+            "createdAt": "2026-11-03T15:36:17.931Z",
+            "excerpt": "\nUnchanged bound solar5772/g4.438 inputs; fixed ne and total H. Native H6/He9 atomic ionization and Hminus ratios feed positive hydrogen quadratic, including HI depletion. HI+HII+Hminus+2H2 closure max4.4409e-16; independent Brent HI-fraction agreement2.554e-15. Max H2/total H nuclei0.00078353268 (0.07835%). Natural boundary solar Phi delta<=5.462e-5 relative. Interior leave-one-knot-out max relative Phi errors: not-a-knot0.00074741/natural0.00175331/PCHIP0.00727370; diagnostic sensitivity, not physical error bounds.\n\nModern-SI Eq7 reconstruction using source partition functions and LW H mass differs from published log10(Kp) by+0.00007494 to+0.00054178dex. Explicitly UNASSIGNED; published Kp unchanged, no fitted constants or claimed upstream bug. Source equation/constants closure remains owed.\n\nNo H2 pressure/continuum/O-collision/RT/SE update yet. This checks chemistry bookkeeping only, not full EOS, charge neutrality, metal/CNO network or an oxygen spectrum. Previous O results unchanged; scientific HOLD. Six tests pass (3new units/domain/root/source-tamper,3Stark regressions). Three compact artifacts archived byte-identically at data/results/rya1281/h2_tables_v1. External derived final rya1281-h2-tables-v2; v1 retained. Generator guard exactly2436 prior diagnostics, zero added/removed after staging. Library/tracker/gold debt retained. Registerv203, pointer/mirror/PR-freshness/SEQUENCE/whitespace and pre-push gates pass; no CI-green claim."
+          },
+          {
+            "id": "1a785553-552d-4f15-bea3-f8c1478b1a26",
+            "createdAt": "2026-11-03T18:08:48.377Z",
+            "excerpt": "\nSame full56-depth solar5772/g4.438/xi1/O8.70, original bound Fe continuum/column/cap,41 source-matched FeI lines and source-selected pressure recipes, Cowley Stark, fixed nominal O populations. Dense4001-point7763-7783AIR A grid; same transfer equation. Fixed radiation/cap1e-8,1000iterations/180s bounds,5flux rays,1thread. Source/atmosphere/atom/complete binding/native oracle receipts revalidated.\n\nH2-off spectrum reproduces previous fixed Cowley normalized flux array EXACTLY. Molecular case uses full-domain published-table H2 plus DEPLETED HI, He unchanged. HII/Hminus accounting included; atomic baseline did not subtract Hminus from totalH. Native H/He/O/Fe populations, ne, native continuum and O collision rates unchanged: explicitly collider-only, not full EOS, molecular opacity or new coupled SE. Paired continua exactly equal."
+          },
+          {
+            "id": "0253519d-27b6-410a-9b33-ccb0fc606519",
+            "createdAt": "2026-11-04T00:37:15.406Z",
+            "excerpt": "FRESH COUPLED O RESULTS\nSame solar5772/g4.438/O8.70/full56-depth thermal fields and composition, density-integral/log-native-top cap,41 source FeI pressure lines and Cowley Stark. H2 omitted to retain current atomic EOS/continuum/O-collision baseline; partial H2 collider experiment separate.\nEvery case starts from same checked prior nominal O populations then performs NEW coupled O/radiation solve. Original1500iterations/600s, joint1e-6, conservation1e-10, inner1e-8 unchanged.\nxi0.9:71iterations/91.083s, fresh independent R+C residual3.026419e-7."
+          },
+          {
+            "id": "a8e4b3be-6b26-4006-84a3-d8a3ee60f39c",
+            "createdAt": "2026-11-04T01:11:59.256Z",
+            "excerpt": "Five new fresh coupled O cases atxi0.5/0.75/1/1.25/1.5km/s; together with previous0.9/1.1 there are SEVEN unique points. Fresh source evaluations/certificates,6producer identities/94input/schema/neighbor refusals. Actual producer xi checked; no relabelled certificate or admission flag flip.\nSame solar5772/g4.438/O8.70/full56-depth thermal structure/composition, bound FeI continuum and density-integral/log-native-top cap,41source FeI pressure lines/Cowley Stark, original O/MN/TAUTSP collisions. Atomic EOS/continuum/O-collision baseline retained, H2 omitted; partial H2 intervention separate. No physics kernel changed.\n\nxi:iterations/seconds/fresh independent R+C residual:"
+          },
+          {
+            "id": "23874267-689f-431b-b2c9-5249f50d12cb",
+            "createdAt": "2026-11-04T13:14:36.663Z",
+            "excerpt": "|5822 K|converged|178|459.824|3.435123e-7|-0.002510/+0.000739/+0.002446|\n|logg4.338|BUDGET EXHAUSTED, NOT ACCEPTED|223|600s limit|unqualified|unqualified|\n|logg4.538|converged|152|481.165|4.876575e-7|-0.000327/+0.001725/+0.002440|\n\nEach delta is refined minus its own physical baseline. Earlier nominal refinement is reused, not a new run. Across completed pairs, maximum area difference0.0048073mA and maximum normalized profile difference9.51114e-5. These sampled effects are much smaller than several-mA observational/reference discrepancies. Lower-gravity numerical accuracy is NOT established, nor are individual angular/wavelength/flux/depth errors, interpolation or physical accuracy.\n\nValidation: 50 targeted tests pass, exit0,6.82s; exact commands in linked review. Checks reject wrong physical cases/initial LTE state/nuclei, changed controls, wrong saved operators/populations, disconnected rates, false timeout acceptance and invalid geometry. Required paths, MIRROR, version/structure, whitespace and postcommit register freshness pass. Generator guard retains exactly2436 prior diagnostics, zero added/removed after staging intended artifacts. Initial pre-staging40 untracked-entry notices resolved by staging those40 intended files. Existing pre-push RYA-777/669 generated-surface/gold debt notice remains. Library audit exit1:193documents,127accounted,66unindexed,12off-Mac declarations; no new document used as science evidence. Refinement debt10not-fired/5TBD remains. No Sirius science or CI load; CI deliberately skipped, no green CI claim.\n\n40 result artifacts and2 figures byte-checked and archived. Full ~6.4MB new R/C/J files remain unchanged at registered experiments.bride_thermal_extreme_refinements, with three SHA256 receipts. No size-hook bypass, renamed binary or raw external input committed. Original timeout root registered separately."
+          },
+          {
+            "id": "0db9a6ad-660c-4dfb-967a-a7f97d3e0c7e",
+            "createdAt": "2026-11-05T00:34:04.571Z",
+            "excerpt": "\nQuestion tested: are the lower-gravity convergence jumps actual Ng updates, and does disabling Ng resolve the timeout? Two predeclared serial Mac attempts at the exact same thermal_g4338 state/start/certificate/refined sampling, fixed O8.70/xi1/composition/full56depths. Same source atom/collisions, bound continuum,41FeI pressure lines/Cowley Stark, atomic baseline/H2 omitted. Ng true versus false is explicit in native controls and manifests. Coupled solver, positivity retry, context builder and physical kernels unchanged. No atmosphere/abundance/opacity fit.\n\n| Control | Outer rows/native calls | Actual Ng calls | Child wall seconds | Final joint maximum | Outcome |"
+          },
+          {
+            "id": "582b0eec-87b5-43d1-ac4a-e655aa030113",
+            "createdAt": "2026-11-05T01:19:24.368Z",
+            "excerpt": "\nOne PREDECLARED compute allowance600->1200s at thermal_g4338, with original Ng enabled and native flags recorded. Same exact physical inputs, source/certificate, full56depths, matched starting populations, refined rays5/qscale2/flux7, O8.70/xi1/composition, atom/collisions, bound FeI continuum/41pressure lines/Cowley Stark, H2 omitted. All residual/conservation/iteration criteria unchanged. Default600s policy unchanged; no tolerance or physical parameter retuning.\n\nResult: exit0,233outer iterations,45native Ng calls,630.712s measured elapsed. Peak process RSS1209335808bytes, recorder overhead0.04392s, one context thread on Mac, host loads in report. Not full-grid/3D throughput. All221 prior history rows and221native calls match exactly; twelve more outer steps complete the original criterion. Previous600s attempts remain failed and untouched."
+          },
+          {
+            "id": "cae3db4d-f988-4c7e-9284-a1affe0ffd5f",
+            "createdAt": "2026-11-05T02:07:44.854Z",
+            "excerpt": "\nTwo frozen spectra (canonical 5772/g4.438 and separately converged g4.338), all three O777 VIS lines, both synthesis/IAG continuum references. No new RT, other bands/elements, abundance/parameter/RV/LSF fit or telluric re-correction. Kitt delivered vacuum nm converted once to AIR; internal RT remains vacuum. Both prior RV residual controls retained.\n\n12 native/stored-report replays pass exactly. 24 crossed-selector/denominator fits, 24 frozen-support denominator fits, and 24 side attempts retained. Canonical total reference area changes are 7.147190/4.882779/10.927325 mA; lower-g 7.155995/4.925416/10.879344 mA. Path-average denominator terms 6.629-8.870 mA include induced clipping; these are finite accounting, not independent uncertainty terms. Even freezing anchor membership gives roughly 6-11 mA denominator shifts. No preferred reference inferred."
+          },
+          {
+            "id": "48ec63eb-a07e-421c-9530-74456e425265",
+            "createdAt": "2026-11-06T05:08:46.218Z",
+            "excerpt": "\nPlan/provider/runner precommitted4970270a before evaluation. Source gf_079010: rest AIR7777.099A/vacuum777.923920376nm, E3.199eV/loggf-5.33/natural gamma2.95e8s^-1, canonical/GES RU tag retained without newly qualifying physical gf accuracy. Source identity/isotope/gf and current main target row rechecked. Existing41FeI pressure/Cowley and bound background unchanged; add the one FeII line in the same transfer, not independent-spectrum multiplication. No guessed FeII pressure/Stark, O/charge/SE feedback, new abundance or adopted opacity.\n\nBoth zero-wrapper chi/eta/sca arrays exactly equal the inherited provider. Canonical/lower-g zero transfer spectra reproduce saved normalized flux with max difference0; the entire zero CSV fingerprints also match their frozen sources. Original1e-6regression guard unchanged. Four fixed-radiation/cap legs converge1e-8:65steps canonical,67lower-g; final J8.297/8.621e-9, cap1.118/1.522e-9. Saved O populations and standalone continuum arrays remain exact. This is fixed-radiation convergence, not a new coupled O R+C equilibrium certificate."
+          },
+          {
+            "id": "3b403099-4b20-4712-b4a4-ca98db7aa6da",
+            "createdAt": "2026-11-07T11:34:42.532Z",
+            "excerpt": "canonical48.79795350->48.66086098mA(Cowley,-0.13709252) or48.66088552(supplied,-0.13706798);\nlower-g48.91159408->48.91528845(+0.00369437) or48.91531214(+0.00371806).\nIAG-guided area stays57.70338185mA, both columns/all legs. Residual reference spread~9.0425canonical/8.7881lower-g mA. No preferred reference/gravity/continuum or abundance. Ordinary local FeII damping does not close the larger oxygen/reference discrepancy.\n\n\n84focused tests pass in8.95s,295existing backend warnings; new actual-backend tests check both independent ionic-width equations, full-depth FeII opacity/thermal emission, unchanged scattering/outside support, deepcopy and collider/identity/mode refusals. All4runner/2analysis/2trace commands exit0.46results/4visually inspected figures byte-match immutable registered resources; max520712-byte result. Actual generators/invocations registered. Per-leg17.19-18.71s, pair totals36.47-37.61s, maxprocess1.284GB, one thread each. A brief accidental two-process overlap at the Cowley-to-supplied transition is documented; do not claim fully serial. No Sirius, CI, nice-priority, installs/downloads/benchmark; all owned jobs finished.\n\nRegisterv218/SEQUENCE/MIRROR/version/whitespace/postcommit freshness/pre-push pass. Main459f5614(PR608/RYA1315) reconciled without merge into controls. Generator2436diagnostic strings identical to previous phase, zero added/removed. Global ledger1failed/1passed: historical RYA587blank science_impact, exact row present on current main. Initial mistyped ledger test path ran no tests and was corrected. Library195documents/127accounted/68unindexed/12off-Mac declarations. Existing generated tracker/gold RYA777/669 debt retained. Bug ledger: none newly discovered in implementation; previous dispositions unchanged."
+          },
+          {
+            "id": "0b79b16f-d27e-45ca-97a0-dc604cb6d180",
+            "createdAt": "2026-11-07T16:18:03.963Z",
+            "excerpt": "\nPlan/runner precommitted8f7e84c2 before RT. Canonical5772/logg4.438 column only; three modes natural-FeII, W+ionicCowley, W+suppliedStark. All start from identical saved O populations, not sequential warm starts. Same56depths/41levels, source collision/spline/MN receipts, existing41FeI/bound background, abundance/atmosphere/EOS/ne/H/He. Source/line/current-main target/native widths/binding/kernel receipts checked. No width/gf/RV/abundance tuning, temperature/charge/EOS feedback or inferred Fe abundance.\n\nAll3runs converge3outer iterations under unchanged600s/1500iteration/1e-6joint convergence,5rays/qscale2/7flux rays and1e-8inner radiation. Actual runtime32.886natural/32.546Cowley/32.880supplied seconds. Final fresh physical flows are rebuilt independently of acceleratedGamma: per-class CE/CI/CH/CH0 C sum matches freshly evaluated nativeC within256machine eps, then transitionR+C net/gross flows:"
+          },
+          {
+            "id": "2753e09d-4d73-4c7d-abc3-71438860ceb6",
+            "createdAt": "2026-11-07T16:53:34.541Z",
+            "excerpt": "\nPredeclared code/plan102d8ff6. Reused canonical molecular parser/manifest and RYA1130/1136owners, no parallel molecular schema or atomic-grade assignment. Nine files selected by inspected native automatic routing are byte-identical canonical vendor vs installed iSpec.19504rows parse exactly against headers.651source rows in7763-7783TS-consumer AIR A:\nCN355; C2 149; OH121; CH26; NH0.\nRaw labels, energies/loggf, isotopologues and stable canonical source IDs retained unchanged.\nFe II gf0789987773.443,6.6417e-6.\nThese are historical local extinction/background-absorption ratios at originally declared logtau500~0, not emergent flux/EW/formation/physical-grade predictions. V I full-column same-footprint max0.04065at outermost depth does not prove that depth forms the feature. Component structure/widths/gf accuracy remain separate qualification. No new atomic opacity installed.\n\n13canonical-parser/primary-intake tests pass4.83s, exit0. Inventory/COv1/COv2commands exit0; all source/header/numeric/runtime guards pass.6results byte-match immutable registered sources; original COv1retained, maxartifact95780bytes. Actual writers/invocations registered. No raw spectral/binary/source copy/overwrite,5MiBguard bypass, new RT/SE/Sirius/CI/benchmark/install/download. All owned jobs finished. Mac source audit only; no new source/parser/routing defect inferred."
+          },
+          {
+            "id": "75aa7d7e-7f65-4939-bc6a-d4a031dad6f1",
+            "createdAt": "2026-11-07T20:05:50.787Z",
+            "excerpt": "\nNative Mac LTE molecular controls now quantify the omitted CNO candidates near the O triplet. Nine fixed-input cases cover molecules off/all, CH/CN/C2/NH/OH separately and two refined line steps. All-minus-off intrinsic O-aperture areas are 0.084692/0.317250/0.465505 mA; CN dominates. This is native MARCS5750/logg4.5/xi1 LTE at fixed O8.70, not a Bride NLTE correction or a solar abundance result.\n\nActual latest RYA1315 ORCH canonical gf and continuum are used (de96ae51). With the fixed gravitational RV, synthesis-guided observed areas change +6.630306/-0.710741/+2.320351 mA; IAG-guided areas stay invariant. Exact replay covers108 fits, preserving both reference/RV views and actual coefficient supports. The7771 fit remains entirely blue-supported. Larger continuum responses cannot be equated with molecular absorption or attributed solely to selection."
+          },
+          {
+            "id": "57b2f350-8909-4aa2-a7bc-b952b1dfe4cd",
+            "createdAt": "2026-11-08T10:41:54.953Z",
+            "excerpt": "\nEarlier nine fixed-input native LTE cases show CN dominates all-minus-off intrinsic O-aperture areas0.084692/0.317250/0.465505mA. Current RYA1315 ORCH continuum gives much larger observed-area changes+6.630306/-0.710741/+2.320351mA with fixed gravitational RV, while IAG-guided observed areas stay invariant.7771 remains blue-supported. This native5750/logg4.5/xi1 LTE result is not a Bride NLTE correction or adopted solar abundance. Native EPS1e-4, five-decimal flux and actual1A opacity spacing remain explicit; repeated off/all spectra are byte-identical.\n\nLatest validation:16focused tests pass, two small derived results archived, source before/after checks pass. Initial auditor Git-ownership assumption failed before output creation and is fixed with separately held input receipts; original failure retained in bug ledger. Generator diagnostic set exactly2436historical, zero added/removed; mirror/version/sequence/whitespace/freshness pass. Existing global ledger/tracker/gold debts remain. Library196documents/127accounted/69unindexed/12off-Mac, incomplete. Mac only, [skip ci], no Sirius or CI execution."
+          }
+        ]
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1278",
+        "title": "Bride reboot \u2014 oxygen-first 3D NLTE foundation, validation gates and CNO UV/IR roadmap",
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1278/bride-reboot-oxygen-first-3d-nlte-foundation-validation-gates-and-cno",
+        "status": "In Review",
+        "description": "**Agent brief \u2014 launch:** Read this issue and every comment chronologically; cold-start from `LEDGERS.md` and its ordered ledgers, `docs/SCIENCE_STANDARDS.md`, `docs/ELEMENT_PROTOCOL.md`, `docs/SCIENCE_PRODUCT_PACKAGE.md`, `docs/CONVENTIONS.md`, `DEV_CYCLE.md`, the applicable skills, current `origin/main`, model registry, implementation, and tests. Record base SHA. Reconcile historical ticket claims with committed evidence; never assume Done means scientifically validated.\n\n## 1. Context and scientific objective\n\nRestart the Bride's validation sequence **with oxygen as the first physical benchmark**, retaining Fe as the long-term gold-standard stress test and preserving all Fe/Al prior work. The Bride is Lightweaver + STAGGER, ultimately aiming for independently defensible 1.5D and full-3D NLTE calculations and later UV/IR CNO science. Fe-first exposed atomic-model complexity before foundational solver validation was independently demonstrated.\n\nPrior work to read, including all commen"
+      },
+      "discussion": {
+        "hasNextPage": false,
+        "selection": "Topic excerpts from complete retrieved discussion; not a full transcript",
+        "comments": [
+          {
+            "id": "3d5b4a10-92a8-440f-83ca-72a3ecdecb45",
+            "createdAt": "2026-10-28T10:09:03.337Z",
+            "excerpt": "FIRST REAL MIXED O+Ni OPACITY\nNew trace LTE Ni provider adds absorption/emission into native LW background; O+Ni enter one transfer calculation, all normalize to one true continuum with both bound-bound contributions removed. Canonical A(Ni)6.20, loggf-2.110, excitation4.266eV; installed Kurucz Saha/partitions at fixed MARCS ne/nH. Installed-iSpec GES natural damping1.86e8s^-1 explicitly fingerprinted; separate registered GES path is absent on Mac, no silent fallback.\nNatural Voigt prototype ONLY: no pressure broadening, isotope splitting, other blends or new EOS/atmosphere. Original RH-convention O populations frozen.\n"
+          },
+          {
+            "id": "fd6e7cae-1764-4226-b898-8b5b6d3058a2",
+            "createdAt": "2026-10-29T03:31:21.090Z",
+            "excerpt": "\n2. Same sourced pair plus 47 native background lines centered 100-300 nm, fixed LTE/CRD: H2, C5, N4, Mg16, Al7, Si10, S1, Fe2.\n396 iterations, 250.2854 s; terminal physical residual 3.76e-15.\nAreas: 69.1461 / 59.5468 / 46.5247 mA."
+          },
+          {
+            "id": "9552bc26-39a4-4736-b961-f5e2e06f0d41",
+            "createdAt": "2026-10-31T18:03:48.645Z",
+            "excerpt": "\nActual solar/10 K input audit: 90 field candidates at existing 5752/5762/5772/5782/5792 K, canonical logg4.438. Three cells (nearest250K/0.5dex, widerT500K/0.5dex, widerT+g500K/1dex), two methods, three field conventions. Eight native sources, full56 depths, 354 comparisons and three diagnostic column constructions. Earlier fine-temperature oxygen solves ALREADY used the nearest cell; this is a separate input comparison, no new RT/SE.\n\nAt5772/4.438 using logPe/rho/log-layer geometry:"
+          },
+          {
+            "id": "46217498-f08f-4e28-bfca-e64c9b0a7415",
+            "createdAt": "2026-11-01T20:46:45.865Z",
+            "excerpt": "\nAll six exact matches pass.94 controlled mismatches refused: one-representable-float changes in six arrays and three scalars; changed Fe mixture/O; changed or added column; depth cut; unmodeled velocity; legacy provider schema for all six; four neighboring10K cases trying another temperature certificate. Adding a constructed column invalidates existing solar bindings; it cannot silently enable a cap.\n\n17 binding tests +29 preceding input/adapter tests =46 pass. Three actual native-provider backend regressions also pass separately. Integrity tests reject appended NPZ bytes (even if reader could ignore them), modified source report, changed binding digest and provider-admission flag. Three existing LW import/default-config warnings retained; no config/dependency/benchmark change. No new verified run bug or material anomaly discovered, so no fabricated bug-ledger row."
+          },
+          {
+            "id": "f782937e-f7c8-4880-9139-87af4a442c0f",
+            "createdAt": "2026-11-02T01:03:36.627Z",
+            "excerpt": "\nCompleted40 pressure/EOS/geometry/column input cases:9 native MARCS models(5500/5750/6000 by g4/4.5/5),5 held-out comparisons and6 producer-point cases. Read Gustafsson2008 pp953-954/Eqs1-5; official readmarcs.f confirms Pg/Prad/Pturb dyn/cm2 and RHOX g/cm2. Difference-based diagnostic removes pressure intercept; it does NOT recover top mass from P/g. Supplemental Pg log-interpolated, Prad/Pturb linear with existing simplex weights. Source fields unchanged.\n\nImportant native reference limitation: native printed total-pressure differences vs RHOX show max adjacent3.814-4.222%, top-anchored3.792-4.103%, while native rho*dz mass closure is only0.0669-0.3073%. This is NOT proof MARCS violates equilibrium or a verified producer bug. Printed pressure/radiative-force/discretization contract remains unassigned. Open WARNING/model_domain ledger row records the diagnostic anomaly. Do not attribute it all to interpolation or fit a correction."
+          },
+          {
+            "id": "2359c92f-3245-45f8-9e14-c895165a3dfd",
+            "createdAt": "2026-11-02T14:33:45.263Z",
+            "excerpt": "\nFixed solar5772/g4.438/xi1/O8.70 O777 comparison, unchanged corrected2005 Kitt AIR observation:\nObserved p95 levels 0.9962762/0.9962957/0.9959505.\nShipped areas 77.55651/67.20039/53.79430 mA."
+          },
+          {
+            "id": "d5aaca38-2b2e-4f0a-ac06-6ab633968df4",
+            "createdAt": "2026-11-03T00:43:35.812Z",
+            "excerpt": "\nWide fixed-population O777 replay now spans7763-7783 AIR A,4001points/.005A and five flux rays, with >=2.6A padding beyond every +/-5A continuum neighborhood. Same nominal5772/g4.438/xi1/O8.70 populations, Fe binding/column/cap, O bound-free continuum. Reconstructed complete binding and input hashes validated, archived fresh-rate population identity checked, detailed-static populations array-identical. Original-grid normalized flux replay differs only3.31213e-12, below original1e-6 outer tolerance. No new SE or abundance fit.\n\nFinal replay5.86844s; process-lifetime peak RSS616382464bytes (~588MiB), including imports/setup. Timing starts after input reconstruction. Load averages start2.8511/2.8521/2.3423, end2.9429/2.8711/2.3516; context1thread. This does NOT retroactively measure earlier SE memory or full3D/grid scaling.\n\nCanonical inventory388 atomic wavelength candidates in7763-7783A, including47FeI/51FeII/45CaI/3OI. Counts are NOT strengths, installed blends or molecular completeness. Native passive atom scan has no bound-bound centres in span, so simply enabling existing native lines cannot supply these neighbors. Canonical table alone lacks upper-level identity/complete damping fields needed for qualified LW models. No mixed opacity installed or normalized-spectra multiplication.\n\nEvidence/figures: https://github.com/damienabraxas/exoplanetcodex/blob/75758f85db0b2567ef7a06acf659312fcb45cb2a/docs/audit/rya1279/wide_continuum_control_review.md"
+          },
+          {
+            "id": "dd09d7d3-4f20-4ebc-90d8-1fe16c7be447",
+            "createdAt": "2026-11-03T03:59:37.718Z",
+            "excerpt": "\nImplemented actual mixed transfer with fixed solar5772/g4.438/xi1/O8.70 O populations. Existing LTE Voigt kernel reused; new wrapper delegates exact-bound Fe continuum every callback, preserving field/composition/cap refusals. Adds bound-bound chi and LTE eta in SAME RT equation, scattering unchanged; no normalized-spectra multiplication, opacity multiplier or fitted Fe abundance.\n\nSource intake:41 exact single-component canonical/GES FeI matches across7763-7783 AIR A. Original lower excitation/loggf retained, natural gamma from GES turbospectrum_rad s^-1 cross-checked against log10 rad; AIR->vacuum conversion once. Full source rows/hashes retained. Six combined-component canonical entries explicitly excluded:gf_064803/064804/064809/064813/064824/064829. Other341 candidates in prior inventory are non-FeI, outside this control. Pressure/Stark/van-der-Waals, components/isotopes/molecules/other species NOT implemented.\n\nRunner rebuilds source selection before consuming derived packet. Altered loggf with unchanged source-file hashes is refused by negative test. Source tables/atom/certificates unchanged. LTE Kurucz trace Fe reservoir uses actual native composition/fixed T/ne/nH/xi. Trace/native limited-atom neutral Fe ratio1.030915-1.184614 retained by depth, no forced agreement. This mixed-reservoir approximation remains a physical qualification gap; no atmosphere/EOS or FeNLTE solution."
+          },
+          {
+            "id": "f870218a-061e-4bb0-b868-96ff6ae810c3",
+            "createdAt": "2026-11-03T04:46:56.481Z",
+            "excerpt": "\nActual transfer control uses neutral H/He from local LTE states, not total H nuclei. H0/Htotal0.954446-0.9999998. H2=0 is explicit omission, not physical absence; molecular table remains empty. Original native MARCS corner0.85*nH2/nHI maxima0.00037968/0.00070700/0.00023411/0.00044609 at5750g4/5750g4.5/6000g4/6000g4.5. Rounded native-corner screen is NOT target5772 chemistry or rigorous error bound.\nStark is explicitly absent: source supplied-width/Cowley fallback branches differ, and installed iSpec export does not forward original row Stark field in this path (BSYN GAMST=0). Qualify those separately next, not an implicit producer substitution.\n\nDepth-dependent Gamma now supported while scalar behavior retained. Same41 FeI lines, abundance/Fe continuum/bindings/cap, dense VIS/UV grid, fixed solar5772/g4.438/xi1/O8.70 populations. New natural-only flux array-identical to previous natural control. Paired continuum arrays exactly equal, O populations array-identical. Collider cache refuses changed H/He populations; inherited complete-input checks remain live. No normalized-spectra multiplication or fitted damping/opacity/abundance.\n\nIntrinsic O-window areas mA natural -> HHe:"
+          },
+          {
+            "id": "3b5f0078-e4e6-4dd9-b526-8dbb1e65e3a3",
+            "createdAt": "2026-11-03T05:34:37.239Z",
+            "excerpt": "FIXED-POPULATION STARK RESULTS\nSame solar5772/g4.438/xi1/O8.70,56depths,41FeI source lines, bound continuum/cap, source collision conventions. No-Stark flux array-identical to previous HHe result. Fixed-case continuum arrays identical.\nIntrinsic window areas mA, NONE/provided/Cowley:\n7771.944:72.13042972/72.13088389/72.13049279;"
+          },
+          {
+            "id": "35f25c39-b1a3-46d9-9c54-de02187b0fbe",
+            "createdAt": "2026-11-03T15:36:19.677Z",
+            "excerpt": "\nUnchanged bound solar5772/g4.438 inputs; fixed ne and total H. Native H6/He9 atomic ionization and Hminus ratios feed positive hydrogen quadratic, including HI depletion. HI+HII+Hminus+2H2 closure max4.4409e-16; independent Brent HI-fraction agreement2.554e-15. Max H2/total H nuclei0.00078353268 (0.07835%). Natural boundary solar Phi delta<=5.462e-5 relative. Interior leave-one-knot-out max relative Phi errors: not-a-knot0.00074741/natural0.00175331/PCHIP0.00727370; diagnostic sensitivity, not physical error bounds.\n\nModern-SI Eq7 reconstruction using source partition functions and LW H mass differs from published log10(Kp) by+0.00007494 to+0.00054178dex. Explicitly UNASSIGNED; published Kp unchanged, no fitted constants or claimed upstream bug. Source equation/constants closure remains owed.\n\nNo H2 pressure/continuum/O-collision/RT/SE update yet. This checks chemistry bookkeeping only, not full EOS, charge neutrality, metal/CNO network or an oxygen spectrum. Previous O results unchanged; scientific HOLD. Six tests pass (3new units/domain/root/source-tamper,3Stark regressions). Three compact artifacts archived byte-identically at data/results/rya1281/h2_tables_v1. External derived final rya1281-h2-tables-v2; v1 retained. Generator guard exactly2436 prior diagnostics, zero added/removed after staging. Library/tracker/gold debt retained. Registerv203, pointer/mirror/PR-freshness/SEQUENCE/whitespace and pre-push gates pass; no CI-green claim."
+          },
+          {
+            "id": "215b3954-1a76-4a4b-93f0-833f8845caf9",
+            "createdAt": "2026-11-03T18:08:49.883Z",
+            "excerpt": "\nSame full56-depth solar5772/g4.438/xi1/O8.70, original bound Fe continuum/column/cap,41 source-matched FeI lines and source-selected pressure recipes, Cowley Stark, fixed nominal O populations. Dense4001-point7763-7783AIR A grid; same transfer equation. Fixed radiation/cap1e-8,1000iterations/180s bounds,5flux rays,1thread. Source/atmosphere/atom/complete binding/native oracle receipts revalidated.\n\nH2-off spectrum reproduces previous fixed Cowley normalized flux array EXACTLY. Molecular case uses full-domain published-table H2 plus DEPLETED HI, He unchanged. HII/Hminus accounting included; atomic baseline did not subtract Hminus from totalH. Native H/He/O/Fe populations, ne, native continuum and O collision rates unchanged: explicitly collider-only, not full EOS, molecular opacity or new coupled SE. Paired continua exactly equal."
+          },
+          {
+            "id": "717865d5-4721-4b0d-b4ac-240223f410c4",
+            "createdAt": "2026-11-04T00:37:16.301Z",
+            "excerpt": "FRESH COUPLED O RESULTS\nSame solar5772/g4.438/O8.70/full56-depth thermal fields and composition, density-integral/log-native-top cap,41 source FeI pressure lines and Cowley Stark. H2 omitted to retain current atomic EOS/continuum/O-collision baseline; partial H2 collider experiment separate.\nEvery case starts from same checked prior nominal O populations then performs NEW coupled O/radiation solve. Original1500iterations/600s, joint1e-6, conservation1e-10, inner1e-8 unchanged.\nxi0.9:71iterations/91.083s, fresh independent R+C residual3.026419e-7."
+          },
+          {
+            "id": "396fb772-8e00-4e2f-82cd-b2cec6136a9d",
+            "createdAt": "2026-11-04T01:12:00.550Z",
+            "excerpt": "Five new fresh coupled O cases atxi0.5/0.75/1/1.25/1.5km/s; together with previous0.9/1.1 there are SEVEN unique points. Fresh source evaluations/certificates,6producer identities/94input/schema/neighbor refusals. Actual producer xi checked; no relabelled certificate or admission flag flip.\nSame solar5772/g4.438/O8.70/full56-depth thermal structure/composition, bound FeI continuum and density-integral/log-native-top cap,41source FeI pressure lines/Cowley Stark, original O/MN/TAUTSP collisions. Atomic EOS/continuum/O-collision baseline retained, H2 omitted; partial H2 intervention separate. No physics kernel changed.\n\nxi:iterations/seconds/fresh independent R+C residual:"
+          },
+          {
+            "id": "aa7163fa-87c2-42b1-a44d-aafc07df9324",
+            "createdAt": "2026-11-04T13:14:37.686Z",
+            "excerpt": "|5822 K|converged|178|459.824|3.435123e-7|-0.002510/+0.000739/+0.002446|\n|logg4.338|BUDGET EXHAUSTED, NOT ACCEPTED|223|600s limit|unqualified|unqualified|\n|logg4.538|converged|152|481.165|4.876575e-7|-0.000327/+0.001725/+0.002440|\n\nEach delta is refined minus its own physical baseline. Earlier nominal refinement is reused, not a new run. Across completed pairs, maximum area difference0.0048073mA and maximum normalized profile difference9.51114e-5. These sampled effects are much smaller than several-mA observational/reference discrepancies. Lower-gravity numerical accuracy is NOT established, nor are individual angular/wavelength/flux/depth errors, interpolation or physical accuracy.\n\nValidation: 50 targeted tests pass, exit0,6.82s; exact commands in linked review. Checks reject wrong physical cases/initial LTE state/nuclei, changed controls, wrong saved operators/populations, disconnected rates, false timeout acceptance and invalid geometry. Required paths, MIRROR, version/structure, whitespace and postcommit register freshness pass. Generator guard retains exactly2436 prior diagnostics, zero added/removed after staging intended artifacts. Initial pre-staging40 untracked-entry notices resolved by staging those40 intended files. Existing pre-push RYA-777/669 generated-surface/gold debt notice remains. Library audit exit1:193documents,127accounted,66unindexed,12off-Mac declarations; no new document used as science evidence. Refinement debt10not-fired/5TBD remains. No Sirius science or CI load; CI deliberately skipped, no green CI claim.\n\n40 result artifacts and2 figures byte-checked and archived. Full ~6.4MB new R/C/J files remain unchanged at registered experiments.bride_thermal_extreme_refinements, with three SHA256 receipts. No size-hook bypass, renamed binary or raw external input committed. Original timeout root registered separately."
+          },
+          {
+            "id": "1e9a85fc-7ba1-4f64-a459-db14e8b61295",
+            "createdAt": "2026-11-05T00:34:06.975Z",
+            "excerpt": "\nQuestion tested: are the lower-gravity convergence jumps actual Ng updates, and does disabling Ng resolve the timeout? Two predeclared serial Mac attempts at the exact same thermal_g4338 state/start/certificate/refined sampling, fixed O8.70/xi1/composition/full56depths. Same source atom/collisions, bound continuum,41FeI pressure lines/Cowley Stark, atomic baseline/H2 omitted. Ng true versus false is explicit in native controls and manifests. Coupled solver, positivity retry, context builder and physical kernels unchanged. No atmosphere/abundance/opacity fit.\n\n| Control | Outer rows/native calls | Actual Ng calls | Child wall seconds | Final joint maximum | Outcome |"
+          },
+          {
+            "id": "29a98fd3-0660-4113-b362-9f10c0fc86fa",
+            "createdAt": "2026-11-05T01:19:26.043Z",
+            "excerpt": "\nOne PREDECLARED compute allowance600->1200s at thermal_g4338, with original Ng enabled and native flags recorded. Same exact physical inputs, source/certificate, full56depths, matched starting populations, refined rays5/qscale2/flux7, O8.70/xi1/composition, atom/collisions, bound FeI continuum/41pressure lines/Cowley Stark, H2 omitted. All residual/conservation/iteration criteria unchanged. Default600s policy unchanged; no tolerance or physical parameter retuning.\n\nResult: exit0,233outer iterations,45native Ng calls,630.712s measured elapsed. Peak process RSS1209335808bytes, recorder overhead0.04392s, one context thread on Mac, host loads in report. Not full-grid/3D throughput. All221 prior history rows and221native calls match exactly; twelve more outer steps complete the original criterion. Previous600s attempts remain failed and untouched."
+          },
+          {
+            "id": "e9822c06-9041-4cca-9cd1-aed66441cc84",
+            "createdAt": "2026-11-05T02:07:46.032Z",
+            "excerpt": "\nTwo frozen spectra (canonical 5772/g4.438 and separately converged g4.338), all three O777 VIS lines, both synthesis/IAG continuum references. No new RT, other bands/elements, abundance/parameter/RV/LSF fit or telluric re-correction. Kitt delivered vacuum nm converted once to AIR; internal RT remains vacuum. Both prior RV residual controls retained.\n\n12 native/stored-report replays pass exactly. 24 crossed-selector/denominator fits, 24 frozen-support denominator fits, and 24 side attempts retained. Canonical total reference area changes are 7.147190/4.882779/10.927325 mA; lower-g 7.155995/4.925416/10.879344 mA. Path-average denominator terms 6.629-8.870 mA include induced clipping; these are finite accounting, not independent uncertainty terms. Even freezing anchor membership gives roughly 6-11 mA denominator shifts. No preferred reference inferred."
+          },
+          {
+            "id": "356afed8-b56d-4f71-b0b7-f00d38838306",
+            "createdAt": "2026-11-06T05:08:47.019Z",
+            "excerpt": "\nPlan/provider/runner precommitted4970270a before evaluation. Source gf_079010: rest AIR7777.099A/vacuum777.923920376nm, E3.199eV/loggf-5.33/natural gamma2.95e8s^-1, canonical/GES RU tag retained without newly qualifying physical gf accuracy. Source identity/isotope/gf and current main target row rechecked. Existing41FeI pressure/Cowley and bound background unchanged; add the one FeII line in the same transfer, not independent-spectrum multiplication. No guessed FeII pressure/Stark, O/charge/SE feedback, new abundance or adopted opacity.\n\nBoth zero-wrapper chi/eta/sca arrays exactly equal the inherited provider. Canonical/lower-g zero transfer spectra reproduce saved normalized flux with max difference0; the entire zero CSV fingerprints also match their frozen sources. Original1e-6regression guard unchanged. Four fixed-radiation/cap legs converge1e-8:65steps canonical,67lower-g; final J8.297/8.621e-9, cap1.118/1.522e-9. Saved O populations and standalone continuum arrays remain exact. This is fixed-radiation convergence, not a new coupled O R+C equilibrium certificate."
+          },
+          {
+            "id": "ae5b4bf3-7ae2-4b01-aa37-d20739e33598",
+            "createdAt": "2026-11-07T11:34:43.257Z",
+            "excerpt": "canonical48.79795350->48.66086098mA(Cowley,-0.13709252) or48.66088552(supplied,-0.13706798);\nlower-g48.91159408->48.91528845(+0.00369437) or48.91531214(+0.00371806).\nIAG-guided area stays57.70338185mA, both columns/all legs. Residual reference spread~9.0425canonical/8.7881lower-g mA. No preferred reference/gravity/continuum or abundance. Ordinary local FeII damping does not close the larger oxygen/reference discrepancy.\n\n\n84focused tests pass in8.95s,295existing backend warnings; new actual-backend tests check both independent ionic-width equations, full-depth FeII opacity/thermal emission, unchanged scattering/outside support, deepcopy and collider/identity/mode refusals. All4runner/2analysis/2trace commands exit0.46results/4visually inspected figures byte-match immutable registered resources; max520712-byte result. Actual generators/invocations registered. Per-leg17.19-18.71s, pair totals36.47-37.61s, maxprocess1.284GB, one thread each. A brief accidental two-process overlap at the Cowley-to-supplied transition is documented; do not claim fully serial. No Sirius, CI, nice-priority, installs/downloads/benchmark; all owned jobs finished.\n\nRegisterv218/SEQUENCE/MIRROR/version/whitespace/postcommit freshness/pre-push pass. Main459f5614(PR608/RYA1315) reconciled without merge into controls. Generator2436diagnostic strings identical to previous phase, zero added/removed. Global ledger1failed/1passed: historical RYA587blank science_impact, exact row present on current main. Initial mistyped ledger test path ran no tests and was corrected. Library195documents/127accounted/68unindexed/12off-Mac declarations. Existing generated tracker/gold RYA777/669 debt retained. Bug ledger: none newly discovered in implementation; previous dispositions unchanged."
+          },
+          {
+            "id": "d91477f3-e55e-4581-8695-a5ff52cba10c",
+            "createdAt": "2026-11-07T16:18:05.510Z",
+            "excerpt": "\nPlan/runner precommitted8f7e84c2 before RT. Canonical5772/logg4.438 column only; three modes natural-FeII, W+ionicCowley, W+suppliedStark. All start from identical saved O populations, not sequential warm starts. Same56depths/41levels, source collision/spline/MN receipts, existing41FeI/bound background, abundance/atmosphere/EOS/ne/H/He. Source/line/current-main target/native widths/binding/kernel receipts checked. No width/gf/RV/abundance tuning, temperature/charge/EOS feedback or inferred Fe abundance.\n\nAll3runs converge3outer iterations under unchanged600s/1500iteration/1e-6joint convergence,5rays/qscale2/7flux rays and1e-8inner radiation. Actual runtime32.886natural/32.546Cowley/32.880supplied seconds. Final fresh physical flows are rebuilt independently of acceleratedGamma: per-class CE/CI/CH/CH0 C sum matches freshly evaluated nativeC within256machine eps, then transitionR+C net/gross flows:"
+          },
+          {
+            "id": "166db6af-ed45-47f6-9673-4aab2aff3950",
+            "createdAt": "2026-11-07T16:53:35.680Z",
+            "excerpt": "\nPredeclared code/plan102d8ff6. Reused canonical molecular parser/manifest and RYA1130/1136owners, no parallel molecular schema or atomic-grade assignment. Nine files selected by inspected native automatic routing are byte-identical canonical vendor vs installed iSpec.19504rows parse exactly against headers.651source rows in7763-7783TS-consumer AIR A:\nCN355; C2 149; OH121; CH26; NH0.\nRaw labels, energies/loggf, isotopologues and stable canonical source IDs retained unchanged.\nFe II gf0789987773.443,6.6417e-6.\nThese are historical local extinction/background-absorption ratios at originally declared logtau500~0, not emergent flux/EW/formation/physical-grade predictions. V I full-column same-footprint max0.04065at outermost depth does not prove that depth forms the feature. Component structure/widths/gf accuracy remain separate qualification. No new atomic opacity installed.\n\n13canonical-parser/primary-intake tests pass4.83s, exit0. Inventory/COv1/COv2commands exit0; all source/header/numeric/runtime guards pass.6results byte-match immutable registered sources; original COv1retained, maxartifact95780bytes. Actual writers/invocations registered. No raw spectral/binary/source copy/overwrite,5MiBguard bypass, new RT/SE/Sirius/CI/benchmark/install/download. All owned jobs finished. Mac source audit only; no new source/parser/routing defect inferred."
+          },
+          {
+            "id": "9cd919c2-2659-4b28-ad09-360169e567c7",
+            "createdAt": "2026-11-07T20:05:51.546Z",
+            "excerpt": "\nNative Mac LTE molecular controls now quantify the omitted CNO candidates near the O triplet. Nine fixed-input cases cover molecules off/all, CH/CN/C2/NH/OH separately and two refined line steps. All-minus-off intrinsic O-aperture areas are 0.084692/0.317250/0.465505 mA; CN dominates. This is native MARCS5750/logg4.5/xi1 LTE at fixed O8.70, not a Bride NLTE correction or a solar abundance result.\n\nActual latest RYA1315 ORCH canonical gf and continuum are used (de96ae51). With the fixed gravitational RV, synthesis-guided observed areas change +6.630306/-0.710741/+2.320351 mA; IAG-guided areas stay invariant. Exact replay covers108 fits, preserving both reference/RV views and actual coefficient supports. The7771 fit remains entirely blue-supported. Larger continuum responses cannot be equated with molecular absorption or attributed solely to selection."
+          },
+          {
+            "id": "e1d4bea1-d657-413a-a51f-663a0f149923",
+            "createdAt": "2026-11-08T10:41:55.880Z",
+            "excerpt": "\nEarlier nine fixed-input native LTE cases show CN dominates all-minus-off intrinsic O-aperture areas0.084692/0.317250/0.465505mA. Current RYA1315 ORCH continuum gives much larger observed-area changes+6.630306/-0.710741/+2.320351mA with fixed gravitational RV, while IAG-guided observed areas stay invariant.7771 remains blue-supported. This native5750/logg4.5/xi1 LTE result is not a Bride NLTE correction or adopted solar abundance. Native EPS1e-4, five-decimal flux and actual1A opacity spacing remain explicit; repeated off/all spectra are byte-identical.\n\nLatest validation:16focused tests pass, two small derived results archived, source before/after checks pass. Initial auditor Git-ownership assumption failed before output creation and is fixed with separately held input receipts; original failure retained in bug ledger. Generator diagnostic set exactly2436historical, zero added/removed; mirror/version/sequence/whitespace/freshness pass. Existing global ledger/tracker/gold debts remain. Library196documents/127accounted/69unindexed/12off-Mac, incomplete. Mac only, [skip ci], no Sirius or CI execution."
+          }
+        ]
+      }
+    },
+    {
+      "issue": {
+        "id": "RYA-1279",
+        "title": "Bride G1: acquire and audit a resolved O I 777 reference atom and independent benchmark",
+        "url": "https://linear.app/ryans-adventure-zone/issue/RYA-1279/bride-g1-acquire-and-audit-a-resolved-o-i-777-reference-atom-and",
+        "status": "In Progress",
+        "description": "Parent <issue id=\"13612c4c-3926-4170-8925-3b48f0e1da5e\" label=\"RYA-1278\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1278/bride-reboot-oxygen-first-3d-nlte-foundation-validation-gates-and-cno\" />; see docs/decisions/bride_oxygen_foundation_rya1278.md on its review branch.\n\nDeliver a licensed, hashed public/reference oxygen atom and independently produced reference arrays. Prefer the Amarsi et al. 2018 reduced 50-level reference physics; do not invent/split levels or synthesize missing rates. Audit all three triplet components, vacuum/air identities, gf source decision (<issue id=\"7b0d27fc-4b1a-49d0-b0dc-2ab2a70be715\" label=\"RYA-1214\" href=\"https://linear.app/ryans-adventure-zone/issue/RYA-1214/cno-product-campaign-adjudicate-the-nisttachiev-gf-into-canonical-gf\" />), photoionization, electron and neutral-H excitation, charge transfer, damping and background opacity. Match exact atmosphere, observable, boundaries and angular/frequency setup. Bundled LW 0.16.1 OI variants col"
+      },
+      "discussion": {
+        "hasNextPage": false,
+        "selection": "Topic excerpts from complete retrieved discussion; not a full transcript",
+        "comments": [
+          {
+            "id": "323b0a67-e8a2-4e05-9cef-3453da6ee370",
+            "createdAt": "2026-10-26T23:19:47.172Z",
+            "excerpt": "\nG1 is **not signed off** and this issue remains In Progress. Do not infer physical admission from the successful numerical experiments."
+          }
+        ]
+      }
+    }
+  ]
+}

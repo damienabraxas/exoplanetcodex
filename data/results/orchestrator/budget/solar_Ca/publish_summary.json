@@ -2,183 +2,156 @@
  "star": "solar",
  "element": "Ca",
  "units": [
-  "I H solar_crires_plus_h_rya1094 gerber-1d-lte codex",
-  "I H solar_crires_plus_h_rya1094 gerber-mean3d codex",
-  "I H solar_crires_plus_h_rya1094 gerber-mean3d-lte codex",
-  "I H solar_crires_plus_h_rya1094 gerber-nlte codex",
-  "I H solar_crires_plus_h_rya1094 ts-lte codex",
-  "I H solar_crires_plus_h_rya1232 gerber-1d-lte codex",
-  "I H solar_crires_plus_h_rya1232 gerber-mean3d codex",
-  "I H solar_crires_plus_h_rya1232 gerber-mean3d-lte codex",
-  "I H solar_crires_plus_h_rya1232 gerber-nlte codex",
-  "I H solar_crires_plus_h_rya1232 ts-lte codex",
-  "I K solar_crires_plus_k_rya1219 gerber-1d-lte codex",
-  "I K solar_crires_plus_k_rya1219 gerber-mean3d codex",
-  "I K solar_crires_plus_k_rya1219 gerber-mean3d-lte codex",
-  "I K solar_crires_plus_k_rya1219 gerber-nlte codex",
-  "I K solar_crires_plus_k_rya1219 ts-lte codex"
+  "I near-UV solar_kpno_kurucz2005_corrected ts-lte reference",
+  "I near-UV solar_kpno_molecfit_corrected ts-lte reference"
  ],
  "dropped": [
   {
-   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1094 GRADED ENGINE-B",
+   "product": "near-UV solar_kpno_kurucz2005_corrected REFERENCE ENGINE-B",
    "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
   },
   {
-   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "H solar_crires_plus_h_rya1232 GRADED ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "K solar_crires_plus_k_rya1219 GRADED ENGINE-B",
+   "product": "near-UV solar_kpno_molecfit_corrected REFERENCE ENGINE-B",
    "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
   }
  ],
  "published": [
-  "H solar_crires_plus_h_rya1094 GRADED synth-1D-LTE-gerber A=6.25",
-  "H solar_crires_plus_h_rya1094 GRADED synth-mean3D-NLTE-gerber-stagger A=6.24",
-  "H solar_crires_plus_h_rya1094 GRADED synth-mean3D-LTE-gerber-stagger A=6.283",
-  "H solar_crires_plus_h_rya1094 GRADED ENGINE-B-NLTE A=6.208",
-  "H solar_crires_plus_h_rya1094 GRADED 1D-LTE A=6.236",
-  "H solar_crires_plus_h_rya1094 GRADED ENGINE-A A=6.23",
-  "H solar_crires_plus_h_rya1232 GRADED synth-1D-LTE-gerber A=6.204",
-  "H solar_crires_plus_h_rya1232 GRADED synth-mean3D-NLTE-gerber-stagger A=6.209",
-  "H solar_crires_plus_h_rya1232 GRADED synth-mean3D-LTE-gerber-stagger A=6.258",
-  "H solar_crires_plus_h_rya1232 GRADED ENGINE-B-NLTE A=6.179",
-  "H solar_crires_plus_h_rya1232 GRADED 1D-LTE A=6.198",
-  "H solar_crires_plus_h_rya1232 GRADED ENGINE-A A=6.185",
-  "K solar_crires_plus_k_rya1219 GRADED synth-1D-LTE-gerber A=6.3",
-  "K solar_crires_plus_k_rya1219 GRADED synth-mean3D-NLTE-gerber-stagger A=6.297",
-  "K solar_crires_plus_k_rya1219 GRADED synth-mean3D-LTE-gerber-stagger A=6.365",
-  "K solar_crires_plus_k_rya1219 GRADED ENGINE-B-NLTE A=6.27",
-  "K solar_crires_plus_k_rya1219 GRADED 1D-LTE A=6.293",
-  "K solar_crires_plus_k_rya1219 GRADED ENGINE-A A=6.286"
+  "near-UV solar_kpno_kurucz2005_corrected REFERENCE 1D-LTE A=6.652",
+  "near-UV solar_kpno_kurucz2005_corrected REFERENCE ENGINE-A A=6.675",
+  "near-UV solar_kpno_molecfit_corrected REFERENCE 1D-LTE A=6.609",
+  "near-UV solar_kpno_molecfit_corrected REFERENCE ENGINE-A A=6.632"
  ],
  "held": [],
  "legs_incomplete": [],
  "withdrawn": [],
  "scope": {
-  "bands": [
-   "H",
-   "K"
+  "ions": [
+   "I"
   ],
-  "note": "RYA-1311 Civis 2013 QDT gf adopted for H/K Ca I (sigma 0.11/line); Ca II H/K held (no line deep enough)"
+  "bands": [
+   "near-UV"
+  ],
+  "engines": [
+   "ts-lte"
+  ],
+  "methods": [
+   "synthesis"
+  ]
  },
  "preserved": [],
  "verdict": {
   "element_verdict": "REVIEW",
   "benchmark": true,
   "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
-  "n_products_judged": 213,
+  "n_products_judged": 217,
   "counts": {
    "IN_BAND": 44,
-   "OUT_OF_BAND": 169,
+   "OUT_OF_BAND": 173,
    "NO_REFERENCE": 0,
    "REPORTED": 0
   },
-  "n_scale_mismatch": 213
+  "n_scale_mismatch": 217
  },
  "coverage": {
   "counts": {
-   "PUBLISHED": 70,
-   "HELD": 371,
-   "NOT_RUN": 193,
-   "STALE": 143
+   "PUBLISHED": 74,
+   "CODE_DRIFT": 143,
+   "HELD": 560,
+   "NOT_RUN": 0,
+   "STALE": 0
   },
-  "done": false
+  "done": true,
+  "checklist": [
+   {
+    "item": "treatment synth-1D-LTE-gerber",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment synth-mean3D-NLTE-gerber-stagger",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment synth-mean3D-LTE-gerber-stagger",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-B-NLTE",
+    "done": 32,
+    "held": 79,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment 1D-LTE",
+    "done": 34,
+    "held": 77,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-A",
+    "done": 34,
+    "held": 77,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-A-3DNLTE",
+    "done": 21,
+    "held": 90,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument CRIRES+",
+    "done": 24,
+    "held": 228,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument HARPS",
+    "done": 35,
+    "held": 21,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument Kitt Peak",
+    "done": 132,
+    "held": 246,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument IAG",
+    "done": 26,
+    "held": 65,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   }
+  ],
+  "owed": [],
+  "disagreements": []
  }
 }

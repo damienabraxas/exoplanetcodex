@@ -160364,6 +160364,22 @@
         "sha256": "196e648e40be8fcf4d8495cc469dbb4186a92bae0655ecf69aa9f19c6fe86940"
       },
       {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
+        "sha256": "4f8afd37adb6d71f1a8d40141a23f40eeaa51e5732b203c6630284c0a66c105d"
+      },
+      {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
+        "sha256": "62c195932cfd85afbc8e484a1b4ccb9037a079d6bd3849f88ea272dd7061b541"
+      },
+      {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
+        "sha256": "1a00d192a8b5a8db0367bb0090cbce60a462537ce9e6cf43a637e5a7c93755eb"
+      },
+      {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
         "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B_budgets.txt",
         "sha256": "61327a00d805ca5a438a9dc0df7ab8ffac04a46e5623d61c9ea88f0f376fee26"
       },
@@ -160392,7 +160408,8 @@
         "sha256": "b12e1875573a71abbe69710f3063d9ae4f4f19adb72352b90edef58508fa2a06"
       }
     ],
-    "code_commit": "382ab6ffbb575713919f5a5f2d3647f607a0b207-dirty",
+    "code_commit": "4550035bc01d1d9b6ee31955caf6bcaf9f3d2804-dirty",
+    "forced_at": "2026-11-08T12:30:36Z",
     "inputs": [
       {
         "digest": "daa20322dfde9ee4bacb69f6d98b1f969d59f5a2a6a8c59f1f7e12cf2ac17fcc",
@@ -160405,7 +160422,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "df666c7b71afb12c2252ccf6aad8c2c0ffe68d011222df27985c11d57adb6662",
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -160475,9 +160492,9 @@
         "name": "data/registry/problem_children.csv[2990-3790]"
       }
     ],
-    "inputs_hash": "b6dca551eb20cc7ca7a1f38f5ce5738fdf36b4cd81406e6d6c1e9e8dc061947c",
+    "inputs_hash": "ac108a2e5540972760db95c3559c0d440c98f35eb5bb802cfaa2a0e1105053e4",
     "products": [],
-    "recorded_at": "2026-11-04T04:15:11Z"
+    "recorded_at": "2026-11-08T12:30:36Z"
   },
   "solar|Ca|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|DEEPGRADED": {
     "artifacts": [
@@ -173214,6 +173231,22 @@
         "sha256": "508dcc539d662f626d21d6e9e064fac5ba451f15fe330fa0323f238d4002545d"
       },
       {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
+        "sha256": "52d391b29302c7ca5cb3fc23f0ff2cb45f99719c240b42abb75abf28a13561cf"
+      },
+      {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
+        "sha256": "c31af8d4085b0f36f7f217d7c7118efa7e8f19819ff90b6178772c7ad28794a3"
+      },
+      {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
+        "sha256": "5eb56f31c219edbeac6e9db9b40bdd309028e99cb93d5c742f6e1c62226578ac"
+      },
+      {
+        "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt",
+        "sha256": "893d39d8dcadb7785eebb00370be74ed860a0686b072111c56a900620ef2da58"
+      },
+      {
         "path": "data/results/band_products/CaI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B_budgets.txt",
         "sha256": "c3fefe1945433552111523437e16fb9730cf44203b12bf0fe84b4aa606e32770"
       },
@@ -173242,7 +173275,8 @@
         "sha256": "30733f31d6305927bbfa7c058596b917d176e0413d61e3a3cbfdb4f855e7fc88"
       }
     ],
-    "code_commit": "382ab6ffbb575713919f5a5f2d3647f607a0b207-dirty",
+    "code_commit": "4550035bc01d1d9b6ee31955caf6bcaf9f3d2804-dirty",
+    "forced_at": "2026-11-08T12:30:39Z",
     "inputs": [
       {
         "digest": "fc2ed2557ac8022982ffc1fc937293087d767705c6d175e3030cdf968aa1e3fc",
@@ -173255,7 +173289,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "df666c7b71afb12c2252ccf6aad8c2c0ffe68d011222df27985c11d57adb6662",
+        "digest": "fa4b099704edd83fc3fa5839f396af373d9b6aa51e83fc2647db76aff014a4b6",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -174615,9 +174649,9 @@
         "name": "data/registry/problem_children.csv[2990-3790]"
       }
     ],
-    "inputs_hash": "fdb07e2ae86797a82c7ecc1fd95193da20caa248a8f098f1e24dad37bfd23ee9",
+    "inputs_hash": "76a3e4d2ed8903f74dfb1bf853a0d0d6bd4b7bfe4edfdf2b7dfa1cd6ea2a815c",
     "products": [],
-    "recorded_at": "2026-11-04T05:22:57Z"
+    "recorded_at": "2026-11-08T12:30:39Z"
   },
   "solar|Ca|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|GRADED": {
     "artifacts": [

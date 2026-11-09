@@ -80,5 +80,5 @@ PREPARE solar Ca  -> READY to measure
       Ca II 3706.024: rew -3.864 depth 0.947
       Ca II 3736.902: rew -3.787 depth 0.955
       Ca I 10343.819: rew -4.819 depth 0.476
-  D NLTE: 32 graded line(s) not in data/nlte_grids/Ca_Amarsi2020_PySME.csv -> on Sirius: scripts/extend_nlte_grid.py --element Ca --write
+  D NLTE: 0 graded line(s) not in data/nlte_grids/Ca_Amarsi2020_PySME.csv
   E holdings: 17 windows; 0 not serving / frame off rest
