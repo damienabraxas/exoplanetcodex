@@ -1,0 +1,639 @@
+{
+  "schema": "rya1354.prospective-canonical-screen.v2",
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "data/audit/element_status_tracker.csv": "11f377c7e0bd35a1cf8005ac47e661ee9bc4629c23d22d10761639eceb809371",
+    "data/audit/rya1353_line_census/v4/coverage_counts.csv": "d766d14929c9db9f48cd366645658f757bc873971ac5d9d1089cd1813e086a83",
+    "data/config/elements_master.json": "6c0376637083267de97e25cb9ffa35a015ff6a56dbfa1f3f3ecad733da4ea0e4",
+    "data/products/solar/Al.json": "1cfe5efd7ba1683f4f37ee5157e8fee5a01d2887389ba63b1e3e2ba0be88d208",
+    "data/products/solar/C.json": "8532ab51e95fbd5a737f9f61f0028f6531d0d9396ee155d20e25a22130947a3a",
+    "data/products/solar/Ca.json": "de1b5e4d011fc2f8b2443c29f48a5a7181083dd7b0f3aee011ab5dec978234dd",
+    "data/products/solar/Fe.json": "6bcdb992975a7c62351c0ed00dfbf850ef1d52e217f9182c17c37a6d180143b7",
+    "data/products/solar/Mg.json": "0402b63b5df04fef176e0ffc1dcdf0ee10cad72ae713a76bdc789d5ae997e2cd",
+    "data/products/solar/N.json": "25193f1b34aaaeaac3d017616ff415afd73c0dfe19c36ad40e09b989c5f06c52",
+    "data/products/solar/Na.json": "f402244800e12a2ce57c1ea71a7eb122e2d3eb378beb0172c55e56483438bfb8",
+    "data/products/solar/O.json": "6093a4771418bb4cf714974a885f3281b3d4feb452a2af1e8d4cbd2610becf32",
+    "data/products/solar/Si.json": "29565cb27252f39196cccae19ea44c2d20106f41ae105c01bc12e66bd950d81b",
+    "data/products/solar/Ti.json": "b548819f016648d78d2d1fe6ec490245a900125035f8e92048fbc6ad23005f59"
+  },
+  "rows": [
+    {
+      "target": "Fe",
+      "atomic_number": 26,
+      "priority": 1,
+      "species": "Fe I",
+      "active_feed_products": 187,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I+II",
+          "verdict": "PASS",
+          "tier": "gold",
+          "refinement_debt": ""
+        },
+        {
+          "ion": "II",
+          "verdict": "",
+          "tier": "diagnostic",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 25671,
+      "census_lab_label_rows": 428,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Fe II",
+      "atomic_number": 26,
+      "priority": 1,
+      "species": "Fe II",
+      "active_feed_products": 55,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I+II",
+          "verdict": "PASS",
+          "tier": "gold",
+          "refinement_debt": ""
+        },
+        {
+          "ion": "II",
+          "verdict": "",
+          "tier": "diagnostic",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 15369,
+      "census_lab_label_rows": 22,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "C",
+      "atomic_number": 6,
+      "priority": 1,
+      "species": "C I",
+      "active_feed_products": 60,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "PASS",
+          "tier": "gold",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "O",
+      "atomic_number": 8,
+      "priority": 1,
+      "species": "O I",
+      "active_feed_products": 28,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "PASS",
+          "tier": "gold",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 145,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Mg",
+      "atomic_number": 12,
+      "priority": 1,
+      "species": "Mg I",
+      "active_feed_products": 137,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "TBD - no resolving ticket (Mg 5528-vs-5711 0.21 dex discordance)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Si",
+      "atomic_number": 14,
+      "priority": 1,
+      "species": "Si I",
+      "active_feed_products": 50,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "gf_floor",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Ca",
+      "atomic_number": 20,
+      "priority": 1,
+      "species": "Ca I",
+      "active_feed_products": 129,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "In Progress: RYA-561 (Ca promotion ratified but not applied)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Ti",
+      "atomic_number": 22,
+      "priority": 1,
+      "species": "Ti I",
+      "active_feed_products": 192,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-548 (Ti Engine-B ab-initio atom swap)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Ni",
+      "atomic_number": 28,
+      "priority": 1,
+      "species": "Ni I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Na",
+      "atomic_number": 11,
+      "priority": 1,
+      "species": "Na I",
+      "active_feed_products": 87,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "P",
+      "atomic_number": 15,
+      "priority": 1,
+      "species": "P I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-697 (P gf-scale residual)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "S",
+      "atomic_number": 16,
+      "priority": 1,
+      "species": "S I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-697 (S gf zero-point)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "N",
+      "atomic_number": 7,
+      "priority": 2,
+      "species": "N I",
+      "active_feed_products": 12,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-697 (N gf/data-channel floor); TBD - no resolving ticket (N engine-B model atom)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Co",
+      "atomic_number": 27,
+      "priority": 2,
+      "species": "Co I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "PASS",
+          "tier": "owed",
+          "refinement_debt": "Done: RYA-680 (Co engine-B harness)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Cr",
+      "atomic_number": 24,
+      "priority": 2,
+      "species": "Cr I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "gf_floor",
+          "refinement_debt": "TBD - no resolving ticket (clean weak Cr II lines)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Al",
+      "atomic_number": 13,
+      "priority": 2,
+      "species": "Al I",
+      "active_feed_products": 26,
+      "feed_state": "ACTIVE_FEED_PRESENT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-523 (Al saturated \u2014 no EW pool to correct)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "K",
+      "atomic_number": 19,
+      "priority": 2,
+      "species": "K I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "PASS",
+          "tier": "gold",
+          "refinement_debt": "TBD - no resolving ticket (K engine-B model atom)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Ba",
+      "atomic_number": 56,
+      "priority": 2,
+      "species": "Ba I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "II",
+          "verdict": "PASS",
+          "tier": "owed",
+          "refinement_debt": "TBD - no resolving ticket (second clean Ba II line); Done: RYA-680 (Ba engine-B harness)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Y",
+      "atomic_number": 39,
+      "priority": 2,
+      "species": "Y I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "II",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-475 (Y I 4348/6191/6435 gf disposition); Backlog: RYA-683 (Y II pool carries Y I rows)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "V",
+      "atomic_number": 23,
+      "priority": 2,
+      "species": "V I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-470 (V II majority-ion anchor)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Cu",
+      "atomic_number": 29,
+      "priority": 2,
+      "species": "Cu I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "Backlog: RYA-697 (Cu gf zero-point + fuller NLTE grid)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Zn",
+      "atomic_number": 30,
+      "priority": 2,
+      "species": "Zn I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Mn",
+      "atomic_number": 25,
+      "priority": 3,
+      "species": "Mn I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "PASS",
+          "tier": "gold",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Sc",
+      "atomic_number": 21,
+      "priority": 3,
+      "species": "Sc I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "II",
+          "verdict": "CURATION-OWED",
+          "tier": "gold",
+          "refinement_debt": "TBD - no resolving ticket (cleaner Sc II line)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Li",
+      "atomic_number": 3,
+      "priority": 3,
+      "species": "Li I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "I",
+          "verdict": "CURATION-OWED",
+          "tier": "upper_limit",
+          "refinement_debt": ""
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Eu",
+      "atomic_number": 63,
+      "priority": 3,
+      "species": "Eu I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "II",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "TBD - no resolving ticket (higher-SNR blue Eu II line)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Zr",
+      "atomic_number": 40,
+      "priority": 3,
+      "species": "Zr I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "II",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "TBD - no resolving ticket (cleaner blue Zr II lines)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    },
+    {
+      "target": "Sr",
+      "atomic_number": 38,
+      "priority": 3,
+      "species": "Sr I",
+      "active_feed_products": 0,
+      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
+      "historical_tracker": [
+        {
+          "ion": "II",
+          "verdict": "CURATION-OWED",
+          "tier": "owed",
+          "refinement_debt": "TBD - no resolving ticket (INASAN Sr II primary pull)"
+        }
+      ],
+      "census_rows": 0,
+      "census_lab_label_rows": 0,
+      "exposure": "CANONICAL_AND_CENSUS_HOLDINGS_EXPOSED; LAB_LABEL_NOT_PRIMARY_VERIFICATION",
+      "partition": "Keep common upper levels, multiplets, shared lifetime/branching normalizations and experimental calibration scales together"
+    }
+  ],
+  "selected": [
+    {
+      "target": "Li",
+      "rationale": "Simplest canonical few-electron atom with no active feed; isotope/HFS and existing source exposure require explicit treatment",
+      "status": "CANDIDATE_ONLY_NO_FROZEN_BENCHMARK",
+      "primary_experiments_verified": false,
+      "blind": false
+    },
+    {
+      "target": "P",
+      "rationale": "Priority-1 CHNOPS target with no active feed; primary experimental availability and many-electron feasibility require curator assessment",
+      "status": "CANDIDATE_ONLY_NO_FROZEN_BENCHMARK",
+      "primary_experiments_verified": false,
+      "blind": false
+    },
+    {
+      "target": "S",
+      "rationale": "Priority-1 CHNOPS target with no active feed and oxygen-related valence structure; primary source/calibration independence remains unverified",
+      "status": "CANDIDATE_ONLY_NO_FROZEN_BENCHMARK",
+      "primary_experiments_verified": false,
+      "blind": false
+    }
+  ],
+  "previous_shortlist_note": "Na and Mg have active products and do not serve the user-requested unfinished-feed branch; retain them only as exposed methodological controls.",
+  "next_gate": "Distinct curator/human review must verify primary experiments, exposure and dependence groups, then freeze experiment/analysis and predictions before reveal. No genuine blindness is established."
+}

@@ -1,0 +1,481 @@
+{
+  "schema": "rya1354.native-continuation-summary.v1",
+  "scientific_admission": "HOLD",
+  "exposure": "NONBLIND_EXPLORATORY",
+  "capsule_sha256": "c2d9f81d377b0e2ca9d5390128cd3694715bb5731fee314f96e8e296a439eee4",
+  "omitted": "mcp.* angular caches remain on Sirius; all other receipt-listed artifacts hash-checked",
+  "receipts": {
+    "runs/valence_sd_v1": {
+      "status": "FAILED_RETAINED",
+      "error": "FileNotFoundError: [Errno 2] No such file or directory: 'toolchains/grasp/build/bin/rnucleus'",
+      "receipt_sha256": "ca27e6ac3e0e6bcc2e9d5ed9d272b59a9b740ee2505c3cdd18648edacd8dfcbf"
+    },
+    "runs/valence_sd_v2": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/valence_sd_v2/n3_lower",
+      "receipt_sha256": "b6e30ef0fa574e0ad14eec68f42f89d9b81cc069f815e502e29a02bb53f294ae"
+    },
+    "runs/valence_sd_v3": {
+      "status": "ORBITAL_RUNS_COMPLETED_IDENTITY_AND_NUMERICAL_REVIEW_REQUIRED",
+      "error": null,
+      "receipt_sha256": "383862ea86682ad49169c5a3fe2e0caea029b63153cbcfd38e13d4f427075811"
+    },
+    "runs/valence_sd_v4": {
+      "status": "ORBITAL_RUNS_COMPLETED_IDENTITY_AND_NUMERICAL_REVIEW_REQUIRED",
+      "error": null,
+      "receipt_sha256": "52778fa07deb3d2d612cc7203aa50f5b65bd6f810c8b0b808eb94562b3504079"
+    },
+    "runs/valence_sd_v5": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rwfnestimate: exit 2; retained logs in runs/valence_sd_v5/n5_lower",
+      "receipt_sha256": "9723f708ded96a192e808b13f1316d04bd8ec33ee44acdc4ca337834cb594e50"
+    },
+    "runs/coverage_v1": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rcsfgenerate: exit 2; retained logs in runs/coverage_v1/triplet_3s",
+      "receipt_sha256": "6442eedce561e48c5f1376a6b4ce8db271412ad2ca881484e212eca485f2f047"
+    },
+    "runs/coverage_v2": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/coverage_v2/triplet_3s",
+      "receipt_sha256": "b0c0370874d873d4f5710498f69a460a5249b48068b1a1b715684021fb4ca5ee"
+    },
+    "runs/coverage_v3": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rtransition: exit 2; retained logs in runs/coverage_v3/ground_M1_E2",
+      "receipt_sha256": "c00d914c01a63362098044405e2b25eedf082d4e2429f430469375dc80d19797"
+    },
+    "runs/coverage_v4": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rtransition: exit 2; retained logs in runs/coverage_v4/ground_M1_E2",
+      "receipt_sha256": "33f0e2623378ac455a900149ced341209809df116cb8bffbaffab71181cc363f"
+    },
+    "runs/coverage_v5": {
+      "status": "NATIVE_OPERATORS_COMPLETED_REVIEW_REQUIRED",
+      "error": null,
+      "receipt_sha256": "fbaa81c345f40cb95c07a996c20ff4a9fafc417f11a1187d343e0ea178cc684c"
+    },
+    "runs/coverage_v6": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/coverage_v6/triplet_3p",
+      "receipt_sha256": "6dd47de27f7a37cf810c45e449ca6c17b6bbc0d246298bab9746d1649f360938"
+    },
+    "runs/coverage_v7": {
+      "status": "FAILED_RETAINED",
+      "error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/coverage_v7/triplet_3p",
+      "receipt_sha256": "000c0f94c482a4c367dac3fd50cbd143217fe0bbb50079a2db15605817ae28bb"
+    },
+    "runs/coverage_v8": {
+      "status": "NATIVE_OPERATORS_COMPLETED_REVIEW_REQUIRED",
+      "error": null,
+      "receipt_sha256": "e94bba22c61c9f0b9d7a10c34e5d77b87d821d38472d4fd1c4a6418640ecb526"
+    }
+  },
+  "ladder": {
+    "n3": [
+      {
+        "upper_ordinal": 2,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 14501.62,
+        "A_B_s1": 54910400.0,
+        "A_C_s1": 32716900.0,
+        "gf_B": 1.17436,
+        "gf_C": 0.699711,
+        "gauge_fraction_A": 0.4041766222792039
+      },
+      {
+        "upper_ordinal": 3,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 14503.99,
+        "A_B_s1": 54936400.0,
+        "A_C_s1": 32732800.0,
+        "gf_B": 1.95755,
+        "gf_C": 1.16637,
+        "gauge_fraction_A": 0.40416918472997865
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 14507.58,
+        "A_B_s1": 54977000.0,
+        "A_C_s1": 32757600.0,
+        "gf_B": 2.74124,
+        "gf_C": 1.63335,
+        "gauge_fraction_A": 0.4041581024792186
+      }
+    ],
+    "n4": [
+      {
+        "upper_ordinal": 2,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 12757.66,
+        "A_B_s1": 36815900.0,
+        "A_C_s1": 33965100.0,
+        "gf_B": 1.01735,
+        "gf_C": 0.938578,
+        "gauge_fraction_A": 0.07743393479447738
+      },
+      {
+        "upper_ordinal": 3,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 12760.22,
+        "A_B_s1": 36837300.0,
+        "A_C_s1": 33986700.0,
+        "gf_B": 1.6959,
+        "gf_C": 1.56466,
+        "gauge_fraction_A": 0.07738352159360214
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 12764.09,
+        "A_B_s1": 36870800.0,
+        "A_C_s1": 34020300.0,
+        "gf_B": 2.37497,
+        "gf_C": 2.19136,
+        "gauge_fraction_A": 0.07731050045022077
+      }
+    ]
+  },
+  "coverage": {
+    "UV_E1": [
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 0,
+        "native_energy_cm1": 63644.55,
+        "A_B_s1": 19980900.0,
+        "A_C_s1": 42638300.0,
+        "gf_B": 0.0221856,
+        "gf_C": 0.047343,
+        "gauge_fraction_A": 0.5313861012282385
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 2,
+        "lower_J": 0,
+        "native_energy_cm1": 19846.52,
+        "A_B_s1": 0.065707,
+        "A_C_s1": 1.44104,
+        "gf_B": 7.50277e-10,
+        "gf_C": 1.64545e-08,
+        "gauge_fraction_A": 0.9544030700049965
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 63724.32,
+        "A_B_s1": 60197800.0,
+        "A_C_s1": 128271000.0,
+        "gf_B": 0.0666729,
+        "gf_C": 0.142068,
+        "gauge_fraction_A": 0.5306982872200263
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 63886.89,
+        "A_B_s1": 101228000.0,
+        "A_C_s1": 215048000.0,
+        "gf_B": 0.111546,
+        "gf_C": 0.236969,
+        "gauge_fraction_A": 0.529277184628548
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 2,
+        "lower_J": 2,
+        "native_energy_cm1": 46221.53,
+        "A_B_s1": 526.735,
+        "A_C_s1": 2137.79,
+        "gf_B": 1.10888e-06,
+        "gf_C": 4.50045e-06,
+        "gauge_fraction_A": 0.7536076976690881
+      }
+    ],
+    "IR_3d_E1": [
+      {
+        "upper_ordinal": 1,
+        "upper_J": 0,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10253.89,
+        "A_B_s1": 39468300.0,
+        "A_C_s1": 39872000.0,
+        "gf_B": 0.562767,
+        "gf_C": 0.568523,
+        "gauge_fraction_A": 0.010124899678972713
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10253.89,
+        "A_B_s1": 29601300.0,
+        "A_C_s1": 29904100.0,
+        "gf_B": 1.26623,
+        "gf_C": 1.27918,
+        "gauge_fraction_A": 0.010125701826839797
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10253.89,
+        "A_B_s1": 13814000.0,
+        "A_C_s1": 13955400.0,
+        "gf_B": 0.984853,
+        "gf_C": 0.994928,
+        "gauge_fraction_A": 0.010132278544506068
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 10251.52,
+        "A_B_s1": 9861930.0,
+        "A_C_s1": 9964840.0,
+        "gf_B": 0.422051,
+        "gf_C": 0.426455,
+        "gauge_fraction_A": 0.010327310824860209
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 10251.52,
+        "A_B_s1": 23011300.0,
+        "A_C_s1": 23251400.0,
+        "gf_B": 1.64131,
+        "gf_C": 1.65844,
+        "gauge_fraction_A": 0.0103262599241336
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 10251.51,
+        "A_B_s1": 26298700.0,
+        "A_C_s1": 26573300.0,
+        "gf_B": 2.62612,
+        "gf_C": 2.65354,
+        "gauge_fraction_A": 0.010333680799900652
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 10247.93,
+        "A_B_s1": 2627820.0,
+        "A_C_s1": 2656070.0,
+        "gf_B": 0.187565,
+        "gf_C": 0.189581,
+        "gauge_fraction_A": 0.010636014864066082
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 10247.93,
+        "A_B_s1": 13139100.0,
+        "A_C_s1": 13280400.0,
+        "gf_B": 1.31295,
+        "gf_C": 1.32707,
+        "gauge_fraction_A": 0.010639739766874491
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 4,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 10247.92,
+        "A_B_s1": 39417400.0,
+        "A_C_s1": 39841300.0,
+        "gf_B": 5.06427,
+        "gf_C": 5.11873,
+        "gauge_fraction_A": 0.010639713061571786
+      }
+    ],
+    "optical_4d_E1": [
+      {
+        "upper_ordinal": 1,
+        "upper_J": 0,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 15623.66,
+        "A_B_s1": 6895640.0,
+        "A_C_s1": 7054020.0,
+        "gf_B": 0.0423513,
+        "gf_C": 0.043324,
+        "gauge_fraction_A": 0.022452445555867433
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 15623.66,
+        "A_B_s1": 5171730.0,
+        "A_C_s1": 5290530.0,
+        "gf_B": 0.0952904,
+        "gf_C": 0.0974793,
+        "gauge_fraction_A": 0.02245521715215678
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 15623.66,
+        "A_B_s1": 2413470.0,
+        "A_C_s1": 2468920.0,
+        "gf_B": 0.0741148,
+        "gf_C": 0.0758176,
+        "gauge_fraction_A": 0.022459212935210537
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 15621.29,
+        "A_B_s1": 1722700.0,
+        "A_C_s1": 1762520.0,
+        "gf_B": 0.0317508,
+        "gf_C": 0.0324847,
+        "gauge_fraction_A": 0.022592651430905747
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 15621.29,
+        "A_B_s1": 4019620.0,
+        "A_C_s1": 4112540.0,
+        "gf_B": 0.123475,
+        "gf_C": 0.12633,
+        "gauge_fraction_A": 0.02259430911310285
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "native_energy_cm1": 15621.28,
+        "A_B_s1": 4593830.0,
+        "A_C_s1": 4700070.0,
+        "gf_B": 0.197559,
+        "gf_C": 0.202128,
+        "gauge_fraction_A": 0.022603918665041158
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 15617.7,
+        "A_B_s1": 458905.0,
+        "A_C_s1": 469614.0,
+        "gf_B": 0.0141032,
+        "gf_C": 0.0144323,
+        "gauge_fraction_A": 0.02280383463866069
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 3,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 15617.7,
+        "A_B_s1": 2294500.0,
+        "A_C_s1": 2348060.0,
+        "gf_B": 0.0987211,
+        "gf_C": 0.101026,
+        "gauge_fraction_A": 0.022810320008858378
+      },
+      {
+        "upper_ordinal": 1,
+        "upper_J": 4,
+        "lower_ordinal": 1,
+        "lower_J": 3,
+        "native_energy_cm1": 15617.69,
+        "A_B_s1": 6883420.0,
+        "A_C_s1": 7044180.0,
+        "gf_B": 0.380777,
+        "gf_C": 0.38967,
+        "gauge_fraction_A": 0.02282167690206667
+      }
+    ],
+    "triplet_8446_E1": [
+      {
+        "upper_ordinal": 1,
+        "upper_J": 0,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10790.24,
+        "A_B_s1": 27004800.0,
+        "A_C_s1": 24218300.0,
+        "gf_B": 0.347726,
+        "gf_C": 0.311846,
+        "gauge_fraction_A": 0.10318535963976774
+      },
+      {
+        "upper_ordinal": 2,
+        "upper_J": 1,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10790.48,
+        "A_B_s1": 27006400.0,
+        "A_C_s1": 24217400.0,
+        "gf_B": 1.04319,
+        "gf_C": 0.935461,
+        "gauge_fraction_A": 0.10327181705077315
+      },
+      {
+        "upper_ordinal": 2,
+        "upper_J": 2,
+        "lower_ordinal": 1,
+        "lower_J": 1,
+        "native_energy_cm1": 10791.2,
+        "A_B_s1": 27011600.0,
+        "A_C_s1": 24216400.0,
+        "gf_B": 1.73876,
+        "gf_C": 1.55883,
+        "gauge_fraction_A": 0.10348146722149003
+      }
+    ]
+  },
+  "forbidden": {
+    "status": "NATIVE_M1_AND_E2_COMPUTED_NOT_ADOPTED",
+    "table": "runs/coverage_v8/ground_M1_E2/lower.upper.t",
+    "table_sha256": "571e97f70ce42229d395fc93c5fb45ff236a511193724a2c10f1e1d3b4ff7bfe",
+    "warning": "Identical states in f1/f2 yield duplicate directional records; do not sum duplicates. Very large E2 gauge disagreements. No E1 conversion, uncertainty or lifetime supplied."
+  },
+  "warning": "No active-space convergence, core-valence closure, Hamiltonian sensitivity or calibrated uncertainty established; frozen-core triplet 3p differs from other relaxed reference cases"
+}

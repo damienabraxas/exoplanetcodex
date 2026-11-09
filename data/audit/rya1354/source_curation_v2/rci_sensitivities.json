@@ -1,0 +1,170 @@
+{
+  "schema": "rya1354.rci-sensitivities.v1",
+  "scientific_admission": "HOLD",
+  "prediction_origin": "THIS_UNPUBLISHED_THEORETICAL_CALCULATION",
+  "candidate_doi": null,
+  "capsule_sha256": "40c07028c08cec03ed6b42da7bf373afb5463713fea7fc2491a8e06696b05323",
+  "cases": {
+    "DC": {
+      "rows": [
+        {
+          "upper_J": 1,
+          "native_energy_cm1": 14501.62,
+          "A_B_s1": 54910400.0,
+          "A_C_s1": 32716900.0,
+          "gf_B": 1.17436,
+          "gf_C": 0.699711,
+          "gauge_fraction_A": 0.4041766222792039
+        },
+        {
+          "upper_J": 2,
+          "native_energy_cm1": 14503.99,
+          "A_B_s1": 54936400.0,
+          "A_C_s1": 32732800.0,
+          "gf_B": 1.95755,
+          "gf_C": 1.16637,
+          "gauge_fraction_A": 0.40416918472997865
+        },
+        {
+          "upper_J": 3,
+          "native_energy_cm1": 14507.57,
+          "A_B_s1": 54976900.0,
+          "A_C_s1": 32757600.0,
+          "gf_B": 2.74124,
+          "gf_C": 1.63335,
+          "gauge_fraction_A": 0.4041570186751163
+        }
+      ],
+      "summed_gf_B": 5.87315,
+      "fractional_gf_change_from_DC": 0.0,
+      "energy_changes_from_DC_cm1": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0
+      }
+    },
+    "Breit_static_limit": {
+      "rows": [
+        {
+          "upper_J": 1,
+          "native_energy_cm1": 14501.63,
+          "A_B_s1": 54910100.0,
+          "A_C_s1": 32722800.0,
+          "gf_B": 1.17435,
+          "gf_C": 0.699836,
+          "gauge_fraction_A": 0.4040659186561307
+        },
+        {
+          "upper_J": 2,
+          "native_energy_cm1": 14503.27,
+          "A_B_s1": 54927800.0,
+          "A_C_s1": 32735300.0,
+          "gf_B": 1.95744,
+          "gf_C": 1.16658,
+          "gauge_fraction_A": 0.4040303817010694
+        },
+        {
+          "upper_J": 3,
+          "native_energy_cm1": 14506.31,
+          "A_B_s1": 54962200.0,
+          "A_C_s1": 32756400.0,
+          "gf_B": 2.74098,
+          "gf_C": 1.63357,
+          "gauge_fraction_A": 0.4040194897584158
+        }
+      ],
+      "summed_gf_B": 5.87277,
+      "fractional_gf_change_from_DC": -6.470122506663234e-05,
+      "energy_changes_from_DC_cm1": {
+        "1": 0.00999999999839929,
+        "2": -0.7199999999993452,
+        "3": -1.2600000000002183
+      }
+    },
+    "VP_self_energy": {
+      "rows": [
+        {
+          "upper_J": 1,
+          "native_energy_cm1": 14500.37,
+          "A_B_s1": 54896200.0,
+          "A_C_s1": 32714200.0,
+          "gf_B": 1.17426,
+          "gf_C": 0.699772,
+          "gauge_fraction_A": 0.4040716843788823
+        },
+        {
+          "upper_J": 2,
+          "native_energy_cm1": 14502.75,
+          "A_B_s1": 54922300.0,
+          "A_C_s1": 32730100.0,
+          "gf_B": 1.95738,
+          "gf_C": 1.16647,
+          "gauge_fraction_A": 0.4040653796363226
+        },
+        {
+          "upper_J": 3,
+          "native_energy_cm1": 14506.34,
+          "A_B_s1": 54962900.0,
+          "A_C_s1": 32754900.0,
+          "gf_B": 2.741,
+          "gf_C": 1.63349,
+          "gauge_fraction_A": 0.40405437122131477
+        }
+      ],
+      "summed_gf_B": 5.8726400000000005,
+      "fractional_gf_change_from_DC": -8.68358546946002e-05,
+      "energy_changes_from_DC_cm1": {
+        "1": -1.25,
+        "2": -1.2399999999997817,
+        "3": -1.2299999999995634
+      }
+    },
+    "CV_2s_one_hole_DC": {
+      "rows": [
+        {
+          "upper_J": 1,
+          "native_energy_cm1": 14317.06,
+          "A_B_s1": 52231300.0,
+          "A_C_s1": 29940500.0,
+          "gf_B": 1.14605,
+          "gf_C": 0.656948,
+          "gauge_fraction_A": 0.42677092088460367
+        },
+        {
+          "upper_J": 2,
+          "native_energy_cm1": 14319.38,
+          "A_B_s1": 52255500.0,
+          "A_C_s1": 29957900.0,
+          "gf_B": 1.91035,
+          "gf_C": 1.09519,
+          "gauge_fraction_A": 0.42670340921051375
+        },
+        {
+          "upper_J": 3,
+          "native_energy_cm1": 14322.88,
+          "A_B_s1": 52293100.0,
+          "A_C_s1": 29984700.0,
+          "gf_B": 2.6751,
+          "gf_C": 1.53389,
+          "gauge_fraction_A": 0.42660312737244493
+        }
+      ],
+      "summed_gf_B": 5.7315000000000005,
+      "fractional_gf_change_from_DC": -0.024118232975490095,
+      "energy_changes_from_DC_cm1": {
+        "1": -184.5600000000013,
+        "2": -184.61000000000058,
+        "3": -184.6900000000005
+      }
+    }
+  },
+  "numerical_warning": {
+    "observed": "IEEE_DIVIDE_BY_ZERO plus underflow/denormal in stationary-nucleus RCI",
+    "source": "Pinned setham_gg.f90 line110 evaluates 1/EMN unconditionally; EMN=0. Recoil uses are guarded by disabled LNMS/LSMS.",
+    "positive_control": "Synthetic 1 amu input with both recoil terms disabled removes divide-by-zero; full DC E1 table is byte-identical. Underflow/denormal flags remain.",
+    "disposition": "No solver patch. Synthetic mass is solely a numerical control, not an oxygen isotope or physical candidate."
+  },
+  "interpretation": "Coarse n3 fixed-orbital sensitivities; RCI uses a different interpolation grid from MCDHF. Effects are not independent Gaussian errors and are not combined into sigma.",
+  "uncertainty": null,
+  "adoption_allowed": false
+}

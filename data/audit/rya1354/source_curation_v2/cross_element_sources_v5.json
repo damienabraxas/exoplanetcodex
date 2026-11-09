@@ -1,0 +1,30 @@
+{
+  "schema": "rya1354.cross-element-source-leads.v1",
+  "status": "CURATION_CANDIDATE_ONLY",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "curator_review_complete": false,
+  "sources": [
+    {
+      "key": "mcalexander1996_li_lifetime",
+      "doi": "10.1103/PhysRevA.54.R5",
+      "publisher_url": "https://doi.org/10.1103/PhysRevA.54.R5",
+      "institutional_pdf_url": "https://repository.rice.edu/bitstreams/4144d8a6-cb94-4f2c-b835-c717d164d4e3/download",
+      "inspection": "Publisher abstract/metadata and cached institutional full-text extraction; R7 TableI/caption and concluding paragraph. PDF visual inspection unsuccessful; raw local PDF download returned HTTP202/zero bytes with WAF challenge.",
+      "raw_pdf_sha256": null,
+      "species": "Li I",
+      "isotope": 7,
+      "upper_state": "2p 2P1/2",
+      "quantity": "radiative lifetime",
+      "reported_value_ns": 27.102,
+      "reported_statistical_1sigma_ns": 0.002,
+      "reported_systematic_estimate_ns": 0.007,
+      "method": "Inference from fitted long-range molecular photoassociation vibrational spectra, not direct atomic decay.",
+      "dependencies": "Combined isotope results share molecular analysis; earlier1995 and Linton comparisons cannot be presumed independent. Separate uncertainties are preserved; no Gaussian combined sigma/covariance assigned.",
+      "covariance": null,
+      "score_eligible": false,
+      "next": "Obtain preserved primary document; distinct curator/human review of molecular model, isotope and transition-energy dependence, experimental independence and covariance. Freeze appropriate theoretical model and comparison protocol. No existing project grade certified."
+    }
+  ],
+  "selection_context": "Li remains a previously screened few-electron candidate; this source search does not establish blind status or change element/product grades. Fe stress-test task RYA-1355 retains oxygen-pilot/grade-review dependency."
+}

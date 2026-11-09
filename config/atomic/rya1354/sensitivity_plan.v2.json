@@ -1,0 +1,20 @@
+{
+  "schema": "rya1354.exposed-sensitivity-plan.v2",
+  "status": "EXPLORATORY_NOT_BLIND_NOT_PREREGISTERED_FOR_ADOPTION",
+  "scientific_admission": "HOLD",
+  "species": "O I",
+  "purpose": "Test shared omitted core correlation and Hamiltonian terms after the two-method valence n3/n4/n5 sequence, without fitting experimental gf or energies",
+  "frozen_input": "Sirius runs/valence_sd_v4 n3 separately optimized lower 5So2 and upper 5P1/2/3 orbitals; native bytes/hash retained",
+  "grid_control": "Pinned RCI getcid.f90 uses RNT=2e-6/Z, H=0.05, N=590 and interpolates the input wavefunctions. Dirac-Coulomb same-CSF control precedes interpretation; its difference from MCDHF is not called a pure Hamiltonian correction.",
+  "cases": [
+    {"name": "DC", "changes": "No Breit, VP, recoil or self energy; identical CSFs"},
+    {"name": "Breit_static_limit", "changes": "Only transverse interaction enabled with photon-frequency multiplier 1e-6; other corrections disabled"},
+    {"name": "VP_self_energy", "changes": "VP and self energy through n=3; transverse and recoil disabled; approximate QED model explicitly retained"},
+    {"name": "CV_2s_one_hole_DC", "changes": "Fixed original n3 radial functions; 1s occupation fixed, 2s minimum occupancy one, valence SD through 3d; Dirac-Coulomb only"}
+  ],
+  "state_tracking": "Preserve native LS compositions, parities and selected root ordinals; reject changed identities rather than choosing states by wavelength or gf agreement",
+  "reporting": "Native energies and both gauges, all failures and input/executable hashes; no observed-energy substitutions, sigma from gauge spread or automatic adoption",
+  "remaining": "Radial/SCF and larger active-space/core/1s convergence, stronger forbidden mixing, calibrated uncertainty, distinct source curation and independent human scientific review",
+  "thresholds": null,
+  "publication_allowed": false
+}
