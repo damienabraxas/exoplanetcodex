@@ -28,11 +28,15 @@ def native_lobatto5():
 
 class Perturbers:
     """Broadening-only density interface; never an H level-population packet."""
-    def __init__(self,packet):
-        self.packet=packet;self.abundance=self;self.reads=[]
+    def __init__(self,packet,*,helium=True):
+        if not isinstance(helium,bool):raise ValueError('Require explicit He broadening diagnostic boolean')
+        self.packet=packet;self.helium=helium;self.abundance=self;self.reads=[]
 
     def __getitem__(self,key):
         if not isinstance(key,str)and getattr(key,'Z',None)==2:
+            if not self.helium:
+                self.reads.append('explicit He broadening-off diagnostic, EOS/continuum unchanged')
+                return np.zeros_like(self.packet['He_I_m3'])
             self.reads.append('effective HeI/HI perturber ratio, not chemical abundance')
             return self.packet['He_I_m3']/self.packet['H_I_m3']
         if isinstance(key,str)and key=='H':
@@ -80,7 +84,7 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d'):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     import lightweaver as lw
@@ -98,7 +102,7 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     for value in state.values():value.flags.writeable=False
     atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lw.ThermalisedRadiation(),upperBc=FiniteColumnCap(0.))
     mu,weight,angles=native_lobatto5();atmos.quadrature(Nrays=5,mu=mu,wmu=weight)
-    model=to_lightweaver(atom);perturbers=Perturbers(seed)
+    model=to_lightweaver(atom);perturbers=Perturbers(seed,helium=helium_broadening)
     for line in model.lines:
         line.quadrature.Nlambda=2*(line.quadrature.Nlambda-1)+1
         line.broadening.elastic=[NativePerturberBroadener(x,perturbers)for x in line.broadening.elastic]
@@ -109,4 +113,4 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     spect=rad.compute_wavelength_grid(extraWavelengths=np.asarray(extra_vac_nm));records=[]
     def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records)
     ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory);ctx.depthData.fill=True
-    return ctx,dict(formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
+    return ctx,dict(helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

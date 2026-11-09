@@ -40,8 +40,8 @@ def main():
     manifest=dict(generator=fingerprint(__file__),plan=fingerprint(a.plan),scientific_admission='HOLD',inputs=checks,scope=plan['scope'],dry_run=a.dry_run)
     (a.output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     for name,pop in [('native_NLTE',n),('native_LTE',s)]:
-        ctx,audit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,formal_solver=plan.get('formal_solver','piecewise_besser_1d'))
-        continuum,caudit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,continuum_only=True,formal_solver=plan.get('formal_solver','piecewise_besser_1d'))
+        ctx,audit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,formal_solver=plan.get('formal_solver','piecewise_besser_1d'),helium_broadening=plan.get('helium_broadening',True))
+        continuum,caudit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,continuum_only=True,formal_solver=plan.get('formal_solver','piecewise_besser_1d'),helium_broadening=plan.get('helium_broadening',True))
         if a.dry_run:
             records.append(dict(case=name,audit=audit,continuum_audit=caudit,constructed_only=True));continue
         rad=converge_cap_radiation(ctx,rtol=1e-8,maxiter=1000,deadline=start+plan['seconds']);crad=converge_cap_radiation(continuum,rtol=1e-8,maxiter=1000,deadline=start+plan['seconds'])

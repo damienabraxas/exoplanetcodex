@@ -6,8 +6,8 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 def main():
     from pipeline.reference_engines import fingerprint
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--output-opacity-supplement',action='store_true');p.add_argument('--boundary-eos-supplement',action='store_true');p.add_argument('--molecular-preflight-supplement',action='store_true');p.add_argument('--hop-provider-supplement',action='store_true');p.add_argument('--hop-trace-supplement',action='store_true');p.add_argument('--hop-fixed-transfer-supplement',action='store_true');p.add_argument('--hop-formal-stark-supplement',action='store_true');a=p.parse_args()
-    if sum([a.output_opacity_supplement,a.boundary_eos_supplement,a.molecular_preflight_supplement,a.hop_provider_supplement,a.hop_trace_supplement,a.hop_fixed_transfer_supplement,a.hop_formal_stark_supplement])>1:raise ValueError('Choose one supplement')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--output-opacity-supplement',action='store_true');p.add_argument('--boundary-eos-supplement',action='store_true');p.add_argument('--molecular-preflight-supplement',action='store_true');p.add_argument('--hop-provider-supplement',action='store_true');p.add_argument('--hop-trace-supplement',action='store_true');p.add_argument('--hop-fixed-transfer-supplement',action='store_true');p.add_argument('--hop-formal-stark-supplement',action='store_true');p.add_argument('--hop-helium-supplement',action='store_true');a=p.parse_args()
+    if sum([a.output_opacity_supplement,a.boundary_eos_supplement,a.molecular_preflight_supplement,a.hop_provider_supplement,a.hop_trace_supplement,a.hop_fixed_transfer_supplement,a.hop_formal_stark_supplement,a.hop_helium_supplement])>1:raise ValueError('Choose one supplement')
     extra_sources={}
     groups={
       'rya1281-independent-oxygen-populations-v1':'analysis',
@@ -49,6 +49,7 @@ def main():
       'rya1371-oxygen-linear-no-stark-v1':'native','rya1371-oxygen-linear-no-stark-analysis-v1':'analysis',
       'rya1371-hop-no-stark-transfer-v1':'analysis','rya1371-hop-no-stark-comparison-v1':'analysis',
       'rya1371-hop-formal-stark-audit-v1':'analysis'}
+    if a.hop_helium_supplement:groups={'rya1371-hop-no-he-transfer-v1':'invalid','rya1371-hop-no-he-transfer-v2':'analysis','rya1371-hop-no-he-comparison-v2':'analysis','rya1371-hop-helium-audit-v1':'analysis'}
     a.output.mkdir(parents=True,exist_ok=False);records=[]
     for name,kind in groups.items():
         source=extra_sources.get(name,a.raw_root/name)

@@ -358,3 +358,26 @@ recipe semantics. Source files/fingerprints and all comparisons are in the
 formal/Stark audit. 44 focused tests pass1.73s;389 raw files receipted and37
 compact copies verified under hop_formal_stark_v1. Coupled SE/observed solar/3D
 and RYA-1374 gates remain HOLD.
+
+### He broadening-only control (v259)
+
+At the Stark-off native state, disable the He contribution solely in LW elastic
+broadening. All native populations/nStar, wavelength axes and continuum intensities
+remain bit-identical to He-on, both LTE/NLTE cases. Actual perturber reads verify
+the He-off route; EOS/He abundance/background opacity are untouched. Remaining
+NLTE intensity-area differences (LW/HOP minus native, mA):6158 -.000320,
+6300 +.000123,7771 +.031445,7774 +.021511,7775 +.011687,8446 -.084768.
+All six finite windows agree within0.085mA under these diagnostic conventions.
+This is a transfer comparison milestone, not an Oxygen physical-model admission.
+Pointwise normalized differences remain up to0.00130 in triplet profiles; integrated
+area agreement cannot certify exact profile/centre/Voigt-kernel parity. No empirical
+shift or scale was fitted. Next audit original MULTI Stark semantics and native/LW
+profile/Unsold conventions before implementing qualified coupled-state physics.
+
+Initial He-off v1 was invalid: the prospective flag was recorded but not forwarded
+to Perturbers(seed), so actual reads still used He. Caught in source/read inspection,
+not used in comparisons; preserved manifest/report and external array receipts.
+Corrected v2 is separately fresh and independently audited. Audit asserts actual
+He-off reads and exact unchanged continuum/population/axes; no invalid promotion.
+Evidence: hop_helium_v1,12 raw receipts/10 exact compact copies. Scientific HOLD;
+source/native model/production defaults unchanged. RYA-1374 remains downstream.
