@@ -1,0 +1,110 @@
+{
+  "schema": "codex.bride_independent_transfer/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "run_bride_independent_transfer.py",
+    "bytes": 6299,
+    "sha256": "e78440b02f0b0d97966bbbd8108c08d5296873b102a0e4f2518bb79433777514"
+  },
+  "plan": {
+    "name": "rya1371_bride_zero_cap_transfer.json",
+    "bytes": 1949,
+    "sha256": "3c1671b37b006c7756479e13f6ca447b15b5b6ed0dcebe96cb2ef525996253ad"
+  },
+  "cases": [
+    {
+      "case": "local",
+      "radiation": {
+        "iterations": 63,
+        "final_J_change": 9.318667948399195e-09,
+        "final_boundary_change": 0.0,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 0.0
+      },
+      "continuum_radiation": {
+        "iterations": 35,
+        "final_J_change": 7.0843416688504135e-09,
+        "final_boundary_change": 0.0,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 0.0
+      },
+      "endpoint_replay": {
+        "max_normalized_flux_difference": 3.817954141283053e-06,
+        "max_relative_continuum_difference": 2.908816139468584e-05
+      },
+      "SE_updated": false,
+      "populations": {
+        "name": "local.npz",
+        "bytes": 186525,
+        "sha256": "488dc0da76b0ef160d448116e5fc7e26541caa3d86d2bb859766d06000737100"
+      }
+    },
+    {
+      "case": "held_multi_b",
+      "radiation": {
+        "iterations": 63,
+        "final_J_change": 9.318667948399195e-09,
+        "final_boundary_change": 0.0,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 0.0
+      },
+      "continuum_radiation": {
+        "iterations": 35,
+        "final_J_change": 7.084341779872716e-09,
+        "final_boundary_change": 0.0,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 0.0
+      },
+      "endpoint_replay": null,
+      "SE_updated": false,
+      "populations": {
+        "name": "held_multi_b.npz",
+        "bytes": 186553,
+        "sha256": "8c1cb527d8e85aead282b365583c1bd61785d04b5a0d2451ee20b449c294040b"
+      }
+    },
+    {
+      "case": "LTE",
+      "radiation": {
+        "iterations": 63,
+        "final_J_change": 9.3186681704438e-09,
+        "final_boundary_change": 0.0,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 0.0
+      },
+      "continuum_radiation": {
+        "iterations": 35,
+        "final_J_change": 7.0843416688504135e-09,
+        "final_boundary_change": 0.0,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 0.0
+      },
+      "endpoint_replay": null,
+      "SE_updated": false,
+      "populations": {
+        "name": "LTE.npz",
+        "bytes": 186438,
+        "sha256": "66bda275408d46163017167cdcf32e3b415a680e4fc219aec3154d1be9952840"
+      }
+    }
+  ],
+  "seconds": 74.86079337494448,
+  "scope": "Fixed-population vertical intensity comparison at the exact original5750/4.5/O8.70 node. Current local, independent held-MULTI departure shape mapped to local LTE and conserved total, and local LTE controls. Native OpenMULTI3D wavelengths define the sampling only; no collision/source/abundance fit, SE update, physics-equivalence or all-band admission. Other-species blends absent; observations not fitted. Compare intensities, not the previous flux profile. Explicit dense output grid, maximum 0.005 A sampling; 6363 A is an absent-transition control, not a qualified line. Prospective zero-cap fixed-population transfer intervention, not SE resolution or default replacement. Native SRC/rt_patch_mod.f90 set_upstream_boundary imposes zero top incoming radiation. Compare to positive-cap transfer at identical populations and wavelengths; original endpoint is a measured intervention contrast, not a parity screen in this explicitly changed-boundary control.",
+  "boundary_control": "zero_incoming_no_cap_fixed_populations",
+  "cap_length_m": 0.0,
+  "source_report": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 101548,
+    "sha256": "b5b1aca6bd3a2a70732ca457100464e5b69829c020dbe5c6b533ce52a9f7672d"
+  }
+}

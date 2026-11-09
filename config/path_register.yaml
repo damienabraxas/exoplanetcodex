@@ -748,6 +748,51 @@ entries:
     env: CODEX_BRIDE_MULTI_SPLINE_ORACLE
     kind: dir
     desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
+  experiments.openmulti3d_oxygen_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-analysis-v4
+    kind: dir
+    desc: Historical exploratory native audit; intensity-density labels invalid, wavelengths retained only as a donor. Use verified dense analysis for intensities.
+  experiments.openmulti3d_oxygen_dense_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-dense-analysis-v1
+    kind: dir
+    desc: Historical dense wavelength donor; v1 intensity-density labels invalid. Retained for exact transfer-input provenance only.
+  experiments.openmulti3d_oxygen_dense_verified:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-dense-analysis-v3
+    kind: dir
+    desc: Corrected native intensity units and dense optical output audit; scientific HOLD.
+  engines.lightweaver_default_molecules:
+    root: home
+    rel: bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules
+    kind: dir
+    desc: Installed RH molecular fit definitions for explicit LTE chemistry preflight; receipts and temperature validity required, no molecular NLTE admission.
+  engines.hop_trace_provider_source:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-hop-provider-v2
+    kind: dir
+    desc: Private derivative of pinned HOP source plus exact GPL trace-continuum ownership patch; reference source untouched.
+  engines.hop_trace_provider_build:
+    root: work
+    rel: bride_inputs/rya1371/hop-provider-build-v4
+    kind: dir
+    desc: Fresh one-thread derived HOP build receipt; experimental provider gate, no production token.
+  engines.openmulti3d_reference:
+    root: work
+    rel: bride_inputs/rya1281/openmulti3d-reference-v1
+    kind: dir
+    desc: Pinned OpenMULTI3D external reference source; experimental, no product admission.
+  engines.openmulti3d_reference_build:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-build-v1
+    kind: dir
+    desc: Private one-task Mac native build receipt; binary remains external.
+  experiments.bride_oxygen_reference:
+    root: work
+    rel: bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json
+    kind: file
+    desc: Exact held independent MULTI departure record; native producer input parity remains to qualify.
   experiments.bride_oxygen_atom:
     root: work
     rel: bride_inputs/rya1281/atom.o41f

@@ -1,3 +1,11 @@
+## 2026-11-09 — reviewed foundation and reference-provider continuation
+
+> **Current as of `main` d1728c92** (PR #619; reviewed experimental checkpoint319819b3, source-assets/observation separation and dependency gates).
+
+- **RYA-1278** — `d1728c92` PR #619 integrates the completed foundation; Done records software/roadmap integration, not science admission.
+- **RYA-1281** — same landing closes the reviewed checkpoint; scientific HOLD remains and newer1371 work is excluded.
+- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255, v256.
+
 ## 2026-11-09
 
 - **RYA-1278 / RYA-1281** — integrate the completed Bride foundation and oxygen research checkpoint; physical model gates remain HOLD.

@@ -1,0 +1,48 @@
+{
+  "generator": {
+    "name": "build_hop_trace_provider.py",
+    "bytes": 3194,
+    "sha256": "31766adf695a1c214053d34fb76d0208f3b83a22f69d024618f1b37319a31812"
+  },
+  "upstream_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+  "patch": {
+    "name": "trace_continua.patch",
+    "bytes": 4874,
+    "sha256": "3148e0f98fb21c3f4d5a421827da88f10ccfbbfaaea6c7eaee9c59d380274c74"
+  },
+  "reference": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "source": "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2",
+  "completed": true,
+  "seconds_limit": 600,
+  "threads": 1,
+  "tracked_diff_sha256": "3148e0f98fb21c3f4d5a421827da88f10ccfbbfaaea6c7eaee9c59d380274c74",
+  "library": {
+    "name": "libhop.so",
+    "bytes": 1164328,
+    "sha256": "306e3cf806ab335e29a1b685a8de05e708942e9ac588ec385f44ad90d41df2d0"
+  },
+  "header": {
+    "name": "libhop.h",
+    "bytes": 2102,
+    "sha256": "2732074eb71f1c58ea908276b7fad061458bf95f74854805708f9cb76475476d"
+  },
+  "compiler": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "seconds": 44.75961950002238
+}

@@ -1,0 +1,19 @@
+# External comparison backends, separate from admitted abundance treatments.
+# Claimed upstream capability never implies a locally validated scientific mode.
+schema: codex.reference_engines/1
+engines:
+  openmulti3d:
+    display_name: OpenMULTI3D
+    source_url: https://github.com/Bergemann-Group-development/dispatch
+    source_commit: 32085d26c46e9919a986397b5514a9728abe2074
+    checkout_resource: engines.openmulti3d_reference
+    build_resource: engines.openmulti3d_reference_build
+    application_rel: experiments/OpenMULTI3D
+    executable_rel: dispatch.x
+    status: experimental-reference
+    upstream_claimed_modes: [1D-LTE, 1D-NLTE, 3D-LTE, 3D-NLTE]
+    locally_validated_science_modes: []
+    supplied_atom_files: [atom.ba06, atom.fe607a, atom.mg86g, atom.o41f]
+    production_admission: HOLD
+    source_ticket: RYA-1371
+    paper: https://arxiv.org/abs/2611.09370
