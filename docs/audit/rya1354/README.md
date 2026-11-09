@@ -1,7 +1,8 @@
 # RYA-1354 — O I atomic-structure pilot checkpoint
 
 **Status: exploratory candidates and benchmark infrastructure; scientific HOLD.**
-Latest: [two-method, core/Hamiltonian, forbidden-line and primary-lifetime continuation](research_continuation_v2.md).
+Latest: [numerical stopping and physical-model error investigation](error_resolution_v3.md).
+Previous: [two-method, core/Hamiltonian, forbidden-line and primary-lifetime continuation](research_continuation_v2.md).
 This is not a completed blind benchmark. Calibrated uncertainty, reviewed two-method convergence and adoption criteria remain owed.
 See [the 2026-11-08 continuation](continuation_2026-11-08.md) for the new nonblind
 reference matrix, correlation ladder and native operator attempts. A named external
@@ -18,7 +19,8 @@ Other workers' O Bridge and Al/Si jobs/worktrees were preserved.
 1. Built pinned GRASP and the official ATSP book MCHF package; evaluated the modern
    ATSP2K biorthogonal path in separate research copies. Exact pins, compiler,
    libraries, commands, observed failures and upstream validation are in
-   [toolchain_provenance.json](toolchain_provenance.json). Sources were not patched.
+   [toolchain_provenance.json](toolchain_provenance.json). The initial checkpoint sources were not patched. The later numerical investigation
+   uses a separately declared convergence-only variant; see the latest dossier.
 2. Ran GRASP's quadrature test and preserved serial integration workflow. The latter
    is its small uranium fixture, not an oxygen validation. Quadrature returned
    0.50000000000001932 for 0.5 (difference 1.93e-14).
