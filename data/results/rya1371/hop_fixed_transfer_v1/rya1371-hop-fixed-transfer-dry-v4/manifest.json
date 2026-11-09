@@ -1,0 +1,87 @@
+{
+  "generator": {
+    "name": "run_bride_hop_fixed_transfer.py",
+    "bytes": 6027,
+    "sha256": "2dcf4d7df4f13c8b644bfdab1b5a7afb500052f2033bb59abb84a52c48911d59"
+  },
+  "plan": {
+    "name": "rya1371_hop_fixed_transfer.json",
+    "bytes": 1434,
+    "sha256": "48208f13d8d3c674949554143e648d7eab9a1e1189364db3cb7b6808980f580b"
+  },
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_fixed_transfer.json": {
+      "name": "rya1371_hop_fixed_transfer.json",
+      "bytes": 1434,
+      "sha256": "48208f13d8d3c674949554143e648d7eab9a1e1189364db3cb7b6808980f580b"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_hop_transfer.py": {
+      "name": "bride_hop_transfer.py",
+      "bytes": 8315,
+      "sha256": "f4b9769b3fff0dcfa5d0e75c30982cfdcdec5d628fac77cf4f4afa8a3341a996"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_packet.py": {
+      "name": "hop_packet.py",
+      "bytes": 9158,
+      "sha256": "da104e3434d8303a9117b338a7cf9db3b35983ea5581731d8b8ac5085e5c9bd0"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+      "name": "hop_abi.py",
+      "bytes": 959,
+      "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_top_cap.py": {
+      "name": "bride_top_cap.py",
+      "bytes": 8047,
+      "sha256": "b3151adb66bfd468aa1c651cf5435488d81a6f6c9a8a3c15372e0c3196438f29"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_reference.py": {
+      "name": "bride_reference.py",
+      "bytes": 10407,
+      "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85412,
+      "sha256": "7ac776d37e3da02ea6e4a6f3f45593b36817ce64e5c03e6cd82bf7a43a693d58"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207686,
+      "sha256": "19a95e9c888984353fe90c1d8899681d5855586a1b10548495a16e7ff043d0b5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/report.json": {
+      "name": "report.json",
+      "bytes": 3992,
+      "sha256": "5e3b26fd7347e351ea987689b11b8f0f63af19c9680e6ee422f5199083346c9e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json": {
+      "name": "reference-5750-4.5-A8.70-v1.json",
+      "bytes": 72076,
+      "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+    },
+    "/Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/LwCompiled.cpython-312-darwin.so": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    }
+  },
+  "scope": "Prospective pure transfer control with native56-node geometry/T/ne/rho and complete native41-level O n/nstar/totals. Native HOP LTE EOS/continuum and explicit native H/He perturber densities; unchanged LW atomic and broadening formulas, five native Lobatto angles and native-constant background source. No SE/collision/population update. Both nativeNLTE and nativeLTE cases, common native dense vacuum grid, no fitted shift/continuum. Top zero incoming; LW thermalized lower-boundary and native ghost/formal/profile/constants differences remain explicit. Report all six finite-window contrasts with no result-selected input or adopted model.",
+  "dry_run": true
+}

@@ -1,0 +1,111 @@
+"""Native-state fixed-population transfer only; unqualified coupled SE refuses."""
+import re
+import numpy as np
+from lightweaver.LwCompiled import BackgroundProvider
+from lightweaver.broadening import StandardLineBroadener
+from pipeline.hop_packet import compute_packet
+from pipeline.reference_engines import fingerprint,load_engine
+
+
+def native_lobatto5():
+    """Read the pinned native five-ray constants at their compiled default precision."""
+    _,app,_,_=load_engine('openmulti3d');source=app/'SRC/ray_mod.f90';text=source.read_text().split('SUBROUTINE set_lobatto_quadratures',1)[1].split('END SUBROUTINE',1)[0]
+    block=re.search(r'case\s*\(5\)(.*?)case\s*\(6\)',text,re.S|re.I)
+    if block is None:raise ValueError('Changed native quadrature source')
+    arrays=[]
+    for name in ['mu','wmu']:
+        match=re.search(r'\b'+name+r'\s*=\s*\(/(.*?)/\)',block[1],re.S|re.I)
+        if match is None:raise ValueError('Missing native angular table')
+        values=re.findall(r'[+-]?(?:\d+\.\d*|\.\d+|\d+)(?:[deDE][+-]?\d+)?',match[1])
+        # The pinned native run reports default REAL kind4. These literals have
+        # no D exponent: Fortran rounds them to real4 before assigning real8.
+        if len(values)!=5 or any('d'in x.lower()for x in values):raise ValueError('Changed native literal precision/count')
+        arrays.append(np.asarray(values,dtype=np.float32).astype(float))
+    mu,weight=arrays
+    if not np.all((mu>0)&(mu<=1))or not np.isclose(weight.sum(),1):raise ValueError('Invalid native angular table')
+    return mu,weight,dict(source=fingerprint(source),literal_precision='default real4 promoted to real8; no weight renormalization',mu=mu.tolist(),weight=weight.tolist())
+
+
+class Perturbers:
+    """Broadening-only density interface; never an H level-population packet."""
+    def __init__(self,packet):
+        self.packet=packet;self.abundance=self;self.reads=[]
+
+    def __getitem__(self,key):
+        if not isinstance(key,str)and getattr(key,'Z',None)==2:
+            self.reads.append('effective HeI/HI perturber ratio, not chemical abundance')
+            return self.packet['He_I_m3']/self.packet['H_I_m3']
+        if isinstance(key,str)and key=='H':
+            owner=self
+            class Rows:
+                def __getitem__(self,index):
+                    row,tail=(index[0],index[1:])if isinstance(index,tuple)else(index,())
+                    if row not in [0,-1]:raise ValueError('Unqualified hydrogen excited-state perturber lookup')
+                    name='H_I_m3'if row==0 else'H_II_m3';owner.reads.append(name+' as explicit broadening perturber, not H model populations')
+                    return owner.packet[name][tail]if tail else owner.packet[name]
+            return Rows()
+        if isinstance(key,str)and key=='H-':
+            self.reads.append('native Hminus density')
+            return self.packet['H_-_m3']
+        raise ValueError('Unqualified perturber lookup '+str(key))
+
+
+class NativePerturberBroadener(StandardLineBroadener):
+    """Retain the original LW formula/coefficients with explicit native densities."""
+    def __init__(self,inner,perturbers):self.inner=inner;self.perturbers=perturbers
+    def setup(self,line):self.inner.setup(line)
+    def broaden(self,atmos,eqPops):return self.inner.broaden(atmos,self.perturbers)
+
+
+class NativeHopBackground(BackgroundProvider):
+    def __init__(self,eqPops,radSet,wavelength,*,state,atom,abundances,records):
+        from lightweaver.atomic_table import PeriodicTable
+        super().__init__(eqPops,radSet,wavelength)
+        if radSet.activeAtoms or len(radSet.detailedAtoms)!=1 or radSet.detailedAtoms[0].element!=PeriodicTable['O']:raise ValueError('HOP background qualified for fixed native-O transfer only; no coupled SE')
+        self.state={k:np.array(v,copy=True)for k,v in state.items()};self.wave=np.asarray(wavelength).copy();self.original_wave=wavelength
+        for value in self.state.values():value.flags.writeable=False
+        self.packet,self.meta=compute_packet(self.state['temperature_K'],self.state['ne_m3'],self.state['rho_kg_m3'],self.wave,abundances,atom,vmic_m_s=float(self.state['vturb_m_s'][0]))
+        np.testing.assert_array_equal(self.packet['nHTot_m3'],self.state['nHTot_m3'])
+        self.check(eqPops.atmosphere);records.append(dict(wavelengths=len(self.wave),depths=len(state['temperature_K']),packet=self.meta))
+
+    def check(self,atmos):
+        for name,key in [('temperature','temperature_K'),('ne','ne_m3'),('nHTot','nHTot_m3'),('vturb','vturb_m_s'),('height','height_m')]:
+            if not np.array_equal(getattr(atmos,name),self.state[key]):raise ValueError('Changed bound HOP state '+name)
+        if not np.array_equal(self.wave,self.original_wave):raise ValueError('Changed bound HOP wavelengths')
+
+    def compute_background(self,atmos,chi,eta,sca):
+        self.check(atmos.pyAtmos)
+        for output,key in [(chi,'chi_m_inv'),(eta,'eta_SI'),(sca,'scat_m_inv')]:
+            if output.shape!=self.packet[key].shape:raise ValueError('Background wavelength/depth axis mismatch')
+            output[:]=self.packet[key]
+
+
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False):
+    """Bind complete native O state and HOP background before Context compilation."""
+    import lightweaver as lw
+    from lightweaver import rh_atoms
+    from lightweaver.atomic_table import PeriodicTable
+    from pipeline.multi_atom import to_lightweaver
+    from pipeline.bride_reference import PASSIVE_ATOM_FACTORIES
+    from pipeline.bride_top_cap import FiniteColumnCap
+    if not np.all(np.asarray(state['vturb_m_s'])==state['vturb_m_s'][0]):raise ValueError('Only depth-constant vmic is qualified')
+    expected=(len(atom.levels),len(state['temperature_K']))
+    if any(x.shape!=expected or not np.isfinite(x).all()or np.any(x<=0)for x in [populations,nstar]):raise ValueError('Invalid complete native atomic state')
+    np.testing.assert_allclose(populations.sum(axis=0),nstar.sum(axis=0),rtol=1e-12,atol=0)
+    seed,seed_meta=compute_packet(state['temperature_K'],state['ne_m3'],state['rho_kg_m3'],np.array([500.,845.]),structure['abundances_dex'],atom,vmic_m_s=float(state['vturb_m_s'][0]))
+    state={key:np.array(value,copy=True)for key,value in state.items()};state['nHTot_m3']=seed['nHTot_m3'].copy()
+    for value in state.values():value.flags.writeable=False
+    atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lw.ThermalisedRadiation(),upperBc=FiniteColumnCap(0.))
+    mu,weight,angles=native_lobatto5();atmos.quadrature(Nrays=5,mu=mu,wmu=weight)
+    model=to_lightweaver(atom);perturbers=Perturbers(seed)
+    for line in model.lines:
+        line.quadrature.Nlambda=2*(line.quadrature.Nlambda-1)+1
+        line.broadening.elastic=[NativePerturberBroadener(x,perturbers)for x in line.broadening.elastic]
+    if continuum_only:model.lines=[]
+    abundance={PeriodicTable[z+1]:value for z,value in enumerate(structure['abundances_dex'])};abundance[PeriodicTable['O']]=atom.abundance
+    rad=lw.RadiativeSet([getattr(rh_atoms,name)()for name in PASSIVE_ATOM_FACTORIES]+[model],abundance=lw.AtomicAbundance(abundance));rad.set_detailed_static('O');eq=rad.compute_eq_pops(atmos,mols=lw.MolecularTable([]));oxygen=eq.atomicPops[PeriodicTable['O']]
+    oxygen.nStar[:]=nstar;oxygen.nTotal[:]=nstar.sum(axis=0);oxygen.n[:]=populations
+    spect=rad.compute_wavelength_grid(extraWavelengths=np.asarray(extra_vac_nm));records=[]
+    def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records)
+    ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver='piecewise_besser_1d',conserveCharge=False,backgroundProvider=factory);ctx.depthData.fill=True
+    return ctx,dict(seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

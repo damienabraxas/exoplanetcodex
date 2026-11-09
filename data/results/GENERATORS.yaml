@@ -31333,3 +31333,55 @@ artifacts:
     ticket: RYA-1371
     note: Exact compact copy of fresh derived build or trace/opacity preflight. Prototype
       build failures retained external with receipts; reference source/binary unchanged.
+  - artifact: rya1371/hop_fixed_transfer_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-analysis-v1/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-analysis-v1/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-analysis-v1/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-dry-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-dry-v2/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-dry-v3/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-dry-v4/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-dry-v4/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_fixed_transfer_v1/rya1371-hop-fixed-transfer-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.

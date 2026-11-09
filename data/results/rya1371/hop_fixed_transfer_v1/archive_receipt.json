@@ -1,0 +1,135 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 5300,
+    "sha256": "cc5e54f5cb07b2bdc1d40555de829323b739fd9faa2f09d3f515fa765816917b"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-dry-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4436,
+        "sha256": "ead8ab536f8c06891510a7b8baedb5fa12542807f19afab7ce7ea29aabdc1f7b"
+      },
+      "archived": "rya1371-hop-fixed-transfer-dry-v1/manifest.json",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-dry-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4436,
+        "sha256": "ead8ab536f8c06891510a7b8baedb5fa12542807f19afab7ce7ea29aabdc1f7b"
+      },
+      "archived": "rya1371-hop-fixed-transfer-dry-v2/manifest.json",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-dry-v3/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4436,
+        "sha256": "ead8ab536f8c06891510a7b8baedb5fa12542807f19afab7ce7ea29aabdc1f7b"
+      },
+      "archived": "rya1371-hop-fixed-transfer-dry-v3/manifest.json",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-dry-v4/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4436,
+        "sha256": "f70dbc5eec3b888447ae1907adb661c770333c84af3d110f2e642701ddf8a99e"
+      },
+      "archived": "rya1371-hop-fixed-transfer-dry-v4/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-dry-v4/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 158879,
+        "sha256": "37d0439d2eae3b4d496ce9ea05ce252c9858b40f5594bf6654f427221ad71329"
+      },
+      "archived": "rya1371-hop-fixed-transfer-dry-v4/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4690,
+        "sha256": "2bde117bc5b9316471c3f0e76cb3b73afeb7fa4edc4482751e38c10b81540b4d"
+      },
+      "archived": "rya1371-hop-fixed-transfer-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-v1/native_LTE.npz",
+      "receipt": {
+        "name": "native_LTE.npz",
+        "bytes": 205001,
+        "sha256": "908ebe80221785955b5c6156bd394d185c8996773989b9738c59c9ff9a598028"
+      },
+      "archived": "rya1371-hop-fixed-transfer-v1/native_LTE.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-v1/native_NLTE.npz",
+      "receipt": {
+        "name": "native_NLTE.npz",
+        "bytes": 204998,
+        "sha256": "d3e4913a5ec871222228a3f21f2e35e24ed18b2956143df457030ce5334c7e0c"
+      },
+      "archived": "rya1371-hop-fixed-transfer-v1/native_NLTE.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 198983,
+        "sha256": "57edbb90513d01704de1e8f841ebde1c1a4fdce29e584b7d337f377970476166"
+      },
+      "archived": "rya1371-hop-fixed-transfer-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-analysis-v1/comparison.png",
+      "receipt": {
+        "name": "comparison.png",
+        "bytes": 303297,
+        "sha256": "5e271c53d83e873346a24019b04b03e797cd9c5fad0de4e01c6609b532f16a56"
+      },
+      "archived": "rya1371-hop-fixed-transfer-analysis-v1/comparison.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-analysis-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 6773,
+        "sha256": "c714c270c65a854d4713f3ec50666c6709914cbc21e561e0b97d0f9a276fe674"
+      },
+      "archived": "rya1371-hop-fixed-transfer-analysis-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-fixed-transfer-analysis-v1/windows.csv",
+      "receipt": {
+        "name": "windows.csv",
+        "bytes": 2066,
+        "sha256": "d4f9933d5ecb5ee8e6f87b6f300b46f8826126d43b1a12c30c0f871335f81319"
+      },
+      "archived": "rya1371-hop-fixed-transfer-analysis-v1/windows.csv",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

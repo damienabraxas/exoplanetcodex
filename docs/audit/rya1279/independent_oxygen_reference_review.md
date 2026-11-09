@@ -277,3 +277,44 @@ and flux benchmarks with continuum, blends, instrument response and uncertainty
 handling qualified. Extend the atom for6363 only with inspected atomic data.
 Keep molecular OH/CO/H2O and UV/IR/cool-star applicability as explicit separate
 gates under RYA-1374. Oxygen 1D scientific completion remains open.
+
+### Complete native-state fixed transfer (v257)
+
+The isolated HOP provider now binds the complete native56-node T/ne/rho geometry,
+41-level Oxygen n/nStar/totals, native H/He perturber densities, trace-continuum
+ownership and native historical-constant background source. LW atomic/broadening
+formulas remain explicit; no SE/population update occurs. Five native Lobatto
+angles retain the source default-REAL rounding. Native and LW lower-boundary,
+formal-solver, profile and atomic-constant conventions remain distinct.
+
+Both fixed cases complete in7.1776s, with n/nStar/totals bit-identical before/after.
+The common dense vacuum wavelengths are identical; AIR conversion occurs once.
+Finite +/-0.5A intensity-area differences (LW/HOP minus native, mA):
+
+| AIR centre | native NLTE populations | native LTE populations |
+|---|---:|---:|
+|6158.170|-.161453|-.161441|
+|6300.304|+.002317|+.002319|
+|7771.944|-.889573|-.872779|
+|7774.166|-.778204|-.764277|
+|7775.388|-.606745|-.596575|
+|8446.400|-.710438|-.691925|
+
+6363 remains an absent-transition control, not a measured Oxygen line.
+The8446 difference decreases from4.285mA to0.710mA,6300 from0.242mA to0.0023mA.
+Triplet differences are similar for LTE/NLTE populations, suggesting remaining
+transfer/profile conventions rather than a population-specific discrepancy.
+Raw continuum differences remain0.109-0.142percent. Visual inspection confirms
+small profile differences, especially6158 wings; no continuum or line adjustment
+is fitted. These are finite-window vertical intensities, not full EW/flux/abundance.
+
+Native iteration uses linear formal transfer, native emergent output quadratic;
+LW uses BESSER. Next compare predeclared linear output on both engines, preserving
+all population/background inputs, then inspect mesh/lower ghost/profile effects.
+Do not choose a production default by best agreement. Coupled SE, fresh native
+field/rate balance, observed solar qualification and RYA-1374 expansion stay open.
+
+Evidence: data/results/rya1371/hop_fixed_transfer_v1, exact compact copies plus raw
+receipts. Three constructor preflights refused invalid option types/empty filename/
+perturber lookup; corrected before the completed run, no failed output promoted.
+Five focused packet/state/units/purpose tests pass in1.28s. Scientific HOLD.
