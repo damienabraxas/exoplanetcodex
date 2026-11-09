@@ -29229,3 +29229,241 @@ artifacts:
     generator: "scripts/assess_bride_O_shape_milestone.py"
     invocation: "python scripts/assess_bride_O_shape_milestone.py --source <O-shape-run> --output <fresh-O-shape-assessment>"
     ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case temperature --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/temperature/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case temperature --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/gravity/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/gravity/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/solar/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case solar --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/dry/solar/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case solar --output <fresh-case> --dry-run"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/baseline/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/baseline/populations.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/baseline/rates.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/baseline/independent_rates.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/baseline/flux.csv
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case baseline --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case temperature --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/temperature/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case temperature --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/gravity/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/gravity/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/gravity/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/gravity/populations.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/gravity/independent_rates.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/gravity/flux.csv
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case gravity --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/solar/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case solar --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_matched_v1/run/solar/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    invocation: "python scripts/run_bride_solar_matched_columns.py --case solar --output <fresh-case>"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/receipt.json
+    generator: "scripts/archive_bride_solar_solver_controls.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-mali-operator-audit-v1/failure.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-mali-operator-audit-v1/failure_seed.npz
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-mali-operator-audit-v1/input.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-mali-operator-audit-v1/operator_audit.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-mali-operator-audit-v1/operator_audit.npz
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/baseline/failure.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/baseline/failure_seed.npz
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/baseline/history.jsonl
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/gravity/failure.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/gravity/failure_seed.npz
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/gravity/history.jsonl
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/gravity/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/solar/failure.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/solar/failure_seed.npz
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/solar/history.jsonl
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/solar/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/temperature/failure.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/temperature/failure_seed.npz
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/temperature/history.jsonl
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-mali-v1/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/gravity/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/gravity/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/solar/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/solar/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-dry-v2/temperature/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/baseline/flux.csv
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/baseline/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/baseline/independent_rates.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/baseline/populations.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/gravity/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/gravity/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/solar/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/solar/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/temperature/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-matched-v2/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-defect-v1/baseline/failure.json
+    generator: "scripts/run_bride_solar_matched_defect.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-defect-v1/baseline/failure_seed.npz
+    generator: "scripts/run_bride_solar_matched_defect.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-defect-v1/baseline/history.jsonl
+    generator: "scripts/run_bride_solar_matched_defect.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-defect-v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_defect.py"
+    ticket: "RYA-1281"

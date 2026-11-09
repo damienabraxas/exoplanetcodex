@@ -1,0 +1,773 @@
+{
+  "schema": "codex.bride_solar_matched_column/1",
+  "scientific_admission": "HOLD",
+  "case": "baseline",
+  "scope": "Matched baseline/T-only/g-only/canonical-solar column experiment at unchanged source O8.70/41level atom/collision hypotheses/bare background/xi1/geometry-cap policy/numerical controls. Fresh independent class-C+transition-R and conservation required; no EOS feedback, interpolation accuracy, source/reference/model/abundance admission or production/merge/publication.",
+  "generator": {
+    "name": "run_bride_solar_matched_columns.py",
+    "bytes": 10013,
+    "sha256": "808099ea2e7be2ca94f8b728d56d51277412814bbb04c07183235b7884dae906"
+  },
+  "plan": {
+    "name": "rya1281_solar_matched_columns.json",
+    "bytes": 3602,
+    "sha256": "59929736815acd0955e6cae76ceda5e4d02d46796865843609ffb8d7aaa4bf57"
+  },
+  "state": {
+    "case": "model_mass_H",
+    "height_m": [
+      602400.0,
+      579900.0,
+      557200.0,
+      534500.0,
+      511600.0,
+      488500.0,
+      465200.0,
+      441800.0,
+      418200.0,
+      394300.0,
+      370300.0,
+      358600.0,
+      346700.0,
+      334900.0,
+      323000.0,
+      311000.0,
+      299000.0,
+      286900.0,
+      274800.0,
+      262700.0,
+      250500.0,
+      238200.0,
+      225900.0,
+      213600.0,
+      201100.0,
+      188700.0,
+      176100.0,
+      163500.0,
+      150800.0,
+      138000.0,
+      125100.0,
+      112100.0,
+      98990.0,
+      85810.0,
+      72580.0,
+      59380.0,
+      46330.0,
+      33630.0,
+      21520.0,
+      10250.0,
+      -0.0,
+      -9102.0,
+      -17030.0,
+      -23770.0,
+      -29330.0,
+      -33960.0,
+      -38050.0,
+      -41870.0,
+      -45610.0,
+      -49380.0,
+      -53250.0,
+      -61770.0,
+      -71430.0,
+      -82580.0,
+      -95560.0,
+      -110700.0
+    ],
+    "temperature_K": [
+      4045.9,
+      4081.7,
+      4125.1,
+      4169.7,
+      4214.8,
+      4260.1,
+      4305.3,
+      4350.4,
+      4395.3,
+      4439.9,
+      4483.7,
+      4506.1,
+      4528.1,
+      4550.1,
+      4572.0,
+      4593.9,
+      4616.0,
+      4638.2,
+      4660.8,
+      4683.8,
+      4707.5,
+      4732.3,
+      4758.2,
+      4785.8,
+      4815.4,
+      4847.4,
+      4881.7,
+      4922.0,
+      4964.0,
+      5011.5,
+      5065.1,
+      5124.9,
+      5193.1,
+      5270.4,
+      5358.2,
+      5458.7,
+      5572.3,
+      5702.1,
+      5849.8,
+      6017.7,
+      6207.6,
+      6423.3,
+      6664.9,
+      6953.3,
+      7281.0,
+      7580.5,
+      7837.2,
+      8057.7,
+      8251.2,
+      8424.6,
+      8583.5,
+      8869.6,
+      9136.9,
+      9395.5,
+      9651.4,
+      9909.1
+    ],
+    "electron_pressure_Pa": [
+      0.0022225,
+      0.0028685,
+      0.0037143000000000002,
+      0.0048062,
+      0.0062120000000000005,
+      0.008018599999999999,
+      0.010337,
+      0.01331,
+      0.017115000000000002,
+      0.021982,
+      0.028187000000000004,
+      0.03192,
+      0.036126000000000005,
+      0.040876,
+      0.046239,
+      0.052294,
+      0.059136,
+      0.06686600000000001,
+      0.07561000000000001,
+      0.08550600000000001,
+      0.09673100000000001,
+      0.10949,
+      0.12403,
+      0.14065000000000003,
+      0.15972,
+      0.18167,
+      0.20697000000000002,
+      0.23686,
+      0.27139,
+      0.31224,
+      0.36104,
+      0.4197,
+      0.49179000000000006,
+      0.58213,
+      0.69859,
+      0.85527,
+      1.0741,
+      1.3970000000000002,
+      1.8951000000000002,
+      2.6926,
+      4.0065,
+      6.237100000000001,
+      10.055,
+      17.208000000000002,
+      30.348000000000003,
+      49.176,
+      72.552,
+      99.659,
+      130.15,
+      163.94000000000003,
+      201.24,
+      287.08000000000004,
+      394.27,
+      529.4399999999999,
+      701.47,
+      922.38
+    ],
+    "ne_m3": [
+      3.978693748788602e+16,
+      5.0901157584288024e+16,
+      6.521633419754945e+16,
+      8.3485473710467e+16,
+      1.0675011756360202e+17,
+      1.3633037907024987e+17,
+      1.7390216284714752e+17,
+      2.2159642595347123e+17,
+      2.8203451939594886e+17,
+      3.585980315320245e+17,
+      4.5532992641679424e+17,
+      5.1306919907031034e+17,
+      5.778535085364564e+17,
+      6.506708267596004e+17,
+      7.325142837956579e+17,
+      8.244877579914692e+17,
+      9.278975571372064e+17,
+      1.0441665074756494e+18,
+      1.1749859055273554e+18,
+      1.3222456122009556e+18,
+      1.4882957278922017e+18,
+      1.6757764138215386e+18,
+      1.887982382246993e+18,
+      2.1286246027758797e+18,
+      2.4023751085300854e+18,
+      2.714489986870949e+18,
+      3.0707905765841e+18,
+      3.4854912906572585e+18,
+      3.959824647204355e+18,
+      4.512681575876048e+18,
+      5.162751039224369e+18,
+      5.931539951531578e+18,
+      6.859096205708179e+18,
+      8.000005581492565e+18,
+      9.443159623373652e+18,
+      1.1348223958671866e+19,
+      1.3961243864204149e+19,
+      1.7744977907433787e+19,
+      2.346415937163393e+19,
+      3.2408221218063938e+19,
+      4.674716832368962e+19,
+      7.032963885476603e+19,
+      1.0927034734126277e+20,
+      1.7924758629308056e+20,
+      3.018929218001124e+20,
+      4.698608222264047e+20,
+      6.705055011883352e+20,
+      8.958170362918563e+20,
+      1.1424598455106003e+21,
+      1.4094495241259204e+21,
+      1.6981020390887336e+21,
+      2.3442978504975374e+21,
+      3.1254225943109257e+21,
+      4.081414839975128e+21,
+      5.264203544050831e+21,
+      6.742012488624803e+21
+    ],
+    "nH_m3": [
+      4.787403146791413e+20,
+      6.15340531609425e+20,
+      7.871383504481257e+20,
+      1.0054693397296575e+21,
+      1.283036393375856e+21,
+      1.635938665141823e+21,
+      2.084597821297731e+21,
+      2.6549489369339915e+21,
+      3.379896035889803e+21,
+      4.301385132469554e+21,
+      5.472830131323737e+21,
+      6.171930369730259e+21,
+      6.960127294671871e+21,
+      7.848447723789054e+21,
+      8.849241692839146e+21,
+      9.977064601107586e+21,
+      1.1247795065996666e+22,
+      1.2678634923025534e+22,
+      1.4288991371241439e+22,
+      1.6101800191336588e+22,
+      1.8140438236708792e+22,
+      2.043092879698959e+22,
+      2.300238267074986e+22,
+      2.5886998165499794e+22,
+      2.911741466145523e+22,
+      3.273156441129942e+22,
+      3.6771790394771814e+22,
+      4.1253089083863465e+22,
+      4.625529463829146e+22,
+      5.179957854792551e+22,
+      5.792166770192078e+22,
+      6.46744908249516e+22,
+      7.206245864407416e+22,
+      8.009439261340083e+22,
+      8.874382837059445e+22,
+      9.789608701219403e+22,
+      1.0738356091006423e+23,
+      1.1685780262676587e+23,
+      1.2587773945667967e+23,
+      1.339405485153997e+23,
+      1.405919249161381e+23,
+      1.4546136758617467e+23,
+      1.4843419762204847e+23,
+      1.4902082432052207e+23,
+      1.475167663943604e+23,
+      1.4573042193660242e+23,
+      1.4433222145978938e+23,
+      1.4339714732387655e+23,
+      1.4287227080418963e+23,
+      1.4270466317605432e+23,
+      1.4285462789596488e+23,
+      1.4405875638230543e+23,
+      1.4628176281862647e+23,
+      1.4957657592960234e+23,
+      1.5405787461869398e+23,
+      1.599109094222615e+23
+    ],
+    "vturb_m_s": [
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0
+    ],
+    "ne_owner": "source-precision MARCS/interpolated Pe/(LW k*T)",
+    "nH_owner": "source-precision MARCS/interpolated rho*X/(LW Amu*H mass)"
+  },
+  "state_helper": {
+    "name": "bride_solar_matched.py",
+    "bytes": 2871,
+    "sha256": "81f9147c4dcca47b40daa8865dcd4cd2663efa4987558251d49de33aed77c476"
+  },
+  "context_helper": {
+    "name": "bride_H_nlte_control.py",
+    "bytes": 3571,
+    "sha256": "a5f5d638c5262c5664fd5c305aa8e48c0a63e52af9b831ab31b3b497cfcd9e17"
+  },
+  "case_parameters": {
+    "name": "baseline",
+    "teff": 5750.0,
+    "logg": 4.5,
+    "native": true
+  },
+  "source_nodes": [
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    }
+  ],
+  "column_preparation": {
+    "sources": [
+      {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      },
+      {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      },
+      {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    ],
+    "case_interpolation": {
+      "baseline": {
+        "method": "native source precision, no interpolation",
+        "target": [
+          5750.0,
+          4.5
+        ]
+      },
+      "temperature": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.5
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.912,
+          0.0
+        ]
+      },
+      "gravity": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5750.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.0,
+          0.8759999999999994,
+          0.12400000000000055
+        ]
+      },
+      "solar": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      }
+    },
+    "native_node_max_absolute_identity": {
+      "height_m": 1.1641532182693481e-10,
+      "temperature_K": 0.0,
+      "electron_pressure_Pa": 2.2737367544323206e-13,
+      "rho_kg_m3": 2.710505431213761e-19,
+      "logtau_ross": 0.0,
+      "logtau_500": 0.0
+    },
+    "native_node_interpolation": {
+      "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+      "thermodynamic_scale": "log_positive_layers",
+      "target": [
+        5750.0,
+        4.5
+      ],
+      "simplex_source_indices": [
+        3,
+        1,
+        0
+      ],
+      "weights": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "field_ownership": "Native MARCS source precision for baseline; audited nearest-cell simplex log-positive Pe/rho/log-layer-thickness interpolation for others,56depths. ne=Pe/(LW k*T),nH=rho*X/(LW Amu*H mass). No exported native network/Pe rounding packet or molecule provider transplanted.",
+  "binding_change_from_prior": {
+    "height_m": {
+      "max_absolute": 0.0,
+      "max_relative": null
+    },
+    "temperature_K": {
+      "max_absolute": 0.0003906250003637979,
+      "max_relative": 4.6840897716116103e-08
+    },
+    "electron_pressure_Pa": {
+      "max_absolute": 1.9531250018189894e-05,
+      "max_relative": 4.782596130237238e-08
+    },
+    "ne_m3": {
+      "max_absolute": 172326116655104.0,
+      "max_relative": 7.82787512587646e-08
+    },
+    "nH_m3": {
+      "max_absolute": 0.0,
+      "max_relative": 0.0
+    },
+    "vturb_m_s": {
+      "max_absolute": 0.0,
+      "max_relative": 0.0
+    }
+  },
+  "density_helper": {
+    "name": "bride_reference.py",
+    "bytes": 10407,
+    "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+  },
+  "interpolator": {
+    "name": "bride_parameter_checks.py",
+    "bytes": 6354,
+    "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "warm_report": {
+    "name": "report.json",
+    "bytes": 17385,
+    "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+  },
+  "warm_populations": {
+    "name": "populations.npz",
+    "bytes": 54276,
+    "sha256": "176a42000b1c4cb09c9c093b4008df185a14e0454507f4f5951c1cc74951d8b3"
+  },
+  "initialization": "Same completed v2 model-H level fractions for ALL four fresh solves, separately mapped to each new O total. No sequential matrix warm starts, imported J/rates or observational tuning.",
+  "controls": {
+    "rays": 5,
+    "qscale": 2,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 7,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "cap_length_m": 84362.76027271051,
+  "background": "Native FastBackground plus existing passive atoms, explicitly empty LW molecule population table; no added Fe/CN line providers. Full source O model radiative grid with doubled line quadratures; only diagnostic-window endpoints added to SE grid, emergent full4001point rays sampled afterward.",
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "LW_constants": {
+    "name": "constants.py",
+    "bytes": 941,
+    "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+  },
+  "initial_total_conservation_error": 2.220446049250313e-16,
+  "SE_wavelength_rows": 6796,
+  "source_collision_contract": {
+    "spline": {
+      "oracle": {
+        "name": "manifest.json",
+        "bytes": 1897,
+        "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+      },
+      "source_directions": true,
+      "reversible_ch0_LTE_reservoir_hypothesis": false,
+      "temperature_unchanged_required": true,
+      "CH_negative_spline_values_clipped_as_native": 0
+    },
+    "MN": {
+      "author_data": {
+        "name": "receipt.json",
+        "bytes": 2847,
+        "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+      },
+      "adapter": {
+        "name": "bride_charge_contract.py",
+        "bytes": 5734,
+        "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+      },
+      "CH0_replaced": 24,
+      "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+      "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+      "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+      "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+    }
+  },
+  "coupled": {
+    "controls": {
+      "rays": 5,
+      "qscale": 2,
+      "rtol": 1e-06,
+      "maxiter": 1500,
+      "seconds_per_case": 600,
+      "flux_rays": 7,
+      "ng": true,
+      "reject_invalid_ng": true,
+      "converge_cap_radiation": true,
+      "cap_radiation_rtol": 1e-08,
+      "cap_radiation_maxiter": 100
+    },
+    "iterations": 3,
+    "final_diagnostics": {
+      "iteration": 3,
+      "population_change": 7.952407997355626e-07,
+      "physical_rate_residual": 6.0298006384580595e-15,
+      "J_change": 7.958186865350022e-07,
+      "cap_boundary_change": 7.958212962144932e-07,
+      "particle_conservation_error": 6.661338147750939e-16,
+      "rejected_invalid_ng": false,
+      "fixed_population_radiation": {
+        "iterations": 5,
+        "final_J_change": 3.0470734824206147e-09,
+        "final_boundary_change": 2.5758746054491684e-09,
+        "outer_J_change": 7.958186865350022e-07,
+        "outer_boundary_change": 7.958212962144932e-07
+      }
+    },
+    "fresh_physical_rate_residual": 3.956231535446359e-07,
+    "fresh_radiation": {
+      "iterations": 5,
+      "final_J_change": 3.0499287539953457e-09,
+      "final_boundary_change": 2.5777025309834448e-09,
+      "outer_J_change": 7.951944508077196e-07,
+      "outer_boundary_change": 7.951970581825328e-07
+    },
+    "max_relative_population_change_from_initial": 2.387845442708425e-06,
+    "source_spline": {
+      "oracle": {
+        "name": "manifest.json",
+        "bytes": 1897,
+        "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+      },
+      "source_directions": true,
+      "reversible_ch0_LTE_reservoir_hypothesis": false,
+      "temperature_unchanged_required": true,
+      "CH_negative_spline_values_clipped_as_native": 0
+    },
+    "source_mn": {
+      "author_data": {
+        "name": "receipt.json",
+        "bytes": 2847,
+        "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+      },
+      "adapter": {
+        "name": "bride_charge_contract.py",
+        "bytes": 5734,
+        "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+      },
+      "CH0_replaced": 24,
+      "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+      "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+      "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+      "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+    },
+    "history": {
+      "name": "history.jsonl",
+      "bytes": 1435,
+      "sha256": "197c51d0da665b1bbe2811eb0f12867351d9ef84ca97a84a76fa6f4448b6b650"
+    },
+    "populations": {
+      "name": "populations.npz",
+      "bytes": 54268,
+      "sha256": "63baa50455d598eeee66b77c6fc818c064c80ea0cd24d6091500f36405c23769"
+    },
+    "rates": {
+      "name": "rates.npz",
+      "bytes": 4239907,
+      "sha256": "201a44a23b754241777beacf635f543833a27fb14878b7131d5887b134223cf0"
+    },
+    "helper": {
+      "name": "bride_coupled_control.py",
+      "bytes": 4768,
+      "sha256": "24dd389d3ad69c49096aa3f18be8e7421631b7d43f7bfcd01ade50bff371f3bb"
+    }
+  },
+  "independent": {
+    "physical_rate_residual": 3.9562315360044704e-07,
+    "particle_conservation_error": 6.661338147750939e-16,
+    "collision_classes": [
+      "CE",
+      "CI",
+      "CH",
+      "CH0"
+    ],
+    "rates": {
+      "name": "independent_rates.npz",
+      "bytes": 888705,
+      "sha256": "e9c6792513c2508ab9c651245b7fc7b1722ae90dc72c49763704caa87c0dc255"
+    },
+    "kernel": {
+      "name": "bride_rate_audit.py",
+      "bytes": 1365,
+      "sha256": "227c447738f727c0d8a302105acee4a4c000ce96871186ad2ebc272fa193a17f"
+    }
+  },
+  "continuum_radiation": {
+    "iterations": 35,
+    "final_J_change": 7.084341779872716e-09,
+    "final_boundary_change": 2.755652814549573e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "8198e04d1bb8e26da071f015826343ae7cd29d11de6c794b39bf4fabc250180b"
+  },
+  "baseline_lookup_inventory": [
+    "CH",
+    "H",
+    "H-",
+    "H2",
+    "OH"
+  ],
+  "telemetry": {
+    "seconds": 16.859374249819666,
+    "process_peak_rss_bytes": 696254464,
+    "threads": 1,
+    "load": [
+      2.484375,
+      2.49365234375,
+      2.52490234375
+    ]
+  },
+  "limitations": [
+    "Explicit model-H/source-owned column experiment; no exported native-network packet transplanted; same initial fractions across four fresh cases.",
+    "Same experimental collision spline/MN and finite-cap hypotheses, not independent physical model/reference admission.",
+    "No added Fe/CN line opacity, validated interpolation/column mass, abundance fit, EOS/charge/thermal feedback or preferred source/model admission."
+  ]
+}

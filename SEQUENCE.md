@@ -1,3 +1,7 @@
+## 2026-11-08 — matched solar columns and solver admission
+
+- **RYA-1281** — Baseline/g pass; T/solar time out. MALI fixed-point mismatch characterized; conditioning next, HOLD (v238).
+
 ## 2026-11-08 — O777 observational-shape milestone
 
 - **RYA-1281** — Complete shape/broadening suite separates reference-level sensitivity from persistent relative line-strength deficit; matched canonical-solar T/g experiment next, science HOLD (v237).

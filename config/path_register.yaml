@@ -250,6 +250,31 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_solar_matched:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-matched-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_solar_departure:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-matched-v2
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_solar_mali:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-mali-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_mali_operator_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-mali-operator-audit-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_solar_defect:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-defect-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
   experiments.bride_o_shape_milestone:
     root: work
     rel: bride_mac_checks/rya1281-O-shape-milestone-v1
