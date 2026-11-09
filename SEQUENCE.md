@@ -1,3 +1,10 @@
+## 2026-11-09 — RYA-1278 merge reconciled; RYA-1350 continuum-gate sweep
+
+> **Current as of `main` d1728c92** (PR #619).
+
+- **RYA-1278** — `d1728c92` PR #619: Bride foundation and oxygen research checkpoint integrated; physical model gates remain HOLD.
+- **RYA-1350** (this branch) — Asplund-geometry step `run_pipeline --asplund-mu1` measures every element's AGSS21 set at mu=1 on Liege: per line vs A21 1D MARCS Al +0.063, Na +0.068, Mg +0.043, Si +0.047, Ca +0.051, Ti +0.004, Fe +0.023. Continuum-gate sweep: Na/Mg/K clean (pre-10-31); Ti rerun; Fe HARPS VIS (108 lines, up to +0.054) and Ca HARPS VIS (17 lines) queued; Cr rebased by its session.
+
 ## 2026-11-09
 
 - **RYA-1278 / RYA-1281** — integrate the completed Bride foundation and oxygen research checkpoint; physical model gates remain HOLD.
