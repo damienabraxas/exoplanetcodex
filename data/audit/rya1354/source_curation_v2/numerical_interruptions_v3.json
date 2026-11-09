@@ -1,0 +1,19 @@
+{
+  "schema": "rya1354.owned-run-interruptions.v1",
+  "disposition": "INTENTIONALLY_INTERRUPTED_SUPERSEDED_NOT_A_CONVERGENCE_FAILURE",
+  "runs": [
+    {
+      "run": "runs/strict_n5_v1",
+      "solver_pid": 2151706,
+      "signal": "SIGTERM",
+      "reason": "Superseded slow damping0.9 / NSIC0 control; preserved partial outputs while testing native additional orbital improvements."
+    },
+    {
+      "run": "runs/strict_n5_nsic20_v1",
+      "solver_pid": 2154781,
+      "signal": "SIGTERM",
+      "reason": "Superseded damping0.9 / NSIC20 after damping0.5 / NSIC20 completed and fresh NSIC0 restart independently met native orbital criterion."
+    }
+  ],
+  "guard": "Each signal required /proc/PID/cwd to match the exact owned run directory. Other workers untouched. Original Python FAILED_RETAINED receipts remain unchanged; this receipt distinguishes deliberate interruption from numerical exhaustion."
+}

@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 NUM=r'[\d.D+\-]+'
 
 
-def scf_diagnostics(stdout,stderr):
+def scf_diagnostics(stdout,stderr,*,function_accy=.0625**6):
     """Report actual native termination/residuals; energy stop is not all-function convergence."""
     iterations=re.findall(r'Iteration number\s+(\d+)',stdout)
     if not iterations:
@@ -24,7 +24,14 @@ def scf_diagnostics(stdout,stderr):
             residuals[fields[0]]=float(fields[4].replace('D','E'))
     if not residuals:
         raise ValueError('Native final orbital residual table absent')
-    accy=.0625**6
+    if not math.isfinite(function_accy) or function_accy<=0:
+        raise ValueError('Invalid explicitly declared native function criterion')
+    accy=function_accy
+    declared=re.findall(r'(?:Revise the default|Revised) ACCY\s*=\s*([\d.EeDd+\-]+)',stderr)
+    if declared:
+        native=float(declared[-1].replace('D','E').replace('d','e'))
+        if not math.isclose(native,accy,rel_tol=1e-12,abs_tol=0):
+            raise ValueError('Declared function criterion differs from native ACCY prompt')
     limited='MAXIMUM ITERATIONS IN SCF EXCEEDED' in stderr.upper()
     return dict(iterations=int(iterations[-1]),iteration_limit_hit=limited,
                 reported_orbital_self_consistency=residuals,max_reported_self_consistency=max(residuals.values()),
@@ -32,9 +39,18 @@ def scf_diagnostics(stdout,stderr):
                 stopping_rule='Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.')
 
 
-def capsule_files(path):
+def capsule_files(path,*,verify=True):
     with tarfile.open(path) as archive:
-        files={m.name:archive.extractfile(m).read() for m in archive.getmembers() if m.isfile()}
+        # Standard tar hardlinks deduplicate byte-identical native artifacts.
+        # extractfile resolves only archive members; no filesystem extraction.
+        files={m.name:archive.extractfile(m).read() for m in archive.getmembers() if m.isfile() or m.islnk()}
+    if verify:
+        verify_artifacts(files)
+    return files
+
+
+def verify_artifacts(files):
+    """Validate receipts after explicitly joining all parts of a split capsule."""
     for name,content in files.items():
         if not name.endswith('/receipt.json'):
             continue
@@ -46,7 +62,6 @@ def capsule_files(path):
                 continue
             if key not in files or hashlib.sha256(files[key]).hexdigest()!=record['sha256']:
                 raise ValueError(f'Native artifact missing or changed: {key}')
-    return files
 
 
 def occupations(text):
