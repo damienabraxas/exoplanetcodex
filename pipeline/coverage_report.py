@@ -428,7 +428,52 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
             "counts": counts, "done": counts["NOT_RUN"] == 0 and counts["STALE"] == 0,
             "checklist": checklist(rows),
             "disagreements": disagreements(products),
+            "asplund": asplund_comparison(products, symbol),
             "rows": rows}
+
+
+#: Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table 2 (value, sigma), as the site's
+#: scripts/asplund2021.py transcribes it.
+ASPLUND2021 = {
+    'Li': (0.96, 0.06), 'C': (8.46, 0.04), 'N': (7.83, 0.07), 'O': (8.69, 0.04),
+    'Na': (6.22, 0.03), 'Mg': (7.55, 0.03), 'Al': (6.43, 0.03), 'Si': (7.51, 0.03),
+    'P': (5.41, 0.03), 'S': (7.12, 0.03), 'K': (5.07, 0.03), 'Ca': (6.30, 0.03),
+    'Sc': (3.14, 0.04), 'Ti': (4.97, 0.05), 'V': (3.90, 0.08), 'Cr': (5.62, 0.04),
+    'Mn': (5.42, 0.06), 'Fe': (7.46, 0.04), 'Co': (4.94, 0.05), 'Ni': (6.20, 0.04),
+    'Cu': (4.18, 0.05), 'Zn': (4.56, 0.05), 'Sr': (2.83, 0.06), 'Y': (2.21, 0.05),
+    'Zr': (2.59, 0.04), 'Ba': (2.27, 0.05), 'Eu': (0.52, 0.04),
+}
+#: RYA-1311 (Ca, 2026-11-01), settled for every element: Asplund fits the disk-centre
+#: intensity (mu=1); we fit the integrated flux, the geometry of every point-source target.
+#: In flux, stronger lines read high by up to ~0.2 dex; at mu=1 the same code landed on A21.
+#: An offset inside that is expected and owes no work -- never re-measure it at mu=1
+#: (Ryan 2026-11-09). Beyond it, the flux geometry does not explain it: look at the fit.
+GEOMETRY_DEX = 0.20
+
+
+def asplund_comparison(products: list[dict], symbol: str) -> dict | None:
+    """Our Asplund line-set products (SET-<El>_AGSS21) per treatment against A21 Table 2,
+    with the settled reading of the offset, so no run reopens the flux-vs-disk question."""
+    ref = ASPLUND2021.get(symbol)
+    sel = f"SET-{symbol.upper()}_AGSS21"
+    ps = [p for p in products if p.get("selector") == sel and p.get("A") is not None]
+    if ref is None or not ps:
+        return None
+    by_t: dict[str, list[float]] = {}
+    for p in ps:
+        by_t.setdefault(p["treatment"], []).append(float(p["A"]))
+    rows = []
+    for t, vals in by_t.items():
+        med = sorted(vals)[len(vals) // 2] if len(vals) % 2 else \
+            sum(sorted(vals)[len(vals) // 2 - 1:len(vals) // 2 + 1]) / 2
+        off = med - ref[0]
+        rows.append({"treatment": t, "n_products": len(vals), "median_A": round(med, 3),
+                     "offset_dex": round(off, 3),
+                     "reading": ("expected: flux vs Asplund's disk-centre fit (RYA-1311); "
+                                 "nothing owed, do not re-measure at mu=1")
+                     if abs(off) <= GEOMETRY_DEX else
+                     f"beyond the {GEOMETRY_DEX} dex flux geometry explains: look at the fit"})
+    return {"asplund": ref[0], "asplund_sigma": ref[1], "selector": sel, "rows": rows}
 
 
 def checklist(rows: list[dict]) -> list[dict]:
@@ -470,6 +515,13 @@ def render(cov: dict) -> str:
         lines.append(f"    {f['ion']:2} {f['band']:11} {f['selector'][:14]:14} {f['treatment'][:20]:20} "
                      f"{f['holding'][:30]:30} A={f['A']:.3f} vs others {f['others_median']:.3f} "
                      f"(limit {f['limit_dex']:.3f})")
+    asp = cov.get("asplund")
+    if asp:
+        lines.append(f"  ASPLUND 2021  {asp['asplund']:.2f} +/- {asp['asplund_sigma']:.2f} "
+                     f"against our {asp['selector']} products (median over holdings and bands)")
+        for a in asp["rows"]:
+            lines.append(f"    {a['treatment'][:32]:32} {a['median_A']:.3f} ({a['offset_dex']:+.3f}, "
+                         f"n={a['n_products']})  {a['reading']}")
     for r in sorted(cov["rows"], key=lambda r: (BAND_ORDER.index(r["band"]) if r["band"] in BAND_ORDER else 99,
                                                 r["holding"], r["ion"], r["grade"], r["treatment"])):
         val = (f"{r['A']:.3f} +/- {r['sigma']:.3f} (n={r['n_lines']})" if r["A"] is not None

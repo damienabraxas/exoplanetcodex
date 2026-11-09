@@ -313,6 +313,12 @@ Sect. 2.1 and nothing else:
 
 ### 7b. Comparing with Asplund: flux vs disk-centre intensity (RYA-1311, 2026-10-31)
 
+**Settled for every element (Ryan 2026-11-09). The orchestrator applies it:** `--coverage`
+prints `ASPLUND 2021`, our Asplund line-set products per treatment against A21 Table 2. An
+offset within 0.2 dex reads "expected: nothing owed, do not re-measure at mu=1". Publish as
+measured; our targets are point sources, so flux is the right geometry. Only an offset beyond
+0.2 dex points at the fit. The history below is how it was settled; do not re-run it.
+
 Asplund, Amarsi & Grevesse 2021 (and Amarsi's per-line work) fit the **disk-centre
 intensity** (Liege/Jungfraujoch atlas, mu=1). Every spectrum we fit (HARPS, Kitt Peak, IAG)
 is **disk-integrated flux**, and so is every future star. Flux includes the limb, which
