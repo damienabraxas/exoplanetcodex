@@ -53,6 +53,8 @@ def validate_plan(plan):
     if c.get('molecular_equilibrium','native')not in ['native','suppressed-above-1K-control']:raise ValueError('Unsupported molecular EOS control (tmolim0 crashes pinned native initialization)')
     if c.get('save_species','')not in ['', 'O I,O II,CO,OH,H2O,H I,H II']:raise ValueError('Unsupported diagnostic species export')
     if c.get('output_angle_quad','none')not in ['none','disk_center']:raise ValueError('Unsupported reference output quadrature')
+    if c.get('output_solver','quadratic')not in ['linear','quadratic']:raise ValueError('Unsupported reference output formal solver')
+    if not isinstance(c.get('disable_stark_control',False),bool):raise ValueError('Require explicit Stark diagnostic boolean')
     if 'output_grid' in plan:
         g=plan['output_grid']
         if g['frame']!='air_A' or not 0<g['step_A']<=0.01:raise ValueError('Require explicit fine AIR output grid')
@@ -89,11 +91,12 @@ def prepare_run(plan,output,app,*,resolver):
 &atom_params atom_file={quote_nml(atom)}, use_atom_abnd=T, qnorm={c['qnorm']}, nq_fac={c['nq_fac']} /
 &nlte_params convlim={rtol:.12e}, convmax={local_limit:.12e}, premature_finish=F /
 &rt_iteration_params angle_quad={quote_nml(c['angle_quad'])}, ntheta={c['ntheta']}, nphi={c['nphi']}, maxiter={maxiter}, include_absmet=F, include_linelist=F /
-&rt_output_params angle_quad={quote_nml(c.get('output_angle_quad','none'))}, include_absmet=F, include_linelist=F /
+&rt_output_params solver={quote_nml(c.get('output_solver','quadratic'))}, angle_quad={quote_nml(c.get('output_angle_quad','none'))}, include_absmet=F, include_linelist=F /
 &output_params save_populations=T, save_rates=1, save_rate_matrix=T, save_net_rates=T, save_Jnu=T, bound_free_in_output={'T'if c.get('bound_free_in_output',False)else'F'} /
 &run_params mem_limit_gb=2. /
 &m3d_debug_params verbose=1, check_NaN=T /
 '''
+    if c.get('disable_stark_control',False):nml+='&composition_params disable_stk=T /\n'
     if c.get('save_species')or c.get('molecular_equilibrium','native')!='native':
         molecular=c.get('molecular_equilibrium','native')
         nml+='&composition_params save_species='+quote_nml(c.get('save_species',''))+(', tmolim=1'if molecular=='suppressed-above-1K-control'else'')+' /\n'

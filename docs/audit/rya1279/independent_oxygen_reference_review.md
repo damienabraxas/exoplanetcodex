@@ -318,3 +318,43 @@ Evidence: data/results/rya1371/hop_fixed_transfer_v1, exact compact copies plus 
 receipts. Three constructor preflights refused invalid option types/empty filename/
 perturber lookup; corrected before the completed run, no failed output promoted.
 Five focused packet/state/units/purpose tests pass in1.28s. Scientific HOLD.
+
+### Matched formal solver and Stark semantics (v258)
+
+Native linear output completes2.433s. Every native analysis array is bit-identical
+to quadratic output, including full n/nStar/T/ne/rho/height. LW linear paired
+transfer completes5.137s with frozen populations. Continuum differences fall to
+1.5e-6--1.95e-5relative (below0.002percent); triplet area differences remain
+-.825/-.722/-.564mA. Formal order explains most continuum offset, not line wings.
+
+Source inspection identifies a real recipe difference: pinned HOP
+bbtrans_mod::prepare_stark treats gstk_in=0 as a Cowley estimate, whereas the
+Bride converter currently omits Stark broadening for held gStark=0. No claim is
+made yet that either interpretation is the original MULTI convention. A native
+linear Stark-off run (disable_stk=T) completes2.283s; thermodynamics/mesh/nStar
+stay bit-identical, but maximum n changes0.21023percent. Accordingly the next LW
+paired transfer consumes that run's complete populations, rather than attributing
+all spectral change to transfer at the old state. It completes4.911s.
+
+| AIR centre | matched linear NLTE difference mA | Stark-off matched-state NLTE difference mA |
+|---|---:|---:|
+|6158.170|-.155750|+.004719|
+|6300.304|+.000112|+.000090|
+|7771.944|-.824604|+.345538|
+|7774.166|-.722228|+.274136|
+|7775.388|-.563708|+.185684|
+|8446.400|-.624791|+.078609|
+
+Differences are LW/HOP minus native, finite +/-0.5A disk-centre intensity areas.
+The LTE residual pattern is similar. Visual inspection confirms improved6158
+wings and retained small triplet/8446 differences. No physically preferred
+Stark/default/abundance choice follows from reducing these differences.
+
+Further source difference: LW Unsold/Barklem broadening includes a He term;
+native active-line damping uses total HI only. Next measure that term with an
+explicit broadening-only He-off control, keeping EOS/continuum and native state
+unchanged, then inspect remaining profile/constant effects and original MULTI
+recipe semantics. Source files/fingerprints and all comparisons are in the
+formal/Stark audit. 44 focused tests pass1.73s;389 raw files receipted and37
+compact copies verified under hop_formal_stark_v1. Coupled SE/observed solar/3D
+and RYA-1374 gates remain HOLD.

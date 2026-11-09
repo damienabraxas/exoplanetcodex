@@ -31385,3 +31385,155 @@ artifacts:
     generator: scripts/run_bride_hop_fixed_transfer.py
     ticket: RYA-1371
     note: Exact compact fixed-population transfer evidence; constructor refusals preserved. Scientific HOLD; no SE or model adoption.
+  - artifact: rya1371/hop_formal_stark_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-formal-stark-audit-v1/report.json
+    generator: scripts/audit_hop_transfer_controls.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-linear-comparison-v1/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-linear-comparison-v1/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-linear-comparison-v1/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-linear-transfer-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-linear-transfer-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-linear-transfer-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-linear-transfer-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-no-stark-comparison-v1/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-no-stark-comparison-v1/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-no-stark-comparison-v1/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-no-stark-transfer-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-no-stark-transfer-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-no-stark-transfer-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-hop-no-stark-transfer-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-no-stark-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-output-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-output-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-output-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-output-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.
+  - artifact: rya1371/hop_formal_stark_v1/rya1371-oxygen-linear-output-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact formal-solver/Stark semantic diagnostic; native binaries receipted external. Scientific HOLD, no default adoption.

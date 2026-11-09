@@ -4,7 +4,7 @@
 
 - **RYA-1278** — `d1728c92` PR #619 integrates the completed foundation; Done records software/roadmap integration, not science admission.
 - **RYA-1281** — same landing closes the reviewed checkpoint; scientific HOLD remains and newer1371 work is excluded.
-- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v257 fixed native-state HOP transfer complete, matched linear formal solver control next.
+- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v258 matched linear continuum parity and Stark semantic control complete; He broadening-only control next, physical science HOLD.
 
 ## 2026-11-09
 

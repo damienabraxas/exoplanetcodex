@@ -1135,3 +1135,9 @@ entries:
       usable as a normalisation cross-check (RYA-485, RYA-846). Region 6 (2899-3525 A)
       is clean; region 5 (2995-4106 A) carries Fortran overflow markers and normalised
       fluxes to +9.98 in the near-UV.
+
+  experiments.openmulti3d_oxygen_no_stark_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1
+    kind: dir
+    desc: Explicit native Stark-off diagnostic consumed state, scientific HOLD.
