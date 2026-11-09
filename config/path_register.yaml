@@ -250,6 +250,16 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_solar_safeguarded_backtrack:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-safeguarded-backtrack-v1
+    kind: dir
+    desc: Isolated Mac numerical qualification; physical rates and scientific admission unchanged.
+  experiments.bride_ng_baseline_comparison:
+    root: work
+    rel: bride_mac_checks/rya1281-ng-baseline-comparison-v2
+    kind: dir
+    desc: Isolated Mac numerical qualification; physical rates and scientific admission unchanged.
   experiments.bride_solar_transition_no_ng:
     root: work
     rel: bride_mac_checks/rya1281-solar-transition-no-ng-v1

@@ -4,15 +4,15 @@ from pathlib import Path
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--exclude-transition-run',action='store_true');p.add_argument('--transition-only',action='store_true');p.add_argument('--no-ng-only',action='store_true');p.add_argument('--license-source',type=Path);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--exclude-transition-run',action='store_true');p.add_argument('--transition-only',action='store_true');p.add_argument('--no-ng-only',action='store_true');p.add_argument('--safeguarded-only',action='store_true');p.add_argument('--license-source',type=Path);a=p.parse_args()
  if a.license_source:
   target=a.output/'LICENSE.lightweaver'
   if not a.output.is_dir()or target.exists():raise ValueError('Require existing archive and a fresh license path')
   shutil.copyfile(a.license_source,target)
   if target.read_bytes()!=a.license_source.read_bytes():raise ValueError('License bytes changed')
   return
- if a.no_ng_only and(a.transition_only or a.exclude_transition_run):raise ValueError('Conflicting snapshot scopes')
- run_name='rya1281-solar-transition-no-ng-v1'if a.no_ng_only else'rya1281-solar-transition-v1'
+ if sum([a.no_ng_only,a.transition_only,a.safeguarded_only])>1 or(a.exclude_transition_run and(a.no_ng_only or a.safeguarded_only)):raise ValueError('Conflicting snapshot scopes')
+ run_name='rya1281-solar-safeguarded-backtrack-v1'if a.safeguarded_only else'rya1281-solar-transition-no-ng-v1'if a.no_ng_only else'rya1281-solar-transition-v1'
  baseline=a.source_root/run_name/'baseline'
  if not a.exclude_transition_run and not any((baseline/f).is_file()for f in ['report.json','failure.json']):raise ValueError('Transition baseline is still incomplete; do not snapshot a live run')
  groups=['rya1281-solar-anderson-dry-v1','rya1281-solar-anderson-v1','rya1281-solver-conditioning-v1','rya1281-continuum-overlap-v2','rya1281-continuum-overlap-v3','rya1281-continuum-overlap-v4','rya1281-continuum-overlap-v5','rya1281-mali-operator-audit-v2','rya1281-mali-operator-audit-v3','rya1281-overlap-plugin-v1','rya1281-transition-plugin-v1','rya1281-solar-transition-dry-v1','rya1281-solar-transition-v1']
@@ -26,6 +26,10 @@ def main():
   groups=['rya1281-solar-transition-no-ng-dry-v1',run_name]
   for directory in baseline.parent.iterdir():
    if directory.is_dir()and not any((directory/f).is_file()for f in ['report.json','failure.json']):raise ValueError('Owned no-Ng case is still live/incomplete')
+ if a.safeguarded_only:
+  groups=['rya1281-solar-safeguarded-dry-v1','rya1281-solar-safeguarded-backtrack-dry-v1',run_name]
+  for directory in baseline.parent.iterdir():
+   if directory.is_dir()and not any((directory/f).is_file()for f in ['report.json','failure.json']):raise ValueError('Owned safeguarded case is still live/incomplete')
  rows=[];a.output.mkdir(parents=True,exist_ok=False)
  for name in groups:
   source=a.source_root/name

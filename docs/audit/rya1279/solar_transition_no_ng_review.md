@@ -36,3 +36,67 @@ RV/continuum/telluric handling and pinned ORCH replay are unchanged.
 Origin refresh remains7f023fd7; library audit remains212 documents/127 accounted/
 85 unindexed/12 off-Mac, nonzero exit. All runs are Mac-only, serial, one thread;
 no Sirius, CI, default/installed-backend change, production, merge or publication.
+
+
+## Completed Ng-off control and independent replay
+
+Native baseline qualifies in339outer iterations/396.91995s; fresh independent
+physical residual2.48239e-7, conservation6.66e-16. Maximum normalized flux and
+relative continuum differences from the original direct endpoint are1.42672e-7
+and1.10800e-13; both pass the original1e-6screens. Against the corrected Ng-on
+baseline, differences are2.55792e-9and8.88e-15. Initial/LTE populations, source
+physical inputs, collision arrays, wavelengths and population-map helper are exact.
+The independent comparison recomputes physical incoming/outgoing flow from saved
+offdiagonal rates instead of trusting the reported residual.
+
+Ng-on has38population-change increases, exactly on iterations9,14,...194;
+Ng-off has none. Ng-off takes more outer steps(339vs197), with nearly the same
+single-run wall time(396.92vs398.33s). This is a measured single-atmosphere control,
+not a general speed or convergence theorem. The two qualified spectra are almost
+identical. A standalone figure and history table preserve those observations.
+Additional input/map guards in comparisonv2 leave the original history CSV and
+figure byte-identical to v1; no scientific values change.
+
+Temperature-only Ng-off exhausts600.06059s/239outer iterations. Its last population
+change is0.000132623, old-radiation rate residual3.29814e-5, J change0.000132868.
+These are incomplete in-iteration diagnostics, not a fresh final physical result.
+Gravity and combined solar are not started after this failure. The trajectory is
+smoother than Ng-on, but Ng removal is insufficient to solve the slow coupled mode.
+All original Ng-on/off attempts remain, including initialization-only failure seeds.
+
+## Prospective fresh-rate-screened extrapolation
+
+The next bounded control uses the same corrected transition-local MALI map with
+native Ng off, plus log-fraction Anderson(memory5/delay10/rcond1e-10). Each plain
+and proposed population receives a NEW fixed-population radiation/cap solution.
+Only a proposal with smaller fresh physical rate residual than the direct-map
+step is accepted. Rejected proposals restore the plain state by actual radiation
+re-evaluation; no radiation/rate snapshot from the other population is reused.
+This deliberately costs extra RT calls inside the SAME600swhole-case budget.
+All original joint/physical/radiation/iteration/ray thresholds are retained.
+
+A separate explicit backtracking plan reduces an oversized proposal uniformly in
+log coordinates by powers of two, normalizing after each trial, until its ACTUAL
+normalized log-population step is<=0.05. There is no per-component clipping, floor,
+changed physical rate or larger step bound. The older reject-only policy remains
+unchanged by default and its dry contexts are retained. Every proposed population
+still faces the fresh physical screen and original final admission checks.
+
+Two analytic nonlinear-rate tests distinguish a stale exact SE solution from the
+true feedback root, reject the former and verify that the evaluator is restored
+to the selected state. The step test verifies positivity, O conservation, actual
+log-step bound and improvement along a slow map. An adversarial comparison test
+rejects changed background, map helper/method and compute budget before output.
+All6targeted tests pass. Four backtracking dry contexts pass; actual baseline
+qualification is a separate requirement and is running under the original limits.
+The current control has not qualified any new solar-parameter result.
+
+
+The bounded fresh-screened baseline PASSES51outer iterations/245.05756s, fresh
+independent physical residual1.534120685e-7 and conservation7.77e-16. It accepts
+4proposals and rejects/restores37; the final field/population changes pass the
+original joint threshold. Its spectrum/continuum differ1.45670e-7/1.10134e-13
+from the original direct endpoint, and2.99804e-9/9.10e-15from plain Ng-off;
+all original1e-6parity screens pass. This qualifies the controller for this
+baseline. Temperature, gravity and solar now run serially from the SAME original
+common fractional seeds; no stellar-parameter conclusion is claimed yet.

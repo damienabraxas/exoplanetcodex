@@ -1,3 +1,7 @@
+## 2026-11-09 — controlled Ng comparison and fresh-rate screening
+
+- **RYA-1281** — Ng-off baseline agrees; T still times out. Fresh-screened bounded Anderson baseline passes, solar matrix open (v240).
+
 ## 2026-11-08 — oxygen operator correction
 
 - **RYA-1281** — Transition-local MALI restores rate identity; baseline passes, T times out; no-Ng controls dry-checked, HOLD (v239).

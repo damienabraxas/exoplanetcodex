@@ -28,8 +28,9 @@ def load(directory):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--on',type=Path,required=True);p.add_argument('--off',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
     on,op,oc,oh,of,orate=load(a.on);off,fp,fc,fh,ff,frate=load(a.off)
-    for key in ['state','case_parameters','source_nodes','cap_length_m','atom','context_helper','state_helper','backend','LW_constants','source_collision_contract','iteration_plugin','warm_report','warm_populations','initialization_mode']:
+    for key in ['state','case_parameters','source_nodes','column_preparation','field_ownership','background','cap_length_m','atom','context_helper','state_helper','interpolator','density_helper','backend','LW_constants','source_collision_contract','iteration_plugin','warm_report','warm_populations','initialization','initialization_mode','baseline_lookup_inventory']:
         if on.get(key)!=off.get(key):raise ValueError('Ng control changes physical input '+key)
+    if on['coupled']['helper']!=off['coupled']['helper']or on['numerical_algorithm']['method']!=off['numerical_algorithm']['method']:raise ValueError('Ng control changes the underlying population map')
     expected=dict(on['controls']);expected['ng']=False
     if not on['controls']['ng']or off['controls']!=expected:raise ValueError('Expected Ng-only control difference')
     for key in ['nstar','initial_populations']:np.testing.assert_array_equal(op[key],fp[key])
