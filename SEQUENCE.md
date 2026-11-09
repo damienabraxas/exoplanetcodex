@@ -1,3 +1,7 @@
+## 2026-11-09 — four-case oxygen numerical milestone
+
+- **RYA-1281** — complete coupling plus cap emissivity derivative passes all four matched T/g controls in126.156s; solar parameter response explains much of the VIS deficit, residual remains; scientific HOLD (v241).
+
 ## 2026-11-09 — controlled Ng comparison and fresh-rate screening
 
 - **RYA-1281** — Ng-off baseline agrees; T still times out. Fresh-screened bounded Anderson baseline passes, solar matrix open (v240).

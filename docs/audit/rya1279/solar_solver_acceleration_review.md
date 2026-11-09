@@ -212,3 +212,5 @@ result-generator diagnostics remain exactly2436(0added/0removed); global check i
 still nonzero. Mac path audit128present/15pre-existing broken resources. Library
 212/127/85/12and existing ledger/tracker/gold debts remain explicit, not global
 green claims. Registerv239and the existing numerical-anomaly row are updated.
+
+Subsequent milestone: [all four matched columns now pass](solar_full_cap_milestone_review.md). Earlier failures remain preserved; scientific HOLD continues.

@@ -1,0 +1,121 @@
+{
+  "schema": "codex.bride_solver_acceleration_archive/1",
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "path": "rya1281-solar-secant-dry-v1/baseline/input.json",
+      "bytes": 16849,
+      "sha256": "c9c0473867f221473d2855a7f5bdca54a4e1d912a70b542c418b292c14621c06",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-dry-v1/baseline/report.json",
+      "bytes": 18229,
+      "sha256": "5b75cee07710057c5663f0e89828881da80a8850eb8b1f7fbe2342cad9a0163b",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-dry-v1/gravity/input.json",
+      "bytes": 18068,
+      "sha256": "1fdb7756563b88fcb1203a7e156d8973f5b2f05b51bff132ab254210cba7ee66",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-dry-v1/gravity/report.json",
+      "bytes": 19449,
+      "sha256": "66be8468d32f4643171477c1716f12de77bd5deaded2a4b3a80f076da4117ba2",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-dry-v1/solar/input.json",
+      "bytes": 18125,
+      "sha256": "f253067dac52670b973de1e37f39485b574c2ab3a8530918cdad71e03b2ebec3",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-dry-v1/solar/report.json",
+      "bytes": 19505,
+      "sha256": "ca4093a635e3827c0b3aa7fa7bed765c61ce286089c4e979f2fc9e1e292fe856",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-dry-v1/temperature/input.json",
+      "bytes": 18133,
+      "sha256": "1a21844d9ceafcdde12d28ef4e783f19c4c82ecc8cf7e632628cc2f4c9390a25",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-dry-v1/temperature/report.json",
+      "bytes": 19514,
+      "sha256": "c64554683bd430e2bd141c31badc3c0bdd258a9852b82c422e0a02a1f95899c0",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/baseline/flux.csv",
+      "bytes": 400167,
+      "sha256": "323c874353ee357ef7040950326c6fa1a2faab18aa058fc66982324ca97c1578",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/baseline/history.jsonl",
+      "bytes": 28773,
+      "sha256": "4f8065489f2d613e1c4eab6ba8e6881a6794045047429d9801a738a3de39b339",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/baseline/independent_rates.npz",
+      "bytes": 884673,
+      "sha256": "6e0028510b8ea051ecefb2893778a77b9a479f105b8bc536d04bf63bca616378",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/baseline/input.json",
+      "bytes": 16849,
+      "sha256": "c9c0473867f221473d2855a7f5bdca54a4e1d912a70b542c418b292c14621c06",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/baseline/populations.npz",
+      "bytes": 54268,
+      "sha256": "a402e49fd236a297c4cd7daaca223bda03a7ed7807db7567a0e279947925cb65",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/baseline/rates.npz",
+      "bytes": 4239682,
+      "sha256": "32c44b38afb4cb27799a4372d6c940e04cda730528a216358c204d2c722a3d1f",
+      "archived": false
+    },
+    {
+      "path": "rya1281-solar-secant-v1/baseline/report.json",
+      "bytes": 24057,
+      "sha256": "7910a8d1f8725d40f9de624f855bf26ba609b560118f24951e94b6c9596eee7a",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/temperature/failure.json",
+      "bytes": 19836,
+      "sha256": "8bb431c60ebb28840fe7aed4dfef0ab412a8ad64e42f72e8cd782c9568eb205e",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/temperature/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "dfb2e27a404809bc93ba5c3329abd32e8679f7d2cb0bdbde18dca443d28ccc58",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/temperature/history.jsonl",
+      "bytes": 16588,
+      "sha256": "23ecffdb2d6801b9eac5a6be1002171a83c94247e0b75c70373b4f18436a9d00",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-secant-v1/temperature/input.json",
+      "bytes": 18133,
+      "sha256": "1a21844d9ceafcdde12d28ef4e783f19c4c82ecc8cf7e632628cc2f4c9390a25",
+      "archived": true
+    }
+  ],
+  "note": "Exact compact archival copies. Installed backend untouched; compiled plugins and full J/rate arrays remain externally receipted. Failure seeds are initialization only."
+}

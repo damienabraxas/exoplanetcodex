@@ -100,3 +100,5 @@ from the original direct endpoint, and2.99804e-9/9.10e-15from plain Ng-off;
 all original1e-6parity screens pass. This qualifies the controller for this
 baseline. Temperature, gravity and solar now run serially from the SAME original
 common fractional seeds; no stellar-parameter conclusion is claimed yet.
+
+Subsequent milestone: [all four matched columns now pass](solar_full_cap_milestone_review.md). Earlier failures remain preserved; scientific HOLD continues.
