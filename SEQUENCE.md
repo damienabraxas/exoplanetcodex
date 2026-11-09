@@ -1,6 +1,6 @@
 ## 2026-11-08 — oxygen operator correction
 
-- **RYA-1281** — Transition-local MALI restores physical-rate identity; baseline passes endpoint parity; solar matrix next, HOLD (v239).
+- **RYA-1281** — Transition-local MALI restores rate identity; baseline passes, T times out; no-Ng controls dry-checked, HOLD (v239).
 
 ## 2026-11-08 — matched solar columns and solver admission
 

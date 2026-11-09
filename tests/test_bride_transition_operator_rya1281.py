@@ -32,4 +32,7 @@ def test_full_source_fix_preserves_physical_rates_and_population_state_exactly()
             key=str(i);r=native['physical_'+key]
             np.testing.assert_array_equal(r,fixed['physical_'+key])
             assert discrepancy(fixed['gamma_'+key],r,n)<ROUND
+        # A physical-matrix fallback would also preserve the action, but would
+        # not exercise the intended approximate MALI operator.
+        assert not np.array_equal(fixed['gamma_1'],fixed['physical_1'])
         assert discrepancy(native['gamma_1'],native['physical_1'],n)>1e-3

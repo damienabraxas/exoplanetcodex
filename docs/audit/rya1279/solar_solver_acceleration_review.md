@@ -1,5 +1,12 @@
 # RYA-1281 physical direct-map acceleration qualification
 
+
+The operator-identity correction milestone is complete: an isolated transition-local
+MALI plugin preserves the physical rates and qualifies on the native baseline.
+The canonical-solar parameter matrix remains incomplete and scientific HOLD.
+Temperature-only still fails convergence; no remaining matrix case or abundance
+conclusion is promoted from that failed run.
+
 Scientific HOLD. This follows the preserved [matched-column failures and operator
 identity audit](solar_matched_columns_review.md). Its purpose is numerical
 qualification before interpreting canonical-solar T/g effects, not selection of
@@ -160,3 +167,48 @@ by up to0.0008769fractionally, so this remains a spectral numerical screen,
 not a claim of all-level forward-error accuracy. The remaining T/g/solar cases
 now use the same independently mapped common fractional start, not this result
 as a sequential seed.
+
+
+## Final bounded outcome and next controlled task
+
+| Case / method | Result | Outer iterations | Seconds | Fresh physical residual |
+|---|---|---:|---:|---:|
+| Baseline / Anderson direct map | Pass; no acceleration before delay | 3 | 20.6097 | 3.95623e-7 |
+| Temperature / Anderson direct map | Budget exhausted | 115 | 600.051 | Not qualified |
+| Baseline / transition-local MALI + native Ng | Pass and endpoint parity pass | 197 | 398.335 | 6.81087e-8 |
+| Temperature / transition-local MALI + native Ng | Budget exhausted | 190 | 600.072 | Not qualified |
+| Gravity and combined solar / either new method | Not started after T failure | -- | -- | Not qualified |
+
+The final per-transition temperature history has population change0.00572713,
+old-radiation rate residual0.00114060, J change0.0140295. These are last
+in-iteration diagnostics, NOT a fresh final physical-admission result. Failure
+receipt retains conservation1.11e-15 and labels its saved populations initialization
+only. The driver stops on the failed case. No factorial comparison or new plot is
+produced from the incomplete matrix. Original direct gravity result stays intact.
+
+The next comparison is now implemented and dry-checked for all four Contexts:
+`rya1281_solar_matched_transition_no_ng.json` selects the same source-based
+transition-local operator and common fractional start, with native Ng explicitly
+false. A named-control validator rejects any other threshold, budget or ray-count
+change; the analyzer allows only this declared numerical difference in endpoint
+checks. The new discriminating safety test passes, as do both independent compiled
+array tests (3tests/0.14s); together with93focused tests,96distinct tests pass.
+The no-Ng cases are DRY ONLY: no additional RT/SE solution or endpoint is claimed.
+Next run baseline and T independently, then require baseline/gravity parity and
+all four cases before the factorial observational interpretation. The preserved
+periodic excursions motivate this control; they do not by themselves prove Ng
+causality. Broader xi/T/g and CNO/Fe/reference-star/3D/all-band goals remain open.
+
+All compact archives are byte-identical to source files. Full J/rate arrays and
+small compiled plugins remain external with exact receipts; original source and
+installed backend are unchanged. The archived original conditioning CSV retains
+its actual CRLF bytes: whitespace verification uses git's CRLF-aware check rather
+than silently changing a receipted input. Source-derived template copies retain
+the upstream MIT notice in LICENSE.lightweaver. Only local serial one-thread work;
+no Sirius/CI/production/merge/publication or adopted abundance/default change.
+
+Target mirror, register structure and stacked-base freshness pass. Preflight
+result-generator diagnostics remain exactly2436(0added/0removed); global check is
+still nonzero. Mac path audit128present/15pre-existing broken resources. Library
+212/127/85/12and existing ledger/tracker/gold debts remain explicit, not global
+green claims. Registerv239and the existing numerical-anomaly row are updated.

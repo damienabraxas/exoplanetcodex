@@ -29617,3 +29617,72 @@ artifacts:
   - artifact: rya1281/solver_acceleration_v1/LICENSE.lightweaver
     generator: "scripts/archive_bride_solver_acceleration.py"
     ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/receipt.json
+    generator: "scripts/archive_bride_solver_acceleration.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-dry-v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-dry-v1/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-dry-v1/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-dry-v1/temperature/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/baseline/flux.csv
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/baseline/history.jsonl
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/baseline/independent_rates.npz
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/baseline/populations.npz
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/temperature/failure.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/temperature/failure_seed.npz
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/temperature/history.jsonl
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_v1/rya1281-solar-transition-v1/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/gravity/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/gravity/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/solar/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/solar/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solar_transition_no_ng_dry_v1/temperature/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"

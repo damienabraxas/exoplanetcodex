@@ -51,6 +51,7 @@ def main():
    if legacy[key]!=current[key]:raise ValueError('Endpoint physical inputs differ '+key)
   expected_controls=dict(legacy['controls'])
   if rp.get('numerical_algorithm',{}).get('method')=='anderson_physical_direct':expected_controls['ng']=False
+  if rp.get('numerical_algorithm',{}).get('method')=='transition_local_mali'and rp['numerical_algorithm'].get('native_ng')is False:expected_controls['ng']=False
   if current['controls']!=expected_controls:raise ValueError('Endpoint controls differ beyond declared acceleration')
   if legacy['independent']['physical_rate_residual']>=legacy['controls']['rtol']:raise ValueError('Unadmitted legacy endpoint')
   check(directory/'flux.csv',legacy['flux']);prior=np.genfromtxt(directory/'flux.csv',delimiter=',',names=True);np.testing.assert_array_equal(prior['wavelength_air_A'],fluxes[i]['wavelength_air_A']);df=float(np.max(abs(prior['normalized_flux']-fluxes[i]['normalized_flux'])));dc=float(np.max(abs(fluxes[i]['continuum_Fnu_W_m2_Hz']/prior['continuum_Fnu_W_m2_Hz']-1)))

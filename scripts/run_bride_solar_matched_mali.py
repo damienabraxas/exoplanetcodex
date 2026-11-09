@@ -6,6 +6,14 @@ import numpy as np
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
+def validate_solver_controls(plan,inherited):
+ expected=dict(inherited);algorithm=plan.get('numerical_algorithm',{})
+ if algorithm.get('native_ng')is False:
+  if algorithm.get('method')!='transition_local_mali'or not plan.get('iteration_plugin'):raise ValueError('Ng replacement requires the declared isolated transition-local control')
+  expected['ng']=False
+ if plan['controls']!=expected:raise ValueError('Changed inherited solver thresholds/budgets beyond the declared Ng control')
+
+
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--case',choices=['baseline','temperature','gravity','solar'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');p.add_argument('--plan',type=Path,default=ROOT/'config/experiments/rya1281_solar_matched_mali.json');a=p.parse_args()
  import lightweaver as lw
@@ -25,7 +33,7 @@ def main():
  from pipeline.wavelength_util import air_to_vac
  if platform.system()!='Darwin'or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 required')
  plan_path=a.plan;plan=json.loads(plan_path.read_text());warm_report=ROOT/plan['warm_report'];warm=json.loads(warm_report.read_text());controls=plan['controls']
- if controls!=warm['controls']:raise ValueError('Changed inherited joint solver controls')
+ validate_solver_controls(plan,warm['controls'])
  checks=[]
  def check(path,receipt):
   if fingerprint(path)!=receipt:raise ValueError('Changed predeclared input '+str(path))

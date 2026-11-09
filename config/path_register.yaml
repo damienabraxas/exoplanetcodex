@@ -250,6 +250,21 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_solar_transition_no_ng_dry:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-transition-no-ng-dry-v1
+    kind: dir
+    desc: Preserved isolated Mac numerical control; no physical model or production admission.
+  experiments.bride_overlap_guard_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-overlap-plugin-v1
+    kind: dir
+    desc: Preserved isolated Mac numerical control; no physical model or production admission.
+  experiments.bride_transition_operator_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-mali-operator-audit-v3
+    kind: dir
+    desc: Preserved isolated Mac numerical control; no physical model or production admission.
   experiments.bride_transition_plugin:
     root: work
     rel: bride_mac_checks/rya1281-transition-plugin-v1
