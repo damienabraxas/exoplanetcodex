@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v241** · _Last updated: 2026-11-09 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v242** · _Last updated: 2026-11-09 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -679,3 +679,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v240** (2026-11-09) — **RYA-1281 controlled Ng comparison and fresh-screened baseline qualification; science HOLD.** Ng-off baseline passes339outer/396.92s, fresh physical residual2.4824e-7 and original endpoint normalized difference1.4267e-7. Independent replay proves exact common physics, starting/LTE populations and collision arrays; Ng-on/off spectrum differs2.5579e-9, wall times nearly equal,38population-change increases versus0. T-off still exhausts600s/239outer; Ng removal alone is insufficient. New bounded log-space Anderson of corrected MALI uses fresh radiation/rates for plain/proposed states and actual restoration after rejection, unchanged0.05step bound and all original budgets/physical gates. Backtracking baseline passes51outer/245.06s, fresh residual1.5341e-7, endpoint normalized difference1.4567e-7. T/g/solar qualification continues from original common fractions, no failed seed reuse or observational tuning. All completed Ng attempts archived; six targeted controls pass, source/frame/EOS/provider/CNO/3D/all-band gates remain open. Evidence: docs/audit/rya1279/solar_transition_no_ng_review.md.
 
 - **v241** (2026-11-09) — RYA-1281 full weighted overlap coupling plus the existing finite-cap emissivity derivative clears all four matched oxygen columns (5/8/7/9 iterations,126.156s total). Fresh rates, conservation, common initialization and original endpoint screens pass. Solar T/g strengths increase2.42-3.11mA, explaining much but not all VIS deficit; scientific HOLD, native provider/primary/EOS/3D/all-band gates remain open. Failed Ng/Anderson/secant/no-cap controls preserved. See docs/audit/rya1279/solar_full_cap_milestone_review.md.
+
+- **v242** (2026-11-09) — RYA-1350 landing reconciled from merged PR617 at078cf7de and ticket close-out00b249a8: Al86/Si104 products; cited Si3D NLTE and5690.42 restored; continuum deviations beyond3% require smooth neighbourhood corroboration. Ti rerun remains owner decision. Experimental Bride four-case results remain pinned and HOLD; new ORCH continuum parity replay is next, not silently retrofitted.

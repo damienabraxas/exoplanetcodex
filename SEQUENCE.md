@@ -1,3 +1,9 @@
+## 2026-11-09 — RYA-1350 landing reconciled
+
+> **Current as of `main` 078cf7de** (RYA-1350 PR #617; merged diff and ticket close-out comment 00b249a8 verified).
+
+- **RYA-1350** — `078cf7de` PR #617: solar Al26->86 and Si56->104 ORCH products; Si cited3D NLTE treatment and5690.42 restored. Model-guided continuum shifts beyond3% now require neighbourhood corroboration within+/-50A (at least3 windows, tolerance0.02); Ti rerun remains Ryan's decision. Bride experimental spectra here retain their predeclared pinned continuum treatment; next ORCH parity replay must include this new policy.
+
 ## 2026-11-09 — four-case oxygen numerical milestone
 
 - **RYA-1281** — complete coupling plus cap emissivity derivative passes all four matched T/g controls in126.156s; solar parameter response explains much of the VIS deficit, residual remains; scientific HOLD (v241).
