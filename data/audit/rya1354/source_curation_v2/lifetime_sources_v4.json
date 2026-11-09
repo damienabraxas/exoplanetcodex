@@ -1,0 +1,26 @@
+{
+  "schema": "rya1354.lifetime-source-inspection.v4",
+  "exposure": "EXPOSED_NONBLIND",
+  "sources": [
+    {
+      "key": "li2023_oi",
+      "local_pdf": "Sirius sources_curation_v2/rya1354-li2023-arxiv.pdf",
+      "sha256": "738742105c8d9e327763d55cf2895e06a168be0ccc8d860eb7908a4727ebba0f",
+      "url": "https://arxiv.org/pdf/2304.02310",
+      "inspection": "Printed pp2-5 and13, methods sections2.1-2.3, Tables1/2/A1/A2 excerpt; selected pages, not whole-paper read.",
+      "used_for": "Context: much larger MR/active spaces, closed1s2s in orbital stage then n2-core SD RCI, energy-adjusted E1 data. Their gauge-based statistical uncertainty practice is not adopted. Their quoted theoretical lifetimes and experimental compilation do not replace primary verification."
+    },
+    {
+      "key": "lawrence1970_oi_lifetime",
+      "url": "https://doi.org/10.1103/PhysRevA.2.397",
+      "title": "Dissociative Excitation of Some Oxygen-Containing Molecules: Lifetimes and Electron-Impact Cross Sections",
+      "inspection": "Official APS bibliographic record and abstract only; primary PDF retrieval failed.",
+      "method_from_abstract": "Pulsed electron beam in low-pressure O2/CO/NO/H2O; seven VUV OI/OII emission multiplets; time-domain cascade analysis.",
+      "primary_numerical_value_verified": false,
+      "primary_physical_transition_verified": false,
+      "literature_quote_not_adopted": "Li2023 Table2 quotes1.82+/-0.05ns for3s3So fromLawrence1970; no additional numerical scoring without primary table/method/uncertainty inspection."
+    }
+  ],
+  "distinct_curator_review": "OWED",
+  "adoption_allowed": false
+}

@@ -14,7 +14,7 @@ ROOT=Path(__file__).resolve().parents[1]
 NUM=r'[\d.D+\-]+'
 
 
-def parse_table(text,destination):
+def parse_table(text,destination,*,include_strengths=False):
     sections=re.split(r'(Electric|Magnetic) 2\*\*\(\s*(\d+)\)-pole transitions',text)
     rows=[]
     for i in range(1,len(sections),3):
@@ -39,6 +39,13 @@ def parse_table(text,destination):
                              lower_parity=parity,native_energy_cm1=float(energy),
                              A_B_s1=ab,A_C_s1=ac,magnetic_gauge='NATIVE_M' if kind=='Magnetic' else None,
                              computed_zero_in_this_model=(ab==ac==0)))
+            if include_strengths:
+                extra=dict(native_gf_C=conv(gf),native_S_C_au=conv(s),
+                           native_gf_B=conv(b.group(2)) if b else conv(gf),
+                           native_S_B_au=conv(b.group(3)) if b else conv(s))
+                if not all(math.isfinite(v) and v>=0 for v in extra.values()):
+                    raise ValueError('Invalid native strength or gf')
+                rows[-1].update(extra)
     return rows
 
 

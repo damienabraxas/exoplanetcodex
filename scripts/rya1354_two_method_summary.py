@@ -49,7 +49,7 @@ def capsule_files(path,*,verify=True):
     return files
 
 
-def verify_artifacts(files):
+def verify_artifacts(files,*,external_restart_caches=None):
     """Validate receipts after explicitly joining all parts of a split capsule."""
     for name,content in files.items():
         if not name.endswith('/receipt.json'):
@@ -59,6 +59,12 @@ def verify_artifacts(files):
         for relative,record in receipt['files'].items():
             key=parent+'/'+relative
             if key not in files and Path(relative).name.startswith('mcp.'):
+                continue
+            if key not in files and external_restart_caches and key in external_restart_caches:
+                external=external_restart_caches[key]
+                if (Path(relative).name!='rci.res' or external['sha256']!=record['sha256']
+                        or external['bytes']!=record['bytes']):
+                    raise ValueError('External restart-cache identity differs from native receipt: '+key)
                 continue
             if key not in files or hashlib.sha256(files[key]).hexdigest()!=record['sha256']:
                 raise ValueError(f'Native artifact missing or changed: {key}')

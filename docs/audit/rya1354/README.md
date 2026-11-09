@@ -1,7 +1,8 @@
 # RYA-1354 — O I atomic-structure pilot checkpoint
 
 **Status: exploratory candidates and benchmark infrastructure; scientific HOLD.**
-Latest: [numerical stopping and physical-model error investigation](error_resolution_v3.md).
+Latest: [balanced lifetime, core and orbital-model continuation](lifetime_continuation_v4.md).
+Previous: [numerical stopping and physical-model error investigation](error_resolution_v3.md).
 Previous: [two-method, core/Hamiltonian, forbidden-line and primary-lifetime continuation](research_continuation_v2.md).
 This is not a completed blind benchmark. Calibrated uncertainty, reviewed two-method convergence and adoption criteria remain owed.
 See [the 2026-11-08 continuation](continuation_2026-11-08.md) for the new nonblind
