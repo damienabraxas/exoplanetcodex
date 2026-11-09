@@ -24,6 +24,7 @@ def main():
   folder=a.source/case;r=json.loads((folder/'report.json').read_text());initial=json.loads((folder/'input.json').read_text())
   if r['case']!=case or r.get('dry_run',False)or any(r.get(k)!=v for k,v in initial.items())or r['case_parameters']!=next(c for c in rp['cases']if c['name']==case)or r['plan']!=fingerprint(run_plan):raise ValueError('Wrong/mutated matched solve')
   if r['controls']!=rp['controls']or r.get('numerical_algorithm')!=rp.get('numerical_algorithm'):raise ValueError('Wrong numerical control')
+  if rp.get('iteration_plugin')and r.get('iteration_plugin',{}).get('receipt')!=rp['iteration_plugin']['build_receipt']:raise ValueError('Wrong iteration plugin build')
   for name,receipt in [('report.json',fingerprint(folder/'report.json')),('flux.csv',r['flux']),('populations.npz',r['coupled']['populations']),('history.jsonl',r['coupled']['history']),('independent_rates.npz',r['independent']['rates'])]:check(folder/name,receipt)
   with np.load(folder/'populations.npz')as data:pop={k:data[k].copy()for k in data.files}
   if pop['populations'].shape!=(41,56)or any(not np.isfinite(v).all()or np.any(v<=0)for v in pop.values()):raise ValueError('Invalid final populations')
@@ -35,6 +36,7 @@ def main():
   np.testing.assert_array_equal(f['normalized_flux'],f['Fnu_W_m2_Hz']/f['continuum_Fnu_W_m2_Hz']);reports.append(r);populations.append(pop);fluxes.append(f);rates.append(dict(case=case,rate_residual=residual,conservation=conservation,iterations=r['coupled']['iterations'],seconds=r['telemetry']['seconds'],peak_rss_bytes=r['telemetry']['process_peak_rss_bytes']))
  base=reports[0];mode=rp.get('initialization_mode','common_fractions');seed0=populations[0]['initial_populations']/(populations[0]['nstar']if mode=='common_departure_pattern'else 1);base_fraction=seed0/seed0.sum(axis=0);seed_deltas=[]
  for r,pop,f in zip(reports,populations,fluxes):
+  if r.get('iteration_plugin')!=base.get('iteration_plugin')or r['coupled']['helper']!=base['coupled']['helper']:raise ValueError('Changed numerical helper/plugin across matrix')
   for key in ['atom','source_nodes','column_preparation','field_ownership','controls','cap_length_m','background','backend','LW_constants','context_helper','state_helper','interpolator','density_helper','warm_report','warm_populations','source_collision_contract']:
    if r[key]!=base[key]:raise ValueError('Changed common matched input '+key)
   if r['state']['case']!='model_mass_H'or r['state']['ne_owner']!=base['state']['ne_owner']or r['state']['nH_owner']!=base['state']['nH_owner']or r['state']['vturb_m_s']!=base['state']['vturb_m_s']:raise ValueError('Changed field ownership/microturbulence')

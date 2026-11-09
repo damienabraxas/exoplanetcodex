@@ -29467,3 +29467,150 @@ artifacts:
   - artifact: rya1281/solar_solver_controls_v1/rya1281-solar-defect-v1/baseline/input.json
     generator: "scripts/run_bride_solar_matched_defect.py"
     ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/receipt.json
+    generator: "scripts/archive_bride_solver_acceleration.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v2/operators.npz
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v2/report.json
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v3/operators.npz
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v3/report.json
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v4/operators.npz
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v4/report.json
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v5/operators.npz
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-continuum-overlap-v5/report.json
+    generator: "scripts/audit_bride_overlapping_continua.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v2/failure.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v2/failure_seed.npz
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v2/input.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v2/operator_audit.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v2/operator_audit.npz
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v3/failure.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v3/failure_seed.npz
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v3/input.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v3/operator_audit.json
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-mali-operator-audit-v3/operator_audit.npz
+    generator: "scripts/audit_bride_mali_operator.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-overlap-plugin-v1/Source/SimdFullIterationTemplates.hpp
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-overlap-plugin-v1/build.log
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-overlap-plugin-v1/overlap_guard.cpp
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-overlap-plugin-v1/receipt.json
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/gravity/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/gravity/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/solar/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/solar/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-dry-v1/temperature/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/baseline/flux.csv
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/baseline/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/baseline/independent_rates.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/baseline/populations.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/temperature/failure.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/temperature/failure_seed.npz
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/temperature/history.jsonl
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-anderson-v1/temperature/input.json
+    generator: "scripts/run_bride_solar_matched_columns.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-transition-dry-v1/baseline/input.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solar-transition-dry-v1/baseline/report.json
+    generator: "scripts/run_bride_solar_matched_mali.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solver-conditioning-v1/conditioning.csv
+    generator: "scripts/audit_bride_solver_conditioning.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-solver-conditioning-v1/report.json
+    generator: "scripts/audit_bride_solver_conditioning.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-transition-plugin-v1/Source/SimdFullIterationTemplates.hpp
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-transition-plugin-v1/build.log
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-transition-plugin-v1/overlap_guard.cpp
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/rya1281-transition-plugin-v1/receipt.json
+    generator: "scripts/build_bride_overlap_guard.py"
+    ticket: "RYA-1281"
