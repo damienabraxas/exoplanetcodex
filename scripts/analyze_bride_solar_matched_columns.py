@@ -50,7 +50,7 @@ def main():
   for key in ['state','case_parameters','source_nodes','cap_length_m','atom','context_helper','backend','LW_constants','source_collision_contract']:
    if legacy[key]!=current[key]:raise ValueError('Endpoint physical inputs differ '+key)
   expected_controls=dict(legacy['controls'])
-  if rp.get('numerical_algorithm',{}).get('method')=='anderson_physical_direct':expected_controls['ng']=False
+  if rp.get('numerical_algorithm',{}).get('method')in ['anderson_physical_direct','transition_local_safeguarded_anderson']:expected_controls['ng']=False
   if rp.get('numerical_algorithm',{}).get('method')=='transition_local_mali'and rp['numerical_algorithm'].get('native_ng')is False:expected_controls['ng']=False
   if current['controls']!=expected_controls:raise ValueError('Endpoint controls differ beyond declared acceleration')
   if legacy['independent']['physical_rate_residual']>=legacy['controls']['rtol']:raise ValueError('Unadmitted legacy endpoint')

@@ -250,6 +250,11 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_solar_transition_no_ng:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-transition-no-ng-v1
+    kind: dir
+    desc: Fresh transition-local MALI control with native Ng disabled; original budgets and physical admission unchanged.
   experiments.bride_solar_transition_no_ng_dry:
     root: work
     rel: bride_mac_checks/rya1281-solar-transition-no-ng-dry-v1
