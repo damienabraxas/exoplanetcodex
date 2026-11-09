@@ -25,7 +25,13 @@ def main():
  from pipeline.wavelength_util import air_to_vac
  if platform.system()!='Darwin'or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 required')
  plan_path=a.plan;plan=json.loads(plan_path.read_text());warm_report=ROOT/plan['warm_report'];warm=json.loads(warm_report.read_text());controls=plan['controls']
- if controls!=warm['controls']:raise ValueError('Changed inherited joint solver controls')
+ algorithm=plan.get('numerical_algorithm')
+ expected=dict(warm['controls'])
+ if algorithm is not None:
+  if algorithm['method']!='anderson_physical_direct'or algorithm['native_ng']is not False:raise ValueError('Unknown numerical control')
+  expected['ng']=False
+  from pipeline.bride_coupled_anderson_control import solve_coupled_anderson as solve_coupled
+ if controls!=expected:raise ValueError('Changed inherited joint solver controls beyond declared Ng replacement')
  checks=[]
  def check(path,receipt):
   if fingerprint(path)!=receipt:raise ValueError('Changed predeclared input '+str(path))
@@ -39,7 +45,9 @@ def main():
  columns,preparation=prepare_columns(plan,require_codex_path('grids.marcs_standard'));structure=columns[a.case];state=column_state(structure);case=next(x for x in plan['cases']if x['name']==a.case)
  from pipeline.bride_parameter_checks import marcs_filename
  for node in plan['nodes']:check(require_codex_path('grids.marcs_standard')/marcs_filename(node['teff'],node['logg']),node['source'])
- for helper in ['pipeline/bride_solar_matched.py','pipeline/bride_parameter_checks.py','pipeline/bride_reference.py','pipeline/bride_H_nlte_control.py']:check(ROOT/helper,fingerprint(ROOT/helper))
+ helpers=['pipeline/bride_solar_matched.py','pipeline/bride_parameter_checks.py','pipeline/bride_reference.py','pipeline/bride_H_nlte_control.py']
+ if algorithm is not None:helpers+=['pipeline/bride_anderson.py','pipeline/bride_coupled_anderson_control.py']
+ for helper in helpers:check(ROOT/helper,fingerprint(ROOT/helper))
  binding_change={key:dict(max_absolute=float(np.max(abs(np.array(value)-np.array(warm['state'][key])))),max_relative=None if key=='height_m'else float(np.max(abs(np.array(value)/np.array(warm['state'][key])-1))))for key,value in asdict(state).items()if isinstance(value,tuple)}
  atom_path=require_codex_path('experiments.bride_oxygen_atom');check(atom_path,warm['atom']);atom=read_multi_atom(atom_path)
  if atom.abundance!=8.70 or len(atom.levels)!=41 or pop.shape!=(41,56):raise ValueError('Changed source atom/warm layout')
@@ -48,6 +56,7 @@ def main():
  if cap_length!=warm['cap_length_m']or not np.isfinite(cap_length)or cap_length<=0:raise ValueError('Changed fixed geometric cap policy')
  a.output.mkdir(parents=True,exist_ok=False)
  result=dict(schema='codex.bride_solar_matched_column/1',scientific_admission='HOLD',case=a.case,scope=plan['scope'],generator=fingerprint(__file__),plan=fingerprint(plan_path),state=asdict(state),state_helper=fingerprint(ROOT/'pipeline/bride_solar_matched.py'),context_helper=fingerprint(ROOT/'pipeline/bride_H_nlte_control.py'),case_parameters=case,source_nodes=preparation['sources'],column_preparation=preparation,field_ownership=plan['field_ownership'],binding_change_from_prior= binding_change,density_helper=fingerprint(ROOT/'pipeline/bride_reference.py'),interpolator=fingerprint(ROOT/'pipeline/bride_parameter_checks.py'),atom=fingerprint(atom_path),warm_report=fingerprint(warm_report),warm_populations=fingerprint(warm_path),initialization=plan['initialization'],initialization_mode=plan.get('initialization_mode','common_fractions'),controls=controls,cap_length_m=cap_length,background=plan['background'],backend=fingerprint(compiled.__file__),LW_constants=fingerprint(c.__file__))
+ if algorithm is not None:result['numerical_algorithm']=algorithm
  (a.output/'input.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');started=time.perf_counter()
  def construct(*,fixed=None,continuum_only=False):return make_context(state,structure,read_multi_atom(atom_path),rays=controls['rays'],qscale=controls['qscale'],extra_vac_nm=extra,cap_length_m=cap_length,ng=controls['ng'],fixed=fixed,continuum_only=continuum_only)
  ctx,audits=construct();active=ctx.activeAtoms[0];nstar=active.nStar.copy()
@@ -61,7 +70,17 @@ def main():
  if a.dry_run:
   result.update(dry_run=True,telemetry=dict(seconds=time.perf_counter()-started,process_peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss));(a.output/'report.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n');return
  original=dict(controls=controls,experimental_collision_convention='barklem2018_MN_LTE_pair',native_spline_control=warm['coupled']['source_spline'],author_charge_control=warm['coupled']['source_mn'])
- final,coupled=solve_coupled(ctx,atom,original,a.output,started);np.testing.assert_array_equal(active.nStar,nstar)
+ if algorithm is not None:original['numerical_algorithm']=algorithm
+ try:final,coupled=solve_coupled(ctx,atom,original,a.output,started)
+ except Exception as error:
+  failed=dict(result,completed=False,SE_balance_claimed=False,initialization_only=True,error_type=type(error).__name__,error=str(error),elapsed_seconds=time.perf_counter()-started)
+  current=active.n.copy();conservation=float(np.max(abs(current.sum(axis=0)/active.nTotal-1)))
+  if np.isfinite(current).all()and np.all(current>0)and conservation<1e-10:
+   np.savez(a.output/'failure_seed.npz',populations=current,nstar=active.nStar.copy());failed['failure_seed']=fingerprint(a.output/'failure_seed.npz')
+  failed['conservation']=conservation if np.isfinite(conservation)else None
+  (a.output/'failure.json').write_text(json.dumps(failed,indent=2,allow_nan=False)+'\n')
+  raise
+ np.testing.assert_array_equal(active.nStar,nstar)
  groups=collision_classes(active.atomicModel,ctx.atmos.pyAtmos,ctx.kwargs['eqPops']);collision=sum(groups.values());active.compute_collisions(fillDiagonal=False);np.testing.assert_allclose(collision,active.C,rtol=256*np.finfo(float).eps,atol=0)
  radiation=np.zeros_like(collision)
  for line in active.trans:radiation[line.j,line.i]+=line.Rij;radiation[line.i,line.j]+=line.Rji
