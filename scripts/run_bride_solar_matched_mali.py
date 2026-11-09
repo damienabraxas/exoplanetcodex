@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 def validate_solver_controls(plan,inherited):
  expected=dict(inherited);algorithm=plan.get('numerical_algorithm',{})
  if algorithm.get('native_ng')is False:
-  if algorithm.get('method')!='transition_local_mali'or not plan.get('iteration_plugin'):raise ValueError('Ng replacement requires the declared isolated transition-local control')
+  if algorithm.get('method')not in ['transition_local_mali','full_coupling_mali']or not plan.get('iteration_plugin'):raise ValueError('Ng replacement requires a declared isolated rate-preserving control')
   expected['ng']=False
  if plan['controls']!=expected:raise ValueError('Changed inherited solver thresholds/budgets beyond the declared Ng control')
 
@@ -44,6 +44,8 @@ def main():
   from pipeline.bride_overlap_plugin import load_overlap_plugin
   directory=require_codex_path(plan['iteration_plugin']['resource']);check(directory/'receipt.json',plan['iteration_plugin']['build_receipt'])
   scheme,plugin=load_overlap_plugin(directory);check(directory/'bride_overlap_guard.dylib',plugin['plugin']);check(ROOT/'pipeline/bride_overlap_plugin.py',fingerprint(ROOT/'pipeline/bride_overlap_plugin.py'))
+  expected_scheme={'transition_local_mali':'bride_transition_local_scalar','full_coupling_mali':'bride_full_coupling_scalar'}.get(plan.get('numerical_algorithm',{}).get('method'))
+  if expected_scheme is not None and scheme!=expected_scheme:raise ValueError('Iteration plugin differs from the declared numerical method')
  warm_path=ROOT/plan['warm_populations'];check(warm_path,warm['coupled']['populations']);check(ROOT/'pipeline/bride_coupled_control.py',warm['coupled']['helper'])
  with np.load(warm_path)as data:pop=data['populations'].copy();seed_nstar=data['nstar'].copy()
  check(Path(compiled.__file__),warm['backend']);check(Path(c.__file__),warm['LW_constants'])

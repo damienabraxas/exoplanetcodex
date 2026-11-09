@@ -260,6 +260,21 @@ entries:
     rel: bride_mac_checks/rya1281-ng-baseline-comparison-v2
     kind: dir
     desc: Isolated Mac numerical qualification; physical rates and scientific admission unchanged.
+  experiments.bride_full_coupling_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-full-coupling-plugin-v1
+    kind: dir
+    desc: Preserved isolated numerical control; source backend and scientific admission unchanged.
+  experiments.bride_solar_secant:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-secant-v1
+    kind: dir
+    desc: Preserved isolated numerical control; source backend and scientific admission unchanged.
+  experiments.bride_population_linear_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-population-linear-audit-v1
+    kind: dir
+    desc: Preserved isolated numerical control; source backend and scientific admission unchanged.
   experiments.bride_solar_transition_no_ng:
     root: work
     rel: bride_mac_checks/rya1281-solar-transition-no-ng-v1
