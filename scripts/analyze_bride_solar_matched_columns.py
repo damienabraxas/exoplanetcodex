@@ -23,6 +23,7 @@ def main():
  for case in plan['case_order']:
   folder=a.source/case;r=json.loads((folder/'report.json').read_text());initial=json.loads((folder/'input.json').read_text())
   if r['case']!=case or r.get('dry_run',False)or any(r.get(k)!=v for k,v in initial.items())or r['case_parameters']!=next(c for c in rp['cases']if c['name']==case)or r['plan']!=fingerprint(run_plan):raise ValueError('Wrong/mutated matched solve')
+  if r['controls']!=rp['controls']or r.get('numerical_algorithm')!=rp.get('numerical_algorithm'):raise ValueError('Wrong numerical control')
   for name,receipt in [('report.json',fingerprint(folder/'report.json')),('flux.csv',r['flux']),('populations.npz',r['coupled']['populations']),('history.jsonl',r['coupled']['history']),('independent_rates.npz',r['independent']['rates'])]:check(folder/name,receipt)
   with np.load(folder/'populations.npz')as data:pop={k:data[k].copy()for k in data.files}
   if pop['populations'].shape!=(41,56)or any(not np.isfinite(v).all()or np.any(v<=0)for v in pop.values()):raise ValueError('Invalid final populations')
@@ -44,8 +45,11 @@ def main():
  endpoint_replays=[]
  for endpoint in plan['endpoint_controls']:
   directory=ROOT/endpoint['path'];legacy=json.loads((directory/'report.json').read_text());i=plan['case_order'].index(endpoint['case']);current=reports[i]
-  for key in ['state','case_parameters','source_nodes','controls','cap_length_m','atom','context_helper','backend','LW_constants','source_collision_contract']:
+  for key in ['state','case_parameters','source_nodes','cap_length_m','atom','context_helper','backend','LW_constants','source_collision_contract']:
    if legacy[key]!=current[key]:raise ValueError('Endpoint physical inputs differ '+key)
+  expected_controls=dict(legacy['controls'])
+  if rp.get('numerical_algorithm',{}).get('method')=='anderson_physical_direct':expected_controls['ng']=False
+  if current['controls']!=expected_controls:raise ValueError('Endpoint controls differ beyond declared acceleration')
   if legacy['independent']['physical_rate_residual']>=legacy['controls']['rtol']:raise ValueError('Unadmitted legacy endpoint')
   check(directory/'flux.csv',legacy['flux']);prior=np.genfromtxt(directory/'flux.csv',delimiter=',',names=True);np.testing.assert_array_equal(prior['wavelength_air_A'],fluxes[i]['wavelength_air_A']);df=float(np.max(abs(prior['normalized_flux']-fluxes[i]['normalized_flux'])));dc=float(np.max(abs(fluxes[i]['continuum_Fnu_W_m2_Hz']/prior['continuum_Fnu_W_m2_Hz']-1)))
   if df>plan['endpoint_max_normalized_flux_difference']or dc>plan['endpoint_max_relative_continuum_difference']:raise ValueError('Legacy endpoint numerical replay screen failed')
