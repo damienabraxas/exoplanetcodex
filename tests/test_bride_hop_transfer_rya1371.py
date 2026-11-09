@@ -32,3 +32,15 @@ def test_nonsquare_packet_copy_and_changed_thermodynamic_state_refusal(monkeypat
     for actual,key in zip(outputs,['chi_m_inv','eta_SI','scat_m_inv']):np.testing.assert_array_equal(actual,packet[key])
     atm.ne[0]*=2
     with pytest.raises(ValueError,match='Changed bound HOP state ne'):bg.compute_background(NS(pyAtmos=atm),*outputs)
+
+
+def test_miswired_helium_control_refuses_actual_he_on_reads():
+    from pipeline.bride_hop_transfer import verify_helium_reads
+    p={'H_I_m3':np.array([10.,20.]),'He_I_m3':np.array([3.,8.])}
+    on=Perturbers(p);on.abundance[PeriodicTable[2]]
+    with pytest.raises(ValueError,match='did not reach'):verify_helium_reads(on.reads,False)
+    off=Perturbers(p,helium=False)
+    np.testing.assert_array_equal(off.abundance[PeriodicTable[2]],[0.,0.])
+    verify_helium_reads(off.reads,False)
+    np.testing.assert_array_equal(p['He_I_m3'],[3.,8.])
+    with pytest.raises(ValueError,match='did not reach'):verify_helium_reads(off.reads,True)

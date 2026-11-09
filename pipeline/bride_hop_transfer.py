@@ -54,6 +54,14 @@ class Perturbers:
         raise ValueError('Unqualified perturber lookup '+str(key))
 
 
+def verify_helium_reads(reads,enabled):
+    """Require the declared control to reach actual compiled-context broadeners."""
+    on=any('effective HeI/HI' in x for x in reads)
+    off=any('explicit He broadening-off' in x for x in reads)
+    if (enabled and (not on or off))or(not enabled and (not off or on)):
+        raise ValueError('Declared He broadening control did not reach actual perturber reads')
+
+
 class NativePerturberBroadener(StandardLineBroadener):
     """Retain the original LW formula/coefficients with explicit native densities."""
     def __init__(self,inner,perturbers):self.inner=inner;self.perturbers=perturbers
@@ -113,4 +121,5 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     spect=rad.compute_wavelength_grid(extraWavelengths=np.asarray(extra_vac_nm));records=[]
     def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records)
     ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory);ctx.depthData.fill=True
+    if not continuum_only:verify_helium_reads(perturbers.reads,helium_broadening)
     return ctx,dict(helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

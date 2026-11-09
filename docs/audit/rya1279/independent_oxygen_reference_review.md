@@ -381,3 +381,40 @@ Corrected v2 is separately fresh and independently audited. Audit asserts actual
 He-off reads and exact unchanged continuum/population/axes; no invalid promotion.
 Evidence: hop_helium_v1,12 raw receipts/10 exact compact copies. Scientific HOLD;
 source/native model/production defaults unchanged. RYA-1374 remains downstream.
+
+### Original semantics and consumed table audit (v260)
+
+Pinned pymulti4d6aa3c MULTI2.3 mul23_sub.f:1439-1446 sets GS=GQ*ne for
+nonnegative GQ, with a special zero-input automatic branch only for Hydrogen.
+Thus Oxygen GQ0 means no Stark in that source, agreeing with Bride's interpretation;
+native HOP Cowley is a recipe difference, not evidence that Bride dropped the
+original Oxygen Stark contribution. Producer identity/parity of the held MULTI
+record is still a separate open gate. Original source fingerprints are retained.
+
+Native atom_convert_mod writes and reads back its own table. The actual consumed
+O.txt retains256 line identities but rounds AIR line centres to0.001A and loggf to
+0.001dex. Triplet table-minus-source AIR positions are+.000131/+.000455/+.000476A;
+8446 components-.000287/-.000322/-.000249A. These are source-determined differences,
+not fitted wavelength corrections. The6158 native f differs+.0563percent.
+They offer a concrete next test for pointwise residuals; no exact causal amount
+is assigned before a controlled replay. Source/atom inputs remain unchanged.
+
+The project canonical coordinate remains vacuum below2000A. External table
+conversion uses its own refractive index and emits different numerical table
+coordinates there; the largest table-coordinate difference is1.0448A near972A.
+This is NOT a demonstrated RT wavelength error: the engine converts that coordinate
+back internally. Roundtrip and FUV physical conventions need separate qualification
+before RYA-1374/all-band claims. Initial table-audit-v1 labels called the canonical
+UV coordinate AIR; retained as superseded/invalid labels, v2 explicitly distinguishes
+canonical vacuum/AIR from native table coordinates. No UV result admitted.
+
+He-switch routing now has a runtime guard checking actual compiled-context
+perturber reads. A negative regression refuses the initial miswire; the full fresh
+v3 pair is bit-identical to v2 for every output array. The committed replay harness
+also reproduces its report byte-exact. Defect added to run_bug_ledger; failed v1
+not promoted.45 focused tests pass1.70s. Source/profile/guard evidence has9 raw
+receipts/8 exact compact copies in hop_profile_source_v1. Path register147 present,
+18 pre-existing broken. Next: source-determined table precision/profile controls,
+then qualified collider/rate/EOS integration and fresh native balance, before the
+observed solar intensity/flux and broader parameter/element validation. All
+physical-model, abundance, production and3D gates remain HOLD.

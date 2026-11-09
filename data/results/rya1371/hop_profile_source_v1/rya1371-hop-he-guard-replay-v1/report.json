@@ -1,0 +1,23 @@
+{
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v2/native_NLTE.npz": {
+      "bytes": 204980,
+      "sha256": "ddf4ca6c87a502a91451c143a0f9e2567dfb05baecd32078525a357f585f0f16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v3/native_NLTE.npz": {
+      "bytes": 204980,
+      "sha256": "ddf4ca6c87a502a91451c143a0f9e2567dfb05baecd32078525a357f585f0f16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v2/native_LTE.npz": {
+      "bytes": 204870,
+      "sha256": "728f2fa34ac6a4aa652ea6fc4ede62c92969f2faab174aed913837536f6ff6ea"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v3/native_LTE.npz": {
+      "bytes": 204870,
+      "sha256": "728f2fa34ac6a4aa652ea6fc4ede62c92969f2faab174aed913837536f6ff6ea"
+    }
+  },
+  "all_arrays_bit_identical": true,
+  "scientific_admission": "HOLD",
+  "scope": "Runtime He routing guard preserves every completed v2 output array; v3 refuses miswired controls at context construction."
+}

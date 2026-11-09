@@ -31581,3 +31581,39 @@ artifacts:
     generator: scripts/run_bride_hop_fixed_transfer.py
     ticket: RYA-1371
     note: Exact compact He broadening control; v1 switch miswire invalid, v2 actual interface verified. Scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-hop-he-guard-replay-v1/report.json
+    generator: scripts/check_hop_transfer_replay.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-hop-no-he-transfer-v3/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-hop-no-he-transfer-v3/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-hop-no-he-transfer-v3/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-hop-no-he-transfer-v3/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-oxygen-native-table-audit-v1/report.json
+    generator: scripts/audit_oxygen_native_table.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-oxygen-native-table-audit-v2/lines.csv
+    generator: scripts/audit_oxygen_native_table.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_profile_source_v1/rya1371-oxygen-native-table-audit-v2/report.json
+    generator: scripts/audit_oxygen_native_table.py
+    ticket: RYA-1371
+    note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
