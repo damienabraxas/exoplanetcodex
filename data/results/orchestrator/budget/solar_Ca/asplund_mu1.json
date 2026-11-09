@@ -1,0 +1,151 @@
+{
+ "element": "Ca",
+ "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
+ "treatment": "1D-LTE",
+ "n_lines": 14,
+ "mean_A_mu1": 6.309,
+ "mean_minus_A21_marcs_lte": 0.051,
+ "n_paired": 14,
+ "lines": [
+  {
+   "species": "Ca II",
+   "wavelength_air_A": 5001.479,
+   "A_mu1": 6.292,
+   "in_aggregate": true,
+   "red_chi2": 25.603,
+   "A21_marcs_lte": 6.24,
+   "A21_3d": 6.238
+  },
+  {
+   "species": "Ca II",
+   "wavelength_air_A": 6456.875,
+   "A_mu1": 6.295,
+   "in_aggregate": true,
+   "red_chi2": 75.748,
+   "A21_marcs_lte": 6.297,
+   "A21_3d": 6.322
+  },
+  {
+   "species": "Ca II",
+   "wavelength_air_A": 8248.796,
+   "A_mu1": 6.445,
+   "in_aggregate": true,
+   "red_chi2": 51.249,
+   "A21_marcs_lte": 6.313,
+   "A21_3d": 6.334
+  },
+  {
+   "species": "Ca II",
+   "wavelength_air_A": 8254.721,
+   "A_mu1": 6.349,
+   "in_aggregate": true,
+   "red_chi2": 39.769,
+   "A21_marcs_lte": 6.301,
+   "A21_3d": 6.309
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 4512.268,
+   "A_mu1": 6.239,
+   "in_aggregate": true,
+   "red_chi2": 65.267,
+   "A21_marcs_lte": 6.266,
+   "A21_3d": 6.303
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 5260.387,
+   "A_mu1": 6.304,
+   "in_aggregate": true,
+   "red_chi2": 104.544,
+   "A21_marcs_lte": 6.225,
+   "A21_3d": 6.274
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 5867.562,
+   "A_mu1": 6.308,
+   "in_aggregate": true,
+   "red_chi2": 118.967,
+   "A21_marcs_lte": 6.252,
+   "A21_3d": 6.298
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 6163.755,
+   "A_mu1": 6.325,
+   "in_aggregate": true,
+   "red_chi2": 85.116,
+   "A21_marcs_lte": 6.248,
+   "A21_3d": 6.326
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 6166.439,
+   "A_mu1": 6.315,
+   "in_aggregate": true,
+   "red_chi2": 74.906,
+   "A21_marcs_lte": 6.241,
+   "A21_3d": 6.331
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 6169.042,
+   "A_mu1": 6.289,
+   "in_aggregate": true,
+   "red_chi2": 50.447,
+   "A21_marcs_lte": 6.265,
+   "A21_3d": 6.362
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 6169.563,
+   "A_mu1": 6.27,
+   "in_aggregate": true,
+   "red_chi2": 88.238,
+   "A21_marcs_lte": 6.21,
+   "A21_3d": 6.306
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 6455.598,
+   "A_mu1": 6.305,
+   "in_aggregate": true,
+   "red_chi2": 117.08,
+   "A21_marcs_lte": 6.258,
+   "A21_3d": 6.339
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 6471.662,
+   "A_mu1": 6.267,
+   "in_aggregate": true,
+   "red_chi2": 97.303,
+   "A21_marcs_lte": 6.23,
+   "A21_3d": 6.323
+  },
+  {
+   "species": "Ca I",
+   "wavelength_air_A": 6499.65,
+   "A_mu1": 6.32,
+   "in_aggregate": true,
+   "red_chi2": 67.465,
+   "A21_marcs_lte": 6.264,
+   "A21_3d": 6.36
+  }
+ ],
+ "cells": [
+  {
+   "ion": "I",
+   "band": "VIS"
+  },
+  {
+   "ion": "II",
+   "band": "VIS"
+  },
+  {
+   "ion": "II",
+   "band": "red-optical"
+  }
+ ]
+}

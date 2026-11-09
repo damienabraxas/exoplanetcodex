@@ -1,0 +1,53 @@
+{
+ "element": "Na",
+ "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
+ "treatment": "1D-LTE",
+ "n_lines": 4,
+ "mean_A_mu1": 6.293,
+ "mean_minus_A21_marcs_lte": 0.068,
+ "n_paired": 4,
+ "lines": [
+  {
+   "species": "Na I",
+   "wavelength_air_A": 4751.822,
+   "A_mu1": 6.385,
+   "in_aggregate": true,
+   "red_chi2": 89.946,
+   "A21_marcs_lte": 6.213,
+   "A21_3d": 6.212
+  },
+  {
+   "species": "Na I",
+   "wavelength_air_A": 5148.838,
+   "A_mu1": 6.225,
+   "in_aggregate": true,
+   "red_chi2": 72.815,
+   "A21_marcs_lte": 6.221,
+   "A21_3d": 6.203
+  },
+  {
+   "species": "Na I",
+   "wavelength_air_A": 6154.225,
+   "A_mu1": 6.292,
+   "in_aggregate": true,
+   "red_chi2": 68.23,
+   "A21_marcs_lte": 6.243,
+   "A21_3d": 6.225
+  },
+  {
+   "species": "Na I",
+   "wavelength_air_A": 6160.747,
+   "A_mu1": 6.27,
+   "in_aggregate": true,
+   "red_chi2": 53.847,
+   "A21_marcs_lte": 6.221,
+   "A21_3d": 6.204
+  }
+ ],
+ "cells": [
+  {
+   "ion": "I",
+   "band": "VIS"
+  }
+ ]
+}

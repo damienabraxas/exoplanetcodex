@@ -1,0 +1,57 @@
+{
+ "element": "Al",
+ "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
+ "treatment": "1D-LTE",
+ "n_lines": 4,
+ "mean_A_mu1": 6.437,
+ "mean_minus_A21_marcs_lte": 0.063,
+ "n_paired": 4,
+ "lines": [
+  {
+   "species": "Al I",
+   "wavelength_air_A": 6696.023,
+   "A_mu1": 6.427,
+   "in_aggregate": true,
+   "red_chi2": 79.509,
+   "A21_marcs_lte": 6.4,
+   "A21_3d": 6.465
+  },
+  {
+   "species": "Al I",
+   "wavelength_air_A": 6698.673,
+   "A_mu1": 6.435,
+   "in_aggregate": true,
+   "red_chi2": 100.561,
+   "A21_marcs_lte": 6.412,
+   "A21_3d": 6.451
+  },
+  {
+   "species": "Al I",
+   "wavelength_air_A": 7835.309,
+   "A_mu1": 6.43,
+   "in_aggregate": true,
+   "red_chi2": 53.891,
+   "A21_marcs_lte": 6.33,
+   "A21_3d": 6.372
+  },
+  {
+   "species": "Al I",
+   "wavelength_air_A": 8912.9,
+   "A_mu1": 6.457,
+   "in_aggregate": true,
+   "red_chi2": 42.288,
+   "A21_marcs_lte": 6.355,
+   "A21_3d": 6.385
+  }
+ ],
+ "cells": [
+  {
+   "ion": "I",
+   "band": "VIS"
+  },
+  {
+   "ion": "I",
+   "band": "red-optical"
+  }
+ ]
+}
