@@ -2,6 +2,8 @@ import copy
 from functools import partial
 import numpy as np
 import pytest
+
+pytest.importorskip("lightweaver", reason="Compiled width controls require the optional Bride backend")
 from tests.test_bride_feii_control_rya1281 import context
 from pipeline.bride_feii_width_control import feii_width_factory
 

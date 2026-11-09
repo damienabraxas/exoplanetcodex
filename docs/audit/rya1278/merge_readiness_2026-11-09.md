@@ -34,3 +34,14 @@ compiled fixture/constructor controls; Sirius validation uses an isolated enviro
 without changing production solver installations. No production RT/SE or abundance
 run is authorized or executed by this merge review. Scientific acceptance remains
 HOLD. Exact results and merge receipts are appended after checks complete.
+
+
+The first review found one new test-collection defect: the FeII-width test imported
+an optional LW backend before checking availability, aborting the standard project
+suite without LW. Its module now explicitly skips when LW is absent; compiled
+width assertions remain unchanged and run in the held LW environment. This is
+recorded in the run-bug ledger. Initial disposable-checkout attempts also lacked
+the host holdings profile, and root-wide pytest collected an archived command-line
+smoke script; validation uses the documented CI `pytest tests/` scope and identical
+explicit host profile. Held LW lacks pandas, so iSpec/policy post-effects run in the
+project interpreter rather than changing the existing held environment.
