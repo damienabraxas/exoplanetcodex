@@ -1,0 +1,35 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 4147,
+    "sha256": "b1ba63543f9be1413895af7fa0dc90855d27bb00cf388932f8878f3b681b1810"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-molecular-preflight-v2/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 39279,
+        "sha256": "88c2aa76c508fd5a015a141aad6f508a52405d505474538e165da6b96cf20a7a"
+      },
+      "archived": "rya1371-bride-molecular-preflight-v2/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-molecular-preflight-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 11096,
+        "sha256": "f7678509b7b417ee8b0f0a22a71119eec4a739216e3a0f3b7229051fdc1f177f"
+      },
+      "archived": "rya1371-bride-molecular-preflight-v2/report.json",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

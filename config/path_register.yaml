@@ -752,12 +752,22 @@ entries:
     root: work
     rel: bride_mac_checks/rya1371-oxygen-analysis-v4
     kind: dir
-    desc: Native independent1D oxygen rate/mesh/spectrum audit; unresolved physics differences remain.
+    desc: Historical exploratory native audit; intensity-density labels invalid, wavelengths retained only as a donor. Use verified dense analysis for intensities.
   experiments.openmulti3d_oxygen_dense_analysis:
     root: work
     rel: bride_mac_checks/rya1371-oxygen-dense-analysis-v1
     kind: dir
-    desc: Explicit dense optical output grid independent oxygen audit; no missing-transition admission.
+    desc: Historical dense wavelength donor; v1 intensity-density labels invalid. Retained for exact transfer-input provenance only.
+  experiments.openmulti3d_oxygen_dense_verified:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-dense-analysis-v3
+    kind: dir
+    desc: Corrected native intensity units and dense optical output audit; scientific HOLD.
+  engines.lightweaver_default_molecules:
+    root: home
+    rel: bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules
+    kind: dir
+    desc: Installed RH molecular fit definitions for explicit LTE chemistry preflight; receipts and temperature validity required, no molecular NLTE admission.
   engines.openmulti3d_reference:
     root: work
     rel: bride_inputs/rya1281/openmulti3d-reference-v1

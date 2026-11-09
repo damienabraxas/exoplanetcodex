@@ -50,6 +50,8 @@ def validate_plan(plan):
     if c['angle_quad']not in ['lobatto','radau','gauss']:raise ValueError('Unrecognized quadrature declaration')
     if c['ntheta']>(10 if c['angle_quad']=='radau' else 6):raise ValueError('Quadrature exceeds pinned native angular support')
     if not isinstance(c.get('bound_free_in_output',False),bool):raise ValueError('Bound-free output control must be explicit boolean')
+    if c.get('molecular_equilibrium','native')not in ['native','suppressed-above-1K-control']:raise ValueError('Unsupported molecular EOS control (tmolim0 crashes pinned native initialization)')
+    if c.get('save_species','')not in ['', 'O I,O II,CO,OH,H2O,H I,H II']:raise ValueError('Unsupported diagnostic species export')
     if c.get('output_angle_quad','none')not in ['none','disk_center']:raise ValueError('Unsupported reference output quadrature')
     if 'output_grid' in plan:
         g=plan['output_grid']
@@ -92,6 +94,9 @@ def prepare_run(plan,output,app,*,resolver):
 &run_params mem_limit_gb=2. /
 &m3d_debug_params verbose=1, check_NaN=T /
 '''
+    if c.get('save_species')or c.get('molecular_equilibrium','native')!='native':
+        molecular=c.get('molecular_equilibrium','native')
+        nml+='&composition_params save_species='+quote_nml(c.get('save_species',''))+(', tmolim=1'if molecular=='suppressed-above-1K-control'else'')+' /\n'
     output=Path(output)
     if output.resolve().is_relative_to(app.resolve()):raise ValueError('Run output must be outside engine source')
     output.mkdir(parents=True,exist_ok=False);(output/'input').symlink_to(app/'input',target_is_directory=True);(output/'input.nml').write_text(nml)

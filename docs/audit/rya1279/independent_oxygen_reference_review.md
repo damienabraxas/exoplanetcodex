@@ -108,6 +108,90 @@ invalid artifact identities. No failed/invalid arrays are promoted to science.
 
 ## Evidence and next work
 
+### Boundary and molecular-reservoir follow-up (v245)
+
+Pinned native `rt_patch_mod.f90::set_upstream_boundary` sets top incoming
+radiation to zero. `HOP/interpol_mod.f90::optical_depth` instead defines the
+reference optical-depth coordinate; its extrapolated top optical depth is not
+the RT incoming boundary. A separate zero-cap Bride fixed-population transfer
+control changes local finite-window areas by less than0.0003mA at6158/777/8446,
+and-0.012825mA at6300. This does not measure the SE response to a boundary change.
+
+At the actual native consumed T/ne/rho/height, Bride LTE triplet level fractions
+agree with native values to0.0125–0.0379percent, while raw total atomic O differs
+by up to21.43percent in cool upper layers. Native species exports show that
+selected CO/OH/H2O contain up to17.624percent of the Oxygen accounted for by
+OI+OII+those molecules. This is not a complete molecular/ion budget.
+
+The native baseline species-export replay is bit-identical in its solved O
+populations to the previous dense run. A separate native molecular-equilibrium
+suppression control retains metadata and sets `tmolim=1K`, below all atmospheric
+temperatures. Consumed T/ne/rho remain bit-identical; selected molecule densities
+become zero; the matched raw atomic-total discrepancy drops below0.075percent.
+The fractional LTE-level difference is unchanged. This establishes a bulk
+chemistry distinction, rather than a triplet-level energy/degeneracy discrepancy.
+
+| AIR centre A | native normal chemistry mA | native suppressed chemistry mA | Bride empty-molecule context mA |
+|---|---:|---:|---:|
+|6158.170|5.2420|5.2505|5.4554|
+|6300.304|3.1900|3.3645|3.4322|
+|7771.944|84.3318|84.9547|84.8787|
+|7774.166|73.3677|73.8917|73.8893|
+|7775.388|58.2440|58.6359|58.7403|
+|8446.400|101.2925|101.9450|105.5778|
+
+Native chemistry suppression changes the triplet areas by0.3919–0.6229mA and
+leaves its triplet difference from Bride below0.105mA. It does not resolve8446
+or establish which combined physics is accurate. Chemistry changes the native
+atomic reservoir, colliders and background together; this is not a unique
+single-rate attribution, a fitted parameter choice or a recommended default.
+The control takes6.0881s, reaches iteration14 and stored-rate residual4.06e-8.
+
+Two further exploratory failures are retained. `tmolim=0`, documented upstream
+as disabling molecule loading, segfaults during pinned native initialization;
+the adapter now refuses that configuration. No source/binary patch or relaxed
+budget is used. Initial consumed-state continuum diagnostics added scattering
+twice; pinned LW `Source/LwMiddleLayer.pyx` already adds it to background chi.
+Only consumed-state-v2 reports are used for extinction. Corrected chi500 ratios
+span0.938–1.009 with normal native chemistry and0.938–1.010 under suppression;
+these are depth-dependent source-table comparisons, with the native internal
+versus canonical AIR-converter distinction retained. Earlier v1 continuum
+reports are invalid, preserved and excluded.
+
+`oxygen_boundary_eos_v1` receipts538 further raw files and44 compact copies.
+The next experimental step is a fully explicit molecular-LTE equilibrium
+preflight on the Bride side, with inspected source fits, range validity and
+element conservation, before coupling it into Oxygen SE. This is distinct from
+molecular NLTE or production adoption.
+
+That preflight has now begun (`oxygen_molecular_preflight_v1`). Eighteen installed
+RH definitions were inspected and receipted. Fifteen have unsupported depths in
+the full column: most end9000K (five deepest cells), H2O ends6000K (24 cells).
+Full-network range admission remains HOLD. A standalone CO-only attempt is
+refused by LW because its chemistry solver requires H in the molecular nuclei.
+The separately declared CO+H2 LTE control runs on51 temperature-supported
+independent EOS states, explicitly excluding original top-to-bottom indices51–55
+only from this diagnostic. It is not a truncated RT atmosphere or full EOS.
+It completes in three chemical iterations, conserves O/C to8.89e-16/5.56e-16,
+and puts up to16.998percent O in CO. The native chemistry and this incomplete
+network are not interchangeable. The LW warning in Newton relative-change
+division is preserved in the log; the zero-valued component has not been
+attributed, and saved quantities are finite.
+No coupled SE, molecular line opacity, molecular NLTE or model admission follows.
+
+A full-column HOP standalone EOS preflight now succeeds (`hop_provider_preflight_v1`).
+It binds the existing pinned shared library through signatures parsed from its
+committed C header, using standard Python ctypes because CFFI is absent from both
+existing environments. No package/environment install or native binary change.
+Exact source abundance/data identities and all native reference files are checked.
+All56 input T/ne/rho values are bit-preserved. Saved OI/OII/HI/HII/CO/OH/H2O
+densities agree with native outputs within5.67e-8 relative, consistent with native
+float32 storage. Reference chi500 differs9.05e-5 relative; trace-continuum ownership
+and exact opacity-source configuration still need measurement. This is an EOS
+interface preflight, not a coupled Bride background provider or scientific model.
+It provides a concrete route to complete chemical-state packets without extending
+the held RH fits beyond their declared ranges.
+
 `data/results/rya1371/oxygen_reference_v1/archive_receipt.json` receipts948 raw
 files and64 exact compact copies. Raw native binaries and invalid large arrays
 remain external; no5MiB guard is bypassed. Generator ownership is registered.

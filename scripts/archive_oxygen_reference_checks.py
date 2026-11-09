@@ -6,7 +6,8 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 def main():
     from pipeline.reference_engines import fingerprint
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--output-opacity-supplement',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--output-opacity-supplement',action='store_true');p.add_argument('--boundary-eos-supplement',action='store_true');p.add_argument('--molecular-preflight-supplement',action='store_true');p.add_argument('--hop-provider-supplement',action='store_true');a=p.parse_args()
+    if sum([a.output_opacity_supplement,a.boundary_eos_supplement,a.molecular_preflight_supplement,a.hop_provider_supplement])>1:raise ValueError('Choose one supplement')
     groups={
       'rya1281-independent-oxygen-populations-v1':'analysis',
       'rya1371-oxygen-reference-v1':'native',
@@ -25,6 +26,16 @@ def main():
       'rya1371-reference-refinement-v2':'analysis',
     }
     if a.output_opacity_supplement:groups={'rya1371-oxygen-output-bf-v1':'native','rya1371-oxygen-output-bf-analysis-v1':'analysis','rya1371-output-opacity-audit-v1':'analysis'}
+    if a.boundary_eos_supplement:groups={
+      'rya1371-bride-zero-cap-transfer-v1':'analysis','rya1371-zero-cap-comparison-v1':'analysis',
+      'rya1371-consumed-state-v1':'invalid','rya1371-consumed-state-cutoff1K-v1':'invalid',
+      'rya1371-consumed-state-v2':'analysis','rya1371-consumed-state-cutoff1K-v2':'analysis',
+      'rya1371-oxygen-species-v1':'native','rya1371-oxygen-species-analysis-v1':'analysis',
+      'rya1371-oxygen-no-molecules-v1':'failed-native',
+      'rya1371-oxygen-molecular-cutoff1K-v1':'native','rya1371-oxygen-molecular-cutoff1K-analysis-v1':'analysis',
+      'rya1371-molecular-reservoir-v1':'analysis'}
+    if a.molecular_preflight_supplement:groups={'rya1371-bride-molecular-preflight-v2':'analysis'}
+    if a.hop_provider_supplement:groups={'rya1371-hop-state-provider-v2':'analysis'}
     a.output.mkdir(parents=True,exist_ok=False);records=[]
     for name,kind in groups.items():
         source=a.raw_root/name

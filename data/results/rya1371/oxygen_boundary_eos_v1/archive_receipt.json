@@ -1,0 +1,5395 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 3939,
+    "sha256": "f19b5b860ef01ded20b4fb04c85716d093c91e092fead12267d8f87fb5b98389"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-zero-cap-transfer-v1/LTE.npz",
+      "receipt": {
+        "name": "LTE.npz",
+        "bytes": 186438,
+        "sha256": "66bda275408d46163017167cdcf32e3b415a680e4fc219aec3154d1be9952840"
+      },
+      "archived": "rya1371-bride-zero-cap-transfer-v1/LTE.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-zero-cap-transfer-v1/held_multi_b.npz",
+      "receipt": {
+        "name": "held_multi_b.npz",
+        "bytes": 186553,
+        "sha256": "8c1cb527d8e85aead282b365583c1bd61785d04b5a0d2451ee20b449c294040b"
+      },
+      "archived": "rya1371-bride-zero-cap-transfer-v1/held_multi_b.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-zero-cap-transfer-v1/local.npz",
+      "receipt": {
+        "name": "local.npz",
+        "bytes": 186525,
+        "sha256": "488dc0da76b0ef160d448116e5fc7e26541caa3d86d2bb859766d06000737100"
+      },
+      "archived": "rya1371-bride-zero-cap-transfer-v1/local.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-zero-cap-transfer-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 4254,
+        "sha256": "8dbdecc64a1a1140d5a8433c358960ae1bdb757bd2f7d56cb6e756977239d5d4"
+      },
+      "archived": "rya1371-bride-zero-cap-transfer-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-zero-cap-comparison-v1/comparison.png",
+      "receipt": {
+        "name": "comparison.png",
+        "bytes": 315608,
+        "sha256": "d17c9e85d87b70669a80ee61fdc77078078b03ca9d6f98c611d1d14be325308e"
+      },
+      "archived": "rya1371-zero-cap-comparison-v1/comparison.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-zero-cap-comparison-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 5755,
+        "sha256": "98d0ce43d7f57822fa0ecd938d07158a228db8ad78660e47c5d5313750bf7a85"
+      },
+      "archived": "rya1371-zero-cap-comparison-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-zero-cap-comparison-v1/windows.csv",
+      "receipt": {
+        "name": "windows.csv",
+        "bytes": 1682,
+        "sha256": "cd448b7bd6abbad36dca532ad977d8e2cc44a549d0b0d1ace9db197646c93212"
+      },
+      "archived": "rya1371-zero-cap-comparison-v1/windows.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-v1/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 51337,
+        "sha256": "e80ca2dc447bb19358699efcb342ed06aea0e9178c8f13afa0e8f76f286107d4"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 9642,
+        "sha256": "49c669adeab255e8d482ca6fb1b6d2bfb953b87d20f371646bf08633da81e27e"
+      },
+      "archived": "rya1371-consumed-state-v1/report.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-v1/state.csv",
+      "receipt": {
+        "name": "state.csv",
+        "bytes": 10550,
+        "sha256": "7ba3a0e8b49ecf7b6a1f08d271f2bf273111ead2f5ee6ed69cf14d046b39bbb5"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-cutoff1K-v1/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 51351,
+        "sha256": "0088dc607a3eae87017a037d56bebc24a9a9687d92b06d54262f6e72c465f418"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-cutoff1K-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 9642,
+        "sha256": "6256d34ab23445a6bd8a4eea5ed6244b09a0814bc4809362c3033589a75c56bb"
+      },
+      "archived": "rya1371-consumed-state-cutoff1K-v1/report.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-cutoff1K-v1/state.csv",
+      "receipt": {
+        "name": "state.csv",
+        "bytes": 10547,
+        "sha256": "e719c1665482cee5fd38e626cfc38aab229a29b56a5ef1615b25f2809b445fd2"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-v2/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 51337,
+        "sha256": "84f83d2523c19d9fad487ed9d49cf94139527513d58ae0d97855d2c658c238dc"
+      },
+      "archived": "rya1371-consumed-state-v2/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 9641,
+        "sha256": "e1a3b7735e5d017cecca7a86ddb927f9ad8756c7f5dc4e1a11a101e680e45f8a"
+      },
+      "archived": "rya1371-consumed-state-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-v2/state.csv",
+      "receipt": {
+        "name": "state.csv",
+        "bytes": 10549,
+        "sha256": "fb5e7981834407e4a0e7c8338fae07d0d43f026f0d5eabaffd272fd9779dbfd5"
+      },
+      "archived": "rya1371-consumed-state-v2/state.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-cutoff1K-v2/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 51351,
+        "sha256": "ff660fa80f5c7edafd6be45a39b8e9a638d376bfda2054e8b7e5846d44c5efe0"
+      },
+      "archived": "rya1371-consumed-state-cutoff1K-v2/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-cutoff1K-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 9643,
+        "sha256": "d9f9027920fd245deed74ad7afa4ab23fa19a16924c88aa0db0ee94db5f27d86"
+      },
+      "archived": "rya1371-consumed-state-cutoff1K-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-consumed-state-cutoff1K-v2/state.csv",
+      "receipt": {
+        "name": "state.csv",
+        "bytes": 10554,
+        "sha256": "ce1f9eced4633fcc3b2a444a30e3c483be046e924f384bb29abf5521dacfc65d"
+      },
+      "archived": "rya1371-consumed-state-cutoff1K-v2/state.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/input.nml",
+      "receipt": {
+        "name": "input.nml",
+        "bytes": 1151,
+        "sha256": "f287c69dd7b61a861644e6c7c02900cdc46008c24e1bf318137d3064fac251fd"
+      },
+      "archived": "rya1371-oxygen-species-v1/input.nml",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4098,
+        "sha256": "dead01128b52f353ef26a12cebd76af93953d054731f0612d621b2a551dc43ce"
+      },
+      "archived": "rya1371-oxygen-species-v1/manifest.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/abund.txt",
+      "receipt": {
+        "name": "abund.txt",
+        "bytes": 1104,
+        "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/angle_quadrature.txt",
+      "receipt": {
+        "name": "angle_quadrature.txt",
+        "bytes": 104,
+        "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/atmos_mesh.txt",
+      "receipt": {
+        "name": "atmos_mesh.txt",
+        "bytes": 928,
+        "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/atoms/O.txt",
+      "receipt": {
+        "name": "O.txt",
+        "bytes": 246913,
+        "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/convergence_report_000.txt",
+      "receipt": {
+        "name": "convergence_report_000.txt",
+        "bytes": 798,
+        "sha256": "8c68191ad5782d4fc2bedcf00924c08e424bc15b6f3b2100f820ebb5e07f77c8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/hash.log",
+      "receipt": {
+        "name": "hash.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/job.nml",
+      "receipt": {
+        "name": "job.nml",
+        "bytes": 8760,
+        "sha256": "ca4d005e543934890f8caa0594c79a2ec51cd4e2d808ac644fd4f5bbf1c06c1a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/linelist_out.txt",
+      "receipt": {
+        "name": "linelist_out.txt",
+        "bytes": 27406,
+        "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/params.nml",
+      "receipt": {
+        "name": "params.nml",
+        "bytes": 81451,
+        "sha256": "4e55f0936e46bbe336bdb5992ee4bde4712e5cc6732ec1858f36365b1d341a2b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.dbg",
+      "receipt": {
+        "name": "rank_00000.dbg",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.disp",
+      "receipt": {
+        "name": "rank_00000.disp",
+        "bytes": 179416,
+        "sha256": "bb71deb82f2b04f1f639030006fc63754f76133dbb38fc58a2752e152c932403"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.dump",
+      "receipt": {
+        "name": "rank_00000.dump",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.log",
+      "receipt": {
+        "name": "rank_00000.log",
+        "bytes": 58437,
+        "sha256": "ec88daa22b73150f9e30841c3ec725a7d83dbe19c58934bd6c2474a4a517b5d7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.pdat",
+      "receipt": {
+        "name": "rank_00000.pdat",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.pinf",
+      "receipt": {
+        "name": "rank_00000.pinf",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.que",
+      "receipt": {
+        "name": "rank_00000.que",
+        "bytes": 1920,
+        "sha256": "a6c2073b68883a1fdb9db4cbca415bbb4a5d5a34a388e4477678e12d119342a8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/rank_00000.val",
+      "receipt": {
+        "name": "rank_00000.val",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_001000.bin",
+      "receipt": {
+        "name": "CO_001000.bin",
+        "bytes": 28,
+        "sha256": "46f8b79d6200e6699979c8cdfe04e510f7de00f20e53b30561b54ee1aff053b0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_002000.bin",
+      "receipt": {
+        "name": "CO_002000.bin",
+        "bytes": 28,
+        "sha256": "5d3f0aaa9898bb70d4d756980d349ba288ee74ed6757c1168dc92558818a6c48"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_003000.bin",
+      "receipt": {
+        "name": "CO_003000.bin",
+        "bytes": 28,
+        "sha256": "903673c191986e1bf4cee7fd9929537e42e123a5da703c8c3334c6c9d14c234f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_004000.bin",
+      "receipt": {
+        "name": "CO_004000.bin",
+        "bytes": 28,
+        "sha256": "d54b08f785fb7ea0b88be7406a3ac20f58edfc054360d7ca1b9f4e1de4c1cf4e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_005000.bin",
+      "receipt": {
+        "name": "CO_005000.bin",
+        "bytes": 28,
+        "sha256": "30d483d2776f8b240f01a1687e4933a7c96f45b6b37fcf2b462cb8dd77498104"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_006000.bin",
+      "receipt": {
+        "name": "CO_006000.bin",
+        "bytes": 28,
+        "sha256": "f80cea26013b93e29ae7dc5f3ff962cff2b7c869922ccd881aa2e407418530ed"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_007000.bin",
+      "receipt": {
+        "name": "CO_007000.bin",
+        "bytes": 28,
+        "sha256": "38a864507398f647b2b31da177f40b01e35fc7946e38c73642d6df9fdcbad126"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_008000.bin",
+      "receipt": {
+        "name": "CO_008000.bin",
+        "bytes": 28,
+        "sha256": "5c99eb118b948575e433ebe1eb195325d18bf5c136b24e62d20354a4810b260e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/CO_meta.txt",
+      "receipt": {
+        "name": "CO_meta.txt",
+        "bytes": 573,
+        "sha256": "5d7dcaba655b7fa79da2fc46ac0b48a4f92b39dccba959c287c99e7e7708526f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_001000.bin",
+      "receipt": {
+        "name": "H2O_001000.bin",
+        "bytes": 28,
+        "sha256": "58fedf6ca83aa5399bf261ed52fffd2743c8e42df98fd84b5cee9c617a1c7fbe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_002000.bin",
+      "receipt": {
+        "name": "H2O_002000.bin",
+        "bytes": 28,
+        "sha256": "f28d1947d5111078660d777a221445fab4fd0445238033a77a125277675458fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_003000.bin",
+      "receipt": {
+        "name": "H2O_003000.bin",
+        "bytes": 28,
+        "sha256": "182e1d913e23276bec19ddc6d438473b6bc8ffd0db495d7dd77e8e28c31d06f4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_004000.bin",
+      "receipt": {
+        "name": "H2O_004000.bin",
+        "bytes": 28,
+        "sha256": "36d2a9b3c28ac3517bf5351a04eee6eca65a0e720bce965e85d99541b48045e7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_005000.bin",
+      "receipt": {
+        "name": "H2O_005000.bin",
+        "bytes": 28,
+        "sha256": "4b57f2e507a9a222d5830a5b45cb536f78eb11bf6136c75a05393a4f8d6b317e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_006000.bin",
+      "receipt": {
+        "name": "H2O_006000.bin",
+        "bytes": 28,
+        "sha256": "8bb29c35ff638c87a3507427e55b2d28c6a24f14ab8ce87407b50a65fc05c3b2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_007000.bin",
+      "receipt": {
+        "name": "H2O_007000.bin",
+        "bytes": 28,
+        "sha256": "5aeeba0fc7defe2372bc98e44a9f02540a8abaca9f63538707615b7449c7d25a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_008000.bin",
+      "receipt": {
+        "name": "H2O_008000.bin",
+        "bytes": 28,
+        "sha256": "33bec992ed6aa580f84f53010df7e292e6a89ed964fbfcad225e61b05a22e4b5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H2O_meta.txt",
+      "receipt": {
+        "name": "H2O_meta.txt",
+        "bytes": 573,
+        "sha256": "38883ee576e4c223f40774a45de6142f64d36efc0ba50b6076824b39b8c9fe7c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_001000.bin",
+      "receipt": {
+        "name": "H_II_001000.bin",
+        "bytes": 28,
+        "sha256": "04453bdf7a6d4e62662a17ec0ca1fa815116c278682fc6baf504b0b5691ab749"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_002000.bin",
+      "receipt": {
+        "name": "H_II_002000.bin",
+        "bytes": 28,
+        "sha256": "3cf775f9dd6cb05856df4c6eed8411cf8c3eec50ebf0871cb81cbe598540aad5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_003000.bin",
+      "receipt": {
+        "name": "H_II_003000.bin",
+        "bytes": 28,
+        "sha256": "bd54f0364b076da6b7860e8214e2d7b0ba9fa5cc7036f972a452a0cd778d764b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_004000.bin",
+      "receipt": {
+        "name": "H_II_004000.bin",
+        "bytes": 28,
+        "sha256": "e578c4302a3e516bb0c9538af7c3007caf83c8f2fe73aadc0fd2719111fc4feb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_005000.bin",
+      "receipt": {
+        "name": "H_II_005000.bin",
+        "bytes": 28,
+        "sha256": "5c89af6fadec681719607f4a386191ef27b3c080db41cdb9790888c99139139e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_006000.bin",
+      "receipt": {
+        "name": "H_II_006000.bin",
+        "bytes": 28,
+        "sha256": "6fe32a2d97072e841a47cf9953635a0c0755a491d0cad6022855e37e2f60e952"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_007000.bin",
+      "receipt": {
+        "name": "H_II_007000.bin",
+        "bytes": 28,
+        "sha256": "6e4caf7be9962608a77869d3e4b49a1642c6b98280c984fddbe61636f1b9b42d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_008000.bin",
+      "receipt": {
+        "name": "H_II_008000.bin",
+        "bytes": 28,
+        "sha256": "06a03982bb3acc7ad79dbb5ca20d3581044700ae24d60b7eeab6ab558b97aa67"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_II_meta.txt",
+      "receipt": {
+        "name": "H_II_meta.txt",
+        "bytes": 573,
+        "sha256": "5d93a16be8897ea2175199e0735feb5189c5b507a9ad9971d540fec3878e11c5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_001000.bin",
+      "receipt": {
+        "name": "H_I_001000.bin",
+        "bytes": 28,
+        "sha256": "badbe12afeff79dcb74e0e78e6d81cc509fa3227799c7417f138c1c0c6f8f22c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_002000.bin",
+      "receipt": {
+        "name": "H_I_002000.bin",
+        "bytes": 28,
+        "sha256": "7ec3ec00a25f439cb5b3cb82bdca994d1e4708ab085132634df590f557d6a9ea"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_003000.bin",
+      "receipt": {
+        "name": "H_I_003000.bin",
+        "bytes": 28,
+        "sha256": "7c255b2454b9483361ba5cac3c306ec8a93a613f314c5896133f81463d10b0ac"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_004000.bin",
+      "receipt": {
+        "name": "H_I_004000.bin",
+        "bytes": 28,
+        "sha256": "a7e11215af9aa462435ee9ec108afe5f572dc5715caf01b22597707ed97471eb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_005000.bin",
+      "receipt": {
+        "name": "H_I_005000.bin",
+        "bytes": 28,
+        "sha256": "9bc82c054895b86681962b15ee2616e15487f5269759ffdfbf64056b9e729045"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_006000.bin",
+      "receipt": {
+        "name": "H_I_006000.bin",
+        "bytes": 28,
+        "sha256": "2c354c29dfae8f05561049b370c653c6a855e14a3b3a0c2e420f6665c8a3e641"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_007000.bin",
+      "receipt": {
+        "name": "H_I_007000.bin",
+        "bytes": 28,
+        "sha256": "276092e629ce61ed4e74b91fae465e9e1dfb442c24b2053db1e33afa207f712e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_008000.bin",
+      "receipt": {
+        "name": "H_I_008000.bin",
+        "bytes": 28,
+        "sha256": "6bfabef9c65638881d3b5d525cb57fcd40744483db0ed462a4d2b48aa2481a33"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/H_I_meta.txt",
+      "receipt": {
+        "name": "H_I_meta.txt",
+        "bytes": 573,
+        "sha256": "975b55586da0d3b7b4856415257657a2c980c1a0cfc7397b908e4e2e199d6f99"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001001001.bin",
+      "receipt": {
+        "name": "Jnu_001001001.bin",
+        "bytes": 85008,
+        "sha256": "6bc95f561b1955a6219043bf408e8ca631c3b215ca15eb5e9a032ca7449955ec"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001001002.bin",
+      "receipt": {
+        "name": "Jnu_001001002.bin",
+        "bytes": 85008,
+        "sha256": "6bc95f561b1955a6219043bf408e8ca631c3b215ca15eb5e9a032ca7449955ec"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001002001.bin",
+      "receipt": {
+        "name": "Jnu_001002001.bin",
+        "bytes": 85008,
+        "sha256": "34e26c1dbed4748b438beba56d540fd9ba33d6c232482d1fdd8dbbe8aaff3a97"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001002002.bin",
+      "receipt": {
+        "name": "Jnu_001002002.bin",
+        "bytes": 85008,
+        "sha256": "34e26c1dbed4748b438beba56d540fd9ba33d6c232482d1fdd8dbbe8aaff3a97"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001003001.bin",
+      "receipt": {
+        "name": "Jnu_001003001.bin",
+        "bytes": 7084,
+        "sha256": "9ce60a044d93372ff67e3c40c64bad948df7e1134dadd21927a2de4abb12acb7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001003002.bin",
+      "receipt": {
+        "name": "Jnu_001003002.bin",
+        "bytes": 7084,
+        "sha256": "9ce60a044d93372ff67e3c40c64bad948df7e1134dadd21927a2de4abb12acb7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001004001.bin",
+      "receipt": {
+        "name": "Jnu_001004001.bin",
+        "bytes": 7056,
+        "sha256": "a2c8d5bebacdde4a8f36beab5e3f7ec9b2d79599379494a86bfcb34b8f55cbc0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_001004002.bin",
+      "receipt": {
+        "name": "Jnu_001004002.bin",
+        "bytes": 7056,
+        "sha256": "a2c8d5bebacdde4a8f36beab5e3f7ec9b2d79599379494a86bfcb34b8f55cbc0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002001001.bin",
+      "receipt": {
+        "name": "Jnu_002001001.bin",
+        "bytes": 85008,
+        "sha256": "fe6dcd0b9926a680ad4da4a93516fe561db29af30d20f3c1974079b85d52d8f4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002001002.bin",
+      "receipt": {
+        "name": "Jnu_002001002.bin",
+        "bytes": 85008,
+        "sha256": "fe6dcd0b9926a680ad4da4a93516fe561db29af30d20f3c1974079b85d52d8f4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002002001.bin",
+      "receipt": {
+        "name": "Jnu_002002001.bin",
+        "bytes": 85008,
+        "sha256": "33c4041f1762a771ff2a90723fa81df7c637705129bafa6a053688e27c616850"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002002002.bin",
+      "receipt": {
+        "name": "Jnu_002002002.bin",
+        "bytes": 85008,
+        "sha256": "33c4041f1762a771ff2a90723fa81df7c637705129bafa6a053688e27c616850"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002003001.bin",
+      "receipt": {
+        "name": "Jnu_002003001.bin",
+        "bytes": 7084,
+        "sha256": "6dca89a2953cc0879eb9bce6c7b9cfc951b4b576df72ad56d09d83f3b4bd0a0a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002003002.bin",
+      "receipt": {
+        "name": "Jnu_002003002.bin",
+        "bytes": 7084,
+        "sha256": "6dca89a2953cc0879eb9bce6c7b9cfc951b4b576df72ad56d09d83f3b4bd0a0a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002004001.bin",
+      "receipt": {
+        "name": "Jnu_002004001.bin",
+        "bytes": 7056,
+        "sha256": "43189369c068f164a6ff3553cdecd160d87daa7463284f4688463c809a9dd76e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_002004002.bin",
+      "receipt": {
+        "name": "Jnu_002004002.bin",
+        "bytes": 7056,
+        "sha256": "43189369c068f164a6ff3553cdecd160d87daa7463284f4688463c809a9dd76e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003001001.bin",
+      "receipt": {
+        "name": "Jnu_003001001.bin",
+        "bytes": 85008,
+        "sha256": "5aa0d9507a9f0dfaba53cd83967c49426d095c0d05320bd59fd616d7f499185f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003001002.bin",
+      "receipt": {
+        "name": "Jnu_003001002.bin",
+        "bytes": 85008,
+        "sha256": "5aa0d9507a9f0dfaba53cd83967c49426d095c0d05320bd59fd616d7f499185f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003002001.bin",
+      "receipt": {
+        "name": "Jnu_003002001.bin",
+        "bytes": 85008,
+        "sha256": "6deb7d2da483fe6cbddeaffa51e062ad7167ad57feb555123bc930c0233445fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003002002.bin",
+      "receipt": {
+        "name": "Jnu_003002002.bin",
+        "bytes": 85008,
+        "sha256": "6deb7d2da483fe6cbddeaffa51e062ad7167ad57feb555123bc930c0233445fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003003001.bin",
+      "receipt": {
+        "name": "Jnu_003003001.bin",
+        "bytes": 7084,
+        "sha256": "5d7ee489a1089f2c7d4a8f01d8f162b10510d8cf8880119d4ce125889d9ebbd5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003003002.bin",
+      "receipt": {
+        "name": "Jnu_003003002.bin",
+        "bytes": 7084,
+        "sha256": "5d7ee489a1089f2c7d4a8f01d8f162b10510d8cf8880119d4ce125889d9ebbd5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003004001.bin",
+      "receipt": {
+        "name": "Jnu_003004001.bin",
+        "bytes": 7056,
+        "sha256": "393678bb7ad3a3437d8862754cde311eb2638f8de6a10be5d2bfb65cd6e1e40d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_003004002.bin",
+      "receipt": {
+        "name": "Jnu_003004002.bin",
+        "bytes": 7056,
+        "sha256": "393678bb7ad3a3437d8862754cde311eb2638f8de6a10be5d2bfb65cd6e1e40d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004001001.bin",
+      "receipt": {
+        "name": "Jnu_004001001.bin",
+        "bytes": 85008,
+        "sha256": "ad9f795f4d5d6380a6cac4b41ede2d50c1d00c4d35ec970498e164d2e79d33f4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004001002.bin",
+      "receipt": {
+        "name": "Jnu_004001002.bin",
+        "bytes": 85008,
+        "sha256": "ad9f795f4d5d6380a6cac4b41ede2d50c1d00c4d35ec970498e164d2e79d33f4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004002001.bin",
+      "receipt": {
+        "name": "Jnu_004002001.bin",
+        "bytes": 85008,
+        "sha256": "09db859f4cb180d9577ad0350a6b8e1e8f51302de1bf0c82cf3d607d7a6f9e8a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004002002.bin",
+      "receipt": {
+        "name": "Jnu_004002002.bin",
+        "bytes": 85008,
+        "sha256": "09db859f4cb180d9577ad0350a6b8e1e8f51302de1bf0c82cf3d607d7a6f9e8a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004003001.bin",
+      "receipt": {
+        "name": "Jnu_004003001.bin",
+        "bytes": 7084,
+        "sha256": "4884ff537d916700b4f3e7f4b4795113f03ae1d8603f24e6fa1b473fced0b2be"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004003002.bin",
+      "receipt": {
+        "name": "Jnu_004003002.bin",
+        "bytes": 7084,
+        "sha256": "4884ff537d916700b4f3e7f4b4795113f03ae1d8603f24e6fa1b473fced0b2be"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004004001.bin",
+      "receipt": {
+        "name": "Jnu_004004001.bin",
+        "bytes": 7056,
+        "sha256": "32e6b5d2f6fcd170499a19f487cc6e3f39966406d3757b043ceb03bb5fe6b7d1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_004004002.bin",
+      "receipt": {
+        "name": "Jnu_004004002.bin",
+        "bytes": 7056,
+        "sha256": "32e6b5d2f6fcd170499a19f487cc6e3f39966406d3757b043ceb03bb5fe6b7d1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005001001.bin",
+      "receipt": {
+        "name": "Jnu_005001001.bin",
+        "bytes": 85008,
+        "sha256": "bca5181cf5e76182c6a2da8cf3707753d04a3b2c5d714aa6612f998c2b4a4733"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005001002.bin",
+      "receipt": {
+        "name": "Jnu_005001002.bin",
+        "bytes": 85008,
+        "sha256": "bca5181cf5e76182c6a2da8cf3707753d04a3b2c5d714aa6612f998c2b4a4733"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005002001.bin",
+      "receipt": {
+        "name": "Jnu_005002001.bin",
+        "bytes": 85008,
+        "sha256": "c75f4b6c99c4655726011678d3f9067ff983eefb233892ad6974c8597d6f6f7d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005002002.bin",
+      "receipt": {
+        "name": "Jnu_005002002.bin",
+        "bytes": 85008,
+        "sha256": "c75f4b6c99c4655726011678d3f9067ff983eefb233892ad6974c8597d6f6f7d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005003001.bin",
+      "receipt": {
+        "name": "Jnu_005003001.bin",
+        "bytes": 7084,
+        "sha256": "680b220a57685ac574d202ac1b23f5001acc38c9591880c874710c77ba11cd87"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005003002.bin",
+      "receipt": {
+        "name": "Jnu_005003002.bin",
+        "bytes": 7084,
+        "sha256": "680b220a57685ac574d202ac1b23f5001acc38c9591880c874710c77ba11cd87"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005004001.bin",
+      "receipt": {
+        "name": "Jnu_005004001.bin",
+        "bytes": 7056,
+        "sha256": "56e20257be51cd77e8949dc728db920e92d15c598be3228879ab4b54779e05e4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_005004002.bin",
+      "receipt": {
+        "name": "Jnu_005004002.bin",
+        "bytes": 7056,
+        "sha256": "56e20257be51cd77e8949dc728db920e92d15c598be3228879ab4b54779e05e4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006001001.bin",
+      "receipt": {
+        "name": "Jnu_006001001.bin",
+        "bytes": 85008,
+        "sha256": "d6343807492bdeffd24fde0b4e8da5027448138d18cba46a794f97bd3653c341"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006001002.bin",
+      "receipt": {
+        "name": "Jnu_006001002.bin",
+        "bytes": 85008,
+        "sha256": "d6343807492bdeffd24fde0b4e8da5027448138d18cba46a794f97bd3653c341"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006002001.bin",
+      "receipt": {
+        "name": "Jnu_006002001.bin",
+        "bytes": 85008,
+        "sha256": "fef0024cfe00a0ac30bb23e9ab8211d744d26f76c5d5369a7bc141d7a99b3846"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006002002.bin",
+      "receipt": {
+        "name": "Jnu_006002002.bin",
+        "bytes": 85008,
+        "sha256": "fef0024cfe00a0ac30bb23e9ab8211d744d26f76c5d5369a7bc141d7a99b3846"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006003001.bin",
+      "receipt": {
+        "name": "Jnu_006003001.bin",
+        "bytes": 7084,
+        "sha256": "f457dcd24c5f3d76eef0a4bccbcb10daf3425005a4b04ea420f8bd0283e859b4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006003002.bin",
+      "receipt": {
+        "name": "Jnu_006003002.bin",
+        "bytes": 7084,
+        "sha256": "f457dcd24c5f3d76eef0a4bccbcb10daf3425005a4b04ea420f8bd0283e859b4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006004001.bin",
+      "receipt": {
+        "name": "Jnu_006004001.bin",
+        "bytes": 7056,
+        "sha256": "80144831ffe2fdff60dcf42fb5fb48f3014f6948dee5d88a99fa19889b97022c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_006004002.bin",
+      "receipt": {
+        "name": "Jnu_006004002.bin",
+        "bytes": 7056,
+        "sha256": "80144831ffe2fdff60dcf42fb5fb48f3014f6948dee5d88a99fa19889b97022c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007001001.bin",
+      "receipt": {
+        "name": "Jnu_007001001.bin",
+        "bytes": 85008,
+        "sha256": "d8e2b61fccd57e4daa05948263107998e4e10a9adbad2ad4584e822afce23772"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007001002.bin",
+      "receipt": {
+        "name": "Jnu_007001002.bin",
+        "bytes": 85008,
+        "sha256": "d8e2b61fccd57e4daa05948263107998e4e10a9adbad2ad4584e822afce23772"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007002001.bin",
+      "receipt": {
+        "name": "Jnu_007002001.bin",
+        "bytes": 85008,
+        "sha256": "91e3344dfbb4c4b6050c93e15a9280f2a3eea20180dbb2718c5dae5c64c33e5e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007002002.bin",
+      "receipt": {
+        "name": "Jnu_007002002.bin",
+        "bytes": 85008,
+        "sha256": "91e3344dfbb4c4b6050c93e15a9280f2a3eea20180dbb2718c5dae5c64c33e5e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007003001.bin",
+      "receipt": {
+        "name": "Jnu_007003001.bin",
+        "bytes": 7084,
+        "sha256": "7706b665920ecf95987a88b650e2a40b793f3f01450a108e60f554120dd3e124"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007003002.bin",
+      "receipt": {
+        "name": "Jnu_007003002.bin",
+        "bytes": 7084,
+        "sha256": "7706b665920ecf95987a88b650e2a40b793f3f01450a108e60f554120dd3e124"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007004001.bin",
+      "receipt": {
+        "name": "Jnu_007004001.bin",
+        "bytes": 7056,
+        "sha256": "4ba4a1523383714df0be012a11d43b45dd7d755f7a07bf99b033c45bb46945d7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_007004002.bin",
+      "receipt": {
+        "name": "Jnu_007004002.bin",
+        "bytes": 7056,
+        "sha256": "4ba4a1523383714df0be012a11d43b45dd7d755f7a07bf99b033c45bb46945d7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008001001.bin",
+      "receipt": {
+        "name": "Jnu_008001001.bin",
+        "bytes": 85008,
+        "sha256": "799014a31aec270b939ebc285b2923c7ab504bcb87fe47067e23df3ff9bfc087"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008001002.bin",
+      "receipt": {
+        "name": "Jnu_008001002.bin",
+        "bytes": 85008,
+        "sha256": "799014a31aec270b939ebc285b2923c7ab504bcb87fe47067e23df3ff9bfc087"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008002001.bin",
+      "receipt": {
+        "name": "Jnu_008002001.bin",
+        "bytes": 85008,
+        "sha256": "8890790daea48d331364c8f679dae1535b4f56de56cd6ebb4190f9397f145b99"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008002002.bin",
+      "receipt": {
+        "name": "Jnu_008002002.bin",
+        "bytes": 85008,
+        "sha256": "8890790daea48d331364c8f679dae1535b4f56de56cd6ebb4190f9397f145b99"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008003001.bin",
+      "receipt": {
+        "name": "Jnu_008003001.bin",
+        "bytes": 7084,
+        "sha256": "8d363d9a20fbe63de3b2f16f1662a68238712bd988c484968cbb63be07a9652e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008003002.bin",
+      "receipt": {
+        "name": "Jnu_008003002.bin",
+        "bytes": 7084,
+        "sha256": "8d363d9a20fbe63de3b2f16f1662a68238712bd988c484968cbb63be07a9652e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008004001.bin",
+      "receipt": {
+        "name": "Jnu_008004001.bin",
+        "bytes": 7056,
+        "sha256": "46da8c2f8904608db2b58017e209ea713de11260f5fe3589eb89ccd89ddac150"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_008004002.bin",
+      "receipt": {
+        "name": "Jnu_008004002.bin",
+        "bytes": 7056,
+        "sha256": "46da8c2f8904608db2b58017e209ea713de11260f5fe3589eb89ccd89ddac150"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/Jnu_meta.txt",
+      "receipt": {
+        "name": "Jnu_meta.txt",
+        "bytes": 72421,
+        "sha256": "9f0fa5a35c17523b242aa211ac3db5407dadd01db2eceb47087cbd925044bb37"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_001000.bin",
+      "receipt": {
+        "name": "OH_001000.bin",
+        "bytes": 28,
+        "sha256": "3d7aa81b87e2cda73f36c9e0bb6979973214dc3095f838682f293e3e6d94a794"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_002000.bin",
+      "receipt": {
+        "name": "OH_002000.bin",
+        "bytes": 28,
+        "sha256": "70b7d38701025650e44127ade4d759dbd4f3607e6f7b0c57633fb3219b061b27"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_003000.bin",
+      "receipt": {
+        "name": "OH_003000.bin",
+        "bytes": 28,
+        "sha256": "06aebb33074db5463b00a78c4cc314fa4c943c5c9b0bf98484169dcbe1dfc007"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_004000.bin",
+      "receipt": {
+        "name": "OH_004000.bin",
+        "bytes": 28,
+        "sha256": "590a38e32c0dc18c4d5477ec710bfcdcec4ad3f9683b1e84b9b64cf563585a8f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_005000.bin",
+      "receipt": {
+        "name": "OH_005000.bin",
+        "bytes": 28,
+        "sha256": "3d06e699cf4281cc4702b08f51af9653cb30d2728069b2fb1222817ae619af99"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_006000.bin",
+      "receipt": {
+        "name": "OH_006000.bin",
+        "bytes": 28,
+        "sha256": "7377f7e1bde732ab4d0b24a0ddb0792a1de625f8802dc686e602117cba843e96"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_007000.bin",
+      "receipt": {
+        "name": "OH_007000.bin",
+        "bytes": 28,
+        "sha256": "a3b152f2e68656df175c3949874574529b497002648aabf86ae637cf34ac1a5a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_008000.bin",
+      "receipt": {
+        "name": "OH_008000.bin",
+        "bytes": 28,
+        "sha256": "2b1a245c4f98cbc3d78dbe69979da3f5353b4d96f8949a01161a09da8721ebf2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/OH_meta.txt",
+      "receipt": {
+        "name": "OH_meta.txt",
+        "bytes": 573,
+        "sha256": "de6fa898f318a9b7cf92a8aa535bfc2d81fc12e4b7c557052146b4546376411f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_001000.bin",
+      "receipt": {
+        "name": "O_II_001000.bin",
+        "bytes": 28,
+        "sha256": "e9b539a25ac247676dc38db745396c89c286fa19f03148dce849a7e824d4ffcd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_002000.bin",
+      "receipt": {
+        "name": "O_II_002000.bin",
+        "bytes": 28,
+        "sha256": "e94bc1bd606a8b84648aa394393302ea39eeb4f63cce354e350d35e48623bd89"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_003000.bin",
+      "receipt": {
+        "name": "O_II_003000.bin",
+        "bytes": 28,
+        "sha256": "8db27ec4fb2e81532df339bb8b17aa2702d17157429b22d642461aafa7e3e639"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_004000.bin",
+      "receipt": {
+        "name": "O_II_004000.bin",
+        "bytes": 28,
+        "sha256": "b11caa1729a4ea277c2ce9554c6a4dd7951ad63bc79af62ccd433c6e6af706ee"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_005000.bin",
+      "receipt": {
+        "name": "O_II_005000.bin",
+        "bytes": 28,
+        "sha256": "3c20d0fef29f7968af41f000aa5bf1839bec43fe7036fd28b34c6bcdba0a21ac"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_006000.bin",
+      "receipt": {
+        "name": "O_II_006000.bin",
+        "bytes": 28,
+        "sha256": "df17483b100366f426e87f86b67b9586d24fea428642436d4b805a9fb9ec96a7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_007000.bin",
+      "receipt": {
+        "name": "O_II_007000.bin",
+        "bytes": 28,
+        "sha256": "973f2f62c0a5017225892e79be131abd51ee678d171247cb565c037b7c812122"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_008000.bin",
+      "receipt": {
+        "name": "O_II_008000.bin",
+        "bytes": 28,
+        "sha256": "5443c5f798a4e6a46b58f5cd5a0302eeeb7292086761c23bb6b49f6e6893b0ce"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_II_meta.txt",
+      "receipt": {
+        "name": "O_II_meta.txt",
+        "bytes": 573,
+        "sha256": "dc334d6faedc7a325913c40fcb9192384d2607eae82933ea8cdf887b3653b924"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_001000.bin",
+      "receipt": {
+        "name": "O_I_001000.bin",
+        "bytes": 28,
+        "sha256": "9d87a094243f48969c0c66e06abf7e582c4cfa054d1036499877c79ec06becce"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_002000.bin",
+      "receipt": {
+        "name": "O_I_002000.bin",
+        "bytes": 28,
+        "sha256": "f57257d1b6e0ed8adf66d57054f7d745596d4b48e5e06de5426dcfa9c1269a2c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_003000.bin",
+      "receipt": {
+        "name": "O_I_003000.bin",
+        "bytes": 28,
+        "sha256": "c7a44511504f82317d835a688c31832db6ff57952104285613c52e639bdc2ce4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_004000.bin",
+      "receipt": {
+        "name": "O_I_004000.bin",
+        "bytes": 28,
+        "sha256": "9a505e8c1d500f600eb6d3f81a88c5cbf85d768e30e7abcdee2a87ed8be71c82"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_005000.bin",
+      "receipt": {
+        "name": "O_I_005000.bin",
+        "bytes": 28,
+        "sha256": "d28002c19cfd6beadc12d579de031ded7281a2ff9e0909d35b143b6ae5c89431"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_006000.bin",
+      "receipt": {
+        "name": "O_I_006000.bin",
+        "bytes": 28,
+        "sha256": "0873b79223e513c42a3de3ba0d7901109012677ffe2b3de9b53be0368e049bf9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_007000.bin",
+      "receipt": {
+        "name": "O_I_007000.bin",
+        "bytes": 28,
+        "sha256": "d0970b71a0549217522d617619fc887676462eed9d13c6c8b82dd413a9406138"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_008000.bin",
+      "receipt": {
+        "name": "O_I_008000.bin",
+        "bytes": 28,
+        "sha256": "e30af20f00db4037b1068d40d6b1f3d58c4166ef213b37e2adeaee5d26df3059"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_I_meta.txt",
+      "receipt": {
+        "name": "O_I_meta.txt",
+        "bytes": 573,
+        "sha256": "4efdbdda561ab8127b5332f8a3a34c8fc7a0ed435d489e1e8b292c1a6330c1cc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_c_008000.bin",
+      "receipt": {
+        "name": "O_c_008000.bin",
+        "bytes": 6724,
+        "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_c_meta.txt",
+      "receipt": {
+        "name": "O_c_meta.txt",
+        "bytes": 94,
+        "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_w_008000.bin",
+      "receipt": {
+        "name": "O_w_008000.bin",
+        "bytes": 6724,
+        "sha256": "2d7d18163b0bb6babc0479ce27f33b4c5965cbf514cef669d712ab3aa85be4a7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/O_w_meta.txt",
+      "receipt": {
+        "name": "O_w_meta.txt",
+        "bytes": 94,
+        "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_001000.bin",
+      "receipt": {
+        "name": "atmos_001000.bin",
+        "bytes": 392,
+        "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_002000.bin",
+      "receipt": {
+        "name": "atmos_002000.bin",
+        "bytes": 392,
+        "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_003000.bin",
+      "receipt": {
+        "name": "atmos_003000.bin",
+        "bytes": 392,
+        "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_004000.bin",
+      "receipt": {
+        "name": "atmos_004000.bin",
+        "bytes": 392,
+        "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_005000.bin",
+      "receipt": {
+        "name": "atmos_005000.bin",
+        "bytes": 392,
+        "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_006000.bin",
+      "receipt": {
+        "name": "atmos_006000.bin",
+        "bytes": 392,
+        "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_007000.bin",
+      "receipt": {
+        "name": "atmos_007000.bin",
+        "bytes": 392,
+        "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_008000.bin",
+      "receipt": {
+        "name": "atmos_008000.bin",
+        "bytes": 392,
+        "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/atmos_meta.txt",
+      "receipt": {
+        "name": "atmos_meta.txt",
+        "bytes": 733,
+        "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/bb_lam.bin",
+      "receipt": {
+        "name": "bb_lam.bin",
+        "bytes": 48576,
+        "sha256": "126f028d2fecd2918171dedbab20101859e66fe9f6117e6e8cbf1c4b2920024e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/bf_lam.bin",
+      "receipt": {
+        "name": "bf_lam.bin",
+        "bytes": 4040,
+        "sha256": "89e6e52ba53252a92f43c8c86302d0b61b92236252dc7fab79bcfa6778d9c3d4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_001000.bin",
+      "receipt": {
+        "name": "cij_001000.bin",
+        "bytes": 28,
+        "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_002000.bin",
+      "receipt": {
+        "name": "cij_002000.bin",
+        "bytes": 28,
+        "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_003000.bin",
+      "receipt": {
+        "name": "cij_003000.bin",
+        "bytes": 28,
+        "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_004000.bin",
+      "receipt": {
+        "name": "cij_004000.bin",
+        "bytes": 28,
+        "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_005000.bin",
+      "receipt": {
+        "name": "cij_005000.bin",
+        "bytes": 28,
+        "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_006000.bin",
+      "receipt": {
+        "name": "cij_006000.bin",
+        "bytes": 28,
+        "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_007000.bin",
+      "receipt": {
+        "name": "cij_007000.bin",
+        "bytes": 28,
+        "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_008000.bin",
+      "receipt": {
+        "name": "cij_008000.bin",
+        "bytes": 28,
+        "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cij_meta.txt",
+      "receipt": {
+        "name": "cij_meta.txt",
+        "bytes": 7005,
+        "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_001000.bin",
+      "receipt": {
+        "name": "cji_001000.bin",
+        "bytes": 28,
+        "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_002000.bin",
+      "receipt": {
+        "name": "cji_002000.bin",
+        "bytes": 28,
+        "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_003000.bin",
+      "receipt": {
+        "name": "cji_003000.bin",
+        "bytes": 28,
+        "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_004000.bin",
+      "receipt": {
+        "name": "cji_004000.bin",
+        "bytes": 28,
+        "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_005000.bin",
+      "receipt": {
+        "name": "cji_005000.bin",
+        "bytes": 28,
+        "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_006000.bin",
+      "receipt": {
+        "name": "cji_006000.bin",
+        "bytes": 28,
+        "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_007000.bin",
+      "receipt": {
+        "name": "cji_007000.bin",
+        "bytes": 28,
+        "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_008000.bin",
+      "receipt": {
+        "name": "cji_008000.bin",
+        "bytes": 28,
+        "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/cji_meta.txt",
+      "receipt": {
+        "name": "cji_meta.txt",
+        "bytes": 7005,
+        "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00001.bin",
+      "receipt": {
+        "name": "colrates_O_00001.bin",
+        "bytes": 22976,
+        "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00008.bin",
+      "receipt": {
+        "name": "colrates_O_00008.bin",
+        "bytes": 22976,
+        "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00015.bin",
+      "receipt": {
+        "name": "colrates_O_00015.bin",
+        "bytes": 22976,
+        "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00022.bin",
+      "receipt": {
+        "name": "colrates_O_00022.bin",
+        "bytes": 22976,
+        "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00029.bin",
+      "receipt": {
+        "name": "colrates_O_00029.bin",
+        "bytes": 22976,
+        "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00036.bin",
+      "receipt": {
+        "name": "colrates_O_00036.bin",
+        "bytes": 22976,
+        "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00043.bin",
+      "receipt": {
+        "name": "colrates_O_00043.bin",
+        "bytes": 22976,
+        "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/colrates_O_00050.bin",
+      "receipt": {
+        "name": "colrates_O_00050.bin",
+        "bytes": 22976,
+        "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_001000.bin",
+      "receipt": {
+        "name": "eos_001000.bin",
+        "bytes": 56,
+        "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_002000.bin",
+      "receipt": {
+        "name": "eos_002000.bin",
+        "bytes": 56,
+        "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_003000.bin",
+      "receipt": {
+        "name": "eos_003000.bin",
+        "bytes": 56,
+        "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_004000.bin",
+      "receipt": {
+        "name": "eos_004000.bin",
+        "bytes": 56,
+        "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_005000.bin",
+      "receipt": {
+        "name": "eos_005000.bin",
+        "bytes": 56,
+        "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_006000.bin",
+      "receipt": {
+        "name": "eos_006000.bin",
+        "bytes": 56,
+        "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_007000.bin",
+      "receipt": {
+        "name": "eos_007000.bin",
+        "bytes": 56,
+        "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_008000.bin",
+      "receipt": {
+        "name": "eos_008000.bin",
+        "bytes": 56,
+        "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/eos_meta.txt",
+      "receipt": {
+        "name": "eos_meta.txt",
+        "bytes": 653,
+        "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/flux_008001.bin",
+      "receipt": {
+        "name": "flux_008001.bin",
+        "bytes": 37236,
+        "sha256": "437edcd87e8db5696dcf833ec8435ec16c72cb57081fe9b9283e9ed9c4da4ba3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/flux_008002.bin",
+      "receipt": {
+        "name": "flux_008002.bin",
+        "bytes": 37224,
+        "sha256": "b35e580b39654a68788329b22ecb14f55476c5caf0fbe30ee0de6425b6bb6dd0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/flux_meta.txt",
+      "receipt": {
+        "name": "flux_meta.txt",
+        "bytes": 211,
+        "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/ie_008001.bin",
+      "receipt": {
+        "name": "ie_008001.bin",
+        "bytes": 37236,
+        "sha256": "2d81c417fcd3ff776af0b67dbcc3b46d980ee9de7d78c578026fceca7e067955"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/ie_008002.bin",
+      "receipt": {
+        "name": "ie_008002.bin",
+        "bytes": 37224,
+        "sha256": "17a71e1d3c06ed65283d787eac66efee3e0257da20ef2c54e1f8a42d7546be20"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/ie_meta.txt",
+      "receipt": {
+        "name": "ie_meta.txt",
+        "bytes": 211,
+        "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/out_lam.bin",
+      "receipt": {
+        "name": "out_lam.bin",
+        "bytes": 49640,
+        "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_001000.bin",
+      "receipt": {
+        "name": "pop_O_001000.bin",
+        "bytes": 2296,
+        "sha256": "224305a0e374b1dd3b19d3c9dc5656d5f163e85f0bfd0913fb925aa0fb0b2b2d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_002000.bin",
+      "receipt": {
+        "name": "pop_O_002000.bin",
+        "bytes": 2296,
+        "sha256": "e596d2d0892dedb9e573dfae81def802e50ab7c8e3e82f26ec18057fb492dd5e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_003000.bin",
+      "receipt": {
+        "name": "pop_O_003000.bin",
+        "bytes": 2296,
+        "sha256": "cbd762538b5473df5510f3e5f9d9fee77f30d66dbabf7862f2c06fbf271e7eec"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_004000.bin",
+      "receipt": {
+        "name": "pop_O_004000.bin",
+        "bytes": 2296,
+        "sha256": "8175695087c6e57eb9fc5a9f6327156c1572ae4b86d1257fb828f63dab89d3f3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_005000.bin",
+      "receipt": {
+        "name": "pop_O_005000.bin",
+        "bytes": 2296,
+        "sha256": "7a6ec468261e43fa63d57a5077dab37c08852af06dfc3464c22c57e2e1e55508"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_006000.bin",
+      "receipt": {
+        "name": "pop_O_006000.bin",
+        "bytes": 2296,
+        "sha256": "8d6026a268dc6fe3de8b1c3f8246006c5434c0cafa73e13d06dc192a13485924"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_007000.bin",
+      "receipt": {
+        "name": "pop_O_007000.bin",
+        "bytes": 2296,
+        "sha256": "d40d368c2c5c980ca7fb3afd4d0190dde42f7c0589f35645b5441b7bdaf300fb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_008000.bin",
+      "receipt": {
+        "name": "pop_O_008000.bin",
+        "bytes": 2296,
+        "sha256": "a17c2e46b870e1c877a22c6c11174021a5bd941fa0601a84383bc02b92f25608"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/pop_O_meta.txt",
+      "receipt": {
+        "name": "pop_O_meta.txt",
+        "bytes": 813,
+        "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00001.bin",
+      "receipt": {
+        "name": "rates_O_00001.bin",
+        "bytes": 23624,
+        "sha256": "2f1e090e502633e34257b983d1e00ff9c0ff85cc0c8c77bd040a142a2148e9ed"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00008.bin",
+      "receipt": {
+        "name": "rates_O_00008.bin",
+        "bytes": 23624,
+        "sha256": "3fd6c3bbef370926b5be930cc4707c844e3704950851e8faef55dfe7363a8fd0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00015.bin",
+      "receipt": {
+        "name": "rates_O_00015.bin",
+        "bytes": 23624,
+        "sha256": "67acfb28cbed484aacd1e7199d309b342923bc4b4ba433d3360d1015c5fb4833"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00022.bin",
+      "receipt": {
+        "name": "rates_O_00022.bin",
+        "bytes": 23624,
+        "sha256": "790e2b0d4c634c72ec911fa04d763140608b8e69ad8be96f5966c61c7fba2018"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00029.bin",
+      "receipt": {
+        "name": "rates_O_00029.bin",
+        "bytes": 23624,
+        "sha256": "584d429245d5eaec66e73ce23ef26e5fa4f45ffbf2c94bc516cb0f456d49cfb8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00036.bin",
+      "receipt": {
+        "name": "rates_O_00036.bin",
+        "bytes": 23624,
+        "sha256": "ccf3de9dd10ad789f5f902644c0a23586159f15b9b3e7cd6029744c4045d33af"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00043.bin",
+      "receipt": {
+        "name": "rates_O_00043.bin",
+        "bytes": 23624,
+        "sha256": "97c6c7d0231bc24b87453690e53eb7ec447810a62137b6118455fe07a1de4b7f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rates_O_00050.bin",
+      "receipt": {
+        "name": "rates_O_00050.bin",
+        "bytes": 23624,
+        "sha256": "74161decb96cd8e88ef915db1b3ac2345dfc3a5e18beaa11e665b6f8a907c78e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_001000.bin",
+      "receipt": {
+        "name": "rij_001000.bin",
+        "bytes": 28,
+        "sha256": "7576ebbddf06906c2a1af891410fe8997aaa1c0ccdf31b0783189d1bf0327adf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_002000.bin",
+      "receipt": {
+        "name": "rij_002000.bin",
+        "bytes": 28,
+        "sha256": "d24a94f6caba4ea6b3b8537694b51bfa5cb34ed2c0f29574df612bd281977e61"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_003000.bin",
+      "receipt": {
+        "name": "rij_003000.bin",
+        "bytes": 28,
+        "sha256": "04561d7486f108b6e47651d2dfb51202112e59a1f8a06aec063d805ee02c7f61"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_004000.bin",
+      "receipt": {
+        "name": "rij_004000.bin",
+        "bytes": 28,
+        "sha256": "d7933873de4f2ae9c609010fbde4ae096a06ffbf4a105c1868f44d3772ca848f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_005000.bin",
+      "receipt": {
+        "name": "rij_005000.bin",
+        "bytes": 28,
+        "sha256": "d1b227fb5a61b91ab58cea999326741d43b715e9e4a134fc3b1db1468e310430"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_006000.bin",
+      "receipt": {
+        "name": "rij_006000.bin",
+        "bytes": 28,
+        "sha256": "d84a08e1112314e4bdfa780f498dfac5837e9f161461af2b4788ef88ab17c283"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_007000.bin",
+      "receipt": {
+        "name": "rij_007000.bin",
+        "bytes": 28,
+        "sha256": "8cc8c97c69763ae54b33c6c1b9465ca44653d1f0247b640e43ba2e2143dfb67f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_008000.bin",
+      "receipt": {
+        "name": "rij_008000.bin",
+        "bytes": 28,
+        "sha256": "c58ac8e504d159fff8a0c5f4de7cd6c6741582a3c20317702a776ce8e903e6e1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rij_meta.txt",
+      "receipt": {
+        "name": "rij_meta.txt",
+        "bytes": 7005,
+        "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_001000.bin",
+      "receipt": {
+        "name": "rji_001000.bin",
+        "bytes": 28,
+        "sha256": "92aea2f05ac6776a88182be0f3a46e56ab6097b6a5481bb9e1f1baccb3a40bbb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_002000.bin",
+      "receipt": {
+        "name": "rji_002000.bin",
+        "bytes": 28,
+        "sha256": "37d6991c1df8d17ffbd1b6a453828852a705cae6f6388bf892d4da925a093364"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_003000.bin",
+      "receipt": {
+        "name": "rji_003000.bin",
+        "bytes": 28,
+        "sha256": "61396e7c4c56bf88b233e164eb5480422de4d914dce9a0cd2e6cfd805a1dd751"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_004000.bin",
+      "receipt": {
+        "name": "rji_004000.bin",
+        "bytes": 28,
+        "sha256": "bca3afe842bdbf01b84e1c0b92c636f9a2d23a95890a6da2d60f576669739c85"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_005000.bin",
+      "receipt": {
+        "name": "rji_005000.bin",
+        "bytes": 28,
+        "sha256": "e88cb56b6407d2c331f42abedc3e45d74ee9c7368bc5b75f849260dfa74edfc7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_006000.bin",
+      "receipt": {
+        "name": "rji_006000.bin",
+        "bytes": 28,
+        "sha256": "b203f35b01f4a8cbe7a52685ffafdda13d100e222af46b77f6ac4bf0d83b72bb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_007000.bin",
+      "receipt": {
+        "name": "rji_007000.bin",
+        "bytes": 28,
+        "sha256": "a057782b722fc80abf13bb1ea7d2bd8f10d20dc66b34c93d772f9b6659d548c8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_008000.bin",
+      "receipt": {
+        "name": "rji_008000.bin",
+        "bytes": 28,
+        "sha256": "15a603cbbf958d3cdc84518a49dedf0a67fc92fbdd2a10501c9121f7800df8d2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/save/rji_meta.txt",
+      "receipt": {
+        "name": "rji_meta.txt",
+        "bytes": 7005,
+        "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native/sets.txt",
+      "receipt": {
+        "name": "sets.txt",
+        "bytes": 135,
+        "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/native.log",
+      "receipt": {
+        "name": "native.log",
+        "bytes": 3931,
+        "sha256": "8f1e54de93144273cfff6a2f36050370f96121dfd1174b22ef642fd2d55bbd33"
+      },
+      "archived": "rya1371-oxygen-species-v1/native.log",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/output_wavelengths_vac_A.txt",
+      "receipt": {
+        "name": "output_wavelengths_vac_A.txt",
+        "bytes": 111690,
+        "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+      },
+      "archived": "rya1371-oxygen-species-v1/output_wavelengths_vac_A.txt",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/rank.lock",
+      "receipt": {
+        "name": "rank.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 59031,
+        "sha256": "aee23b60e5f8304cea50fec0fdcd6896b0168e0533d7cfed31400b2338dd0fbe"
+      },
+      "archived": "rya1371-oxygen-species-v1/report.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-analysis-v1/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 85412,
+        "sha256": "7ac776d37e3da02ea6e4a6f3f45593b36817ce64e5c03e6cd82bf7a43a693d58"
+      },
+      "archived": "rya1371-oxygen-species-analysis-v1/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-analysis-v1/departures.png",
+      "receipt": {
+        "name": "departures.png",
+        "bytes": 175996,
+        "sha256": "d47cdcea5fb1730578079d831d7977415525decf50badd4812ca541f6d09bd45"
+      },
+      "archived": "rya1371-oxygen-species-analysis-v1/departures.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-analysis-v1/populations.csv",
+      "receipt": {
+        "name": "populations.csv",
+        "bytes": 330687,
+        "sha256": "befa2e73cdbb822348519e3322bb351c10912af6d941474a5499b25a9ff127ac"
+      },
+      "archived": "rya1371-oxygen-species-analysis-v1/populations.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-analysis-v1/rates.csv",
+      "receipt": {
+        "name": "rates.csv",
+        "bytes": 565,
+        "sha256": "c12bf556c3ed6c0a632fdb04f1250a3e2e39e50feccf8bca541f055bff327160"
+      },
+      "archived": "rya1371-oxygen-species-analysis-v1/rates.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-analysis-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 3992,
+        "sha256": "7af24b65a0edf704aaed8fa00d5649fb0c0bac096123ec5b55ed4c96acfe5cdb"
+      },
+      "archived": "rya1371-oxygen-species-analysis-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-species-analysis-v1/spectra.npz",
+      "receipt": {
+        "name": "spectra.npz",
+        "bytes": 207686,
+        "sha256": "19a95e9c888984353fe90c1d8899681d5855586a1b10548495a16e7ff043d0b5"
+      },
+      "archived": "rya1371-oxygen-species-analysis-v1/spectra.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/input.nml",
+      "receipt": {
+        "name": "input.nml",
+        "bytes": 1161,
+        "sha256": "36cdee0490763f9aff870ba0c8feda31b7ad46597e62a1c7f940d20464c47634"
+      },
+      "archived": "rya1371-oxygen-no-molecules-v1/input.nml",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4113,
+        "sha256": "b85e50a81f9c0aa7496c80fba9f9290186da59483b5a4c17ee7d9b56640752b3"
+      },
+      "archived": "rya1371-oxygen-no-molecules-v1/manifest.json",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/hash.log",
+      "receipt": {
+        "name": "hash.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/job.nml",
+      "receipt": {
+        "name": "job.nml",
+        "bytes": 8760,
+        "sha256": "71b161041cfa9b9074d58994f3737da7bb0c0e3d56b46149e76e8cecb0612e85"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/params.nml",
+      "receipt": {
+        "name": "params.nml",
+        "bytes": 42073,
+        "sha256": "8d810226cf94088c451be92ea2198b7c90c09bfa3c2bd021c5b76afdc1454222"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.dbg",
+      "receipt": {
+        "name": "rank_00000.dbg",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.disp",
+      "receipt": {
+        "name": "rank_00000.disp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.dump",
+      "receipt": {
+        "name": "rank_00000.dump",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.log",
+      "receipt": {
+        "name": "rank_00000.log",
+        "bytes": 84,
+        "sha256": "b77e3975bf0c7506a3e9fe0ebfb13938aebc6921fd144911103e77885fee9c39"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.pdat",
+      "receipt": {
+        "name": "rank_00000.pdat",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.pinf",
+      "receipt": {
+        "name": "rank_00000.pinf",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.que",
+      "receipt": {
+        "name": "rank_00000.que",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native/rank_00000.val",
+      "receipt": {
+        "name": "rank_00000.val",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/native.log",
+      "receipt": {
+        "name": "native.log",
+        "bytes": 1254,
+        "sha256": "775f9e937f82c20aa5dee79e11efe63c3fca7c70b98f2f3119fc600fcedc912b"
+      },
+      "archived": "rya1371-oxygen-no-molecules-v1/native.log",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/output_wavelengths_vac_A.txt",
+      "receipt": {
+        "name": "output_wavelengths_vac_A.txt",
+        "bytes": 111690,
+        "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+      },
+      "archived": "rya1371-oxygen-no-molecules-v1/output_wavelengths_vac_A.txt",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/rank.lock",
+      "receipt": {
+        "name": "rank.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-molecules-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 7426,
+        "sha256": "8c89f5a39e5c89d5924648b158ec012fbabc2220c1a09b0e7afa2b996aaaf503"
+      },
+      "archived": "rya1371-oxygen-no-molecules-v1/report.json",
+      "disposition": "failed-native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/input.nml",
+      "receipt": {
+        "name": "input.nml",
+        "bytes": 1161,
+        "sha256": "2bc9bf4ebc7333066fdf61de6ce0e4e0edb24feb547f14ed07a1acab4e5c7d66"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-v1/input.nml",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 4413,
+        "sha256": "003f2c1ec95088698cf9618b05fa045193fbf49f35c7c66423ca1f6504b57852"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-v1/manifest.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/abund.txt",
+      "receipt": {
+        "name": "abund.txt",
+        "bytes": 1104,
+        "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/angle_quadrature.txt",
+      "receipt": {
+        "name": "angle_quadrature.txt",
+        "bytes": 104,
+        "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/atmos_mesh.txt",
+      "receipt": {
+        "name": "atmos_mesh.txt",
+        "bytes": 928,
+        "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/atoms/O.txt",
+      "receipt": {
+        "name": "O.txt",
+        "bytes": 246913,
+        "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/convergence_report_000.txt",
+      "receipt": {
+        "name": "convergence_report_000.txt",
+        "bytes": 798,
+        "sha256": "5233faa5840e6d30e7a52dc585e956f2292956f02fb1264d917cce923c7c2a32"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/hash.log",
+      "receipt": {
+        "name": "hash.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/job.nml",
+      "receipt": {
+        "name": "job.nml",
+        "bytes": 8760,
+        "sha256": "f901d1c9144982b4865ecf41cadd53a398b0d61645b4bf57a44967af5964a279"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/linelist_out.txt",
+      "receipt": {
+        "name": "linelist_out.txt",
+        "bytes": 27406,
+        "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/params.nml",
+      "receipt": {
+        "name": "params.nml",
+        "bytes": 81451,
+        "sha256": "8e9bdf589ea05891134e9ccde86a42787b896d69913e6891f447bcd358060119"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.dbg",
+      "receipt": {
+        "name": "rank_00000.dbg",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.disp",
+      "receipt": {
+        "name": "rank_00000.disp",
+        "bytes": 192536,
+        "sha256": "b233f85b9f4888066c94722d2c8699e364c4128857381e7179b8d7aa6f44af10"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.dump",
+      "receipt": {
+        "name": "rank_00000.dump",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.log",
+      "receipt": {
+        "name": "rank_00000.log",
+        "bytes": 58437,
+        "sha256": "16cae249d63649476845d6046b65d444050c7daa23da0f89637ef4f79aee9995"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.pdat",
+      "receipt": {
+        "name": "rank_00000.pdat",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.pinf",
+      "receipt": {
+        "name": "rank_00000.pinf",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.que",
+      "receipt": {
+        "name": "rank_00000.que",
+        "bytes": 1920,
+        "sha256": "a6c2073b68883a1fdb9db4cbca415bbb4a5d5a34a388e4477678e12d119342a8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/rank_00000.val",
+      "receipt": {
+        "name": "rank_00000.val",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_001000.bin",
+      "receipt": {
+        "name": "CO_001000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_002000.bin",
+      "receipt": {
+        "name": "CO_002000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_003000.bin",
+      "receipt": {
+        "name": "CO_003000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_004000.bin",
+      "receipt": {
+        "name": "CO_004000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_005000.bin",
+      "receipt": {
+        "name": "CO_005000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_006000.bin",
+      "receipt": {
+        "name": "CO_006000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_007000.bin",
+      "receipt": {
+        "name": "CO_007000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_008000.bin",
+      "receipt": {
+        "name": "CO_008000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/CO_meta.txt",
+      "receipt": {
+        "name": "CO_meta.txt",
+        "bytes": 573,
+        "sha256": "5d7dcaba655b7fa79da2fc46ac0b48a4f92b39dccba959c287c99e7e7708526f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_001000.bin",
+      "receipt": {
+        "name": "H2O_001000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_002000.bin",
+      "receipt": {
+        "name": "H2O_002000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_003000.bin",
+      "receipt": {
+        "name": "H2O_003000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_004000.bin",
+      "receipt": {
+        "name": "H2O_004000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_005000.bin",
+      "receipt": {
+        "name": "H2O_005000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_006000.bin",
+      "receipt": {
+        "name": "H2O_006000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_007000.bin",
+      "receipt": {
+        "name": "H2O_007000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_008000.bin",
+      "receipt": {
+        "name": "H2O_008000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H2O_meta.txt",
+      "receipt": {
+        "name": "H2O_meta.txt",
+        "bytes": 573,
+        "sha256": "38883ee576e4c223f40774a45de6142f64d36efc0ba50b6076824b39b8c9fe7c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_001000.bin",
+      "receipt": {
+        "name": "H_II_001000.bin",
+        "bytes": 28,
+        "sha256": "dd1495e9dd92a884e7d0c9ff0351e1c8c4f3418ebc4e5ccd40292c5e7e910d40"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_002000.bin",
+      "receipt": {
+        "name": "H_II_002000.bin",
+        "bytes": 28,
+        "sha256": "cc224065ba54cd39d1c7c82d083cb6e1dccf903d9f318a4c250e438ebeb6a44e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_003000.bin",
+      "receipt": {
+        "name": "H_II_003000.bin",
+        "bytes": 28,
+        "sha256": "c1c827bdb055288558ba24337d3422ac169a1617016b497c9889bdb7db2822a4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_004000.bin",
+      "receipt": {
+        "name": "H_II_004000.bin",
+        "bytes": 28,
+        "sha256": "504be686992ac279c03076698a15133c40e14fc59d968ce385579ccf3c9f7b2f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_005000.bin",
+      "receipt": {
+        "name": "H_II_005000.bin",
+        "bytes": 28,
+        "sha256": "9137a687c8eb9570b3452d1b756580736639a1c58680f1ca4fc8bce92a3331ea"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_006000.bin",
+      "receipt": {
+        "name": "H_II_006000.bin",
+        "bytes": 28,
+        "sha256": "71757d314528c115a0844d5e987f64d7346bcb995656306c479b0e24a9daa082"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_007000.bin",
+      "receipt": {
+        "name": "H_II_007000.bin",
+        "bytes": 28,
+        "sha256": "bbf9e5990e1c9e77be16fb5ff6fde4c625bcae7e0737edd8eff681872b95d997"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_008000.bin",
+      "receipt": {
+        "name": "H_II_008000.bin",
+        "bytes": 28,
+        "sha256": "5b1eb70f5b69877f82970aa9be292e17121c45fb3e364e2dd75599abbc4a0198"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_II_meta.txt",
+      "receipt": {
+        "name": "H_II_meta.txt",
+        "bytes": 573,
+        "sha256": "5d93a16be8897ea2175199e0735feb5189c5b507a9ad9971d540fec3878e11c5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_001000.bin",
+      "receipt": {
+        "name": "H_I_001000.bin",
+        "bytes": 28,
+        "sha256": "87f21207449d06119d0a92ea1c3c279dbd60eda7d7b03b4e2d9b46cf1f85ed44"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_002000.bin",
+      "receipt": {
+        "name": "H_I_002000.bin",
+        "bytes": 28,
+        "sha256": "96623756a4136c8de0026fed085d3d0d9f98caae2d4e2623f9bfe497c79dcffd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_003000.bin",
+      "receipt": {
+        "name": "H_I_003000.bin",
+        "bytes": 28,
+        "sha256": "0025e8e65c1c40b37097e4c3770bd9d5b7d7ef5dd1321663405cc327f233f5fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_004000.bin",
+      "receipt": {
+        "name": "H_I_004000.bin",
+        "bytes": 28,
+        "sha256": "9bfc862a020aa3c1d9411463c491d69212ae2d94172cb993080dee927692df59"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_005000.bin",
+      "receipt": {
+        "name": "H_I_005000.bin",
+        "bytes": 28,
+        "sha256": "1581a338104bf561f59e86dd1665db93ada2e5d09bf9e9d8021be6a4a0d53a36"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_006000.bin",
+      "receipt": {
+        "name": "H_I_006000.bin",
+        "bytes": 28,
+        "sha256": "a664ec9d6ba0383f13fc0924e61f202d791208567f6d3cf6c6e53e454ed1c157"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_007000.bin",
+      "receipt": {
+        "name": "H_I_007000.bin",
+        "bytes": 28,
+        "sha256": "60c9f317eb0d7d8712bc68c6f8279b858161698332758d61ae29ab38efa39ab9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_008000.bin",
+      "receipt": {
+        "name": "H_I_008000.bin",
+        "bytes": 28,
+        "sha256": "a7f586af4ea28760a078667eb1c8166f98dbf00b9f1ecf1b2c2c1ae434121699"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/H_I_meta.txt",
+      "receipt": {
+        "name": "H_I_meta.txt",
+        "bytes": 573,
+        "sha256": "975b55586da0d3b7b4856415257657a2c980c1a0cfc7397b908e4e2e199d6f99"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001001001.bin",
+      "receipt": {
+        "name": "Jnu_001001001.bin",
+        "bytes": 85008,
+        "sha256": "0244dd12deb2d01c4fbc41297bebcd97c9cc4b949f3bc5ca4cc10b9c29f82b69"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001001002.bin",
+      "receipt": {
+        "name": "Jnu_001001002.bin",
+        "bytes": 85008,
+        "sha256": "0244dd12deb2d01c4fbc41297bebcd97c9cc4b949f3bc5ca4cc10b9c29f82b69"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001002001.bin",
+      "receipt": {
+        "name": "Jnu_001002001.bin",
+        "bytes": 85008,
+        "sha256": "101ff1d2189fc65dcc4031ab156991e7087572789abf3e0d0b68d7919bbd51b0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001002002.bin",
+      "receipt": {
+        "name": "Jnu_001002002.bin",
+        "bytes": 85008,
+        "sha256": "101ff1d2189fc65dcc4031ab156991e7087572789abf3e0d0b68d7919bbd51b0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001003001.bin",
+      "receipt": {
+        "name": "Jnu_001003001.bin",
+        "bytes": 7084,
+        "sha256": "390cdc73f460f3ae236e66b104bac36d63848c3d8e570ec7f37c86180ae64716"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001003002.bin",
+      "receipt": {
+        "name": "Jnu_001003002.bin",
+        "bytes": 7084,
+        "sha256": "390cdc73f460f3ae236e66b104bac36d63848c3d8e570ec7f37c86180ae64716"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001004001.bin",
+      "receipt": {
+        "name": "Jnu_001004001.bin",
+        "bytes": 7056,
+        "sha256": "08ecb11d833245cff14dc080a63778b46f638b647eb219e227df257f576faef9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_001004002.bin",
+      "receipt": {
+        "name": "Jnu_001004002.bin",
+        "bytes": 7056,
+        "sha256": "08ecb11d833245cff14dc080a63778b46f638b647eb219e227df257f576faef9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002001001.bin",
+      "receipt": {
+        "name": "Jnu_002001001.bin",
+        "bytes": 85008,
+        "sha256": "d34044b29915039b685d8585eb2937e808316e4ce17aecf2494b987f2e609a65"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002001002.bin",
+      "receipt": {
+        "name": "Jnu_002001002.bin",
+        "bytes": 85008,
+        "sha256": "d34044b29915039b685d8585eb2937e808316e4ce17aecf2494b987f2e609a65"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002002001.bin",
+      "receipt": {
+        "name": "Jnu_002002001.bin",
+        "bytes": 85008,
+        "sha256": "a7e3f00cb4122f1e66057ab29c534265499e91f235d8279cd734e3a467afa7fc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002002002.bin",
+      "receipt": {
+        "name": "Jnu_002002002.bin",
+        "bytes": 85008,
+        "sha256": "a7e3f00cb4122f1e66057ab29c534265499e91f235d8279cd734e3a467afa7fc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002003001.bin",
+      "receipt": {
+        "name": "Jnu_002003001.bin",
+        "bytes": 7084,
+        "sha256": "b9d40d831ddca2f6dbfea143f23e4485a297f7197d4b5b786837d8b13d650b99"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002003002.bin",
+      "receipt": {
+        "name": "Jnu_002003002.bin",
+        "bytes": 7084,
+        "sha256": "b9d40d831ddca2f6dbfea143f23e4485a297f7197d4b5b786837d8b13d650b99"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002004001.bin",
+      "receipt": {
+        "name": "Jnu_002004001.bin",
+        "bytes": 7056,
+        "sha256": "3f8a0bbf7653df4885a7b42dda206afef22485e6c6c9207569757ecc1f031016"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_002004002.bin",
+      "receipt": {
+        "name": "Jnu_002004002.bin",
+        "bytes": 7056,
+        "sha256": "3f8a0bbf7653df4885a7b42dda206afef22485e6c6c9207569757ecc1f031016"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003001001.bin",
+      "receipt": {
+        "name": "Jnu_003001001.bin",
+        "bytes": 85008,
+        "sha256": "e3f7809ea3e118103b7bca80b0e56f6ae844875b2e4763d4c053eb4a09cbd80e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003001002.bin",
+      "receipt": {
+        "name": "Jnu_003001002.bin",
+        "bytes": 85008,
+        "sha256": "e3f7809ea3e118103b7bca80b0e56f6ae844875b2e4763d4c053eb4a09cbd80e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003002001.bin",
+      "receipt": {
+        "name": "Jnu_003002001.bin",
+        "bytes": 85008,
+        "sha256": "2d0b1a74d86f535f3c3104a1e5d0b8ef935e736c6627dca4c88ea5aedbdded8c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003002002.bin",
+      "receipt": {
+        "name": "Jnu_003002002.bin",
+        "bytes": 85008,
+        "sha256": "2d0b1a74d86f535f3c3104a1e5d0b8ef935e736c6627dca4c88ea5aedbdded8c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003003001.bin",
+      "receipt": {
+        "name": "Jnu_003003001.bin",
+        "bytes": 7084,
+        "sha256": "d73756626000ea357284ac551b323e5b4d684728551a029e23becf8331a4e7d5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003003002.bin",
+      "receipt": {
+        "name": "Jnu_003003002.bin",
+        "bytes": 7084,
+        "sha256": "d73756626000ea357284ac551b323e5b4d684728551a029e23becf8331a4e7d5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003004001.bin",
+      "receipt": {
+        "name": "Jnu_003004001.bin",
+        "bytes": 7056,
+        "sha256": "1147bf23d0dbc84a918b371dd4e5ba9db5e5178e70c140ac815ed3faf6d7ef63"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_003004002.bin",
+      "receipt": {
+        "name": "Jnu_003004002.bin",
+        "bytes": 7056,
+        "sha256": "1147bf23d0dbc84a918b371dd4e5ba9db5e5178e70c140ac815ed3faf6d7ef63"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004001001.bin",
+      "receipt": {
+        "name": "Jnu_004001001.bin",
+        "bytes": 85008,
+        "sha256": "9dfd4a12a1aa06da67ccf28a15b9243cb14c8e0339612f037aab4f531047e758"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004001002.bin",
+      "receipt": {
+        "name": "Jnu_004001002.bin",
+        "bytes": 85008,
+        "sha256": "9dfd4a12a1aa06da67ccf28a15b9243cb14c8e0339612f037aab4f531047e758"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004002001.bin",
+      "receipt": {
+        "name": "Jnu_004002001.bin",
+        "bytes": 85008,
+        "sha256": "2d0b81895c7a8f5186faaf524966acd1e35769694156b2e0b0d8c7970e7be41b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004002002.bin",
+      "receipt": {
+        "name": "Jnu_004002002.bin",
+        "bytes": 85008,
+        "sha256": "2d0b81895c7a8f5186faaf524966acd1e35769694156b2e0b0d8c7970e7be41b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004003001.bin",
+      "receipt": {
+        "name": "Jnu_004003001.bin",
+        "bytes": 7084,
+        "sha256": "14e0b127e88e9d6f82a42bcd42bf8c709b2a59c71b78b7327d61ba90200f59c2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004003002.bin",
+      "receipt": {
+        "name": "Jnu_004003002.bin",
+        "bytes": 7084,
+        "sha256": "14e0b127e88e9d6f82a42bcd42bf8c709b2a59c71b78b7327d61ba90200f59c2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004004001.bin",
+      "receipt": {
+        "name": "Jnu_004004001.bin",
+        "bytes": 7056,
+        "sha256": "13330f8fdfa6d84d35bfef360e5bf2153d20385f503d7bdd3c9f4d6fd9c9f361"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_004004002.bin",
+      "receipt": {
+        "name": "Jnu_004004002.bin",
+        "bytes": 7056,
+        "sha256": "13330f8fdfa6d84d35bfef360e5bf2153d20385f503d7bdd3c9f4d6fd9c9f361"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005001001.bin",
+      "receipt": {
+        "name": "Jnu_005001001.bin",
+        "bytes": 85008,
+        "sha256": "517721a4a8d2a8b058bde507da46d0dccce6d1675518419f050bdb1ebd516986"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005001002.bin",
+      "receipt": {
+        "name": "Jnu_005001002.bin",
+        "bytes": 85008,
+        "sha256": "517721a4a8d2a8b058bde507da46d0dccce6d1675518419f050bdb1ebd516986"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005002001.bin",
+      "receipt": {
+        "name": "Jnu_005002001.bin",
+        "bytes": 85008,
+        "sha256": "1e9b51b1e1e045cf8b6708d5476891763e97120e626af73892f44c0a8b233d40"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005002002.bin",
+      "receipt": {
+        "name": "Jnu_005002002.bin",
+        "bytes": 85008,
+        "sha256": "1e9b51b1e1e045cf8b6708d5476891763e97120e626af73892f44c0a8b233d40"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005003001.bin",
+      "receipt": {
+        "name": "Jnu_005003001.bin",
+        "bytes": 7084,
+        "sha256": "b908259c158b7c8b31d78a495f29afd7591f4001b892cb3bcccf0b3ce87610d2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005003002.bin",
+      "receipt": {
+        "name": "Jnu_005003002.bin",
+        "bytes": 7084,
+        "sha256": "b908259c158b7c8b31d78a495f29afd7591f4001b892cb3bcccf0b3ce87610d2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005004001.bin",
+      "receipt": {
+        "name": "Jnu_005004001.bin",
+        "bytes": 7056,
+        "sha256": "a3af29f2d9e27eaf06cc95fee27354d227d6fa00c2b4db8a3ad85aa573c3d130"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_005004002.bin",
+      "receipt": {
+        "name": "Jnu_005004002.bin",
+        "bytes": 7056,
+        "sha256": "a3af29f2d9e27eaf06cc95fee27354d227d6fa00c2b4db8a3ad85aa573c3d130"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006001001.bin",
+      "receipt": {
+        "name": "Jnu_006001001.bin",
+        "bytes": 85008,
+        "sha256": "eaa19577e826e6e02074c5b4b15b9ef3225687fd32665bcee3f87665c2b1d1a7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006001002.bin",
+      "receipt": {
+        "name": "Jnu_006001002.bin",
+        "bytes": 85008,
+        "sha256": "eaa19577e826e6e02074c5b4b15b9ef3225687fd32665bcee3f87665c2b1d1a7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006002001.bin",
+      "receipt": {
+        "name": "Jnu_006002001.bin",
+        "bytes": 85008,
+        "sha256": "24412c93fa89f7c996715e1cb7f0d54d0f80849b5e183d42774e546cb8a6c71e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006002002.bin",
+      "receipt": {
+        "name": "Jnu_006002002.bin",
+        "bytes": 85008,
+        "sha256": "24412c93fa89f7c996715e1cb7f0d54d0f80849b5e183d42774e546cb8a6c71e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006003001.bin",
+      "receipt": {
+        "name": "Jnu_006003001.bin",
+        "bytes": 7084,
+        "sha256": "b38723dc90a421a33d5b6c859c01826b6666a7deee2942992c86d4176636f354"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006003002.bin",
+      "receipt": {
+        "name": "Jnu_006003002.bin",
+        "bytes": 7084,
+        "sha256": "b38723dc90a421a33d5b6c859c01826b6666a7deee2942992c86d4176636f354"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006004001.bin",
+      "receipt": {
+        "name": "Jnu_006004001.bin",
+        "bytes": 7056,
+        "sha256": "6d242df8405b927a94f1b99383b6cf2b8e5a8a42cc7255a51996392f34645153"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_006004002.bin",
+      "receipt": {
+        "name": "Jnu_006004002.bin",
+        "bytes": 7056,
+        "sha256": "6d242df8405b927a94f1b99383b6cf2b8e5a8a42cc7255a51996392f34645153"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007001001.bin",
+      "receipt": {
+        "name": "Jnu_007001001.bin",
+        "bytes": 85008,
+        "sha256": "fd86a4c778a47973af5811a40a3e3744378bd5ad4e7e93f52bbe742206545e4e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007001002.bin",
+      "receipt": {
+        "name": "Jnu_007001002.bin",
+        "bytes": 85008,
+        "sha256": "fd86a4c778a47973af5811a40a3e3744378bd5ad4e7e93f52bbe742206545e4e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007002001.bin",
+      "receipt": {
+        "name": "Jnu_007002001.bin",
+        "bytes": 85008,
+        "sha256": "852d6e54ac1e9daaf9b79613564a75a590d9e42832922c9d929cf207973e608a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007002002.bin",
+      "receipt": {
+        "name": "Jnu_007002002.bin",
+        "bytes": 85008,
+        "sha256": "852d6e54ac1e9daaf9b79613564a75a590d9e42832922c9d929cf207973e608a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007003001.bin",
+      "receipt": {
+        "name": "Jnu_007003001.bin",
+        "bytes": 7084,
+        "sha256": "d956986c721429d7a241f87d414140cf1d09e551e3e713c017a2bfc2cd8b6813"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007003002.bin",
+      "receipt": {
+        "name": "Jnu_007003002.bin",
+        "bytes": 7084,
+        "sha256": "d956986c721429d7a241f87d414140cf1d09e551e3e713c017a2bfc2cd8b6813"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007004001.bin",
+      "receipt": {
+        "name": "Jnu_007004001.bin",
+        "bytes": 7056,
+        "sha256": "5c2adbc6c5c4293960fc8809f1084517465afc3e9cdbfb7fbb080a5fb6ab9ae2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_007004002.bin",
+      "receipt": {
+        "name": "Jnu_007004002.bin",
+        "bytes": 7056,
+        "sha256": "5c2adbc6c5c4293960fc8809f1084517465afc3e9cdbfb7fbb080a5fb6ab9ae2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008001001.bin",
+      "receipt": {
+        "name": "Jnu_008001001.bin",
+        "bytes": 85008,
+        "sha256": "f7a09b348f045ae833abc2c122e2b51a512572f25671ed4f27bb3bd32e33142d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008001002.bin",
+      "receipt": {
+        "name": "Jnu_008001002.bin",
+        "bytes": 85008,
+        "sha256": "f7a09b348f045ae833abc2c122e2b51a512572f25671ed4f27bb3bd32e33142d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008002001.bin",
+      "receipt": {
+        "name": "Jnu_008002001.bin",
+        "bytes": 85008,
+        "sha256": "7ca1d28db45797cec127c2dcbd23486014a4dcece9a471b686420f48b279f401"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008002002.bin",
+      "receipt": {
+        "name": "Jnu_008002002.bin",
+        "bytes": 85008,
+        "sha256": "7ca1d28db45797cec127c2dcbd23486014a4dcece9a471b686420f48b279f401"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008003001.bin",
+      "receipt": {
+        "name": "Jnu_008003001.bin",
+        "bytes": 7084,
+        "sha256": "1effd015352eee5bdcedac1c0f2996d0f15f8951da7d17f7ee5547fd24fe1ca0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008003002.bin",
+      "receipt": {
+        "name": "Jnu_008003002.bin",
+        "bytes": 7084,
+        "sha256": "1effd015352eee5bdcedac1c0f2996d0f15f8951da7d17f7ee5547fd24fe1ca0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008004001.bin",
+      "receipt": {
+        "name": "Jnu_008004001.bin",
+        "bytes": 7056,
+        "sha256": "b6ed2b2d1305e7773838096c4a17d1cfe8d80fd51a2d2e5490cdc7903b13b5bd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_008004002.bin",
+      "receipt": {
+        "name": "Jnu_008004002.bin",
+        "bytes": 7056,
+        "sha256": "b6ed2b2d1305e7773838096c4a17d1cfe8d80fd51a2d2e5490cdc7903b13b5bd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/Jnu_meta.txt",
+      "receipt": {
+        "name": "Jnu_meta.txt",
+        "bytes": 77989,
+        "sha256": "70c1c6c0c216c93daa690bbf408647da009aead4d236effb6bfadda4e48f283e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_001000.bin",
+      "receipt": {
+        "name": "OH_001000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_002000.bin",
+      "receipt": {
+        "name": "OH_002000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_003000.bin",
+      "receipt": {
+        "name": "OH_003000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_004000.bin",
+      "receipt": {
+        "name": "OH_004000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_005000.bin",
+      "receipt": {
+        "name": "OH_005000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_006000.bin",
+      "receipt": {
+        "name": "OH_006000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_007000.bin",
+      "receipt": {
+        "name": "OH_007000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_008000.bin",
+      "receipt": {
+        "name": "OH_008000.bin",
+        "bytes": 28,
+        "sha256": "3addfb141cd7c9c4c6543a82191a3707ac29c7a041217782e61d4d91c691aee8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/OH_meta.txt",
+      "receipt": {
+        "name": "OH_meta.txt",
+        "bytes": 573,
+        "sha256": "de6fa898f318a9b7cf92a8aa535bfc2d81fc12e4b7c557052146b4546376411f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_001000.bin",
+      "receipt": {
+        "name": "O_II_001000.bin",
+        "bytes": 28,
+        "sha256": "e5ad56185b62fd16956fad8dd5aa08a5759adb7c27cd00132910e8d99b6fe4f1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_002000.bin",
+      "receipt": {
+        "name": "O_II_002000.bin",
+        "bytes": 28,
+        "sha256": "016d27191b9f81f078638c62c2f280d40ee2dbfb75935eadcc94298f322eefae"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_003000.bin",
+      "receipt": {
+        "name": "O_II_003000.bin",
+        "bytes": 28,
+        "sha256": "fde3cf48b6738ebb6968f2aecc134a46f8f41b0b94d435ce9beedc09877798eb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_004000.bin",
+      "receipt": {
+        "name": "O_II_004000.bin",
+        "bytes": 28,
+        "sha256": "dff19f3fc2c663f9cd0a17b36eacd4e70a22000578eb3a646f56e8171bf80495"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_005000.bin",
+      "receipt": {
+        "name": "O_II_005000.bin",
+        "bytes": 28,
+        "sha256": "5a2a23966e1e705c70ce0c3d78b89e2fe66a91725338b3bdb1fff5edd0e93e52"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_006000.bin",
+      "receipt": {
+        "name": "O_II_006000.bin",
+        "bytes": 28,
+        "sha256": "aa9ff41388997ec7c5daf4c576b3bf84eeea525861c1e4570a7e2bca382e2c9c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_007000.bin",
+      "receipt": {
+        "name": "O_II_007000.bin",
+        "bytes": 28,
+        "sha256": "e030e8d17d49a3a41d33fad06e9e33437839a22bd5dc993b4cbf83010da583ed"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_008000.bin",
+      "receipt": {
+        "name": "O_II_008000.bin",
+        "bytes": 28,
+        "sha256": "48a9469a44b98d340c424d30a2cf56d42429e4eae9245ce22ad687ac4d935132"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_II_meta.txt",
+      "receipt": {
+        "name": "O_II_meta.txt",
+        "bytes": 573,
+        "sha256": "dc334d6faedc7a325913c40fcb9192384d2607eae82933ea8cdf887b3653b924"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_001000.bin",
+      "receipt": {
+        "name": "O_I_001000.bin",
+        "bytes": 28,
+        "sha256": "e9cdcdb0dc978871b1fc1d056844b0c64d386b724a44f1e4463f372a6431bc4d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_002000.bin",
+      "receipt": {
+        "name": "O_I_002000.bin",
+        "bytes": 28,
+        "sha256": "293ec6476928f8765c45916dd9cdd955cc276cc1ad9bdfb35172b43935ac4b40"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_003000.bin",
+      "receipt": {
+        "name": "O_I_003000.bin",
+        "bytes": 28,
+        "sha256": "700cd1cf181c848ff8e420484fa9dcf77f6d448807ff76e1428318696c336b44"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_004000.bin",
+      "receipt": {
+        "name": "O_I_004000.bin",
+        "bytes": 28,
+        "sha256": "da4bfb90f7f78df64377a5456ddbb30df3f8f98eb0a862c6ee75d2c598619fbb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_005000.bin",
+      "receipt": {
+        "name": "O_I_005000.bin",
+        "bytes": 28,
+        "sha256": "eaa864476df9d4c87f18e37e0ed9dc689d5208907579c8b4373e186cee152977"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_006000.bin",
+      "receipt": {
+        "name": "O_I_006000.bin",
+        "bytes": 28,
+        "sha256": "4a3498e5cce609b6fe776237003d0747aec8c2d74452cebdda1f2284b683ca42"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_007000.bin",
+      "receipt": {
+        "name": "O_I_007000.bin",
+        "bytes": 28,
+        "sha256": "b5a2ce5135c5b212ca86b2539c79c7770017efa5a38c94c35cb8ca8e36b75b4d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_008000.bin",
+      "receipt": {
+        "name": "O_I_008000.bin",
+        "bytes": 28,
+        "sha256": "0dab8e4c261e295ea18aca4d09e5fde590e7c2a2f13fb5f8dbc6006c3e09d1a9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_I_meta.txt",
+      "receipt": {
+        "name": "O_I_meta.txt",
+        "bytes": 573,
+        "sha256": "4efdbdda561ab8127b5332f8a3a34c8fc7a0ed435d489e1e8b292c1a6330c1cc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_c_008000.bin",
+      "receipt": {
+        "name": "O_c_008000.bin",
+        "bytes": 6724,
+        "sha256": "9f3d93db7efd51ecf234326c729aa9b1911719f3de72a5a97b46e0cfdbc0dcc3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_c_meta.txt",
+      "receipt": {
+        "name": "O_c_meta.txt",
+        "bytes": 94,
+        "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_w_008000.bin",
+      "receipt": {
+        "name": "O_w_008000.bin",
+        "bytes": 6724,
+        "sha256": "5aa036f93581ae47e2e18b6bfb154c886ceb9abe285b486594d66dc8f6fc9e29"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/O_w_meta.txt",
+      "receipt": {
+        "name": "O_w_meta.txt",
+        "bytes": 94,
+        "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_001000.bin",
+      "receipt": {
+        "name": "atmos_001000.bin",
+        "bytes": 392,
+        "sha256": "2e0c953649579382476513c5400ffd767ab4cc196f74b2a5eef5e66d9127c553"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_002000.bin",
+      "receipt": {
+        "name": "atmos_002000.bin",
+        "bytes": 392,
+        "sha256": "1deb5c4c5e6cd00f6aa106af6eda71409ae6aca4325a4d0cd881505f36c62f4f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_003000.bin",
+      "receipt": {
+        "name": "atmos_003000.bin",
+        "bytes": 392,
+        "sha256": "02ef3c5a376b016b02089f345493e5a4caf42cb707b5c07cc523268808625190"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_004000.bin",
+      "receipt": {
+        "name": "atmos_004000.bin",
+        "bytes": 392,
+        "sha256": "735e63149f00ca29fc8af59337b6b56e097ff4ba2042ca160b74e5ff6535b14c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_005000.bin",
+      "receipt": {
+        "name": "atmos_005000.bin",
+        "bytes": 392,
+        "sha256": "09eb10fc3c5848bcd51a6cab6fd6c3fbbb1c6e90d937e8b4118c20e509d87458"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_006000.bin",
+      "receipt": {
+        "name": "atmos_006000.bin",
+        "bytes": 392,
+        "sha256": "9805cba9957790f5d834c3645e190b38bbcce126119044a2f2d1c399448035ca"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_007000.bin",
+      "receipt": {
+        "name": "atmos_007000.bin",
+        "bytes": 392,
+        "sha256": "9efeb2b16fdc104e5942dd96f38458919ca3fdfcd1455fba3f75a52b3ca7ee1b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_008000.bin",
+      "receipt": {
+        "name": "atmos_008000.bin",
+        "bytes": 392,
+        "sha256": "b8cc23c8e1b1bb07f2f598dc0d6e085bde51997e2d0a80b541e71cec3afd4f8d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/atmos_meta.txt",
+      "receipt": {
+        "name": "atmos_meta.txt",
+        "bytes": 733,
+        "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/bb_lam.bin",
+      "receipt": {
+        "name": "bb_lam.bin",
+        "bytes": 48576,
+        "sha256": "126f028d2fecd2918171dedbab20101859e66fe9f6117e6e8cbf1c4b2920024e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/bf_lam.bin",
+      "receipt": {
+        "name": "bf_lam.bin",
+        "bytes": 4040,
+        "sha256": "89e6e52ba53252a92f43c8c86302d0b61b92236252dc7fab79bcfa6778d9c3d4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_001000.bin",
+      "receipt": {
+        "name": "cij_001000.bin",
+        "bytes": 28,
+        "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_002000.bin",
+      "receipt": {
+        "name": "cij_002000.bin",
+        "bytes": 28,
+        "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_003000.bin",
+      "receipt": {
+        "name": "cij_003000.bin",
+        "bytes": 28,
+        "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_004000.bin",
+      "receipt": {
+        "name": "cij_004000.bin",
+        "bytes": 28,
+        "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_005000.bin",
+      "receipt": {
+        "name": "cij_005000.bin",
+        "bytes": 28,
+        "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_006000.bin",
+      "receipt": {
+        "name": "cij_006000.bin",
+        "bytes": 28,
+        "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_007000.bin",
+      "receipt": {
+        "name": "cij_007000.bin",
+        "bytes": 28,
+        "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_008000.bin",
+      "receipt": {
+        "name": "cij_008000.bin",
+        "bytes": 28,
+        "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cij_meta.txt",
+      "receipt": {
+        "name": "cij_meta.txt",
+        "bytes": 7541,
+        "sha256": "a0aa44c1e559f49c7db4db1a828dfdac7f07f2a168801f3cef009d932b56eb17"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_001000.bin",
+      "receipt": {
+        "name": "cji_001000.bin",
+        "bytes": 28,
+        "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_002000.bin",
+      "receipt": {
+        "name": "cji_002000.bin",
+        "bytes": 28,
+        "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_003000.bin",
+      "receipt": {
+        "name": "cji_003000.bin",
+        "bytes": 28,
+        "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_004000.bin",
+      "receipt": {
+        "name": "cji_004000.bin",
+        "bytes": 28,
+        "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_005000.bin",
+      "receipt": {
+        "name": "cji_005000.bin",
+        "bytes": 28,
+        "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_006000.bin",
+      "receipt": {
+        "name": "cji_006000.bin",
+        "bytes": 28,
+        "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_007000.bin",
+      "receipt": {
+        "name": "cji_007000.bin",
+        "bytes": 28,
+        "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_008000.bin",
+      "receipt": {
+        "name": "cji_008000.bin",
+        "bytes": 28,
+        "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/cji_meta.txt",
+      "receipt": {
+        "name": "cji_meta.txt",
+        "bytes": 7541,
+        "sha256": "1eeb385cd139d9c50be06aa7378ed069bd14cda8791256937addc49aaf86857f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00001.bin",
+      "receipt": {
+        "name": "colrates_O_00001.bin",
+        "bytes": 22976,
+        "sha256": "7555db8041b7d24d288fa157ce4c35f7435940c515e51e483cdda66ed9eed1d6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00008.bin",
+      "receipt": {
+        "name": "colrates_O_00008.bin",
+        "bytes": 22976,
+        "sha256": "1ff28ab2f63f5253d53d52163722fa352c88e51a25f1c48919a713d35316ec11"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00015.bin",
+      "receipt": {
+        "name": "colrates_O_00015.bin",
+        "bytes": 22976,
+        "sha256": "b549591b39f661482eaacbfc20940932e9b6798839987f2368882890df68ad61"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00022.bin",
+      "receipt": {
+        "name": "colrates_O_00022.bin",
+        "bytes": 22976,
+        "sha256": "9f6f391a294347508b6ab5e91b9c31717eb419507101e0b62caa8b9529641bea"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00029.bin",
+      "receipt": {
+        "name": "colrates_O_00029.bin",
+        "bytes": 22976,
+        "sha256": "242ddb7e227e18d1f8f98865975926c5d9a510c242044ad58e196263fa4c6802"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00036.bin",
+      "receipt": {
+        "name": "colrates_O_00036.bin",
+        "bytes": 22976,
+        "sha256": "af2e36d375115fae4005228a3ec8495a1456376a0a48597154da56ddd0460dc1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00043.bin",
+      "receipt": {
+        "name": "colrates_O_00043.bin",
+        "bytes": 22976,
+        "sha256": "24d5426b8616246a6e42e3fc7cd1c3876bc9211e5a9734cdd0f4d547afc8253f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/colrates_O_00050.bin",
+      "receipt": {
+        "name": "colrates_O_00050.bin",
+        "bytes": 22976,
+        "sha256": "97d9b5d2396d60d8e8d06d1c616c1982212026e3f1fcbe29ad269dc8ce17b412"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_001000.bin",
+      "receipt": {
+        "name": "eos_001000.bin",
+        "bytes": 56,
+        "sha256": "8195355caadc962bb8a1ec59b67479c32f9a23725b046b34244068c9b6dc0802"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_002000.bin",
+      "receipt": {
+        "name": "eos_002000.bin",
+        "bytes": 56,
+        "sha256": "fb6b5ada9afad24dfd20a8c2e6e113167a863f514d795ddb18f76d698e1c7677"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_003000.bin",
+      "receipt": {
+        "name": "eos_003000.bin",
+        "bytes": 56,
+        "sha256": "d098e5a65bba1d5a6b18f0a3ea0ad3857c4c6544875c3303eeb15a072a8729f4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_004000.bin",
+      "receipt": {
+        "name": "eos_004000.bin",
+        "bytes": 56,
+        "sha256": "29b50121d298e34fe5f7425ea53e18ea0845982c1ab52650a5bed8af104cc32b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_005000.bin",
+      "receipt": {
+        "name": "eos_005000.bin",
+        "bytes": 56,
+        "sha256": "beb838943c9f49871b668fe29bc6bd220883d94b4b994aa60998f6e607c370f2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_006000.bin",
+      "receipt": {
+        "name": "eos_006000.bin",
+        "bytes": 56,
+        "sha256": "8fb558fedcfb08e093ab5c5387ed9bb679909f38deb2b75060aca274e569132b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_007000.bin",
+      "receipt": {
+        "name": "eos_007000.bin",
+        "bytes": 56,
+        "sha256": "839a9d3f617d1a91d2545965b2233a1e124812f235ce8246206a66970c1be1ab"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_008000.bin",
+      "receipt": {
+        "name": "eos_008000.bin",
+        "bytes": 56,
+        "sha256": "a72cdb94c4d01be1abc8367acb85d3f32d94f4e9f384ac03195fd3d254f2f8ac"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/eos_meta.txt",
+      "receipt": {
+        "name": "eos_meta.txt",
+        "bytes": 653,
+        "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/flux_008001.bin",
+      "receipt": {
+        "name": "flux_008001.bin",
+        "bytes": 37236,
+        "sha256": "e45457acb9c92ccbaecc19383ab8aa243f2362d877aad5dcb0ebf432d02fa572"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/flux_008002.bin",
+      "receipt": {
+        "name": "flux_008002.bin",
+        "bytes": 37224,
+        "sha256": "3e8f0c57df9025ccaece6831b9dbde8eae6ea943aeb6aa0b0b4175a92e178274"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/flux_meta.txt",
+      "receipt": {
+        "name": "flux_meta.txt",
+        "bytes": 211,
+        "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/ie_008001.bin",
+      "receipt": {
+        "name": "ie_008001.bin",
+        "bytes": 37236,
+        "sha256": "b9dbe77557c94a52f56c27c3325856d5a13baaf6b00c0ef622a0ee522b7f5216"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/ie_008002.bin",
+      "receipt": {
+        "name": "ie_008002.bin",
+        "bytes": 37224,
+        "sha256": "02a6ba8e59808335cc2af481f08f0a5b905891ef62db4dc256e4a19ecf95cd8e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/ie_meta.txt",
+      "receipt": {
+        "name": "ie_meta.txt",
+        "bytes": 211,
+        "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/out_lam.bin",
+      "receipt": {
+        "name": "out_lam.bin",
+        "bytes": 49640,
+        "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_001000.bin",
+      "receipt": {
+        "name": "pop_O_001000.bin",
+        "bytes": 2296,
+        "sha256": "813e01c5f0a4fb8d0cd30fe203048a2b21270a2376d7ff738c5ada3e9db51bf3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_002000.bin",
+      "receipt": {
+        "name": "pop_O_002000.bin",
+        "bytes": 2296,
+        "sha256": "9234b312a0770f2e17f8b210354874b82032a78e1b9054d912d3b19e0c8836bd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_003000.bin",
+      "receipt": {
+        "name": "pop_O_003000.bin",
+        "bytes": 2296,
+        "sha256": "c9a3cccf9d2ed77a86e84663f98804368e1790d0b3ceae10b40b3d2c994ab915"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_004000.bin",
+      "receipt": {
+        "name": "pop_O_004000.bin",
+        "bytes": 2296,
+        "sha256": "9b71e0714a363fb8c18d6cad5113d082637f950487fc95297e4d75afded4e6fd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_005000.bin",
+      "receipt": {
+        "name": "pop_O_005000.bin",
+        "bytes": 2296,
+        "sha256": "847526c7ea48a8a77e8994e9b5b0f8af7698845bd38c29c1b976aaa95b0c8903"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_006000.bin",
+      "receipt": {
+        "name": "pop_O_006000.bin",
+        "bytes": 2296,
+        "sha256": "a576eb4b8eabaf3fb44e68668ef546c96a896b6c289345c80d8e1b10128fc944"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_007000.bin",
+      "receipt": {
+        "name": "pop_O_007000.bin",
+        "bytes": 2296,
+        "sha256": "c5e29a2329a9af12a5434e1e3b19438a3e1e0aadc5ac7dff0429ace8fd160195"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_008000.bin",
+      "receipt": {
+        "name": "pop_O_008000.bin",
+        "bytes": 2296,
+        "sha256": "3859fb56b2051e1537319107f8b8800b0d2c541fedebde387229434150c7883a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/pop_O_meta.txt",
+      "receipt": {
+        "name": "pop_O_meta.txt",
+        "bytes": 813,
+        "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00001.bin",
+      "receipt": {
+        "name": "rates_O_00001.bin",
+        "bytes": 23624,
+        "sha256": "11de35e1a80dcd0b4ca8e587a57a39ddff92d92510361744bf1717442ddae56b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00008.bin",
+      "receipt": {
+        "name": "rates_O_00008.bin",
+        "bytes": 23624,
+        "sha256": "b08a561a3e29c9aa732d27913b2b16e3294b3ece2731107373beebcd6d68aa6b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00015.bin",
+      "receipt": {
+        "name": "rates_O_00015.bin",
+        "bytes": 23624,
+        "sha256": "22a35f971b32b63d639f47ff0a18613e88ac690bd80747203b2d75d8508fcdba"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00022.bin",
+      "receipt": {
+        "name": "rates_O_00022.bin",
+        "bytes": 23624,
+        "sha256": "5eb4952e84b2dc38940b8e80ca4db5ead8886dc20f0bb59192e2236b8d3e5d4f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00029.bin",
+      "receipt": {
+        "name": "rates_O_00029.bin",
+        "bytes": 23624,
+        "sha256": "2ede0beb5a9091ec8e8377f79c69d9a91207c76ef1e3cc852b392197ec4cfebf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00036.bin",
+      "receipt": {
+        "name": "rates_O_00036.bin",
+        "bytes": 23624,
+        "sha256": "6ae5664f17ab8c63c1367b503ac64dbaaf036675f1b9d999ccf055579626f271"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00043.bin",
+      "receipt": {
+        "name": "rates_O_00043.bin",
+        "bytes": 23624,
+        "sha256": "074a6da0094b960ff3b96544fc1cb1d5da08cbb06e6eebb151aaf1d2abcb13a3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rates_O_00050.bin",
+      "receipt": {
+        "name": "rates_O_00050.bin",
+        "bytes": 23624,
+        "sha256": "1c4f3de355787ae5e6a97cfe4811b0b02d8a1abe7aaf3786314dde913b2d0dff"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_001000.bin",
+      "receipt": {
+        "name": "rij_001000.bin",
+        "bytes": 28,
+        "sha256": "310e65b562d7ecb914166c30e1340e20aafadc0356d3f8cbac61ab1595a33f67"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_002000.bin",
+      "receipt": {
+        "name": "rij_002000.bin",
+        "bytes": 28,
+        "sha256": "a781e1e9909541ba56ce05e028bb001e1d4eed6d5d1f436e66ba83208e56289e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_003000.bin",
+      "receipt": {
+        "name": "rij_003000.bin",
+        "bytes": 28,
+        "sha256": "2dd55a5be4f7d6a5328bd8a18078d72fd0c5d13938cbf1ea94376f8860213247"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_004000.bin",
+      "receipt": {
+        "name": "rij_004000.bin",
+        "bytes": 28,
+        "sha256": "baf4d36d846eb55c4b5dd9574f0c154aee6337ae3d164d2ba5e1e7e0184e21ac"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_005000.bin",
+      "receipt": {
+        "name": "rij_005000.bin",
+        "bytes": 28,
+        "sha256": "90beb2669d3e1a9d84bfd305be1f68aacd6b2632aab63095be0c31919b9533ef"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_006000.bin",
+      "receipt": {
+        "name": "rij_006000.bin",
+        "bytes": 28,
+        "sha256": "cf679e6b3eec6e801163151020ab2b95993d859ef63455d7c8934ae60a7746b6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_007000.bin",
+      "receipt": {
+        "name": "rij_007000.bin",
+        "bytes": 28,
+        "sha256": "f6f4f9a0fa2ab9ddc22abffcf47aefe1aafe35a8c19f08404f6d5145af7a1071"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_008000.bin",
+      "receipt": {
+        "name": "rij_008000.bin",
+        "bytes": 28,
+        "sha256": "d1218466d731a7ee7524ee013c22636685f609f2ea043a40892906dc550a574b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rij_meta.txt",
+      "receipt": {
+        "name": "rij_meta.txt",
+        "bytes": 7541,
+        "sha256": "3f412139144f6b0f5ee1b87d276166017f6e4658072879e30f02a0e11155f98d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_001000.bin",
+      "receipt": {
+        "name": "rji_001000.bin",
+        "bytes": 28,
+        "sha256": "4a2667c2e176a4a0830ac5f4fe5987b4b2dc2341991750bc2a89ea46576d93d8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_002000.bin",
+      "receipt": {
+        "name": "rji_002000.bin",
+        "bytes": 28,
+        "sha256": "2fcb9b04ff4479eb3e8f0a6c32f755158d789a884e9b3dc9031a75b2d41a09df"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_003000.bin",
+      "receipt": {
+        "name": "rji_003000.bin",
+        "bytes": 28,
+        "sha256": "079c83b2743e91891e4114284f1ce35023ab4925dc02434198602bb734531a20"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_004000.bin",
+      "receipt": {
+        "name": "rji_004000.bin",
+        "bytes": 28,
+        "sha256": "0154111f52f049368700ec8b81cf8b74fb7205d5be7383872575ffa7aa275df3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_005000.bin",
+      "receipt": {
+        "name": "rji_005000.bin",
+        "bytes": 28,
+        "sha256": "b084395b450ddb3282d3e732e21cc4d7ce792d9c4c24262440b15a07cb239e08"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_006000.bin",
+      "receipt": {
+        "name": "rji_006000.bin",
+        "bytes": 28,
+        "sha256": "6898816176fd877e553e74c37c557418185e8fa2d9272d147084602d339232c4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_007000.bin",
+      "receipt": {
+        "name": "rji_007000.bin",
+        "bytes": 28,
+        "sha256": "4f4086416463db2d35a5c927a7fa9b860d09f62d4610f09b5c0db69b428ec414"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_008000.bin",
+      "receipt": {
+        "name": "rji_008000.bin",
+        "bytes": 28,
+        "sha256": "634fad4bef6d082647dad014503373d17f431e1207d02c7d0a04108bba76a140"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/save/rji_meta.txt",
+      "receipt": {
+        "name": "rji_meta.txt",
+        "bytes": 7541,
+        "sha256": "753594ff5ab1385cd0ac16dde4c6c97f4b20067f1ffe146f592f2a83d8a9c523"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native/sets.txt",
+      "receipt": {
+        "name": "sets.txt",
+        "bytes": 135,
+        "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/native.log",
+      "receipt": {
+        "name": "native.log",
+        "bytes": 3970,
+        "sha256": "1d8b711952448a317109e4a53bfa29a20c9a793cea8d6ef322c65d1702ac2566"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-v1/native.log",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/output_wavelengths_vac_A.txt",
+      "receipt": {
+        "name": "output_wavelengths_vac_A.txt",
+        "bytes": 111690,
+        "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-v1/output_wavelengths_vac_A.txt",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/rank.lock",
+      "receipt": {
+        "name": "rank.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 59346,
+        "sha256": "671214c048388de0c04cee2caf12cfce7228608596f0f2021f565ddc86e6bcbc"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-v1/report.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-analysis-v1/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 85450,
+        "sha256": "d99ff798c27ee9659ef50c48fb6bf68c7964cfab41026935321d485b1d395292"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-analysis-v1/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-analysis-v1/departures.png",
+      "receipt": {
+        "name": "departures.png",
+        "bytes": 170947,
+        "sha256": "7f331dfbb7b9c397ef3e1f1dba4746a107ed2d0b40bcf134d655d58805790efc"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-analysis-v1/departures.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-analysis-v1/populations.csv",
+      "receipt": {
+        "name": "populations.csv",
+        "bytes": 330892,
+        "sha256": "49b7db5280c164d6a1f4d0205678bb1b392f2f629e5bc0185488f066ddb24077"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-analysis-v1/populations.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-analysis-v1/rates.csv",
+      "receipt": {
+        "name": "rates.csv",
+        "bytes": 567,
+        "sha256": "49c3af57ef08e4f4da8cba833444d09fb33d76c6bbea0b66e396d66453c5f759"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-analysis-v1/rates.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-analysis-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 3995,
+        "sha256": "75c526aaec1614b6fcdc3c042b6cda15439b6ae448ee230a195dd7f2e67ce490"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-analysis-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-molecular-cutoff1K-analysis-v1/spectra.npz",
+      "receipt": {
+        "name": "spectra.npz",
+        "bytes": 207758,
+        "sha256": "d0394091c48b3cfa0a21107b584528508d9c839ee8adfa8452aaebba248e2a69"
+      },
+      "archived": "rya1371-oxygen-molecular-cutoff1K-analysis-v1/spectra.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-molecular-reservoir-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 25593,
+        "sha256": "6cdaba7493443578c82425f84f15d8f541861679fc0ac0ca9c56f66adf7067c4"
+      },
+      "archived": "rya1371-molecular-reservoir-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-molecular-reservoir-v1/reservoir.csv",
+      "receipt": {
+        "name": "reservoir.csv",
+        "bytes": 7857,
+        "sha256": "aee6fa1da13f117565f483b1bf5fc588119d7b90204c0754c417fbfe743cd608"
+      },
+      "archived": "rya1371-molecular-reservoir-v1/reservoir.csv",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

@@ -28,6 +28,9 @@ def main():
     fields=dict(local=n,held_multi_b=scale_initial_fractions(np.array(ref['reference']['departures'])*s,n.sum(axis=0)),LTE=s.copy())
     with np.load(native)as d:
         vacA=d['wave_vac_A'].copy();air=d['wave_air_A'].copy()
+    boundary_control=plan.get('boundary_control','source_cap')
+    if boundary_control not in ['source_cap','zero_incoming_no_cap_fixed_populations']:raise ValueError('Unknown explicit boundary control')
+    cap_length=0. if boundary_control=='zero_incoming_no_cap_fixed_populations'else r['cap_length_m']
     mask=np.zeros(len(air),bool)
     for lo,hi in plan['windows_air_A']:mask|=(air>=lo)&(air<=hi)
     vac=vacA[mask]/10;wave=air[mask]
@@ -35,8 +38,8 @@ def main():
     old=np.genfromtxt(source/'flux.csv',delimiter=',',names=True);oldvac=air_to_vac(old['wavelength_air_A'])/10;extra=np.unique([vac[0],vac[-1],oldvac[0],oldvac[-1]])
     a.output.mkdir(parents=True,exist_ok=False);started=time.perf_counter();records=[]
     for name,pop in fields.items():
-        ctx,audits=make_context(state,structure,read_multi_atom(atom_path),rays=controls['rays'],qscale=controls['qscale'],extra_vac_nm=extra,cap_length_m=r['cap_length_m'],ng=False,fixed=pop)
-        continuum,_=make_context(state,structure,read_multi_atom(atom_path),rays=controls['rays'],qscale=controls['qscale'],extra_vac_nm=extra,cap_length_m=r['cap_length_m'],ng=False,fixed=pop,continuum_only=True)
+        ctx,audits=make_context(state,structure,read_multi_atom(atom_path),rays=controls['rays'],qscale=controls['qscale'],extra_vac_nm=extra,cap_length_m=cap_length,ng=False,fixed=pop)
+        continuum,_=make_context(state,structure,read_multi_atom(atom_path),rays=controls['rays'],qscale=controls['qscale'],extra_vac_nm=extra,cap_length_m=cap_length,ng=False,fixed=pop,continuum_only=True)
         rad=converge_cap_radiation(ctx,rtol=1e-8,maxiter=1000,deadline=started+plan['seconds']);crad=converge_cap_radiation(continuum,rtol=1e-8,maxiter=1000,deadline=started+plan['seconds'])
         _,I=emergent_rays(ctx,vac,np.array([1.]),np.array([1.]));_,Ic=emergent_rays(continuum,vac,np.array([1.]),np.array([1.]));I=np.asarray(I).squeeze();Ic=np.asarray(Ic).squeeze()
         if I.shape!=vac.shape or Ic.shape!=vac.shape:raise ValueError('Vertical intensity must have exactly one value per wavelength')
@@ -45,12 +48,12 @@ def main():
         endpoint=None
         if name=='local':
             mu,weights=flux_quadrature(controls['flux_rays']);_,If=emergent_rays(ctx,oldvac,mu,weights);_,Icf=emergent_rays(continuum,oldvac,mu,weights);F=integrate_flux(If,mu,weights);Fc=integrate_flux(Icf,mu,weights);endpoint=dict(max_normalized_flux_difference=float(np.max(abs(F/Fc-old['normalized_flux']))),max_relative_continuum_difference=float(np.max(abs(Fc/old['continuum_Fnu_W_m2_Hz']-1))))
-            if max(endpoint.values())>plan['endpoint_replay_screen']:raise ValueError('Original baseline endpoint replay failed')
+            if boundary_control=='source_cap'and max(endpoint.values())>plan['endpoint_replay_screen']:raise ValueError('Original baseline endpoint replay failed')
         for context in [ctx,continuum]:np.testing.assert_array_equal(context.kwargs['eqPops'].atomicPops[PeriodicTable['O']].n,pop)
         records.append(dict(case=name,radiation=rad,continuum_radiation=crad,endpoint_replay=endpoint,SE_updated=False,populations=fingerprint(a.output/(name+'.npz'))));print(name,flush=True)
     for path,receipt in checks:
         if fingerprint(path)!=receipt:raise ValueError('Input changed during fixed transfer')
-    doc=dict(schema='codex.bride_independent_transfer/1',scientific_admission='HOLD',generator=fingerprint(__file__),plan=fingerprint(plan_path),cases=records,seconds=time.perf_counter()-started,scope=plan['scope'],source_report=fingerprint(source/'report.json'),reference=fingerprint(ref_path),native_spectra=fingerprint(native))
+    doc=dict(schema='codex.bride_independent_transfer/1',scientific_admission='HOLD',generator=fingerprint(__file__),plan=fingerprint(plan_path),cases=records,seconds=time.perf_counter()-started,scope=plan['scope'],boundary_control=boundary_control,cap_length_m=cap_length,source_report=fingerprint(source/'report.json'),reference=fingerprint(ref_path),native_spectra=fingerprint(native))
     (a.output/'report.json').write_text(json.dumps(doc,indent=2,allow_nan=False)+'\n')
 
 if __name__=='__main__':main()

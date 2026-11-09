@@ -1,3 +1,7 @@
+## 2026-11-09 — Oxygen chemistry control
+
+- **RYA-1371** — molecular reservoir explains most triplet engine contrast; matched LTE fractions close; consistent chemistry gate remains (v245).
+
 ## 2026-11-09 — independent Oxygen reference
 
 - **RYA-1371** — dense independent O spectra and native refinements completed; cap/unit defects fixed,6363 absent; HOLD (v244).

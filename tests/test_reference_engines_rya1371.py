@@ -35,7 +35,7 @@ def test_unknown_dimensions_and_over_budget_runs_cannot_execute(tmp_path):
     for key,value in [('mode','3D-NLTE'),('engine','unknown')]:
         bad=copy.deepcopy(p);bad[key]=value
         with pytest.raises(ValueError):validate_plan(bad)
-    for key,value in [('threads',2),('seconds',601),('rtol',1e-3),('maxiter',1501),('ntheta',7)]:
+    for key,value in [('threads',2),('seconds',601),('rtol',1e-3),('maxiter',1501),('ntheta',7),('molecular_equilibrium','disabled-control')]:
         bad=copy.deepcopy(p);bad['controls'][key]=value
         with pytest.raises(ValueError):validate_plan(bad)
     for path in ['../escape','/absolute']:

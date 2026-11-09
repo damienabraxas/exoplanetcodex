@@ -1,0 +1,45 @@
+{
+  "source": "data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/baseline",
+  "source_report": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 101548,
+    "sha256": "b5b1aca6bd3a2a70732ca457100464e5b69829c020dbe5c6b533ce52a9f7672d"
+  },
+  "windows_air_A": [
+    [
+      6154,
+      6162
+    ],
+    [
+      6298,
+      6303
+    ],
+    [
+      6361,
+      6366
+    ],
+    [
+      7770,
+      7777
+    ],
+    [
+      8443,
+      8449
+    ]
+  ],
+  "seconds": 600,
+  "endpoint_replay_screen": 1e-06,
+  "scope": "Fixed-population vertical intensity comparison at the exact original5750/4.5/O8.70 node. Current local, independent held-MULTI departure shape mapped to local LTE and conserved total, and local LTE controls. Native OpenMULTI3D wavelengths define the sampling only; no collision/source/abundance fit, SE update, physics-equivalence or all-band admission. Other-species blends absent; observations not fitted. Compare intensities, not the previous flux profile. Explicit dense output grid, maximum 0.005 A sampling; 6363 A is an absent-transition control, not a qualified line. Prospective zero-cap fixed-population transfer intervention, not SE resolution or default replacement. Native SRC/rt_patch_mod.f90 set_upstream_boundary imposes zero top incoming radiation. Compare to positive-cap transfer at identical populations and wavelengths; original endpoint is a measured intervention contrast, not a parity screen in this explicitly changed-boundary control.",
+  "native_analysis_resource": "experiments.openmulti3d_oxygen_dense_analysis",
+  "boundary_control": "zero_incoming_no_cap_fixed_populations"
+}
