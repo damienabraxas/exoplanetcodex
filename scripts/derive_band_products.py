@@ -1339,16 +1339,33 @@ def synthesis_route(a, pol) -> None:
         _served_specs[h.holding_id] = h
         _window_median.append(float(np.median(win.flux)))
         _w, _f, _prov = win.wave, win.flux, win.provenance
-        if not h.pre_normalised and getattr(a, "place_continuum", False):
+
+        def _placed(w_, f_):
             _CW, _CF = _band_continuum(h)
-            _c = np.interp(np.asarray(_w, float), _CW, _CF)
+            _c = np.interp(np.asarray(w_, float), _CW, _CF)
             _bad = ~np.isfinite(_c) | (_c <= 0)
             if _bad.any():
                 raise SystemExit(
                     f"--place-continuum: the band continuum is non-positive at "
                     f"{int(_bad.sum())} of {_bad.size} pixels near {centre:.3f} A. "
                     f"Refusing to divide by it.")
-            _f = np.asarray(_f, float) / _c
+            return np.asarray(f_, float) / _c
+
+        def _degraded(w_, f_):
+            # Gaussian kernel that takes R_native -> R_target:
+            #   FWHM_deg^2 = (lam/R_target)^2 - (lam/R_native)^2
+            # Convolving by the QUADRATURE DIFFERENCE, not by lam/R_target, is the whole
+            # correctness of this: the spectrum already carries its native instrumental
+            # profile, and convolving by the full target width would over-broaden it.
+            from scipy.ndimage import gaussian_filter1d
+            _lam = float(np.median(w_))
+            _fw = _lam * np.sqrt(1.0 / _degrade_to ** 2 - 1.0 / _R_native ** 2)
+            _px = float(np.median(np.diff(w_)))
+            _sig_px = (_fw / 2.35482) / _px
+            return gaussian_filter1d(np.asarray(f_, float), _sig_px, mode="nearest"), _sig_px
+
+        if not h.pre_normalised and getattr(a, "place_continuum", False):
+            _f = _placed(_w, _f)
             _prov = (f"{_prov} | RYA-933 CONTINUUM PLACED "
                      f"(CONTINUUM_PARAMS['solar'], band-wide spline)")
         if getattr(a, "local_renorm", False):
@@ -1373,17 +1390,7 @@ def synthesis_route(a, pol) -> None:
                 _f = np.asarray(_f, float) / _c95
                 _prov = f"{_prov} | RYA-1000 LOCAL-RENORM /p95={_c95:.4f}"
         if _degrade_to:
-            # Gaussian kernel that takes R_native -> R_target:
-            #   FWHM_deg^2 = (lam/R_target)^2 - (lam/R_native)^2
-            # Convolving by the QUADRATURE DIFFERENCE, not by lam/R_target, is the whole
-            # correctness of this: the spectrum already carries its native instrumental
-            # profile, and convolving by the full target width would over-broaden it.
-            from scipy.ndimage import gaussian_filter1d
-            _lam = float(np.median(_w))
-            _fw = _lam * np.sqrt(1.0 / _degrade_to ** 2 - 1.0 / _R_native ** 2)
-            _px = float(np.median(np.diff(_w)))
-            _sig_px = (_fw / 2.35482) / _px
-            _f = gaussian_filter1d(np.asarray(_f, float), _sig_px, mode="nearest")
+            _f, _sig_px = _degraded(_w, _f)
             _prov = f"{_prov} | RYA-995 DEGRADED to R={_degrade_to:.0f} (sigma {_sig_px:.2f} px)"
         # 🔴 RYA-1230 — THE STANDING PER-BAND CONTINUUM RULE (Ryan, 2026-09-26). A local
         # linear upper envelope over +/-5 A of THIS window, on every holding including the
@@ -1400,9 +1407,26 @@ def synthesis_route(a, pol) -> None:
             # MODEL-GUIDED (local_continuum.place_for_synthesis -- the ONE implementation,
             # shared with the RYA-1106 Asplund route): obs / synthetic on the synthesis's own
             # top-decile pixels, the BAND's line window excluded.
+            def _wide(lo_A, hi_A):
+                # RYA-1350: the neighbourhood that corroborates a level beyond 3% as a smooth
+                # sag, conditioned exactly as this window was. Read only when one turns up;
+                # clipped to the holding, so a line near its edge measures one side.
+                _sp = getattr(h, "span_A", None)
+                if _sp is not None:
+                    lo_A, hi_A = max(lo_A, _sp[0] + 0.5), min(hi_A, _sp[1] - 0.5)
+                ww = load_window_ex(a.instrument, 0.5 * (lo_A + hi_A), 0.5 * (hi_A - lo_A),
+                                    holding=a.holding)
+                wf = ww.flux
+                if not h.pre_normalised and getattr(a, "place_continuum", False):
+                    wf = _placed(ww.wave, wf)
+                if _degrade_to:
+                    wf = _degraded(ww.wave, wf)[0]
+                return ww.wave, wf
+
             _f, _rec = _lc.place_for_synthesis(
                 _w, _f, centre, ctx, a.element, band_half_width_A=float(cfg.half_width_A),
-                use_molecules=bool(cfg.use_molecules), apply=cfg.continuum_apply, star=a.star)
+                use_molecules=bool(cfg.use_molecules), apply=cfg.continuum_apply, star=a.star,
+                wide_flux=_wide)
             _continuum_by_line[round(float(centre), 3)] = _rec
             _prov = (f"{_prov} | RYA-1230 LOCAL CONTINUUM level={_rec.level_at_centre:.5f} "
                      f"{'APPLIED' if _rec.applied else _rec.reason[:40]}")
