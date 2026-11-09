@@ -48,6 +48,17 @@ def validate_plan(plan):
     for axis in ['ntheta','nphi']:
         if not isinstance(c[axis],int)or c[axis]<=0:raise ValueError('Invalid ray quadrature')
     if c['angle_quad']not in ['lobatto','radau','gauss']:raise ValueError('Unrecognized quadrature declaration')
+    if c['ntheta']>(10 if c['angle_quad']=='radau' else 6):raise ValueError('Quadrature exceeds pinned native angular support')
+    if not isinstance(c.get('bound_free_in_output',False),bool):raise ValueError('Bound-free output control must be explicit boolean')
+    if c.get('output_angle_quad','none')not in ['none','disk_center']:raise ValueError('Unsupported reference output quadrature')
+    if 'output_grid' in plan:
+        g=plan['output_grid']
+        if g['frame']!='air_A' or not 0<g['step_A']<=0.01:raise ValueError('Require explicit fine AIR output grid')
+        previous=0
+        for lo,hi in g['windows']:
+            if not 2000<lo<hi or lo<=previous:raise ValueError('Invalid/overlapping optical output windows')
+            previous=hi
+        if sum((hi-lo)/g['step_A']+2 for lo,hi in g['windows'])>20000:raise ValueError('Output grid exceeds bounded reference scope')
     if not isinstance(plan['expected_element'],str)or not plan['expected_element'].isalpha():raise ValueError('Explicit element required')
 
 
@@ -69,18 +80,26 @@ def prepare_run(plan,output,app,*,resolver):
     abundance,mass=map(float,entries[1].split());levels,lines,continua,fixed=map(int,entries[2].split())
     if abundance!=plan['abundance']:raise ValueError('Declared/source atom abundance mismatch')
     c=plan['controls'];rtol=c['rtol']if plan['mode']=='1D-NLTE'else 0.;maxiter=c['maxiter']if rtol else 0
+    local_limit=rtol/10 if c.get('freeze_depths',True)else 0.
     nml=f'''&io_params datadir='native', gb_step=6., do_trace=F /
 &timer_params sec_per_report=1d8, verbose=1 /
 &atmos_params atmos_format='Marcs', atmos_file={quote_nml(atmos)}, use_abnd=T, use_ne=T, use_rho=T, prune_top=F, save_atmos=T, save_eos=T /
 &atom_params atom_file={quote_nml(atom)}, use_atom_abnd=T, qnorm={c['qnorm']}, nq_fac={c['nq_fac']} /
-&nlte_params convlim={rtol:.12e}, convmax={rtol/10:.12e}, premature_finish=F /
+&nlte_params convlim={rtol:.12e}, convmax={local_limit:.12e}, premature_finish=F /
 &rt_iteration_params angle_quad={quote_nml(c['angle_quad'])}, ntheta={c['ntheta']}, nphi={c['nphi']}, maxiter={maxiter}, include_absmet=F, include_linelist=F /
-&rt_output_params angle_quad='none', include_absmet=F, include_linelist=F /
-&output_params save_populations=T, save_rates=1, save_rate_matrix=T, save_net_rates=T, save_Jnu=T /
+&rt_output_params angle_quad={quote_nml(c.get('output_angle_quad','none'))}, include_absmet=F, include_linelist=F /
+&output_params save_populations=T, save_rates=1, save_rate_matrix=T, save_net_rates=T, save_Jnu=T, bound_free_in_output={'T'if c.get('bound_free_in_output',False)else'F'} /
 &run_params mem_limit_gb=2. /
 &m3d_debug_params verbose=1, check_NaN=T /
 '''
     output=Path(output)
     if output.resolve().is_relative_to(app.resolve()):raise ValueError('Run output must be outside engine source')
     output.mkdir(parents=True,exist_ok=False);(output/'input').symlink_to(app/'input',target_is_directory=True);(output/'input.nml').write_text(nml)
-    return dict(atmosphere=fingerprint(atmos),atom=fingerprint(atom),element=entries[0],atom_header=dict(abundance=abundance,mass=mass,levels=levels,lines=lines,continua=continua,fixed=fixed),namelist=fingerprint(output/'input.nml'),controls=c,physical_limitations=['Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.','Line blanketing and background bound-bound opacity explicitly off in this first reference plan.','Native output is vertical intensity; not disk-integrated flux or an abundance fit.','Source atom is not silently replaced by the supplied variant; source paths and hashes are checked.'])
+    if 'output_grid' in plan:
+        import numpy as np
+        from pipeline.wavelength_util import air_to_vac
+        g=plan['output_grid'];air=np.concatenate([np.linspace(lo,hi,int(np.ceil((hi-lo)/g['step_A']))+1)for lo,hi in g['windows']])
+        np.savetxt(output/'output_wavelengths_vac_A.txt',air_to_vac(air),fmt='%.12f')
+        nml+="&spectrum_params lam_file='output_wavelengths_vac_A.txt', in_air=F /\n"
+        (output/'input.nml').write_text(nml)
+    return dict(atmosphere=fingerprint(atmos),atom=fingerprint(atom),element=entries[0],atom_header=dict(abundance=abundance,mass=mass,levels=levels,lines=lines,continua=continua,fixed=fixed),namelist=fingerprint(output/'input.nml'),controls=c,physical_limitations=['Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.','Line blanketing and background bound-bound opacity explicitly off in this first reference plan.','Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.','Source atom is not silently replaced by the supplied variant; source paths and hashes are checked.'])

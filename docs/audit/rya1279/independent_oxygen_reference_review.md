@@ -1,0 +1,123 @@
+# Independent Oxygen 1D reference checks — RYA-1281 / RYA-1371
+
+2026-11-09. Scientific **HOLD**. This is independent numerical corroboration,
+not a completed solar abundance model or 3D validation. RYA-1374 owns the later
+band and stellar-class expansion; its dependencies are recorded in Linear.
+
+## Reference engine and input identity
+
+OpenMULTI3D source is pinned at `32085d26c46e9919a986397b5514a9728abe2074`.
+The experimental registry is `config/reference_engines.yaml`; it does not add a
+production abundance token. Private Mac GFortran build: 3,614,040 bytes,
+SHA256 `7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4`.
+Framework BSD3 and application GPL3 licensing/attribution remain distinct.
+The supplied atom inventory also contains Fe607, Mg86 and Ba06, so the adapter
+accepts explicit element/atom identities rather than hard-coding Oxygen.
+Those atoms and 3D modes have not been scientifically qualified here.
+
+The held O41 atom and MARCS 5750 K / logg4.5 / A(O)8.70 source atmosphere are
+byte-identical to the held MULTI reference. The supplied OpenMULTI3D O41 file is
+not substituted: it differs by UV973A transition sampling NQ9 versus101.
+Native OpenMULTI3D consumes a pressure-graded, interpolated mesh. Foreign
+populations are compared by physical height, never by row index. The endpoint
+roundoff clamp is0.0162m, inside the independently calculated float32 accumulation
+bound4.761m; this is not atmosphere extrapolation.
+
+## Numerical and spectral results
+
+The dense native solve took5.6794s, frequency refinement10.7498s and six-inclination
+control6.6364s. All use one Mac thread and the original600s ceiling. All depths
+reach the same final iteration13. Independently reconstructed **stored** physical
+rate residuals are at most3.96e-8 and number conservation2.23e-16. This is not a
+fresh fixed-population radiation replay of the independent native engine.
+
+On the source logtau500 interval[-3,0], the current Bride versus held MULTI
+triplet-level maximum absolute departure difference is0.006935; OpenMULTI3D
+versus held MULTI is0.009253 after explicit height interpolation. This interval
+is a diagnostic selection, not a contribution function. Large differences in
+other/outer populations remain (Bride versus held MULTI all-level maximum8.155).
+
+The fixed Bride local/held-MULTI-shape/LTE transfer controls completed88.663s on
+the dense grid, without updating SE populations. The original seven-ray flux
+endpoint replay is exactly unchanged in normalized flux and continuum.
+The native and Bride spectra share exact vacuum sample values, generated from
+explicit AIR windows with the canonical converter once, at spacing<=0.005A.
+The canonical inverse is a one-step approximation; round-trip differences are
+not corrected by new shifts. All measurements below use the actual returned
+canonical AIR coordinates and reject gaps>0.0051A.
+
+Finite +/-0.5A residual-intensity areas, mA (not full EWs or abundance corrections):
+
+| AIR centre A | Bride local | held MULTI b on Bride LTE | Bride LTE | OpenMULTI3D NLTE | OpenMULTI3D LTE |
+|---|---:|---:|---:|---:|---:|
+|6158.170|5.4554|5.4572|5.4376|5.2420|5.2235|
+|6300.304|3.4322|3.4322|3.4322|3.1900|3.1900|
+|7771.944|84.8787|85.1145|78.4150|84.3318|77.7050|
+|7774.166|73.8893|74.0730|68.5960|73.3677|67.9452|
+|7775.388|58.7403|58.8620|54.9671|58.2440|54.3801|
+|8446.400|105.5778|105.7858|98.7287|101.2925|94.2396|
+
+Triplet inter-engine area differences are0.4963–0.5469mA. Native frequency
+sampling doubled2->4 changes the selected areas by at most0.00330mA; Lobatto
+inclinations5->6 change them by at most0.02742mA. Both pass the predeclared
+diagnostic0.1mA screen; this is not a scientific error budget. No default is
+selected from these controls. The initial seven-inclination request failed
+because the pinned native Lobatto implementation supports at most six;
+the failed run and original plan are preserved and the adapter now refuses it.
+
+After the native per-A to per-Hz Jacobian, the absolute continua differ by about
+0.5percent near the triplet,0.96percent near8446 and1.3–1.5percent near6158–6363.
+Thus agreement in normalized profiles alone does not establish background parity.
+EOS, collider populations/interpolation, depth representation, finite top boundary
+and bound-free output handling remain distinct. Both native controls exclude
+background metal line blanketing. No observational blends or instrument response
+are included in this theoretical intensity comparison.
+
+A further predeclared output-only control explicitly enables the native atom's
+bound-free opacity in the output pass. It completed6.1671s; saved populations,
+LTE populations and height grid are bit-identical, and all six selected NLTE
+and LTE finite-window areas are exactly unchanged. This measured switch effect
+does not explain these optical discrepancies; no general opacity parity follows.
+The supplement `oxygen_output_opacity_v1` receipts188 further raw files and12
+exact compact copies.
+
+## Failures and corrections retained
+
+1. Single-ray Lightweaver output squeezes the ray dimension. The old cap helper
+   broadcast this into an N-by-N spectrum. Original transfer-v1 arrays are invalid
+   and remain external with receipts. Actual-backend regression fails for the old
+   helper and passes for the corrected helper (five cap tests). Multi-angle flux
+   calculations are unaffected by this shape defect.
+2. The initial new reference reader labelled native saved per-A intensity as
+   per-Hz. Direct `rt_patch_mod.f90::save_intensity` inspection establishes
+   erg/s/cm2/A/sr. The corrected reader preserves native values and converts via
+   lambda_vac_A^2/c_A_s; an independent Planck-law regression checks the units.
+   Earlier absolute-intensity interpretations are invalid; no production outputs
+   were changed. Dense-analysis-v3 and comparison-v3 are the current evidence.
+3. The native atom-grid output contains no6363 samples. A provisional integration
+   interpolated across that absence; it is inadmissible. Dense sampling confirms
+   the held atom lacks the6363 transition (6300 is present). A nearly zero signal
+   in this window is a missing-transition control, not validation of[OI]6363.
+4. Earlier exploratory reader failures (inactive continuum sentinel, Python import,
+   numpy JSON serialization) remain preserved outside the compact archive. The
+   strict binary reader requires exact byte counts/axes and accepts upper-level0
+   only for inactive continuum slots with exactly zero rates.
+
+The two software defects are in `data/audit/run_bug_ledger.csv` with tests and
+invalid artifact identities. No failed/invalid arrays are promoted to science.
+
+## Evidence and next work
+
+`data/results/rya1371/oxygen_reference_v1/archive_receipt.json` receipts948 raw
+files and64 exact compact copies. Raw native binaries and invalid large arrays
+remain external; no5MiB guard is bypassed. Generator ownership is registered.
+Earlier dense-analysis-v1 intensity labels are retained solely as wavelength
+input provenance for the Bride transfer; only their wavelength axes were consumed.
+
+Next: measure native top-boundary effects separately;
+compare consumed EOS/continuum/collider packets on a matched physical mesh;
+verify reference native fresh-field balance; then return to the solar intensity
+and flux benchmarks with continuum, blends, instrument response and uncertainty
+handling qualified. Extend the atom for6363 only with inspected atomic data.
+Keep molecular OH/CO/H2O and UV/IR/cool-star applicability as explicit separate
+gates under RYA-1374. Oxygen 1D scientific completion remains open.

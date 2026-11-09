@@ -748,6 +748,16 @@ entries:
     env: CODEX_BRIDE_MULTI_SPLINE_ORACLE
     kind: dir
     desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
+  experiments.openmulti3d_oxygen_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-analysis-v4
+    kind: dir
+    desc: Native independent1D oxygen rate/mesh/spectrum audit; unresolved physics differences remain.
+  experiments.openmulti3d_oxygen_dense_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-dense-analysis-v1
+    kind: dir
+    desc: Explicit dense optical output grid independent oxygen audit; no missing-transition admission.
   engines.openmulti3d_reference:
     root: work
     rel: bride_inputs/rya1281/openmulti3d-reference-v1

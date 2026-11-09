@@ -1,0 +1,157 @@
+{
+  "generator": {
+    "name": "audit_oxygen_reference_refinement.py",
+    "bytes": 2569,
+    "sha256": "42d62974a16f808e5c5c9320c69aca15bdc6a43c4fdb9d4da81d0497ecfc2832"
+  },
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/report.json": {
+      "name": "report.json",
+      "bytes": 3992,
+      "sha256": "5e3b26fd7347e351ea987689b11b8f0f63af19c9680e6ee422f5199083346c9e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207686,
+      "sha256": "19a95e9c888984353fe90c1d8899681d5855586a1b10548495a16e7ff043d0b5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85412,
+      "sha256": "7ac776d37e3da02ea6e4a6f3f45593b36817ce64e5c03e6cd82bf7a43a693d58"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 3993,
+      "sha256": "529ade3fe24b16644cb876ac1c1562e60f2dc444846144c123767609bca8b94f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207686,
+      "sha256": "3a97a242e238f9d75a7df67c649dbc695a9c0915fe2b5d0a6d46544a79cb3a3d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85407,
+      "sha256": "d5d03c26faa1ca18f63115c08ab1d688b37f82b7ab8c910f716c5608405eb6d6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-angle6-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 3995,
+      "sha256": "130e684d745121276ffa48bfc14c6a81f740f4165ebfc18808762ac5d96cc289"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-angle6-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207663,
+      "sha256": "b3f1151425f99daddaae631fc7407a16f5a685e5308568a54f120c37ff323197"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-angle6-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85408,
+      "sha256": "fc28bc7fbe6112e89770333b85e860278d68e6b70b2b80a3571bac0c709f8b56"
+    }
+  },
+  "records": [
+    {
+      "control": "baseline",
+      "windows": [
+        {
+          "centre_air_A": 6158.17,
+          "area_change_mA": 0.0
+        },
+        {
+          "centre_air_A": 6300.304,
+          "area_change_mA": 0.0
+        },
+        {
+          "centre_air_A": 7771.944,
+          "area_change_mA": 0.0
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_change_mA": 0.0
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_change_mA": 0.0
+        },
+        {
+          "centre_air_A": 8446.4,
+          "area_change_mA": 0.0
+        }
+      ],
+      "max_area_change_mA": 0.0,
+      "diagnostic_0p1mA_screen": true,
+      "max_normalized_profile_change": 0.0
+    },
+    {
+      "control": "frequency",
+      "windows": [
+        {
+          "centre_air_A": 6158.17,
+          "area_change_mA": 1.5194675960158999e-05
+        },
+        {
+          "centre_air_A": 6300.304,
+          "area_change_mA": 0.0
+        },
+        {
+          "centre_air_A": 7771.944,
+          "area_change_mA": -0.0006429525782475354
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_change_mA": -0.0008686646588984548
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_change_mA": -0.0011718798938742392
+        },
+        {
+          "centre_air_A": 8446.4,
+          "area_change_mA": -0.003292036114127539
+        }
+      ],
+      "max_area_change_mA": 0.003292036114127539,
+      "diagnostic_0p1mA_screen": true,
+      "max_normalized_profile_change": 9.375683941770241e-06
+    },
+    {
+      "control": "angle",
+      "windows": [
+        {
+          "centre_air_A": 6158.17,
+          "area_change_mA": -8.396891564878273e-06
+        },
+        {
+          "centre_air_A": 6300.304,
+          "area_change_mA": 0.0
+        },
+        {
+          "centre_air_A": 7771.944,
+          "area_change_mA": -0.027416566826532485
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_change_mA": -0.020636734572213045
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_change_mA": -0.013053339481448878
+        },
+        {
+          "centre_air_A": 8446.4,
+          "area_change_mA": -0.02130213326043129
+        }
+      ],
+      "max_area_change_mA": 0.027416566826532485,
+      "diagnostic_0p1mA_screen": true,
+      "max_normalized_profile_change": 0.00021722553118830312
+    }
+  ],
+  "limitations": [
+    "One-axis native frequency/angle tests only, not a bound on all numerical or physical errors.",
+    "No selected default, abundance fit, observational validation or production admission."
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "generator": {
+    "name": "audit_oxygen_output_opacity.py",
+    "bytes": 1963,
+    "sha256": "406cd98fcf754ffb2997c2fc72032a5dbd3345107b3efd90c752ec3457d3938b"
+  },
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85412,
+      "sha256": "7ac776d37e3da02ea6e4a6f3f45593b36817ce64e5c03e6cd82bf7a43a693d58"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-dense-analysis-v3/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207686,
+      "sha256": "19a95e9c888984353fe90c1d8899681d5855586a1b10548495a16e7ff043d0b5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-output-bf-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85412,
+      "sha256": "7ac776d37e3da02ea6e4a6f3f45593b36817ce64e5c03e6cd82bf7a43a693d58"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-output-bf-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207686,
+      "sha256": "19a95e9c888984353fe90c1d8899681d5855586a1b10548495a16e7ff043d0b5"
+    }
+  },
+  "SE_populations_bit_identical": true,
+  "windows": [
+    {
+      "centre_air_A": 6158.17,
+      "NLTE_area_change_mA": 0.0,
+      "LTE_area_change_mA": 0.0
+    },
+    {
+      "centre_air_A": 6300.304,
+      "NLTE_area_change_mA": 0.0,
+      "LTE_area_change_mA": 0.0
+    },
+    {
+      "centre_air_A": 7771.944,
+      "NLTE_area_change_mA": 0.0,
+      "LTE_area_change_mA": 0.0
+    },
+    {
+      "centre_air_A": 7774.166,
+      "NLTE_area_change_mA": 0.0,
+      "LTE_area_change_mA": 0.0
+    },
+    {
+      "centre_air_A": 7775.388,
+      "NLTE_area_change_mA": 0.0,
+      "LTE_area_change_mA": 0.0
+    },
+    {
+      "centre_air_A": 8446.4,
+      "NLTE_area_change_mA": 0.0,
+      "LTE_area_change_mA": 0.0
+    }
+  ],
+  "limitations": [
+    "Native output bound-free switch only; not complete opacity parity or observational validation."
+  ]
+}

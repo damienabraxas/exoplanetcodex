@@ -1,3 +1,7 @@
+## 2026-11-09 — independent Oxygen reference
+
+- **RYA-1371** — dense independent O spectra and native refinements completed; cap/unit defects fixed,6363 absent; HOLD (v244).
+
 ## 2026-11-09 — solar sensitivity and continuum safeguards
 
 - **RYA-1281** — current ORCH refuses24/96 unsupported continuum fits; all9 independent10K/xi controls pass; T/xi responses nearly parallel, HOLD (v243).
