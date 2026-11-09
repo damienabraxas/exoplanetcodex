@@ -36,8 +36,44 @@ GUARD=r'''
             if (overlappingIonContinua) wavelengthMode = wavelengthMode | FsMode::PureLambdaIteration;
 '''
 
+FULL_STORAGE=r'''
+                    const bool brideFullOperator = ComputeOperator && !(mode & FsMode::PureLambdaIteration);
+                    std::vector<f64> brideChi;
+                    std::vector<unsigned char> brideSeen, brideEmitting;
+                    std::vector<int> brideRows, brideColumns;
+                    if (brideFullOperator) {
+                        brideChi.assign(atom.Nlevel * Nspace, 0.0);
+                        brideSeen.assign(atom.Nlevel, 0);
+                        brideEmitting.assign(atom.Nlevel, 0);
+                    }
+'''
+
+FULL_ACCUMULATE=r'''
+                        if (brideFullOperator) {
+                            for (int level : {t.i, t.j}) {
+                                if (!brideSeen[level]) { brideSeen[level] = 1; brideRows.push_back(level); }
+                            }
+                            if (!brideEmitting[t.j]) { brideEmitting[t.j] = 1; brideColumns.push_back(t.j); }
+                            for (int k = 0; k < Nspace; ++k) {
+                                const f64 weightedChi = (atom.n(t.i,k) * Vij(k) - atom.n(t.j,k) * Vji(k)) * atom.wla(kr,k) * wmu;
+                                brideChi[t.i * Nspace + k] += weightedChi;
+                                brideChi[t.j * Nspace + k] -= weightedChi;
+                            }
+                        }
+'''
+
+FULL_OUTER=r'''
+                    if (brideFullOperator) {
+                        for (int i : brideRows) for (int j : brideColumns) {
+                            if (i == j) continue;
+                            for (int k = 0; k < Nspace; ++k)
+                                atom.Gamma(i,j,k) -= PsiStar(k) * brideChi[i * Nspace + k] * atom.U(j,k);
+                        }
+                    }
+'''
+
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--method',choices=['overlap_guard','transition_local'],default='overlap_guard');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--method',choices=['overlap_guard','transition_local','full_coupling'],default='overlap_guard');a=p.parse_args()
  import lightweaver.LwCompiled as compiled
  a.output.mkdir(parents=True,exist_ok=False)
  source=a.source/'Source';target=a.output/'Source';shutil.copytree(source,target)
@@ -57,14 +93,29 @@ def main():
  if patched.count(needle)!=1:raise ValueError('Held source patch context changed')
  if a.method=='overlap_guard':patched=patched.replace(needle,replacement)
  else:
-  patched=original.replace('formal_sol_iteration_matrices_impl','bride_transition_local_iteration_matrices_impl')
+  patched=original.replace('formal_sol_iteration_matrices_impl','bride_'+a.method+'_iteration_matrices_impl')
   first='f64 integrand = (Uji(k) + Vji(k) * Ieff(k)) - (PsiStar(k) * atom.chi(t.i, k) * atom.U(t.j, k));'
   second='integrand = (Vij(k) * Ieff(k)) - (PsiStar(k) * atom.chi(t.j, k) * atom.U(t.i, k));'
   if patched.count(first)!=1 or patched.count(second)!=1:raise ValueError('Held transition-local patch context changed')
-  patched=patched.replace(first,'f64 integrand = Uji(k) + Vji(k) * I(k) - PsiStar(k) * atom.n(t.i,k) * Vij(k) * Uji(k);').replace(second,'integrand = Vij(k) * I(k) - PsiStar(k) * atom.n(t.j,k) * Vij(k) * Uji(k);')
+  if a.method=='transition_local':
+   patched=patched.replace(first,'f64 integrand = Uji(k) + Vji(k) * I(k) - PsiStar(k) * atom.n(t.i,k) * Vij(k) * Uji(k);').replace(second,'integrand = Vij(k) * I(k) - PsiStar(k) * atom.n(t.j,k) * Vij(k) * Uji(k);')
+  else:
+   patched=patched.replace(first,'f64 integrand = Uji(k) + Vji(k) * Ieff(k);').replace(second,'integrand = Vij(k) * Ieff(k);')
+   storage='''                    auto& atom = *activeAtoms[a];
+                    if constexpr (ComputeOperator)'''
+   accumulate='''                        const bool computeRates = (UpdateRates && !PrdRatesOnly) ||'''
+   outer='''                                                computeRates, &atom, kr, wmu, &data);
+                    }
+                }
+            }
+            if constexpr (UpdateRates)'''
+   if patched.count(storage)!=1 or patched.count(accumulate)!=2 or patched.count(outer)!=1:raise ValueError('Held full-coupling patch context changed')
+   patched=patched.replace(storage,'                    auto& atom = *activeAtoms[a];\n'+FULL_STORAGE+'                    if constexpr (ComputeOperator)')
+   patched=patched.replace(accumulate,FULL_ACCUMULATE+accumulate,1)
+   patched=patched.replace(outer,'                                                computeRates, &atom, kr, wmu, &data);\n                    }\n'+FULL_OUTER+'                }\n            }\n            if constexpr (UpdateRates)')
  (target/'SimdFullIterationTemplates.hpp').write_text(patched)
  cpp=a.output/'overlap_guard.cpp';provider=PROVIDER
- if a.method=='transition_local':provider=provider.replace('bride_guard_iteration_matrices_impl','bride_transition_local_iteration_matrices_impl').replace('bride_overlap_guard_scalar','bride_transition_local_scalar')
+ if a.method!='overlap_guard':provider=provider.replace('bride_guard_iteration_matrices_impl','bride_'+a.method+'_iteration_matrices_impl').replace('bride_overlap_guard_scalar','bride_'+a.method+'_scalar')
  cpp.write_text(provider)
  includes=[target]+sorted({x.parent for name in ['TaskScheduler.h','JasPP.hpp']for x in a.source.rglob(name)})
  library=a.output/'bride_overlap_guard.dylib'
