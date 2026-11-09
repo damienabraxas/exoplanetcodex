@@ -10,12 +10,13 @@
 
 # Codex Ticket Sequence — chronological landing log
 
-## 2026-11-08 — RYA-1349 landed; pending RYA-1350 Al + Si redo
+## 2026-11-09 — RYA-1311 near-UV Ca note (#615) landed; pending RYA-1350 Al + Si redo
 
-> **Current as of `main` 3baabba9** (2026-11-08, RYA-1349 #611).
+> **Current as of `main` 7f023fd7** (2026-11-08, RYA-1311 #615).
 
-- **RYA-1349** — `3baabba9` PR #611: the orchestrator's per-element completeness checklist (each treatment and instrument done / held with its reason / owed; `--publish` exits 3 when work is owed), ENGINE-A owed wherever its grid covers the pool, holdings that disagree flagged (> 2x the others' median sigma), CODE_DRIFT separated from STALE, per-line files kept with superseded products; Ti DONE, Ca owed 6 red-optical ENGINE-A cells at the time.
-- **RYA-1350** (pending, branch `ryandamienschmitt/rya-1350-solar-al-si-redo-through-the-orch`) — Al + Si rebuilt through the orchestrator on today's inputs: Al 86 products (all four Gerber treatments, new), Si Reference Grade pool and a cited 3D NLTE treatment (Amarsi & Asplund 2017 Table 2 on Scott+2015 MARCS LTE, `6e24720f`). The RYA-1315 15% continuum bound let local features through (Si I 9891.725 7.56 -> 6.11); a level beyond 3% now needs the same smooth sag in its +/-50 A neighbourhood (`01f51846`).
+- **RYA-1311** — `7f023fd7` PR #615: near-UV Ca I Reference published with a preliminary note (4 rows, KPNO kurucz2005/molecfit x 1D-LTE/ENGINE-A); headline 6.405 unchanged.
+- **RYA-1350** (pending, branch `ryandamienschmitt/rya-1350-solar-al-si-redo-through-the-orch`) — Al + Si rebuilt through the orchestrator on today's inputs: Al 86 products (all four Gerber treatments, new), Si 104 (Reference Grade pool and a cited 3D NLTE treatment, Amarsi & Asplund 2017 Table 2 on Scott+2015 MARCS LTE, `6e24720f`); both checklists DONE. The RYA-1315 15% continuum bound let local features through (Si I 9891.725 7.56 -> 6.11); a level beyond 3% now needs the same smooth sag in its +/-50 A neighbourhood (`01f51846`), and the Si cells it touched were rerun (`362d93b1`: 9891.725 back to 7.553; all 56 October products within 0.04 dex). Ti II HARPS Reference control unchanged at 4.944.
+
 ## 2026-11-08 — RYA-1311 close-out (#612) landed; pending near-UV Ca note
 
 > **Current as of `main` adefcaf0** (2026-11-08, RYA-1353 #614).
