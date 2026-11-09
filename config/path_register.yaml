@@ -748,6 +748,21 @@ entries:
     env: CODEX_BRIDE_MULTI_SPLINE_ORACLE
     kind: dir
     desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
+  engines.openmulti3d_reference:
+    root: work
+    rel: bride_inputs/rya1281/openmulti3d-reference-v1
+    kind: dir
+    desc: Pinned OpenMULTI3D external reference source; experimental, no product admission.
+  engines.openmulti3d_reference_build:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-build-v1
+    kind: dir
+    desc: Private one-task Mac native build receipt; binary remains external.
+  experiments.bride_oxygen_reference:
+    root: work
+    rel: bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json
+    kind: file
+    desc: Exact held independent MULTI departure record; native producer input parity remains to qualify.
   experiments.bride_oxygen_atom:
     root: work
     rel: bride_inputs/rya1281/atom.o41f
