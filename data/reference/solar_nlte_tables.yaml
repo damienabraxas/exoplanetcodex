@@ -52,3 +52,16 @@ tables:
     model: amarsi
     bibliography_key: canocchi2026
     citation: "Canocchi et al. 2026, arXiv 2603.22975, Zenodo 10.5281/zenodo.19201830; authors' 3D NLTE FFNN at the Sun, MARCS 1D LTE baseline (scripts/rya1251_na_canocchi2026_3d.py)"
+  - element: Si
+    ions: [I, II]
+    star: solar
+    source: data/reference/si_amarsi2017/si_amarsi2017_lines.csv
+    species_column: species
+    wavelength_column: wavelength_air_A
+    canonical_id_column: canonical_line_id
+    match_tol_A: 0.01
+    baseline: A_marcs_lte
+    legs: {3D: A_3d_nlte}
+    model: amarsi
+    bibliography_key: amarsi2017_si
+    citation: "Amarsi & Asplund 2017, MNRAS 464, 264, Table 2 (3D NLTE, the lines A21 adopts); MARCS LTE baseline from Scott et al. 2015a Table on the same disk-centre EWs; Si II 6371 assumed LTE by the authors (RYA-1350)"

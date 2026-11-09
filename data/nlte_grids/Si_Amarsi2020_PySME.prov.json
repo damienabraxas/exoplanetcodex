@@ -356,6 +356,16 @@
       "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
       "existing_rows": "untouched",
       "script": "scripts/extend_nlte_grid.py"
+    },
+    {
+      "ticket": "RYA-1233",
+      "date": "2026-11-07",
+      "ion": 2,
+      "added_waves": [],
+      "why": "prepare check D: 15 gf-graded Si II lines had no ENGINE-A row",
+      "atomic_data": "log gf + EP from canonical_gf (the values the measurement used); vdW from the covering synthesis list (RYA-410 rule); labels by pysme_nlte.labels_by_selection_rules",
+      "existing_rows": "untouched",
+      "script": "scripts/extend_nlte_grid.py"
     }
   ],
   "not_derivable": {
@@ -370,5 +380,24 @@
     "9393.420": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
     "9421.786": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)",
     "9505.205": "identically 0 at every node: the line's levels carry no departure in the model atom (NLTE synthesis == LTE)"
+  },
+  "not_derivable_by_ion": {
+    "2": {
+      "4075.452": "Si 2 4075.452: need one identified synthesis component, got 0",
+      "4130.893": "Si 2 4130.893: need one identified synthesis component, got 0",
+      "5055.984": "Si: no grid level within 0.06 eV of the lower 10.074 eV",
+      "5056.316": "Si: no grid level within 0.06 eV of the lower 10.074 eV",
+      "5466.892": "Si 2 5466.892: need one identified synthesis component, got 2",
+      "5669.563": "Si: no grid level within 0.06 eV of the lower 14.200 eV",
+      "5681.440": "Si: no grid level within 0.06 eV of the lower 14.167 eV",
+      "5701.370": "Si: no grid level within 0.06 eV of the lower 14.175 eV",
+      "5957.559": "Si: no grid level within 0.06 eV of the lower 10.067 eV",
+      "5978.930": "Si: no grid level within 0.06 eV of the lower 10.074 eV",
+      "6371.371": "Si: no grid level within 0.06 eV of the lower 8.121 eV",
+      "6829.802": "Si 2 6829.802: need one identified synthesis component, got 2",
+      "7849.722": "Si: no grid level within 0.06 eV of the lower 12.526 eV",
+      "16906.813": "Si: no grid level within 0.06 eV of the lower 12.147 eV",
+      "16977.183": "Si: no grid level within 0.06 eV of the lower 12.147 eV"
+    }
   }
 }

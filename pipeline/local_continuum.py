@@ -97,6 +97,18 @@ MAX_SHIFT = 0.03
 #: run 0.857-1.017 (smooth in wavelength); a detector-gap line reads 0.000. 15% admits
 #: the sag and still refuses a gap or a broken fit.
 MAX_SHIFT_MODEL = 0.15
+#: RYA-1350 -- ...but only where the sag is CORROBORATED. 15% for every level let local
+#: features through as "normalisation": at Si I 9891.725 the level read 0.924 / 0.930 / 0.969
+#: on KP-Kurucz / KP-molecfit / IAG while 9887.0, 5 A away, read 1.12-1.13 on all three and
+#: the lines 50 A either side 0.98-1.00; A(Si) went 7.56 -> 6.11. A real instrumental sag
+#: (the HARPS blue one) is smooth over hundreds of A, so a level beyond MAX_SHIFT is applied
+#: only when the same estimator, run on independent windows every NEIGH_STEP_A out to
+#: +/-NEIGH_A, reads the same level to SMOOTH_TOL in at least MIN_NEIGH of them. With no
+#: neighbourhood to measure, MAX_SHIFT (3%) holds, as before RYA-1315.
+NEIGH_A = 50.0
+NEIGH_STEP_A = 10.0
+SMOOTH_TOL = 0.02
+MIN_NEIGH = 3
 
 
 @dataclass
@@ -161,7 +173,8 @@ def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
                      exclude_half_width_A: float,
                      env_half_width_A: float = ENV_HALF_WIDTH_A,
                      apply: bool = True,
-                     reference: str = "synthesis") -> tuple[LocalContinuum, np.ndarray | None]:
+                     reference: str = "synthesis",
+                     corroborate=None) -> tuple[LocalContinuum, np.ndarray | None]:
     """THE STANDING RULE's estimator where a synthesis is in hand (RYA-1230, second pass).
 
     WHY NOT THE ENVELOPE. An absolute upper envelope is only a continuum where the true
@@ -217,6 +230,16 @@ def fit_model_guided(wave_A, flux, centre_A: float, model_wave_A, model_flux, *,
         return LocalContinuum(level, slope, int(sel.sum()), False,
                               f"CONTINUUM_UNPLACEABLE: local level {level:.4f} is more than "
                               f"{MAX_SHIFT_MODEL:.0%} from unity; shipped continuum kept", method), None
+    if abs(level - 1.0) > MAX_SHIFT:
+        # RYA-1350: `corroborate(level) -> (ok, note)` measures the neighbourhood.
+        ok, note = corroborate(level) if corroborate is not None else (
+            False, "no neighbourhood measured")
+        if not ok:
+            return LocalContinuum(level, slope, int(sel.sum()), False,
+                                  f"CONTINUUM_LOCAL: level {level:.4f} is more than "
+                                  f"{MAX_SHIFT:.0%} from unity and not a smooth sag ({note}); "
+                                  f"shipped continuum kept", method), None
+        method = f"{method}; sag corroborated: {note}"
     if not apply:
         return LocalContinuum(level, slope, int(sel.sum()), False,
                               "MEASURED, NOT APPLIED: pseudo-continuum regime", method), None
@@ -352,9 +375,40 @@ def apply_to_windows_model_guided(wave_A, flux, windows_A, model_fn, *, apply: b
     return out, records
 
 
+def neighbourhood_check(wide_wave_A, wide_flux, centre_A: float, ref_wave_A, ref_flux, *,
+                        exclude_half_width_A: float):
+    """RYA-1350: `corroborate` for `fit_model_guided` -- the same estimator on independent
+    windows centred every NEIGH_STEP_A out to +/-NEIGH_A (never overlapping this line's own
+    envelope). Their median must match `level` to SMOOTH_TOL over >= MIN_NEIGH windows."""
+    w, f = np.asarray(wide_wave_A, float), np.asarray(wide_flux, float)
+    rw, rf = np.asarray(ref_wave_A, float), np.asarray(ref_flux, float)
+    levels = []
+    k = np.arange(1, int(NEIGH_A / NEIGH_STEP_A) + 1) * NEIGH_STEP_A
+    for c in np.concatenate([centre_A - k, centre_A + k]):
+        if not (w.min() <= c - ENV_HALF_WIDTH_A and w.max() >= c + ENV_HALF_WIDTH_A
+                and rw.min() <= c - ENV_HALF_WIDTH_A and rw.max() >= c + ENV_HALF_WIDTH_A):
+            continue                                   # a truncated window is not a measurement
+        sel = np.abs(w - c) <= ENV_HALF_WIDTH_A
+        rsel = np.abs(rw - c) <= ENV_HALF_WIDTH_A
+        if sel.sum() < MIN_MODEL_PIX or rsel.sum() < MIN_MODEL_PIX:
+            continue
+        rec, _ = fit_model_guided(w[sel], f[sel], float(c), rw[rsel], rf[rsel],
+                                  exclude_half_width_A=exclude_half_width_A, apply=False)
+        if np.isfinite(rec.level_at_centre) and abs(rec.level_at_centre - 1.0) <= MAX_SHIFT_MODEL:
+            levels.append(rec.level_at_centre)
+
+    def check(level: float):
+        if len(levels) < MIN_NEIGH:
+            return False, f"{len(levels)} neighbour windows within +/-{NEIGH_A:g} A, need {MIN_NEIGH}"
+        med = float(np.median(levels))
+        return (abs(level - med) <= SMOOTH_TOL,
+                f"neighbour median {med:.4f} over {len(levels)} windows within +/-{NEIGH_A:g} A")
+    return check
+
+
 def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, *,
                         band_half_width_A: float, use_molecules: bool, apply: bool = True,
-                        star: str):
+                        star: str, wide_flux=None):
     """THE standing rule for a synthesis route, in one place (RYA-1230 / RYA-1232).
 
     Synthesises +/- ENV_HALF_WIDTH_A around `centre_A` from the route's OWN context
@@ -362,36 +416,56 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
     then `fit_model_guided`, excluding the BAND's fit window (never a leg's, so the
     core-window leg cannot move the continuum). Returns (flux, record): the flux divided by
     the placed continuum when applied, else unchanged.
+
+    `wide_flux(lo_A, hi_A) -> (wave_A, flux)`, conditioned exactly as `flux` was, lets a
+    level beyond MAX_SHIFT be corroborated as a smooth sag (RYA-1350). The neighbourhood is
+    read (and, off the IAG atlas, synthesised) only when such a level turns up; without
+    `wide_flux`, MAX_SHIFT holds.
     """
     env = ENV_HALF_WIDTH_A
-    if star == "solar":
-        ref = solar_atlas_reference(centre_A - env - 0.5, centre_A + env + 0.5,
-                                    float(ctx["resolving_power"]))
-        if ref is not None:
-            k = np.abs(ref[0] - centre_A) <= env
-            rec, cont = fit_model_guided(wave_A, flux, centre_A, ref[0][k], ref[1][k],
-                                         exclude_half_width_A=float(band_half_width_A),
-                                         apply=apply, reference="IAG solar atlas")
-            out = np.asarray(flux, float) / cont if cont is not None else flux
-            return out, rec
-        pass                                           # no atlas here: the leg equals nominal
-    import os
-    from pathlib import Path
-    from pipeline.abundances_derive import _synth_flux_at_abund
-    tmp = f"/tmp/ispec_cont_{os.getpid()}"
-    Path(tmp).mkdir(parents=True, exist_ok=True)
-    env = ENV_HALF_WIDTH_A
-    mw = np.arange((centre_A - env - 0.5) / 10.0, (centre_A + env + 0.5) / 10.0, 0.0005)
-    mf = _synth_flux_at_abund(
-        mw, ctx["atmosphere"], ctx["teff"], ctx["logg"], ctx["feh"], ctx["vturb"],
-        ctx["linelist"], ctx["isotopes"], ctx["solar_abund"], element,
-        int(ctx["atom_code"]), float(ctx["solar_A"]),
-        R=float(ctx["resolving_power"]), macroturbulence=float(ctx["macroturbulence"]),
-        vsini=float(ctx["vsini"]), use_molecules=bool(use_molecules), tmp_dir=tmp)
-    edge = np.abs(mw * 10.0 - centre_A) <= env          # iSpec zeroes synthesis edges
-    rec, cont = fit_model_guided(wave_A, flux, centre_A, mw[edge] * 10.0, np.asarray(mf)[edge],
+    R = float(ctx["resolving_power"])
+    reference = "synthesis"
+    if star == "solar" and solar_atlas_reference(centre_A - env - 0.5, centre_A + env + 0.5,
+                                                 R) is not None:
+        def ref_fn(lo, hi):                            # same 0.5 A pad as the line's own read
+            lo = max(lo - 0.5, SOLAR_ATLAS_SPAN_A[0])
+            hi = min(hi + 0.5, SOLAR_ATLAS_SPAN_A[1])
+            return solar_atlas_reference(lo, hi, R)
+        reference = "IAG solar atlas"
+    else:                                              # no atlas here: the leg equals nominal
+        import os
+        from pathlib import Path
+        from pipeline.abundances_derive import _synth_flux_at_abund
+        tmp = f"/tmp/ispec_cont_{os.getpid()}"
+        Path(tmp).mkdir(parents=True, exist_ok=True)
+
+        def ref_fn(lo, hi):
+            mw = np.arange((lo - 0.5) / 10.0, (hi + 0.5) / 10.0, 0.0005)
+            mf = _synth_flux_at_abund(
+                mw, ctx["atmosphere"], ctx["teff"], ctx["logg"], ctx["feh"], ctx["vturb"],
+                ctx["linelist"], ctx["isotopes"], ctx["solar_abund"], element,
+                int(ctx["atom_code"]), float(ctx["solar_A"]),
+                R=R, macroturbulence=float(ctx["macroturbulence"]),
+                vsini=float(ctx["vsini"]), use_molecules=bool(use_molecules), tmp_dir=tmp)
+            keep = (mw * 10.0 >= lo) & (mw * 10.0 <= hi)    # iSpec zeroes synthesis edges
+            return mw[keep] * 10.0, np.asarray(mf)[keep]
+    rw, rf = ref_fn(centre_A - env, centre_A + env)
+    k = np.abs(rw - centre_A) <= env
+    corroborate = None
+    if wide_flux is not None:
+        def corroborate(level):
+            span = NEIGH_A + env
+            try:
+                ww, wf = wide_flux(centre_A - span - 0.5, centre_A + span + 0.5)
+            except LookupError as exc:
+                return False, f"neighbourhood not served ({exc})"
+            wref = ref_fn(centre_A - span, centre_A + span)
+            if wref is None:
+                return False, f"{reference} does not cover the neighbourhood"
+            return neighbourhood_check(ww, wf, centre_A, *wref,
+                                       exclude_half_width_A=float(band_half_width_A))(level)
+    rec, cont = fit_model_guided(wave_A, flux, centre_A, rw[k], rf[k],
                                  exclude_half_width_A=float(band_half_width_A), apply=apply,
-                                 reference="synthesis")
+                                 reference=reference, corroborate=corroborate)
     out = np.asarray(flux, float) / cont if cont is not None else flux
     return out, rec
-
