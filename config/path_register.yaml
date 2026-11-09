@@ -260,6 +260,16 @@ entries:
     rel: bride_mac_checks/rya1281-ng-baseline-comparison-v2
     kind: dir
     desc: Isolated Mac numerical qualification; physical rates and scientific admission unchanged.
+  experiments.bride_full_cap_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-full-cap-plugin-v1
+    kind: dir
+    desc: Isolated complete-coupling numerical control; original physical transfer and scientific admission unchanged.
+  experiments.bride_solar_full_coupling:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-full-coupling-v1
+    kind: dir
+    desc: Isolated complete-coupling numerical control; original physical transfer and scientific admission unchanged.
   experiments.bride_full_coupling_plugin:
     root: work
     rel: bride_mac_checks/rya1281-full-coupling-plugin-v1

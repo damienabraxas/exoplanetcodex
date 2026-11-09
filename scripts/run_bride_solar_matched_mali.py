@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 def validate_solver_controls(plan,inherited):
  expected=dict(inherited);algorithm=plan.get('numerical_algorithm',{})
  if algorithm.get('native_ng')is False:
-  if algorithm.get('method')not in ['transition_local_mali','full_coupling_mali']or not plan.get('iteration_plugin'):raise ValueError('Ng replacement requires a declared isolated rate-preserving control')
+  if algorithm.get('method')not in ['transition_local_mali','full_coupling_mali','full_coupling_cap_mali']or not plan.get('iteration_plugin'):raise ValueError('Ng replacement requires a declared isolated rate-preserving control')
   expected['ng']=False
  if plan['controls']!=expected:raise ValueError('Changed inherited solver thresholds/budgets beyond the declared Ng control')
 
@@ -34,6 +34,8 @@ def main():
  if platform.system()!='Darwin'or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 required')
  plan_path=a.plan;plan=json.loads(plan_path.read_text());warm_report=ROOT/plan['warm_report'];warm=json.loads(warm_report.read_text());controls=plan['controls']
  validate_solver_controls(plan,warm['controls'])
+ if plan.get('numerical_algorithm',{}).get('method')=='full_coupling_cap_mali':
+  from pipeline.bride_coupled_cap_mali_control import solve_coupled_cap_mali as solve_coupled
  checks=[]
  def check(path,receipt):
   if fingerprint(path)!=receipt:raise ValueError('Changed predeclared input '+str(path))
@@ -44,7 +46,7 @@ def main():
   from pipeline.bride_overlap_plugin import load_overlap_plugin
   directory=require_codex_path(plan['iteration_plugin']['resource']);check(directory/'receipt.json',plan['iteration_plugin']['build_receipt'])
   scheme,plugin=load_overlap_plugin(directory);check(directory/'bride_overlap_guard.dylib',plugin['plugin']);check(ROOT/'pipeline/bride_overlap_plugin.py',fingerprint(ROOT/'pipeline/bride_overlap_plugin.py'))
-  expected_scheme={'transition_local_mali':'bride_transition_local_scalar','full_coupling_mali':'bride_full_coupling_scalar'}.get(plan.get('numerical_algorithm',{}).get('method'))
+  expected_scheme={'transition_local_mali':'bride_transition_local_scalar','full_coupling_mali':'bride_full_coupling_scalar','full_coupling_cap_mali':'bride_full_coupling_cap_scalar'}.get(plan.get('numerical_algorithm',{}).get('method'))
   if expected_scheme is not None and scheme!=expected_scheme:raise ValueError('Iteration plugin differs from the declared numerical method')
  warm_path=ROOT/plan['warm_populations'];check(warm_path,warm['coupled']['populations']);check(ROOT/'pipeline/bride_coupled_control.py',warm['coupled']['helper'])
  with np.load(warm_path)as data:pop=data['populations'].copy();seed_nstar=data['nstar'].copy()
@@ -55,6 +57,7 @@ def main():
  from pipeline.bride_parameter_checks import marcs_filename
  for node in plan['nodes']:check(require_codex_path('grids.marcs_standard')/marcs_filename(node['teff'],node['logg']),node['source'])
  for helper in ['pipeline/bride_coupled_mali_control.py','pipeline/bride_solar_matched.py','pipeline/bride_parameter_checks.py','pipeline/bride_reference.py','pipeline/bride_H_nlte_control.py']:check(ROOT/helper,fingerprint(ROOT/helper))
+ if plan.get('numerical_algorithm',{}).get('method')=='full_coupling_cap_mali':check(ROOT/'pipeline/bride_coupled_cap_mali_control.py',fingerprint(ROOT/'pipeline/bride_coupled_cap_mali_control.py'))
  binding_change={key:dict(max_absolute=float(np.max(abs(np.array(value)-np.array(warm['state'][key])))),max_relative=None if key=='height_m'else float(np.max(abs(np.array(value)/np.array(warm['state'][key])-1))))for key,value in asdict(state).items()if isinstance(value,tuple)}
  atom_path=require_codex_path('experiments.bride_oxygen_atom');check(atom_path,warm['atom']);atom=read_multi_atom(atom_path)
  if atom.abundance!=8.70 or len(atom.levels)!=41 or pop.shape!=(41,56):raise ValueError('Changed source atom/warm layout')

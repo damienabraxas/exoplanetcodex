@@ -12,7 +12,7 @@ def load_overlap_plugin(directory):
     if receipt['plugin']!=fingerprint(path)or path.stat().st_size>5*1024**2:raise ValueError('Plugin identity or size guard failed')
     ctypes.CDLL(LwCompiled.__file__,mode=ctypes.RTLD_GLOBAL)
     name=receipt.get('scheme','bride_overlap_guard_scalar')
-    if name not in ['bride_overlap_guard_scalar','bride_transition_local_scalar','bride_full_coupling_scalar']:raise ValueError('Unknown iteration plugin scheme')
+    if name not in ['bride_overlap_guard_scalar','bride_transition_local_scalar','bride_full_coupling_scalar','bride_full_coupling_cap_scalar']:raise ValueError('Unknown iteration plugin scheme')
     if name not in LwCompiled.FsIterationSchemes.names:LwCompiled.FsIterationSchemes.load_fns_from_path(str(path))
     properties=LwCompiled.FsIterationSchemes.scheme_properties(name)
     if not all(properties[k]for k in ['respectsFormalSolver','defaultPerAtomStorage','defaultWlaGijStorage']):raise ValueError('Unexpected plugin storage contract')
