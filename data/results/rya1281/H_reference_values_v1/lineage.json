@@ -1,0 +1,97 @@
+{
+  "schema": "codex.bride_H_reference_lineage/1",
+  "papers": {
+    "Baker_2020_ApJS_247_24.pdf": {
+      "name": "Baker_2020_ApJS_247_24.pdf",
+      "bytes": 2210141,
+      "sha256": "1b6cee09d66d9a7ce62c865013467fdbd4ac226588bd4889cc09244434661dce"
+    },
+    "aa27530-15.pdf": {
+      "name": "aa27530-15.pdf",
+      "bytes": 1195042,
+      "sha256": "d20c673b7837f1550d6923c5245b86fa4e26b51f3db00a862e3e934611dae769"
+    }
+  },
+  "kitt": {
+    "receipt": {
+      "name": "irradrelwl.dat",
+      "bytes": 11934143,
+      "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+    },
+    "header": [
+      "KURUCZ RESIDUAL IRRADIANCE ATLAS 2005",
+      "299.000 by 0.001 to 1001.000 nm",
+      "vacuum wavelength including gravitational red shift"
+    ],
+    "interpretation": "Shipped residual irradiance, vacuum nm including gravitational redshift; local canonical AIR conversion once; no own continuum or new correction."
+  },
+  "iag": {
+    "receipt": {
+      "name": "iag_telfree_solaratlas.fits",
+      "bytes": 11658240,
+      "sha256": "2ddd21b78582a7cb2efaf32ff41c98696c941cacf1a8de4cae5a4cd9d0794546"
+    },
+    "fits_headers": [
+      "SIMPLE  =                    T / conforms to FITS standard                      BITPIX  =                    8 / array data type                                NAXIS   =                    0 / number of array dimensions                     EXTEND  =                    T                                                  END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ",
+      "XTENSION= 'BINTABLE'           / binary table extension                         BITPIX  =                    8 / array data type                                NAXIS   =                    2 / number of array dimensions                     NAXIS1  =                   16 / length of dimension 1                          NAXIS2  =               728122 / length of dimension 2                          PCOUNT  =                    0 / number of group parameters                     GCOUNT  =                    1 / number of groups                               TFIELDS =                    4 / number of table fields                         TTYPE1  = 'v       '                                                            TFORM1  = 'E       '                                                            TTYPE2  = 's       '                                                            TFORM2  = 'E       '                                                            TTYPE3  = 'err     '                                                            TFORM3  = 'E       '                                                            TTYPE4  = 'flags   '                                                            TFORM4  = 'E       '                                                            END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             "
+    ],
+    "columns": [
+      "v",
+      "s",
+      "err",
+      "flags"
+    ],
+    "declared_column_units_in_FITS": false,
+    "reader": {
+      "name": "measure_band_ew.py",
+      "bytes": 100317,
+      "sha256": "8bc345a172cf88c428de3546836251079972ba32ea052d756f831d1ca915aac5"
+    },
+    "reader_interpretation": "v is vacuum wavenumber cm^-1, s is solar transmission/normalized flux; canonical 1e8/v then vac_to_air once; source construction includes continuum fitting; no absolute irradiance units assigned.",
+    "publisher_reader_present": false,
+    "format_limit": "FITS column names carry no TUNIT metadata; exact source-file lineage and primary paper/reader convention retained, not invented unit headers."
+  },
+  "source_notes": [
+    "Baker2020 p1-2: disk-integrated solar flux and approximate resolving power1e6, not disk-centre intensity.",
+    "Baker2020 p5-7 sections3.1.4/4.1/4.2: solar-template normalization and fitted continuum corrections are part of construction; final spectra combined after ephemeris/iodine/zero-point shifts. This does not prove the local offset cause.",
+    "Baker2020 p7-8: some telluric residual regions replaced with solar spline and flagged; exact zero O777 flags do not certify physical accuracy.",
+    "Reiners2016 p4 section5.2: normalized flux atlases have distinct normalization procedures; illustrative agreement elsewhere is not O777 calibration.",
+    "Historical RYA929 intake manifest describes absolute irradthu, not this residual irradrelwl; old unresolved medium/absolute units are not reassigned to the current residual file."
+  ],
+  "resolution_limit": "Retained helper GaussianR500000 is numerical reference smoothing; approximate native R is not an independently calibrated FTS kernel. No deconvolution, new kernel or RV calibration.",
+  "source_replays": [
+    {
+      "centre_air_A": 7771.944,
+      "native_count": 1319,
+      "native_median_step_air_A": 0.008860800558977644,
+      "gaussian_sigma_pixels": 0.7449595118762957,
+      "flag_counts": {
+        "0.0": 1319
+      },
+      "rebuilt_helper_and_archived_samples": "exact array identity",
+      "scope": "Same-source format/reader replay, not independent physical reference or calibrated FTS LSF"
+    },
+    {
+      "centre_air_A": 7774.166,
+      "native_count": 1317,
+      "native_median_step_air_A": 0.008865849521498603,
+      "gaussian_sigma_pixels": 0.7447481318448904,
+      "flag_counts": {
+        "0.0": 1317
+      },
+      "rebuilt_helper_and_archived_samples": "exact array identity",
+      "scope": "Same-source format/reader replay, not independent physical reference or calibrated FTS LSF"
+    },
+    {
+      "centre_air_A": 7775.388,
+      "native_count": 1317,
+      "native_median_step_air_A": 0.00886864588210301,
+      "gaussian_sigma_pixels": 0.7446303343507471,
+      "flag_counts": {
+        "0.0": 1317
+      },
+      "rebuilt_helper_and_archived_samples": "exact array identity",
+      "scope": "Same-source format/reader replay, not independent physical reference or calibrated FTS LSF"
+    }
+  ]
+}

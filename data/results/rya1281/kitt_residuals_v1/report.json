@@ -1,0 +1,412 @@
+{
+  "schema": "codex.bride_kitt_residual_audit/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_kitt_residuals.py",
+    "bytes": 6048,
+    "sha256": "e943bd96822fc307aab6108ecf05641d741ce4f6c6dd9553e42c8bcfae59ef87"
+  },
+  "comparison": {
+    "name": "report.json",
+    "bytes": 31834,
+    "sha256": "e30ee9d666e1102ddd0d441cb44aad4959f26c49bc0474cb9754b1da9f0c1511"
+  },
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "profiles": {
+    "name": "solar5772_bound_Fe_sampled_profiles.csv",
+    "bytes": 300209,
+    "sha256": "b7a8a37b94f11bb3c7aff574560f968f2539fb596490a49eae7aed398da9eda3"
+  },
+  "continuum_code": {
+    "name": "local_continuum.py",
+    "bytes": 21906,
+    "sha256": "b561cb43abffd29236dc5308be8c0d499bdd2c9d8ed1dcb0c0acf8cb5ef1ed85"
+  },
+  "holding": "solar_kpno_kurucz2005_corrected",
+  "policy": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+  "caveats": "Fixed diagnostic partitions are not isolated oxygen EWs or blend identifications. No errors/covariance or optimization. Local controls never replace immutable baseline. Oxygen-only anchors are incomplete-opacity diagnostics.",
+  "lines": [
+    {
+      "centre_air_A": 7771.944,
+      "envelope": {
+        "level_at_centre": 0.9962761587837842,
+        "slope_per_A": -0.00025914189189187806,
+        "n_bins": 9,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 local envelope: p95 per 1 A bin over +/-5 A, 2-MAD low clip, degree 1"
+      },
+      "variants": [
+        {
+          "name": "shipped",
+          "observed_area_mA": 77.55650815358007,
+          "residuals": [
+            {
+              "model": "canonical_broadened",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 6.846082657844095,
+                  "model_area_mA": 5.525151824470894,
+                  "missing_area_mA": 1.3209308333732004
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 62.11815802854431,
+                  "model_area_mA": 60.92421937231663,
+                  "missing_area_mA": 1.1939386562276795
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 8.592267467191675,
+                  "model_area_mA": 5.5226205037342755,
+                  "missing_area_mA": 3.0696469634573997
+                }
+              ]
+            },
+            {
+              "model": "plus_gravitational_shift",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 6.846082657844095,
+                  "model_area_mA": 4.386069962113294,
+                  "missing_area_mA": 2.460012695730801
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 62.11815802854431,
+                  "model_area_mA": 60.5675481918093,
+                  "missing_area_mA": 1.5506098367350063
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 8.592267467191675,
+                  "model_area_mA": 7.013722743279266,
+                  "missing_area_mA": 1.578544723912409
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "observed_p95_envelope",
+          "observed_area_mA": 74.10888772336196,
+          "residuals": [
+            {
+              "model": "canonical_broadened",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 5.592697824918209,
+                  "model_area_mA": 5.525151824470894,
+                  "missing_area_mA": 0.06754600044731429
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 61.229179317456,
+                  "model_area_mA": 60.92421937231663,
+                  "missing_area_mA": 0.3049599451393732
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 7.28701058098776,
+                  "model_area_mA": 5.5226205037342755,
+                  "missing_area_mA": 1.7643900772534842
+                }
+              ]
+            },
+            {
+              "model": "plus_gravitational_shift",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 5.592697824918209,
+                  "model_area_mA": 4.386069962113294,
+                  "missing_area_mA": 1.2066278628049147
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 61.229179317456,
+                  "model_area_mA": 60.5675481918093,
+                  "missing_area_mA": 0.6616311256467
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 7.28701058098776,
+                  "model_area_mA": 7.013722743279266,
+                  "missing_area_mA": 0.2732878377084935
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "model_guided_complete_coverage": false,
+      "model_guided": {
+        "applied": false,
+        "reason": "WITHHELD: saved model lacks complete +/-5 A neighborhood; no truncated-envelope substitution"
+      }
+    },
+    {
+      "centre_air_A": 7774.166,
+      "envelope": {
+        "level_at_centre": 0.9962956874999999,
+        "slope_per_A": -9.745833333326809e-05,
+        "n_bins": 9,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 local envelope: p95 per 1 A bin over +/-5 A, 2-MAD low clip, degree 1"
+      },
+      "variants": [
+        {
+          "name": "shipped",
+          "observed_area_mA": 67.20039135548947,
+          "residuals": [
+            {
+              "model": "canonical_broadened",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 5.305368949412546,
+                  "model_area_mA": 4.4425928198681355,
+                  "missing_area_mA": 0.862776129544411
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 54.79636690256567,
+                  "model_area_mA": 53.27799749363045,
+                  "missing_area_mA": 1.5183694089352215
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 7.0986555035112495,
+                  "model_area_mA": 4.433021584944083,
+                  "missing_area_mA": 2.665633918567167
+                }
+              ]
+            },
+            {
+              "model": "plus_gravitational_shift",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 5.305368949412546,
+                  "model_area_mA": 3.4894475119844177,
+                  "missing_area_mA": 1.8159214374281287
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 54.79636690256567,
+                  "model_area_mA": 52.977825223856584,
+                  "missing_area_mA": 1.8185416787090887
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 7.0986555035112495,
+                  "model_area_mA": 5.679430299192756,
+                  "missing_area_mA": 1.4192252043184936
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "observed_p95_envelope",
+          "observed_area_mA": 63.732241467127594,
+          "residuals": [
+            {
+              "model": "canonical_broadened",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 4.034801781820254,
+                  "model_area_mA": 4.4425928198681355,
+                  "missing_area_mA": -0.40779103804788175
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 53.88472295337184,
+                  "model_area_mA": 53.27799749363045,
+                  "missing_area_mA": 0.6067254597413907
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 5.812716731935483,
+                  "model_area_mA": 4.433021584944083,
+                  "missing_area_mA": 1.3796951469914003
+                }
+              ]
+            },
+            {
+              "model": "plus_gravitational_shift",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 4.034801781820254,
+                  "model_area_mA": 3.4894475119844177,
+                  "missing_area_mA": 0.545354269835836
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 53.88472295337184,
+                  "model_area_mA": 52.977825223856584,
+                  "missing_area_mA": 0.9068977295152578
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 5.812716731935483,
+                  "model_area_mA": 5.679430299192756,
+                  "missing_area_mA": 0.133286432742727
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "model_guided_complete_coverage": true,
+      "model_guided": {
+        "level_at_centre": 1.0344707066967813,
+        "slope_per_A": -0.008877887352289808,
+        "n_bins": 90,
+        "applied": false,
+        "reason": "CONTINUUM_UNPLACEABLE: local level 1.0345 is more than 3% from unity; shipped continuum kept",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      },
+      "model_guided_anchor_geometry": {
+        "count": 90,
+        "min_air_A": 7778.2694913717705,
+        "max_air_A": 7779.159251150472,
+        "blue_count": 0,
+        "red_count": 90,
+        "note": "Pre-clipping selection, not final robust-fit anchors"
+      }
+    },
+    {
+      "centre_air_A": 7775.388,
+      "envelope": {
+        "level_at_centre": 0.9959504758064512,
+        "slope_per_A": -9.408064516126307e-05,
+        "n_bins": 9,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 local envelope: p95 per 1 A bin over +/-5 A, 2-MAD low clip, degree 1"
+      },
+      "variants": [
+        {
+          "name": "shipped",
+          "observed_area_mA": 53.794303530145754,
+          "residuals": [
+            {
+              "model": "canonical_broadened",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 4.321783284946675,
+                  "model_area_mA": 3.210072925177159,
+                  "missing_area_mA": 1.111710359769516
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 44.02314936046187,
+                  "model_area_mA": 42.54184909614292,
+                  "missing_area_mA": 1.4813002643189535
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 5.449370884737223,
+                  "model_area_mA": 3.021548485228553,
+                  "missing_area_mA": 2.42782239950867
+                }
+              ]
+            },
+            {
+              "model": "plus_gravitational_shift",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 4.321783284946675,
+                  "model_area_mA": 2.5118413928568724,
+                  "missing_area_mA": 1.8099418920898027
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 44.02314936046187,
+                  "model_area_mA": 42.3062115651524,
+                  "missing_area_mA": 1.7169377953094695
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 5.449370884737223,
+                  "model_area_mA": 3.9668226449113395,
+                  "missing_area_mA": 1.4825482398258836
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "observed_p95_envelope",
+          "observed_area_mA": 49.94709230076462,
+          "residuals": [
+            {
+              "model": "canonical_broadened",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 2.9269377638447867,
+                  "model_area_mA": 3.210072925177159,
+                  "missing_area_mA": -0.2831351613323725
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 42.9823834293254,
+                  "model_area_mA": 42.54184909614292,
+                  "missing_area_mA": 0.4405343331824838
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 4.03777110759442,
+                  "model_area_mA": 3.021548485228553,
+                  "missing_area_mA": 1.0162226223658668
+                }
+              ]
+            },
+            {
+              "model": "plus_gravitational_shift",
+              "zones": [
+                {
+                  "zone": "blue_wing",
+                  "observed_area_mA": 2.9269377638447867,
+                  "model_area_mA": 2.5118413928568724,
+                  "missing_area_mA": 0.4150963709879143
+                },
+                {
+                  "zone": "core",
+                  "observed_area_mA": 42.9823834293254,
+                  "model_area_mA": 42.3062115651524,
+                  "missing_area_mA": 0.6761718641729999
+                },
+                {
+                  "zone": "red_wing",
+                  "observed_area_mA": 4.03777110759442,
+                  "model_area_mA": 3.9668226449113395,
+                  "missing_area_mA": 0.0709484626830803
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "model_guided_complete_coverage": false,
+      "model_guided": {
+        "applied": false,
+        "reason": "WITHHELD: saved model lacks complete +/-5 A neighborhood; no truncated-envelope substitution"
+      }
+    }
+  ]
+}

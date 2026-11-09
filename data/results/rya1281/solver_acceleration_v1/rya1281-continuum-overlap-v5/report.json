@@ -1,0 +1,122 @@
+{
+  "schema": "codex.bride_overlap_thermal_control/1",
+  "scientific_admission": "HOLD",
+  "plugin": {
+    "receipt": {
+      "name": "receipt.json",
+      "bytes": 12071,
+      "sha256": "affeddb27f44ca985c48f8101c3e2ae010c20cc33ee4a00bb7edde267a890fb9"
+    },
+    "plugin": {
+      "name": "bride_overlap_guard.dylib",
+      "bytes": 222696,
+      "sha256": "2f9545455a8e4bdaf5fcbe9dae3b64f164ee51b0041c89df500e21cdbe129f16"
+    },
+    "backend": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "properties": {
+      "name": "bride_transition_local_scalar",
+      "Ndim": -1,
+      "dimensionSpecific": false,
+      "respectsFormalSolver": true,
+      "defaultPerAtomStorage": true,
+      "defaultWlaGijStorage": true
+    }
+  },
+  "exact_thermal_background": true,
+  "population_pattern": "disturbed",
+  "generator": {
+    "name": "audit_bride_overlapping_continua.py",
+    "bytes": 5065,
+    "sha256": "ec1665453c82c41f3c1585e6abb1f94accd5c9a4dedc3a3ef88630de1b78b514"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "rows": [
+    {
+      "variant": "single_ground",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999999999999997,
+      "operator_action_discrepancy": 7.068463997348678e-17,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_ground",
+      "lambda_iterate": false,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999999999999997,
+      "operator_action_discrepancy": 2.8233967481435345e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_ground",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999999999999997,
+      "operator_action_discrepancy": 7.068463997348678e-17,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_excited",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999999994339336,
+      "operator_action_discrepancy": 0.0,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_excited",
+      "lambda_iterate": false,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999999994339336,
+      "operator_action_discrepancy": 1.7116608308694547e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_excited",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999999994339336,
+      "operator_action_discrepancy": 0.0,
+      "population_change": 0.0
+    },
+    {
+      "variant": "overlapping",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999838951483846,
+      "operator_action_discrepancy": 7.002765857723775e-17,
+      "population_change": 0.0
+    },
+    {
+      "variant": "overlapping",
+      "lambda_iterate": false,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999838951483846,
+      "operator_action_discrepancy": 2.4505893047638307e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "overlapping",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 0.39999838951483846,
+      "operator_action_discrepancy": 7.002765857723775e-17,
+      "population_change": 0.0
+    }
+  ],
+  "arrays": {
+    "name": "operators.npz",
+    "bytes": 9015,
+    "sha256": "41f11eb604f2a3d4a2dfac8bc2e3062f81c8305bcef281ae1c9fcfda05a9f061"
+  },
+  "seconds": 0.5143529581837356,
+  "scope": "Minimal compiled-backend thermal control for overlapping ion continua.\n\nSynthetic three-level oxygen-labelled atom, no scientific oxygen interpretation,\ncustom collisions, finite cap, NLTE seed, source atom, interpolation or Ng.\n"
+}

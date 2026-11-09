@@ -125,6 +125,649 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.bride_molecular_tables:
+    root: work
+    rel: bride_inputs/rya1281/barklem-collet-cd2f54ed
+    env: CODEX_BRIDE_MOLECULAR_TABLES
+    kind: dir
+    desc: Pinned author Barklem-Collet2016 tables with November2022 correction; experimental chemistry source, not production CNO/EOS admission.
+  experiments.bride_fe_packet:
+    root: work
+    rel: bride_inputs/rya1281/fe-nuv-packet-v1
+    env: CODEX_BRIDE_FE_PACKET
+    kind: dir
+    desc: Source-derived TS FeI LTE background packet at the exact5750/4.5 node; bounded NUV intervention only, not production opacity.
+  experiments.bride_ts_budget_build:
+    root: work
+    rel: bride_inputs/rya1281/ts-budget-build-v4
+    env: CODEX_BRIDE_TS_BUDGET_BUILD
+    kind: dir
+    desc: Pinned isolated Mac TS baseline and reporting-only derivative; diagnostic, not native MULTI producer.
+  experiments.bride_marcs_opacity:
+    root: work
+    rel: bride_inputs/rya1281/marcs-opacity-v2
+    kind: dir
+    desc: Exact 5750/4.5 MARCS continuum-opacity companion and official format reader; wavelength medium unverified, not native MULTI producer opacity.
+  experiments.bride_marcs_interpolator:
+    root: work
+    rel: bride_mac_checks/rya1281-masseron-intake-v1
+    env: CODEX_BRIDE_MARCS_INTERPOLATOR
+    kind: dir
+    desc: Hash-receipted official Masseron MARCS utility/manual; isolated unmodified column kernel tested, full interpolation unexecuted and no physical admission.
+  experiments.bride_continuum_anchor:
+    root: work
+    rel: bride_mac_checks/rya1281-continuum-anchor-v1
+    env: CODEX_BRIDE_CONTINUUM_ANCHOR
+    kind: dir
+    desc: Derived frozen-profile anchor/denominator diagnostics; raw external source spectra remain read-only.
+  experiments.bride_continuum_support:
+    root: work
+    rel: bride_mac_checks/rya1281-continuum-support-v1
+    env: CODEX_BRIDE_CONTINUUM_SUPPORT
+    kind: dir
+    desc: Explicit clipping termination and actual coefficient support; preserves native continuum values and prior anchor audit.
+  experiments.bride_iag_quality:
+    root: work
+    rel: bride_mac_checks/rya1281-iag-quality-v1
+    env: CODEX_BRIDE_IAG_QUALITY
+    kind: dir
+    desc: Read-only Baker IAG O777 flag coverage and unresolved fractional-flag provenance; no spectrum changes.
+  experiments.bride_resolution_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-reference-resolution-v1
+    env: CODEX_BRIDE_RESOLUTION_AUDIT
+    kind: dir
+    desc: Frozen O777 Gaussian resolution sensitivity; no calibrated FTS kernel or adoption.
+  experiments.bride_anchor_influence:
+    root: work
+    rel: bride_mac_checks/rya1281-anchor-influence-v1
+    env: CODEX_BRIDE_ANCHOR_INFLUENCE
+    kind: dir
+    desc: Fixed-support signed continuum accounting and source availability; no blend identification or opacity adoption.
+  experiments.bride_lte_screen:
+    root: work
+    rel: bride_mac_checks/rya1281-lte-opacity-screen-v1
+    env: CODEX_BRIDE_LTE_SCREEN
+    kind: dir
+    desc: Local natural-only LTE coefficients at historical frozen anchors; no RT, inferred flux or opacity adoption.
+  experiments.bride_lte_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-lte-opacity-analysis-v1
+    env: CODEX_BRIDE_LTE_ANALYSIS
+    kind: dir
+    desc: Full-column local-opacity footprint summaries and plot; no formation-depth or flux inference.
+  experiments.bride_feii_transfer:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-transfer-v1
+    env: CODEX_BRIDE_FEII_TRANSFER
+    kind: dir
+    desc: Immutable fixed-O paired natural FeII transfer; frozen historical source/rule, no opacity adoption.
+  experiments.bride_feii_width_transfer:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-transfer-v1
+    env: CODEX_BRIDE_FEII_WIDTH_TRANSFER
+    kind: dir
+    desc: Fixed-O natural versus W-pressure FeII transfer with separate ionic Cowley and supplied Stark controls.
+  experiments.bride_feii_width_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-analysis-v1
+    env: CODEX_BRIDE_FEII_WIDTH_ANALYSIS
+    kind: dir
+    desc: Both references and RV variants for source-width FeII transfer; historical continuum rule, no adoption.
+  experiments.bride_feii_width_anchors:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-anchors-v1
+    env: CODEX_BRIDE_FEII_WIDTH_ANCHORS
+    kind: dir
+    desc: Exact continuum-record replay and actual support changes for both FeII width alternatives.
+  experiments.bride_crossed_continuum:
+    root: work
+    rel: bride_mac_checks/rya1281-crossed-continuum-v1
+    env: CODEX_BRIDE_CROSSED_CONTINUUM
+    kind: dir
+    desc: Crossed fixed observation supports and natural/source-width references; finite accounting, no adopted continuum.
+  experiments.bride_current_orch_checkout:
+    root: work
+    rel: rya1281-orch-current-de96ae51
+    env: CODEX_BRIDE_CURRENT_ORCH_CHECKOUT
+    kind: dir
+    desc: Complete detached current main de96ae51 checkout containing merged RYA1315 ORCH; separate from historical Bride controls.
+  experiments.bride_current_orch:
+    root: work
+    rel: bride_mac_checks/rya1281-current-orch-v2
+    env: CODEX_BRIDE_CURRENT_ORCH
+    kind: dir
+    desc: Accepted actual current-ORCH continuum replay and synthetic bound canaries; no new RT or full ORCH execution.
+  experiments.bride_feii_coupled:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-coupled-v1
+    env: CODEX_BRIDE_FEII_COUPLED
+    kind: dir
+    desc: Three canonical O SE/radiation controls with natural and source-width FeII; fixed atmosphere/EOS, fresh physical rates.
+  experiments.bride_feii_coupled_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-coupled-analysis-v1
+    env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
+    kind: dir
+    desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_solar_safeguarded_backtrack:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-safeguarded-backtrack-v1
+    kind: dir
+    desc: Isolated Mac numerical qualification; physical rates and scientific admission unchanged.
+  experiments.bride_ng_baseline_comparison:
+    root: work
+    rel: bride_mac_checks/rya1281-ng-baseline-comparison-v2
+    kind: dir
+    desc: Isolated Mac numerical qualification; physical rates and scientific admission unchanged.
+  experiments.bride_orch_continuum_parity:
+    root: work
+    rel: bride_mac_checks/rya1281-orch-continuum-parity-v5
+    kind: dir
+    desc: Pinned ORCH old/new continuum replay with anchor geometry and explicit refusals.
+  experiments.bride_orch_continuum_shifted:
+    root: work
+    rel: bride_mac_checks/rya1281-orch-continuum-shifted-v1
+    kind: dir
+    desc: Declared shifted-window diagnostic; no observation shift or adopted continuum.
+  experiments.bride_solar_sensitivity:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-sensitivity-v1
+    kind: dir
+    desc: Independent solar10K and extended RT microturbulence controls; scientific HOLD.
+  experiments.bride_full_cap_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-full-cap-plugin-v1
+    kind: dir
+    desc: Isolated complete-coupling numerical control; original physical transfer and scientific admission unchanged.
+  experiments.bride_solar_full_coupling:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-full-coupling-v1
+    kind: dir
+    desc: Isolated complete-coupling numerical control; original physical transfer and scientific admission unchanged.
+  experiments.bride_full_coupling_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-full-coupling-plugin-v1
+    kind: dir
+    desc: Preserved isolated numerical control; source backend and scientific admission unchanged.
+  experiments.bride_solar_secant:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-secant-v1
+    kind: dir
+    desc: Preserved isolated numerical control; source backend and scientific admission unchanged.
+  experiments.bride_population_linear_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-population-linear-audit-v1
+    kind: dir
+    desc: Preserved isolated numerical control; source backend and scientific admission unchanged.
+  experiments.bride_solar_transition_no_ng:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-transition-no-ng-v1
+    kind: dir
+    desc: Fresh transition-local MALI control with native Ng disabled; original budgets and physical admission unchanged.
+  experiments.bride_solar_transition_no_ng_dry:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-transition-no-ng-dry-v1
+    kind: dir
+    desc: Preserved isolated Mac numerical control; no physical model or production admission.
+  experiments.bride_overlap_guard_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-overlap-plugin-v1
+    kind: dir
+    desc: Preserved isolated Mac numerical control; no physical model or production admission.
+  experiments.bride_transition_operator_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-mali-operator-audit-v3
+    kind: dir
+    desc: Preserved isolated Mac numerical control; no physical model or production admission.
+  experiments.bride_transition_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-transition-plugin-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
+  experiments.bride_solar_transition:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-transition-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
+  experiments.bride_solar_anderson:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-anderson-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
+  experiments.bride_solver_conditioning:
+    root: work
+    rel: bride_mac_checks/rya1281-solver-conditioning-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
+  experiments.bride_solar_matched:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-matched-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_solar_departure:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-matched-v2
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_solar_mali:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-mali-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_mali_operator_audit:
+    root: work
+    rel: bride_mac_checks/rya1281-mali-operator-audit-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_solar_defect:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-defect-v1
+    kind: dir
+    desc: Preserved bounded matched-solar solver control; no scientific admission or production use.
+  experiments.bride_o_shape_milestone:
+    root: work
+    rel: bride_mac_checks/rya1281-O-shape-milestone-v1
+    env: CODEX_BRIDE_O_SHAPE_MILESTONE
+    kind: dir
+    desc: Complete O777 shape suite, six source controls, both RVs/shoulder schemes, seven fixed broadening variants and three atlas views; no fit/adoption.
+  experiments.bride_o_shape_assessment:
+    root: work
+    rel: bride_mac_checks/rya1281-O-shape-assessment-v1
+    env: CODEX_BRIDE_O_SHAPE_ASSESSMENT
+    kind: dir
+    desc: Complete-case verification and conditional O777 milestone assessment; diagnostic complete, scientific solar/model admission remains HOLD.
+  experiments.bride_h_reference_values_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-reference-values-v1
+    env: CODEX_BRIDE_H_REFERENCE_VALUES_FIRST
+    kind: dir
+    desc: Preserved first same-pixel reference audit; valid selected outputs but unused padded-grid division warned before v2 domain fix.
+  experiments.bride_h_reference_values:
+    root: work
+    rel: bride_mac_checks/rya1281-H-reference-values-v2
+    env: CODEX_BRIDE_H_REFERENCE_VALUES
+    kind: dir
+    desc: Same-pixel value/level/slope/area identities and held IAG/Kitt source-lineage audit; no atlas rescaling or abundance adoption.
+  experiments.bride_h_bracket_support_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-bracket-support-v1
+    env: CODEX_BRIDE_H_BRACKET_SUPPORT_FIRST
+    kind: dir
+    desc: First completed fixed-support crossed denominator controls, preserved before finite-accounting extension.
+  experiments.bride_h_bracket_support:
+    root: work
+    rel: bride_mac_checks/rya1281-H-bracket-support-v2
+    env: CODEX_BRIDE_H_BRACKET_SUPPORT
+    kind: dir
+    desc: Six-spectrum fixed-support synthesis/IAG controls with explicit bracketing refusals and finite intervention accounting; no adoption.
+  experiments.bride_h_kitt_orch_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-kitt-orch-v3
+    env: CODEX_BRIDE_H_KITT_ORCH_FIRST
+    kind: dir
+    desc: First completed pinned ORCH Kitt Peak replay; nominal results preserved before support-trace metadata extension.
+  experiments.bride_h_kitt_orch:
+    root: work
+    rel: bride_mac_checks/rya1281-H-kitt-orch-v4
+    env: CODEX_BRIDE_H_KITT_ORCH
+    kind: dir
+    desc: Accepted paired-H six-spectrum Kitt Peak replay with actual pinned ORCH continua and coefficient support, no abundance adoption.
+  experiments.bride_h_fixed_transfer:
+    root: work
+    rel: bride_mac_checks/rya1281-H-fixed-transfer-v1
+    env: CODEX_BRIDE_H_FIXED_TRANSFER
+    kind: dir
+    desc: Same model-H oxygen fractions under both H totals, fresh fixed-population transfer and same-H replay; no SE update.
+  experiments.bride_h_fixed_transfer_reciprocal:
+    root: work
+    rel: bride_mac_checks/rya1281-H-fixed-transfer-reciprocal-v1
+    env: CODEX_BRIDE_H_FIXED_TRANSFER_RECIPROCAL
+    kind: dir
+    desc: Reciprocal native-H fraction anchor for fixed-population transfer attribution; no SE or EOS admission.
+  experiments.bride_h_nlte_pair_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-pair-analysis-v1
+    env: CODEX_BRIDE_H_NLTE_PAIR_ANALYSIS
+    kind: dir
+    desc: Independently audited common-seed paired O NLTE departures and intrinsic flux; no observation fit or normalization adoption.
+  experiments.bride_h_nlte_pair_restart:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-pair-v2
+    env: CODEX_BRIDE_H_NLTE_PAIR_RESTART
+    kind: dir
+    desc: Fresh paired O NLTE cases from identical completed v1 bare-background fractions, original budgets and independent audits; HOLD.
+  experiments.bride_h_nlte_restart_dry:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-restart-dry-v1
+    env: CODEX_BRIDE_H_NLTE_RESTART_DRY
+    kind: dir
+    desc: Shared closer-seed paired O NLTE Context dry run.
+  experiments.bride_h_nlte_pair:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-pair-v1
+    env: CODEX_BRIDE_H_NLTE_PAIR
+    kind: dir
+    desc: Bounded serial fixed-column O NLTE H-normalization attempts; completed manifests required for comparison, scientific HOLD.
+  experiments.bride_h_nlte_dry:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-dry-v1
+    env: CODEX_BRIDE_H_NLTE_DRY
+    kind: dir
+    desc: Model-mass H paired NLTE input and Context dry run.
+  experiments.bride_h_nlte_dry_native:
+    root: work
+    rel: bride_mac_checks/rya1281-H-nlte-dry-native-v1
+    env: CODEX_BRIDE_H_NLTE_DRY_NATIVE
+    kind: dir
+    desc: Native-network H paired NLTE input and Context dry run.
+  experiments.bride_cn_paired_bindings_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-paired-bindings-v1
+    env: CODEX_BRIDE_CN_PAIRED_BINDINGS_FIRST
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
+  experiments.bride_cn_paired_bindings:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-paired-bindings-v2
+    env: CODEX_BRIDE_CN_PAIRED_BINDINGS
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
+  experiments.bride_h_background_components_first:
+    root: work
+    rel: bride_mac_checks/rya1281-H-background-components-v1
+    env: CODEX_BRIDE_H_BACKGROUND_COMPONENTS_FIRST
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
+  experiments.bride_h_background_components:
+    root: work
+    rel: bride_mac_checks/rya1281-H-background-components-v2
+    env: CODEX_BRIDE_H_BACKGROUND_COMPONENTS
+    kind: dir
+    desc: Explicit paired H-normalization background/LTE arrays and source component closure; no RT, EOS or model admission.
+  experiments.bride_cn_native_binding:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-native-binding-v1
+    env: CODEX_BRIDE_CN_NATIVE_BINDING
+    kind: dir
+    desc: Native implemented-network H/density normalization inventory and explicit unit closure; no native-provider or physical EOS admission.
+  experiments.bride_cn_binding_closure_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-binding-closure-v1
+    env: CODEX_BRIDE_CN_BINDING_CLOSURE_FIRST
+    kind: dir
+    desc: Native implemented-network H/density normalization inventory and explicit unit closure; no native-provider or physical EOS admission.
+  experiments.bride_cn_binding_closure:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-binding-closure-v2
+    env: CODEX_BRIDE_CN_BINDING_CLOSURE
+    kind: dir
+    desc: Explicit typed/finiteness-checked native normalization decomposition; no adopted density or provider admission.
+  experiments.bride_cn_provider_arrays_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-provider-arrays-v1
+    env: CODEX_BRIDE_CN_PROVIDER_ARRAYS_FIRST
+    kind: dir
+    desc: Disposable H-only LW synthetic CN background-array checks; no native population, RT or physical model admission.
+  experiments.bride_cn_provider_arrays:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-provider-arrays-v2
+    env: CODEX_BRIDE_CN_PROVIDER_ARRAYS
+    kind: dir
+    desc: Disposable H-only LW synthetic CN background-array checks; no native population, RT or physical model admission.
+  experiments.bride_cn_coordinates_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-coordinates-v1
+    env: CODEX_BRIDE_CN_COORDINATES_FIRST
+    kind: dir
+    desc: Explicit native AIR versus exact vacuum-coordinate profile diagnostics; no provider, chemistry or model admission.
+  experiments.bride_cn_coordinates:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-coordinates-v2
+    env: CODEX_BRIDE_CN_COORDINATES
+    kind: dir
+    desc: Explicit native AIR versus exact vacuum-coordinate profile diagnostics; no provider, chemistry or model admission.
+  experiments.bride_cn_profiles:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-profiles-v1
+    env: CODEX_BRIDE_CN_PROFILES
+    kind: dir
+    desc: Native Voigt caller and external-state CN SI kernel checks; no chemistry, wavelength-frame or model admission.
+  experiments.bride_cn_coefficients_first:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-coefficients-v1
+    env: CODEX_BRIDE_CN_COEFFICIENTS_FIRST
+    kind: dir
+    desc: Private native reporting build and CN state/coefficient checks; spectrum parity required, no primary or production admission.
+  experiments.bride_cn_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-coefficients-v2
+    env: CODEX_BRIDE_CN_COEFFICIENTS
+    kind: dir
+    desc: Private native reporting build and CN state/coefficient checks; spectrum parity required, no primary or production admission.
+  experiments.bride_cn_interface:
+    root: work
+    rel: bride_mac_checks/rya1281-cn-interface-v2
+    env: CODEX_BRIDE_CN_INTERFACE
+    kind: dir
+    desc: Read-only CN source semantics and isotope serialization audit; no native partition runtime or chemistry validation.
+  experiments.bride_native_lte_build_first:
+    root: work
+    rel: bride_mac_checks/rya1281-native-lte-build-v1
+    env: CODEX_BRIDE_NATIVE_LTE_BUILD_FIRST
+    kind: dir
+    desc: Preserved native LTE diagnostic native_lte_build_first; no abundance or production admission.
+  experiments.bride_native_lte_build:
+    root: work
+    rel: bride_mac_checks/rya1281-native-lte-build-v2
+    env: CODEX_BRIDE_NATIVE_LTE_BUILD
+    kind: dir
+    desc: Preserved native LTE diagnostic native_lte_build; no abundance or production admission.
+  experiments.bride_native_molecules_first:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_FIRST
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_first; no abundance or production admission.
+  experiments.bride_native_molecules:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-v2
+    env: CODEX_BRIDE_NATIVE_MOLECULES
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules; no abundance or production admission.
+  experiments.bride_native_molecules_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-analysis-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_ANALYSIS
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_analysis; no abundance or production admission.
+  experiments.bride_native_molecules_trace:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-trace-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_TRACE
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_trace; no abundance or production admission.
+  experiments.bride_native_molecules_plot:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-plot-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_PLOT
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_plot; no abundance or production admission.
+  experiments.bride_native_molecules_receipts:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-receipts-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_RECEIPTS
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_receipts; no abundance or production admission.
+  experiments.bride_native_molecules_repeat_first:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-repeat-v1
+    env: CODEX_BRIDE_NATIVE_MOLECULES_REPEAT_FIRST
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_repeat_first; no abundance or production admission.
+  experiments.bride_native_molecules_repeat:
+    root: work
+    rel: bride_mac_checks/rya1281-native-molecules-repeat-v2
+    env: CODEX_BRIDE_NATIVE_MOLECULES_REPEAT
+    kind: dir
+    desc: Preserved native LTE diagnostic native_molecules_repeat; no abundance or production admission.
+  experiments.bride_missing_opacity:
+    root: work
+    rel: bride_mac_checks/rya1281-missing-opacity-v1
+    env: CODEX_BRIDE_MISSING_OPACITY
+    kind: dir
+    desc: Canonical/installed CNO molecular source-row census and omitted atomic ranks; geometry only, no opacity or abundance admission.
+  experiments.bride_co_source_first:
+    root: work
+    rel: bride_mac_checks/rya1281-co-source-v1
+    env: CODEX_BRIDE_CO_SOURCE_FIRST
+    kind: dir
+    desc: Original separate CO vacuum-to-air source census; preserved before source-ID membership summary extension.
+  experiments.bride_co_source:
+    root: work
+    rel: bride_mac_checks/rya1281-co-source-v2
+    env: CODEX_BRIDE_CO_SOURCE
+    kind: dir
+    desc: Same CO row census plus explicit source-ID overlap across raw-vacuum and converted-air membership; no opacity/adoption.
+  experiments.bride_crossed_continuum_plot:
+    root: work
+    rel: bride_mac_checks/rya1281-crossed-continuum-plot-v1
+    env: CODEX_BRIDE_CROSSED_CONTINUUM_PLOT
+    kind: dir
+    desc: Finite support/denominator path accounting figure; not independent uncertainty terms.
+  experiments.bride_feii_analysis:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-analysis-v1
+    env: CODEX_BRIDE_FEII_ANALYSIS
+    kind: dir
+    desc: Both historical continuum-reference and RV legs of fixed-O FeII differential, no preferred fit.
+  experiments.bride_feii_anchors:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-anchor-trace-v1
+    env: CODEX_BRIDE_FEII_ANCHORS
+    kind: dir
+    desc: Exact native-record/area replay and actual anchor changes in FeII differential.
+  experiments.bride_feii_profile:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-profile-v1
+    env: CODEX_BRIDE_FEII_PROFILE
+    kind: dir
+    desc: Shipped and fixed-shoulder feature comparison to both atlases; no fitted gf/width/RV or adopted continuum.
+  experiments.bride_feii_width_source:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-source-v1
+    env: CODEX_BRIDE_FEII_WIDTH_SOURCE
+    kind: dir
+    desc: Isolated pinned native FeII pressure/Stark branch proof and full-column widths; H2 omitted, no transfer/adoption.
+  experiments.bride_feii_width_final:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-source-v2
+    env: CODEX_BRIDE_FEII_WIDTH_FINAL
+    kind: dir
+    desc: Accepted delimited native FeII source audit; original v1 parser refusal preserved. No opacity/adoption.
+  experiments.bride_feii_profile_final:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-profile-v2
+    env: CODEX_BRIDE_FEII_PROFILE_FINAL
+    kind: dir
+    desc: Same fixed profile metrics plus explicit shoulder structure/candidate limitations; original v1 preserved, no retuning/adoption.
+  experiments.bride_feii_width_receipts:
+    root: work
+    rel: bride_mac_checks/rya1281-feii-width-receipts-v1
+    env: CODEX_BRIDE_FEII_WIDTH_RECEIPTS
+    kind: dir
+    desc: Byte-exact native padding stays external; driver/stdout/binary hashes and rejected/accepted numeric identity retained.
+  experiments.bride_ng_extended:
+    root: work
+    rel: bride_mac_checks/rya1281-ng-extended-v1
+    env: CODEX_BRIDE_NG_EXTENDED
+    kind: dir
+    desc: One enabled-Ng lower-gravity replay with predeclared1200s cost cap and unchanged accuracy gates.
+  experiments.bride_ng_controls:
+    root: work
+    rel: bride_mac_checks/rya1281-ng-control-v1
+    env: CODEX_BRIDE_NG_CONTROLS
+    kind: dir
+    desc: Recorded native Ng-on/off lower-gravity controls; derived arrays and explicit failures, no physics admission.
+  experiments.bride_thermal_extreme_refinements:
+    root: work
+    rel: bride_mac_checks/rya1281-thermal-extremes-matched-v1
+    env: CODEX_BRIDE_THERMAL_EXTREME_REFINEMENTS
+    kind: dir
+    desc: Complete derived endpoint numerical-refinement archives, including external R/C/J arrays with verified receipts.
+  experiments.bride_thermal_extreme_legacy:
+    root: work
+    rel: bride_mac_checks/rya1281-thermal-extremes-refined-v1
+    env: CODEX_BRIDE_THERMAL_EXTREME_LEGACY
+    kind: dir
+    desc: Preserved original-solar-start endpoint refinement attempt; no acceptance implied.
+  experiments.bride_thermal_refined_rates:
+    root: work
+    rel: bride_mac_checks/rya1281-thermal-refined-v1/rates.npz
+    env: CODEX_BRIDE_THERMAL_REFINED_RATES
+    kind: file
+    desc: Complete derived nominal-refinement R/C/J arrays; exceeds git5MiB ceiling, hash-receipted in thermal_slice_v1.
+  experiments.bride_thermal_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-thermal-coefficients-v1
+    env: CODEX_BRIDE_THERMAL_COEFFICIENTS
+    kind: dir
+    desc: Fresh experimental Teff/gravity coefficients and exact bindings; no automatic admission.
+  experiments.bride_xi_wide_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-xi-wide-coefficients-v1
+    env: CODEX_BRIDE_XI_WIDE_COEFFICIENTS
+    kind: dir
+    desc: Wider0.5-1.5km/s experimental xi certificates; no production/provider admission.
+  experiments.bride_xi_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-xi-coefficients-v1
+    env: CODEX_BRIDE_XI_COEFFICIENTS
+    kind: dir
+    desc: Fresh exact-input xi sweep certificates; experimental only, no native/provider admission.
+  experiments.bride_bound_point_coefficients:
+    root: work
+    rel: bride_mac_checks/rya1281-bound-point-coefficients-v3
+    env: CODEX_BRIDE_BOUND_POINT_COEFFICIENTS
+    kind: dir
+    desc: Immutable exact-input TS point coefficient certificates; no automatic provider or interpolated-cap admission.
+  experiments.bride_multi_lte_oracle:
+    root: work
+    rel: bride_inputs/rya1281/native-lte-v1
+    env: CODEX_BRIDE_MULTI_LTE_ORACLE
+    kind: dir
+    desc: Pinned O-only native MULTI LTEPOP normalization oracle; no native EOS, opacity or RT solution.
+  experiments.bride_barklem_oxygen:
+    root: work
+    rel: bride_inputs/rya1281/barklem-oxygen-cd2f54ed
+    kind: dir
+    desc: Hash-pinned author O+H rate matrices for non-adopted reverse-channel diagnostics; not a production atomic bundle.
+  experiments.bride_multi_spline_oracle:
+    root: work
+    rel: bride_inputs/rya1281/native-spline-v2
+    env: CODEX_BRIDE_MULTI_SPLINE_ORACLE
+    kind: dir
+    desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
+  experiments.bride_oxygen_atom:
+    root: work
+    rel: bride_inputs/rya1281/atom.o41f
+    kind: file
+    desc: Hash-pinned O41f staging copy for Ryan-authorized Mac sensitivity experiments; no production admission.
+  experiments.bride_mac_grid:
+    root: work
+    rel: bride_mac_checks
+    kind: dir
+    desc: Original immutable Mac O41f solved-grid experiments and populations; experimental1D only, no production token.
+  engines.bride_eval:
+    root: home
+    rel: bride_rya1118
+    env: CODEX_BRIDE_EVAL
+    kind: dir
+    desc: >-
+      Existing isolated Lightweaver/STAGGER evaluation holding (RYA-1118).
+      Discovery is not compute authorization. Override on another host;
+      missing resources fail loudly. No production solver is registered here.
+
   refs.library:
     root: home
     rel: Documents/Exoplanet Codex/Reference documents

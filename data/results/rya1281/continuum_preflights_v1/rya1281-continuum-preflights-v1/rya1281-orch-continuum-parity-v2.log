@@ -1,0 +1,11 @@
+  ⚠️  CONTINUUM REFERENCE LEG (RYA-587 contref): iag
+  ⚠️  CONTINUUM REFERENCE LEG (RYA-587 contref): iag
+Traceback (most recent call last):
+  File "/Users/ryanschmitt/codex/rya1279/scripts/analyze_bride_orch_continuum_parity.py", line 106, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/ryanschmitt/codex/rya1279/scripts/analyze_bride_orch_continuum_parity.py", line 55, in main
+    assert_not_renormalising(holding,pre_normalised=True,local_window_envelope=True)
+  File "/Users/ryanschmitt/codex/rya1279/pipeline/prenormalised_guard.py", line 111, in assert_not_renormalising
+    raise RenormalisationError(
+pipeline.prenormalised_guard.RenormalisationError: solar_iag_baker2020: DRIFT. The RYA-1026 registry says pre_normalised=False but the holding spec is configured True. These must agree. Do not 'fix' this by editing whichever is convenient -- decide which is true for the PRODUCT and change that one, because this exact disagreement is how RYA-929 shipped a product that was re-normalised for months without anything objecting.

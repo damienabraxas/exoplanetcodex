@@ -1,0 +1,908 @@
+[
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.944,
+    "scheme": "inner",
+    "side": "blue",
+    "lo_air_A": 7771.394,
+    "hi_air_A": 7771.594,
+    "candidates": [
+      {
+        "line_id": "gf_015732",
+        "species": "Ca I",
+        "wave_air_A": "7771.481",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_045614",
+        "species": "Cr II",
+        "wave_air_A": "7771.547",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_064799",
+        "species": "Fe I",
+        "wave_air_A": "7771.424",
+        "treatment": "trace_FeI"
+      },
+      {
+        "line_id": "gf_078994",
+        "species": "Fe II",
+        "wave_air_A": "7771.472",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_094362",
+        "species": "Mn II",
+        "wave_air_A": "7771.439",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106246",
+        "species": "Ni II",
+        "wave_air_A": "7771.409",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_127779",
+        "species": "Ti I",
+        "wave_air_A": "7771.409",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.944,
+    "scheme": "inner",
+    "side": "red",
+    "lo_air_A": 7772.294000000001,
+    "hi_air_A": 7772.494000000001,
+    "candidates": [
+      {
+        "line_id": "gf_015733",
+        "species": "Ca I",
+        "wave_air_A": "7772.382",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_091444",
+        "species": "Mn I",
+        "wave_air_A": "7772.406",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.944,
+    "scheme": "outer",
+    "side": "blue",
+    "lo_air_A": 7771.094,
+    "hi_air_A": 7771.294000000001,
+    "candidates": [
+      {
+        "line_id": "gf_015731",
+        "species": "Ca I",
+        "wave_air_A": "7771.144",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_026217",
+        "species": "Cl I",
+        "wave_air_A": "7771.094",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_039278",
+        "species": "Cr I",
+        "wave_air_A": "7771.141",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_064797",
+        "species": "Fe I",
+        "wave_air_A": "7771.095",
+        "treatment": "trace_FeI"
+      },
+      {
+        "line_id": "gf_064798",
+        "species": "Fe I",
+        "wave_air_A": "7771.23",
+        "treatment": "trace_FeI"
+      },
+      {
+        "line_id": "gf_127778",
+        "species": "Ti I",
+        "wave_air_A": "7771.191",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_132402",
+        "species": "Tm II",
+        "wave_air_A": "7771.221",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_140376",
+        "species": "V II",
+        "wave_air_A": "7771.252",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.944,
+    "scheme": "outer",
+    "side": "red",
+    "lo_air_A": 7772.594,
+    "hi_air_A": 7772.794000000001,
+    "candidates": [
+      {
+        "line_id": "gf_045617",
+        "species": "Cr II",
+        "wave_air_A": "7772.786",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_064804",
+        "species": "Fe I",
+        "wave_air_A": "7772.676",
+        "treatment": "excluded_combined_FeI"
+      },
+      {
+        "line_id": "gf_078997",
+        "species": "Fe II",
+        "wave_air_A": "7772.752",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_132404",
+        "species": "Tm II",
+        "wave_air_A": "7772.69",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_144780",
+        "species": "Yb II",
+        "wave_air_A": "7772.762",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.166,
+    "scheme": "inner",
+    "side": "blue",
+    "lo_air_A": 7773.616,
+    "hi_air_A": 7773.816,
+    "candidates": [
+      {
+        "line_id": "gf_079000",
+        "species": "Fe II",
+        "wave_air_A": "7773.625",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106253",
+        "species": "Ni II",
+        "wave_air_A": "7773.6486",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_116057",
+        "species": "Sc I",
+        "wave_air_A": "7773.638",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_132405",
+        "species": "Tm II",
+        "wave_air_A": "7773.808",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.166,
+    "scheme": "inner",
+    "side": "red",
+    "lo_air_A": 7774.5160000000005,
+    "hi_air_A": 7774.716,
+    "candidates": [
+      {
+        "line_id": "gf_015743",
+        "species": "Ca I",
+        "wave_air_A": "7774.594",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_045618",
+        "species": "Cr II",
+        "wave_air_A": "7774.666",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_079005",
+        "species": "Fe II",
+        "wave_air_A": "7774.6198",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106254",
+        "species": "Ni II",
+        "wave_air_A": "7774.569",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137516",
+        "species": "V I",
+        "wave_air_A": "7774.715",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.166,
+    "scheme": "outer",
+    "side": "blue",
+    "lo_air_A": 7773.316,
+    "hi_air_A": 7773.5160000000005,
+    "candidates": [
+      {
+        "line_id": "gf_030982",
+        "species": "Co II",
+        "wave_air_A": "7773.444",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_078998",
+        "species": "Fe II",
+        "wave_air_A": "7773.443",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_078999",
+        "species": "Fe II",
+        "wave_air_A": "7773.478",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_085359",
+        "species": "Gd II",
+        "wave_air_A": "7773.421",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106252",
+        "species": "Ni II",
+        "wave_air_A": "7773.469",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_127784",
+        "species": "Ti I",
+        "wave_air_A": "7773.401",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.166,
+    "scheme": "outer",
+    "side": "red",
+    "lo_air_A": 7774.816,
+    "hi_air_A": 7775.0160000000005,
+    "candidates": [
+      {
+        "line_id": "gf_039282",
+        "species": "Cr I",
+        "wave_air_A": "7774.867",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_039283",
+        "species": "Cr I",
+        "wave_air_A": "7774.979",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_079006",
+        "species": "Fe II",
+        "wave_air_A": "7774.837",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137517",
+        "species": "V I",
+        "wave_air_A": "7774.95",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.388,
+    "scheme": "inner",
+    "side": "blue",
+    "lo_air_A": 7774.838,
+    "hi_air_A": 7775.038,
+    "candidates": [
+      {
+        "line_id": "gf_039282",
+        "species": "Cr I",
+        "wave_air_A": "7774.867",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_039283",
+        "species": "Cr I",
+        "wave_air_A": "7774.979",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137517",
+        "species": "V I",
+        "wave_air_A": "7774.95",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.388,
+    "scheme": "inner",
+    "side": "red",
+    "lo_air_A": 7775.738,
+    "hi_air_A": 7775.938,
+    "candidates": [
+      {
+        "line_id": "gf_045619",
+        "species": "Cr II",
+        "wave_air_A": "7775.839",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_064813",
+        "species": "Fe I",
+        "wave_air_A": "7775.7387",
+        "treatment": "excluded_combined_FeI"
+      },
+      {
+        "line_id": "gf_079007",
+        "species": "Fe II",
+        "wave_air_A": "7775.86",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.388,
+    "scheme": "outer",
+    "side": "blue",
+    "lo_air_A": 7774.538,
+    "hi_air_A": 7774.738,
+    "candidates": [
+      {
+        "line_id": "gf_015743",
+        "species": "Ca I",
+        "wave_air_A": "7774.594",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_045618",
+        "species": "Cr II",
+        "wave_air_A": "7774.666",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_079005",
+        "species": "Fe II",
+        "wave_air_A": "7774.6198",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106254",
+        "species": "Ni II",
+        "wave_air_A": "7774.569",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137516",
+        "species": "V I",
+        "wave_air_A": "7774.715",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "no_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.388,
+    "scheme": "outer",
+    "side": "red",
+    "lo_air_A": 7776.038,
+    "hi_air_A": 7776.238,
+    "candidates": [
+      {
+        "line_id": "gf_079008",
+        "species": "Fe II",
+        "wave_air_A": "7776.174",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106258",
+        "species": "Ni II",
+        "wave_air_A": "7776.232",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_140378",
+        "species": "V II",
+        "wave_air_A": "7776.178",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.96041017182,
+    "scheme": "inner",
+    "side": "blue",
+    "lo_air_A": 7771.410410171819,
+    "hi_air_A": 7771.610410171819,
+    "candidates": [
+      {
+        "line_id": "gf_015732",
+        "species": "Ca I",
+        "wave_air_A": "7771.481",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_045614",
+        "species": "Cr II",
+        "wave_air_A": "7771.547",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_064799",
+        "species": "Fe I",
+        "wave_air_A": "7771.424",
+        "treatment": "trace_FeI"
+      },
+      {
+        "line_id": "gf_078994",
+        "species": "Fe II",
+        "wave_air_A": "7771.472",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_094362",
+        "species": "Mn II",
+        "wave_air_A": "7771.439",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106247",
+        "species": "Ni II",
+        "wave_air_A": "7771.602",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.96041017182,
+    "scheme": "inner",
+    "side": "red",
+    "lo_air_A": 7772.31041017182,
+    "hi_air_A": 7772.51041017182,
+    "candidates": [
+      {
+        "line_id": "gf_015733",
+        "species": "Ca I",
+        "wave_air_A": "7772.382",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_045616",
+        "species": "Cr II",
+        "wave_air_A": "7772.502",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_091444",
+        "species": "Mn I",
+        "wave_air_A": "7772.406",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.96041017182,
+    "scheme": "outer",
+    "side": "blue",
+    "lo_air_A": 7771.110410171819,
+    "hi_air_A": 7771.31041017182,
+    "candidates": [
+      {
+        "line_id": "gf_015731",
+        "species": "Ca I",
+        "wave_air_A": "7771.144",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_039278",
+        "species": "Cr I",
+        "wave_air_A": "7771.141",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_064798",
+        "species": "Fe I",
+        "wave_air_A": "7771.23",
+        "treatment": "trace_FeI"
+      },
+      {
+        "line_id": "gf_127778",
+        "species": "Ti I",
+        "wave_air_A": "7771.191",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_132402",
+        "species": "Tm II",
+        "wave_air_A": "7771.221",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_140376",
+        "species": "V II",
+        "wave_air_A": "7771.252",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7771.944,
+    "centre_air_A": 7771.96041017182,
+    "scheme": "outer",
+    "side": "red",
+    "lo_air_A": 7772.610410171819,
+    "hi_air_A": 7772.81041017182,
+    "candidates": [
+      {
+        "line_id": "gf_045617",
+        "species": "Cr II",
+        "wave_air_A": "7772.786",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_064804",
+        "species": "Fe I",
+        "wave_air_A": "7772.676",
+        "treatment": "excluded_combined_FeI"
+      },
+      {
+        "line_id": "gf_078997",
+        "species": "Fe II",
+        "wave_air_A": "7772.752",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_132404",
+        "species": "Tm II",
+        "wave_air_A": "7772.69",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_144780",
+        "species": "Yb II",
+        "wave_air_A": "7772.762",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.1824148634905,
+    "scheme": "inner",
+    "side": "blue",
+    "lo_air_A": 7773.63241486349,
+    "hi_air_A": 7773.83241486349,
+    "candidates": [
+      {
+        "line_id": "gf_106253",
+        "species": "Ni II",
+        "wave_air_A": "7773.6486",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_116057",
+        "species": "Sc I",
+        "wave_air_A": "7773.638",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_132405",
+        "species": "Tm II",
+        "wave_air_A": "7773.808",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.1824148634905,
+    "scheme": "inner",
+    "side": "red",
+    "lo_air_A": 7774.532414863491,
+    "hi_air_A": 7774.732414863491,
+    "candidates": [
+      {
+        "line_id": "gf_015743",
+        "species": "Ca I",
+        "wave_air_A": "7774.594",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_045618",
+        "species": "Cr II",
+        "wave_air_A": "7774.666",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_079005",
+        "species": "Fe II",
+        "wave_air_A": "7774.6198",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106254",
+        "species": "Ni II",
+        "wave_air_A": "7774.569",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137516",
+        "species": "V I",
+        "wave_air_A": "7774.715",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.1824148634905,
+    "scheme": "outer",
+    "side": "blue",
+    "lo_air_A": 7773.33241486349,
+    "hi_air_A": 7773.532414863491,
+    "candidates": [
+      {
+        "line_id": "gf_030982",
+        "species": "Co II",
+        "wave_air_A": "7773.444",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_078998",
+        "species": "Fe II",
+        "wave_air_A": "7773.443",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_078999",
+        "species": "Fe II",
+        "wave_air_A": "7773.478",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_085359",
+        "species": "Gd II",
+        "wave_air_A": "7773.421",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106252",
+        "species": "Ni II",
+        "wave_air_A": "7773.469",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_127784",
+        "species": "Ti I",
+        "wave_air_A": "7773.401",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7774.166,
+    "centre_air_A": 7774.1824148634905,
+    "scheme": "outer",
+    "side": "red",
+    "lo_air_A": 7774.83241486349,
+    "hi_air_A": 7775.032414863491,
+    "candidates": [
+      {
+        "line_id": "gf_039282",
+        "species": "Cr I",
+        "wave_air_A": "7774.867",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_039283",
+        "species": "Cr I",
+        "wave_air_A": "7774.979",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_079006",
+        "species": "Fe II",
+        "wave_air_A": "7774.837",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137517",
+        "species": "V I",
+        "wave_air_A": "7774.95",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.404417443698,
+    "scheme": "inner",
+    "side": "blue",
+    "lo_air_A": 7774.8544174436975,
+    "hi_air_A": 7775.054417443697,
+    "candidates": [
+      {
+        "line_id": "gf_039282",
+        "species": "Cr I",
+        "wave_air_A": "7774.867",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_039283",
+        "species": "Cr I",
+        "wave_air_A": "7774.979",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137517",
+        "species": "V I",
+        "wave_air_A": "7774.95",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.404417443698,
+    "scheme": "inner",
+    "side": "red",
+    "lo_air_A": 7775.754417443698,
+    "hi_air_A": 7775.954417443698,
+    "candidates": [
+      {
+        "line_id": "gf_045619",
+        "species": "Cr II",
+        "wave_air_A": "7775.839",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_079007",
+        "species": "Fe II",
+        "wave_air_A": "7775.86",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.404417443698,
+    "scheme": "outer",
+    "side": "blue",
+    "lo_air_A": 7774.554417443697,
+    "hi_air_A": 7774.754417443698,
+    "candidates": [
+      {
+        "line_id": "gf_015743",
+        "species": "Ca I",
+        "wave_air_A": "7774.594",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_045618",
+        "species": "Cr II",
+        "wave_air_A": "7774.666",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_079005",
+        "species": "Fe II",
+        "wave_air_A": "7774.6198",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106254",
+        "species": "Ni II",
+        "wave_air_A": "7774.569",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_137516",
+        "species": "V I",
+        "wave_air_A": "7774.715",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  },
+  {
+    "rv": "plus_gravity",
+    "rest_air_A": 7775.388,
+    "centre_air_A": 7775.404417443698,
+    "scheme": "outer",
+    "side": "red",
+    "lo_air_A": 7776.054417443697,
+    "hi_air_A": 7776.254417443698,
+    "candidates": [
+      {
+        "line_id": "gf_079008",
+        "species": "Fe II",
+        "wave_air_A": "7776.174",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_106258",
+        "species": "Ni II",
+        "wave_air_A": "7776.232",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_121980",
+        "species": "Th III",
+        "wave_air_A": "7776.245",
+        "treatment": "not_in_trace_subset"
+      },
+      {
+        "line_id": "gf_140378",
+        "species": "V II",
+        "wave_air_A": "7776.178",
+        "treatment": "not_in_trace_subset"
+      }
+    ]
+  }
+]

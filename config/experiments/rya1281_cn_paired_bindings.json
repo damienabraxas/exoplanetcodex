@@ -1,0 +1,12 @@
+{
+  "schema": "codex.bride_cn_paired_bindings_plan/1",
+  "cases": ["model_mass_H", "native_network_H"],
+  "oxygen_abundance_dex": 8.70,
+  "range_air_A": [7763,7783],
+  "step_air_A": 0.005,
+  "sample_air_A": [7763,7765,7770,7771.944,7774.166,7775.388,7778,7783],
+  "CN_coordinate_policy": "exact_vacuum_rescaled_width_a_stim",
+  "electron_policy": "exported native Pe in SI divided by explicit LW k and exported native T, same in both cases",
+  "molecular_table": "explicitly empty in LW equilibrium/background; frozen external opacity from three previously sampled CN transitions only",
+  "scope": "Actual LW background/LTE-initialization arrays on two explicit56depth H-normalization controls, fixed native T/Pe/geometry/composition and common CN per-volume populations. No formal solution, RT/SE, source-population provider attachment, abundance fitting, EOS/chemistry admission or selected preferred normalization. Postprocessed background-plus-CN arrays are diagnostic sums, not a new Context background or spectrum."
+}

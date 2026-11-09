@@ -1,0 +1,300 @@
+{
+  "schema": "codex.bride_cn_native_binding/1",
+  "scientific_admission": "HOLD",
+  "scope": "Private reporting-only bsyn/eqmol build: export atmosphere/EOS density, electron/gas/H-nuclei pressures, implemented elemental composition and all implemented species pressure/mass/H-stoichiometry. Require original/reporting spectra byte-identical to accepted baseline for off,CN,all before interpreting. Independently aggregate H nuclei and reproduce native EOS density arithmetic; compare existing MARCS/LW normalization without selecting/adopting one. No matched-provider admission, new EOS, RT/SE or abundance.",
+  "generator": {
+    "name": "probe_bride_cn_native_binding.py",
+    "bytes": 14636,
+    "sha256": "f154723979f280fc1efcc025aea376aa97cc07c979d9fb5d30dc95140a18bc5b"
+  },
+  "plan": {
+    "name": "rya1281_cn_native_binding.json",
+    "bytes": 735,
+    "sha256": "167ae4b4dcd19694456e2d0279af6174c619c9abc9d16086cffbdacbbf9cadb2"
+  },
+  "source_pin": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "source_run": {
+    "name": "report.json",
+    "bytes": 21601,
+    "sha256": "f8ba99b48b9fcf3e02f79ed9fe4ba26af0e24fe653eacd2da32c6f47206308a1"
+  },
+  "source_build": {
+    "name": "report.json",
+    "bytes": 26258,
+    "sha256": "118298216faa660b711c5f8e0e9fc2615f65c201b32a600ca3ac8267ae236a9c"
+  },
+  "reporting_block": {
+    "name": "reporting_block.txt",
+    "bytes": 1094,
+    "sha256": "f985b022fb7ad8963fa64e52a20820d7766157d1031911631b446902b28ac5cb"
+  },
+  "reporting_eq_source": {
+    "name": "eqmol_pe_lu.f",
+    "bytes": 24588,
+    "sha256": "4286a219b653b169353208cb17b909ed3ff363b9a03bd032b68dda0074fb18cd"
+  },
+  "reporting_bsyn_source": {
+    "name": "bsyn.f",
+    "bytes": 60512,
+    "sha256": "d5f28bd9afd5eaf62cc3f18c6cf363eee087e71269ae1c486ad4348e2890d652"
+  },
+  "program": {
+    "name": "bsyn_binding",
+    "bytes": 399856,
+    "sha256": "8d60d316aade90d198534db7f2c5761ab54c44d9724791f3c32a094e0f7368c2"
+  },
+  "compiler_command": [
+    "/opt/homebrew/bin/gfortran",
+    "-fconvert=big-endian",
+    "-O3",
+    "-fno-automatic",
+    "-fbacktrace",
+    "-std=legacy",
+    "-mcmodel=small",
+    "-fallow-argument-mismatch",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-cn-native-binding-v1/source/bsyn_binding",
+    "cubint_module.f90",
+    "strings_module.f90",
+    "anstee.f",
+    "bpl.f",
+    "bsyn.f",
+    "bsynb.f",
+    "bsynbplatt.f",
+    "clock-gf.f",
+    "depth.f",
+    "gausi.f",
+    "getinfospecies.f",
+    "getlele.f",
+    "hydropac.f",
+    "hbop.f",
+    "hlinprof.f",
+    "inp3.f",
+    "input.f",
+    "Iplus_calc.f",
+    "lenstr.f",
+    "eqmol_pe_lu.f",
+    "die_pe_lu.f",
+    "funcv.f",
+    "ludcmp.f",
+    "lubksb.f",
+    "makeabund.f",
+    "getisotopmass.f",
+    "molfys.f",
+    "takemolec.f",
+    "readmo.f",
+    "readfilt.f",
+    "read_segments.f",
+    "read_modelatom.f",
+    "read_departure.f",
+    "read_nlteinfofile.f",
+    "tint.f",
+    "lint.f",
+    "traneq.f",
+    "traneqplatt.f",
+    "tranw.f",
+    "newvoigt.f",
+    "molmat.f",
+    "tranfr.f",
+    "tranfrplatt.f",
+    "trrays.f",
+    "trqua2.f",
+    "transc.f",
+    "transcplatt.f",
+    "partf.f",
+    "molecpartf.f",
+    "partffordepth.f",
+    "h2opartf.f",
+    "h2opartf2001.f",
+    "partfamesh2o.f",
+    "partfBarberH2O.f",
+    "weightlimb.f"
+  ],
+  "compile_seconds": 7.55290845874697,
+  "cases": [
+    {
+      "case": "off",
+      "mode": "original",
+      "seconds": 0.6543218749575317,
+      "spectrum_byte_identical": true,
+      "input": {
+        "name": "input.txt",
+        "bytes": 5458,
+        "sha256": "c04d9a78fb56a4ba75a10a06425e8a70be1fd4c7b54ed5cd25b37ecc562bab7d"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 96736,
+        "sha256": "008b08d2d25c65c27ef9a92db0670575ad164ef9deea044ad6aa0dc34d0f3df9"
+      },
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "113fdd6c801bd72ce299fd990e36c1991074649afb6739fe88b84329dfe1ef09"
+      }
+    },
+    {
+      "case": "off",
+      "mode": "reporting",
+      "seconds": 1.0593501250259578,
+      "spectrum_byte_identical": true,
+      "input": {
+        "name": "input.txt",
+        "bytes": 5459,
+        "sha256": "e9b9b1c2e3b3c11ae296d35ee5b9e5ef5583eea457b66ee6c01b43e5b206992b"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 4859523,
+        "sha256": "cf7bd46e03688ed72aec678922a6b7ecc6b0a0549e4b281c3a5511bd6c763b33"
+      },
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "113fdd6c801bd72ce299fd990e36c1991074649afb6739fe88b84329dfe1ef09"
+      }
+    },
+    {
+      "case": "CN",
+      "mode": "original",
+      "seconds": 0.6258185002952814,
+      "spectrum_byte_identical": true,
+      "input": {
+        "name": "input.txt",
+        "bytes": 5766,
+        "sha256": "3cbccd810bb1a2dff422c57c7b3dd834a0b115abbfbfd52750df43b115fb961d"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 99134,
+        "sha256": "6e542bc3b622186838bc8a361b0a45499c7319444832fbcf9091e5ced9dfaf04"
+      },
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "9f0cf5488a919ca3fa5082642f372f9d0e6f1acad877faaee2509db9e96944ce"
+      }
+    },
+    {
+      "case": "CN",
+      "mode": "reporting",
+      "seconds": 0.7265902920626104,
+      "spectrum_byte_identical": true,
+      "input": {
+        "name": "input.txt",
+        "bytes": 5767,
+        "sha256": "0b61c155ddda4339f827a47d9abe6c91349c15df9715fe22a6b669d691ee70dc"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 4861921,
+        "sha256": "078a169eaeea4cd46cb34e39337f5f1f73c3535fce012e5c48f3eed1bc909e64"
+      },
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "9f0cf5488a919ca3fa5082642f372f9d0e6f1acad877faaee2509db9e96944ce"
+      }
+    },
+    {
+      "case": "all",
+      "mode": "original",
+      "seconds": 0.6337597500532866,
+      "spectrum_byte_identical": true,
+      "input": {
+        "name": "input.txt",
+        "bytes": 6378,
+        "sha256": "6452e126263b12cc99787590be51951e7b526f32c935dd81bcd8e5a62dce2697"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 103929,
+        "sha256": "5be9ac6b9cc536427f3a497743b6c7f2a8e026f67822f07edd3f57d4a5f6dfaf"
+      },
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "072ba40b6ddb00206de3e5a2f4d2468c5d674328485df8672c55af4b431130ba"
+      }
+    },
+    {
+      "case": "all",
+      "mode": "reporting",
+      "seconds": 0.7169157080352306,
+      "spectrum_byte_identical": true,
+      "input": {
+        "name": "input.txt",
+        "bytes": 6379,
+        "sha256": "d63dfcf4dc363166349b5719e693cc424b5f6a02b2eb541cdfc55c3f2fa1b2a9"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 4866716,
+        "sha256": "3b9f057fbf46accb6ce5da18bdb878e1405a2534a3bfc37faba72ec9679679d2"
+      },
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "072ba40b6ddb00206de3e5a2f4d2468c5d674328485df8672c55af4b431130ba"
+      }
+    }
+  ],
+  "protected_input_check_slots": 137,
+  "molecular_switch_state_identity": true,
+  "ndep": 56,
+  "nmetal": 83,
+  "nmol": 627,
+  "species_per_depth": 959,
+  "arithmetic_passed": true,
+  "model": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "model_hydrogen_mass_fraction": 0.73826,
+  "marcs_density_adapter": {
+    "name": "bride_reference.py",
+    "bytes": 10407,
+    "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+  },
+  "summary": {
+    "EOS_over_atmos_rho": [
+      1.0000417234569274,
+      1.027578780782213
+    ],
+    "EOS_over_input_gas_pressure": [
+      1.0000417376153161,
+      1.0265391662229582
+    ],
+    "network_nH_over_MARCS_LW": [
+      0.9919675919913356,
+      1.0190607555015219
+    ],
+    "native_ne_over_MARCS_LW": [
+      0.9999984882365809,
+      0.999998630959704
+    ],
+    "H_in_molecules_fraction": [
+      4.588940459931944e-05,
+      0.001668612002788333
+    ],
+    "hydrogen_aggregation_relative_difference": [
+      9.182821170128364e-11,
+      1.5192218483228714e-07
+    ],
+    "EOS_density_reconstruction_relative_difference": [
+      1.3437885693079465e-08,
+      9.832609757509658e-07
+    ],
+    "gas_pressure_sum_over_EOS": [
+      0.9999999505298175,
+      1.0000000513919782
+    ]
+  },
+  "limitations": [
+    "Aggregation on exported native implemented network is not independent chemical/EOS validation or a completeness claim.",
+    "Native atmosphere and recomputed EOS densities are kept distinct; no normalization selected or corrected.",
+    "MARCS/LW adapter uses its own existing constants/normalization; ratios diagnose source/convention differences, not a new abundance.",
+    "No provider admitted or native populations attached to LW; all real spectra remain unchanged."
+  ]
+}

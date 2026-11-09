@@ -1,0 +1,10 @@
+{
+  "schema": "codex.bride_compute_extension/1",
+  "case": "thermal_g4338",
+  "ng_control": "record",
+  "physical_plan": "config/experiments/rya1281_mac_thermal_slice.json",
+  "reference_run": "data/results/rya1281/ng_control_v1/record",
+  "baseline_seconds_per_case": 600,
+  "seconds_per_case": 1200,
+  "reason": "One predeclared doubling of compute allowance after measured 600-second refusals. Preserve all accuracy, conservation and iteration criteria, original Ng settings, physical inputs and exact shared trajectory. No additional retries or adoption."
+}

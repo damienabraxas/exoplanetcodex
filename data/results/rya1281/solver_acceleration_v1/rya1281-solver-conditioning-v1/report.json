@@ -1,0 +1,85 @@
+{
+  "schema": "codex.bride_solver_conditioning/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_solver_conditioning.py",
+    "bytes": 3026,
+    "sha256": "ad9fa6621780771a61238b90c94365e82d02fd313cf87bb1bb06e1d8de923e30"
+  },
+  "source": {
+    "name": "operator_audit.npz",
+    "bytes": 3995929,
+    "sha256": "b5595cea96cc00ac41eac53f2e9afc5d9aceed0ba8fdbee343169f97bc095395"
+  },
+  "layers": 56,
+  "rows": 448,
+  "summary": [
+    {
+      "mali_fraction": 0.0,
+      "unstable_layers": 0,
+      "maximum_spectral_radius": 2.7741632374862505e-14,
+      "maximum_row_only_condition": 19242484539.843105,
+      "maximum_relative_population_condition": 1062.548151131143
+    },
+    {
+      "mali_fraction": 0.01,
+      "unstable_layers": 0,
+      "maximum_spectral_radius": 0.010092476048879476,
+      "maximum_row_only_condition": 19283032190.04299,
+      "maximum_relative_population_condition": 1065.5528171701476
+    },
+    {
+      "mali_fraction": 0.05,
+      "unstable_layers": 0,
+      "maximum_spectral_radius": 0.05258524140189104,
+      "maximum_row_only_condition": 19447362253.39301,
+      "maximum_relative_population_condition": 1077.7997927507063
+    },
+    {
+      "mali_fraction": 0.1,
+      "unstable_layers": 0,
+      "maximum_spectral_radius": 0.1110078578039068,
+      "maximum_row_only_condition": 19657740396.647186,
+      "maximum_relative_population_condition": 1093.6500030199172
+    },
+    {
+      "mali_fraction": 0.25,
+      "unstable_layers": 0,
+      "maximum_spectral_radius": 0.33296169049942964,
+      "maximum_row_only_condition": 20324229203.791668,
+      "maximum_relative_population_condition": 1151.473487148737
+    },
+    {
+      "mali_fraction": 0.5,
+      "unstable_layers": 0,
+      "maximum_spectral_radius": 0.9983285390271697,
+      "maximum_row_only_condition": 21569173144.639423,
+      "maximum_relative_population_condition": 1273.4639601676165
+    },
+    {
+      "mali_fraction": 0.75,
+      "unstable_layers": 50,
+      "maximum_spectral_radius": 2.9899879688823177,
+      "maximum_row_only_condition": 23404862746.216415,
+      "maximum_relative_population_condition": 1457.276436722884
+    },
+    {
+      "mali_fraction": 1.0,
+      "unstable_layers": 52,
+      "maximum_spectral_radius": 1194.5580007633714,
+      "maximum_row_only_condition": 132555316509.77739,
+      "maximum_relative_population_condition": 4885.463264842594
+    }
+  ],
+  "limitations": [
+    "Frozen radiation/rates and saved baseline only; not the derivative or spectral radius of the full coupled RT/SE map.",
+    "MALI is intended to precondition radiation feedback; frozen-rate instability alone does not prove full nonlinear instability.",
+    "Relative-population scaling changes numerical coordinates, not physical rate equations or source inputs.",
+    "No blend is selected for use and no new radiative-transfer solve or spectrum is produced."
+  ],
+  "table": {
+    "name": "conditioning.csv",
+    "bytes": 29977,
+    "sha256": "cf4590a4026c9d10c4356422851fa982191690508048caed9df2593ca55478a7"
+  }
+}

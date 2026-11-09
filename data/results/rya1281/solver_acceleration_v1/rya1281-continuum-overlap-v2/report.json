@@ -1,0 +1,96 @@
+{
+  "schema": "codex.bride_overlap_thermal_control/1",
+  "scientific_admission": "HOLD",
+  "exact_thermal_background": true,
+  "generator": {
+    "name": "audit_bride_overlapping_continua.py",
+    "bytes": 4615,
+    "sha256": "b686fba56bc13c2f66b0595c82c06a04879006c684d031753207e538196c8b0a"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "rows": [
+    {
+      "variant": "single_ground",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 2.2306866382458555e-15,
+      "operator_action_discrepancy": 1.176106787232462e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_ground",
+      "lambda_iterate": false,
+      "radiation_iterations": 3,
+      "physical_residual": 2.2306866382458555e-15,
+      "operator_action_discrepancy": 3.226043336841414e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_ground",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 2.2306866382458555e-15,
+      "operator_action_discrepancy": 1.176106787232462e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_excited",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 1.890312366114344e-15,
+      "operator_action_discrepancy": 0.0,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_excited",
+      "lambda_iterate": false,
+      "radiation_iterations": 3,
+      "physical_residual": 1.890312366114344e-15,
+      "operator_action_discrepancy": 2.405149985169177e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "single_excited",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 1.890312366114344e-15,
+      "operator_action_discrepancy": 0.0,
+      "population_change": 0.0
+    },
+    {
+      "variant": "overlapping",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 2.1594536666991403e-15,
+      "operator_action_discrepancy": 1.1618071350764388e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "overlapping",
+      "lambda_iterate": false,
+      "radiation_iterations": 3,
+      "physical_residual": 2.1594536666991403e-15,
+      "operator_action_discrepancy": 2.2265888809503296e-16,
+      "population_change": 0.0
+    },
+    {
+      "variant": "overlapping",
+      "lambda_iterate": true,
+      "radiation_iterations": 3,
+      "physical_residual": 2.1594536666991403e-15,
+      "operator_action_discrepancy": 1.1618071350764388e-16,
+      "population_change": 0.0
+    }
+  ],
+  "arrays": {
+    "name": "operators.npz",
+    "bytes": 7670,
+    "sha256": "8b2ace7078e1d7fb04b2cf02ff3054bb71568b342628a7a0b593b4abcf8c3122"
+  },
+  "seconds": 0.535589000210166,
+  "scope": "Minimal compiled-backend thermal control for overlapping ion continua.\n\nSynthetic three-level oxygen-labelled atom, no scientific oxygen interpretation,\ncustom collisions, finite cap, NLTE seed, source atom, interpolation or Ng.\n"
+}

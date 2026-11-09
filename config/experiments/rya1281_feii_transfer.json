@@ -1,0 +1,10 @@
+{
+  "schema": "codex.bride_feii_transfer_plan/1",
+  "line_id": "gf_079010",
+  "seconds_per_leg": 180,
+  "radiation_rtol": 1e-8,
+  "radiation_maxiter": 1000,
+  "baseline_flux_max_absolute": 1e-6,
+  "cases": ["canonical_refined", "lower_gravity_refined"],
+  "scope": "One natural-only LTE FeII line, same transfer with frozen O and unchanged existing FeI Cowley/pressure/background. Empty wrapper coefficients must be exact. Fixed replay baseline must reproduce frozen flux within original1e-6 outer criterion before interpreting differences. Same rays/qscale/flux quadrature, source grid and cap. Both continuum references and RV variants retained; historical3percent continuum rule explicitly frozen, main15percent unexercised. No fitted gf/width/abundance, SE/charge feedback or opacity adoption."
+}

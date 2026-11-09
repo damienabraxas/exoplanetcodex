@@ -1,0 +1,10 @@
+  ⚠️  CONTINUUM REFERENCE LEG (RYA-587 contref): iag
+  ⚠️  CONTINUUM REFERENCE LEG (RYA-587 contref): iag
+Traceback (most recent call last):
+  File "/Users/ryanschmitt/codex/rya1279/scripts/analyze_bride_orch_continuum_parity.py", line 106, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/ryanschmitt/codex/rya1279/scripts/analyze_bride_orch_continuum_parity.py", line 43, in main
+    check(Path(inspect.getfile(ispec.apply_post_fundamental_effects)),parent['ispec_effects'])
+                                                                      ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'ispec_effects'

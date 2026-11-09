@@ -1,0 +1,151 @@
+{
+  "schema": "codex.bride_solar_matched_columns_plan/1",
+  "nodes": [
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "source": {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      }
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "source": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.0,
+      "source": {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "source": {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "name": "baseline",
+      "teff": 5750.0,
+      "logg": 4.5,
+      "native": true
+    },
+    {
+      "name": "solar",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false
+    },
+    {
+      "name": "T_5762",
+      "teff": 5762.0,
+      "logg": 4.438,
+      "native": false
+    },
+    {
+      "name": "T_5782",
+      "teff": 5782.0,
+      "logg": 4.438,
+      "native": false
+    },
+    {
+      "name": "xi_0p25",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false,
+      "xi_km_s": 0.25
+    },
+    {
+      "name": "xi_0p5",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false,
+      "xi_km_s": 0.5
+    },
+    {
+      "name": "xi_0p75",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false,
+      "xi_km_s": 0.75
+    },
+    {
+      "name": "xi_1p25",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false,
+      "xi_km_s": 1.25
+    },
+    {
+      "name": "xi_1p5",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false,
+      "xi_km_s": 1.5
+    },
+    {
+      "name": "xi_2p0",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false,
+      "xi_km_s": 2.0
+    }
+  ],
+  "xi_km_s": 1.0,
+  "interpolation": "log_positive_layers",
+  "warm_report": "data/results/rya1281/H_nlte_pair_v2/model_mass_H/report.json",
+  "warm_populations": "data/results/rya1281/H_nlte_pair_v2/model_mass_H/populations.npz",
+  "controls": {
+    "rays": 5,
+    "qscale": 2,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 7,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "range_air_A": [
+    7763,
+    7783
+  ],
+  "step_air_A": 0.005,
+  "cap_length_m": 84362.76027271051,
+  "cap_policy": "Same original baseline geometric cap length for ALL four columns; no invented/interpolated column mass or H-network transplant.",
+  "initialization": "Same completed v2 model-H level fractions for ALL four fresh solves, separately mapped to each new O total. No sequential matrix warm starts, imported J/rates or observational tuning.",
+  "field_ownership": "Native MARCS source precision for baseline; audited nearest-cell simplex log-positive Pe/rho/log-layer-thickness interpolation for others,56depths. ne=Pe/(LW k*T),nH=rho*X/(LW Amu*H mass). No exported native network/Pe rounding packet or molecule provider transplanted.",
+  "scope": "Matched baseline/T-only/g-only/canonical-solar column experiment at unchanged source O8.70/41level atom/collision hypotheses/bare background/xi1/geometry-cap policy/numerical controls. Fresh independent class-C+transition-R and conservation required; no EOS feedback, interpolation accuracy, source/reference/model/abundance admission or production/merge/publication. Isolated full-coupling preconditioner after toy and full-O fixed-population rate-action tests. No change to physical source or admission/default/production. Prospective finite-cap derivative preconditioning after compiled derivative and full-O unchanged-rate tests; original analytical cap, source and numerical limits unchanged. Prospective independent solar-centered +/-10K and extended microturbulence controls. Xi varies the depth-constant RT Doppler velocity only on the SAME xi1 MARCS thermal/pressure structure; this is not a self-consistent turbulent-pressure atmosphere or a fitted optimum. Solar replay plus eight probes; baseline remains available as a dry context only. All independently start from the original common fractions; no failed seeds, sequential warm starts or observation tuning.",
+  "background": "Native FastBackground plus existing passive atoms, explicitly empty LW molecule population table; no added Fe/CN line providers. Full source O model radiative grid with doubled line quadratures; only diagnostic-window endpoints added to SE grid, emergent full4001point rays sampled afterward.",
+  "iteration_plugin": {
+    "resource": "experiments.bride_full_cap_plugin",
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 12068,
+      "sha256": "6d1c11c2410f32dc62a36ebf9767c01a6adc9dd5cee4e1db29a7107f932c0eec"
+    }
+  },
+  "numerical_algorithm": {
+    "method": "full_coupling_cap_mali",
+    "native_ng": true,
+    "scope": "Complete quadrature-weighted cross-level MALI plus the fixed-extinction emissivity derivative of the EXISTING finite cap, on incoming top-layer PsiStar only. Actual transfer, cap length/coefficients, physical rates, original Ng and final thresholds/budgets unchanged. No observations or failed seeds used."
+  },
+  "solver_operator": "Complete weighted MALI with incoming finite-cap emissivity response; physical boundary unchanged."
+}

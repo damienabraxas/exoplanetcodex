@@ -1,0 +1,104 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "334b11221504a5ddd7c8217bbdd72a7ab483ad35",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 8535,
+    "sha256": "ecca3ebde745ef25c0af6313dfc79f55cf98df940e65730e8e0eae3c2117fd03"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "plan": {
+    "name": "rya1281_mac_log_interpolation.json",
+    "bytes": 3317,
+    "sha256": "1ec50c0f66869b951f89b61d95f1e63ed23cfac4475770c75d8eb52cf1b06521"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "logfine_T5752",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2679,
+        "sha256": "8e6f1d42934765b95a66962af8df2dd014ceb34d2765ba48710fc980ac61eb25"
+      }
+    },
+    {
+      "name": "logfine_T5762",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2679,
+        "sha256": "dbf04d9555d3bd185c16ed55edf9c63cbec62ce387a8497539a5d4b6da147a39"
+      }
+    },
+    {
+      "name": "logfine_T5772",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2679,
+        "sha256": "a748ef74fef8166425dc39bb1dc826870b5cfb1e6611648791aa6efcfea82c98"
+      }
+    },
+    {
+      "name": "logfine_T5782",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2678,
+        "sha256": "9ddb8bf4889b5cf6f90410e7e1d047a341216298d8db699093556d429f3f71fd"
+      }
+    },
+    {
+      "name": "logfine_T5792",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2687,
+        "sha256": "86aa89df6d57fefcea2c037e3babb3f04abe18576d7924f408185ed2c7dc3435"
+      }
+    },
+    {
+      "name": "holdout_log_5750",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2639,
+        "sha256": "6cded496e8096ab1a8170aef2c3c42177602cb1ec7f234023b3061366c570a95"
+      }
+    },
+    {
+      "name": "holdout_logg_linear",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2620,
+        "sha256": "b68602c68a8e88f5bc4f7b406a06c15b7e3cf31bc9680e0081a9d32561e4e302"
+      }
+    },
+    {
+      "name": "holdout_logg_log",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2628,
+        "sha256": "4be802c8920491bb67ece620e9636dbf4070b89fe105d5791a48b52ff59fe8c7"
+      }
+    }
+  ]
+}
