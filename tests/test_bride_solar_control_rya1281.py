@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import copy
 import json
 import numpy as np
@@ -22,6 +23,7 @@ def inputs(name):
     return certificate, base, structure, atom, contract
 
 
+@requires_lightweaver
 def test_actual_native_bound_provider_identity_and_deepcopy():
     from config.constants import require_codex_path
     from pipeline.bride_reference import make_reference_context
@@ -38,6 +40,7 @@ def test_actual_native_bound_provider_identity_and_deepcopy():
     np.testing.assert_array_equal(cloned.background.chi, new.background.chi)
 
 
+@requires_lightweaver
 def test_actual_solar_explicit_cap_and_runtime_mismatch_refusal():
     from pipeline.bride_reference import make_reference_context
     from pipeline.bride_top_cap import FiniteColumnCap
@@ -66,6 +69,7 @@ def test_actual_solar_explicit_cap_and_runtime_mismatch_refusal():
         bound_fe_factory(folder, base, changed, atom.abundance, column_contract=contract)
 
 
+@requires_lightweaver
 def test_actual_composition_and_native_interpolated_cap_guards():
     from dataclasses import replace
     from pipeline.bride_reference import make_reference_context

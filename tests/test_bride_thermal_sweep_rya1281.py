@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import json,copy
 from pathlib import Path
 import numpy as np
@@ -27,6 +28,7 @@ def test_departure_warm_start_uses_new_nuclei_total_and_preserves_nominal():
     with pytest.raises(ValueError):warm_start(pop,old,new,np.array([0.]))
 
 
+@requires_lightweaver
 def test_covered_reconstructions_and_hotter_refusal():
     from pipeline.bride_thermal_sweep import reconstruct
     p,_=plans()

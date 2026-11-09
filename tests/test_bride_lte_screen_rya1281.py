@@ -1,7 +1,9 @@
+from tests.bride_test_requirements import requires_lightweaver
 import numpy as np
 import pytest
 
 
+@requires_lightweaver
 def test_independent_saha_matches_native_and_conserves_species():
     from types import SimpleNamespace
     from lightweaver.atomic_table import KuruczPfTable,PeriodicTable
@@ -27,6 +29,7 @@ def test_source_refusals_do_not_choose_new_gf_or_components():
     assert source_eligibility(item)=='NATURAL_WIDTH_UNQUALIFIED'
 
 
+@requires_lightweaver
 def test_partition_domain_is_not_extrapolated():
     from types import SimpleNamespace
     from lightweaver.atomic_table import KuruczPfTable,PeriodicTable

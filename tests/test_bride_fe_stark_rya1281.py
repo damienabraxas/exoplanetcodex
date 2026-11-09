@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import json,copy
 import numpy as np
 import pytest
@@ -6,6 +7,7 @@ import pytest
 def row():return dict(line_id='controlled',wavelength_air_A=7777.86,excitation_eV=4.,ionization_eV=7.902,log_gamma_stark_10000=-5.)
 
 
+@requires_lightweaver
 def test_native_stark_cases_and_refusals():
     from pipeline.bride_fe_stark import stark_gamma
     from config.constants import require_codex_path
@@ -27,6 +29,7 @@ def test_native_stark_cases_and_refusals():
     with pytest.raises(ValueError):stark_gamma(np.array([5000.]),np.ones(1),bad,'cowley')
 
 
+@requires_lightweaver
 def test_actual_stark_none_identity_and_changed_ne_refusal():
     from tests.test_bride_solar_control_rya1281 import inputs
     from tests.test_bride_trace_fe_lines_rya1281 import line

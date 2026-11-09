@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import json
 from types import SimpleNamespace
 import numpy as np
@@ -39,6 +40,7 @@ def test_missing_or_wrong_species_flags_refuse_instead_of_defaulting_false(tmp_p
         with pytest.raises(ValueError,match='exact'):trace.stat_equil()
 
 
+@requires_lightweaver
 @pytest.mark.parametrize('ng',[False,True])
 def test_recording_real_native_backend_preserves_analytic_fixture_arrays(monkeypatch,tmp_path,ng):
     import lightweaver as lw

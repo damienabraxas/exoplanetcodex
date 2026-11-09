@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import json,copy
 from pathlib import Path
 import pytest
@@ -29,6 +30,7 @@ def test_producer_xi_input_boundary_and_refusals():
         with pytest.raises(ValueError):source_input_xi(bad,1.1)
 
 
+@requires_lightweaver
 def test_reconstructed_xi_requires_fresh_binding():
     from pipeline.bride_xi_sweep import reconstruct
     from pipeline.bride_opacity_binding import validate_binding,local_binding
@@ -40,6 +42,7 @@ def test_reconstructed_xi_requires_fresh_binding():
     with pytest.raises(ValueError):validate_binding(local_binding(mid,8.7),low,8.7)
 
 
+@requires_lightweaver
 def test_fresh_coefficient_context_uses_xi_and_refuses_live_change():
     from config.constants import require_codex_path
     from pipeline.bride_xi_sweep import reconstruct

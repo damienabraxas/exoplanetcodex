@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import copy
 import json
 import numpy as np
@@ -13,6 +14,7 @@ def structure():
         hydrogen_mass_fraction=.7, vturb_m_s=1000., logg_cgs=4.438)
 
 
+@requires_lightweaver
 def test_exact_binding_and_explicit_missing_column():
     s = structure(); binding = local_binding(s, 8.7)
     validate_binding(binding, copy.deepcopy(s), 8.7)
@@ -22,6 +24,7 @@ def test_exact_binding_and_explicit_missing_column():
         validate_binding(binding, s, 8.71)
 
 
+@requires_lightweaver
 @pytest.mark.parametrize('key', ['temperature_K', 'electron_pressure_Pa', 'rho_kg_m3', 'height_m', 'logtau_ross', 'logtau_500', 'abundances_dex'])
 def test_one_ulp_input_change_refused(key):
     s = structure(); binding = local_binding(s, 8.7); changed = copy.deepcopy(s)
@@ -30,6 +33,7 @@ def test_one_ulp_input_change_refused(key):
         validate_binding(binding, changed, 8.7)
 
 
+@requires_lightweaver
 @pytest.mark.parametrize('key', ['hydrogen_mass_fraction', 'vturb_m_s', 'logg_cgs'])
 def test_scalar_identity_change_refused(key):
     s = structure(); binding = local_binding(s, 8.7); changed = copy.deepcopy(s)
@@ -38,6 +42,7 @@ def test_scalar_identity_change_refused(key):
         validate_binding(binding, changed, 8.7)
 
 
+@requires_lightweaver
 def test_added_column_and_depth_cut_refused():
     s = structure(); binding = local_binding(s, 8.7)
     changed = copy.deepcopy(s); changed['column_mass_kg_m2'] = np.array([1., 2., 3.])
@@ -52,6 +57,7 @@ def test_unmodeled_velocity_is_not_silently_ignored():
         local_binding(dict(structure(), vlos_m_s=np.zeros(3)), 8.7)
 
 
+@requires_lightweaver
 @pytest.mark.parametrize('tamper', ['array', 'source_report', 'binding_digest', 'provider_admission'])
 def test_certificate_load_and_integrity_refusals(tmp_path, tamper):
     from pipeline.bride_reference import fingerprint

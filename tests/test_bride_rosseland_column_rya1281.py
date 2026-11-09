@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import numpy as np
 import pytest
 from pipeline.bride_rosseland_column import column_input, read_rosseland_opacity, log_opacity_integral
@@ -41,6 +42,7 @@ def test_declared_powerlaw_opacity_integral_against_closed_form(power):
     np.testing.assert_allclose(actual, expected, rtol=2e-15, atol=1e-14)
 
 
+@requires_lightweaver
 def test_actual_cap_uses_top_column_density_not_deeper_mass_profile():
     from pipeline.bride_top_cap import cap_from_structure
     first = dict(column_mass_kg_m2=np.array([1., 2., 3.]), rho_kg_m3=np.array([.1, .2, .3]))

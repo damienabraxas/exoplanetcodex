@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import numpy as np
 import pytest
 
@@ -20,6 +21,7 @@ def test_feature_truncation_refuses_instead_of_moving_shoulders():
         feature_metrics(np.linspace(-.4,.4,101),np.ones(101),0.,core_half_A=.1,shoulder_inner_A=.35,shoulder_outer_A=.55)
 
 
+@requires_lightweaver
 def test_ionic_stark_modes_zero_density_and_source_temperature_scaling():
     from pipeline.bride_feii_profile import feii_stark_gamma
     row=dict(ionization_eV=16.188,excitation_eV=3.199,wavelength_air_A=7777.099,log_gamma_stark_10000=-6.530)

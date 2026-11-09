@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import copy
 import numpy as np
 import pytest
@@ -16,6 +17,7 @@ def context(line,wrapper=None):
         extra_wavelengths_vac_nm=np.array([777.5,778.,778.5]),experimental_column_cap=FiniteColumnCap(s['column_mass_kg_m2'][0]/s['rho_kg_m3'][0]))
 
 
+@requires_lightweaver
 def test_empty_identity_feii_stage_and_thermal_emission_with_real_backend():
     import lightweaver.constants as c
     from lightweaver.atomic_table import PeriodicTable,KuruczPfTable
@@ -38,6 +40,7 @@ def test_empty_identity_feii_stage_and_thermal_emission_with_real_backend():
     with pytest.raises(ValueError):mixed.background.update_background(mixed.atmos)
 
 
+@requires_lightweaver
 def test_invalid_or_outside_line_refuses():
     from pipeline.bride_feii_control import feii_factory
     line=dict(line_id='x',lambda0_vac_nm=778.,excitation_eV=4.,loggf=-2.,gamma_rad_s_inv=1e8)

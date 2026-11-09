@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import copy
 import numpy as np
 import pytest
@@ -24,6 +25,7 @@ def contexts():
     return ctx(stark_fe_factory(*args)),ctx(h2_collider_factory(*args,t,'off')),ctx(h2_collider_factory(*args,t,'molecular'))
 
 
+@requires_lightweaver
 def test_actual_h2_off_identity_and_partial_intervention():
     from lightweaver.atomic_table import PeriodicTable
     old,off,on=contexts()
@@ -36,6 +38,7 @@ def test_actual_h2_off_identity_and_partial_intervention():
     clone=copy.deepcopy(on);np.testing.assert_array_equal(clone.background.chi,on.background.chi)
 
 
+@requires_lightweaver
 def test_h2_cache_refuses_changed_hminus_even_if_atomic_populations_unchanged():
     _,_,on=contexts()
     minus=on.kwargs['eqPops'].HminPops;minus[0]=np.nextafter(minus[0],np.inf)

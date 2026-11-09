@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import copy
 import numpy as np
 import pytest
@@ -21,6 +22,7 @@ def line():
     return dict(line_id='controlled',lambda0_vac_nm=778.,excitation_eV=4.,loggf=-2.,gamma_rad_s_inv=1e8)
 
 
+@requires_lightweaver
 def test_empty_delegate_identity_and_real_mixed_kirchhoff_scattering():
     import lightweaver.constants as c
     base=context(None);empty=context([]);mixed=context([line()])
@@ -45,6 +47,7 @@ def test_empty_delegate_identity_and_real_mixed_kirchhoff_scattering():
     with pytest.raises(ValueError):mixed.background.update_background(mixed.atmos)
 
 
+@requires_lightweaver
 def test_bad_line_data_and_duplicate_or_outside_support_refuse():
     from pipeline.bride_trace_fe_lines import trace_fe_factory
     for key,value in [('gamma_rad_s_inv',0),('loggf',np.nan),('excitation_eV',-1)]:
@@ -54,6 +57,7 @@ def test_bad_line_data_and_duplicate_or_outside_support_refuse():
     with pytest.raises(ValueError):trace_fe_factory(None,[line()],(779.,780.))
 
 
+@requires_lightweaver
 def test_packet_revalidated_against_real_source_not_just_declared_hashes(tmp_path):
     import json
     from scripts.prepare_bride_fe_lines import source_packet,read_packet

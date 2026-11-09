@@ -1,3 +1,4 @@
+from tests.bride_test_requirements import requires_lightweaver
 import copy,json
 import numpy as np
 import pytest
@@ -6,6 +7,7 @@ import pytest
 def recipe():return dict(line_id='controlled',recipe='W',sigma_au=0.,alpha=0.,log_gamma6_10000=-7.5)
 
 
+@requires_lightweaver
 def test_pressure_units_density_and_temperature_scaling_and_native_oracle():
     from pipeline.bride_fe_pressure import pressure_gamma
     from config.constants import require_codex_path
@@ -22,6 +24,7 @@ def test_pressure_units_density_and_temperature_scaling_and_native_oracle():
         assert abs(actual/r['native_reference_gamma_s_inv']-1)<128*np.finfo(np.float32).eps
 
 
+@requires_lightweaver
 def test_depth_width_kernel_equals_independent_single_depths_and_refuses_shape():
     from pipeline.bride_lte_blend import lte_line_coefficients
     wave=np.linspace(777.9,778.1,21);T=np.array([4000.,6000.]);ions=np.array([1e15,2e15]);xi=np.array([1000.,1000.])
@@ -34,6 +37,7 @@ def test_depth_width_kernel_equals_independent_single_depths_and_refuses_shape()
         with pytest.raises(ValueError,match='Width'):lte_line_coefficients(wave,T,ions,xi,gamma_s_inv=width,**kwargs)
 
 
+@requires_lightweaver
 def test_actual_pressure_context_cache_and_live_neutral_refusal():
     from tests.test_bride_solar_control_rya1281 import inputs
     from tests.test_bride_trace_fe_lines_rya1281 import line,context
