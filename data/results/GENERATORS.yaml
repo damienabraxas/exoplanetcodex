@@ -29614,3 +29614,6 @@ artifacts:
   - artifact: rya1281/solver_acceleration_v1/rya1281-transition-plugin-v1/receipt.json
     generator: "scripts/build_bride_overlap_guard.py"
     ticket: "RYA-1281"
+  - artifact: rya1281/solver_acceleration_v1/LICENSE.lightweaver
+    generator: "scripts/archive_bride_solver_acceleration.py"
+    ticket: "RYA-1281"
