@@ -15,7 +15,7 @@ def validate_solver_controls(plan,inherited):
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--case',choices=['baseline','temperature','gravity','solar'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');p.add_argument('--plan',type=Path,default=ROOT/'config/experiments/rya1281_solar_matched_mali.json');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--case',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');p.add_argument('--plan',type=Path,default=ROOT/'config/experiments/rya1281_solar_matched_mali.json');a=p.parse_args()
  import lightweaver as lw
  import lightweaver.constants as c
  import lightweaver.LwCompiled as compiled
@@ -34,6 +34,8 @@ def main():
  if platform.system()!='Darwin'or version('lightweaver')!='0.16.1':raise RuntimeError('Mac/LW0.16.1 required')
  plan_path=a.plan;plan=json.loads(plan_path.read_text());warm_report=ROOT/plan['warm_report'];warm=json.loads(warm_report.read_text());controls=plan['controls']
  validate_solver_controls(plan,warm['controls'])
+ names=[case['name']for case in plan['cases']]
+ if len(set(names))!=len(names)or a.case not in names:raise ValueError('Case must be uniquely declared in the immutable plan')
  if plan.get('numerical_algorithm',{}).get('method')=='full_coupling_cap_mali':
   from pipeline.bride_coupled_cap_mali_control import solve_coupled_cap_mali as solve_coupled
  checks=[]

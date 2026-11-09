@@ -37,5 +37,5 @@ def prepare_columns(plan,root):
    if(case['teff'],case['logg'])!=(5750.,4.5):raise ValueError('Unsupported native baseline')
    structure=baseline;receipt=dict(method='native source precision, no interpolation',target=[case['teff'],case['logg']])
   else:structure,receipt=interpolate_marcs_structure(nodes,(case['teff'],case['logg']),thermodynamic_scale=plan['interpolation'])
-  structure=controlled_structure(structure,xi=plan['xi_km_s'],drop_bottom=0);columns[case['name']]=structure;receipts[case['name']]=receipt
+  structure=controlled_structure(structure,xi=case.get('xi_km_s',plan['xi_km_s']),drop_bottom=0);columns[case['name']]=structure;receipts[case['name']]=receipt
  return columns,dict(sources=[fingerprint(p)for p in paths],case_interpolation=receipts,native_node_max_absolute_identity=identity,native_node_interpolation=probe_receipt)
