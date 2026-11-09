@@ -28,13 +28,16 @@ def main():
  algorithm=plan.get('numerical_algorithm')
  expected=dict(warm['controls'])
  if algorithm is not None:
-  if algorithm['method']not in ['anderson_physical_direct','transition_local_safeguarded_anderson']or algorithm['native_ng']is not False:raise ValueError('Unknown numerical control')
+  if algorithm['method']not in ['anderson_physical_direct','transition_local_safeguarded_anderson','transition_local_secant']or algorithm['native_ng']is not False:raise ValueError('Unknown numerical control')
   expected['ng']=False
   if algorithm['method']=='anderson_physical_direct':
    from pipeline.bride_coupled_anderson_control import solve_coupled_anderson as solve_coupled
   else:
    if not plan.get('iteration_plugin'):raise ValueError('Transition-local acceleration requires its pinned plugin')
-   from pipeline.bride_coupled_mali_safeguarded import solve_coupled_safeguarded as solve_coupled
+   if algorithm['method']=='transition_local_secant':
+    from pipeline.bride_coupled_secant import solve_coupled_secant as solve_coupled
+   else:
+    from pipeline.bride_coupled_mali_safeguarded import solve_coupled_safeguarded as solve_coupled
  if controls!=expected:raise ValueError('Changed inherited joint solver controls beyond declared Ng replacement')
  checks=[]
  def check(path,receipt):
@@ -46,6 +49,7 @@ def main():
   from pipeline.bride_overlap_plugin import load_overlap_plugin
   directory=require_codex_path(plan['iteration_plugin']['resource']);check(directory/'receipt.json',plan['iteration_plugin']['build_receipt'])
   scheme,plugin=load_overlap_plugin(directory);check(directory/'bride_overlap_guard.dylib',plugin['plugin']);check(ROOT/'pipeline/bride_overlap_plugin.py',fingerprint(ROOT/'pipeline/bride_overlap_plugin.py'))
+  if algorithm is not None and algorithm['method']!='anderson_physical_direct'and scheme!='bride_transition_local_scalar':raise ValueError('Numerical control requires the rate-preserving transition-local plugin')
  warm_path=ROOT/plan['warm_populations'];check(warm_path,warm['coupled']['populations']);check(ROOT/'pipeline/bride_coupled_control.py',warm['coupled']['helper'])
  with np.load(warm_path)as data:pop=data['populations'].copy();seed_nstar=data['nstar'].copy()
  check(Path(compiled.__file__),warm['backend']);check(Path(c.__file__),warm['LW_constants'])
@@ -56,9 +60,11 @@ def main():
  for node in plan['nodes']:check(require_codex_path('grids.marcs_standard')/marcs_filename(node['teff'],node['logg']),node['source'])
  helpers=['pipeline/bride_solar_matched.py','pipeline/bride_parameter_checks.py','pipeline/bride_reference.py','pipeline/bride_H_nlte_control.py']
  if algorithm is not None:
-  helpers+=['pipeline/bride_anderson.py']
-  if algorithm['method']=='anderson_physical_direct':helpers+=['pipeline/bride_coupled_anderson_control.py']
-  else:helpers+=['pipeline/bride_coupled_mali_safeguarded.py','pipeline/bride_fresh_acceleration.py']
+  if algorithm['method']=='transition_local_secant':helpers+=['pipeline/bride_secant.py','pipeline/bride_coupled_secant.py']
+  else:
+   helpers+=['pipeline/bride_anderson.py']
+   if algorithm['method']=='anderson_physical_direct':helpers+=['pipeline/bride_coupled_anderson_control.py']
+   else:helpers+=['pipeline/bride_coupled_mali_safeguarded.py','pipeline/bride_fresh_acceleration.py']
  for helper in helpers:check(ROOT/helper,fingerprint(ROOT/helper))
  binding_change={key:dict(max_absolute=float(np.max(abs(np.array(value)-np.array(warm['state'][key])))),max_relative=None if key=='height_m'else float(np.max(abs(np.array(value)/np.array(warm['state'][key])-1))))for key,value in asdict(state).items()if isinstance(value,tuple)}
  atom_path=require_codex_path('experiments.bride_oxygen_atom');check(atom_path,warm['atom']);atom=read_multi_atom(atom_path)
