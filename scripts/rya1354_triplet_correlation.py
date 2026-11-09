@@ -26,18 +26,19 @@ def require_triplet_quintet_order(triplet,quintet):
         raise ValueError('Model reverses physical triplet/quintet energy ordering; refuse complete lifetime')
 
 
-def transitions(bindir, lower, upper, out, operators, same_parity):
+def transitions(bindir, lower, upper, out, operators, same_parity,*,ci=False):
     out.mkdir()
     for tag,source in [('lower',lower),('upper',upper)]:
-        for ext in ('c','m','w'):
+        for ext in ('c','cm' if ci else 'm','w'):
             shutil.copyfile(source/f'state.{ext}',out/f'{tag}.{ext}')
         shutil.copyfile(source/'state.lsj.lbl',out/f'{tag}.lsj.lbl')
     shutil.copyfile(lower/'isodata',out/'isodata')
     steps=[]
-    for exe,stdin in [('rbiotransform','y\nn\nlower\nupper\ny\n'),
-                      ('rtransition',f'y\nn\nlower\nupper\n{operators}\n'+('n\nn\n' if same_parity else ''))]:
+    mixing='y' if ci else 'n'
+    for exe,stdin in [('rbiotransform',f'y\n{mixing}\nlower\nupper\ny\n'),
+                      ('rtransition',f'y\n{mixing}\nlower\nupper\n{operators}\n'+('n\nn\n' if same_parity else ''))]:
         steps.append(run(bindir/exe,stdin,out,1800))
-    if any(s['semantic_errors'] for s in steps) or not (out/'lower.upper.t').is_file():
+    if any(s['semantic_errors'] for s in steps) or not (out/('lower.upper.ct' if ci else 'lower.upper.t')).is_file():
         raise ValueError('Native transition refusal or missing table')
     return steps
 
