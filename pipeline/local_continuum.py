@@ -109,6 +109,33 @@ NEIGH_A = 50.0
 NEIGH_STEP_A = 10.0
 SMOOTH_TOL = 0.02
 MIN_NEIGH = 3
+#: Off the IAG atlas the neighbourhood reference is our synthesis, ~110 A per line. Adjacent
+#: lines' neighbourhoods overlap almost entirely (near-UV Ti: ~200 checked lines in 780 A),
+#: so it is synthesised once per aligned NEIGH_CHUNK_A chunk per process and reused. The
+#: line's OWN +/-ENV_HALF_WIDTH_A reference is never taken from the cache.
+NEIGH_CHUNK_A = 20.0
+_NEIGH_CACHE: dict = {}
+_NEIGH_CACHE_MAX = 256
+
+
+def _chunked_reference(synth, key, lo: float, hi: float):
+    """`synth(lo, hi)` over [lo, hi], assembled from cached NEIGH_CHUNK_A chunks."""
+    c = float(np.floor(lo / NEIGH_CHUNK_A) * NEIGH_CHUNK_A)
+    ws, fs = [], []
+    while c < hi:
+        k = (key, c)
+        if k not in _NEIGH_CACHE:
+            if len(_NEIGH_CACHE) >= _NEIGH_CACHE_MAX:
+                _NEIGH_CACHE.clear()
+            _NEIGH_CACHE[k] = synth(c, c + NEIGH_CHUNK_A)
+        w, f = _NEIGH_CACHE[k]
+        m = (w >= c) & (w < c + NEIGH_CHUNK_A)          # chunks meet without a duplicate pixel
+        ws.append(w[m])
+        fs.append(f[m])
+        c += NEIGH_CHUNK_A
+    w, f = np.concatenate(ws), np.concatenate(fs)
+    k = (w >= lo) & (w <= hi)
+    return w[k], f[k]
 
 
 @dataclass
@@ -432,6 +459,7 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
             hi = min(hi + 0.5, SOLAR_ATLAS_SPAN_A[1])
             return solar_atlas_reference(lo, hi, R)
         reference = "IAG solar atlas"
+        neigh_fn = ref_fn
     else:                                              # no atlas here: the leg equals nominal
         import os
         from pathlib import Path
@@ -449,6 +477,8 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
                 vsini=float(ctx["vsini"]), use_molecules=bool(use_molecules), tmp_dir=tmp)
             keep = (mw * 10.0 >= lo) & (mw * 10.0 <= hi)    # iSpec zeroes synthesis edges
             return mw[keep] * 10.0, np.asarray(mf)[keep]
+        key = (id(ctx), element, bool(use_molecules), R, float(ctx["solar_A"]))
+        neigh_fn = lambda lo, hi: _chunked_reference(ref_fn, key, lo, hi)  # noqa: E731
     rw, rf = ref_fn(centre_A - env, centre_A + env)
     k = np.abs(rw - centre_A) <= env
     corroborate = None
@@ -459,7 +489,7 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
                 ww, wf = wide_flux(centre_A - span - 0.5, centre_A + span + 0.5)
             except LookupError as exc:
                 return False, f"neighbourhood not served ({exc})"
-            wref = ref_fn(centre_A - span, centre_A + span)
+            wref = neigh_fn(centre_A - span, centre_A + span)
             if wref is None:
                 return False, f"{reference} does not cover the neighbourhood"
             return neighbourhood_check(ww, wf, centre_A, *wref,
