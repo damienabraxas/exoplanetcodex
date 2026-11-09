@@ -59,6 +59,8 @@ Naming convention — pipeline scripts use the subject_action pattern:
 from __future__ import annotations
 
 import argparse
+import json
+from pathlib import Path
 import sys
 
 from config.constants import get_star_params
@@ -281,6 +283,17 @@ def main() -> None:
                         'reference line sets (Asplund, Elgueta, ...). Default: every '
                         'graded pool the route can measure. The ungraded all-lines pool '
                         'is never dispatched (governing process step 7).')
+    m.add_argument('--options', action='store_true',
+                   help='RYA-1315: with --element, print every value --ion/--band/--instrument/'
+                        '--engine/--route/--pool can take (JSON) and exit.')
+    m.add_argument('--request', metavar='JSON',
+                   help='RYA-1315: run a saved RunRequest (pipeline/run_request.py): mode '
+                        '"full" or "select" plus the chosen axes -- what a front end submits.')
+    m.add_argument('--force', action='store_true',
+                   help='RYA-1315: re-run the selected cells even where the ledger calls them '
+                        'current -- the one-off for a change inputs_hash cannot see (a library '
+                        'module). Needs a narrowing filter; with --publish, only those cells '
+                        'are priced, published and (if held) withdrawn.')
     m.add_argument('--publish', action='store_true',
                    help='RYA-1233: after the run, governing-process steps 11-16 -- RYA-587 '
                         'budget legs, assemble, publish through publish_product, literature '
@@ -290,7 +303,10 @@ def main() -> None:
                         'sets + authors\' gf, gf-source classification, cull candidates, NLTE '
                         'coverage, holdings at rest, literature -- one report to review.')
     m.add_argument('--apply', action='store_true',
-                   help='with --prepare: write the reviewed plan (gf adoptions + culls).')
+                   help='with --prepare: write the reviewed plan (gf adoptions, added lines).')
+    m.add_argument('--cull', action='store_true',
+                   help='with --prepare --apply: ALSO cull the cull candidates (a human decision; '
+                        'the run itself never culls -- RYA-1251).')
     parser.add_argument('--check-paths', action='store_true',
                         help='RYA-1233: resolve every path the orchestrator needs on THIS host '
                              '(path register + config/hosts/<host>.env) and exit 1 if any is missing.')
@@ -326,6 +342,17 @@ def main() -> None:
         print()
         sys.exit(0)
 
+    if args.request:
+        # RYA-1315: a saved request carries its own star, element and selection; flags on
+        # top of it would be a second, silent selection.
+        _req = json.loads(Path(args.request).read_text())
+        mixed = [f for f in ('ion', 'band', 'instrument', 'engine', 'route', 'pool', 'force',
+                             'publish', 'dry_run') if getattr(args, f, None)]
+        if mixed or args.element or args.star:
+            parser.error(f"--request carries the whole run; drop "
+                         f"{['--' + f.replace('_', '-') for f in mixed] or '--star/--element'}")
+        args.star, args.element = _req.get('star'), _req.get('element')
+
     _refuse_matrix_flags_without_element(parser, args)
 
     if not args.star:
@@ -351,7 +378,8 @@ def main() -> None:
         rep = element_prepare.prepare(star_id, args.element)
         print(element_prepare.render(rep))
         if args.apply:
-            done = element_prepare.apply(star_id, args.element, rep)
+            done = element_prepare.apply(star_id, args.element, rep,
+                                         cull=getattr(args, 'cull', False))
             print(f"applied: {done}")
             rep = element_prepare.prepare(star_id, args.element)
             print(element_prepare.render(rep))
@@ -363,33 +391,57 @@ def main() -> None:
         print(coverage_report.render(cov))
         sys.exit(0 if cov["done"] else 3)
 
-    if args.element:
-        from pipeline import run_matrix
+    if args.element and args.options:
+        from pipeline import run_request
+        print(json.dumps(run_request.options(star_id, args.element), indent=1))
+        sys.exit(0)
+
+    if args.element or args.request:
+        # RYA-1315: the CLI builds the same RunRequest a front end would -- mode 'full' (every
+        # cell) or 'select' (the chosen axes) -- and runs it through run_request.execute.
+        from pipeline import run_matrix, run_request
         interp, ispec = _resolve_engine_env(args)
+        if args.request:
+            req = run_request.RunRequest.from_json(args.request)
+        else:
+            sel = dict(ions=args.ion, bands=args.band, instruments=args.instrument,
+                       engines=args.engine, routes=args.route, pools=args.pool)
+            req = run_request.RunRequest.from_dict(dict(
+                star=star_id, element=args.element,
+                mode="select" if any(sel.values()) else "full", **sel,
+                force=args.force, publish=args.publish and not args.dry_run,
+                dry_run=args.dry_run, jobs=args.jobs))
         try:
-            report = run_matrix.run(
-                star_id, args.element, ions=args.ion, bands=args.band,
-                instruments=args.instrument, engines=args.engine,
-                methods=args.route, pools=args.pool,
-                dry_run=args.dry_run, interpreter=interp or None,
-                ispec_dir=ispec or None, jobs=args.jobs)
+            out = run_request.execute(req, interpreter=interp or None,
+                                      ispec_dir=ispec or None)
         except run_matrix.MatrixError as exc:
             raise SystemExit(f"\nSTOP: the matrix could not be built.\n{exc}") from exc
+        except ValueError as exc:
+            raise SystemExit(f"\nSTOP: {exc}") from exc
+        report, s = out["report"], out["publish"]
         from pipeline.run_sweep import executed
         print(f"executed: {executed(report)} stage dispatch(es)"
-              f"{' (dry-run)' if args.dry_run else ''}")
-        if args.publish and not args.dry_run:
+              f"{' (dry-run)' if req.dry_run else ''}")
+        if s is not None:
             from pipeline import element_publish
-            s = element_publish.publish(star_id, args.element, report=report,
-                                        jobs=max(args.jobs, 1), interpreter=interp or None)
             print(f"publish: {len(s['published'])} published, {len(s['held'])} held, "
                   f"{len(s['dropped'])} dropped -- "
-                  f"{element_publish.budget_dir(star_id, args.element)}/publish_summary.json")
+                  f"{element_publish.budget_dir(req.star, req.element)}/publish_summary.json")
+        incomplete = s is not None and not s["coverage"]["done"]
+        if incomplete:
+            # RYA-1349: the element is not complete -- a treatment, instrument or cell is
+            # still owed (the Ca ENGINE-A miss). The products written stay; the run says
+            # NOT DONE and exits 3, the code `--coverage` uses (a FAILED cell keeps 1).
+            owed = s["coverage"]["owed"]
+            print(f"\nELEMENT NOT COMPLETE: {len(owed)} cell(s) owed")
+            for r in owed[:40]:
+                print(f"  {r['outcome']:8} {r['band']:11} {r['holding'][:32]:32} {r['ion']:2} "
+                      f"{r['grade'][:16]:16} {r['treatment']:20} {r['reason'][:80]}")
         # A cell that FAILED is a real failure and the exit code must say so, or a
         # CI job reads a green run off a report full of broken cells. BLOCKED and
         # NOT_READY are honest empties and do NOT fail the run -- they are the
         # documented output this layer exists to produce (RYA-1187).
-        sys.exit(1 if report["counts"][run_matrix.FAILED] else 0)
+        sys.exit(1 if report["counts"][run_matrix.FAILED] else 3 if incomplete else 0)
 
     # RYA-1233: the legacy path is announced before anything of it runs.
     print(f"\n{'#'*78}\n# {LEGACY_BANNER}\n{'#'*78}", flush=True)

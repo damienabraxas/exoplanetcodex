@@ -123,20 +123,25 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
                  teff_K=int(round(float(p["teff"]))),
                  logg=float(p["logg"]), feh=feh)]
     if element != "Fe":
-        from pipeline.nlte_corrections import _mpia_element_delta
+        from pipeline.nlte_corrections import (_mpia_element_delta, extension_element_delta,
+                                               nlte_ions)
         from pipeline.species import parse_ion
         from config.constants import NLTE_CORRECTION_ELEMENTS
 
         spec = NLTE_CORRECTION_ELEMENTS.get(element)
-        if spec is None or parse_ion(ion) != int(spec["ion"]):
+        if spec is None:
             return cited
+        registered = parse_ion(ion) in nlte_ions(element)
         out = dict(cited)
         for wave in waves:
             if float(wave) in cited:
                 continue
-            delta = _mpia_element_delta(
-                element, float(wave), float(p["teff"]), float(p["logg"]), feh,
-                tol=0.06)
+            args = (element, float(wave), float(p["teff"]), float(p["logg"]), feh)
+            delta = _mpia_element_delta(*args, tol=0.06, ion=ion) if registered else np.nan
+            # RYA-1311: a line the registered grid lacks is read from the PySME table
+            # element_prepare extended for it (Ca Y/J: Amarsi 2020), never left "not served".
+            if delta is None or not np.isfinite(delta):
+                delta = extension_element_delta(*args, tol=0.06, ion=ion)
             if delta is not None and np.isfinite(delta):
                 out[float(wave)] = float(delta)
         return out
@@ -260,6 +265,49 @@ def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
             keep.append(idx_sorted[bi])
         else:
             missing.append((float(w), float(best)))
+    return keep, missing
+
+
+#: RYA-1251. How far either side of a set line its hyperfine components are looked for. Na I
+#: 10746 spans 0.016 A, Mn I lines up to ~0.3 A; the centroid test below, not this, decides.
+_HFS_SEARCH_A = 0.5
+
+
+def _match_hfs_centroids(want, eps, linelist, species: str, tol_A: float) -> tuple[list, list]:
+    """A set line the nearest-row match missed, found as the CENTROID of its hfs components.
+
+    🔴 RYA-1251 — VALD WRITES A HYPERFINE LINE AS ITS COMPONENTS, A PUBLISHED SET AS ONE LINE.
+    Asplund's Na I 10746.44 is canonical_gf's 10746.449, the gf-weighted centroid of the
+    NIR list's rows at 10746.439/.440/.455 -- and no single row is within the set's 5 mA, so
+    the run held all four NIR set cells as "pool empty" on a line it holds.
+
+    The rows of one transition share their lower AND upper level energies; their gf-weighted
+    centroid must sit inside the set's own window and their lower level within
+    `_GRADED_MASK_EP_TOL_EV` of the set's EP (the RYA-1036 guard against a neighbouring
+    transition). Exactly one such group, or the line stays missing. The group is represented
+    by its strongest component; every component is still in the synthesis list.
+    """
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    lo_cm = np.asarray(linelist["lower_state_cm1"], dtype=float)
+    up_cm = np.asarray(linelist["upper_state_cm1"], dtype=float)
+    ep = np.asarray(linelist["lower_state_eV"], dtype=float)
+    gf = 10.0 ** np.asarray(linelist["loggf"], dtype=float)
+    keep, missing = [], []
+    for w, e in zip(want, eps):
+        near = np.flatnonzero((el == species) & (np.abs(w_A - w) <= _HFS_SEARCH_A))
+        hits = []
+        for key in {(round(lo_cm[i], 1), round(up_cm[i], 1)) for i in near}:
+            g = near[(np.round(lo_cm[near], 1) == key[0]) & (np.round(up_cm[near], 1) == key[1])]
+            c = float(np.sum(w_A[g] * gf[g]) / np.sum(gf[g]))
+            if abs(c - w) <= tol_A and abs(float(ep[g[0]]) - float(e)) <= _GRADED_MASK_EP_TOL_EV:
+                hits.append((abs(c - w), int(g[np.argmax(gf[g])])))
+        if len(hits) == 1:
+            keep.append(hits[0][1])
+        else:
+            missing.append(float(w))
     return keep, missing
 
 
@@ -733,6 +781,16 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     w_sorted = w_A[idx_sorted]
 
     keep, missing = _match_into_list(want.values, w_sorted, idx_sorted, tol_A=tol)
+    if (missing and "ep_eV" in ew.columns and source_label.startswith("lines-from-set")
+            and {"lower_state_cm1", "upper_state_cm1"} <= set(linelist.dtype.names)):
+        miss_w = [w for w, _ in missing]
+        eps = [float(ew.loc[want.index[list(want.values).index(w)], "ep_eV"]) for w in miss_w]
+        hfs_keep, still = _match_hfs_centroids(miss_w, eps, linelist, species, tol)
+        if hfs_keep:
+            print(f"  [{source_label}] {len(hfs_keep)} line(s) matched as the gf-weighted "
+                  f"centroid of their hfs components (RYA-1251)")
+        keep += hfs_keep
+        missing = [(w, d) for w, d in missing if w in still]
     # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
     # does not contain cannot be compared, and the count is itself a result: it is the
     # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
@@ -1281,16 +1339,33 @@ def synthesis_route(a, pol) -> None:
         _served_specs[h.holding_id] = h
         _window_median.append(float(np.median(win.flux)))
         _w, _f, _prov = win.wave, win.flux, win.provenance
-        if not h.pre_normalised and getattr(a, "place_continuum", False):
+
+        def _placed(w_, f_):
             _CW, _CF = _band_continuum(h)
-            _c = np.interp(np.asarray(_w, float), _CW, _CF)
+            _c = np.interp(np.asarray(w_, float), _CW, _CF)
             _bad = ~np.isfinite(_c) | (_c <= 0)
             if _bad.any():
                 raise SystemExit(
                     f"--place-continuum: the band continuum is non-positive at "
                     f"{int(_bad.sum())} of {_bad.size} pixels near {centre:.3f} A. "
                     f"Refusing to divide by it.")
-            _f = np.asarray(_f, float) / _c
+            return np.asarray(f_, float) / _c
+
+        def _degraded(w_, f_):
+            # Gaussian kernel that takes R_native -> R_target:
+            #   FWHM_deg^2 = (lam/R_target)^2 - (lam/R_native)^2
+            # Convolving by the QUADRATURE DIFFERENCE, not by lam/R_target, is the whole
+            # correctness of this: the spectrum already carries its native instrumental
+            # profile, and convolving by the full target width would over-broaden it.
+            from scipy.ndimage import gaussian_filter1d
+            _lam = float(np.median(w_))
+            _fw = _lam * np.sqrt(1.0 / _degrade_to ** 2 - 1.0 / _R_native ** 2)
+            _px = float(np.median(np.diff(w_)))
+            _sig_px = (_fw / 2.35482) / _px
+            return gaussian_filter1d(np.asarray(f_, float), _sig_px, mode="nearest"), _sig_px
+
+        if not h.pre_normalised and getattr(a, "place_continuum", False):
+            _f = _placed(_w, _f)
             _prov = (f"{_prov} | RYA-933 CONTINUUM PLACED "
                      f"(CONTINUUM_PARAMS['solar'], band-wide spline)")
         if getattr(a, "local_renorm", False):
@@ -1315,17 +1390,7 @@ def synthesis_route(a, pol) -> None:
                 _f = np.asarray(_f, float) / _c95
                 _prov = f"{_prov} | RYA-1000 LOCAL-RENORM /p95={_c95:.4f}"
         if _degrade_to:
-            # Gaussian kernel that takes R_native -> R_target:
-            #   FWHM_deg^2 = (lam/R_target)^2 - (lam/R_native)^2
-            # Convolving by the QUADRATURE DIFFERENCE, not by lam/R_target, is the whole
-            # correctness of this: the spectrum already carries its native instrumental
-            # profile, and convolving by the full target width would over-broaden it.
-            from scipy.ndimage import gaussian_filter1d
-            _lam = float(np.median(_w))
-            _fw = _lam * np.sqrt(1.0 / _degrade_to ** 2 - 1.0 / _R_native ** 2)
-            _px = float(np.median(np.diff(_w)))
-            _sig_px = (_fw / 2.35482) / _px
-            _f = gaussian_filter1d(np.asarray(_f, float), _sig_px, mode="nearest")
+            _f, _sig_px = _degraded(_w, _f)
             _prov = f"{_prov} | RYA-995 DEGRADED to R={_degrade_to:.0f} (sigma {_sig_px:.2f} px)"
         # 🔴 RYA-1230 — THE STANDING PER-BAND CONTINUUM RULE (Ryan, 2026-09-26). A local
         # linear upper envelope over +/-5 A of THIS window, on every holding including the
@@ -1342,9 +1407,26 @@ def synthesis_route(a, pol) -> None:
             # MODEL-GUIDED (local_continuum.place_for_synthesis -- the ONE implementation,
             # shared with the RYA-1106 Asplund route): obs / synthetic on the synthesis's own
             # top-decile pixels, the BAND's line window excluded.
+            def _wide(lo_A, hi_A):
+                # RYA-1350: the neighbourhood that corroborates a level beyond 3% as a smooth
+                # sag, conditioned exactly as this window was. Read only when one turns up;
+                # clipped to the holding, so a line near its edge measures one side.
+                _sp = getattr(h, "span_A", None)
+                if _sp is not None:
+                    lo_A, hi_A = max(lo_A, _sp[0] + 0.5), min(hi_A, _sp[1] - 0.5)
+                ww = load_window_ex(a.instrument, 0.5 * (lo_A + hi_A), 0.5 * (hi_A - lo_A),
+                                    holding=a.holding)
+                wf = ww.flux
+                if not h.pre_normalised and getattr(a, "place_continuum", False):
+                    wf = _placed(ww.wave, wf)
+                if _degrade_to:
+                    wf = _degraded(ww.wave, wf)[0]
+                return ww.wave, wf
+
             _f, _rec = _lc.place_for_synthesis(
                 _w, _f, centre, ctx, a.element, band_half_width_A=float(cfg.half_width_A),
-                use_molecules=bool(cfg.use_molecules), apply=cfg.continuum_apply, star=a.star)
+                use_molecules=bool(cfg.use_molecules), apply=cfg.continuum_apply, star=a.star,
+                wide_flux=_wide)
             _continuum_by_line[round(float(centre), 3)] = _rec
             _prov = (f"{_prov} | RYA-1230 LOCAL CONTINUUM level={_rec.level_at_centre:.5f} "
                      f"{'APPLIED' if _rec.applied else _rec.reason[:40]}")
@@ -1785,8 +1867,13 @@ def synthesis_route(a, pol) -> None:
                     f"data/results/rya1035/mean3d_aux_defect_sweep.csv -- Fe and Mn "
                     f"REQUIRE the plain aux.")
             _layers, _model3d = m3d.load(gnlte.deck_atmosphere(_deck_key))
+            # RYA-1311: Ca@mean3D has an abundance axis (22 nodes), so this probe needs
+            # one like the 1D branch and main()'s <3D> branch (RYA-1250). It only feeds
+            # the depth/tau gates; the fit reads departures per trial A(X).
+            _probe_a = (float(np.mean(gnlte.abundance_axis(_deck_key)))
+                        if gnlte.has_abundance_axis(_deck_key) else None)
             _dep = gnlte.for_node(_deck_key, float(ctx["teff"]), float(ctx["logg"]),
-                                  float(ctx["feh"]))
+                                  float(ctx["feh"]), abundance=_probe_a)
             gnlte.assert_depth_match(_dep, _layers)
             _dtau = m3d.assert_tau_consistent(_dep, _model3d)
             # The <3D> atmosphere REPLACES ctx's for this leg, and the model goes in as a
@@ -2612,7 +2699,10 @@ def engine_a_source(element: str) -> str:
     spec = NLTE_CORRECTION_ELEMENTS.get(element)
     if spec is None:
         return "no registered Engine-A source"
-    return f"{spec['grid']} ({spec['ref']}); PER-LINE additive correction"
+    from pipeline.nlte_corrections import engine_a_extension_table
+    ext = engine_a_extension_table(element)
+    tail = f"; lines it does not serve from {ext.name} (PySME)" if ext is not None else ""
+    return f"{spec['grid']} ({spec['ref']}){tail}; PER-LINE additive correction"
 
 
 def engine_a_model(element: str) -> str:
@@ -2623,6 +2713,8 @@ def engine_a_model(element: str) -> str:
         return "amarsi"
     from config.constants import NLTE_CORRECTION_ELEMENTS
     spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
+    if spec.get("model_axis"):
+        return spec["model_axis"]
     source = f"{spec.get('grid', '')} {spec.get('ref', '')}".lower()
     if "amarsi" in source or "nordlander" in source:
         return "amarsi"

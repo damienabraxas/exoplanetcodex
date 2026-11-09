@@ -2,7 +2,7 @@
   "ticket": "RYA-1225",
   "note": "band-keyed dA/dxi entries measured against an abundance the product no longer carries. SUPERSEDED rows were replaced by the same-pool measurement taken after the synthesis change; FLAGGED rows are owed and were left untouched.",
   "n_superseded": 4,
-  "n_flagged": 11,
+  "n_flagged": 12,
   "rows": [
     {
       "key": {
@@ -24,60 +24,6 @@
     },
     {
       "key": {
-        "ion": "I",
-        "holding": "solar_kpno_kurucz2005_corrected",
-        "tier": "DEEPGRADED",
-        "treatment": "ENGINE-A",
-        "band": "near-UV"
-      },
-      "stale_entry": {
-        "dA_dxi": -0.105,
-        "A_it_ran_against": 7.651,
-        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
-        "ticket": "RYA-1168"
-      },
-      "live_product_A": 7.562,
-      "action": "FLAGGED_NOT_ADJUDICATED",
-      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
-    },
-    {
-      "key": {
-        "ion": "I",
-        "holding": "solar_kpno_molecfit_corrected",
-        "tier": "DEEPGRADED",
-        "treatment": "1D-LTE",
-        "band": "near-UV"
-      },
-      "stale_entry": {
-        "dA_dxi": -0.1125,
-        "A_it_ran_against": 7.596,
-        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
-        "ticket": "RYA-1168"
-      },
-      "live_product_A": 7.508,
-      "action": "FLAGGED_NOT_ADJUDICATED",
-      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
-    },
-    {
-      "key": {
-        "ion": "I",
-        "holding": "solar_kpno_molecfit_corrected",
-        "tier": "DEEPGRADED",
-        "treatment": "ENGINE-A",
-        "band": "near-UV"
-      },
-      "stale_entry": {
-        "dA_dxi": -0.1125,
-        "A_it_ran_against": 7.606,
-        "source": "data/results/rya1168/nearuv_xi_dadxi.json",
-        "ticket": "RYA-1168"
-      },
-      "live_product_A": 7.516,
-      "action": "FLAGGED_NOT_ADJUDICATED",
-      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
-    },
-    {
-      "key": {
         "ion": "II",
         "holding": "solar_kpno_kurucz2005_corrected",
         "tier": "DEEPGRADED",
@@ -90,7 +36,7 @@
         "source": "data/results/rya1168/nearuv_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.617,
+      "live_product_A": 7.535,
       "action": "SUPERSEDED",
       "donor": {
         "tier": "REFERENCE",
@@ -114,7 +60,7 @@
         "source": "data/results/rya1168/nearuv_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.635,
+      "live_product_A": 7.656,
       "action": "SUPERSEDED",
       "donor": {
         "tier": "REFERENCE",
@@ -162,7 +108,7 @@
         "source": "data/results/rya1168/nearuv_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.404,
+      "live_product_A": 7.494,
       "action": "SUPERSEDED",
       "donor": {
         "tier": "REFERENCE",
@@ -171,6 +117,42 @@
         "source": "data/results/rya1213/reference_xi_dadxi.json"
       },
       "ratio_new_over_old": 2.75
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_iag",
+        "tier": "GRADED",
+        "treatment": "1D-LTE",
+        "band": "NIR"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.05,
+        "A_it_ran_against": 7.546,
+        "source": "data/results/rya1163/ir_xi_dadxi.json",
+        "ticket": "RYA-1163"
+      },
+      "live_product_A": 7.46,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_iag",
+        "tier": "GRADED",
+        "treatment": "ENGINE-A",
+        "band": "NIR"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.04,
+        "A_it_ran_against": 7.599,
+        "source": "data/results/rya1163/ir_xi_dadxi.json",
+        "ticket": "RYA-1163"
+      },
+      "live_product_A": 7.369,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     },
     {
       "key": {
@@ -186,7 +168,7 @@
         "source": "data/results/rya1163/ir_xi_dadxi.json",
         "ticket": "RYA-1163"
       },
-      "live_product_A": 7.607,
+      "live_product_A": 7.495,
       "action": "FLAGGED_NOT_ADJUDICATED",
       "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     },
@@ -204,7 +186,43 @@
         "source": "data/results/rya1163/ir_xi_dadxi.json",
         "ticket": "RYA-1163"
       },
-      "live_product_A": 7.488,
+      "live_product_A": 7.368,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_crires_plus_y_wide_rya1054",
+        "tier": "GRADED",
+        "treatment": "ENGINE-A",
+        "band": "NIR"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.1225,
+        "A_it_ran_against": 7.492,
+        "source": "data/results/rya1163/ir_xi_dadxi.json",
+        "ticket": "RYA-1163"
+      },
+      "live_product_A": 7.637,
+      "action": "FLAGGED_NOT_ADJUDICATED",
+      "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
+    },
+    {
+      "key": {
+        "ion": "I",
+        "holding": "solar_iag",
+        "tier": "GRADED",
+        "treatment": "1D-LTE",
+        "band": "red-optical"
+      },
+      "stale_entry": {
+        "dA_dxi": -0.15,
+        "A_it_ran_against": 7.448,
+        "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
+        "ticket": "RYA-1168"
+      },
+      "live_product_A": 7.437,
       "action": "FLAGGED_NOT_ADJUDICATED",
       "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     },
@@ -222,7 +240,7 @@
         "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.46,
+      "live_product_A": 7.446,
       "action": "FLAGGED_NOT_ADJUDICATED",
       "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     },
@@ -240,7 +258,7 @@
         "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.458,
+      "live_product_A": 7.437,
       "action": "FLAGGED_NOT_ADJUDICATED",
       "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     },
@@ -258,7 +276,7 @@
         "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.451,
+      "live_product_A": 7.449,
       "action": "FLAGGED_NOT_ADJUDICATED",
       "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     },
@@ -276,7 +294,7 @@
         "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.484,
+      "live_product_A": 7.413,
       "action": "FLAGGED_NOT_ADJUDICATED",
       "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     },
@@ -294,7 +312,7 @@
         "source": "data/results/redopt_xi/redopt_xi_dadxi.json",
         "ticket": "RYA-1168"
       },
-      "live_product_A": 7.493,
+      "live_product_A": 7.403,
       "action": "FLAGGED_NOT_ADJUDICATED",
       "reason": "measured against a superseded abundance, but no RCA has established the cause for this band/ion, so no slope is substituted here -- reported as owed, value left untouched"
     }

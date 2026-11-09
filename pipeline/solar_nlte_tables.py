@@ -17,8 +17,9 @@ def declarations(element, ion, star):
     rows = yaml.safe_load(REGISTRY.read_text())['tables']
     selected = [r for r in rows if r['element'] == element and str(ion) in r['ions']
                 and r['star'] == star]
-    if len(selected) > 1:
-        raise ValueError(f'Multiple cited-table authorities for {star} {element} {ion}')
+    # RYA-1251: an element may have more than one cited table (Na: AGSS21 Table A.1 for
+    # its five lines, Canocchi+2026 3D for the others) -- but never two for one line;
+    # `deltas` refuses that as ambiguous.
     return selected
 
 
@@ -35,6 +36,8 @@ def deltas(element, ion, waves, leg, *, star):
     canonical = {r['line_id']: r for r in csv.DictReader(
         (ROOT / 'data/linelists/canonical_gf.csv').open())}
     for spec in specs:
+        if leg not in spec['legs']:
+            continue            # a table may cite one leg only (Canocchi+2026: 3D)
         for row in csv.DictReader((ROOT / spec['source']).open()):
             species = f'{element} {ion}'
             if row[spec['species_column']] != species:
@@ -62,7 +65,7 @@ def deltas(element, ion, waves, leg, *, star):
 def source(element, ion, leg, *, star):
     return '; '.join(f"{s['citation']}; CITED solar {leg}-NLTE minus 1D-LTE per-line "
                      "additive correction; our atmosphere may differ; not in-transfer 3D"
-                     for s in declarations(element, ion, star))
+                     for s in declarations(element, ion, star) if leg in s['legs'])
 
 
 def applied_source(element, ion, applied, *, star, native_source):

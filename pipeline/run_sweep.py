@@ -213,7 +213,10 @@ def run_sweep(star: str, *, bands: list[str] | None = None,
                     pools=pools,
                     dry_run=dry_run,
                     interpreter=interpreter, ispec_dir=ispec_dir,
-                    step_timeout=step_timeout, report_dir=report_dir, echo=False)
+                    step_timeout=step_timeout, report_dir=report_dir, echo=False,
+                    # a redirected report dir is a test/scratch sweep: it must not
+                    # write canonical_gf (RYA-1251: production sweeps prepare first)
+                    prepare_first=report_dir is None)
                 entry.update(report=doc.get("_report_path"), counts=doc["counts"],
                              cells_total=doc["cells_total"], executed=executed(doc),
                              verdict=(doc.get("verdict") or {}).get("element_verdict"))

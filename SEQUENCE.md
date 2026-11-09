@@ -1,4 +1,7 @@
-## 2026-11-09 — solar sensitivity and continuum safeguards
+## 2026-11-09
+
+- **RYA-1278 / RYA-1281** — integrate the completed Bride foundation and oxygen research checkpoint; physical model gates remain HOLD.
+ — solar sensitivity and continuum safeguards
 
 - **RYA-1281** — current ORCH refuses24/96 unsupported continuum fits; all9 independent10K/xi controls pass; T/xi responses nearly parallel, HOLD (v243).
 
@@ -278,6 +281,70 @@
 - **RYA-1274** — bootstrap/reference discovery merged in PR #596 (`0ade2170`); RYA-1275/1276/1277 remain open.
 
 # Codex Ticket Sequence — chronological landing log
+
+## 2026-11-09 — RYA-1311 near-UV Ca note (#615) landed; pending RYA-1350 Al + Si redo
+
+> **Current as of `main` 7f023fd7** (2026-11-08, RYA-1311 #615).
+
+- **RYA-1311** — `7f023fd7` PR #615: near-UV Ca I Reference published with a preliminary note (4 rows, KPNO kurucz2005/molecfit x 1D-LTE/ENGINE-A); headline 6.405 unchanged.
+- **RYA-1350** (pending, branch `ryandamienschmitt/rya-1350-solar-al-si-redo-through-the-orch`) — Al + Si rebuilt through the orchestrator on today's inputs: Al 86 products (all four Gerber treatments, new), Si 104 (Reference Grade pool and a cited 3D NLTE treatment, Amarsi & Asplund 2017 Table 2 on Scott+2015 MARCS LTE, `6e24720f`); both checklists DONE. The RYA-1315 15% continuum bound let local features through (Si I 9891.725 7.56 -> 6.11); a level beyond 3% now needs the same smooth sag in its +/-50 A neighbourhood (`01f51846`), and the Si cells it touched were rerun (`362d93b1`: 9891.725 back to 7.553; all 56 October products within 0.04 dex). Ti II HARPS Reference control unchanged at 4.944.
+
+## 2026-11-08 — RYA-1311 close-out (#612) landed; pending near-UV Ca note
+
+> **Current as of `main` adefcaf0** (2026-11-08, RYA-1353 #614).
+
+- **RYA-1352** — `d70d932a` PR #613: grade-policy audit; documents the conflict between RYA-1351/1352 (primary experimental gf for Codex/Deep) and main's admission of published-uncertainty theory and NIST AAA-C, and proposes a versioned transition-evidence sidecar.
+- **RYA-1353** — `adefcaf0` PR #614: O/Fe holdings census for the theoretical-transition initiative; review gates preserved.
+- **RYA-1311** — `9ba9830b` PR #612: Ca close-out; near-UV Ca I Reference ENGINE-A built and quarantined with its cell; checklist DONE.
+- **RYA-1311** (pending, branch `ryandamienschmitt/rya-1311-ca-nuv-note`) — near-UV Ca I Reference published with a preliminary note (Ryan 2026-11-08: no other near-UV product): 4 rows, KPNO kurucz2005/molecfit x 1D-LTE/ENGINE-A, 6.61-6.68 on 3 lines; 217 live, feed v1.379, headline 6.405 unchanged.
+
+## 2026-11-08 — RYA-1311 (#610) and RYA-1349 (#611) landed; pending RYA-1311 Ca close-out
+
+> **Current as of `main` 3baabba9** (2026-11-07, RYA-1349 #611).
+
+- **RYA-1349** — `3baabba9` PR #611: the orchestrator's per-element checklist proves an element complete (`456b8124`): CODE_DRIFT (only code changed since the build) is reported, not owed; an unbuilt Deep cell owes nothing; ENGINE-A on a quarantined pool is HELD with the quarantine's reason (`a967cd74`); holdings that disagree are flagged. Ti coverage DONE (330 CODE_DRIFT, 0 owed, `ceaf3526`); Ti bookkeeping committed (355 build records); Fe_perline regenerated with the 10 restored Fe II line files, RYA-1055 audit pin 38 -> 55; runbook updated (`87d99e34`).
+- **RYA-1311** — `2763973c` PR #610: Ca IR graded (Y/J Elgueta 2024, H/K Civis et al. 2013 QDT, sigma 0.11/line), ENGINE-A extension-table fix, red-optical Ca I ENGINE-A on 3 lines with a note; 213 live, headline 6.405 unchanged.
+
+## 2026-11-07 — RYA-1315 landed; pending RYA-1311 IR branch
+
+> **Current as of `main` 459f5614** (2026-11-07, RYA-1315 #608).
+
+- **RYA-1315** — `459f5614` PR #608: Na on the fixed HARPS continuum; atomic C/N/O error bars on Asplund's own 3D terms (see the pending entry below for detail).
+- **RYA-1311** (pending, branch `ryandamienschmitt/rya-1311-ca-ir-graded`) — Y/J Ca graded with Elgueta et al. 2024 (Cepheid-calibrated gf, Codex Grade E2024-ASTRO); ENGINE-A now reads the PySME table element_prepare extends when the registered grid lacks the line (`bd3635fe`; Ca was Mashonkina-only, 8 lines): HARPS VIS REFERENCE ENGINE-A 6.322 (12 lines) -> 6.352 (45); new KP NIR / CRIRES+ J Ca I ENGINE-A 6.411 / 6.502. Scoped publish 48/0 held; headline 6.405 unchanged. H/K Ca: no non-solar-tuned graded gf -> gap.
+## 2026-11-06 — pending RYA-1315 branch (Fe + Ti)
+
+- **RYA-1315** (pending, Fe + Ti follow-up to the Na + C/N/O PR #608) — Fe HARPS VIS Fe I/II on the fixed continuum (Fe I GRADED 7.428 -> 7.401, REFERENCE 7.428 -> 7.346, AGSS21 set 7.486 -> 7.398; Fe II REFERENCE 7.848 -> 7.439, set 7.626 -> 7.432); Deep rebuilt with A unchanged; all Fe products on Asplund+2021 atmosphere terms; Ti first publication through the orchestrator (342 products, 0 quarantined; 2 near-UV <3D>-NLTE cells re-run after the abundance-probe fix); SET-* products publish with their reference line_set (`1d99d504`).
+
+## 2026-11-06 — pending RYA-1315 branch (Na + C/N/O)
+
+- **RYA-1315** (pending, branch `ryandamienschmitt/rya-1315-solar-ti-orchestrator-ti-i-primary-selective-ti-ii`) — Na HARPS VIS Na I re-measured on the fixed continuum (GRADED 1D-LTE 6.370 -> 6.283; AGSS21 set A unchanged, sigma 0.11 -> 0.05); atomic C/N/O model_atmosphere = Asplund+2021 Table 3 <3D>-HM and 3D-<3D> halves (C 57 / N 9 / O 28 products, median dsigma -0.007/+0.007/-0.009, A unchanged); a pool line without a published gf sigma no longer holds an Asplund-budget product (`4a4a21d0`); Engine-B <3D> probe for abundance-axis decks (Ti@mean3D). HM74 model table (Cowley & Castelli 2002) staged as reference data. Fe, Ti and Na Deep follow.
+
+## 2026-11-05 — pending RYA-1311 branch
+
+- **RYA-1311** (pending, branch `ryandamienschmitt/rya-1311-ca`, carries RYA-1315 `58bdfc22`) — Ca through the orchestrator on Sirius: 445 cells, 0 failed, zero uncertainty legs (Asplund+2021 sigma from each cell's own products); `Ca.json` v1.324: 177 live (Reference Grade 99 = AGSS21 set 63 + lab-gf pool 36; Codex Grade 78), VIS + red-optical. HARPS AGSS21 3D NLTE 6.405 +/- 0.05, Kitt Peak 6.412/6.413 (HARPS continuum fix 7b28c94f); +0.10 vs A21 is flux vs disk-centre geometry (mu=1 lands on A21). Ca II 5001/6456 gf from AGSS21; 5 Ca I blends registered; near-UV (3 lines, red chi2 28-64) quarantined; near-UV/NIR/H/K are gaps. Fix: the lab-gf REFERENCE pool published as tier ALL (budget scope mismatch -> all quarantined) and as Codex Grade (`18d515ec`).
+
+## 2026-10-29 — RYA-1317 landed
+
+> **Current as of `main` f8c723a8** (2026-10-29, RYA-1317).
+
+- **RYA-1317** — `46fd923d` PR #606 (site #79). CNO Asplund sigma per Amarsi group: the G band uses CH A-X (+0.066), not the CH species row (+0.035); each molecular 3D term is also at least Amarsi Eq. 1's atmosphere term. 1D-LTE CNO products are stamped `asplund_3d_shift` (A21 Table 3, 3D minus 1D MARCS) for the site's family combiner; no A moves. CH Gband sigma_asplund 0.019 -> 0.034.
+
+## 2026-10-28 — RYA-1310 landed
+
+> **Current as of `main` 42987358** (2026-10-28, RYA-1310).
+
+- **RYA-1310** — `a1130fc6` PR #603. IAG is not used in the solar VIS band (Ryan 2026-10-28): `run_matrix.EXCLUDED_HOLDING_BANDS` skips (iag_fts_solar_atlas, VIS) and the run report names it; 97 live IAG VIS products archived (Fe 33, Mg 26, Na 25, Si 6, Al 4, C 3), no headline moved; `Fe_perline.csv` and the rya935 tracker regenerated on Sirius. Site #75 (pages), #76 (Deep Grade yellow), #77 (CSS stamp). Follow-up branch `ryandamienschmitt/fe-forest-shows-deep-grade`: the forest draws Deep Grade in every band; the local-continuum Deep pool gets its own section.
+
+## 2026-10-28 — pending RYA-1250 branch
+
+- **RYA-1250** (pending, branch `ryandamienschmitt/rya-1250-mg-fix`) — Mg through the orchestrator on Sirius: 1548 budget legs, 0 failed; 219 published / 24 quarantined / 9 held. First CRIRES+ K Mg products (7.507). Leg filing, partial-report refusal and empty-pool memo stop a narrowed run from deleting legs or re-trying dead cells.
+
+## 2026-10-24 — RYA-1271 landed; pending RYA-1251 branch
+
+> **Current as of `main` 183310d8** (2026-10-24, RYA-1271).
+
+- **RYA-1271** — `591ad81e` PR #593 (`58550725`, `257cf11d`, `8d5fccc1`) and `183310d8` PR #594 (`05804945`). Bibliography 156 -> 206 rows; /sources regenerates again (vocabulary extended, client-side search, phone-width wrapping); the two internal notes dropped; Codex documents link the current versions.
+- **RYA-1251** (pending, branch `ryandamienschmitt/rya-1251-na`) — Na through the orchestrator on the Mac (grid over NFS from Sirius): 38 published / 37 held across 360 cells, 0 failed cells, 0 failed legs. Fixes: hfs-centroid set-line match, SET cell not aliased to GRADED in the budget, unpairable legs hold the component not the element, NLTE fit clamped to the deck's abundance axis, all-lines-failed-SYNTHESIS cells are not current. Full suite 41 failed = main's 41, identical set.
 
 ## 2026-10-24 — RYA-1268 / RYA-1270 landed
 

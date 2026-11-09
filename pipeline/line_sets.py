@@ -163,6 +163,14 @@ def build(element: str | None = None, *, quiet: bool = False) -> list[dict]:
     for (name, species), rows in sorted(groups.items()):
         spec = meta[name]
         tol = min(_tol(r[6]) for r in rows)
+        if (spec.get("match") or {}).get("window") == "resolver":
+            # RYA-1250. A set whose rows are synthesis FEATURES (components summed onto one
+            # canonical row at the cluster centroid, 15765.825) is matched at the window that
+            # ties a canonical row to its synthesis cluster, not at its printed precision:
+            # at 0.005 A Mg 10811/10965/15765.8/15886/9983/15879 matched no list row and
+            # were never measured. Nearest-row matching, so a matched line cannot move.
+            from pipeline.gf_resolver import WTOL
+            tol = max(tol, WTOL)
         stem = f"{name.lower()}_{species.replace(' ', '')}"
         fn, gfn = OUT / f"{stem}.csv", OUT / f"{stem}_graded.csv"
         head = ["line_set", "species", "wavelength_air_A", "wavelength_published_A", "ep_eV",

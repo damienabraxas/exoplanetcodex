@@ -143,7 +143,8 @@ def test_every_3dnlte_product_reproduces_its_published_n_lines(feed):
     refused, so membership is a DERIVED conjunction. It is only legitimate to derive it
     because it reproduces the published count on all twelve products, exactly."""
     ps3 = [q for q in feed["products"] if q["treatment"] == "ENGINE-A-3DNLTE"]
-    assert len(ps3) == 12, f"expected 12 ENGINE-A-3DNLTE products, found {len(ps3)}"
+    #: RYA-1310: 12 -> 9, IAG is no longer used in VIS (its three legs were withdrawn)
+    assert len(ps3) == 9, f"expected 9 ENGINE-A-3DNLTE products, found {len(ps3)}"
     for q in ps3:
         path, frame, family, why = ps.resolve(q)
         assert path is not None, f"{q['tier']}/{q['instrument']}: {why}"

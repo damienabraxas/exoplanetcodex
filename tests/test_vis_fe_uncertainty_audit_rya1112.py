@@ -173,12 +173,17 @@ def test_F2_the_gf_axis_is_pinned_by_the_TOKEN_not_by_the_lines():
 
 
 def test_F2_a_graded_product_really_is_all_lab_gf():
-    """Measured, not argued: the pool the label calls kurucz is 100% primary-laboratory."""
+    """Measured, not argued: the pool the label calls kurucz is 100% primary-laboratory.
+
+    RYA-1315: that pool is now the REFERENCE tier. Since RYA-1213 the laboratory-gf lines are
+    the Reference pool and GRADED is the wider Codex selection (HARPS VIS: 63 of 171 lab, said
+    so in its own budget); main's GRADED artifact was a stale 67-line copy of the lab pool.
+    """
     import numpy as np
     import pandas as pd
     from pipeline import line_match
     f = (ROOT / "data" / "results" / "band_products"
-         / "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv")
+         / "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv")
     if not f.exists():
         pytest.skip(f"{f.name} not staged (band_products is gitignored on some checkouts)")
     d = pd.read_csv(f)
@@ -194,12 +199,12 @@ def test_F2_a_graded_product_really_is_all_lab_gf():
     # ...and the artifact still calls it kurucz. NOTE the products sibling drops the
     # treatment suffix that the lines file carries — the two names are NOT symmetric.
     prod = ROOT / "data" / "results" / "band_products" / (
-        "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv")
+        "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_products.csv")
     assert set(pd.read_csv(prod)["gf"]) == {"kurucz"}
     # the repo contradicts itself in its own committed budget for the same product
     budget = (ROOT / "data" / "results" / "band_products"
-              / "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_budgets.txt")
-    assert "every one of the 67 Fe I lines is GF-LAB" in budget.read_text()
+              / "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_budgets.txt")
+    assert "every one of the 167 Fe I lines is GF-LAB" in budget.read_text()
 
 
 # ── Part D, and the xi learning ──────────────────────────────────────────────
@@ -242,8 +247,9 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
     #: ENGINE-A-3DNLTE product, so the exemption reaches them BY THE RULE rather than by
     #: anyone deciding it does. That is the property worth having: the tier is new and
     #: the rule needed no edit to cover it. The COUNT moves; the rule above does not.
+    #: RYA-1310 — 12 → 9. IAG is no longer used in VIS, so its three Amarsi legs left the feed.
     na = [r for r in doc["products"] if r["xi_applicability"].startswith("NOT APPLICABLE")]
-    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 12
+    assert doc["n_products_where_xi_is_not_applicable_full_3d_only"] == len(na) == 9
     assert {r["treatment"] for r in na} == {"ENGINE-A-3DNLTE"}
     #: and the exemption is reached on EVERY pool the engine ran on, not just the old ones
     assert {r["tier"] for r in na} == {"GRADED", "ALL", "REFERENCE"}
@@ -252,6 +258,9 @@ def test_xi_applicability_splits_FULL_3D_from_the_MEAN_3D_and_never_from_a_NAME(
     mean3d = [r for r in doc["products"] if "mean3D" in r["treatment"]]
     #: 4 -> 19 (RYA-1232): + 15 Asplund-set VIS mean-3D products (5 holdings x Fe I LTE,
     #: Fe I NLTE, Fe II LTE); the rule below must hold on every one of them.
+    #: RYA-1310: 19 -> 13, the 6 IAG VIS mean-3D products were withdrawn (IAG is not used in VIS)
+    #: RYA-1315: 13 -> 19, HARPS VIS on the fixed continuum adds Fe I GRADED + REFERENCE (LTE,
+    #: NLTE) and Fe II GRADED + REFERENCE (LTE) mean-3D products
     assert len(mean3d) == 19
     for r in mean3d:
         assert r["xi_applicability"].startswith("APPLIES"), (

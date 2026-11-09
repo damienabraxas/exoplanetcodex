@@ -342,7 +342,9 @@ def test_the_live_label_audit_is_clean_and_reproduces():
     #: 30 -> 54 (RYA-1232): the Asplund-set run adds 24 Fe II products (8 holdings x 1D-LTE,
     #: Gerber 1D-LTE, mean-3D LTE); every one carries the limit, which the EQUALITY asserts.
     #: 54 -> 56: + near-UV Fe II mean-3D LTE on the lab Reference pool (2 holdings)
-    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 56
+    #: 56 -> 55 (RYA-1349): the feed carries 55 Fe II products since RYA-1315 (v1.577); the
+    #: committed audit already said 55 and this pin failed on main.
+    assert a["n_live_fe_ii_products"] == a["n_stamped"] == 55
     assert a["n_taking_nlte_from_the_gerber_deck"] == 0
     #: 🔴 `II == 0` IS THE FINDING; THE Fe I COUNT IS NOT. This was pinned to
     #: `{"I": 159, "II": 0}`, and the Fe I literal tracked the SIZE of
@@ -515,7 +517,9 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
         return out
 
     eng, lte = by_product("ENGINE-A", True), by_product("1D-LTE", False)
-    assert len(eng) == 6, sorted(eng)            # three holdings x Deep + Reference
+    #: RYA-1315: 6 -> 7, HARPS VIS gains a Codex-Grade (GRADED) Fe II ENGINE-A product on the
+    #: fixed continuum; the per-row checks below run on it like the rest.
+    assert len(eng) == 7, sorted(eng)            # three holdings x Deep + Reference, + HARPS GRADED
 
     #: THE POINT, NOW: the served pool is the live pool MINUS the one line curated out on
     #: its merits (Fe II 4303.170, a CH G-band blend recovering A = 10.0 -- RYA-1191).
@@ -533,8 +537,13 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
         #: bound was the range of the two lines then served; the strong multiplet-42 lines
         #: now served (4923.921, 5169.028) carry MPIA's own +0.015.
         own = {}
-        for f in sorted((ROOT / "data/results/rya1232_fe").glob(
-                f"*/products/FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv")):
+        #: RYA-1315: orchestrator-published products keep their artifact in the budget stage;
+        #: read it first so a RYA-1232 run artifact, where one exists, still has the last word
+        own_files = sorted((ROOT / "data/results/orchestrator/budget/solar_Fe/stage").glob(
+            f"FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv")) + sorted(
+            (ROOT / "data/results/rya1232_fe").glob(
+                f"*/products/FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv"))
+        for f in own_files:
             d_ = pd.read_csv(f)
             for w_, v_ in zip(d_.wavelength_air_A, d_.nlte_delta_dex):
                 if v_ == v_:
@@ -611,7 +620,10 @@ def test_no_fe_ii_band_product_names_the_gerber_deck_as_its_nlte_source():
     #: 36 -> 38 (RYA-1232): the near-UV Fe II <3D>-LTE leg on the lab Reference pool (both KP
     #: holdings). New artifacts, swept in like every widening above; the per-row checks run on
     #: them too (LTE, no departure applied).
-    assert len(per) == 38, len(per)
+    #: 38 -> 55 (RYA-1349): the audit reads the artifacts the LIVE feed points at, not the
+    #: legacy data/results/band_products glob -- every live Fe II product, the orchestrator's
+    #: stage files included (18 of the 38 were no longer published).
+    assert len(per) == 55, len(per)
     assert any("synth-mean3D-LTE-gerber-stagger" in r["artifact"] for r in per), (
         "the RYA-1135 Fe II <3D>-LTE leg must be audited like every other Fe II product")
     assert any("synth-1D-LTE-gerber" in r["artifact"] for r in per), (

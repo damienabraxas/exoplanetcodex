@@ -92,25 +92,25 @@ sets:
     species: {column: species}
     columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: published_loggf, band: band,
               loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
-    match: {canonical_id_col: canonical_line_id}
+    match: {canonical_id_col: canonical_line_id, window: resolver}   # feature rows: RYA-1250
     bib: asplund2021
     doi: 10.1051/0004-6361/202140445
     citation: "Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Sect. 2.4 and Table A.1 (8 Mg I + 6 Mg II)"
-    gf_basis: "Exact Table A.1 gf; five Mg II NIST grades independently verified; remaining uncertainties unknown"
+    gf_basis: "Exact Table A.1 gf. Mg I = PR17 theoretical, sigma 0.05 (Bergemann+2017 convention); Mg II NIST A/A+; 10092 split over its two components (RYA-1250 fix)"
     solar_literature: true
 
-  - name: MG_BERGEMANN2017_IR
+  - name: MG_BERGEMANN2017
     aggregation: mean
     element: Mg
-    source: data/reference/mg_bergemann2017/mg_bergemann2017_ir_lines.csv
+    source: data/reference/mg_bergemann2017/mg_bergemann2017_lines.csv
     species: {column: species}
-    match: {canonical_id_col: canonical_line_id, canonical_tol_A: 0.05}
+    match: {canonical_id_col: canonical_line_id, canonical_tol_A: 0.05, window: resolver}   # feature rows: RYA-1250
     columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: loggf, band: band,
               loggf_sigma: loggf_sigma_dex, gf_source: gf_source_per_line}
     bib: bergemann2017_mg
     doi: 10.3847/1538-4357/aa88cb
     citation: "Bergemann et al. 2017, ApJ 847, 15, Table 2 (Mg I optical/IR diagnostics)"
-    gf_basis: "Pehlivan Rhodin et al. 2017 laboratory/theoretical gf values as adopted by Bergemann et al.; component-level exceptions retain their cited Butler/Bergemann source and reported uncertainty text"
+    gf_basis: "Pehlivan Rhodin et al. 2017 gf (exp/theo) as adopted by Bergemann et al., summed per synthesis cluster (one row per feature, RYA-1250 fix); Butler 1993 components converted % -> dex"
     solar_literature: true
 
   - name: FE_AGSS21

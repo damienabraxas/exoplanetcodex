@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Ca",
- "generated": "2026-10-24",
+ "generated": "2026-11-08",
  "sets": [
   {
    "set": "CA_AGSS21",
@@ -81,15 +81,32 @@
   {
    "set": "CA_AGSS21",
    "species": "Ca I",
-   "wavelength_A": 6169.3,
-   "ep_eV": 2.5243,
+   "wavelength_A": 6169.042,
+   "ep_eV": 2.523,
    "solar_literature": true,
-   "authors_loggf": -0.308,
-   "authors_sigma_dex": null,
+   "authors_loggf": -0.797,
+   "authors_sigma_dex": 0.0212,
    "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "no solar hfs-on VALD extract covers 6169.300 A"
+   "canonical_wavelength_A": 6169.042,
+   "canonical_loggf": -0.797,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0212,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CA_AGSS21",
+   "species": "Ca I",
+   "wavelength_A": 6169.563,
+   "ep_eV": 2.5257,
+   "solar_literature": true,
+   "authors_loggf": -0.478,
+   "authors_sigma_dex": 0.0212,
+   "authors_gf_source": "AGSS21 Table A.1",
+   "canonical_wavelength_A": 6169.563,
+   "canonical_loggf": -0.478,
+   "canonical_tier": "LAB",
+   "canonical_sigma": 0.0212,
+   "d_loggf": 0.0
   },
   {
    "set": "CA_AGSS21",
@@ -147,8 +164,8 @@
    "authors_gf_source": "AGSS21 Table A.1",
    "canonical_wavelength_A": 5001.479,
    "canonical_loggf": -0.507,
-   "canonical_tier": "VALD3",
-   "canonical_sigma": null,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": 0.1761,
    "d_loggf": 0.0
   },
   {
@@ -161,23 +178,10 @@
    "authors_sigma_dex": null,
    "authors_gf_source": "AGSS21 Table A.1",
    "canonical_wavelength_A": 6456.875,
-   "canonical_loggf": 0.155,
-   "canonical_tier": "VALD3",
-   "canonical_sigma": null,
-   "d_loggf": 0.257
-  },
-  {
-   "set": "CA_AGSS21",
-   "species": "Ca II",
-   "wavelength_A": 7323.89,
-   "ep_eV": 0.0,
-   "solar_literature": true,
-   "authors_loggf": -7.536,
-   "authors_sigma_dex": 0.03,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "Ca II 7323.890: its synthesis list is iSpec's own GES list, outside the repo -- not writable here"
+   "canonical_loggf": 0.412,
+   "canonical_tier": "PUBLISHED-SET",
+   "canonical_sigma": 0.0969,
+   "d_loggf": 0.0
   },
   {
    "set": "CA_AGSS21",
@@ -211,35 +215,15 @@
   }
  ],
  "adopt": [],
- "missing_lines": [
-  {
-   "set": "CA_AGSS21",
-   "species": "Ca I",
-   "wavelength_A": 6169.3,
-   "ep_eV": 2.5243,
-   "solar_literature": true,
-   "authors_loggf": -0.308,
-   "authors_sigma_dex": null,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "no solar hfs-on VALD extract covers 6169.300 A"
-  },
-  {
-   "set": "CA_AGSS21",
-   "species": "Ca II",
-   "wavelength_A": 7323.89,
-   "ep_eV": 0.0,
-   "solar_literature": true,
-   "authors_loggf": -7.536,
-   "authors_sigma_dex": 0.03,
-   "authors_gf_source": "AGSS21 Table A.1",
-   "canonical": "MISSING",
-   "in_synthesis_list": null,
-   "add_refused": "Ca II 7323.890: its synthesis list is iSpec's own GES list, outside the repo -- not writable here"
-  }
- ],
+ "sigma_only": [],
+ "adopt_conflicts": [],
+ "missing_lines": [],
  "gf_sources": [
+  {
+   "lab_source_tag": "C2013_qdt",
+   "n_graded_lines": 33,
+   "classified": true
+  },
   {
    "lab_source_tag": "denhartog2021_ca1:S&R81",
    "n_graded_lines": 32,
@@ -256,6 +240,11 @@
    "classified": true
   },
   {
+   "lab_source_tag": "E2024_astro",
+   "n_graded_lines": 7,
+   "classified": true
+  },
+  {
    "lab_source_tag": "denhartog2021_ca1:Smith88",
    "n_graded_lines": 7,
    "classified": true
@@ -266,17 +255,17 @@
    "classified": true
   },
   {
+   "lab_source_tag": "CA_AGSS21",
+   "n_graded_lines": 3,
+   "classified": true
+  },
+  {
    "lab_source_tag": "denhartog2021_ca1:Vogt07",
    "n_graded_lines": 1,
    "classified": true
   },
   {
    "lab_source_tag": "denhartog2021_ca1:Park76",
-   "n_graded_lines": 1,
-   "classified": true
-  },
-  {
-   "lab_source_tag": "CA_AGSS21",
    "n_graded_lines": 1,
    "classified": true
   }
@@ -374,17 +363,6 @@
   },
   {
    "species": "Ca I",
-   "wavelength_A": 4307.744,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.906,
-   "ew_mA": 580.8,
-   "rew": -3.87,
-   "saturated": true,
-   "core_dv_kms": 0.12
-  },
-  {
-   "species": "Ca I",
    "wavelength_A": 4318.652,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -404,17 +382,6 @@
    "rew": -4.293,
    "saturated": true,
    "core_dv_kms": 0.23
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4434.957,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.909,
-   "ew_mA": 308.0,
-   "rew": -4.158,
-   "saturated": true,
-   "core_dv_kms": 0.16
   },
   {
    "species": "Ca I",
@@ -459,17 +426,6 @@
    "rew": -4.403,
    "saturated": true,
    "core_dv_kms": 0.87
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4526.928,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.721,
-   "ew_mA": 209.0,
-   "rew": -4.336,
-   "saturated": true,
-   "core_dv_kms": -0.07
   },
   {
    "species": "Ca I",
@@ -528,17 +484,6 @@
   },
   {
    "species": "Ca I",
-   "wavelength_A": 5041.618,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.71,
-   "ew_mA": 298.5,
-   "rew": -4.228,
-   "saturated": true,
-   "core_dv_kms": 0.27
-  },
-  {
-   "species": "Ca I",
    "wavelength_A": 5188.844,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -591,17 +536,6 @@
    "rew": -4.262,
    "saturated": true,
    "core_dv_kms": 0.31
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5270.27,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.83,
-   "ew_mA": 333.9,
-   "rew": -4.198,
-   "saturated": true,
-   "core_dv_kms": 1.03
   },
   {
    "species": "Ca I",
@@ -756,28 +690,6 @@
    "rew": -4.381,
    "saturated": true,
    "core_dv_kms": 0.41
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6169.042,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.616,
-   "ew_mA": 149.0,
-   "rew": -4.617,
-   "saturated": true,
-   "core_dv_kms": 0.02
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6169.563,
-   "problem_class": "SATURATION_COG",
-   "holding": "solar_kpno_molecfit_corrected",
-   "depth": 0.675,
-   "ew_mA": 168.3,
-   "rew": -4.564,
-   "saturated": true,
-   "core_dv_kms": 0.24
   },
   {
    "species": "Ca I",
@@ -1075,350 +987,20 @@
    "rew": -3.787,
    "saturated": true,
    "core_dv_kms": 0.82
+  },
+  {
+   "species": "Ca I",
+   "wavelength_A": 10343.819,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.476,
+   "ew_mA": 156.9,
+   "rew": -4.819,
+   "saturated": true,
+   "core_dv_kms": 0.97
   }
  ],
- "nlte_missing": [
-  {
-   "species": "Ca I",
-   "wavelength_A": 3948.9004
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3957.0537
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3973.7075
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4226.728
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4283.011
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4289.367
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4298.988
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4302.528
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4307.744
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4318.652
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4425.437
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4434.957
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4435.679
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4454.779
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4455.887
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4456.616
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4512.268
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4526.928
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4578.551
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4581.403
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4585.8732
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4685.268
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4847.311
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 4878.126
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5041.618
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5188.844
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5260.387
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5261.704
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5262.241
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5264.237
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5265.556
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5270.27
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5349.465
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5512.98
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5581.965
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5588.749
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5590.114
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5594.462
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5598.48
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5601.277
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5602.842
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5857.451
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 5867.562
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6102.723
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6122.217
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6161.297
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6162.173
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6163.755
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6166.439
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6169.042
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6169.563
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6439.075
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6449.808
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6455.598
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6462.567
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6471.662
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6493.781
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6499.65
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6572.779
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 6717.681
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 7148.15
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 7202.2
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 7326.145
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 3933.6639
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 3968.4689
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 8201.722
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 8248.796
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 8254.721
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 8498.023
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 8542.091
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 8662.141
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3000.863
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3006.861
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3009.206
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 3158.869
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 3179.331
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 3181.275
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3624.112
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3630.752
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3630.978
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3644.413
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3644.768
-  },
-  {
-   "species": "Ca I",
-   "wavelength_A": 3644.996
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 3706.024
-  },
-  {
-   "species": "Ca II",
-   "wavelength_A": 3736.902
-  }
- ],
+ "nlte_missing": [],
  "holdings": [
   {
    "holding": "solar_kpno_kurucz2005_corrected",
@@ -1479,7 +1061,7 @@
    "band": "VIS",
    "lo_A": 3780.0,
    "hi_A": 6910.0,
-   "graded_lines": 62,
+   "graded_lines": 64,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -1501,7 +1083,7 @@
    "band": "VIS",
    "lo_A": 3780.0,
    "hi_A": 6910.0,
-   "graded_lines": 62,
+   "graded_lines": 64,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -1523,7 +1105,7 @@
    "band": "VIS",
    "lo_A": 3782.6,
    "hi_A": 6910.0,
-   "graded_lines": 62,
+   "graded_lines": 64,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -1536,50 +1118,6 @@
     0.4
    ],
    "frame_median_dv_kms": 0.88,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag_reiners2016",
-   "band": "VIS",
-   "lo_A": 4047.46,
-   "hi_A": 5001.1,
-   "graded_lines": 21,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    0.16,
-    0.33,
-    0.2,
-    0.34,
-    0.11
-   ],
-   "frame_median_dv_kms": 0.51,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag",
-   "band": "VIS",
-   "lo_A": 5001.1,
-   "hi_A": 6910.0,
-   "graded_lines": 36,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    0.2,
-    0.33,
-    0.09,
-    0.41,
-    -0.23
-   ],
-   "frame_median_dv_kms": 0.53,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
@@ -1655,11 +1193,14 @@
    "band": "NIR",
    "lo_A": 9199.0,
    "hi_A": 10000.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 1,
+   "served": 1,
+   "tested": 1,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.57
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 1,
    "frame_ok": true,
@@ -1670,11 +1211,14 @@
    "band": "NIR",
    "lo_A": 9199.0,
    "hi_A": 10010.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 1,
+   "served": 1,
+   "tested": 1,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.65
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 3,
    "frame_ok": true,
@@ -1685,11 +1229,18 @@
    "band": "NIR",
    "lo_A": 9199.0,
    "hi_A": 13000.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 5,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.76,
+    0.97,
+    1.0,
+    0.45,
+    0.33
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 3,
    "frame_ok": true,
@@ -1700,11 +1251,15 @@
    "band": "NIR",
    "lo_A": 9800.0,
    "hi_A": 10796.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.9,
+    -0.19
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 1,
    "frame_ok": true,
@@ -1715,11 +1270,14 @@
    "band": "NIR",
    "lo_A": 10280.0,
    "hi_A": 10680.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 1,
+   "served": 1,
+   "tested": 1,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.19
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 0,
    "frame_ok": true,
@@ -1730,11 +1288,15 @@
    "band": "NIR",
    "lo_A": 11159.94,
    "hi_A": 13000.0,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 2,
+   "served": 2,
+   "tested": 2,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.6,
+    -0.74
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 0,
    "frame_ok": true,
@@ -1745,11 +1307,17 @@
    "band": "H",
    "lo_A": 15007.11,
    "hi_A": 17493.69,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.97,
+    -0.25,
+    -0.52,
+    0.83
+   ],
    "frame_median_dv_kms": 0.08,
    "frame_n_lines": 8,
    "frame_ok": true,
@@ -1760,11 +1328,18 @@
    "band": "H",
    "lo_A": 15007.11,
    "hi_A": 17493.69,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    -0.15,
+    -0.6,
+    0.28,
+    -0.06,
+    -1.47
+   ],
    "frame_median_dv_kms": 0.3,
    "frame_n_lines": 10,
    "frame_ok": true,
@@ -1775,11 +1350,16 @@
    "band": "K",
    "lo_A": 19452.42,
    "hi_A": 24845.62,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
+   "graded_lines": 25,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
+   "dv_kms": [
+    0.65,
+    0.25,
+    0.08
+   ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 0,
    "frame_ok": true,
@@ -1793,49 +1373,8 @@
   ],
   "missing_bib_keys": []
  },
- "nlte_table": null,
+ "nlte_table": "data/nlte_grids/Ca_Amarsi2020_PySME.csv",
  "literature_needs": [
-  {
-   "species": "Ca I",
-   "band": "NIR",
-   "n_lines": 27,
-   "holdings": [
-    "solar_crires_plus_j_rya1219",
-    "solar_crires_plus_y_rya794",
-    "solar_crires_plus_y_wide_rya1054",
-    "solar_iag",
-    "solar_kpno_kurucz2005_corrected",
-    "solar_kpno_molecfit_corrected"
-   ],
-   "scientific_role": "lab_gf",
-   "why_needed": "27 Ca I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
-  },
-  {
-   "species": "Ca II",
-   "band": "NIR",
-   "n_lines": 5,
-   "holdings": [
-    "solar_crires_plus_j_rya1219",
-    "solar_crires_plus_y_rya794",
-    "solar_crires_plus_y_wide_rya1054",
-    "solar_iag",
-    "solar_kpno_kurucz2005_corrected",
-    "solar_kpno_molecfit_corrected"
-   ],
-   "scientific_role": "lab_gf",
-   "why_needed": "5 Ca II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
-  },
-  {
-   "species": "Ca I",
-   "band": "H",
-   "n_lines": 58,
-   "holdings": [
-    "solar_crires_plus_h_rya1094",
-    "solar_crires_plus_h_rya1232"
-   ],
-   "scientific_role": "lab_gf",
-   "why_needed": "58 Ca I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
-  },
   {
    "species": "Ca II",
    "band": "H",
@@ -1846,16 +1385,6 @@
    ],
    "scientific_role": "lab_gf",
    "why_needed": "10 Ca II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
-  },
-  {
-   "species": "Ca I",
-   "band": "K",
-   "n_lines": 112,
-   "holdings": [
-    "solar_crires_plus_k_rya1219"
-   ],
-   "scientific_role": "lab_gf",
-   "why_needed": "112 Ca I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
   },
   {
    "species": "Ca II",
@@ -1871,10 +1400,15 @@
  "blocking": {
   "nlte_missing": 0,
   "adopt": 0,
-  "cull_candidates": 72,
-  "missing_solar_literature_lines": 2,
+  "cull_candidates": 0,
+  "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0
  },
- "ready": false
+ "pending_rule_plan": {
+  "adopt": 0,
+  "sigma_only": 0,
+  "add_lines": 0
+ },
+ "ready": true
 }

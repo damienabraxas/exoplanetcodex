@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-534",
   "element": "Ti",
-  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
   "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
   "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
   "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
@@ -21,14 +21,33 @@
     "grid_1d_bin_zip": {
       "name": "NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin.zip",
       "url": "https://keeper.mpdl.mpg.de/f/f9055fc8111a44298eb8/?dl=1",
-      "md5": "c4ef399fddd52446c6eaa17dd0282a65", "bytes": 26683322063
+      "md5": "c4ef399fddd52446c6eaa17dd0282a65",
+      "bytes": 26683322063
+    },
+    "grid_3d_aux": {
+      "name": "auxData_Ti_STAGGERmean3D_Aug-07-2023_marcs_names.txt",
+      "md5": "b39d35143aceb3948d3720fe0b067ff2"
+    },
+    "grid_3d_bin": {
+      "name": "NLTEgrid4TS_Ti_STAGGERmean3D_Aug-07-2023.bin",
+      "md5": "95c43dd79331c7f9245b8968e06974e2",
+      "staged": "2026-10-29, RYA-1311 (TSFitPy nlte_grids_links.cfg [Ti]); md5 also in mean3d_staged_rya1311.json on that branch"
     }
   },
   "gate": {
     "lines": "Ti I 5689.460/5648.565/5662.150 (stronger, GES level-IDs, overlap the MPIA grid lines)",
-    "result": "per-line +0.266/+0.207/+0.221; median +0.221 (EW 8.6/9.7/18.6 mA \u2014 well-measured, consistent)",
+    "result": "per-line +0.266/+0.207/+0.221; median +0.221 (EW 8.6/9.7/18.6 mA — well-measured, consistent)",
     "anchor": "+0.107 (our banked Ti_Bergemann2011_MPIA solar median; range +0.10..+0.13)",
-    "verdict": "CHECK (not PASS): |median-anchor|=0.114 > tol 0.06. FINDING \u2014 NOT a deck/line failure: departures engaged, 3 directly-MPIA-comparable well-measured lines all ~2x the Bergemann-2011 value => a genuine Ti model-atom difference (Gerber-2023 atom.ti503b/503-level vs Bergemann-2011). Analogous to the Mn ~1/2 finding; a cross-engine model-atom systematic for RYA-525, not a pass. First-pass weak lines (5702/5703, 0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess.",
+    "verdict": "CHECK (not PASS): |median-anchor|=0.114 > tol 0.06. FINDING — NOT a deck/line failure: departures engaged, 3 directly-MPIA-comparable well-measured lines all ~2x the Bergemann-2011 value => a genuine Ti model-atom difference (Gerber-2023 atom.ti503b/503-level vs Bergemann-2011). Analogous to the Mn ~1/2 finding; a cross-engine model-atom systematic for RYA-525, not a pass. First-pass weak lines (5702/5703, 0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess.",
     "departures_engaged": true
+  },
+  "registered": {
+    "ticket": "RYA-1315",
+    "date": "2026-10-29",
+    "decks": [
+      "Ti",
+      "Ti@mean3D"
+    ],
+    "use": "<3D>-LTE leg and a labelled Gerber NLTE comparison. NOT the Ti NLTE headline: atom.ti503b is Bergemann 2011 (scaled-Drawin H collisions), ~2x the ab-initio Mallinson 2024 solar delta (gate above; RYA-546/548). Production NLTE = ENGINE-A Ti_Mallinson2024_PySME.csv."
   }
 }

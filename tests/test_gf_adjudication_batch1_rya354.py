@@ -47,7 +47,9 @@ def test_mg6319_triplet_adjudicated_to_nist_D_and_E():
     d = _row(df, 'Mg I', 6319.237)
     e = _row(df, 'Mg I', 6319.493)
     assert d['nist_grade'] == 'D' and e['nist_grade'] == 'E'
-    assert d['adjudication_status'] == 'adjudicated_rya354'
+    # RYA-1250 fix: 6319.237 now carries the AGSS21 Table A.1 gf; the NIST D adjudication stays
+    # on record as the prior reference
+    assert d['adjudication_status'] in ('adjudicated_rya354', 'rya1250_fix_feature_total')
     assert 'Kelleher' in d['loggf_reference'] and '1285' in d['loggf_reference']
 
 

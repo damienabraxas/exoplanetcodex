@@ -5,9 +5,11 @@ Values are transcribed from the papers' recommended-abundance tables, never from
   AGSS21   Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table 2 (local aa40445-21.pdf)
   LBP25    Lodders, Bergemann & Palme 2025, Space Sci. Rev., Table 2 (local AbundancesLodders.pdf)
   AG26     Amarsi & Grevesse 2026, "Solar chemical composition" (arXiv 2608.23155), Table 3
-           (local Amarsi_Grevesse_2026_solar_composition_2608.23155.pdf) -- the AGSS21 successor;
-           corroborating here, the anchor stays AGSS21 until Ryan moves it
-The band is AGSS21 +/- sigma, DEVIATE at 2 sigma -- the Si/Al rule. Each file is a precursor:
+           (local Amarsi_Grevesse_2026_solar_composition_2608.23155.pdf) -- the AGSS21 successor.
+ANCHOR (Ryan 2026-10-24, RYA-1251): AG26 where its value or sigma differs from AGSS21, AGSS21
+everywhere else; the other is kept as corroborating. Published elements (Fe, Si, Al, C, N, O,
+Mg) are not written by this script and keep their anchors.
+The band is anchor +/- sigma, DEVIATE at 2 sigma -- the Si/Al rule. Each file is a precursor:
 the element's own dossier ticket re-projects it when its literature sweep runs.
 Existing files are never overwritten, except with --force and only a file this script wrote
 (source_of_truth: RYA-1268).
@@ -75,41 +77,53 @@ def main() -> None:
     method: {m}
 """ for src, cite, xv, xs, m in EXTRA.get(el, []))
         ion_list = [i.strip() for i in ions.split(",")]
+        agss = ("Asplund, Amarsi & Grevesse 2021",
+                "A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)", v, s, basis,
+                "Asplund et al. 2021 (A&A 653, A141)")
+        ag26 = ("Amarsi & Grevesse 2026", "Solar chemical composition, arXiv 2608.23155, Table 3",
+                av, asg, anote, "Amarsi & Grevesse 2026 (arXiv 2608.23155)")
+        moved = (av, asg) != (v, s)
+        anc, other = (ag26, agss) if moved else (agss, ag26)
+        other_role = "corroborating (superseded by AG26)" if moved else "corroborating (AGSS21 successor; unchanged)"
+        why = ("AG26 changed this element (AGSS21 %.2f +/- %.2f -> AG26 %.2f +/- %.2f)"
+               % (v, s, av, asg)) if moved else "AG26 unchanged from AGSS21; AGSS21 kept"
+        ion_list = [i.strip() for i in ions.split(",")]
+        cv, cs = anc[2], anc[3]
         f.write_text(f"""# LITSCAN -- {el} (RYA-1268 minimum anchor; transcribed from AGSS21 Table 2, Lodders,
 # Bergemann & Palme 2025 Table 2 and Amarsi & Grevesse 2026 Table 3). Precursor: the
 # element's own literature sweep re-projects this file.
-# Band = AGSS21 +/- sigma, DEVIATE at 2 sigma (Si/Al rule).
+# Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: {why} (RYA-1251).
 element: {el}
 ion: {ion_list[0]}
 ions: [{", ".join(ion_list)}]
 source_of_truth: RYA-1268
-scale: as adopted by AGSS21 ({basis})
+scale: as adopted by {"AG26" if moved else "AGSS21"} ({anc[4]})
 entries:
-  - source: Asplund, Amarsi & Grevesse 2021
-    citation: A&A 653, A141, Table 2 (doi:10.1051/0004-6361/202140445)
-    value: {v:.2f}
-    sigma: {s:.2f}
+  - source: {anc[0]}
+    citation: {anc[1]}
+    value: {cv:.2f}
+    sigma: {cs:.2f}
     role: best external (anchor)
-    method: {basis}
+    method: {anc[4]}
   - source: Lodders, Bergemann & Palme 2025
     citation: Space Science Reviews (accepted 2025-02-07), Table 2; local AbundancesLodders.pdf
     value: {lv:.2f}
     sigma: {ls:.2f}
     role: corroborating
     note: Lodders quality flag {flag}.
-  - source: Amarsi & Grevesse 2026
-    citation: Solar chemical composition, arXiv 2608.23155, Table 3
-    value: {av:.2f}
-    sigma: {asg:.2f}
-    role: corroborating (AGSS21 successor)
-    method: {anote}
+  - source: {other[0]}
+    citation: {other[1]}
+    value: {other[2]:.2f}
+    sigma: {other[3]:.2f}
+    role: {other_role}
+    method: {other[4]}
 {extra}range:
-  central: {v:.2f}
-  min: {v - s:.2f}
-  max: {v + s:.2f}
-  best_external: Asplund et al. 2021 (A&A 653, A141)
-  sigma_external: {s:.2f}
-  deviate_beyond: {2 * s:.2f}
+  central: {cv:.2f}
+  min: {cv - cs:.2f}
+  max: {cv + cs:.2f}
+  best_external: {anc[5]}
+  sigma_external: {cs:.2f}
+  deviate_beyond: {2 * cs:.2f}
   derivation: best-external-plus-sigma
   is_statistical_spread: false
 verification_owed:

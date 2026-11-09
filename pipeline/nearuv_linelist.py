@@ -68,7 +68,24 @@ EV_TO_CM1 = 8065.543937
 #: Default near-UV holdings + band. The band's blue edge is 3000 Å because that is
 #: where the Kitt Peak flux atlas starts (2960 Å) and where our extraction has depth;
 #: the red edge is the VALD delivery's own 3780 Å boundary.
-DEFAULT_RAW = ROOT / 'data' / 'linelists' / 'vald_solar_nearuv_2000_3780_hfson_raw.txt'
+_RAW_NAME = 'vald_solar_nearuv_2000_3780_hfson_raw.txt'
+
+
+def _default_raw() -> Path:
+    """The raw extract: the in-repo copy if a checkout still has one, else the path
+    register's VALD archive (`data.vald_raw`, $CODEX_VALD_RAW). RYA-1228 purged the raw
+    files from git, so a fresh checkout could not rebuild the near-UV list (RYA-1251)."""
+    local = ROOT / 'data' / 'linelists' / _RAW_NAME
+    if local.exists():
+        return local
+    try:
+        from config.constants import codex_path
+        return codex_path('data.vald_raw') / _RAW_NAME
+    except Exception:                                          # noqa: BLE001
+        return local
+
+
+DEFAULT_RAW = _default_raw()
 DEFAULT_LO_A, DEFAULT_HI_A = 3000.0, 3780.0
 
 #: Species Turbospectrum will not accept from a line list in this band, and why.

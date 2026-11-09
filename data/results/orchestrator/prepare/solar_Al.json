@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Al",
- "generated": "2026-10-16",
+ "generated": "2026-11-07",
  "sets": [
   {
    "set": "AL_AGSS21",
@@ -95,6 +95,8 @@
   }
  ],
  "adopt": [],
+ "sigma_only": [],
+ "adopt_conflicts": [],
  "missing_lines": [],
  "gf_sources": [
   {
@@ -113,6 +115,8 @@
    "classified": true
   }
  ],
+ "scoped_readiness": true,
+ "route_requirements": [],
  "cull_candidates": [],
  "nlte_missing": [],
  "holdings": [
@@ -217,46 +221,6 @@
     1.23
    ],
    "frame_median_dv_kms": 0.88,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag_reiners2016",
-   "band": "VIS",
-   "lo_A": 4047.46,
-   "hi_A": 5001.1,
-   "graded_lines": 0,
-   "served": 0,
-   "tested": 0,
-   "off_rest": [],
-   "not_served": [],
-   "frame_median_dv_kms": 0.51,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag",
-   "band": "VIS",
-   "lo_A": 5001.1,
-   "hi_A": 6910.0,
-   "graded_lines": 3,
-   "served": 3,
-   "tested": 3,
-   "off_rest": [
-    {
-     "wavelength_A": 6696.185,
-     "dv_kms": -3.9
-    }
-   ],
-   "not_served": [],
-   "dv_kms": [
-    0.34,
-    -3.89,
-    0.02
-   ],
-   "frame_median_dv_kms": 0.53,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
@@ -513,6 +477,11 @@
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0
+ },
+ "pending_rule_plan": {
+  "adopt": 0,
+  "sigma_only": 0,
+  "add_lines": 0
  },
  "ready": true
 }

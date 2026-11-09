@@ -48,23 +48,32 @@ def units_for(star: str, element: str, *, report: dict,
     symbol, _ = rm.split_symbol(element)
     built = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
              for c in report.get("cells", []) if c.get("status") in BUILT}
+    # RYA-1251: the cells the report names at all, whatever their status. A SET cell the run
+    # HELD is not the GRADED cell beside it -- aliasing it budgeted 4 Na NIR cells with no
+    # product (36 legs, every one rc=1).
+    reported = {(c["band"], c["holding"], c["ion"], c.get("engine") or "ts-lte", c.get("pool") or "")
+                for c in report.get("cells", [])}
     out = []
-    for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "codex", "deep"]):
+    # RYA-1311/1315: Reference Grade cells were built and never published without "reference".
+    for d in rm.expand(star, symbol, methods=["synthesis"], pools=["set", "reference", "codex", "deep"]):
         identity = (rm._band_of(d, star).name_declared, d.holding, d.ion,
                     d.engine_deck, rm.pool_tier(d))
         # Older run reports represented a published line-set cell as the generic
         # GRADED selector. Accept that spelling when matching the descriptor's
         # SET-* selector so artifacts already built by the orchestrator reach the
         # budget/publication stage. Canonical and deep pools remain exact matches.
+        # RYA-1315: never on a NARROWED run -- a codex-only Na run pulled 6 Kitt Peak SET cells
+        # it never built into the budget, and their legs re-ran them in full.
         if identity not in built and not (
-                d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
+                not report.get("scope") and identity not in reported
+                and d.pool and d.pool.startswith(rm.SET_POOL_PREFIX)
                 and (*identity[:-1], "GRADED") in built):
             continue
         r = resolve(d, interpreter=interpreter or None, ispec_dir=None)
         step = next(s for s in r.steps if s["name"] == "derive_products")
         out.append((f"{d.ion} {d.band} {d.holding} {d.engine_deck} {d.pool}",
                     "python3 scripts/derive_band_products.py " + shlex.join(step["args"]),
-                    d.engine_deck))
+                    d.engine_deck, rm.ledger_key(star, d, identity[0])))
     return out
 
 
@@ -95,8 +104,27 @@ def _identity(row: dict) -> tuple:
                  ("ion", "band", "instrument", "holding", "selector", "treatment"))
 
 
+def _built_from(rec: dict | None) -> str | None:
+    """A unit's legs are keyed on what its cell was built from: the inputs hash, plus the
+    forced-rebuild stamp where `--force` rebuilt it at an unchanged hash (RYA-1315)."""
+    rec = rec or {}
+    h = rec.get("inputs_hash")
+    return f"{h} forced {rec['forced_at']}" if rec.get("forced_at") else h
+
+
+def _scope_cells(report: dict) -> dict[tuple, set]:
+    """(ion, band, holding, selector) -> treatments, for every cell a narrowed run BUILT."""
+    out: dict[tuple, set] = {}
+    for c in report.get("cells", []):
+        if c.get("status") in BUILT:
+            out.setdefault((c["ion"], c["band"], c["holding"], c.get("pool") or ""), set()).update(
+                rm.DECK_EMITS.get(c.get("engine") or "ts-lte", ()))
+    return out
+
+
 def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
-                         held: list, why: str, started: str) -> list[str]:
+                         held: list, why: str, started: str,
+                         scope: dict[tuple, set] | None = None) -> list[str]:
     """Move every live SYNTH product this run did NOT republish to `archive`.
 
     RYA-1233 Si: a re-measured cell whose new budget HOLDS (or whose cell no longer exists --
@@ -127,6 +155,16 @@ def _withdraw_superseded(star: str, element: str, *, stage: Path, keep: list,
     gone = [p for p in doc["products"] if p.get("route") == "SYNTH"
             and p.get("star", star) == star
             and (_identity(p) not in current or pp.key_of(p) in quarantined_now)]
+    if scope is not None:
+        # RYA-1315: a narrowed run withdraws only what it re-measured and could not stand
+        # behind -- a product in its scope that it HELD or quarantined. One it did not
+        # re-emit at all is left live; out-of-scope products are never considered.
+        def _held(p):
+            return (f"{p.get('band')} {p.get('holding')} {p.get('selector')} {p.get('treatment')}"
+                    in why_held or pp.key_of(p) in quarantined_now)
+        gone = [p for p in gone if str(p.get("treatment")) in scope.get(
+                    (str(p.get("ion")), str(p.get("band")), str(p.get("holding")),
+                     str(p.get("selector") or "")), ()) and _held(p)]
     if not gone:
         return []
     now = pp._now()
@@ -194,6 +232,15 @@ def _preserve_history(star: str, element: str, *, work: Path, prev_stage: Path) 
                     continue                 # left as is: reconciliation keeps naming it
                 keep_dir.mkdir(parents=True, exist_ok=True)
                 dst.write_bytes(data)
+                # RYA-1349: the per-line artifact beside it, or the restored record's evidence
+                # is its aggregate alone (10 restored Fe II products had no lines file).
+                stem = name[: -len("_products.csv")] if name.endswith("_products.csv") else None
+                for lines in ([f"{stem}_lines.csv", f"{stem}_{rec.get('treatment')}_lines.csv"]
+                              if stem else []):
+                    if (prev_stage / lines).exists():
+                        (keep_dir / f"{(sha or 'nosha')[:12]}_{lines}").write_bytes(
+                            (prev_stage / lines).read_bytes())
+                        break
             rec["provenance"] = {**prov, "copied_to": str(dst.relative_to(ROOT)),
                                  "copied_to_was": ct}
             done.append(f"{sec}: {name}")
@@ -204,9 +251,72 @@ def _preserve_history(star: str, element: str, *, work: Path, prev_stage: Path) 
     return done
 
 
+def unit_signature(command: str, inputs_hash: str | None) -> str:
+    """What a unit's legs were built from: its derive command line and its cell's inputs hash."""
+    return f"{command}\n# {inputs_hash}"
+
+
+def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
+    """Keep each unit's legs while its signature is unchanged, renumbered to the unit's new
+    index. Returns the new indices whose legs were kept.
+
+    A previous unit absent from this run is FILED under its signature (`legs.store/`), never
+    deleted, and comes back when its signature does: RYA-1250 ran publish on a one-band run
+    report and lost 132 of 172 Mg units' legs (~30 h). Only a unit whose inputs changed is
+    stale, and it stays filed under its OLD signature, where nothing current matches it.
+
+    No per-unit record (a first run, or the pre-RYA-1250 whole-element `units.prev.txt`)
+    proves nothing current, so those legs go. A signature listed twice is ambiguous and is
+    never reused."""
+    import hashlib
+    import shutil
+
+    def _file(s: str) -> str:
+        return hashlib.sha256(s.encode()).hexdigest()[:32]
+    prev = json.loads(prev_file.read_text()) if prev_file.exists() else None
+    store = legs.parent / "legs.store"
+    kept: list[int] = []
+    if prev is None:
+        shutil.rmtree(legs, ignore_errors=True)
+    else:
+        old = {s: j for j, s in enumerate(prev) if prev.count(s) == 1}
+        hold = legs.parent / "legs.reuse"
+        shutil.rmtree(hold, ignore_errors=True)
+        hold.mkdir(parents=True)
+        for i, s in enumerate(sigs):
+            if sigs.count(s) != 1:
+                continue
+            j = old.pop(s, None)
+            src = legs / f"unit{j:02d}" if j is not None else store / _file(s)
+            if src.is_dir():
+                src.rename(hold / f"unit{i:02d}")
+                kept.append(i)
+        store.mkdir(parents=True, exist_ok=True)
+        for s, j in old.items():                       # not in this run: file, never delete
+            src, dst = legs / f"unit{j:02d}", store / _file(s)
+            if src.is_dir():
+                shutil.rmtree(dst, ignore_errors=True)
+                src.rename(dst)
+        shutil.rmtree(legs, ignore_errors=True)
+        hold.rename(legs)
+    prev_file.parent.mkdir(parents=True, exist_ok=True)
+    prev_file.write_text(json.dumps(sigs, indent=0) + "\n")
+    return kept
+
+
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None) -> dict:
     py = interpreter or sys.executable
+    # RYA-1250: a one-band report once made publish treat 132 of 172 Mg units as gone.
+    # RYA-1315: a NARROWED report publishes its own cells only -- legs are filed by signature
+    # (never deleted), the stage is written into rather than rebuilt (every live product's
+    # `copied_to` points there), and only products INSIDE the scope can be withdrawn.
+    scoped = bool(report.get("scope"))
+    if report.get("dry_run"):
+        raise ValueError("publish refuses a dry-run report: it built nothing to price")
+    if report.get("star") not in (None, star) or report.get("element") not in (None, element):
+        raise ValueError(f"publish: report is for {report.get('star')} {report.get('element')}, "
+                         f"not {star} {element}")
     import datetime as _dt
     started = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     work = budget_dir(star, element)
@@ -222,19 +332,19 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     ufile = work / "units.txt"
     ufile.write_text("\n".join(u[1] for u in units) + "\n")
     # Leg directories are keyed by unit index and the legs runner skips a leg whose DONE
-    # exists, so legs are reused across invocations -- ONLY while both the unit list and every
-    # built cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
+    # exists, so legs are reused across invocations -- ONLY while the unit's command line and
+    # its own cell's inputs hash are unchanged. Keyed on the command line alone, a canonical_gf
     # or synthesis-list change re-built the cells and then priced them from stale legs.
-    symbol, _ = rm.split_symbol(element)
+    # RYA-1250: keyed on the whole element, culling one K line re-priced all 172 Mg units.
     ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
-    sig = ufile.read_text() + "".join(
-        f"# {k} {v.get('inputs_hash')}\n" for k, v in sorted(ledger.items())
-        if k.startswith(f"{star}|{symbol}|"))
-    prev = work / "units.prev.txt"
-    if prev.exists() and prev.read_text() != sig:
-        import shutil
-        shutil.rmtree(legs, ignore_errors=True)
-    prev.write_text(sig)
+    reuse_legs(legs, work / "units.prev.json",
+               [unit_signature(u[1], _built_from(ledger.get(u[3]))) for u in units])
+    # RYA-1251: a leg whose every line failed SYNTHESIS measured nothing -- an engine failure
+    # the signature above cannot see (a library module is not in `inputs_hash`). Re-run it.
+    for done in legs.glob("unit*/*/DONE"):
+        arts = [{"path": str(p.resolve())} for p in done.parent.glob("*_lines.csv")]
+        if rm._every_line_failed_synthesis(arts):
+            done.unlink()
     # Legs write DONE only on success; a leg killed mid-run (RYA-1233 Si: 16 legs, logs cut off
     # with no traceback, under memory pressure) is simply re-run -- once -- and whatever is
     # still missing is RECORDED, never silently assembled around.
@@ -249,7 +359,10 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     import shutil
     prev_stage = work / "stage.prev"
     shutil.rmtree(prev_stage, ignore_errors=True)
-    if stage.exists():
+    if scoped:
+        stage.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(stage, prev_stage)  # the out-of-scope files stay where the feed points
+    elif stage.exists():
         stage.rename(prev_stage)        # kept until superseded records are preserved
     rep = work / "report.json"
     subprocess.run([py, "scripts/rya1230_cno_budget.py", "--legs", str(legs), "--stage", str(stage),
@@ -284,12 +397,20 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         if src in done or not src.exists():
             continue
         done.add(src)
-        tier = o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED") else "ALL"
+        tier = o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED", "REFERENCE") else "ALL"
         cmd = [py, "scripts/publish_product.py", "--from", str(src), "--holding", o["holding"],
                "--tier", tier, "--route", "SYNTH", "--element", o["element"], "--star", star,
                "--reason", why, "--origin-path", str(src)]
         if o.get("selector"):
             cmd += ["--selector", o["selector"]]
+        # RYA-1315: a SET-* product replicating a published analysis carries that analysis's
+        # line_set (SOURCES.yaml reference_lineset), and the budget's scope key was built with
+        # it (rya1230_cno_budget). Without it the product keys as our-all and every Fe II
+        # HARPS SET product quarantined "uncertainty belongs to a different ... pool".
+        from pipeline.line_sets import reference_lineset_for_selector
+        ls = reference_lineset_for_selector(o.get("selector"))
+        if ls:
+            cmd += ["--line-set", ls]
         cond = _observed_conditioning(o)
         if cond:
             # RYA-1176: Al publishing requires the observed-conditioning identity, read from
@@ -302,14 +423,22 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         else:
             summary["held"].append({"product": tag, "why": "publish_product refused: "
                                     + " | ".join((res.stdout + res.stderr).strip().splitlines()[-2:])})
-    summary["withdrawn"] = _withdraw_superseded(star, element, stage=stage, keep=keep,
-                                                held=summary["held"], why=why, started=started)
+    summary["withdrawn"] = _withdraw_superseded(
+        star, element, stage=stage, keep=keep, held=summary["held"], why=why, started=started,
+        scope=_scope_cells(report) if scoped else None)
+    if scoped:
+        summary["scope"] = report["scope"]
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
     shutil.rmtree(prev_stage, ignore_errors=True)
     from pipeline import coverage_report, element_verdict
     summary["verdict"] = {k: v for k, v in element_verdict.judge_feed(star, element).items() if k != "cells"}
     cov = coverage_report.coverage(star, element)
-    summary["coverage"] = {"counts": cov["counts"], "done": cov["done"]}
+    # RYA-1349: the checklist (did every treatment and instrument get done?), the cells still
+    # owed, and the holdings that contradict each other, in the summary the run prints.
+    summary["coverage"] = {"counts": cov["counts"], "done": cov["done"],
+                           "checklist": cov["checklist"],
+                           "owed": [r for r in cov["rows"] if r["outcome"] in ("NOT_RUN", "STALE")],
+                           "disagreements": cov["disagreements"]}
     (work / "coverage.json").write_text(json.dumps(cov, indent=1, default=str) + "\n")
     (work / "publish_summary.json").write_text(json.dumps(summary, indent=1, default=str) + "\n")
     print(coverage_report.render(cov))

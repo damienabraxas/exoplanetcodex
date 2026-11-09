@@ -201,8 +201,9 @@ def test_part3_landed_THROUGH_the_publisher_and_not_around_the_gate(feed):
     #: RYA-1232: 81 more `asplund` replications came in through the same publisher (the
     #: orchestrator's FE_AGSS21 run); the provenance check below covers every one of them.
     asp = [p for p in feed["products"] if p.get("line_set") == "asplund"]
-    assert len([p for p in asp if p.get("selector") == "ASPLUND_AGSS21"]) == 4, \
-        "the four RYA-1106 Asplund replications"
+    #: RYA-1310: 4 -> 3, the IAG VIS replication was withdrawn (IAG is not used in VIS)
+    assert len([p for p in asp if p.get("selector") == "ASPLUND_AGSS21"]) == 3, \
+        "the RYA-1106 Asplund replications on HARPS and Kitt Peak"
     for r in asp:
         assert r["grade"] == "Reference Grade"      # Ryan's ruling, RYA-1185
         # the publisher's fingerprint — a hand-appended row has none of this

@@ -51,6 +51,8 @@ solar correction table or a mean-3D label. The readiness audit at
 
 | Rule | Why |
 |---|---|
+| **Uncertainty is Asplund+2021 Sect. 2.1 for EVERY element, and nothing is re-run for it** (Ryan, 2026-11-03). Statistical (+) half the 3D effect (+) NLTE (half the correction, floor 0.03), all from the cell's own nominal products. Never run or propose the RYA-587 perturbation legs (xi, continuum quantiles, core, contref, marcs, cscale). If `--publish` would launch them, that is a bug. | The legs cost about 3 days an element and never fed the published bar (Sect. 7a). |
+| **Grades: Asplund Reference Grade (the published set), Reference Grade (lab gf) and Codex Grade all publish; only Deep is dropped.** A band without Asplund lines takes lab lines, then Codex, then Deep only if nothing else exists. | Ryan, 2026-11-03. |
 | **The orchestrator does the work; the agent starts runs and reports.** Change code only after the issue is reported to Ryan and agreed. | The goal is a pipeline that runs A to Z without an agent steering it. |
 | **Data lives on Sirius.** Paths come from `config/path_register.yaml` (Sirius defaults). Never hardcode a path; never keep an env file outside the repo. | Another agent must reproduce your run. |
 | **Raw spectra are never used.** Spectra are telluric-corrected and normalised ONCE per holding and then frozen. Do not re-prepare or re-gate them. | Settled for every element. |
@@ -74,7 +76,25 @@ python run_pipeline.py --check-paths   # must print 'ok' for every line, rc 0
 Synthesis (iSpec/Turbospectrum) on Sirius uses `~/venv_rya1103/bin/python` (resolved
 automatically); `venv_ci` cannot run iSpec. PySME NLTE work is Sirius-only.
 
+**Literature anchor (Ryan 2026-10-24, RYA-1251).** The anchor is Amarsi & Grevesse 2026
+(arXiv 2608.23155, Table 3) where its value or sigma differs from AGSS21 -- Co Cr Eu Mn Ni P S
+Sc Sr Y Zr -- and AGSS21 everywhere else. Published elements (Fe Si Al C N O) are not
+re-anchored. Writer: `scripts/rya1268_write_litscans.py --force`.
+
 ## 2. Prepare -- inspect inputs and write the readiness report
+
+**RYA-1251: the run prepares itself.** `run_pipeline.py --element <El>` (and the production
+`--all-elements` sweep) runs prepare first and applies the RULE plan before any cell is
+dispatched: the published set's gf on an open row, the authors' sigma where the gf is already
+theirs (`sigma_only` -- uncertainty is a budget input, never a reason to hold a measurement),
+and missing Asplund lines added from our VALD extract. **The run never culls** (Ryan
+2026-10-24: "I didnt say cull anything"): saturated non-literature lines are measured and
+listed in the prepare report; culling one is a human act (`--prepare --apply --cull`). A row
+another ticket adjudicated is never rewritten (`adopt_conflicts`, reported, not blocking).
+An element that already has a published feed keeps the human checkpoint below. `--dry-run`
+applies nothing and forecasts as if the plan were applied. Use `--prepare` alone to read the
+plan; what still blocks after the rule plan (a literature line with no add plan, a holding
+off its frame, missing literature) is a real hold.
 
 ```bash
 python run_pipeline.py --star solar --element <El> --prepare
@@ -87,7 +107,7 @@ NOT READY with the blockers. Clear each blocker below, then re-run prepare until
 | **A published sets: 0 lines** | No published solar line set is registered for the element. | Step 3. |
 | **F literature: litscan MISSING** | No literature anchor file. | Step 4. |
 | **D NLTE: N lines not in `<El>_Amarsi2020_PySME.csv`** | The NLTE table lacks graded lines. | Step 5 (Sirius). |
-| **C cull candidates** | Saturated lines not used by the solar literature. | Step 6 (Ryan's yes/no). |
+| **C cull candidates** | Saturated lines not used by the solar literature. | Reported, measured, never culled and never a hold. A human culls with `--apply --cull`. |
 | **B gf source ... unclassified** | A gf source has no correlation entry. | Resolve the source under `data/reference/gf_error_model.csv` and its owning procedure; add only a supported, cited classification, never a guessed correlation. |
 | **F2 literature need** | Bands with no error-stated gf: no Codex/Deep pool there. | Not blocking. Record it in the ticket; do not invent gf errors. |
 | **E holdings not serving** | A spectrum does not cover a window at rest. | Report it; do not re-prepare spectra. |
@@ -172,7 +192,7 @@ NLTE-capable species.
 ## 6. Cull candidates
 
 Prepare lists saturated lines absent from registered solar-literature selections. Post the list to the ticket;
-Ryan says yes or no. Approved culls are written by `--prepare --apply`.
+Ryan says yes or no. Approved culls are written by `--prepare --apply --cull`.
 
 More precisely, the code checks membership in the **registered** solar-literature
 sets. Absence from those sets is not evidence of absence from all solar literature.
@@ -189,7 +209,8 @@ matcher can resolve. Prepare reports these as `route_requirements`.
 ```bash
 python run_pipeline.py --star solar --element <El> --jobs 8 --publish > publish_<El>.log 2>&1
 ```
-One command: measures every cell, builds the uncertainty budget legs, assembles, publishes
+One command: measures every cell, prices each product's Asplund uncertainty from the cell's
+own products (no re-run), publishes
 to `data/products/solar/<El>.json`, withdraws superseded products, writes the verdict and
 coverage. Resolve permitted compute from current science authority and the ticket; historical
 Mac runs are not general authorization. Expect a long run. Run it in the background and
@@ -198,6 +219,133 @@ report to Ryan, fix only after he agrees.
 
 Done when the coverage table (`python run_pipeline.py --star solar --element <El> --coverage`)
 reads **STALE 0, NOT_RUN 0 or only host-routed cells, DONE**.
+
+**The checklist (RYA-1349).** The coverage table opens with Ryan's questions answered, one
+line per treatment and per instrument family: `[x]` done with nothing owed, `[-]` every cell
+held with its reason (e.g. Ti ENGINE-A-3DNLTE: no cited table exists), `[ ]` work owed.
+`--publish` exits **3** and lists the owed cells when the element is not complete (a FAILED
+cell still exits 1). Run `--coverage` **on Sirius**: STALE compares spectrum fingerprints,
+which only the data host holds.
+- ENGINE-A is HELD only when its grid holds none of the pool's lines; a covering grid with
+  no product is owed, and an ENGINE-A product that moved no line is owed.
+- CODE_DRIFT = only code changed since the build. Reported, not owed (no re-run without a
+  confirmed defect). STALE = an input the cell can see moved: a gf within the fit's read
+  span of its lines, a cull of its own species, a spectrum, a line set, an NLTE table.
+- HOLDINGS THAT DISAGREE: a product further than 2x the other holdings' median sigma from
+  their median, on the same ion/band/grade/treatment, is flagged for Ryan -- never blocked.
+- **Commit the run's bookkeeping with the feed:** `data/results/orchestrator/
+  inputs_hashes.json` and `solar_<El>_latest.json` from the checkout the run used. Ti's
+  were left on Sirius, and the table read every live Ti product as unbuilt. A dry run
+  writes `_latest_dryrun.json` and never replaces `_latest.json`.
+
+### 7b. One-off re-runs (RYA-1315): never the whole element again
+
+Two modes, one entry point (`pipeline/run_request.py`). The CLI and any later front end
+both build a `RunRequest`:
+- **full** runs every cell of the element. This is the first run.
+- **select** runs only the chosen ions, bands, instruments, engines, routes and pools.
+
+To see every value a selection can take:
+```bash
+python run_pipeline.py --star solar --element Fe --options
+```
+To run a saved request, for example
+`{"star":"solar","element":"Fe","mode":"select","bands":["VIS"],"force":true,"publish":true}`:
+```bash
+python run_pipeline.py --request req.json
+```
+Not yet supported: a spectrum the user supplies. It must first be registered and prepared
+as a holding.
+
+
+The full run is the FIRST time only. After that, select the cells:
+```bash
+python run_pipeline.py --star solar --element Fe --band VIS \
+    --instrument solar_harps_molecfit_corrected [--engine ts-lte] [--pool reference] \
+    --force --publish
+```
+- Without `--force`, a narrowed run re-runs only cells whose `inputs_hash` moved.
+- `--force` re-runs the selected cells anyway. Use it for a change the hash cannot see, such
+  as a library module like `pipeline/local_continuum.py`. It is refused without a filter.
+- `--publish` on a narrowed run prices, publishes and withdraws **inside the scope only**:
+  - Budget legs of every other unit are filed by signature, never deleted.
+  - The stage is written into, not rebuilt.
+  - Only an in-scope product the re-run HELD or quarantined is withdrawn.
+  - A narrowed DRY run can never publish.
+
+### 7a. The published uncertainty is Asplund's (Ryan, 2026-10-28)
+
+The error bar every page shows is `sigma_asplund`, which `publish_product.write_feed` stamps
+on every product each time a feed is written. It follows Asplund, Amarsi & Grevesse 2021
+Sect. 2.1 and nothing else:
+
+- statistical term (line-to-line SEM; one line: the profile-fit curvature sigma)
+  (+) half the 3D effect (`model_atmosphere`)
+  (+) NLTE = half the NLTE correction, **floor 0.03 dex on every atomic product**.
+- Molecules (Amarsi et al. 2021): the compositional term (`molecular_coupling`) replaces
+  NLTE; the 3D term is the measured grid leg floored at **half** the 1D->3D shift -- never a
+  RYA-587 bound equal to the full shift (fixed in #602). RYA-1317: the shift is the
+  indicator's OWN Amarsi group (`molecular_model_form.group_terms`: CH G band = CH A-X
+  +0.066, not the CH species row +0.035; CO K = dv=2; CN = 0-0), and the term is also at
+  least Amarsi Eq. 1's atmosphere term (standard error over 3D, <3D>, ATMO, HM74). An
+  indicator with no group falls back to the species row. Amarsi's trend term is NOT priced
+  (our molecular fits give one A per band, no per-line abundances).
+- Atomic data (gf), continuum, telluric, instrument, profile, xi: NOT in the bar, as in
+  Asplund. The 16-term RYA-587 budget stays on each product as evidence only.
+- Combining products into a top number (site `cno_selection._wmean`): weights 1/sigma^2,
+  statistical parts as independent, systematic parts as shared (Amarsi 2021 Eq. 3).
+  Shrinking shared systematics put Al/Na below Asplund's own 0.03.
+- C/N/O families are combined on Asplund's 3D scale (RYA-1317). A 1D-LTE CNO product is
+  stamped `asplund_3d_shift` (A21 Table 3, `agss21_cited_sets/agss21_table3_cno.csv`: 3D
+  minus 1D MARCS for its group, e.g. [O I] +0.039); the site adds it before combining and
+  shows "1D x.xxx +shift to 3D". The product's own A never moves. N (Asplund Sect. 2.3):
+  unweighted mean of atomic and molecular, sigma = the LARGER of half their range and the
+  propagated error -- half the range alone gave 0.019 against 0.049 propagated.
+- Legacy rows with no budget: a 3D-NLTE row gets the sigma from its own `*_per_line.csv`
+  (`aberr`): stat (+) half the mean correction (+) 0.03. The feed gate admits a legacy row
+  changed ONLY in the four `sigma_asplund*` stamps, and only when they equal the recompute.
+  Other legacy rows stay byte-identical and unstamped (16 old Fe Codex/Deep rows today).
+- Never hand-edit a stamp; re-stamp by loading the feed and calling `write_feed`.
+  Audit: every product's stamp must equal `asplund_terms` recomputed (776/776 on 10-28).
+- A big IR bar is almost always the statistical term: 1-3 lines that disagree (Na H CRIRES+
+  lines at 4.90 / 5.80 / 7.34) or one poorly constrained line (Al NIR CRIRES+ 0.70). That is
+  line quality, not a stale input -- report it, never cull it.
+
+### 7b. Comparing with Asplund: flux vs disk-centre intensity (RYA-1311, 2026-10-31)
+
+Asplund, Amarsi & Grevesse 2021 (and Amarsi's per-line work) fit the **disk-centre
+intensity** (Liege/Jungfraujoch atlas, mu=1). Every spectrum we fit (HARPS, Kitt Peak, IAG)
+is **disk-integrated flux**, and so is every future star. Flux includes the limb, which
+forms higher up, where 1D models are worst. So a per-line gap against A21 that **grows with
+line strength** may be geometry, not a bug. Ca I 1D LTE (HARPS, A21 set): +0.02 on the weak
+lines 5260/5867, rising to +0.22 on the strong ones. The EW route agrees with synthesis on
+the weak lines but quarantines every strong one, so it cannot settle them.
+
+- The Sun is the only star where this can be tested. The test is a 1D LTE fit of the same
+  set on `solar_delbouille_liege` at mu=1, against the flux fit:
+  `scripts/diag_flux_vs_mu1.py flux|mu1` (Sirius; usage in its docstring). It runs the
+  production cell via `run_descriptor.resolve`, wrapped in RYA-441's
+  `ace_co_mu1_bracket.turbospectrum_intensity_at_mu(1.0)`, with vsini=0. The flux leg is the
+  control and must reproduce the published lines.
+- **Result, Ca I (2026-11-01):** the flux control reproduced the published lines exactly. At
+  mu=1, every strong line dropped by 0.04-0.21 and the strength trend vanished. Mean: flux
+  6.363, mu=1 6.295 / 6.262 / 6.228 at vmac 3.8 / 3 / 2 km/s, against A21 1D MARCS 6.24. The
+  residual is flat across line strength; reduced chi2 (45-120) does not move with vmac, so it
+  is not the broadening (likely Liege's low noise plus its +0.37 km/s offset). **Verdict:
+  geometry.** 1D LTE in flux reads strong lines high by up to about 0.2 dex; weak lines are
+  fine.
+- How to read the result:
+  - mu=1 lands on A21: the strong-line excess is the 1D model in flux. For stars, rank 3D or
+    <3D> products and weak lines above 1D-LTE strong lines.
+  - The excess persists at mu=1: it comes from our fitting (damping or line data). Fix that
+    for every star.
+- **`pipeline/synth_cache` keys ignore flux vs intensity.** Run any mu=1 synthesis with
+  `CODEX_SYNTH_CACHE=0`. Otherwise it reads cached flux spectra and writes intensity into the
+  shared cache.
+- Liege has no production HoldingSpec reader (RYA-1030). It is in air, with a +0.37 km/s
+  residual velocity. Never publish it as a product; it is a diagnostic leg.
+- A pool is `set:<NAME>`. `SET-<NAME>` is only the display form, and passing it silently
+  selects lines "by theoretical depth" instead.
 
 ## 8. Check before pushing (local evidence and actual CI status)
 
@@ -219,16 +367,33 @@ push and open the PR. Report any failing guard rather than bypassing it silently
 1. In `scripts/generate_cno_publication.py` add the element to `NAMES`, `ASPLUND2021`,
    `ASPLUND2021_SIGMA`, and a reader-facing name for its line set in `INDICATOR_NAMES`.
 2. In `scripts/cno_selection.py` add it to `LINE_SET_SELECTORS` / `LINE_SET_SOURCE` if
-   Asplund's value is one analysis of a line set (Si, Al, Na). If Asplund combines groups
-   (e.g. Mg I and Mg II reported separately, then combined), say so in the ticket and
-   implement that combination the way the C/N/O families are done. No recipe -> the page
-   falls back to the best single product automatically.
+   Asplund's value is one analysis of a line set (Si, Al, Na). **No means on the website**
+   (Ryan): an element Asplund reports as two groups (Ca I and Ca II, Mg I and Mg II) is NOT
+   combined -- the top number is the best single product (`cno_selection.ANCHOR_RULE`:
+   best HARPS Reference Grade 3D NLTE, else best Kitt Peak, never CRIRES+), with Asplund's
+   value beside it. The only combination on the site is the C/N/O family one (Sect. 7a).
 3. In `scripts/generate_solar_report.py` add it to the appendix-link list.
 4. Regenerate against the science checkout:
    `python scripts/generate_cno_publication.py --science-root <science> --elements <El>`
    then `python scripts/generate_solar_report.py --science-root <science>`.
 5. Read the generated page: top value present, matches the Sun table, compares to
    Asplund, no internal IDs. Run `pytest tests/` (compare with main), open the PR.
+6. The top number is measured on Asplund's line set where he analysed one
+   (`literature_headline`); otherwise it is the best single product (HARPS Reference Grade
+   first). C/N/O alone combine indicator families. No per-element exceptions.
+7. **Sun table: splice, never regenerate whole.** The live `solar-report.generated.js`
+   can be built from another session's branch. Generate to a temporary file INSIDE the
+   site repo (`--output` outside it fails), copy only the changed element rows into the
+   live file, never the Fe I `products` list (a 2 MB bloat), then
+   `generate_solar_report.stamp_cache_bust()`.
+8. Before committing: `git checkout -- scripts/__pycache__ tests/__pycache__; git clean -fq
+   scripts/__pycache__ tests/__pycache__`. A regen that changes only `source_commit`,
+   `generated_at` and hashes is churn -- discard it.
+9. Generated pages conflict when two element sessions merge on the same day: take the
+   other side's TEXT edits into the generator by hand (never `--theirs` on a whole
+   generator file), then regenerate the outputs.
+10. After merge, wait for the Pages run (`gh run list -L 1`) and check the live page with
+    a cache-buster query; the site is done when live equals site main.
 
 ## 10. Report (end of session)
 
@@ -246,7 +411,19 @@ PR links. Orchestrator problems also go on RYA-1233 so the pipeline gets better.
 
 - Line-set transcription and litscan (steps 3-4) -- literature reading.
 - NLTE table extension is run by hand on Sirius (step 5).
-- Prepare and publish are two commands.
+- Gerber in-transfer NLTE needs NLTE level labels in the band list. The VALD-built NIR/H/K
+  lists are unlabelled; those cells are HELD before dispatch (not FAILED) until the list's
+  `nlte_labels.tsv` sidecar (RYA-1250 fix) labels the species.
 - One changed input re-runs every budget leg of the element.
 - No host-wide CPU budget: do not start a second heavy run on a busy host (check `uptime`).
 - Website per-element lists (step 9) are hand-edited.
+- A HFS line whose published wavelength is the gf-weighted centroid of VALD components
+  (Na I 10746.449) matches no single row; `_match_hfs_centroids` handles it (same levels,
+  EP within 0.05 eV, one group). Check new elements for the same pattern.
+- Stage-script bytes are in `inputs_hash`: editing a stage script re-budgets every cell
+  (~1 day for Na). Land script fixes before the run, not during it.
+- Not priced in the published bar: Amarsi 2021's trend term (molecules).
+- Sun-table Fe II row is an old n=3 diagnostic outside the feed (7.517 +/- 0.19); replacing
+  it with a feed product moves its value -- Ryan's call.
+- IR line quality (Na H/K ~0.4 dex low, single-line CRIRES+ fits) is open; measure why,
+  do not cull.

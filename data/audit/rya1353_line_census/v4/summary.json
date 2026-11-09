@@ -1,0 +1,37 @@
+{
+  "schema": "rya1353.census/1",
+  "scope": "COMMITTED_HOLDINGS_SNAPSHOT_NOT_EXHAUSTIVE_ATOMIC_UNIVERSE",
+  "base_sha": "3baabba95f728342f069f708dc815e729a1d0447",
+  "python": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 17.0.0 (clang-1700.6.4.2)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "canonical_rows": 41367,
+  "solar_intake_rows": 38302,
+  "source_rows": 11473,
+  "species_counts": {
+    "Fe I": 25671,
+    "Fe II": 15369,
+    "O I": 145,
+    "O II": 182
+  },
+  "source_match_states": {
+    "NO_TUPLE_CANDIDATE_IN_SNAPSHOT": 4733,
+    "TUPLE_CANDIDATE_COMPONENT_REVIEW": 6639,
+    "MISSING_IDENTITY_HOLD": 72,
+    "DUPLICATE_WAVELENGTH_HOLD": 25,
+    "AMBIGUOUS_HOLD": 4
+  },
+  "review_queue_counts": {
+    "FE_STRESS_TEST:OBSERVABILITY_REVIEW": 8981,
+    "FE_STRESS_TEST:IDENTITY_AND_OBSERVABILITY_HOLD": 31609,
+    "FE_STRESS_TEST:WITHHELD_LAB_BENCHMARK": 450,
+    "O_FIRST:IDENTITY_AND_OBSERVABILITY_HOLD": 322,
+    "O_FIRST:OBSERVABILITY_REVIEW": 5
+  },
+  "all_canonical_rows_retained": true,
+  "all_source_rows_retained": true,
+  "measured_or_published": false,
+  "identity_confirmed_matches": 0,
+  "wave_tolerance_A": 0.005,
+  "ep_tolerance_eV": 0.02,
+  "current_grade_policy_conflict": "RYA-1351_PRIMARY_LAB_VS_RYA-1233_CURRENT_CODE_REQUIRES_RYA-1352_REVIEW"
+}

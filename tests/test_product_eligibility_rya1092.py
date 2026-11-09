@@ -200,7 +200,8 @@ def test_the_Amarsi_products_were_COMPLETED_not_written_off(doc):
     live = [p for p in doc["products"]
             if p.get("treatment") == "ENGINE-A-3DNLTE" and not p.get("line_set")
             and p.get("tier") == "GRADED"]
-    assert len(live) == 4, f"expected the 4 Amarsi products live, found {len(live)}"
+    #: RYA-1310: 4 -> 3, the IAG VIS leg was withdrawn (IAG is not used in VIS)
+    assert len(live) == 3, f"expected the 3 Amarsi products live, found {len(live)}"
     for p in live:
         assert p.get("sigma_syst") is not None, f"{pe.key_of(p)} still has no systematic"
         assert pe.evaluate(p, peers=[]) == (), pe.evaluate(p, peers=[])

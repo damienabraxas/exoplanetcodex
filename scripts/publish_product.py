@@ -76,8 +76,34 @@ def write_feed(out: Path, doc: dict) -> None:
     it literally reformats every line carrying one -- a whole-file diff that hides the
     real change and that the next publish immediately reverts.
     """
-    from pipeline import plot_grid
-    from pipeline.uncertainty_contract import assert_publication_feed
+    from pipeline import molecular_model_form, plot_grid
+    from pipeline.uncertainty_contract import (ASPLUND_BASIS, ASPLUND_LEGACY_3DNLTE_BASIS,
+                                               asplund_terms, assert_publication_feed,
+                                               legacy_3dnlte_asplund_terms, molecule_of)
+    for product in doc.get("products") or []:
+        if "uncertainty" in product:
+            terms = asplund_terms(product["uncertainty"], molecule_of(product),
+                                  molecular_model_form.indicator_key(product))
+            basis = ASPLUND_BASIS
+        else:                                 # legacy: only a 3D-NLTE row with its per-line file
+            terms = legacy_3dnlte_asplund_terms(product)
+            basis = ASPLUND_LEGACY_3DNLTE_BASIS
+            if terms is None:
+                continue                      # other legacy rows stay byte-identical
+        product["sigma_asplund"] = None if terms is None else math.hypot(*terms)
+        product["sigma_asplund_stat"] = None if terms is None else terms[0]
+        product["sigma_asplund_syst"] = None if terms is None else terms[1]
+        product["sigma_asplund_basis"] = basis
+        # RYA-1317: a 1D-LTE CNO result is combined on Asplund's 3D scale. The shift is
+        # stamped beside A, never applied to it; the family combiner adds it.
+        group = (molecular_model_form.group_terms(molecular_model_form.indicator_key(product))
+                 if product.get("treatment") == "1D-LTE" else None)
+        product.pop("asplund_3d_shift", None)
+        product.pop("asplund_3d_shift_basis", None)
+        if group is not None:
+            product["asplund_3d_shift"] = group["shift_3d_dex"]
+            product["asplund_3d_shift_basis"] = (
+                f"{group['source']}: {group['table3_row']} 3D minus 1D MARCS LTE")
     try:
         previous = json.loads(out.read_text()) if out.exists() else None
     except (ValueError, OSError):
@@ -661,7 +687,13 @@ def main() -> int:
                 if "uncertainty" not in _df.columns:
                     return False
                 _u = json.loads(_df["uncertainty"].iloc[0])
-                return any(c.get("name") == "transition_data" and c.get("state") == "MEASURED"
+                #: RYA-1315: an Asplund budget records transition_data N/A when a line has no
+                #: published gf sigma (atomic data is not in Asplund+2021's sigma), so no gf
+                #: placeholder reaches the published sigma either.
+                return any(c.get("name") == "transition_data" and (
+                               c.get("state") == "MEASURED"
+                               or (c.get("state") == "N/A"
+                                   and (c.get("evidence") or {}).get("asplund_budget") is True))
                            for c in _u.get("components", []))
             except Exception:                                              # noqa: BLE001
                 return False
@@ -856,6 +888,15 @@ def main() -> int:
                     and cp.get("sha256") and cp.get("sha256") == npv.get("sha256")):
                 cur["display_was"] = cur.get("display")
                 cur["display"] = row["display"]
+                if k not in backfilled:
+                    backfilled.append(k)
+            # RYA-1311 -- GRADE BACKFILL, same guard. `grade` is derived from the row's
+            # selector (cno_grade); when that derivation is corrected (the lab-gf REFERENCE
+            # pool fell through to Codex Grade), only the label moves.
+            if (row.get("grade") and cur.get("grade") != row.get("grade")
+                    and cp.get("sha256") and cp.get("sha256") == npv.get("sha256")):
+                cur["grade_was"] = cur.get("grade")
+                cur["grade"] = row["grade"]
                 if k not in backfilled:
                     backfilled.append(k)
             # RYA-1233 -- RE-MEASURED, SAME RESULT. A rerun that reproduces every measured
