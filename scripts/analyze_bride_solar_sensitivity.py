@@ -70,7 +70,13 @@ def main():
     for row in metrics:
         if row['case']!='solar':continue
         low,high=[next(r for r in metrics if r['case']==c and all(row[k]==r[k]for k in ['rv','rest_air_A','scheme']))for c in ['T_5762','T_5782']]
-        derivatives.append(dict(rv=row['rv'],rest_air_A=row['rest_air_A'],scheme=row['scheme'],central_area_mA_per_K=(high['area_mA']-low['area_mA'])/20,lower_10K_area_change_mA=row['area_mA']-low['area_mA'],upper_10K_area_change_mA=high['area_mA']-row['area_mA'],second_difference_mA=high['area_mA']+low['area_mA']-2*row['area_mA']))
+        xl,xh=[next(r for r in metrics if r['case']==c and all(row[k]==r[k]for k in ['rv','rest_air_A','scheme']))for c in ['xi_0p75','xi_1p25']]
+        derivatives.append(dict(central_area_mA_per_km_s=(xh['area_mA']-xl['area_mA'])/.5,xi_second_difference_mA=xh['area_mA']+xl['area_mA']-2*row['area_mA'],rv=row['rv'],rest_air_A=row['rest_air_A'],scheme=row['scheme'],central_area_mA_per_K=(high['area_mA']-low['area_mA'])/20,lower_10K_area_change_mA=row['area_mA']-low['area_mA'],upper_10K_area_change_mA=high['area_mA']-row['area_mA'],second_difference_mA=high['area_mA']+low['area_mA']-2*row['area_mA']))
+    directions=[]
+    for rv in ['no_gravity','plus_gravity']:
+        for scheme in shape['shoulders']:
+            rows=[r for r in derivatives if r['rv']==rv and r['scheme']==scheme];t=np.array([r['central_area_mA_per_K']for r in rows]);x=np.array([r['central_area_mA_per_km_s']for r in rows]);cos=float(np.dot(t,x)/(np.linalg.norm(t)*np.linalg.norm(x)))
+            directions.append(dict(rv=rv,scheme=scheme,temperature_microturbulence_area_direction_cosine=cos,scope='Unweighted3line response-direction geometry only, not a noise-weighted covariance or parameter-identifiability bound'))
     for path,receipt in checks:
         if fingerprint(path)!=receipt:raise ValueError('Source changed during analysis')
     a.output.mkdir(parents=True,exist_ok=False)
@@ -84,7 +90,7 @@ def main():
         rows=sorted([r for r in responses if r['rv']=='plus_gravity'and r['scheme']=='inner'and r['rest_air_A']==rest and r['teff_K']==5772],key=lambda x:x['xi_km_s'])
         ax.plot([r['xi_km_s']for r in rows],[r['area_change_mA']for r in rows],'o-');ax.axhline(0,color='gray',lw=.5);ax.set_title(str(rest)+' AIR A');ax.set_xlabel('RT microturbulence (km/s)');ax.set_ylabel('Relative feature-area change (mA)')
     fig.suptitle('Fixed atmosphere/abundance; independent NLTE solves, no best-fit selection');fig.tight_layout();fig.savefig(a.output/'microturbulence_response.png',dpi=150);plt.close(fig)
-    report=dict(schema='codex.bride_solar_sensitivity/1',scientific_admission='HOLD',generator=fingerprint(__file__),plan=fingerprint(plan_path),scope=plan['scope'],cases=len(cases),solar_replay_max_flux_difference=replay,rates=rates,protected_inputs=[dict(path=str(p),receipt=r)for p,r in checks],metric_rows=len(responses),comparison_rows=len(comparisons),total_seconds=sum(r['seconds']for r in rates),limitations=['10K sampling is not10K physical accuracy.','Microturbulence changes RT Doppler velocities only, on a fixed xi1 source atmosphere.','Shoulder-relative diagnostics use unchanged shipped observations; separate ORCH continuum parity findings remain unresolved.','No inferred abundance, preferred input, physical3D/all-band or provider admission.'])
+    report=dict(schema='codex.bride_solar_sensitivity/1',scientific_admission='HOLD',generator=fingerprint(__file__),plan=fingerprint(plan_path),scope=plan['scope'],cases=len(cases),solar_replay_max_flux_difference=replay,rates=rates,response_directions=directions,protected_inputs=[dict(path=str(p),receipt=r)for p,r in checks],metric_rows=len(responses),comparison_rows=len(comparisons),total_seconds=sum(r['seconds']for r in rates),limitations=['10K sampling is not10K physical accuracy.','Microturbulence changes RT Doppler velocities only, on a fixed xi1 source atmosphere.','Shoulder-relative diagnostics use unchanged shipped observations; separate ORCH continuum parity findings remain unresolved.','No inferred abundance, preferred input, physical3D/all-band or provider admission.'])
     (a.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps({k:report[k]for k in ['cases','solar_replay_max_flux_difference','metric_rows','comparison_rows','total_seconds']}))
 
 if __name__=='__main__':main()

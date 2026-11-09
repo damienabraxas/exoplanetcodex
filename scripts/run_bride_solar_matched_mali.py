@@ -14,6 +14,11 @@ def validate_solver_controls(plan,inherited):
  if plan['controls']!=expected:raise ValueError('Changed inherited solver thresholds/budgets beyond the declared Ng control')
 
 
+def validate_canonical_target(plan,solar):
+ target=next(x for x in plan['cases']if x['name']=='solar')
+ if(target['teff'],target['logg'],target.get('xi_km_s',plan['xi_km_s']))!=(solar['teff'],solar['logg'],solar['xi']):raise ValueError('Changed canonical solar experiment target')
+
+
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--case',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');p.add_argument('--plan',type=Path,default=ROOT/'config/experiments/rya1281_solar_matched_mali.json');a=p.parse_args()
  import lightweaver as lw
@@ -54,7 +59,7 @@ def main():
  with np.load(warm_path)as data:pop=data['populations'].copy();seed_nstar=data['nstar'].copy()
  check(Path(compiled.__file__),warm['backend']);check(Path(c.__file__),warm['LW_constants'])
  solar=get_star_params('solar');target=next(x for x in plan['cases']if x['name']=='solar')
- if(target['teff'],target['logg'],plan['xi_km_s'])!=(solar['teff'],solar['logg'],solar['xi']):raise ValueError('Changed canonical solar experiment target')
+ validate_canonical_target(plan,solar)
  columns,preparation=prepare_columns(plan,require_codex_path('grids.marcs_standard'));structure=columns[a.case];state=column_state(structure);case=next(x for x in plan['cases']if x['name']==a.case)
  from pipeline.bride_parameter_checks import marcs_filename
  for node in plan['nodes']:check(require_codex_path('grids.marcs_standard')/marcs_filename(node['teff'],node['logg']),node['source'])

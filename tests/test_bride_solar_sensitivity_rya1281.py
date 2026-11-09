@@ -22,3 +22,12 @@ def test_held_sensitivity_changes_xi_without_changing_thermal_density_or_geometr
     assert columns['T_5762']['temperature_K'][0]<columns['solar']['temperature_K'][0]<columns['T_5782']['temperature_K'][0]
     bad=copy.deepcopy(plan);bad['cases'][-1]['xi_km_s']=-.1
     with pytest.raises(ValueError):prepare_columns(bad,require_codex_path('grids.marcs_standard'))
+
+
+def test_per_case_velocity_override_cannot_relabel_a_noncanonical_solar_anchor():
+    from scripts.run_bride_solar_matched_mali import validate_canonical_target
+    solar=dict(teff=5772.,logg=4.438,xi=1.)
+    p=dict(cases=[dict(name='solar',teff=5772.,logg=4.438)],xi_km_s=1.)
+    validate_canonical_target(p,solar)
+    p['cases'][0]['xi_km_s']=2.
+    with pytest.raises(ValueError,match='canonical solar'):validate_canonical_target(p,solar)

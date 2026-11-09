@@ -260,6 +260,21 @@ entries:
     rel: bride_mac_checks/rya1281-ng-baseline-comparison-v2
     kind: dir
     desc: Isolated Mac numerical qualification; physical rates and scientific admission unchanged.
+  experiments.bride_orch_continuum_parity:
+    root: work
+    rel: bride_mac_checks/rya1281-orch-continuum-parity-v5
+    kind: dir
+    desc: Pinned ORCH old/new continuum replay with anchor geometry and explicit refusals.
+  experiments.bride_orch_continuum_shifted:
+    root: work
+    rel: bride_mac_checks/rya1281-orch-continuum-shifted-v1
+    kind: dir
+    desc: Declared shifted-window diagnostic; no observation shift or adopted continuum.
+  experiments.bride_solar_sensitivity:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-sensitivity-v1
+    kind: dir
+    desc: Independent solar10K and extended RT microturbulence controls; scientific HOLD.
   experiments.bride_full_cap_plugin:
     root: work
     rel: bride_mac_checks/rya1281-full-cap-plugin-v1

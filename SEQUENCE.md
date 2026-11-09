@@ -1,3 +1,7 @@
+## 2026-11-09 — solar sensitivity and continuum safeguards
+
+- **RYA-1281** — current ORCH refuses24/96 unsupported continuum fits; all9 independent10K/xi controls pass; T/xi responses nearly parallel, HOLD (v243).
+
 ## 2026-11-09 — RYA-1350 landing reconciled
 
 > **Current as of `main` 078cf7de** (RYA-1350 PR #617; merged diff and ticket close-out comment 00b249a8 verified).
