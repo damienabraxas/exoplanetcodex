@@ -100,48 +100,48 @@
     "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 9203-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
   },
   "solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
-    "at": "2026-11-08T00:43:23Z",
-    "inputs_hash": "cb7118811f8e341588cfe489eff324e6152062867b9d6f32db438dcffadc2bdf",
+    "at": "2026-11-08T16:14:16Z",
+    "inputs_hash": "bd2195fd2adaa2c5e4ca6bb25f4a67bdf5dfe90f17df7c274efdd632d2691a93",
     "why": "derive_products: exit 1: --lines-tier reference selected 1 Si 2 line(s) in 4200-6909 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
   },
   "solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE": {
-    "at": "2026-11-08T00:30:11Z",
-    "inputs_hash": "e43c50a8cac14dbfd34286534933e15ecdfae25f7b99a0a60db46943bf2e49f5",
+    "at": "2026-11-09T03:23:01Z",
+    "inputs_hash": "db55a1ab0fe44c71f67267eaa5d3561bebcd6476489ce9af6f78f61b16c07a54",
     "why": "derive_products: exit 1: --lines-tier reference selected 1 Si 2 line(s) in 4200-6910 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
   },
   "solar|Si|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
-    "at": "2026-11-08T00:39:07Z",
-    "inputs_hash": "fcb059b13533b7379876da6c3a28505e35f33ae9f561d3830028f8e90f40594d",
+    "at": "2026-11-09T05:43:53Z",
+    "inputs_hash": "85a5e47e764aa052d643bd587b5101984c62968668e333bc368b433b03d1904c",
     "why": "derive_products: exit 1: --lines-tier reference selected 1 Si 2 line(s) in 4200-6910 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
   },
   "solar|Si|II|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED": {
-    "at": "2026-11-08T01:22:20Z",
-    "inputs_hash": "76358d3bedf0ad009cae4636dcada882a2211c66cf874d2b36a4ac5360ca8c6d",
+    "at": "2026-11-08T18:20:56Z",
+    "inputs_hash": "13bb708793e3a3e4d898ef47ac82c12ccd71d83177aec7640f8abc1f0aa796d7",
     "why": "derive_products: exit 1: Si II has no line in 6910-9199 A that the profile fitter measured (SiII_6910_9199_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv is empty)"
   },
   "solar|Si|II|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED": {
-    "at": "2026-11-08T01:22:44Z",
-    "inputs_hash": "ad2fc42454c462cca651e27622e09efe83dde91ccf6361b9e25958c7ca09dc0e",
+    "at": "2026-11-08T18:45:47Z",
+    "inputs_hash": "6f043d2c6a822dc26ba2f91dff6f3d2b89ee0c29266d08a100a567b1efd8f314",
     "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
   },
   "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED": {
-    "at": "2026-11-08T03:35:15Z",
-    "inputs_hash": "361cb682b5c410d5d81d2f690e893e5f13eb1e077c490cc37d4dc39e025e24ea",
+    "at": "2026-11-08T20:46:19Z",
+    "inputs_hash": "51891a833a46bea91a3fac5064c5e5929d1852d7a4c63f9258a01b3c3c182143",
     "why": "derive_products: exit 1: Si II has no line in 6910-9199 A that the profile fitter measured (SiII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_ew.csv is empty)"
   },
   "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED": {
-    "at": "2026-11-08T03:35:35Z",
-    "inputs_hash": "580ada0eb196f673a6ee82a820beb73c50998cb7b8d267da5c188f71d4bbc12a",
+    "at": "2026-11-08T21:02:17Z",
+    "inputs_hash": "d20eae48c095268c8ea9e36d526e3e1120f54882608153316d113e797e03d354",
     "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
   },
   "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
-    "at": "2026-11-08T03:38:49Z",
-    "inputs_hash": "da212933231ca376ae06879e428ef6cbb10fd27b78b6a7cb1bccf9f16bb45ae5",
+    "at": "2026-11-08T21:45:29Z",
+    "inputs_hash": "2ff8cf7174b897aefe6ea08cdae7cf171520b78b2e9c2852da1359112c36720b",
     "why": "derive_products: exit 1: Si II has no line in 6910-9199 A that the profile fitter measured (SiII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv is empty)"
   },
   "solar|Si|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED": {
-    "at": "2026-11-08T03:39:12Z",
-    "inputs_hash": "505c372be026519926757ca4881a553bb68ff894aa0f874f17ca5a9dc1559e80",
+    "at": "2026-11-08T21:51:36Z",
+    "inputs_hash": "3063f361ae9e4899ede76e5b9d9dc40775261d6253c874a80ccc42b75e758a79",
     "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
   }
 }
