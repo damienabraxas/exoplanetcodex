@@ -9,6 +9,7 @@ PROVIDER=r'''
 #include "ThreadStorage.hpp"
 #include "SimdFullIterationTemplates.hpp"
 #include <stdexcept>
+#include <cmath>
 static IterationResult bride_iteration(Context& ctx, bool lambdaIterate, ExtraParams params) {
     if(ctx.Nthreads != 1) throw std::runtime_error("Bride overlap control requires one thread");
     auto mode=LwInternal::FsMode::UpdateJ | LwInternal::FsMode::UpdateRates;
@@ -72,8 +73,30 @@ FULL_OUTER=r'''
                     }
 '''
 
+CAP_RESPONSE=r'''
+            if constexpr (ComputeOperator) {
+                if (!(mode & FsMode::PureLambdaIteration) && !toObs) {
+                    if (!params || !params->contains("BrideCapLengthM"))
+                        throw std::runtime_error("Cap preconditioning requires explicit BrideCapLengthM");
+                    if (atmos.Ndim != 1) throw std::runtime_error("Cap preconditioning requires 1D");
+                    const f64 length = params->get_as<f64>("BrideCapLengthM");
+                    const f64 direction = std::abs(atmos.muz(mu));
+                    if (!(length >= 0.0) || !std::isfinite(length) || !(direction > 0.0) || !(chiTot(0) >= 0.0))
+                        throw std::runtime_error("Invalid fixed-cap derivative coefficients");
+                    const f64 response = chiTot(0) == 0.0 ? length / direction : -std::expm1(-chiTot(0) * length / direction) / chiTot(0);
+                    PsiStar(0) += response;
+                    if (params->contains("BrideCapResponse")) {
+                        auto destination = params->get_as<F64View2D>("BrideCapResponse");
+                        if (destination.shape(0) != spect.wavelength.shape(0) || destination.shape(1) != Nrays)
+                            throw std::runtime_error("Wrong cap derivative diagnostic shape");
+                        destination(la,mu) = response;
+                    }
+                }
+            }
+'''
+
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--method',choices=['overlap_guard','transition_local','full_coupling'],default='overlap_guard');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--method',choices=['overlap_guard','transition_local','full_coupling','full_coupling_cap'],default='overlap_guard');a=p.parse_args()
  import lightweaver.LwCompiled as compiled
  a.output.mkdir(parents=True,exist_ok=False)
  source=a.source/'Source';target=a.output/'Source';shutil.copytree(source,target)
@@ -113,6 +136,11 @@ def main():
    patched=patched.replace(storage,'                    auto& atom = *activeAtoms[a];\n'+FULL_STORAGE+'                    if constexpr (ComputeOperator)')
    patched=patched.replace(accumulate,FULL_ACCUMULATE+accumulate,1)
    patched=patched.replace(outer,'                                                computeRates, &atom, kr, wmu, &data);\n                    }\n'+FULL_OUTER+'                }\n            }\n            if constexpr (UpdateRates)')
+   if a.method=='full_coupling_cap':
+    cap_hook='''            if constexpr (UpdateRates || ComputeOperator)
+            {'''
+    if patched.count(cap_hook)!=1:raise ValueError('Held cap-derivative patch context changed')
+    patched=patched.replace(cap_hook,CAP_RESPONSE+cap_hook)
  (target/'SimdFullIterationTemplates.hpp').write_text(patched)
  cpp=a.output/'overlap_guard.cpp';provider=PROVIDER
  if a.method!='overlap_guard':provider=provider.replace('bride_guard_iteration_matrices_impl','bride_'+a.method+'_iteration_matrices_impl').replace('bride_overlap_guard_scalar','bride_'+a.method+'_scalar')
