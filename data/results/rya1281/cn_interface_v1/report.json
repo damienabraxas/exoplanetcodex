@@ -1,0 +1,267 @@
+{
+  "schema": "codex.bride_cn_interface/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_cn_interface.py",
+    "bytes": 8579,
+    "sha256": "b1a2ace17a03011b6d4fa65ba5a47b8b8a36eaf7ff75641bfebb31208de7fc2e"
+  },
+  "plan": {
+    "name": "rya1281_cn_interface.json",
+    "bytes": 649,
+    "sha256": "c12367899728a301a246d30fec6df4abb7c6077346642aafba66dc3c89b6b841"
+  },
+  "baseline": {
+    "name": "report.json",
+    "bytes": 21601,
+    "sha256": "f8ba99b48b9fcf3e02f79ed9fe4ba26af0e24fe653eacd2da32c6f47206308a1"
+  },
+  "source_pin": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "scope": "Read-only source contract and isotope serialization audit. Project held native CN partition polynomial onto the unchanged 56 model temperatures. This is source-semantics replay, not native runtime validation, independent primary qualification, molecular pressure calculation, opacity insertion or a new spectrum.",
+  "protected_sources": [
+    {
+      "path": "synthesizer/turbospectrum/source/bsyn.f",
+      "receipt": {
+        "name": "bsyn.f",
+        "bytes": 60388,
+        "sha256": "9a0b404a508e3c1443dcda45e8e490c403a0ff02cfbdc8040cb7419db434155d"
+      },
+      "authority": "pinned native git"
+    },
+    {
+      "path": "synthesizer/turbospectrum/source/partffordepth.f",
+      "receipt": {
+        "name": "partffordepth.f",
+        "bytes": 2532,
+        "sha256": "6db1242323774574775ec35e753ddc8d02634639279264db69dfacf1aaabf205"
+      },
+      "authority": "pinned native git"
+    },
+    {
+      "path": "synthesizer/turbospectrum/source/molecpartf.f",
+      "receipt": {
+        "name": "molecpartf.f",
+        "bytes": 5895,
+        "sha256": "787416832f7100c504d7b3be9c2dfad327add22f915355ebcdf83d755cb67db3"
+      },
+      "authority": "pinned native git"
+    },
+    {
+      "path": "synthesizer/turbospectrum/source/depth.f",
+      "receipt": {
+        "name": "depth.f",
+        "bytes": 11007,
+        "sha256": "d8b87b9f2d58ea1ab515e7b78771284a06629eb9606e0c3cc61e418b2b9a057b"
+      },
+      "authority": "pinned native git"
+    },
+    {
+      "path": "synthesizer/turbospectrum/source/die_pe_lu.f",
+      "receipt": {
+        "name": "die_pe_lu.f",
+        "bytes": 22073,
+        "sha256": "aba96f367b281b3af7df61d8f1678e68f44c44cdd6eac15b9f010e9d830c0215"
+      },
+      "authority": "pinned native git"
+    },
+    {
+      "path": "synthesizer/turbospectrum/DATA/IRWIN_molecules_v15.1.dat",
+      "receipt": {
+        "name": "IRWIN_molecules_v15.1.dat",
+        "bytes": 86668,
+        "sha256": "7ee013f2cc7d22ae3338115f2833849cafb0aef09afc8ad6bc37a105ae06cd0a"
+      },
+      "authority": "pinned native git"
+    },
+    {
+      "path": "synthesizer/turbospectrum/DATA/LISTE_molecules_all_v19.1.dat",
+      "receipt": {
+        "name": "LISTE_molecules_all_v19.1.dat",
+        "bytes": 52277,
+        "sha256": "b6af41f1b7f8a7453f1ae2c23340d604977fbb42c28dd7370ce90808e49bd415"
+      },
+      "authority": "pinned native git"
+    },
+    {
+      "path": "input/isotopes/SPECTRUM.lst",
+      "receipt": {
+        "name": "SPECTRUM.lst",
+        "bytes": 9354,
+        "sha256": "4363e90b92e3f22598dc955ef52a9a95c4bbcc219d9465d7b0ddc2f8ac19527b"
+      },
+      "authority": "accepted original input receipt"
+    },
+    {
+      "path": "input/linelists/turbospectrum/molecules/12C14N_750-800.bsyn",
+      "receipt": {
+        "name": "12C14N_750-800.bsyn",
+        "bytes": 625163,
+        "sha256": "825b1588d57eb6587bff9c84b2ba98d3f41f34ab106285edd26c9aee72a5405c"
+      },
+      "authority": "accepted original input receipt"
+    },
+    {
+      "path": "input/linelists/turbospectrum/molecules/13C14N_750-800.bsyn",
+      "receipt": {
+        "name": "13C14N_750-800.bsyn",
+        "bytes": 465090,
+        "sha256": "47f19032012fd73db1d57709fd44a248742cc5a757783bcb37ce643f58ea0f81"
+      },
+      "authority": "accepted original input receipt"
+    },
+    {
+      "path": "input/linelists/turbospectrum/molecules/12C15N_750-800.bsyn",
+      "receipt": {
+        "name": "12C15N_750-800.bsyn",
+        "bytes": 43008,
+        "sha256": "74c6f175c358221577686143175a9b05c81244d01b454c74c4d571a67f804ffe"
+      },
+      "authority": "accepted original input receipt"
+    }
+  ],
+  "source_equations": [
+    {
+      "file": "bsyn.f",
+      "line": 1282,
+      "text": "              ntt(k)=partryck(k,molindex)/boltz/t(k)/ro(k)*symmfactor"
+    },
+    {
+      "file": "bsyn.f",
+      "line": 1284,
+      "text": "            call partffordepth(ntau,t,lele,fpartition)"
+    },
+    {
+      "file": "bsyn.f",
+      "line": 1351,
+      "text": "              ntt(k)=ntt(k)*isotopfrac(atom(i),isotope(i))"
+    },
+    {
+      "file": "bsyn.f",
+      "line": 1235,
+      "text": "        f=10**(gfelog)"
+    },
+    {
+      "file": "partffordepth.f",
+      "line": 76,
+      "text": "        fpartition(k)=sngl(qmol(molindex))"
+    },
+    {
+      "file": "molecpartf.f",
+      "line": 161,
+      "text": "      logt=log(temp)"
+    },
+    {
+      "file": "molecpartf.f",
+      "line": 165,
+      "text": "          qq=qq*logt + qcoeff(n,j)"
+    },
+    {
+      "file": "molecpartf.f",
+      "line": 167,
+      "text": "        qmol(j)=exp(qq)"
+    },
+    {
+      "file": "depth.f",
+      "line": 163,
+      "text": "        N(I) = G*NTT(i)*EX10(-CHIE*THETA(i))/Q(I)"
+    },
+    {
+      "file": "depth.f",
+      "line": 165,
+      "text": "        STIM(I) = 1. - EXP(-CONSTA/T(i))"
+    },
+    {
+      "file": "die_pe_lu.f",
+      "line": 167,
+      "text": "            qprod=1./qmol(j)"
+    }
+  ],
+  "model": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "ndep": 56,
+  "temperature_min_K": 4045.9,
+  "temperature_max_K": 9909.1,
+  "partition_min": 6430.3779296875,
+  "partition_max": 51498.5625,
+  "partition_entry": {
+    "line": 345,
+    "raw": "     63  '              607.00'  'C N  '   -7.724   6    6.81165938D+02 -4.46981105D+02  1.17584738D+02 -1.53931948D+01  1.00366669D+00 -2.60084236D-02 2 6 1 7 1",
+    "code": "607.00",
+    "file_dissociation": -7.724,
+    "coefficients": [
+      681.165938,
+      -446.981105,
+      117.584738,
+      -15.3931948,
+      1.00366669,
+      -0.0260084236
+    ]
+  },
+  "isotope_weights": [
+    {
+      "isotopologue": "12C14N",
+      "source_product": 0.985659376,
+      "serialized_product": 0.985044,
+      "relative_change": -0.000624329271332269
+    },
+    {
+      "isotopologue": "13C14N",
+      "source_product": 0.010660623999999999,
+      "serialized_product": 0.010955999999999999,
+      "relative_change": 0.02770719612660577
+    },
+    {
+      "isotopologue": "12C15N",
+      "source_product": 0.003640624,
+      "serialized_product": 0.003956,
+      "relative_change": 0.0866269079146873
+    },
+    {
+      "isotopologue": "13C15N",
+      "source_product": 3.9376e-05,
+      "serialized_product": 4.4e-05,
+      "relative_change": 0.11743193823648923
+    }
+  ],
+  "serialized_cn_input": {
+    "name": "input.txt",
+    "bytes": 5756,
+    "sha256": "9f28550b3f007230e4b0784ee4be685907ad6d358f4f5dd8b081e4afedc3c770"
+  },
+  "line_lists": [
+    {
+      "filename": "12C14N_750-800.bsyn",
+      "header": [
+        "'         0607.012014'    1      5628",
+        "'Sneden web'"
+      ],
+      "declared_count": 5628
+    },
+    {
+      "filename": "13C14N_750-800.bsyn",
+      "header": [
+        "'         0607.013014'    1      4185",
+        "'Sneden web'"
+      ],
+      "declared_count": 4185
+    },
+    {
+      "filename": "12C15N_750-800.bsyn",
+      "header": [
+        "'         0607.012015'    1       387",
+        "'Sneden web'"
+      ],
+      "declared_count": 387
+    }
+  ],
+  "limitations": [
+    "Polynomial projection is not native compiled-runtime or independent physical validation. No temperature validity bounds are established by the held coefficient row.",
+    "Q is shared for elemental CN; isotope masses/fractions enter separately in inspected native source. No independent nuclear-spin/statistical convention is qualified.",
+    "Full-network CN partial pressure and native EOS state are not exported by this audit; no chemistry parity or numerical CN opacity coefficient comparison.",
+    "Three-decimal isotope products describe original diagnostic serialization only; preserve the original result and do not silently repair it. Missing 13C15N line file is not a completeness or physical error bound.",
+    "Primary release/frame/probability/partition/isotope provenance remains blocked; no Bride insertion or abundance claim."
+  ]
+}

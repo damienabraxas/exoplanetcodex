@@ -1,0 +1,54 @@
+{
+  "schema": "codex.bride_multi_spline_oracle/1",
+  "source_commit": "4d6aa3c39d634b38da772e469a5692435eba1354",
+  "code_commit": "2cf609624d084d4579289c57c37edc19ce73731f",
+  "source": {
+    "name": "mul23_opacu.f",
+    "bytes": 262886,
+    "sha256": "29f3da8c17c620fc567446d7040f51a5059de55f035366bb7e51328a0a6c5435"
+  },
+  "source_relative": "pymulti/files/multi/mul23/source/mul23_opacu.f",
+  "routines": [
+    {
+      "name": "TAUTSP",
+      "source_sha256": "539f65150810b95c8a6ae0cd0256f80ff6a5765642b005050c83206f12d07a41"
+    },
+    {
+      "name": "PPVALU",
+      "source_sha256": "488953c3f8f685b2e166f38b515eb873d9b195f3dc166eb82585856da6a0aa8f"
+    },
+    {
+      "name": "INTERV",
+      "source_sha256": "e56cbf735d7960c483038f11ad16e8e12c159a98c32c5712c5c9c58ce1bb59cd"
+    }
+  ],
+  "generator": {
+    "name": "build_bride_multi_spline_oracle.py",
+    "bytes": 3508,
+    "sha256": "dbc5d867bb7e6e251a34ab85a7786cef7aa5839a5625bdf4528da2ec126ec9a7"
+  },
+  "compiler": "/opt/homebrew/bin/gfortran",
+  "compiler_version": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "command": [
+    "/opt/homebrew/bin/gfortran",
+    "-std=legacy",
+    "-O2",
+    "-fPIC",
+    "-dynamiclib",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/native-spline-v2/multi_spline_dp.f",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/native-spline-v2/libmulti_spline.dylib"
+  ],
+  "precision": "Unmodified routines with PREC expanded as IMPLICIT REAL(8), matching DP mechanism",
+  "generated": {
+    "name": "multi_spline_dp.f",
+    "bytes": 20169,
+    "sha256": "b0f0125c8f69581aeb14e5ba7fc6f3151815a3746a31a591e08d1ad3cbd29c11"
+  },
+  "library": {
+    "name": "libmulti_spline.dylib",
+    "bytes": 50328,
+    "sha256": "bfc8a9c42082232ccb3f97b3189aa65d67420894e4a7463fe97d6c0ad8f4d275"
+  },
+  "producer_identity": "This held source is not proven identical to the departure-grid producer"
+}

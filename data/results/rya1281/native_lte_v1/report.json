@@ -1,0 +1,71 @@
+{
+  "schema": "codex.bride_native_lte_audit/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_native_lte.py",
+    "bytes": 4861,
+    "sha256": "3ef7f7bff1f3ea1c07ddda581d3352675725f60df682a6aae6bac79cc4b2f000"
+  },
+  "wrapper": {
+    "name": "bride_native_lte.py",
+    "bytes": 2529,
+    "sha256": "c250c28419041c9df1fd531789fe51712322017f085de6a980a1a38709a3e03c"
+  },
+  "oracle": {
+    "name": "manifest.json",
+    "bytes": 3180,
+    "sha256": "71f2b7467b477ea71cbd850a808fe307594307b3ae3f92153508431b0a06e99c"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "comparison": {
+    "name": "summary.json",
+    "bytes": 14982,
+    "sha256": "060c508a762ec6b8eb4a15fbc8fc80c639f6c6b556ad490118dac18cb6eb6717"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "populations": {
+    "name": "populations.npz",
+    "bytes": 36601,
+    "sha256": "6855548ca5b50b07848e92e48d8168cdd64ae0e452b46291355e6b18b65bb69a"
+  },
+  "constants": {
+    "eV_erg": 1.6021889761089203e-12,
+    "h_erg_s": 6.626175840359885e-27,
+    "c_cm_s": 29979246592.0,
+    "k_erg_K": 1.3806619834888354e-16,
+    "electron_g": 9.109534044119935e-28,
+    "amu_g": 1.6605654189103923e-24,
+    "pi": 3.1415927410125732,
+    "eV_over_k_K": 11604.498387507576
+  },
+  "nlevels": 41,
+  "ndepth": 56,
+  "max_abs_native_over_local_minus_one": 0.0006137381834786515,
+  "ion_ground_1based": 40,
+  "top_ion_native_over_local": 0.9995033225815145,
+  "ion_native_over_local_range": [
+    0.9995033225815145,
+    0.9997803447805329
+  ],
+  "max_native_conservation_error": 5.551115123125783e-16,
+  "controls": "Same full O41 energies/weights/stages, T and ne; native fractions normalized to unit total. No SE/RT updates.",
+  "limitations": "Tests the held LTEPOP formula at matched inputs, not producer ne, total oxygen density, EOS, native opacity or rate parity. Does not identify the departure-grid producer build.",
+  "fractions": {
+    "name": "fractions.csv",
+    "bytes": 247477,
+    "sha256": "4f276ecee5095482a351e7bb77556ee151b3c7f68778433dc1c5e1e5af74f57d"
+  }
+}

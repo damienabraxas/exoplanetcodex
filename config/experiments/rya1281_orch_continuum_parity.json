@@ -1,0 +1,58 @@
+{
+  "schema": "codex.bride_orch_continuum_parity_plan/1",
+  "orch_commits": {
+    "previous": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+    "current": "078cf7dedfa961452c8bd9af43c4bf83c5463fdf"
+  },
+  "source": "data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1",
+  "cases": [
+    "baseline",
+    "temperature",
+    "gravity",
+    "solar"
+  ],
+  "source_reports": {
+    "baseline": {
+      "name": "report.json",
+      "bytes": 23507,
+      "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+    },
+    "temperature": {
+      "name": "report.json",
+      "bytes": 24788,
+      "sha256": "1597d4729b69339306f1ca740ea37fdb33c5bd1297f9e56b8791bdd0d9d1bf52"
+    },
+    "gravity": {
+      "name": "report.json",
+      "bytes": 24726,
+      "sha256": "52c90bc3ab4985b0fe11971b658f0a92c26b5d942f58305513d1fb869a6c8bd0"
+    },
+    "solar": {
+      "name": "report.json",
+      "bytes": 24779,
+      "sha256": "aa807a66587d44b546c0bea6cff86c59ae2e8a3f968483f28081f4eefee35f7d"
+    }
+  },
+  "parent_report": "data/results/rya1281/H_kitt_orch_v1/report.json",
+  "parent_receipt": {
+    "name": "report.json",
+    "bytes": 46275,
+    "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+  },
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "RVs": [
+    "no_gravity",
+    "plus_gravity"
+  ],
+  "references": [
+    "synthesis",
+    "iag"
+  ],
+  "half_width_A": 0.5,
+  "scope": "Side-by-side actual Git-pinned RYA1315/RYA1350 ORCH local-continuum estimator replay on all four completed columns and Kitt/native IAG AIR holdings. Retain shipped, previous and current corrected spectra separately. No RT, abundance fitting/adoption, new shift/telluric processing, synthesis extrapolation or source/product mutation. Continuum windows stay centred on the rest AIR line, matching the existing ORCH replay; model RVs are separate fixed controls. Earlier shifted-window attempt retained as a diagnostic, not selected as nominal.",
+  "continuum_centre": "rest_air"
+}

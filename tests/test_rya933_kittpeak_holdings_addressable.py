@@ -104,18 +104,12 @@ def test_the_corrected_1984_holding_refuses_uncorrected_windows(harness):
     assert "do NOT relabel" in message
 
 
-def test_kurucz_reader_declares_the_vacuum_grid(harness):
-    """RYA-938 measured it; a reader that forgets displaces ~200 sampled pixels."""
-    source = (ROOT / "scripts" / "measure_band_ew.py").read_text()
-    block = source[source.index("def load_kurucz2005_window"):]
-    block = block[: block.index("def load_kp_window")]
-    # RYA-933: the reader now serves the RESIDUAL atlas, which is vacuum on the same
-    # terms ("vacuum wavelength including gravitational red shift"), so the conversion
-    # still has to be explicit -- it just lives in `_read_kurucz2005_residual` rather
-    # than in a `True` flag passed to the crosscheck reader. The INVARIANT is unchanged
-    # and is what this test protects: a reader that forgets displaces ~200 sampled pixels.
-    assert "_read_kurucz2005_residual" in block, "must read the SHIPPED residual atlas"
-    conv = source[source.index("def _read_kurucz2005_residual"):]
-    conv = conv[: conv.index("def load_kurucz2005_window")]
-    assert "vac_to_air" in conv, "the vacuum->air conversion must be explicit"
-    assert "VACUUM" in block
+def test_kurucz_reader_declares_the_vacuum_grid(harness,tmp_path):
+    """Exercise the shared loader boundary instead of requiring conversion inline."""
+    from pipeline.wavelength_util import vac_to_air
+    path=tmp_path/'residual.dat'
+    path.write_text('KURUCZ RESIDUAL IRRADIANCE ATLAS 2005\n777.4 0.75\n777.5 0.95\n')
+    w,f=harness._read_kurucz2005_residual(path,7770,7776)
+    import numpy as np
+    np.testing.assert_allclose(w,vac_to_air(np.array([7774.,7775.])),rtol=0,atol=1e-9)
+    np.testing.assert_array_equal(f,[.75,.95])

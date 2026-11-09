@@ -1,0 +1,306 @@
+{
+  "schema": "codex.bride_oxygen_experiment/1",
+  "kind": "exact-node model validation",
+  "scientific_admission": "HOLD: no solar abundance or full-3D claim",
+  "code_commit": "df866b4eba99aa06b7130fabf06ee67fcb38e375",
+  "generator": {
+    "name": "run_bride_oxygen_column.py",
+    "bytes": 14979,
+    "sha256": "5885a5da8d93fe4ad9af818289f4bda3abde3f717c7ecf7be6cd312dac750df5"
+  },
+  "converter": {
+    "name": "multi_atom.py",
+    "bytes": 19706,
+    "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+  },
+  "continuum_adapter": {
+    "name": "multi_continuum.py",
+    "bytes": 1219,
+    "sha256": "de0b3f6e69e05e231247fe986743f3d3c7310b7ebf85fd66d07b1ca4c6470e7e"
+  },
+  "reference_file": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "reference_record_sha256": "0a9ca8dd41db5e3f8e0190c7451bac8918b356511911ecb61ff2f05a5b55de60",
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "atmosphere_key": "grids.marcs_standard",
+  "atom_key": "grids.gerber_ts",
+  "fixed_abundance": 8.7,
+  "abundance_origin": "unchanged atom header and exact reference grid axis",
+  "background_abundances_origin": "all 92 MARCS header values; O overridden by reference trace abundance",
+  "electron_density": "fixed source Pe/(pinned-engine k*T)",
+  "hydrogen_total": "source rho*X/(pinned-engine amu*H mass)",
+  "gravity": "source MARCS benchmark cgs converted to SI; this node is not canonical solar STAR_PARAMS",
+  "boundaries": {
+    "lower": "ThermalisedRadiation",
+    "upper": "ZeroRadiation"
+  },
+  "velocities": "zero static reference atmosphere; microturbulence from MARCS header",
+  "geometry": "1D plane parallel; emergent vertical intensity, not flux",
+  "output_spectrum": {
+    "wavelength_air_A": [
+      7770.5,
+      7776.8
+    ],
+    "points": 1261,
+    "intensity_unit": "W m^-2 sr^-1 Hz^-1"
+  },
+  "background": "LW default continuum with explicitly inventoried passive native atoms; molecular opacity not included",
+  "known_reference_differences": [
+    "LW vs MULTI background/EOS/numerical implementations not proven identical",
+    "Held 41-level reduction not proven identical to cited 122-level published atom",
+    "No Amarsi2018 atom or 3D solar abundance replication claimed"
+  ],
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-07,
+    "maxiter": 1500,
+    "seconds": 900.0,
+    "initial": "tilted",
+    "lambda_iterate": true,
+    "ng": {
+      "order": 3,
+      "period": 5,
+      "delay": 10,
+      "threshold": 0.05,
+      "lower_threshold": 0.0
+    },
+    "threads": 1,
+    "formal_solver": "piecewise_besser_1d",
+    "row_equilibration": "linear equations scaled by max absolute row coefficient; physical rates unchanged"
+  },
+  "environment": {
+    "lightweaver": "0.16.1",
+    "numpy": "2.5.2",
+    "scipy": "1.18.1",
+    "numba": "0.67.0"
+  },
+  "host_load": [
+    14.46728515625,
+    13.3623046875,
+    11.76318359375
+  ],
+  "status": "CONVERGED_EXPERIMENT",
+  "science_executed": true,
+  "solver_started": true,
+  "base_frequency_points": 3778,
+  "continuum_semantics": "MULTI explicit absolute wavelength tables retained; energy normalization unchanged",
+  "continuum_edges": [
+    {
+      "lower": 1,
+      "upper": 40,
+      "energy_edge_nm": 91.04398250123732,
+      "table_edge_nm": 91.04400000000001,
+      "points": 3
+    },
+    {
+      "lower": 2,
+      "upper": 40,
+      "energy_edge_nm": 91.17535776617748,
+      "table_edge_nm": 91.17540000000001,
+      "points": 4
+    },
+    {
+      "lower": 3,
+      "upper": 40,
+      "energy_edge_nm": 91.2325134869481,
+      "table_edge_nm": 91.23250000000002,
+      "points": 4
+    },
+    {
+      "lower": 4,
+      "upper": 41,
+      "energy_edge_nm": 82.79468491240735,
+      "table_edge_nm": 106.41790000000002,
+      "points": 26
+    },
+    {
+      "lower": 5,
+      "upper": 40,
+      "energy_edge_nm": 131.50205327305983,
+      "table_edge_nm": 131.5021,
+      "points": 26
+    },
+    {
+      "lower": 6,
+      "upper": 40,
+      "energy_edge_nm": 277.24774939287596,
+      "table_edge_nm": 277.2477,
+      "points": 26
+    },
+    {
+      "lower": 7,
+      "upper": 40,
+      "energy_edge_nm": 302.6447061614983,
+      "table_edge_nm": 302.6447,
+      "points": 26
+    },
+    {
+      "lower": 8,
+      "upper": 40,
+      "energy_edge_nm": 430.8252725206804,
+      "table_edge_nm": 430.82529999999997,
+      "points": 26
+    },
+    {
+      "lower": 9,
+      "upper": 40,
+      "energy_edge_nm": 430.862787652076,
+      "table_edge_nm": 430.8628,
+      "points": 26
+    },
+    {
+      "lower": 11,
+      "upper": 40,
+      "energy_edge_nm": 471.5549562406433,
+      "table_edge_nm": 471.55500000000006,
+      "points": 26
+    },
+    {
+      "lower": 13,
+      "upper": 40,
+      "energy_edge_nm": 471.57087804611206,
+      "table_edge_nm": 471.5709,
+      "points": 26
+    },
+    {
+      "lower": 15,
+      "upper": 40,
+      "energy_edge_nm": 734.6473039105138,
+      "table_edge_nm": 734.6472,
+      "points": 26
+    },
+    {
+      "lower": 20,
+      "upper": 40,
+      "energy_edge_nm": 805.4102953342909,
+      "table_edge_nm": 805.4102,
+      "points": 26
+    },
+    {
+      "lower": 21,
+      "upper": 40,
+      "energy_edge_nm": 809.8054482900758,
+      "table_edge_nm": 809.8055,
+      "points": 26
+    },
+    {
+      "lower": 22,
+      "upper": 40,
+      "energy_edge_nm": 809.8100388101462,
+      "table_edge_nm": 809.8100000000001,
+      "points": 26
+    },
+    {
+      "lower": 24,
+      "upper": 40,
+      "energy_edge_nm": 930.7472830323379,
+      "table_edge_nm": 930.7472,
+      "points": 26
+    },
+    {
+      "lower": 25,
+      "upper": 40,
+      "energy_edge_nm": 930.8055880355008,
+      "table_edge_nm": 930.8055,
+      "points": 26
+    },
+    {
+      "lower": 27,
+      "upper": 40,
+      "energy_edge_nm": 984.6342895937443,
+      "table_edge_nm": 984.6343000000002,
+      "points": 26
+    },
+    {
+      "lower": 29,
+      "upper": 40,
+      "energy_edge_nm": 984.667350813543,
+      "table_edge_nm": 984.6673000000001,
+      "points": 26
+    },
+    {
+      "lower": 32,
+      "upper": 40,
+      "energy_edge_nm": 1151.8612753569316,
+      "table_edge_nm": 1151.8613,
+      "points": 26
+    },
+    {
+      "lower": 36,
+      "upper": 40,
+      "energy_edge_nm": 1434.41955710575,
+      "table_edge_nm": 1434.4197000000001,
+      "points": 26
+    },
+    {
+      "lower": 38,
+      "upper": 40,
+      "energy_edge_nm": 1455.8638848796036,
+      "table_edge_nm": 1455.8636000000001,
+      "points": 26
+    }
+  ],
+  "passive_atoms": [
+    "H_6_atom",
+    "He_9_atom",
+    "C_atom",
+    "N_atom",
+    "MgI_66_atom",
+    "Si_atom",
+    "Al_atom",
+    "Fe_atom",
+    "CaII_atom",
+    "Na_atom",
+    "S_atom"
+  ],
+  "wavelength_points": 3778,
+  "setup_seconds": 2.1178464582189918,
+  "iterations": 1001,
+  "final_diagnostics": {
+    "iteration": 1001,
+    "population_change": 8.734321114227902e-08,
+    "J_change": 8.740035806198421e-08,
+    "physical_rate_residual": 1.8581990432142254e-14,
+    "particle_conservation_error": 8.881784197001252e-16,
+    "elapsed_seconds": 264.73894053231925
+  },
+  "reference_comparison": {
+    "6": {
+      "min_b": 0.0077301453942095035,
+      "max_b": 1.0702553986795742,
+      "max_absolute_difference_to_reference": 0.9807479787474837
+    },
+    "8": {
+      "min_b": 0.009923492213252883,
+      "max_b": 1.2367283559669568,
+      "max_absolute_difference_to_reference": 1.3915935413637124
+    },
+    "9": {
+      "min_b": 0.009822070968374655,
+      "max_b": 1.2365773436857377,
+      "max_absolute_difference_to_reference": 1.3219440575716643
+    },
+    "10": {
+      "min_b": 0.0096933461464222,
+      "max_b": 1.2272288970583491,
+      "max_absolute_difference_to_reference": 1.271698036070985
+    }
+  },
+  "comparison_verdict": "DIAGNOSTIC_ONLY: model/background differences not yet adjudicated",
+  "total_wall_seconds": 276.46901630051434,
+  "total_cpu_seconds": 274.771632707,
+  "peak_rss_KiB": 346176
+}

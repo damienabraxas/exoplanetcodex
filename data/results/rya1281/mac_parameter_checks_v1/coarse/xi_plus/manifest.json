@@ -1,0 +1,48 @@
+{
+  "case": {
+    "name": "xi_plus",
+    "teff": 5750,
+    "logg": 4.5,
+    "xi": 1.1,
+    "abundance": 8.7,
+    "drop_bottom": 0
+  },
+  "status": "CONVERGED_EXPERIMENT",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5
+  },
+  "threads": 1,
+  "interpretation": "xi changes formal-transfer/SE microturbulence at fixed MARCS t01 structure; Teff/logg use actual independent atmosphere files",
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "original_depths": 56,
+  "retained_depths": 56,
+  "temperature_range_K": [
+    4045.9,
+    9909.1
+  ],
+  "bottom_logtau500": 1.7744,
+  "iterations": 677,
+  "final_diagnostics": {
+    "iteration": 677,
+    "population_change": 8.520626756122427e-07,
+    "J_change": 9.662670925614236e-07,
+    "physical_rate_residual": 1.8533596803572303e-14,
+    "particle_conservation_error": 1.3322676295501878e-15
+  },
+  "elapsed_seconds": 46.36554899998009,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "d02512a9b83a072de6241f639de7271ed8f79f8d48e40bf26761c30419a54f1d"
+  },
+  "continuum_iterations": 35
+}

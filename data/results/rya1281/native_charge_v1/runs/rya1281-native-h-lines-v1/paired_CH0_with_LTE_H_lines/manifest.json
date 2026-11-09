@@ -1,0 +1,74 @@
+{
+  "case": {
+    "name": "paired_CH0_with_LTE_H_lines",
+    "teff": 5750,
+    "logg": 4.5,
+    "xi": 1.0,
+    "abundance": 8.7,
+    "drop_bottom": 0,
+    "experimental_collision_convention": "native_tautsp_lte_balanced_CH0",
+    "lte_h_background_lines": true
+  },
+  "status": "CONVERGED_EXPERIMENT",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true
+  },
+  "threads": 1,
+  "interpretation": "xi changes formal-transfer/SE microturbulence at fixed MARCS t01 structure; Teff/logg use actual independent atmosphere files; non-adopted GENCOL convention experiment, exact reference-build parity unproven",
+  "diagnostic_collision_scales": {},
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "original_depths": 56,
+  "retained_depths": 56,
+  "temperature_range_K": [
+    4045.9,
+    9909.1
+  ],
+  "bottom_logtau500": 1.7744,
+  "lte_h_background_lines": {
+    "source": {
+      "name": "rh_atoms.py",
+      "bytes": 4432071,
+      "sha256": "99982a90746acaf293bcdb48ddab6e46c5fe30407e177735c0f255829379731f"
+    },
+    "interpretation": "Native H_6_atom fixed LTE populations, CRD lines; not an H NLTE/PRD model"
+  },
+  "native_spline_control": {
+    "oracle": {
+      "name": "manifest.json",
+      "bytes": 1897,
+      "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+    },
+    "source_directions": true,
+    "reversible_ch0_LTE_reservoir_hypothesis": true,
+    "temperature_unchanged_required": true,
+    "CH_negative_spline_values_clipped_as_native": 0
+  },
+  "experimental_collision_convention": "native_tautsp_lte_balanced_CH0",
+  "iterations": 1131,
+  "final_diagnostics": {
+    "iteration": 1131,
+    "population_change": 3.550952830681705e-07,
+    "J_change": 4.959849033703279e-07,
+    "physical_rate_residual": 4.158215271491395e-15,
+    "particle_conservation_error": 6.661338147750939e-16,
+    "rejected_invalid_ng": false
+  },
+  "elapsed_seconds": 91.22906979219988,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "d79fbda5aeef9eeeb58d092c4e4060e76fbfa2f58c39626ead29f03db2e579ba"
+  },
+  "continuum_iterations": 35
+}

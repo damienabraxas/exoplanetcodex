@@ -1,0 +1,562 @@
+{
+  "schema": "codex.bride_solar_sensitivity/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_solar_sensitivity.py",
+    "bytes": 10880,
+    "sha256": "1fa5c704f02965a0fed036b7dc6914475c2356ac69d5ee6157083baf2bc43c0a"
+  },
+  "plan": {
+    "name": "rya1281_solar_sensitivity.json",
+    "bytes": 5937,
+    "sha256": "9800587369569da95e46490dae08be0db532252ef9eed82e54c7f7bd1661f00b"
+  },
+  "scope": "Matched baseline/T-only/g-only/canonical-solar column experiment at unchanged source O8.70/41level atom/collision hypotheses/bare background/xi1/geometry-cap policy/numerical controls. Fresh independent class-C+transition-R and conservation required; no EOS feedback, interpolation accuracy, source/reference/model/abundance admission or production/merge/publication. Isolated full-coupling preconditioner after toy and full-O fixed-population rate-action tests. No change to physical source or admission/default/production. Prospective finite-cap derivative preconditioning after compiled derivative and full-O unchanged-rate tests; original analytical cap, source and numerical limits unchanged. Prospective independent solar-centered +/-10K and extended microturbulence controls. Xi varies the depth-constant RT Doppler velocity only on the SAME xi1 MARCS thermal/pressure structure; this is not a self-consistent turbulent-pressure atmosphere or a fitted optimum. Solar replay plus eight probes; baseline remains available as a dry context only. All independently start from the original common fractions; no failed seeds, sequential warm starts or observation tuning.",
+  "cases": 9,
+  "solar_replay_max_flux_difference": 0.0,
+  "rates": [
+    {
+      "case": "solar",
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "xi_km_s": 1.0,
+      "rate_residual": 2.4545425480513253e-12,
+      "conservation": 1.5543122344752192e-15,
+      "iterations": 9,
+      "seconds": 42.9737740829587
+    },
+    {
+      "case": "T_5762",
+      "teff_K": 5762.0,
+      "logg": 4.438,
+      "xi_km_s": 1.0,
+      "rate_residual": 1.1731094161625443e-08,
+      "conservation": 1.1102230246251565e-15,
+      "iterations": 8,
+      "seconds": 43.76339208288118
+    },
+    {
+      "case": "T_5782",
+      "teff_K": 5782.0,
+      "logg": 4.438,
+      "xi_km_s": 1.0,
+      "rate_residual": 3.998530695226144e-12,
+      "conservation": 9.992007221626409e-16,
+      "iterations": 9,
+      "seconds": 56.37372458400205
+    },
+    {
+      "case": "xi_0p25",
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "xi_km_s": 0.25,
+      "rate_residual": 2.864303980309071e-12,
+      "conservation": 1.5543122344752192e-15,
+      "iterations": 9,
+      "seconds": 57.484863000456244
+    },
+    {
+      "case": "xi_0p5",
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "xi_km_s": 0.5,
+      "rate_residual": 2.780599397427932e-12,
+      "conservation": 1.5543122344752192e-15,
+      "iterations": 9,
+      "seconds": 48.513808000367135
+    },
+    {
+      "case": "xi_0p75",
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "xi_km_s": 0.75,
+      "rate_residual": 2.640429894294686e-12,
+      "conservation": 1.3322676295501878e-15,
+      "iterations": 9,
+      "seconds": 50.20329291699454
+    },
+    {
+      "case": "xi_1p25",
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "xi_km_s": 1.25,
+      "rate_residual": 2.2343035671875997e-12,
+      "conservation": 1.3322676295501878e-15,
+      "iterations": 9,
+      "seconds": 53.27760370820761
+    },
+    {
+      "case": "xi_1p5",
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "xi_km_s": 1.5,
+      "rate_residual": 1.9497786590304902e-08,
+      "conservation": 1.1102230246251565e-15,
+      "iterations": 8,
+      "seconds": 52.19117345800623
+    },
+    {
+      "case": "xi_2p0",
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "xi_km_s": 2.0,
+      "rate_residual": 1.4424051297924707e-08,
+      "conservation": 1.5543122344752192e-15,
+      "iterations": 8,
+      "seconds": 55.84932854119688
+    }
+  ],
+  "response_directions": [
+    {
+      "rv": "no_gravity",
+      "scheme": "inner",
+      "temperature_microturbulence_area_direction_cosine": 0.996630019466412,
+      "scope": "Unweighted3line response-direction geometry only, not a noise-weighted covariance or parameter-identifiability bound"
+    },
+    {
+      "rv": "no_gravity",
+      "scheme": "outer",
+      "temperature_microturbulence_area_direction_cosine": 0.9971264140475252,
+      "scope": "Unweighted3line response-direction geometry only, not a noise-weighted covariance or parameter-identifiability bound"
+    },
+    {
+      "rv": "plus_gravity",
+      "scheme": "inner",
+      "temperature_microturbulence_area_direction_cosine": 0.9966299902761685,
+      "scope": "Unweighted3line response-direction geometry only, not a noise-weighted covariance or parameter-identifiability bound"
+    },
+    {
+      "rv": "plus_gravity",
+      "scheme": "outer",
+      "temperature_microturbulence_area_direction_cosine": 0.997126345172366,
+      "scope": "Unweighted3line response-direction geometry only, not a noise-weighted covariance or parameter-identifiability bound"
+    }
+  ],
+  "protected_inputs": [
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/config/experiments/rya1281_solar_sensitivity.json",
+      "receipt": {
+        "name": "rya1281_solar_sensitivity.json",
+        "bytes": 5937,
+        "sha256": "9800587369569da95e46490dae08be0db532252ef9eed82e54c7f7bd1661f00b"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/scripts/analyze_bride_solar_sensitivity.py",
+      "receipt": {
+        "name": "analyze_bride_solar_sensitivity.py",
+        "bytes": 10880,
+        "sha256": "1fa5c704f02965a0fed036b7dc6914475c2356ac69d5ee6157083baf2bc43c0a"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/config/experiments/rya1281_O_shape_milestone.json",
+      "receipt": {
+        "name": "rya1281_O_shape_milestone.json",
+        "bytes": 3107,
+        "sha256": "3e0d618aceadaadf19eb5d73fe49f66748d3abb8b8ca1e0ac897699029222a7e"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/H_kitt_orch_v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 46275,
+        "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/ispec/ispec/synth/effects.py",
+      "receipt": {
+        "name": "effects.py",
+        "bytes": 15124,
+        "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/O_shape_milestone_v1/run/metrics.csv",
+      "receipt": {
+        "name": "metrics.csv",
+        "bytes": 139082,
+        "sha256": "a6f38c0d41d41919c93c6c0c7ca83bd2fc6d978ff8d2e3f227a900dc022c4586"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/solar/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21500,
+        "sha256": "ff9a1305f7ecd425475cd80f537181602b9042b947712550300bbefcd76b84af"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/solar/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 27994,
+        "sha256": "a810ff9a4dd53268a84cadc3ea687c320302f73412a57c4db8dc365fec662a7c"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/solar/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "c7ec498718d71c0117d9258326f0a7b7e4cb8e8cd287dd7bfe50ff8cd2d2183f"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/solar/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54268,
+        "sha256": "38d074b69a0aaea000d4594e324a3fc89ad9f037412eee1062095c9ea48af056"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/solar/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 884424,
+        "sha256": "e37134238b547564cbd69f6200497da03180b25fb869a7e2e1c779ead336ff20"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/solar/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "c7ec498718d71c0117d9258326f0a7b7e4cb8e8cd287dd7bfe50ff8cd2d2183f"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5762/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21502,
+        "sha256": "e8557bcc6cd9b4f0cdac4f686313c7dcbcdaef487403bd42a953bc7d7cb4aacf"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5762/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 28001,
+        "sha256": "949198752069f71fc33cc00d4f2d19ecbe641c251fa729ac5fc49faa4dc00f81"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5762/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "6effda61801160a01faa6f04cf0ae7cd0343fc60ff7693cc96f2fcf2093b76c4"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5762/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54238,
+        "sha256": "0ea4850fd428dc617c11cde8359403e369cdeae25dee948fe279c2fbd5becff0"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5762/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 887315,
+        "sha256": "909df52af334732286bd75f3c4f39a439d468d1c59b1c94fa939e3d8df5392bb"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5782/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21477,
+        "sha256": "b6847b84a9d2b50d22e41220a230476f9a49ed30dda727ee278826ff63c35779"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5782/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 27978,
+        "sha256": "eae3b6b257ee0f394b91c65d38a01e2f2d8ce10b88b389dec9cf08f266ce2dd0"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5782/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "8980bbce317db003fe691c99eac75082452c697a09078086f2965883f56a978b"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5782/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54283,
+        "sha256": "d33359b88d31bd8bcfc28f4f1650953aff5764a604038429f7e28653186dc17e"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/T_5782/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 884373,
+        "sha256": "5a1fcdbdd18c3f598dbded273436eb2f95c2a79a029921ac8482dbf7a62f2494"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p25/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21472,
+        "sha256": "bd46924798c0f16746463c60f654103572ddf0a658b81df0843b241eb87d093f"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p25/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 27965,
+        "sha256": "a0054b72fa689b0827c58ef301095ee63c7cca59cdc4ea504bd118f1c9390e26"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p25/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "ac25f22d4e16f418cb0a58b607c665815cff6c384241f71dd058a1c84b770548"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p25/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54271,
+        "sha256": "5b739569497845ab885d9a301ed4b986b9c9ee739410268cff1f88bb045ebcd3"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p25/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 884405,
+        "sha256": "5d77a1dc9bc54f9ea542c35d54e9d52781f92c8ae9ba06116124c7dacfdc33b8"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p5/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21468,
+        "sha256": "ad4a601458beff2b2bbe5a52068e85a29e875377a808d4937da9fd366469a1ba"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p5/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 27964,
+        "sha256": "03c9dbb1a77a66a6c698ab9b16dd403ec28532570151f299fe273fdc46c9682a"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p5/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "2be09114981d588d824a4e7ef6ae661b6ae7ab99b3b547e9466fc13e22a8b9c6"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p5/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54265,
+        "sha256": "8fcb11eae9bbbe96ff77f9279e203a56477e42b1f107e30b39c0636d34f8ed2b"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p5/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 884387,
+        "sha256": "2c821c6f2e053d0551082c72b8ecd264800b413f8db2a2d53ba8827484b75be5"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p75/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21472,
+        "sha256": "6def281e7b8c892ba61bb3ef862cb29a2d68bb1104f6ca298be8702fe743f956"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p75/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 27965,
+        "sha256": "b6242bb7edb6177f81409e62abb8fb26541c74c101086d16aa46fc555abf0213"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p75/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "8c157b726dc8078f276c3c6c90149b2f564c3db81af2c2e07b547c964d27dc22"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p75/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54281,
+        "sha256": "4e64c5cc729111fa436b332cc8d693e6bc9ba6adc75ecb310398c8cc27c8bd04"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_0p75/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 884443,
+        "sha256": "550dd3e9fc4a89224e9b67a910b06eecbd47b5dacd8b9cb60d60a21a1c6d2be2"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p25/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21528,
+        "sha256": "25eea5fc13b7e0e443e8f923c2296f5f4e3a799c720987209aaafd3457bede48"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p25/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 28020,
+        "sha256": "b10d7a185273365967eb9e04ab2b2041ba5656190809c4219c34d668d0268293"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p25/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "e4d3976b7c51bcdce1d71833590ad627bdb0c0c5dd033bd377a428325a5540e7"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p25/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54274,
+        "sha256": "bf111c116b452b370826b7f804cf92476ee0c3c92bf3e636175d4c2acba80c33"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p25/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 884418,
+        "sha256": "c35c7db973c73ef684379caaf4eb0c5f1ccdce71d7c6bbfbf7a37abbc94d3096"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p5/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21524,
+        "sha256": "9d9c6906de858b8c58a6bba0b2bf4085d62ffa8346b6a6a8759fcc4bcc53d7e6"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p5/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 28015,
+        "sha256": "832d8066bfc475448a4088bcd0faffb96b01fd25579124ad2274f6c078605453"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p5/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "fe0c8b7827fb13d5ff1022deedf89d8023c81ae1bd58f5ecf4fb7c359a155710"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p5/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54271,
+        "sha256": "2cc6e8556c21d4ddcb540e42419e95c6039777fc55f7b307483a74b81a705e63"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_1p5/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 887475,
+        "sha256": "00a6bed109a7e114c878b04d4eb498bd119ce1fa607bf4bd9d9a2792f03d278c"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_2p0/input.json",
+      "receipt": {
+        "name": "input.json",
+        "bytes": 21525,
+        "sha256": "78358b6a124dce644ee423d3f1b5f49d22f7aa7f254fc4206196b0bc6bc36daf"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_2p0/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 28023,
+        "sha256": "bf48bab429b502bc1ce22a4fca88b03a61b24e5f4308622dc835c6b3a854b9de"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_2p0/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "a2ecb6b977ee88895bd4fb6d98fe923e2b9a7453d34d3591ae20e60554e5b725"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_2p0/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54262,
+        "sha256": "10f7faf4727eb52247f69ddd1244008bd65b1d1b9b69ba2a6b51d4b9193ed0c4"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-solar-sensitivity-v1/xi_2p0/independent_rates.npz",
+      "receipt": {
+        "name": "independent_rates.npz",
+        "bytes": 887372,
+        "sha256": "a002169e2ebf311f11e592374c000c44626a7d2d020ff01a53684556ade2636c"
+      }
+    }
+  ],
+  "metric_rows": 108,
+  "comparison_rows": 324,
+  "total_seconds": 460.6309603750706,
+  "limitations": [
+    "10K sampling is not10K physical accuracy.",
+    "Microturbulence changes RT Doppler velocities only, on a fixed xi1 source atmosphere.",
+    "Shoulder-relative diagnostics use unchanged shipped observations; separate ORCH continuum parity findings remain unresolved.",
+    "No inferred abundance, preferred input, physical3D/all-band or provider admission."
+  ]
+}

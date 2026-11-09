@@ -1,0 +1,196 @@
+{
+  "schema": "codex.bride_feii_analysis/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_feii_transfer.py",
+    "bytes": 8202,
+    "sha256": "bfac9858e0179096a109caa7d509e1287f23e3c0dd984e737cbf2440e1b00fd9"
+  },
+  "source_plan": {
+    "name": "rya1281_feii_transfer.json",
+    "bytes": 801,
+    "sha256": "7fe73dd26955ac09751abb9418eae814c60ccdcb40ce5a852b4e32b8bd9abce4"
+  },
+  "comparison": {
+    "name": "report.json",
+    "bytes": 31834,
+    "sha256": "e30ee9d666e1102ddd0d441cb44aad4959f26c49bc0474cb9754b1da9f0c1511"
+  },
+  "caveats": "Fixed O populations; added FeII natural-only. Direct model response and observed continuum-reference response are separate. Historical3percent estimator retained; main15percent rule unexercised. No abundance or preferred reference/RV adopted.",
+  "cases": [
+    {
+      "name": "canonical_refined",
+      "source": {
+        "name": "report.json",
+        "bytes": 26942,
+        "sha256": "f0900dfdf7b912cc75ee3bdb696575600e27a8e6ae73b4ae0f227299040fc349"
+      },
+      "direct": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_area_delta_mA": 4.595883680735824e-06,
+          "max_intrinsic_O_window_flux_change": 7.13328029977589e-09,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 72.10310060260814,
+              "feii_area_mA": 72.10310520135651,
+              "delta_mA": 4.598748375883588e-06
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 72.10510432953107,
+              "feii_area_mA": 72.10510889067501,
+              "delta_mA": 4.561143938985879e-06
+            }
+          }
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_area_delta_mA": 1.5000011522658951e-05,
+          "max_intrinsic_O_window_flux_change": 2.618676664400965e-08,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 62.392951130358185,
+              "feii_area_mA": 62.39296615296518,
+              "delta_mA": 1.5022606994818943e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 62.385480685226895,
+              "feii_area_mA": 62.38549549582119,
+              "delta_mA": 1.4810594294090151e-05
+            }
+          }
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_area_delta_mA": 4.938304667234661e-05,
+          "max_intrinsic_O_window_flux_change": 1.0597440758264298e-07,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 48.927852403584815,
+              "feii_area_mA": 48.92790201045304,
+              "delta_mA": 4.960686822386151e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 48.937002732784684,
+              "feii_area_mA": 48.93705112552244,
+              "delta_mA": 4.8392737753033543e-05
+            }
+          }
+        }
+      ],
+      "audit_receipts": {
+        "zero": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341946,
+            "sha256": "2ac1ed41fccb7b7ba081565a84c3d7cfdd230cc364d15720edfc3be05ab9df3f"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342619,
+            "sha256": "6307a1143f7f4e9ef09f4df56d0941e580e34327721a2215bc876d572444a4bd"
+          }
+        },
+        "feii": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341968,
+            "sha256": "f30fcbd771a0181644d6c28135e5a52e5bf5608b6ed5168b0aa48a2f482c997d"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342647,
+            "sha256": "f6cb2a62c93078318da3120ab12b2c22ca02d067f49c9bba4aa01f97c61ba6aa"
+          }
+        }
+      }
+    },
+    {
+      "name": "lower_gravity_refined",
+      "source": {
+        "name": "report.json",
+        "bytes": 26732,
+        "sha256": "547ae816ab0daeb6552d55136832d789513c65d0f1deb1143427cd2d1a5def61"
+      },
+      "direct": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_area_delta_mA": 5.0740886621269965e-06,
+          "max_intrinsic_O_window_flux_change": 7.901674980992368e-09,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 74.55540154527085,
+              "feii_area_mA": 74.5554066224644,
+              "delta_mA": 5.077193549141157e-06
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 74.55772411563177,
+              "feii_area_mA": 74.55772915116,
+              "delta_mA": 5.035528232610886e-06
+            }
+          }
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_area_delta_mA": 1.6554549048919398e-05,
+          "max_intrinsic_O_window_flux_change": 2.900525974958157e-08,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 64.67536209177582,
+              "feii_area_mA": 64.67537867121526,
+              "delta_mA": 1.6579439432007348e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 64.66829663596835,
+              "feii_area_mA": 64.66831298053424,
+              "delta_mA": 1.634456589272304e-05
+            }
+          }
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_area_delta_mA": 5.448947091224454e-05,
+          "max_intrinsic_O_window_flux_change": 1.1734301463839358e-07,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 50.928493834105446,
+              "feii_area_mA": 50.928548571076966,
+              "delta_mA": 5.47369715206969e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 50.937198027272395,
+              "feii_area_mA": 50.937251419969634,
+              "delta_mA": 5.339269723947382e-05
+            }
+          }
+        }
+      ],
+      "audit_receipts": {
+        "zero": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341944,
+            "sha256": "0f0c1b72532f5e311b24bee069a6f4e3616bf0c8b77f6a9a187b44608cb1ad2b"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342627,
+            "sha256": "f183070b901974781dffa076152518eefad656bd6b913862b20141013295b576"
+          }
+        },
+        "feii": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341984,
+            "sha256": "e89beaf9141220956e3ea4d71dd9abcbc92935376b867797e210aa0795755e92"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342668,
+            "sha256": "7440dcbf896b066a90fe0abf3ccebc5064dadde8a2cd1150c6661092fca960ec"
+          }
+        }
+      }
+    }
+  ]
+}

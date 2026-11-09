@@ -1,0 +1,956 @@
+{
+  "schema": "codex.bride_fe_kitt_peak_comparison/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "compare_bride_fe_kitt_peak.py",
+    "bytes": 8284,
+    "sha256": "a71fb505560b2654f53408df415849e5662993c318062b3a2320ce6b56a664a3"
+  },
+  "receipt": {
+    "name": "report.json",
+    "bytes": 21439,
+    "sha256": "2d1f229a5d1a83dd5b741bbd746c85aa51b646ce700b429f69f4810333b97f55"
+  },
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "holding": "solar_kpno_kurucz2005_corrected",
+  "policy": {
+    "reason": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+    "basis": "corrected",
+    "applied_state": "applied",
+    "normalization": {
+      "value": "normalised",
+      "median_p95": 0.9963525,
+      "slope_across_band": -0.0010163636363634653,
+      "n_windows": 10,
+      "n_dropped": 0,
+      "n_telluric_windows": 0,
+      "n_blue_windows": 0,
+      "max_flux": 0.9979,
+      "span_A": [
+        7760.864190418934,
+        7782.858252471642
+      ],
+      "reason": ""
+    },
+    "action": "Serve corrected pre-normalized observation unchanged"
+  },
+  "frame": "Observed delivered vacuum nm -> canonical AIR Angstrom; no extra observed shift/correction/continuum",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "caveats": "Atmospheric parameters and experimental input routes are reported per case; no certified atmosphere implied. Incomplete blends/background, approximate Gaussian catalog R instead of measured FTS LSF, no local error vector or chi-square/adoption. No optimizer or best-case ranking.",
+  "cases": [
+    {
+      "name": "author_MN_cap_Fe_neutral_sampled",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4489,
+        "sha256": "1d4778aad98d2fee69963cad2337ee7b5c8e8c5b802ca07d38b9f858558c9d97"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "920ef27c5d7765beef16e9ba6a380075603d92aed573b8fabee76ea66e932e0c"
+      },
+      "parameters": {
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "experimental_fe_background": {
+        "normalization": "local_neutral",
+        "packet": {
+          "name": "manifest.json",
+          "bytes": 1449,
+          "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+        },
+        "adapter": {
+          "name": "bride_fe_background.py",
+          "bytes": 4126,
+          "sha256": "4c8875b820ac7928f465a54506d7f908d0ef710354bdce89f5ee2a8dc1a6afbb"
+        },
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ],
+        "packet_sampling": true,
+        "interpretation": "Replace passive FeI bf only; bounded source-derived LTE intervention, no fitted factor"
+      },
+      "experimental_bound_input": null,
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09156734,
+        "density_top_kg_m3": 1.0854e-06,
+        "effective_length_m": 84362.76027271051,
+        "interpretation": "Native top mass column with uniform top opacity/source; no fitted thickness or external illumination; not exact producer proof"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.89296892050578,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.01830808241524146
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.336489078298136,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.014664826664621931
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.36775949551103,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.01228691468628513
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 68.8882738924529,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.010224966560928962
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 59.329512700992254,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.009437587672924398
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 46.37928222303202,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.00862302492994257
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "author_MN_cap_Fe_neutral_sampled_profiles.csv",
+        "bytes": 300209,
+        "sha256": "d8a080d58e826f3e45f6e0f53163d1117478a1e0eaa9cf129f06144cdb597b6a"
+      }
+    },
+    {
+      "name": "solar5772_bound_Fe_sampled",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7118,
+        "sha256": "82c06f7ef8cf8608d439493f447b11ceba6cf8610b6fe960cf3ee21e71bf6720"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "33b1a565df4ac1d1e68b530c3839182151397e38bad8d6ed84dac81c6c99dc24"
+      },
+      "parameters": {
+        "teff": 5772,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "experimental_fe_background": null,
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17148,
+          "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16146,
+          "sha256": "5fd666bb48c62abb616ca395968c37275a83be22d118cb4aa2da551e2178acda"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09774430703397295,
+        "density_top_kg_m3": 9.998094166897254e-07,
+        "effective_length_m": 97762.93901851328,
+        "column_contract": {
+          "schema": "codex.bride_experimental_column/1",
+          "method": "density_integral_log_native_top",
+          "top_anchor_kg_m2": 0.09774430703397295,
+          "weights": [
+            0.088,
+            0.7879999999999995,
+            0.12400000000000055
+          ],
+          "source_indices": [
+            3,
+            1,
+            0
+          ],
+          "source_nodes": [
+            {
+              "point": [
+                5750,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15234309999999998
+            },
+            {
+              "point": [
+                5750,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09156734
+            },
+            {
+              "point": [
+                6000,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15773140000000002
+            },
+            {
+              "point": [
+                6000,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09383928999999999
+            }
+          ],
+          "interpretation": "Explicit diagnostic interpolant, not native/equilibrium column. Native mass-definition basis; top anchor interpolated, no fitted scale. Zero mass closure is construction, not validation."
+        },
+        "interpretation": "Experimental density integral with source-log-native top anchor; uniform top opacity/source, no fitted thickness or external illumination, not exact producer proof"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.97199170052181,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.016859198255202365
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.15361189844266,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.012807238283665121
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.77347050654864,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.010517208328640486
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.96734089720185,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.006435369247828651
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.14670303503377,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.005571348356450716
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.78487560292062,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.0054302387280900305
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "solar5772_bound_Fe_sampled_profiles.csv",
+        "bytes": 300209,
+        "sha256": "b7a8a37b94f11bb3c7aff574560f968f2539fb596490a49eae7aed398da9eda3"
+      }
+    },
+    {
+      "name": "solar5752_bound_Fe_sampled",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7118,
+        "sha256": "c52bcafd047c5c1f4f44c9f3ff389a817d2a192905b272368c72cccddd6769cc"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "2432e9f4021dd642ebe4511cd6948268f2db73e3bf7f25ebe216caf91980a4a4"
+      },
+      "parameters": {
+        "teff": 5752,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "experimental_fe_background": null,
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17169,
+          "sha256": "d4da32f9a5ee7efda08bc32a3a44e13b6ad3aae0dfed1d7710f532729391f5c2"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16161,
+          "sha256": "0510485a6c8a19ad0df216ef3c69a11c01fcf2da4d92933497a6771c2db0ae84"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09755284573201885,
+        "density_top_kg_m3": 1.0016372155558896e-06,
+        "effective_length_m": 97393.39175599508,
+        "column_contract": {
+          "schema": "codex.bride_experimental_column/1",
+          "method": "density_integral_log_native_top",
+          "top_anchor_kg_m2": 0.09755284573201885,
+          "weights": [
+            0.008,
+            0.8679999999999994,
+            0.12400000000000055
+          ],
+          "source_indices": [
+            3,
+            1,
+            0
+          ],
+          "source_nodes": [
+            {
+              "point": [
+                5750,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15234309999999998
+            },
+            {
+              "point": [
+                5750,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09156734
+            },
+            {
+              "point": [
+                6000,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15773140000000002
+            },
+            {
+              "point": [
+                6000,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09383928999999999
+            }
+          ],
+          "interpretation": "Explicit diagnostic interpolant, not native/equilibrium column. Native mass-definition basis; top anchor interpolated, no fitted scale. Zero mass closure is construction, not validation."
+        },
+        "interpretation": "Experimental density integral with source-log-native top anchor; uniform top opacity/source, no fitted thickness or external illumination, not exact producer proof"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 70.48428225051866,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.017362582333205128
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 60.8144918966406,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.013471094139772277
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 47.657519486099005,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.011145434729515857
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 70.4797215664357,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.007951387428996563
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 60.80771715465325,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.007154059989199952
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 47.66870351027048,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.006698057034883102
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "solar5752_bound_Fe_sampled_profiles.csv",
+        "bytes": 300209,
+        "sha256": "1395fc0139d7adac2388596944041d8b4c9f964005664d12c01cfff58c20f0a4"
+      }
+    },
+    {
+      "name": "solar5762_bound_Fe_sampled",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7116,
+        "sha256": "4ebff798b7a53fafce8f28ca4f70e84d9df3f8fe25790f464e5153c3d04326a4"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "e5b49010c96995a934bbf7fbf90abc97eb8a6b57e0760568c64e74980419f71e"
+      },
+      "parameters": {
+        "teff": 5762,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "experimental_fe_background": null,
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17339,
+          "sha256": "048dd60705e50c4f755e7818a29430c4daa309746e03b249a1143e56e8eded14"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16328,
+          "sha256": "eb1e6eb3a63b4d4f6479d932d4e444c74902db1c103ad522e397a68e0d14e6a0"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09764852945778675,
+        "density_top_kg_m3": 1.0007228988184774e-06,
+        "effective_length_m": 97577.99044378554,
+        "column_contract": {
+          "schema": "codex.bride_experimental_column/1",
+          "method": "density_integral_log_native_top",
+          "top_anchor_kg_m2": 0.09764852945778675,
+          "weights": [
+            0.048,
+            0.8279999999999994,
+            0.12400000000000055
+          ],
+          "source_indices": [
+            3,
+            1,
+            0
+          ],
+          "source_nodes": [
+            {
+              "point": [
+                5750,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15234309999999998
+            },
+            {
+              "point": [
+                5750,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09156734
+            },
+            {
+              "point": [
+                6000,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15773140000000002
+            },
+            {
+              "point": [
+                6000,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09383928999999999
+            }
+          ],
+          "interpretation": "Explicit diagnostic interpolant, not native/equilibrium column. Native mass-definition basis; top anchor interpolated, no fitted scale. Zero mass closure is construction, not validation."
+        },
+        "interpretation": "Experimental density integral with source-log-native top anchor; uniform top opacity/source, no fitted thickness or external illumination, not exact producer proof"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.22685126357653,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.0170704681406796
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 61.48265904709626,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.013097289619156467
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.214068766251074,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.010795211967386104
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.2222455062949,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.007132766990895142
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 61.475817222964146,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.006316929559235079
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.22536336855495,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.006024797674796834
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "solar5762_bound_Fe_sampled_profiles.csv",
+        "bytes": 300209,
+        "sha256": "7bc6ad47f7a194fe8d40d9498e50a56198da852a743fe87a7a8433a69ad6cb76"
+      }
+    },
+    {
+      "name": "solar5782_bound_Fe_sampled",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7124,
+        "sha256": "0e4fec064df56a41f5475b9ee7b852907073e844fbab7ca2c8b3ed28e2b0bce9"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "19405789a2293439652ebb8e46a454a463261f913813b14d7e8aefd4ce370813"
+      },
+      "parameters": {
+        "teff": 5782,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "experimental_fe_background": null,
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 16973,
+          "sha256": "3e60b71e7bd53a005c3b4e533c38682669a1a98a030c95f1ed869d999ce2e620"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 15963,
+          "sha256": "906635351a868de10702b197fc2b967cc43727ed33be2f092a2fbf167e274882"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09784017855262966,
+        "density_top_kg_m3": 9.98896768407788e-07,
+        "effective_length_m": 97948.23814335091,
+        "column_contract": {
+          "schema": "codex.bride_experimental_column/1",
+          "method": "density_integral_log_native_top",
+          "top_anchor_kg_m2": 0.09784017855262966,
+          "weights": [
+            0.128,
+            0.7479999999999994,
+            0.12400000000000055
+          ],
+          "source_indices": [
+            3,
+            1,
+            0
+          ],
+          "source_nodes": [
+            {
+              "point": [
+                5750,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15234309999999998
+            },
+            {
+              "point": [
+                5750,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09156734
+            },
+            {
+              "point": [
+                6000,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15773140000000002
+            },
+            {
+              "point": [
+                6000,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09383928999999999
+            }
+          ],
+          "interpretation": "Explicit diagnostic interpolant, not native/equilibrium column. Native mass-definition basis; top anchor interpolated, no fitted scale. Zero mass closure is construction, not validation."
+        },
+        "interpretation": "Experimental density integral with source-log-native top anchor; uniform top opacity/source, no fitted thickness or external illumination, not exact producer proof"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.71974019901408,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.016732701785455238
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.82738349778512,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.012607911369653849
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 49.33575441830907,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.01031859123548052
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.71504437976162,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.005904763851252487
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.82040764242172,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.004961797726903356
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 49.347269917085505,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.004945626707260186
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "solar5782_bound_Fe_sampled_profiles.csv",
+        "bytes": 300209,
+        "sha256": "ebb8d544cf5d5db035041b58cb2e893a3347076b504783ad4e0ffe2f546a160b"
+      }
+    },
+    {
+      "name": "solar5792_bound_Fe_sampled",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7115,
+        "sha256": "389cf65103063ff38f3bdc9944c636c97423308bf993d279cdc01ecd521f2f95"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "c58acc45ec12c6b1af4b8202ea17f7446a975f7213beba524030eecba49099ae"
+      },
+      "parameters": {
+        "teff": 5792,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "experimental_fe_background": null,
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17355,
+          "sha256": "3f637c0f071b496ca14e41ba0bfc02415a564e9b556c58a010607ecbe837a201"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16351,
+          "sha256": "33f8af5d0361e7f539062c0434ea74d8aee804d481264bcb73570c8c706751a3"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      },
+      "finite_column_top_cap": {
+        "adapter": {
+          "name": "bride_top_cap.py",
+          "bytes": 7676,
+          "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+        },
+        "column_mass_top_kg_m2": 0.09793614410589942,
+        "density_top_kg_m3": 9.979849532115092e-07,
+        "effective_length_m": 98133.88848272865,
+        "column_contract": {
+          "schema": "codex.bride_experimental_column/1",
+          "method": "density_integral_log_native_top",
+          "top_anchor_kg_m2": 0.09793614410589942,
+          "weights": [
+            0.168,
+            0.7079999999999994,
+            0.12400000000000055
+          ],
+          "source_indices": [
+            3,
+            1,
+            0
+          ],
+          "source_nodes": [
+            {
+              "point": [
+                5750,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15234309999999998
+            },
+            {
+              "point": [
+                5750,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09156734
+            },
+            {
+              "point": [
+                6000,
+                4.0
+              ],
+              "top_column_kg_m2": 0.15773140000000002
+            },
+            {
+              "point": [
+                6000,
+                4.5
+              ],
+              "top_column_kg_m2": 0.09383928999999999
+            }
+          ],
+          "interpretation": "Explicit diagnostic interpolant, not native/equilibrium column. Native mass-definition basis; top anchor interpolated, no fitted scale. Zero mass closure is construction, not validation."
+        },
+        "interpretation": "Experimental density integral with source-log-native top anchor; uniform top opacity/source, no fitted thickness or external illumination, not exact producer proof"
+      },
+      "variants": [
+        {
+          "name": "canonical_solar_broadening",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 73.47004844747947,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.01669378773195792
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 63.503939021242864,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.012504872922093143
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 49.90090318734588,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.01020536964268922
+            }
+          ]
+        },
+        {
+          "name": "plus_canonical_solar_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 73.46530764589588,
+              "observed_area_mA": 77.55650815358007,
+              "unweighted_RMS": 0.005591320840261266
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 63.49689622651194,
+              "observed_area_mA": 67.20039135548947,
+              "unweighted_RMS": 0.0045467454968432745
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 49.912528987907876,
+              "observed_area_mA": 53.794303530145754,
+              "unweighted_RMS": 0.004608843599510759
+            }
+          ]
+        }
+      ],
+      "profiles": {
+        "name": "solar5792_bound_Fe_sampled_profiles.csv",
+        "bytes": 300209,
+        "sha256": "77d25d9190960d891d5a3a77f2d446de96f67c62f938a594898039ae9bf83d3c"
+      }
+    }
+  ],
+  "figure": {
+    "name": "kitt_peak_fe_controls.png",
+    "bytes": 255312,
+    "sha256": "030701f0ad3da713dea06dfdeb6b4510c32ea144d884ae132cc10879be24b19c"
+  },
+  "gravity_figure": {
+    "name": "kitt_peak_fe_controls_gravity.png",
+    "bytes": 281255,
+    "sha256": "272c60adef914e0631cbaf2f588054f6cda7e49349189e9da5920a54c80e2ba4"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "codex.bride_cn_interface_plan/1",
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "baseline": "data/results/rya1281/native_molecules_v1/run/report.json",
+  "families": ["12C14N_750-800.bsyn", "13C14N_750-800.bsyn", "12C15N_750-800.bsyn"],
+  "scope": "Read-only source contract and isotope serialization audit. Project held native CN partition polynomial onto the unchanged 56 model temperatures. This is source-semantics replay, not native runtime validation, independent primary qualification, molecular pressure calculation, opacity insertion or a new spectrum.",
+  "output_key": "experiments.bride_cn_interface"
+}
