@@ -1,3 +1,5 @@
+Latest continuation: [n4 multireference and orbital-relaxation work](mr_continuation_v5.md).
+
 # RYA-1354 — O I atomic-structure pilot checkpoint
 
 **Status: exploratory candidates and benchmark infrastructure; scientific HOLD.**
