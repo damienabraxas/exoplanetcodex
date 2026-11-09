@@ -60,6 +60,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -313,6 +314,9 @@ def main() -> None:
     m.add_argument('--coverage', action='store_true',
                    help='RYA-1233: print the definition-of-done table (every band x holding x '
                         'ion x grade x treatment: PUBLISHED / HELD / NOT_RUN) and exit.')
+    m.add_argument('--asplund-mu1', action='store_true',
+                   help='RYA-1350: measure the element\'s Asplund line set the way Asplund does '
+                        '(disk-centre intensity, mu=1, Liege atlas) and record it for --coverage.')
     m.add_argument('--jobs', type=int, default=1, metavar='N',
                    help='RYA-1233: run up to N matrix cells in parallel (planning stays '
                         'serial; only execution fans out). Default 1.')
@@ -384,6 +388,15 @@ def main() -> None:
             rep = element_prepare.prepare(star_id, args.element)
             print(element_prepare.render(rep))
         sys.exit(0 if rep["ready"] else 3)
+
+    if args.element and args.asplund_mu1:
+        import subprocess
+        interp, ispec = _resolve_engine_env(args)
+        env = {**os.environ, 'CODEX_SYNTH_CACHE': '0'}
+        if ispec:
+            env['ISPEC_DIR'] = ispec
+        sys.exit(subprocess.run([interp or sys.executable, str(Path(__file__).parent / 'scripts/asplund_mu1.py'),
+                                 args.element.split()[0]], env=env).returncode)
 
     if args.element and args.coverage:
         from pipeline import coverage_report

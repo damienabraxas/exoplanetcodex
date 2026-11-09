@@ -429,6 +429,7 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
             "checklist": checklist(rows),
             "disagreements": disagreements(products),
             "asplund": asplund_comparison(products, symbol),
+            "asplund_mu1": _asplund_mu1(rm.REPORT_DIR / "budget" / f"{star}_{symbol}"),
             "rows": rows}
 
 
@@ -449,6 +450,12 @@ ASPLUND2021 = {
 #: An offset inside that is expected and owes no work -- never re-measure it at mu=1
 #: (Ryan 2026-11-09). Beyond it, the flux geometry does not explain it: look at the fit.
 GEOMETRY_DEX = 0.20
+
+
+def _asplund_mu1(budget_dir: Path) -> dict | None:
+    """The element's Asplund line set measured as Asplund does (scripts/asplund_mu1.py)."""
+    f = budget_dir / "asplund_mu1.json"
+    return json.loads(f.read_text()) if f.exists() else None
 
 
 def asplund_comparison(products: list[dict], symbol: str) -> dict | None:
@@ -522,6 +529,16 @@ def render(cov: dict) -> str:
         for a in asp["rows"]:
             lines.append(f"    {a['treatment'][:32]:32} {a['median_A']:.3f} ({a['offset_dex']:+.3f}, "
                          f"n={a['n_products']})  {a['reading']}")
+        mu = cov.get("asplund_mu1")
+        if mu and mu.get("mean_A_mu1") is not None:
+            lines.append(f"    [x] measured as Asplund does (mu=1, Liege): {mu['mean_A_mu1']:.3f} "
+                         f"({mu['mean_A_mu1'] - asp['asplund']:+.3f}) on {mu['n_lines']} lines; "
+                         f"per line vs A21 1D MARCS {mu['mean_minus_A21_marcs_lte']:+.3f} "
+                         f"(n={mu['n_paired']})" if mu.get("mean_minus_A21_marcs_lte") is not None
+                         else f"    [x] measured as Asplund does (mu=1, Liege): {mu['mean_A_mu1']:.3f}")
+        else:
+            lines.append("    [ ] measured as Asplund does (mu=1, Liege): owed -- "
+                         "run_pipeline.py --element <El> --asplund-mu1")
     for r in sorted(cov["rows"], key=lambda r: (BAND_ORDER.index(r["band"]) if r["band"] in BAND_ORDER else 99,
                                                 r["holding"], r["ion"], r["grade"], r["treatment"])):
         val = (f"{r['A']:.3f} +/- {r['sigma']:.3f} (n={r['n_lines']})" if r["A"] is not None

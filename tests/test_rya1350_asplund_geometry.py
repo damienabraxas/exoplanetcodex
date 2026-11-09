@@ -26,3 +26,16 @@ def test_an_offset_beyond_the_geometry_points_at_the_fit():
 def test_no_line_set_no_comparison():
     assert cr.asplund_comparison([_p("1D-LTE", 7.5, "GRADED")], "Si") is None
     assert cr.asplund_comparison([_p("1D-LTE", 7.5)], "Xx") is None
+
+
+def test_the_checklist_shows_the_mu1_measurement_or_owes_it(tmp_path):
+    import json
+    asp = cr.asplund_comparison([_p("1D-LTE", 7.52)], "Si")
+    cov = {"star": "solar", "element": "Si", "feed_version": "x", "counts": {}, "done": True,
+           "checklist": [], "disagreements": [], "rows": [], "asplund": asp}
+    assert "owed -- run_pipeline.py --element <El> --asplund-mu1" in cr.render(cov)
+    (tmp_path / "asplund_mu1.json").write_text(json.dumps(
+        {"mean_A_mu1": 7.50, "n_lines": 9, "mean_minus_A21_marcs_lte": 0.01, "n_paired": 9}))
+    cov["asplund_mu1"] = cr._asplund_mu1(tmp_path)
+    out = cr.render(cov)
+    assert "[x] measured as Asplund does (mu=1, Liege): 7.500 (-0.010) on 9 lines" in out

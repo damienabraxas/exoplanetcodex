@@ -1,0 +1,115 @@
+{
+ "element": "Si",
+ "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
+ "treatment": "1D-LTE",
+ "n_lines": 10,
+ "mean_A_mu1": 7.517,
+ "mean_minus_A21_marcs_lte": 0.047,
+ "n_paired": 10,
+ "lines": [
+  {
+   "species": "Si II",
+   "wavelength_air_A": 6371.371,
+   "A_mu1": 7.465,
+   "in_aggregate": true,
+   "red_chi2": 81.724,
+   "A21_marcs_lte": 7.473,
+   "A21_3d": 7.539
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 5645.613,
+   "A_mu1": 7.486,
+   "in_aggregate": true,
+   "red_chi2": 142.559,
+   "A21_marcs_lte": 7.451,
+   "A21_3d": 7.497
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 5684.484,
+   "A_mu1": 7.482,
+   "in_aggregate": true,
+   "red_chi2": 65.485,
+   "A21_marcs_lte": 7.388,
+   "A21_3d": 7.424
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 5690.425,
+   "A_mu1": 7.492,
+   "in_aggregate": true,
+   "red_chi2": 69.04,
+   "A21_marcs_lte": 7.442,
+   "A21_3d": 7.5
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 5701.104,
+   "A_mu1": 7.556,
+   "in_aggregate": true,
+   "red_chi2": 98.581,
+   "A21_marcs_lte": 7.433,
+   "A21_3d": 7.481
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 5772.146,
+   "A_mu1": 7.521,
+   "in_aggregate": true,
+   "red_chi2": 64.1,
+   "A21_marcs_lte": 7.493,
+   "A21_3d": 7.563
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 5793.073,
+   "A_mu1": 7.518,
+   "in_aggregate": true,
+   "red_chi2": 72.05,
+   "A21_marcs_lte": 7.538,
+   "A21_3d": 7.591
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 6741.628,
+   "A_mu1": 7.557,
+   "in_aggregate": true,
+   "red_chi2": 62.085,
+   "A21_marcs_lte": 7.569,
+   "A21_3d": 7.604
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 7034.901,
+   "A_mu1": 7.577,
+   "in_aggregate": true,
+   "red_chi2": 41.378,
+   "A21_marcs_lte": 7.47,
+   "A21_3d": 7.532
+  },
+  {
+   "species": "Si I",
+   "wavelength_air_A": 7226.208,
+   "A_mu1": 7.519,
+   "in_aggregate": true,
+   "red_chi2": 51.601,
+   "A21_marcs_lte": 7.444,
+   "A21_3d": 7.498
+  }
+ ],
+ "cells": [
+  {
+   "ion": "I",
+   "band": "VIS"
+  },
+  {
+   "ion": "I",
+   "band": "red-optical"
+  },
+  {
+   "ion": "II",
+   "band": "VIS"
+  }
+ ]
+}

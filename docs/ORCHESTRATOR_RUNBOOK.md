@@ -317,7 +317,13 @@ Sect. 2.1 and nothing else:
 prints `ASPLUND 2021`, our Asplund line-set products per treatment against A21 Table 2. An
 offset within 0.2 dex reads "expected: nothing owed, do not re-measure at mu=1". Publish as
 measured; our targets are point sources, so flux is the right geometry. Only an offset beyond
-0.2 dex points at the fit. The history below is how it was settled; do not re-run it.
+0.2 dex points at the fit.
+
+**Every element is also measured the way Asplund measures it:** `run_pipeline.py --element El
+--asplund-mu1` (`scripts/asplund_mu1.py`) runs the Asplund set's production 1D-LTE cells on the
+Liege disk-centre atlas at mu=1 (every band Liege covers) and writes
+`budget/solar_<El>/asplund_mu1.json`; `--coverage` prints it beside the flux comparison, or
+marks it owed. `scripts/diag_flux_vs_mu1.py` below is the Ca one-off it replaces.
 
 Asplund, Amarsi & Grevesse 2021 (and Amarsi's per-line work) fit the **disk-centre
 intensity** (Liege/Jungfraujoch atlas, mu=1). Every spectrum we fit (HARPS, Kitt Peak, IAG)
