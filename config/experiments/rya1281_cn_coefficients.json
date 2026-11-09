@@ -1,0 +1,11 @@
+{
+  "schema": "codex.bride_cn_coefficients_plan/1",
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "cases": ["off", "CN", "all"],
+  "selection": "For each of the three predeclared CN isotope files, select the source row nearest AIR7771.944A, tie by source order, and export all56depths. No source rows or spectral inputs altered.",
+  "target_air_A": 7771.944,
+  "compile_seconds": 90,
+  "seconds_per_program": 180,
+  "comparison_float32_eps_multiple": 128,
+  "scope": "Reporting-only native private build. Require byte-identical numeric spectra for original/reporting off,CN,all and original accepted spectra before coefficient interpretation. Compare source-equation populations, partition, stimulated emission and pre-Voigt amplitude on identical exported state, not an independent physical opacity/EOS benchmark. No Bride insertion, new abundance or source-primary admission."
+}

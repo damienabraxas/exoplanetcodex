@@ -1,0 +1,62 @@
+{
+  "schema": "codex.bride_H_kitt_orch_plan/1",
+  "sources": [
+    {
+      "label": "coupled_model_mass_H",
+      "kind": "coupled",
+      "case": "model_mass_H",
+      "path": "data/results/rya1281/H_nlte_pair_v2/model_mass_H"
+    },
+    {
+      "label": "coupled_native_network_H",
+      "kind": "coupled",
+      "case": "native_network_H",
+      "path": "data/results/rya1281/H_nlte_pair_v2/native_network_H"
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "kind": "fixed",
+      "case": "model_mass_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/model_anchor/model_mass_H"
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "kind": "fixed",
+      "case": "native_network_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/model_anchor/native_network_H"
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "kind": "fixed",
+      "case": "model_mass_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/native_anchor/model_mass_H"
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "kind": "fixed",
+      "case": "native_network_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/native_anchor/native_network_H"
+    }
+  ],
+  "baseline": "coupled_model_mass_H",
+  "orch_plan": "config/experiments/rya1281_current_orch.json",
+  "comparison": "data/results/rya1281/solar_bound_v1/kitt_peak/report.json",
+  "iag_receipt": "data/results/rya1281/feii_profile_source_v1/profile/report.json",
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "half_width_A": 0.5,
+  "references": [
+    "synthesis",
+    "iag"
+  ],
+  "RVs": [
+    "no_gravity",
+    "plus_gravity"
+  ],
+  "plot_rv": "plus_gravity",
+  "plot_reference": "iag",
+  "scope": "Pinned RYA1315 ORCH local-continuum replay on corrected prenormalized Kitt Peak AIR holding and six bare-background O diagnostic spectra. Fixed existing broadening and both existing RV controls, no optimization. Record shipped observation, common baseline continuum and per-model estimator separately. No new RT, abundance, continuum/default/product adoption, full ORCH execution or missing Fe/CN opacity substitution."
+}

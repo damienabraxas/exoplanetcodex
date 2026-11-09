@@ -1,0 +1,235 @@
+{
+  "schema": "rya1278-1281.merge-validation.v1",
+  "base_sha": "078cf7dedfa961452c8bd9af43c4bf83c5463fdf",
+  "published_heads": {
+    "597": "4635c7421a7dee8671ffefe05d771c68da1cd24e",
+    "598_reviewed_checkpoint": "319819b30b85795ea1e1e08cd9b99037e22530f9"
+  },
+  "runtime_integration_sha": "8a0cd4fa",
+  "runs": {
+    "main": {
+      "xml_sha256": "b3405f7f82fec4f58ffb54d1f9960db7067142a5627b6088b7b8744461175068",
+      "counts": {
+        "passed": 4697,
+        "skipped": 51,
+        "failure": 43,
+        "xfailed": 7
+      }
+    },
+    "initial_integration": {
+      "xml_sha256": "d7fcb73b7ee029ef2945d559eb5ea99c9b241ca918d430c2eb12f2c88e87ca5f",
+      "counts": {
+        "skipped": 74,
+        "passed": 4873,
+        "failure": 122,
+        "xfailed": 7,
+        "error": 4
+      }
+    },
+    "corrected_affected": {
+      "xml_sha256": "1b0e9dfe654225681367652fd6fdd29bf8e0718e791176b2477121f6214e2de1",
+      "counts": {
+        "skipped": 68,
+        "passed": 391,
+        "failure": 3
+      }
+    },
+    "extra_catalog": {
+      "xml_sha256": "26c844af61b111efe3a52939271143b7fddde442329104fbd3216aaba46d0a0c",
+      "counts": {
+        "passed": 77
+      }
+    },
+    "compiled_mac": {
+      "xml_sha256": "ebb33712f9bd92d769b80e25cb78a4d81c110e7f052e470d85cc0ac03f698586",
+      "counts": {
+        "passed": 398
+      }
+    },
+    "linux_native": {
+      "xml_sha256": "69450d15bdcf659596251b3bd2e12bec89a5695c416ca3fd38ff2c00d5bc36ba",
+      "counts": {
+        "passed": 137,
+        "skipped": 11
+      }
+    },
+    "linux_vendor": {
+      "xml_sha256": "d800170a210b89a79e57e9426a2bdaf6f50a1794bea5fd641a514ea269bb7a71",
+      "counts": {
+        "passed": 11
+      }
+    }
+  },
+  "comparison_method": "Full baseline and initial integrated project suites, then complete affected-file and catalog reruns. Latest executed disposition replaces same test ID; this is not a second fresh full-suite run.",
+  "effective_counts": {
+    "skipped": 114,
+    "passed": 4916,
+    "failure": 43,
+    "xfailed": 7
+  },
+  "new_failures": [],
+  "removed_failures": [],
+  "common_failures": [
+    "tests.test_al_intake_rya1132::test_manifest_is_reproducible_and_never_derives_abundance",
+    "tests.test_atomic_intake_rya1129::test_builds_cno_atomic_manifests_without_abundances",
+    "tests.test_atomic_intake_rya1129::test_ledger_is_live_registry_driven",
+    "tests.test_blend_fit_rya761::test_kitt_peak_resolution_path_matches_pre_refactor_values",
+    "tests.test_blend_fit_rya761::test_single_component_matches_pre_refactor_values_exactly[d005_s020-0.05-0.02]",
+    "tests.test_blend_fit_rya761::test_single_component_matches_pre_refactor_values_exactly[d030_s030-0.3-0.03]",
+    "tests.test_blend_fit_rya761::test_single_component_matches_pre_refactor_values_exactly[d070_s045-0.7-0.045]",
+    "tests.test_chiappino_digest_rya1059::test_reproducible",
+    "tests.test_data_stewardship::test_no_untracked_violations",
+    "tests.test_data_stewardship::test_tracked_violations_keep_ci_green",
+    "tests.test_fe_ir_band_inventory_rya762::test_the_gf_gate_on_this_band_is_CLEARED",
+    "tests.test_fe_lab_gf_ingest_rya945::test_the_row_population_and_keys_are_untouched",
+    "tests.test_gf_column_honesty_rya825::test_the_guard_catches_COVERAGE_GROWTH_not_just_drift",
+    "tests.test_gf_column_honesty_rya825::test_the_live_table_is_current_with_todays_canonical",
+    "tests.test_gf_column_honesty_rya825::test_the_reported_gf_is_the_resolver_value_wherever_it_claims_to_be",
+    "tests.test_line_key_guard_rya1037::test_the_real_tree_passes",
+    "tests.test_line_set_identity_rya1127::test_check_mode_does_not_WRITE_the_artifact_it_verifies",
+    "tests.test_line_set_identity_rya1127::test_the_migration_audit_reports_no_unintended_identity_change",
+    "tests.test_nearuv_molecular_rya1207::test_molecules_are_on_for_the_near_uv_and_off_for_every_other_band",
+    "tests.test_nonfe_wire_rya456::test_curation_faithful_lineset_identity",
+    "tests.test_qa_al_intake_rya1141::test_every_crires_holding_is_dropped_by_the_coverage_module",
+    "tests.test_redward_gf_extension_rya834::test_every_line_above_the_last_lab_measurement_stays_single_source",
+    "tests.test_redward_gf_extension_rya834::test_no_band_row_adopts_nist_as_its_gf",
+    "tests.test_redward_gf_extension_rya834::test_the_band_is_populated_not_merely_spanned",
+    "tests.test_reference_census_gate_rya1173::test_one_of_the_six_used_lines_is_absent_from_codex",
+    "tests.test_release_roadmap_rya1066::test_release_progress_is_derived_from_current_publishable_products",
+    "tests.test_result_generators_rya686::test_live_repo_is_clean",
+    "tests.test_run_bug_ledger_rya926::test_schema_and_rows_are_well_formed",
+    "tests.test_rya1235_post_run_report::test_every_canonical_target_routes_to_exactly_one_dossier",
+    "tests.test_rya1349_completeness::test_ti_owes_no_cell_and_ca_owes_exactly_its_engine_a_cells",
+    "tests.test_rya933_kittpeak_holdings_addressable::test_the_corrected_1984_holding_refuses_uncorrected_windows",
+    "tests.test_rya940_kp1984_telluric::test_corrected_products_quarantine_rather_than_force",
+    "tests.test_sirius_gate_rya924::test_a_REAL_directory_is_accepted",
+    "tests.test_sirius_gate_rya924::test_a_missing_directory_is_refused_distinctly",
+    "tests.test_sr2_nlte_rya421::test_grid_loads_clean_no_placeholder",
+    "tests.test_telluric_close_rya1191::test_the_lift_is_granted_on_evidence_and_still_refuses_the_real_gap",
+    "tests.test_treatment_axes_rya906::test_derived_route_agrees_with_the_handler_on_every_committed_cell",
+    "tests.test_treatment_axes_rya906::test_the_1D_LTE_label_is_genuinely_ambiguous_and_that_is_why_route_is_not_read_from_it",
+    "tests.test_unsaturated_recovery_rya465::test_na_unlocks_internally_consistent_through_firewall",
+    "tests.test_uv_completeness_audit_rya1061::test_audit_reproduces_committed_outputs",
+    "tests.test_vac_air_single_source_rya501::test_formula_defined_in_exactly_one_place",
+    "tests.test_vis_fe_uncertainty_audit_rya1112::test_F1_the_stellar_parameter_budget_is_read_by_nothing_in_the_product_path",
+    "tests.test_vis_fe_uncertainty_audit_rya1112::test_the_audit_reproduces_and_every_dig_in_product_has_a_named_cause"
+  ],
+  "initial_added_failures": [
+    "tests.test_al_grade_verification_rya1134::test_holding_and_engine_denominators_remain_explicit",
+    "tests.test_bride_fe_pressure_rya1281::test_actual_pressure_context_cache_and_live_neutral_refusal",
+    "tests.test_bride_fe_pressure_rya1281::test_depth_width_kernel_equals_independent_single_depths_and_refuses_shape",
+    "tests.test_bride_fe_pressure_rya1281::test_pressure_units_density_and_temperature_scaling_and_native_oracle",
+    "tests.test_bride_fe_stark_rya1281::test_actual_stark_none_identity_and_changed_ne_refusal",
+    "tests.test_bride_fe_stark_rya1281::test_native_stark_cases_and_refusals",
+    "tests.test_bride_feii_control_rya1281::test_empty_identity_feii_stage_and_thermal_emission_with_real_backend",
+    "tests.test_bride_feii_control_rya1281::test_invalid_or_outside_line_refuses",
+    "tests.test_bride_feii_profile_rya1281::test_ionic_stark_modes_zero_density_and_source_temperature_scaling",
+    "tests.test_bride_h2_colliders_rya1281::test_actual_h2_off_identity_and_partial_intervention",
+    "tests.test_bride_h2_colliders_rya1281::test_h2_cache_refuses_changed_hminus_even_if_atomic_populations_unchanged",
+    "tests.test_bride_iteration_trace_rya1281::test_recording_real_native_backend_preserves_analytic_fixture_arrays[False]",
+    "tests.test_bride_iteration_trace_rya1281::test_recording_real_native_backend_preserves_analytic_fixture_arrays[True]",
+    "tests.test_bride_lte_screen_rya1281::test_independent_saha_matches_native_and_conserves_species",
+    "tests.test_bride_lte_screen_rya1281::test_partition_domain_is_not_extrapolated",
+    "tests.test_bride_opacity_binding_rya1281::test_added_column_and_depth_cut_refused",
+    "tests.test_bride_opacity_binding_rya1281::test_certificate_load_and_integrity_refusals[array]",
+    "tests.test_bride_opacity_binding_rya1281::test_certificate_load_and_integrity_refusals[binding_digest]",
+    "tests.test_bride_opacity_binding_rya1281::test_certificate_load_and_integrity_refusals[provider_admission]",
+    "tests.test_bride_opacity_binding_rya1281::test_certificate_load_and_integrity_refusals[source_report]",
+    "tests.test_bride_opacity_binding_rya1281::test_exact_binding_and_explicit_missing_column",
+    "tests.test_bride_opacity_binding_rya1281::test_one_ulp_input_change_refused[abundances_dex]",
+    "tests.test_bride_opacity_binding_rya1281::test_one_ulp_input_change_refused[electron_pressure_Pa]",
+    "tests.test_bride_opacity_binding_rya1281::test_one_ulp_input_change_refused[height_m]",
+    "tests.test_bride_opacity_binding_rya1281::test_one_ulp_input_change_refused[logtau_500]",
+    "tests.test_bride_opacity_binding_rya1281::test_one_ulp_input_change_refused[logtau_ross]",
+    "tests.test_bride_opacity_binding_rya1281::test_one_ulp_input_change_refused[rho_kg_m3]",
+    "tests.test_bride_opacity_binding_rya1281::test_one_ulp_input_change_refused[temperature_K]",
+    "tests.test_bride_opacity_binding_rya1281::test_scalar_identity_change_refused[hydrogen_mass_fraction]",
+    "tests.test_bride_opacity_binding_rya1281::test_scalar_identity_change_refused[logg_cgs]",
+    "tests.test_bride_opacity_binding_rya1281::test_scalar_identity_change_refused[vturb_m_s]",
+    "tests.test_bride_rosseland_column_rya1281::test_actual_cap_uses_top_column_density_not_deeper_mass_profile",
+    "tests.test_bride_solar_control_rya1281::test_actual_composition_and_native_interpolated_cap_guards",
+    "tests.test_bride_solar_control_rya1281::test_actual_native_bound_provider_identity_and_deepcopy",
+    "tests.test_bride_solar_control_rya1281::test_actual_solar_explicit_cap_and_runtime_mismatch_refusal",
+    "tests.test_bride_thermal_sweep_rya1281::test_covered_reconstructions_and_hotter_refusal",
+    "tests.test_bride_trace_fe_lines_rya1281::test_bad_line_data_and_duplicate_or_outside_support_refuse",
+    "tests.test_bride_trace_fe_lines_rya1281::test_empty_delegate_identity_and_real_mixed_kirchhoff_scattering",
+    "tests.test_bride_trace_fe_lines_rya1281::test_packet_revalidated_against_real_source_not_just_declared_hashes",
+    "tests.test_bride_xi_sweep_rya1281::test_fresh_coefficient_context_uses_xi_and_refuses_live_change",
+    "tests.test_bride_xi_sweep_rya1281::test_reconstructed_xi_requires_fresh_binding",
+    "tests.test_iag_vis_excluded_rya1310::test_no_iag_vis_cell_and_the_other_iag_bands_stay",
+    "tests.test_instrument_catalog::test_instrument_catalog_contract",
+    "tests.test_rya1072_ambiguous_telluric_requirement::test_no_gate_verdict_anywhere_claims_telluric_required_no_for_an_ambiguous_row",
+    "tests.test_rya1078_one_reading_of_ambiguity::test_only_the_known_rows_change_at_the_gate",
+    "tests.test_rya1222_run_matrix::test_a_band_that_permits_both_routes_gets_a_cell_for_each",
+    "tests.test_rya1222_run_matrix::test_a_corrected_holding_is_not_refused_on_a_stale_label",
+    "tests.test_rya1222_run_matrix::test_a_deck_independent_step_is_built_once_per_run",
+    "tests.test_rya1222_run_matrix::test_a_dry_run_executes_nothing",
+    "tests.test_rya1222_run_matrix::test_a_holding_with_no_reader_owns_no_cell_and_is_named",
+    "tests.test_rya1222_run_matrix::test_a_moved_input_re_runs_the_cell",
+    "tests.test_rya1222_run_matrix::test_a_reused_step_is_only_reused_after_it_SUCCEEDED",
+    "tests.test_rya1222_run_matrix::test_a_successful_run_that_published_nothing_is_not_DONE_but_is_recorded",
+    "tests.test_rya1222_run_matrix::test_an_element_without_its_literature_is_held_not_measured",
+    "tests.test_rya1222_run_matrix::test_an_empty_pool_refusal_is_held_not_failed",
+    "tests.test_rya1222_run_matrix::test_an_unchanged_unpublished_build_is_not_redone",
+    "tests.test_rya1222_run_matrix::test_every_corrected_holding_is_kept",
+    "tests.test_rya1222_run_matrix::test_every_holding_on_the_axis_is_a_registered_holding_of_that_star",
+    "tests.test_rya1222_run_matrix::test_harps_vis_is_on_the_matrix",
+    "tests.test_rya1222_run_matrix::test_live_progress_report_has_terminal_percent",
+    "tests.test_rya1222_run_matrix::test_no_cell_is_blocked_by_a_band_edge_disagreement",
+    "tests.test_rya1222_run_matrix::test_no_cell_is_silent",
+    "tests.test_rya1222_run_matrix::test_no_cell_measures_the_ungraded_pool",
+    "tests.test_rya1222_run_matrix::test_no_raw_ground_holding_is_ever_on_the_matrix",
+    "tests.test_rya1222_run_matrix::test_one_failing_cell_does_not_stop_the_matrix",
+    "tests.test_rya1222_run_matrix::test_published_line_sets_become_synthesis_pools",
+    "tests.test_rya1222_run_matrix::test_render_is_ascii_only",
+    "tests.test_rya1222_run_matrix::test_resume_is_exactly_the_cells_whose_work_does_not_exist",
+    "tests.test_rya1222_run_matrix::test_the_counts_account_for_every_cell",
+    "tests.test_rya1222_run_matrix::test_the_loop_killer_a_second_run_does_zero_work",
+    "tests.test_rya1222_run_matrix::test_the_mean3d_decks_are_a_mandatory_pair",
+    "tests.test_rya1222_run_matrix::test_the_report_is_written_and_reloadable",
+    "tests.test_rya1222_run_matrix::test_the_window_is_clipped_to_what_the_holding_serves",
+    "tests.test_rya1233_coverage_report::test_a_gerber_cell_without_a_deck_is_held_not_owed",
+    "tests.test_rya1233_coverage_report::test_done_needs_a_build_record_on_todays_inputs",
+    "tests.test_rya1233_coverage_report::test_every_published_si_product_is_a_published_cell",
+    "tests.test_rya1233_coverage_report::test_si_owes_nothing_unrun_and_budget_holds_carry_their_reason",
+    "tests.test_rya1349_completeness::test_a_dry_run_never_becomes_the_elements_report",
+    "tests.test_rya1349_completeness::test_deep_cells_without_a_product_are_held_by_policy",
+    "tests.test_solar_cited_nlte_rya1250::test_declared_but_ungraded_reference_selection_remains_visible",
+    "tests.test_telluric_applied_rya806::test_every_holding_carries_a_legal_telluric_applied_value",
+    "tests.test_telluric_applied_rya806::test_no_IR_holding_is_blank_or_unknown",
+    "tests.test_telluric_applied_rya806::test_the_ir_holdings_are_actually_covered"
+  ],
+  "additional_effective_passes": 219,
+  "linux_distinct_native_passes": 148,
+  "linux_unresolved_skips": [],
+  "linux_catalog": {
+    "passed": 16,
+    "seconds": 5.54
+  },
+  "linux_versions": {
+    "lightweaver": "0.16.1",
+    "numpy": "2.2.6",
+    "pytest": "9.2.0",
+    "numba": "0.68.1",
+    "scipy": "1.18.1"
+  },
+  "vendor_atom_sha256": "53446fe1db5e22e35ad972c3d36b990d27bcf6b13c92c95c00aa57cf1f6d7243",
+  "test_function_bodies_unchanged": [
+    "tests/test_bride_fe_pressure_rya1281.py",
+    "tests/test_bride_fe_stark_rya1281.py",
+    "tests/test_bride_feii_control_rya1281.py",
+    "tests/test_bride_feii_profile_rya1281.py",
+    "tests/test_bride_h2_colliders_rya1281.py",
+    "tests/test_bride_iteration_trace_rya1281.py",
+    "tests/test_bride_lte_screen_rya1281.py",
+    "tests/test_bride_opacity_binding_rya1281.py",
+    "tests/test_bride_rosseland_column_rya1281.py",
+    "tests/test_bride_solar_control_rya1281.py",
+    "tests/test_bride_thermal_sweep_rya1281.py",
+    "tests/test_bride_trace_fe_lines_rya1281.py",
+    "tests/test_bride_xi_sweep_rya1281.py"
+  ],
+  "scientific_admission": "HOLD",
+  "adopted_values_changed": false,
+  "scope": "ONLY RYA-1278 and published RYA-1281 checkpoint; subsequent RYA-1371 commits and other branches excluded"
+}

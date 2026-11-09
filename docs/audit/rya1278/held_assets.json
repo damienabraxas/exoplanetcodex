@@ -1,0 +1,266 @@
+{
+  "schema": "codex.bride_foundation_audit/1",
+  "science_executed": false,
+  "code_commit": "0ade2170ebeda715f7b23ee8b0f57efdae5d0f3a",
+  "generator": {
+    "name": "audit_bride_foundation.py",
+    "bytes": 5663,
+    "sha256": "2dc9bca9add5620674ec7bdad5f874aa61214f4031358dc67944e71a89564f83"
+  },
+  "input_validator": {
+    "name": "bride_foundation.py",
+    "bytes": 6117,
+    "sha256": "0bb3e287602a1cb881bee7485302c401d0e4eb839def47dc211fe741976cc7e5"
+  },
+  "canonical_gf_source": {
+    "name": "canonical_gf.csv",
+    "bytes": 25288767,
+    "sha256": "84a7e338739e06acbf8ef9826a0230783b859263bda70cce05118d9b7879687a"
+  },
+  "star_params_source": {
+    "name": "stars.yaml",
+    "bytes": 7842,
+    "sha256": "3156c6501a1e5405c4302d044302c10020627e9849648c67e3528e2599d1d7ee"
+  },
+  "held_path_key": "engines.bride_eval",
+  "snapshot_stem": "t5777g44m0005_00091_80x80x240",
+  "files": {
+    "mesh": {
+      "name": "mesh.t5777g44m0005_00091_80x80x240",
+      "bytes": 6519,
+      "sha256": "c33c4cd27c07e85746b7a83385bdb86103316d213e97a51ce15e61395b9f68a9"
+    },
+    "atm3d": {
+      "name": "atm3d.t5777g44m0005_00091_80x80x240",
+      "bytes": 36864000,
+      "sha256": "ad998831271316fa17d350f4be11dd8cf4f564f9431bc8f607bf6c1bac35bfbe"
+    },
+    "info": {
+      "name": "info.t5777g44m0005_00091_80x80x240",
+      "bytes": 680,
+      "sha256": "3a091a58982e4c7a25cb9c80cd61a94b0e2d6438881491c7ab4aa5c596eb342f"
+    }
+  },
+  "info_header": [
+    "Thu Mar  7 16:17:58 2024",
+    "staggtom3d",
+    "Reference depth scale: Rosseland",
+    "Interpolation method: Cubic spline",
+    "Input Stagger atmosphere: t5777g44m0005_00091.dat",
+    "Input Stagger mesh: t5777g44m0005.msh",
+    "Input EOS table: EOSrhoe.tab",
+    "Output Multi3D atmosphere: atm3d.t5777g44m0005_00091_80x80x240",
+    "Output Multi3D mesh: mesh.t5777g44m0005_00091_80x80x240",
+    "Output Multi3D dimensions: 80x80x240",
+    "Physical layers cut from top: 0",
+    "Physical layers cut from bottom: 118",
+    "Horizontal x-sampling period: 3",
+    "Horizontal y-sampling period: 3",
+    "Min lgtau in bottom layer:        2.0392439",
+    "Max lgtau in bottom layer:        3.6956214",
+    "Min lgtau in top layer:       -9.7451159",
+    "Max lgtau in top layer:       -5.7067482"
+  ],
+  "shape_zyx": [
+    240,
+    80,
+    80
+  ],
+  "axis_endpoints_m": {
+    "x": [
+      0.0,
+      7900000.100000001
+    ],
+    "y": [
+      0.0,
+      7900000.100000001
+    ],
+    "z": [
+      871174.6900000001,
+      -456665.37
+    ]
+  },
+  "mean_temperature_endpoints_K": [
+    4023.627428894043,
+    11760.601285552979
+  ],
+  "environment": {
+    "lightweaver": "0.16.1",
+    "numpy": "2.5.2",
+    "scipy": "1.18.1",
+    "numba": "0.67.0"
+  },
+  "python": "3.12.13",
+  "atom_source": {
+    "name": "rh_atoms.py",
+    "bytes": 4432071,
+    "sha256": "99982a90746acaf293bcdb48ddab6e46c5fe30407e177735c0f255829379731f"
+  },
+  "atmosphere_source": {
+    "name": "atmosphere.py",
+    "bytes": 68287,
+    "sha256": "cfa2672ceaebb33e7f6fedfa476ba2f25203f575659d947028546fed68f23a44"
+  },
+  "make_1d_signature": "(scale: lightweaver.atmosphere.ScaleType, depthScale: numpy.ndarray, temperature: numpy.ndarray, vlos: Optional[numpy.ndarray] = None, vturb: Optional[numpy.ndarray] = None, ne: Optional[numpy.ndarray] = None, hydrogenPops: Optional[numpy.ndarray] = None, nHTot: Optional[numpy.ndarray] = None, vx: Optional[numpy.ndarray] = None, vy: Optional[numpy.ndarray] = None, vz: Optional[numpy.ndarray] = None, B: Optional[numpy.ndarray] = None, gammaB: Optional[numpy.ndarray] = None, chiB: Optional[numpy.ndarray] = None, lowerBc: Optional[lightweaver.atmosphere.BoundaryCondition] = None, upperBc: Optional[lightweaver.atmosphere.BoundaryCondition] = None, convertScales: bool = True, abundance: Optional[lightweaver.atomic_table.AtomicAbundance] = None, logG: float = 2.44, Pgas: Optional[numpy.ndarray] = None, Pe: Optional[numpy.ndarray] = None, Ptop: Optional[float] = None, PeTop: Optional[float] = None, verbose: bool = False)",
+  "gravity": {
+    "source": "config/stars.yaml via get_star_params(solar)",
+    "canonical_logg_cgs": 4.438,
+    "lightweaver_logG_si": 2.4379999999999997
+  },
+  "atoms": [
+    {
+      "factory": "O_atom",
+      "levels": 23,
+      "lines": 8,
+      "continua": 11,
+      "collisions": 66,
+      "collision_classes": {
+        "CE": 55,
+        "CI": 11
+      },
+      "multiplet_region_transitions": [],
+      "verdict": "HOLD: no demonstrated resolved-triplet and benchmark-rate parity"
+    },
+    {
+      "factory": "OI_fine_atom",
+      "levels": 14,
+      "lines": 18,
+      "continua": 13,
+      "collisions": 100,
+      "collision_classes": {
+        "CE": 78,
+        "CP": 3,
+        "CI": 13,
+        "ChargeExchangeNeutralH": 3,
+        "ChargeExchangeProton": 3
+      },
+      "multiplet_region_transitions": [
+        {
+          "i": 5,
+          "j": 7,
+          "vacuum_nm": 777.5705120379577,
+          "f": 0.9781,
+          "lower_label": "O I 2P3(4SO) 3S 5SO",
+          "upper_label": "O I 2P3(4SO) 3P 5PE",
+          "lower_g": 5,
+          "upper_g": 15,
+          "lower_stage": 0,
+          "upper_stage": 0,
+          "broadening": "LineBroadening(natural=[RadiativeBroadening(gamma=3.4e+07)], elastic=[VdwUnsold(vals=[1.0, 1.0]), MultiplicativeStarkBroadening(coeff=2.26e-12)])"
+        }
+      ],
+      "verdict": "HOLD: no demonstrated resolved-triplet and benchmark-rate parity"
+    },
+    {
+      "factory": "OI_fine_crd_atom",
+      "levels": 14,
+      "lines": 18,
+      "continua": 13,
+      "collisions": 100,
+      "collision_classes": {
+        "CE": 78,
+        "CP": 3,
+        "CI": 13,
+        "ChargeExchangeNeutralH": 3,
+        "ChargeExchangeProton": 3
+      },
+      "multiplet_region_transitions": [
+        {
+          "i": 5,
+          "j": 7,
+          "vacuum_nm": 777.5705120379577,
+          "f": 0.9781,
+          "lower_label": "O I 2P3(4SO) 3S 5SO",
+          "upper_label": "O I 2P3(4SO) 3P 5PE",
+          "lower_g": 5,
+          "upper_g": 15,
+          "lower_stage": 0,
+          "upper_stage": 0,
+          "broadening": "LineBroadening(natural=[RadiativeBroadening(gamma=3.4e+07)], elastic=[VdwUnsold(vals=[1.0, 1.0]), MultiplicativeStarkBroadening(coeff=2.26e-12)])"
+        }
+      ],
+      "verdict": "HOLD: no demonstrated resolved-triplet and benchmark-rate parity"
+    },
+    {
+      "factory": "OI_ord_atom",
+      "levels": 14,
+      "lines": 16,
+      "continua": 13,
+      "collisions": 100,
+      "collision_classes": {
+        "CE": 78,
+        "CP": 3,
+        "CI": 13,
+        "ChargeExchangeNeutralH": 3,
+        "ChargeExchangeProton": 3
+      },
+      "multiplet_region_transitions": [
+        {
+          "i": 5,
+          "j": 7,
+          "vacuum_nm": 777.5705120379577,
+          "f": 0.9781,
+          "lower_label": "O I 2P3(4SO) 3S 5SO",
+          "upper_label": "O I 2P3(4SO) 3P 5PE",
+          "lower_g": 5,
+          "upper_g": 15,
+          "lower_stage": 0,
+          "upper_stage": 0,
+          "broadening": "LineBroadening(natural=[RadiativeBroadening(gamma=3.4e+07)], elastic=[VdwUnsold(vals=[1.0, 1.0]), MultiplicativeStarkBroadening(coeff=2.26e-12)])"
+        }
+      ],
+      "verdict": "HOLD: no demonstrated resolved-triplet and benchmark-rate parity"
+    },
+    {
+      "factory": "O_no_777_atom",
+      "levels": 23,
+      "lines": 8,
+      "continua": 11,
+      "collisions": 66,
+      "collision_classes": {
+        "CE": 55,
+        "CI": 11
+      },
+      "multiplet_region_transitions": [],
+      "verdict": "HOLD: no demonstrated resolved-triplet and benchmark-rate parity"
+    }
+  ],
+  "canonical_triplet": [
+    {
+      "line_id": "gf_108794",
+      "physical_id": "pk_a84cbacc85c8",
+      "wavelength_air_A": "7771.944",
+      "excitation_potential_eV": "9.146",
+      "log_gf": "0.369",
+      "loggf_reference": "NIST ASD v5.11 grade A",
+      "nist_grade": "A",
+      "gf_sigma_dex": "0.0128",
+      "gf_tier": "NIST-C+"
+    },
+    {
+      "line_id": "gf_108795",
+      "physical_id": "pk_cfb62bba158c",
+      "wavelength_air_A": "7774.166",
+      "excitation_potential_eV": "9.146",
+      "log_gf": "0.223",
+      "loggf_reference": "NIST ASD v5.11 grade A",
+      "nist_grade": "A",
+      "gf_sigma_dex": "0.0128",
+      "gf_tier": "NIST-C+"
+    },
+    {
+      "line_id": "gf_108796",
+      "physical_id": "pk_d74bfb642674",
+      "wavelength_air_A": "7775.388",
+      "excitation_potential_eV": "9.146",
+      "log_gf": "0.002",
+      "loggf_reference": "NIST ASD v5.11 grade A",
+      "nist_grade": "A",
+      "gf_sigma_dex": "0.0128",
+      "gf_tier": "NIST-C+"
+    }
+  ],
+  "solver_timing": null,
+  "timing_reason": "No O NLTE column run authorized; Ca/Mg proxy times are not O timings",
+  "first_light_verdict": "HOLD: reference atom and independent baseline gates remain open"
+}

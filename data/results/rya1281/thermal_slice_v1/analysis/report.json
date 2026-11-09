@@ -1,0 +1,624 @@
+{
+  "schema": "codex.bride_thermal_review/1",
+  "plan": {
+    "name": "rya1281_mac_thermal_slice.json",
+    "bytes": 4393,
+    "sha256": "2a801251b25c184abd755c2ab8b99519226a88fe0bdad08687422dfe2b04624c"
+  },
+  "independent_rate_checks": [
+    {
+      "case": "thermal_T5572",
+      "numeric_refinement": false,
+      "residual": 4.4606329806384395e-07,
+      "stored_residual": 4.4606329806384395e-07
+    },
+    {
+      "case": "thermal_T5672",
+      "numeric_refinement": false,
+      "residual": 4.312501686984853e-07,
+      "stored_residual": 4.312501686984853e-07
+    },
+    {
+      "case": "thermal_nominal",
+      "numeric_refinement": false,
+      "residual": 4.13701425665348e-07,
+      "stored_residual": 4.13701425665348e-07
+    },
+    {
+      "case": "thermal_T5822",
+      "numeric_refinement": false,
+      "residual": 4.846014817879922e-07,
+      "stored_residual": 4.846014817879922e-07
+    },
+    {
+      "case": "thermal_g4338",
+      "numeric_refinement": false,
+      "residual": 4.3927794482974586e-07,
+      "stored_residual": 4.3927794482974586e-07
+    },
+    {
+      "case": "thermal_g4538",
+      "numeric_refinement": false,
+      "residual": 4.609376680806694e-07,
+      "stored_residual": 4.609376680806694e-07
+    },
+    {
+      "case": "thermal_nominal",
+      "numeric_refinement": true,
+      "residual": 3.572884342137547e-07,
+      "stored_residual": 3.572884342137547e-07
+    }
+  ],
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_thermal_sweep.py",
+    "bytes": 17041,
+    "sha256": "f2c921bebc97a3fcdc116007f323a5efd625d7c75e50bdb2c37a768c48b0bf98"
+  },
+  "controls": [
+    {
+      "name": "report.json",
+      "bytes": 28338,
+      "sha256": "f496ae2465493ec89ce3343ccfbaf7c25f8318d8fd49770084389b3ecc135ead"
+    },
+    {
+      "name": "report.json",
+      "bytes": 28469,
+      "sha256": "1403c74c0e8f9f44aaea4a3152c177af54cb51cc608f14914ac951956ae375b9"
+    },
+    {
+      "name": "report.json",
+      "bytes": 28475,
+      "sha256": "e0215bba7738ccc3944cfd6f772cd2acb87217fa32f9de61a0314d14c2fed44e"
+    },
+    {
+      "name": "report.json",
+      "bytes": 28225,
+      "sha256": "735d1d6579fdbc9d6ecd4f977532b11a92e1438b5166536c0813a96dc54c8eb2"
+    },
+    {
+      "name": "report.json",
+      "bytes": 28268,
+      "sha256": "fffc9a35ba6f1fa2e05d9bcb0d422fecc775456e08ca85f9df51fb684bc53c1f"
+    },
+    {
+      "name": "report.json",
+      "bytes": 28327,
+      "sha256": "2ec8bc99640de279fbf9c5b39f84ee2bcedbc5d6b207378900b942c36313c6f5"
+    }
+  ],
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "policy": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "cases": [
+    {
+      "mode": "thermal_T5572",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 57.531549049781155
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 49.41208759187924
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 38.18722487297083
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 57.51431443750546,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 49.39536255366208,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 38.18145374991749,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 57.51838663948674,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 49.38905685311461,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 38.18790626865534,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "thermal_T5672",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 64.7009747449803
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 55.77166312607352
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 43.41634815203126
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 64.67998342334026,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 55.75291764484631,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 43.409402085878526,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 64.6830203144669,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 55.74603692005366,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 43.41720811602073,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "thermal_nominal",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.12825766895114
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.411752946195406
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.93310834296173
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10349891422283,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.390972210126066,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.924972413448145,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.105502801255,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38350198428724,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.93412241720815,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "thermal_T5822",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 75.88629471253263
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 65.79009577704146
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 51.76183638036874
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 75.85967462874996,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 65.76830399004346,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 51.753108001815555,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 75.86117220120391,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 65.76053836879332,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 51.76292033168407,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "thermal_g4338",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 74.57870761607111
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 64.69266359071818
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 50.932552852007056
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 74.5556478926264,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 64.67291168174282,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 50.9249758509094,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 74.55797061857992,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 64.66584645923798,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 50.93367971288743,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "thermal_g4538",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 69.8249316575656
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 60.26934645746257
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 47.05610885327574
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 69.79837250510444,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 60.24747976407207,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 47.04737866274104,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 69.80003295844358,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 60.23957749312472,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 47.05699309080603,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "area_changes_vs_nominal_mA": {
+    "thermal_T5572": [
+      -14.59670861916998,
+      -12.999665354316164,
+      -10.7458834699909
+    ],
+    "thermal_T5672": [
+      -7.427282923970836,
+      -6.6400898201218865,
+      -5.516760190930469
+    ],
+    "thermal_nominal": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "thermal_T5822": [
+      3.7580370435814956,
+      3.3783428308460515,
+      2.8287280374070107
+    ],
+    "thermal_g4338": [
+      2.450449947119978,
+      2.280910644522777,
+      1.9994445090453254
+    ],
+    "thermal_g4538": [
+      -2.3033260113855363,
+      -2.1424064887328385,
+      -1.8769994896859927
+    ]
+  },
+  "max_profile_change_vs_nominal": {
+    "thermal_T5572": 0.06409944665986256,
+    "thermal_T5672": 0.032243017036102106,
+    "thermal_nominal": 0.0,
+    "thermal_T5822": 0.01604177508821747,
+    "thermal_g4338": 0.01446467098282711,
+    "thermal_g4538": 0.014023441304975681
+  },
+  "response_figure": {
+    "name": "thermal_response.png",
+    "bytes": 147891,
+    "sha256": "7099763f288ead2fc9873e67407f2ef5f55fe2252fbfd515776e450a4f8277eb"
+  },
+  "numerical_refinement": {
+    "report": {
+      "name": "report.json",
+      "bytes": 28477,
+      "sha256": "ea9729437af638557520e32c647dd76f28c076960e7ab114dcab5d6ebd810721"
+    },
+    "controls": {
+      "rays": 5,
+      "qscale": 2,
+      "rtol": 1e-06,
+      "maxiter": 1500,
+      "seconds_per_case": 600,
+      "flux_rays": 7,
+      "ng": true,
+      "reject_invalid_ng": true,
+      "converge_cap_radiation": true,
+      "cap_radiation_rtol": 1e-08,
+      "cap_radiation_maxiter": 100
+    },
+    "max_abs_normalized_flux_change": 6.799567395798789e-05,
+    "aperture_max_abs_flux_change": [
+      6.799567395798789e-05,
+      2.8517562963181753e-05,
+      1.8449808870668605e-05
+    ],
+    "aperture_area_changes_mA": [
+      -0.00039746878275082054,
+      0.001979454813636039,
+      0.002880372529965314
+    ],
+    "caveat": "Combined angular/wavelength/flux-ray refinement at nominal only, not independent bounds on each numerical error or all parameter extremes",
+    "figure": {
+      "name": "numerical_refinement.png",
+      "bytes": 115987,
+      "sha256": "ecd9a941930ea162466c9207fcd2ba4a97fa23c3c8b879e9ca855e2a1dc788a7"
+    }
+  },
+  "nominal_replay_array_identity": true,
+  "response_directions": {
+    "intervals": {
+      "temperature": [
+        5672,
+        5822
+      ],
+      "gravity": [
+        4.338,
+        4.538
+      ],
+      "xi": [
+        0.9,
+        1.1
+      ]
+    },
+    "area_change_vectors_mA": {
+      "temperature": [
+        11.185319967552331,
+        10.018432650967938,
+        8.34548822833748
+      ],
+      "gravity": [
+        -4.753775958505514,
+        -4.423317133255615,
+        -3.876443998731318
+      ],
+      "xi": [
+        0.8948139971141416,
+        0.7427357877930447,
+        0.5455031464123792
+      ]
+    },
+    "signed_cosines": {
+      "temperature_gravity": -0.9993863713443635,
+      "temperature_xi": 0.9970842439872364,
+      "gravity_xi": -0.9938001615750477
+    },
+    "prior_xi_reports": [
+      {
+        "name": "report.json",
+        "bytes": 29454,
+        "sha256": "9ab47f636c2da8f69281f20184f022f795d395baf4ec09e6754321f71cea1915"
+      },
+      {
+        "name": "report.json",
+        "bytes": 29457,
+        "sha256": "c54c1ed66d639d8b4456f669d65eaed33efc7a1d82a4e0ab3e45d6325b7ff0c8"
+      }
+    ],
+    "interpretation": "Finite three-aperture responses are nearly aligned or opposed, making discrimination from strengths alone fragile. Not proof of exact degeneracy, full-profile equality, derivatives, inverse covariance or physical uncertainties."
+  },
+  "profiles": {
+    "name": "profiles.csv",
+    "bytes": 1400829,
+    "sha256": "98d3f5a2e0bba27d3341e66b792e1c7a537f1190475d36f399b7e43b6f105a40"
+  },
+  "figure": {
+    "name": "thermal_control.png",
+    "bytes": 279785,
+    "sha256": "8cdb264b732f4bd8426d1067af4859c1588c2a8ea05011e74a47accd1e9aa54d"
+  },
+  "caveats": "Declared interpolated Teff/gravity responses, fixed xi/composition/O8.70. Not new atmosphere-equilibrium solutions, complete EOS/opacity, abundance or full3D admission. Both RV variants retained; no optimization."
+}

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/ryanschmitt/codex/rya1279/scripts/run_bride_ng_controls.py", line 47, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/ryanschmitt/codex/rya1279/scripts/run_bride_ng_controls.py", line 19, in main
+    if args.output.resolve()!=require_codex_path('experiments.bride_ng_controls').resolve():raise ValueError('Use registered fresh experiment output (override resource for replay)')
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ryanschmitt/codex/rya1279/config/constants.py", line 1289, in require_codex_path
+    raise FileNotFoundError(
+FileNotFoundError: Required Codex path not found: /Users/ryanschmitt/codex/bride_mac_checks/rya1281-ng-control-v1  (key 'experiments.bride_ng_controls')
+  root 'work' = /Users/ryanschmitt/codex (env CODEX_WORK_ROOT)
+  There is NO local fallback (RYA-567): stage it, or run on Sirius.

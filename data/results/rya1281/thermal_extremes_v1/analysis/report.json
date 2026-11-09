@@ -1,0 +1,411 @@
+{
+  "schema": "codex.bride_thermal_refinement_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_thermal_refinement.py",
+    "bytes": 16492,
+    "sha256": "0430dcc917953433d1a25b07956a8c94b30e8f4df28536144d5e93b380b86656"
+  },
+  "plan": {
+    "name": "rya1281_mac_thermal_slice.json",
+    "bytes": 4393,
+    "sha256": "2a801251b25c184abd755c2ab8b99519226a88fe0bdad08687422dfe2b04624c"
+  },
+  "cases": [
+    {
+      "case": "thermal_T5572",
+      "status": "CONVERGED_EXPERIMENT",
+      "baseline_report": {
+        "name": "report.json",
+        "bytes": 28338,
+        "sha256": "f496ae2465493ec89ce3343ccfbaf7c25f8318d8fd49770084389b3ecc135ead"
+      },
+      "refined_report": {
+        "name": "report.json",
+        "bytes": 29004,
+        "sha256": "bc89b8492f524d9c2db17dbe223ec74178a071db95fb60ff4f91dc316af0832a"
+      },
+      "independent_balance": [
+        {
+          "residual": 4.4606329806384395e-07,
+          "particle_conservation_error": 1.1102230246251565e-15
+        },
+        {
+          "residual": 4.0912267491374443e-07,
+          "particle_conservation_error": 1.1102230246251565e-15
+        }
+      ],
+      "baseline_area_mA": [
+        57.531549049781155,
+        49.41208759187924,
+        38.18722487297083
+      ],
+      "refined_area_mA": [
+        57.53635634771071,
+        49.41662784433648,
+        38.19057800106964
+      ],
+      "area_delta_mA": [
+        0.00480729792955259,
+        0.004540252457239546,
+        0.003353128098808611
+      ],
+      "max_aperture_profile_delta": [
+        2.7329889826566145e-05,
+        2.4239789991331584e-05,
+        1.8531553621414787e-05
+      ],
+      "max_full_region_profile_delta": 2.7329889826566145e-05,
+      "iterations": 98,
+      "telemetry": {
+        "elapsed_seconds": 390.31135766627267,
+        "process_peak_rss_bytes": 1366327296,
+        "host_load_start": [
+          2.3916015625,
+          2.8046875,
+          2.578125
+        ],
+        "host_load_end": [
+          2.9228515625,
+          2.8779296875,
+          2.68994140625
+        ],
+        "context_threads": 1
+      },
+      "matched_initial_populations_array_identity": true,
+      "external_rates": {
+        "schema": "codex.bride_external_derived_artifact/1",
+        "resource_key": "experiments.bride_thermal_extreme_refinements",
+        "relative_path": "thermal_T5572/rates.npz",
+        "artifact": {
+          "name": "rates.npz",
+          "bytes": 6399558,
+          "sha256": "c3dc2e25742e64da4b022e6931d0534ced4201895f9dcff43adda7a506d7e7d9"
+        },
+        "source_report": {
+          "name": "report.json",
+          "bytes": 29004,
+          "sha256": "bc89b8492f524d9c2db17dbe223ec74178a071db95fb60ff4f91dc316af0832a"
+        },
+        "source_writer": {
+          "name": "bride_coupled_control.py",
+          "bytes": 4768,
+          "sha256": "24dd389d3ad69c49096aa3f18be8e7421631b7d43f7bfcd01ade50bff371f3bb"
+        },
+        "scientific_admission": "HOLD"
+      }
+    },
+    {
+      "case": "thermal_T5822",
+      "status": "CONVERGED_EXPERIMENT",
+      "baseline_report": {
+        "name": "report.json",
+        "bytes": 28225,
+        "sha256": "735d1d6579fdbc9d6ecd4f977532b11a92e1438b5166536c0813a96dc54c8eb2"
+      },
+      "refined_report": {
+        "name": "report.json",
+        "bytes": 28908,
+        "sha256": "de08f17ff85e18e5d9146f3045d2bebaa34a335b5edfebe31daf578b3a723abe"
+      },
+      "independent_balance": [
+        {
+          "residual": 4.846014817879922e-07,
+          "particle_conservation_error": 8.881784197001252e-16
+        },
+        {
+          "residual": 3.435123262058528e-07,
+          "particle_conservation_error": 7.771561172376096e-16
+        }
+      ],
+      "baseline_area_mA": [
+        75.88629471253263,
+        65.79009577704146,
+        51.76183638036874
+      ],
+      "refined_area_mA": [
+        75.883784608445,
+        65.79083517142928,
+        51.76428221306254
+      ],
+      "area_delta_mA": [
+        -0.0025101040876336356,
+        0.0007393943878213349,
+        0.0024458326938017194
+      ],
+      "max_aperture_profile_delta": [
+        9.511140479079305e-05,
+        4.641491822099386e-05,
+        1.875166007858642e-05
+      ],
+      "max_full_region_profile_delta": 9.511140479079305e-05,
+      "iterations": 178,
+      "telemetry": {
+        "elapsed_seconds": 459.8244119170122,
+        "process_peak_rss_bytes": 1364525056,
+        "host_load_start": [
+          2.9228515625,
+          2.8779296875,
+          2.68994140625
+        ],
+        "host_load_end": [
+          3.79833984375,
+          3.1279296875,
+          2.8623046875
+        ],
+        "context_threads": 1
+      },
+      "matched_initial_populations_array_identity": true,
+      "external_rates": {
+        "schema": "codex.bride_external_derived_artifact/1",
+        "resource_key": "experiments.bride_thermal_extreme_refinements",
+        "relative_path": "thermal_T5822/rates.npz",
+        "artifact": {
+          "name": "rates.npz",
+          "bytes": 6382114,
+          "sha256": "46b9071692962608f08b63ed43ba9fdd257db7e81d147a9d164af3e4f072d300"
+        },
+        "source_report": {
+          "name": "report.json",
+          "bytes": 28908,
+          "sha256": "de08f17ff85e18e5d9146f3045d2bebaa34a335b5edfebe31daf578b3a723abe"
+        },
+        "source_writer": {
+          "name": "bride_coupled_control.py",
+          "bytes": 4768,
+          "sha256": "24dd389d3ad69c49096aa3f18be8e7421631b7d43f7bfcd01ade50bff371f3bb"
+        },
+        "scientific_admission": "HOLD"
+      }
+    },
+    {
+      "status": "BUDGET_EXHAUSTED_NOT_ACCEPTED",
+      "case": "thermal_g4338",
+      "input_manifest": {
+        "name": "input_manifest.json",
+        "bytes": 22724,
+        "sha256": "00f007fc785a18b3bea1ec7e8cbe38f7df02dee8954f4fd8559218d50340d8c3"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 112713,
+        "sha256": "0d6e2c3593bc4858e8a21d4e79fc8a56aa5b98563690f2aeef30877ab5ac7016"
+      },
+      "log": {
+        "name": "rya1281-matched-thermal_g4338.log",
+        "bytes": 1497,
+        "sha256": "7356a25e0fc019b15b61fb3d3ccaefa3e9463706d48a4a7ecc5204940d171a63"
+      },
+      "completed_iterations": 223,
+      "last_diagnostics": {
+        "iteration": 223,
+        "population_change": 1.1927928443129257e-06,
+        "physical_rate_residual": 1.0018857704941087e-14,
+        "J_change": 1.326152722965346e-06,
+        "cap_boundary_change": 1.3261991280092675e-06,
+        "particle_conservation_error": 4.440892098500626e-16,
+        "rejected_invalid_ng": false,
+        "fixed_population_radiation": {
+          "iterations": 5,
+          "final_J_change": 5.233765087986342e-09,
+          "final_boundary_change": 4.4214056230554715e-09,
+          "outer_J_change": 1.326152722965346e-06,
+          "outer_boundary_change": 1.3261991280092675e-06
+        }
+      },
+      "resource_key": "experiments.bride_thermal_extreme_refinements"
+    },
+    {
+      "case": "thermal_g4538",
+      "status": "CONVERGED_EXPERIMENT",
+      "baseline_report": {
+        "name": "report.json",
+        "bytes": 28327,
+        "sha256": "2ec8bc99640de279fbf9c5b39f84ee2bcedbc5d6b207378900b942c36313c6f5"
+      },
+      "refined_report": {
+        "name": "report.json",
+        "bytes": 28995,
+        "sha256": "040e0cb4f1ea66e6b985ee15f8d191f2c1a1f1a649493f0c698ffadccc3a94f5"
+      },
+      "independent_balance": [
+        {
+          "residual": 4.609376680806694e-07,
+          "particle_conservation_error": 8.881784197001252e-16
+        },
+        {
+          "residual": 4.876575476974271e-07,
+          "particle_conservation_error": 6.661338147750939e-16
+        }
+      ],
+      "baseline_area_mA": [
+        69.8249316575656,
+        60.26934645746257,
+        47.05610885327574
+      ],
+      "refined_area_mA": [
+        69.824604982597,
+        60.27107166759977,
+        47.058549147434185
+      ],
+      "area_delta_mA": [
+        -0.00032667496860483425,
+        0.0017252101372022821,
+        0.0024402941584469318
+      ],
+      "max_aperture_profile_delta": [
+        6.001000974276138e-05,
+        2.498334089540144e-05,
+        1.5478414109315608e-05
+      ],
+      "max_full_region_profile_delta": 6.001000974276138e-05,
+      "iterations": 152,
+      "telemetry": {
+        "elapsed_seconds": 481.1646461249329,
+        "process_peak_rss_bytes": 1294778368,
+        "host_load_start": [
+          2.45947265625,
+          2.90966796875,
+          2.8974609375
+        ],
+        "host_load_end": [
+          5.7626953125,
+          3.53125,
+          3.0849609375
+        ],
+        "context_threads": 1
+      },
+      "matched_initial_populations_array_identity": true,
+      "external_rates": {
+        "schema": "codex.bride_external_derived_artifact/1",
+        "resource_key": "experiments.bride_thermal_extreme_refinements",
+        "relative_path": "thermal_g4538/rates.npz",
+        "artifact": {
+          "name": "rates.npz",
+          "bytes": 6383161,
+          "sha256": "b2f9a88fd48bf71b4c9c89e90a99c97040fa0e13fec8f4672f3259b52cd4965a"
+        },
+        "source_report": {
+          "name": "report.json",
+          "bytes": 28995,
+          "sha256": "040e0cb4f1ea66e6b985ee15f8d191f2c1a1f1a649493f0c698ffadccc3a94f5"
+        },
+        "source_writer": {
+          "name": "bride_coupled_control.py",
+          "bytes": 4768,
+          "sha256": "24dd389d3ad69c49096aa3f18be8e7421631b7d43f7bfcd01ade50bff371f3bb"
+        },
+        "scientific_admission": "HOLD"
+      }
+    },
+    {
+      "case": "thermal_nominal",
+      "status": "CONVERGED_EXPERIMENT",
+      "baseline_report": {
+        "name": "report.json",
+        "bytes": 28475,
+        "sha256": "e0215bba7738ccc3944cfd6f772cd2acb87217fa32f9de61a0314d14c2fed44e"
+      },
+      "refined_report": {
+        "name": "report.json",
+        "bytes": 28477,
+        "sha256": "ea9729437af638557520e32c647dd76f28c076960e7ab114dcab5d6ebd810721"
+      },
+      "independent_balance": [
+        {
+          "residual": 4.13701425665348e-07,
+          "particle_conservation_error": 8.881784197001252e-16
+        },
+        {
+          "residual": 3.572884342137547e-07,
+          "particle_conservation_error": 6.661338147750939e-16
+        }
+      ],
+      "baseline_area_mA": [
+        72.12825766895114,
+        62.411752946195406,
+        48.93310834296173
+      ],
+      "refined_area_mA": [
+        72.12786020016839,
+        62.41373240100904,
+        48.935988715491696
+      ],
+      "area_delta_mA": [
+        -0.00039746878275082054,
+        0.001979454813636039,
+        0.002880372529965314
+      ],
+      "max_aperture_profile_delta": [
+        6.799567395798789e-05,
+        2.8517562963181753e-05,
+        1.8449808870668605e-05
+      ],
+      "max_full_region_profile_delta": 6.799567395798789e-05,
+      "iterations": 153,
+      "telemetry": {
+        "elapsed_seconds": 484.1331107909791,
+        "process_peak_rss_bytes": 1007468544,
+        "host_load_start": [
+          3.384765625,
+          3.2783203125,
+          3.21533203125
+        ],
+        "host_load_end": [
+          3.185546875,
+          3.14208984375,
+          3.12841796875
+        ],
+        "context_threads": 1
+      }
+    }
+  ],
+  "scope": "Combined angular/wavelength/flux-ray sampling at four predeclared endpoints plus existing nominal. No fit, new physical accuracy threshold, or individual error attribution. Observations and continuum controls unchanged.",
+  "failed_original_solar_start": {
+    "status": "BUDGET_EXHAUSTED_NOT_ACCEPTED",
+    "case": "thermal_T5572",
+    "input_manifest": {
+      "name": "input_manifest.json",
+      "bytes": 22117,
+      "sha256": "a1b5c09a8ebe100a34941d5e7d85877f7197599626447f9602c4742fe372f231"
+    },
+    "history": {
+      "name": "history.jsonl",
+      "bytes": 70140,
+      "sha256": "5efb226e4dcc35e0c0a17ea1a0f252e8290b5730c4e749da64e05e05970ef0ee"
+    },
+    "log": {
+      "name": "rya1281-extreme-thermal_T5572.log",
+      "bytes": 1497,
+      "sha256": "b1e36f463e76c14888cb88e1f3e726dea271fa192da69d3d7c8b4cbe551e1a90"
+    },
+    "completed_iterations": 139,
+    "last_diagnostics": {
+      "iteration": 139,
+      "population_change": 6.0619470828461786e-05,
+      "physical_rate_residual": 2.6229812887774887e-05,
+      "J_change": 4.0237565168406715e-06,
+      "cap_boundary_change": 1.9852593598422586e-06,
+      "particle_conservation_error": 4.218847493575595e-15,
+      "rejected_invalid_ng": false,
+      "fixed_population_radiation": {
+        "iterations": 5,
+        "final_J_change": 6.481899683663528e-09,
+        "final_boundary_change": 5.687799922651609e-09,
+        "outer_J_change": 4.0237565168406715e-06,
+        "outer_boundary_change": 1.9852593598422586e-06
+      }
+    },
+    "resource_key": "experiments.bride_thermal_extreme_legacy"
+  },
+  "figure": {
+    "name": "endpoint_refinement.png",
+    "bytes": 163488,
+    "sha256": "c35ef9c802703546bdac229dd87e8042c2d517c01eec3e703a6bc84817904f01"
+  },
+  "profiles": {
+    "name": "profiles.csv",
+    "bytes": 1307211,
+    "sha256": "fdebdbd60a95ad8fe35e84cbb91120313fe7f02093e4ea40e73bd465dbf57343"
+  }
+}

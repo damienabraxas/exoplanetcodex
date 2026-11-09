@@ -1,0 +1,4 @@
+/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/config.py:75: UserWarning: No config file found, using defaults. For optimised vectorised code, please run `lightweaver.benchmark()`, otherwise the most advanced instruction set supported by your machine will be picked, which may not be the fastest (due to e.g. aggressive AVX offsets).
+  warnings.warn('No config file found, using defaults. For optimised vectorised code,'
+{"case": "xi_2p0", "dry_run": false, "SE_rows": 6796, "load": [6.91162109375, 7.3984375, 7.04150390625]}
+{"case": "xi_2p0", "iterations": 8, "physical_rate_residual": 1.4424051297924707e-08, "conservation": 6.661338147750939e-16, "telemetry": {"seconds": 55.84932854119688, "process_peak_rss_bytes": 660226048, "threads": 1, "load": [6.62548828125, 7.224609375, 6.99658203125]}}

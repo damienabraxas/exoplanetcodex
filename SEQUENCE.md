@@ -1,12 +1,284 @@
+## 2026-11-09
+
+- **RYA-1278 / RYA-1281** — integrate the completed Bride foundation and oxygen research checkpoint; physical model gates remain HOLD.
+ — solar sensitivity and continuum safeguards
+
+- **RYA-1281** — current ORCH refuses24/96 unsupported continuum fits; all9 independent10K/xi controls pass; T/xi responses nearly parallel, HOLD (v243).
+
+## 2026-11-09 — RYA-1350 landing reconciled
+
+> **Current as of `main` 078cf7de** (RYA-1350 PR #617; merged diff and ticket close-out comment 00b249a8 verified).
+
+- **RYA-1350** — `078cf7de` PR #617: solar Al26->86 and Si56->104 ORCH products; Si cited3D NLTE treatment and5690.42 restored. Model-guided continuum shifts beyond3% now require neighbourhood corroboration within+/-50A (at least3 windows, tolerance0.02); Ti rerun remains Ryan's decision. Bride experimental spectra here retain their predeclared pinned continuum treatment; next ORCH parity replay must include this new policy.
+
+## 2026-11-09 — four-case oxygen numerical milestone
+
+- **RYA-1281** — complete coupling plus cap emissivity derivative passes all four matched T/g controls in126.156s; solar parameter response explains much of the VIS deficit, residual remains; scientific HOLD (v241).
+
+## 2026-11-09 — controlled Ng comparison and fresh-rate screening
+
+- **RYA-1281** — Ng-off baseline agrees; T still times out. Fresh-screened bounded Anderson baseline passes, solar matrix open (v240).
+
+## 2026-11-08 — oxygen operator correction
+
+- **RYA-1281** — Transition-local MALI restores rate identity; baseline passes, T times out; no-Ng controls dry-checked, HOLD (v239).
+
+## 2026-11-08 — matched solar columns and solver admission
+
+- **RYA-1281** — Baseline/g pass; T/solar time out. MALI fixed-point mismatch characterized; conditioning next, HOLD (v238).
+
+## 2026-11-08 — O777 observational-shape milestone
+
+- **RYA-1281** — Complete shape/broadening suite separates reference-level sensitivity from persistent relative line-strength deficit; matched canonical-solar T/g experiment next, science HOLD (v237).
+
+## 2026-11-08 — same-pixel reference values and lineage
+
+- **RYA-1281** — Reference-level values algebraically explain conditioned-area contrast; held source/helper parity and continuum-lineage limits verified, shape-only diagnostics next (v236).
+
+## 2026-11-08 — fixed bracketing continuum controls
+
+- **RYA-1281** — Bracketing removes large synthesis extrapolation, but same-pixel denominator contrast persists; reference-value/lineage audit next (v235).
+
+## 2026-11-08 — paired-H Kitt Peak and pinned ORCH replay
+
+- **RYA-1281** — Small H response survives fixed processing; larger solar residual and one-sided continuum extrapolation remain, crossed support controls next (v234).
+
+## 2026-11-08 — reciprocal fixed-fraction H transfer checks
+
+- **RYA-1281** — Both fraction anchors pass fixed-radiation/replay checks; conditional transfer and SE-feedback contrasts measured, solar diagnostic comparison next (v233).
+
+## 2026-11-08 — completed common-seed paired O NLTE response
+
+- **RYA-1281** — Both H normalizations pass original NLTE controls after common-seed restart; small VIS triplet/departure response measured, transfer-versus-SE attribution next (v232).
+
+## 2026-11-08 — bounded paired-H O NLTE attempts
+
+- **RYA-1281** — Model-H fresh O solve passes; native-H hits original600second budget, no admitted paired spectrum; common closer initialization next (v231).
+
+## 2026-11-08 — paired H background and LTE controls
+
+> **Current as of `main` 7f023fd7** (integration audit; Bride remains stacked separately).
+
+- **RYA-1311** — PR #615 merged Ca near-UV product/budget notes; no pipeline/config/native source changed.
+- **RYA-1281** — Isolate paired H budgets; O LTE normalization and nonlinear continuum components close before fresh O NLTE tests (v230).
+
+## 2026-11-08 — native H/density binding inventory
+
+> **Current as of `main` adefcaf0** (integration audit; Bride remains stacked separately).
+
+- **RYA-1353** — PR #614 merged O/Fe transition census; native H/EOS/source inputs remain pinned, no provider/runtime policy change.
+
+- **RYA-1281** — Quantify native EOS versus retained density/H normalization; explicit paired bindings precede native provider use (v229).
+
+## 2026-11-08 — synthetic CN provider array integration
+
+> **Current as of `main` d70d932a** (integration audit; Bride remains stacked separately).
+
+- **RYA-1352** — PR #613 merged grade-governance audit/design proposal; no CN/provider/wavelength code or ratified policy changed.
+- **RYA-1311** — PR #612 merged Ca close-out artifacts; no Bride inputs or results replaced.
+
+- **RYA-1281** — Prove installed-LW CN array plumbing on disposable state; matched native H/EOS binding precedes real-column use (v228).
+
+## 2026-11-08 — CN wavelength-coordinate controls
+
+- **RYA-1281** — Measure explicit AIR/vacuum profile mappings and define external-state provider contract; array-level provider checks next (v227).
+
+## 2026-11-08 — CN profile and SI unit checks
+
+- **RYA-1281** — Measure native Voigt approximation and verify external-state SI extinction; frame/provider checks next (v226).
+
+## 2026-11-08 — native CN coefficient reporting
+
+- **RYA-1281** — Preserve spectra while exporting CN states; sampled coefficient arithmetic agrees, profile/SI and primary/EOS checks next (v225).
+
+## 2026-11-08 — CN interface audit
+
+> **Current as of `main` 3baabba9** (integration audit; Bride remains on stacked review branch).
+
+- **RYA-1311** — PR #610 merged Ca IR inputs and products; no Bride source or result replaced.
+- **RYA-1349** — PR #611 merged per-element ORCH completeness changes; Bride diagnostic inputs remain pinned separately.
+
+- **RYA-1281** — Trace CN chemistry/partition/isotope conventions; quantify existing serialization, prepare coefficient parity checks (v224).
+
+## 2026-11-07 — native LTE molecular controls
+
+- **RYA-1281** — Nine molecular-family controls identify CN sensitivity and continuum-support changes; source qualification before Bride insertion, HOLD (v223).
+
+## 2026-11-07 — omitted CNO opacity source census
+
+- **RYA-1281** — Account for651held molecular source rows and rank omitted atomic candidates; strengths/source qualification remain open (v222).
+
+## 2026-11-07 — coupled oxygen response to FeII
+
+- **RYA-1281** — Fresh canonical O solves pass independent physical-flow checks; tiny matched spectrum response at retained tolerance (v221).
+
+## 2026-11-07 — latest RYA-1315 ORCH comparison
+
+- **RYA-1281** — Pull merged RYA1315ORCH; all48frozen continuum fits exact under actual current implementation (register v220).
+
+## 2026-11-07 — crossed continuum accounting
+
+> **Current as of `main` de96ae51** (2026-11-07 integration audit; historical Bride controls retained separately).
+
+- **RYA-1315** — PR #609 landed on main de96ae51; Fe/Ti publications and derived artifacts remain separate from frozen Bride controls.
+- **RYA-1281** — Cross reference/support choices; selection plus clipping dominates canonical7775response,96endpoints exact (register v219).
+
+## 2026-11-07 — FeII source widths in fixed-O transfer
+
+> **Current as of `main` 459f5614** (2026-11-07 integration audit; historical Bride controls retained separately).
+
+- **RYA-1315** — PR #608 landed on main459f5614; CNO/Na product and atmosphere-budget updates remain separate from this experiment.
+- **RYA-1281** — Apply verified FeII depth widths; exact natural replays, tiny direct O response and reference-dependent continuum change (v218).
+
+## 2026-11-06 — FeII atlas profile and native broadening source
+
+- **RYA-1281** — Compare both atlases without fitted gf/width/RV; expose structured shoulders and verify native FeII pressure/Stark branches before a broadened transfer (register v217).
+
+## 2026-11-05 — fixed-oxygen FeII transfer differential
+
+- **RYA-1281** — Replay frozen spectra exactly and isolate FeII7777.12; negligible direct O absorption but2.02-2.09mA7775continuum response, both references/RVs retained (register v216).
+
+## 2026-11-05 — local oxygen-anchor opacity screen and main reconciliation
+
+> **Current as of `main` 9a74d843** (2026-11-05 integration audit; historical Bride controls retained separately).
+
+- **RYA-1311** — PR #607 landed on main9a74d843, including RYA-1315 updates; production Ca/ORCH state lives on that main snapshot, not in this frozen Bride experiment.
+- **RYA-1281** — Screen local source-qualified natural LTE opacity; FeII7777.12 becomes a strength-supported transfer candidate, with unchanged O populations and current-main input changes withheld (register v215).
+
+## 2026-11-05 — oxygen anchor influence and source availability
+
+- **RYA-1281** — Reconstruct fixed-anchor shifts and signed cancellation; audit all388candidate source identities without blend attribution (register v214).
+
+## 2026-11-04 — oxygen numerical endpoints and profile geometry
+
+- **RYA-1281** — Bound frozen IAG Gaussian resolution sensitivity below0.1mA; preserve multi-mA reference gap and native LSF/opacity gates (register v213).
+
+- **RYA-1281** — Expose continuum support/termination without changing fits; verify local IAG flags and retain global fractional-flag discrepancy (register v212).
+
+- **RYA-1281** — Decompose frozen continuum references; trace extrapolated anchors and characterize final-pass support/count defect (register v211).
+
+- **RYA-1281** — Complete lower-g refinement with cost-only extension; fresh rates pass, continuum/reference spread remains dominant.
+- **RYA-1281** — Record native Ng calls; preserve exact replay and two bounded refusals; disabling acceleration does not close lower-g gap.
+- **RYA-1281** — Verify three refined endpoints, retain lower-g timeout, expose xi shape information; numerical/reference gates stay open.
+
+## 2026-11-02 — Stark and coupled oxygen controls
+
+- **RYA-1281** — Verify Stark conventions, expose H2 coverage gap, and converge bounded coupled O; feedback too small for window gap.
+
+## 2026-11-02 — source-selected Fe pressure widths
+
+- **RYA-1281** — Verify native broadening branches and test neutral-H/He widths; isolate small oxygen-window response from Fe wings.
+
+## 2026-11-02 — source-matched trace Fe opacity
+
+- **RYA-1281** — Add bounded41-line FeI mixed-opacity control; separate tiny direct O-window effect from continuum-anchor changes.
+
+## 2026-11-02 — wide oxygen continuum controls
+
+- **RYA-1281** — Reproduce wide fixed-population flux; expose synthesis/IAG continuum spread and retain mixed-opacity qualification gate.
+
+## 2026-11-02 — oxygen local-continuum audit
+
+- **RYA-1281** — Separate bounded ORCH continuum controls from shipped Kitt baseline; expose coverage and one-sided-anchor limits.
+
+## 2026-11-02 — solar bound-input oxygen controls
+
+- **RYA-1281** — five fresh solar10K O controls and rate replays pass; fixedO8.70 Kitt gap7-9%; physical/adoption gates remain open.
+
+## 2026-11-01 — exact-input opacity replay
+
+- **RYA-1281** — kernel/anchor controls clarify2018 native mass definition; held-out cap lengths within0.25%; bounded solar control next.
+- **RYA-1281** — native pressure/column gap retained; pressure forcing worsens holdout; official tau/kappa utility sourced for next check.
+- **RYA-1281** — six exact coefficient bindings and94 mismatch refusals pass; provider/cap admission remains withheld.
+- **RYA-1281** — TS point adapter reproduces native opacity exactly; five solar tables evaluated; local-input/capped-O gate stays open.
+
+## 2026-10-31 — interpolation method tradeoff
+
+- **RYA-1281** — solar10K nearest-cell sensitivity is small across methods; fixed subset row selection; joint-input admission still open.
+- **RYA-1281** — bilinear improves held-out T but worsens central columns; neither method admitted; joint input checks continue.
+
+## 2026-10-30 — held-out column interpolation
+
+- **RYA-1281** — native column closure checked; log-layer geometry helps held-out consistency; interpolated caps remain withheld.
+
+## 2026-10-29 — Fe I NUV oxygen controls
+
+- **RYA-1281** — three FeI-background controls converge; UV photoionization halves, OII mismatch shrinks; visible Kitt gap and gates remain.
+
+## 2026-10-29 — merged-main reconciliation
+
+> **Current as of `main` f8c723a8** (fetched during TS budget checkpoint).
+
+- **RYA-1317** — PR606 landed CNO per-group Asplund shifts/sigma stamps; merged diff and ticket00c7a562 checked. No Bride inputs or science state imported.
+
+## 2026-10-29 — independent Fe I continuum diagnosis
+
+- **RYA-1281** — independent near277nm budget traces weak local FeI background; EOS population difference too small; source control next.
+
+## 2026-10-29 — conditional continuum budgets
+
+- **RYA-1281** — UV background differences survive frame/composition controls; local Si/Mg budget traced; producer/opacity gates stay open.
+
+## 2026-10-28 — native LTE normalization and continuum reference
+
+- **RYA-1281** — native LTE formula agrees within0.0614%; exact MARCS opacity acquired, medium still unverified; producer gate open.
+
+> **Current as of `main` dbda7faa** — PR #605 (Fe forest deep-grade display and refreshed product payloads). Scope checked from merged diff; not merged here.
+
+## 2026-10-28 — finite-column boundary checkpoint
+
+- **RYA-1281** — two converged cap controls resolve triplet surface collapse; two failures retained; O II/producer gates remain open.
+
+> **Current as of `main` 42987358** (fetched during the boundary audit).
+
+- **RYA-1310** — `a1130fc6` PR #603 landed:97 IAG VIS products withdrawn; other IAG bands retained. Verified from f252ed62 ticket close and merged diff. Kitt Peak Bride inputs unchanged; no main merge here.
+- **RYA-1251** — `4ce679b4` PR #602 lands molecular half-3D uncertainty follow-up; `42987358` PR #604 adds orchestrator runbook lessons. Scope from merged diffs, not a new Bride production result.
+
+## 2026-10-28 — source contracts and current-main reconciliation
+
+- **RYA-1281** — sourced CH0/MN audit and two Mac controls; finite-top boundary is next; no admission or adopted rate change.
+
+> **Current as of `main` 9d3ebbea** (2026-10-28 audit; fetched Git, merged diffs and ticket reports).
+
+- **RYA-1250** — `e1e0790a` PR #600 landed Mg orchestrator work:219 live,24 quarantined,9 held;172 units x9 budget legs. Source: ticket close c36f5495 and merged69569fe3 diff. Recorded only; no Bride rerun or main merge.
+- **RYA-1251** — `d72492a0` PR #599 adds the Canocchi bibliography row (ticket169e4ff0 confirms science599 merged); `9d3ebbea` PR #601 lands published-sigma accounting from Asplund2021. Scope verified in merge diffs; no new abundance calculations here.
+
+## 2026-10-28 — merged-main reconciliation
+
+- **RYA-1281** — reverse-reservoir contract probe; no adopted rates; Ryan sets CNO milestone before Fe and another star.
+
+> **Current as of `main` 5d517cbc** (2026-10-28 audit).
+
+- **RYA-1251** — `5d517cbc` PR #595 landed. Latest ticket report: 112 Na products across six bands, 72/360 cells run, zero failed; ENGINE-A table extended by 660 rows. Mean-3D/no-grid and non-convergent-fit holds remain. Sourced from ticket comment 18f57859 and merged diff; this records another branch, not a Bride result.
+
+## 2026-10-28 — Bride oxygen rate conventions
+
+- **RYA-1281** — native spline oracle isolates reverse-charge closure; photospheric b error0.0054, outer/reference gates remain open.
+
+- **RYA-1281** — collision-convention defect traced; safeguarded controls and mixed O+Ni opacity prototype; native MULTI parity remains open.
+
+## 2026-10-27 — Bride oxygen population audit
+
+- **RYA-1281** — matched LTE/NLTE, independent departures and CE/CH controls isolate population mismatch; O6300/O6158 blends remain owed.
+
+## 2026-10-26 — Bride oxygen validation experiments
+
+- **RYA-1281** —36 Mac NLTE controls,10K grid and positive-layer holdouts; solar O777 remains18–19% weak; adaptive/full3D roadmap open.
+- **RYA-1281** — first corrected Kitt Peak flux comparison at fixed O8.70; window absorption21–22% low; no abundance fit/admission.
+- **RYA-1281** — three converged O reference-node spectra; sampling/initialization controls stable; MULTI mismatch keeps admission open.
+
 ## 2026-10-24 — bibliography integration reconciled by RYA-1274
 
 > **Current as of `main` 183310d8** (2026-10-25 audit) — verified from fetched Git and the merged diffs.
 
 - **RYA-1271** — PRs #593/#594 landed the bibliography/source-page refresh and removed internal-note citations; existing v171 records scope.
 
-## 2026-10-25 — review branch
+## 2026-10-25 — merged bootstrap and Bride review branches
 
-- **RYA-1274** — agent bootstrap and reference discovery validated; ORCH/literature gaps filed as RYA-1275/1276/1277; review pending.
+- **RYA-1279/1280** — mixed collision grids and ABO conversion fixed; synthetic transfer/SE controls pass; O reference gate open.
+
+- **RYA-1278** — O-first foundation controls tested; atom/reference and RT/SE gates HOLD; RYA-1279–1282 filed; review pending.
+- **RYA-1274** — bootstrap/reference discovery merged in PR #596 (`0ade2170`); RYA-1275/1276/1277 remain open.
 
 # Codex Ticket Sequence — chronological landing log
 
@@ -542,3 +814,15 @@ The grid-shift lever Ryan asked to have VERIFIED rather than assumed **exists**:
 ### 2026-09-24 — RYA-1223 what it deliberately did not do
 
 Everything is generated by the site's own `scripts/generate_fe_publication.py`; no page hand-edited and no value typed (RYA-914). The per-band best-value headline selection was left exactly as already instructed — it renders the VIS Reference Amarsi 3D-NLTE anchor and **7.466 is not the headline**. 🔴 **Budget completeness does NOT pass feed-wide and does not pass differentially**: `sigma_syst_components` is `(published_syst, sigma_xi)` on 154 of 160 products with no named stellar-parameter term in any band, the sourced budget reaches no product path (RYA-1112 F1 standing), and `audit_uncertainty_rya587.py` reported "full-contract complete set: []" with 160/160 failing before RYA-1226 — six now pass. Ryan ruled PROCEED on the grounds that the reconcile is strictly more honest than a live site carrying 16 too-small bars and 7 xi-less products. Teff/logg stays owed to **RYA-1120**, canonical budgets to **RYA-587**. Also recorded, not fixed: the near-UV `opacity_note` carried in `Fe.json` still asserts "the headline, which rests on the VIS anchor 7.466" — stale prose on 5 products that no script writes, so the fix belongs to the RYA-1178 emitter path.
+
+## 2026-11-03
+
+- **RYA-1281 / v203** — Pinned full-domain H2 source tables and bounded fixed-ne hydrogen chemistry checks on Mac; all56 rows covered, source reconstruction residual explicit, no H2 RT or production admission.
+
+- **RYA-1281 / v204** — Paired H2 pressure control changes O apertures below0.000094mA; full chemistry/xi/reference gates remain open.
+
+- **RYA-1281 / v205** — Fresh solar xi0.9/1/1.1 solves pass; broader multi-parameter sweep recorded as owed, not completed.
+
+- **RYA-1281 / v206** — Wider xi gives7distinct points; hotter Teff preflight exposes collision-domain gap, broader axes remain open.
+
+- **RYA-1281 / v207** — Fresh Teff/gravity cases and nominal refinement pass; multi-mA physical responses dwarf tested sampling changes.

@@ -1,0 +1,109 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Four predeclared 10K solar-neighborhood controls after the successful5772 baseline, same gravity/xi/O/physics/numerics. Exact-input point coefficients and explicit density-integral/log-top cap per case. No fitting or best-case selection.",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized exception to Sirius compute",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "window_air_A": [
+    7768.0,
+    7780.0
+  ],
+  "step_A": 0.005,
+  "cases": [
+    {
+      "name": "solar5752_bound_Fe_sampled",
+      "teff": 5752,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "fine_T5752"
+    },
+    {
+      "name": "solar5762_bound_Fe_sampled",
+      "teff": 5762,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "fine_T5762"
+    },
+    {
+      "name": "solar5782_bound_Fe_sampled",
+      "teff": 5782,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "fine_T5782"
+    },
+    {
+      "name": "solar5792_bound_Fe_sampled",
+      "teff": 5792,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "fine_T5792"
+    }
+  ]
+}

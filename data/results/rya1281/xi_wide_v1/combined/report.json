@@ -1,0 +1,138 @@
+{
+  "schema": "codex.bride_xi_curve_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "compare_bride_xi_curves.py",
+    "bytes": 7117,
+    "sha256": "db13f54b0b089a3b3b118a0689ff98b4a03c66c13aba7d638f73f6b63e2e325d"
+  },
+  "inputs": [
+    {
+      "name": "report.json",
+      "bytes": 29454,
+      "sha256": "9ab47f636c2da8f69281f20184f022f795d395baf4ec09e6754321f71cea1915"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29449,
+      "sha256": "ebd4a33b229e629028534c5737e1b3331f6ede0717e6359be151c32babae00ae"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29457,
+      "sha256": "c54c1ed66d639d8b4456f669d65eaed33efc7a1d82a4e0ab3e45d6325b7ff0c8"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29467,
+      "sha256": "7806828a823723613bb19eb1ee4686f0c4ee203fda11fef1f3c130af780cd36f"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29476,
+      "sha256": "bec9f9ff0a2f7c3afcaddb5cc4514a3c21b4c6e87bf1d8b7d63eb19a344a0d7e"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29473,
+      "sha256": "6fe0759b56c3cb961fb1c32f6f2c08ec505ddda357c864b6ba8e6d061b352391"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29467,
+      "sha256": "9f1ff4ab1f9ed34d617bf3888275cd5a16c017740e15b8ca41b58cb85e87cfd9"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29474,
+      "sha256": "30fd2bd62261bdec40d7f807cd905f7e2713c334158e6dbbc4bbdbad3094778c"
+    }
+  ],
+  "nominal_flux_array_identity": true,
+  "unique_xi_km_s": [
+    0.5,
+    0.75,
+    0.9,
+    1.0,
+    1.1,
+    1.25,
+    1.5
+  ],
+  "curve": {
+    "name": "curve.csv",
+    "bytes": 1317,
+    "sha256": "dec06fc8451fe40b1704e0ace1742139cc06866baf8d60e5b4b21222a665fa57"
+  },
+  "figure": {
+    "name": "combined_xi_response.png",
+    "bytes": 104067,
+    "sha256": "2d70e7db1d1c9ee7e0efe6baf912d2565bbcd4e4bedb8d1eea14a3a54272afb3"
+  },
+  "coarse_curve_checks": [
+    {
+      "xi_km_s": 0.9,
+      "linear_minus_actual_mA": [
+        0.028993089477566514,
+        0.023988191288104588,
+        0.017436043468890716
+      ],
+      "pchip_minus_actual_mA": [
+        0.00022848615463999522,
+        0.00019260164858536655,
+        0.000141074572596267
+      ],
+      "profile_reconstruction": {
+        "linear": {
+          "max_abs_normalized_flux_error": 0.0012043548129855308,
+          "oxygen_aperture_max_error": [
+            0.00019787144196137252,
+            0.0001713904715483494,
+            0.00013514608089537639
+          ]
+        },
+        "pchip": {
+          "max_abs_normalized_flux_error": 0.0001075230228633206,
+          "oxygen_aperture_max_error": [
+            1.9988565941653214e-05,
+            8.454180837280667e-06,
+            9.117529889857146e-06
+          ]
+        }
+      },
+      "profile_method": "Interpolate emergent Fnu and continuum separately, then divide; no SE or interpolated-population admission"
+    },
+    {
+      "xi_km_s": 1.1,
+      "linear_minus_actual_mA": [
+        0.025134278516091513,
+        0.020708811648120218,
+        0.014886426051454293
+      ],
+      "pchip_minus_actual_mA": [
+        -0.0011570779471838932,
+        -0.0009582505158078902,
+        -0.0007022666177718406
+      ],
+      "profile_reconstruction": {
+        "linear": {
+          "max_abs_normalized_flux_error": 0.001224413122809631,
+          "oxygen_aperture_max_error": [
+            0.0001814568346378831,
+            0.0001563862963641638,
+            0.00012159204510331367
+          ]
+        },
+        "pchip": {
+          "max_abs_normalized_flux_error": 9.563433924464348e-05,
+          "oxygen_aperture_max_error": [
+            2.2721657656932237e-05,
+            1.113022135812436e-05,
+            5.972557749700513e-06
+          ]
+        }
+      },
+      "profile_method": "Interpolate emergent Fnu and continuum separately, then divide; no SE or interpolated-population admission"
+    }
+  ],
+  "caveats": "Known local points0.9/1.1 check reconstruction from wider0.5/0.75/1/1.25/1.5 slice. Not blind validation, new stellar reference, physical interpolation accuracy or an abundance fit."
+}

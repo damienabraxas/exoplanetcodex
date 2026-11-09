@@ -1,0 +1,921 @@
+{
+  "schema": "codex.bride_solar_matched_column/1",
+  "scientific_admission": "HOLD",
+  "case": "T_5762",
+  "scope": "Matched baseline/T-only/g-only/canonical-solar column experiment at unchanged source O8.70/41level atom/collision hypotheses/bare background/xi1/geometry-cap policy/numerical controls. Fresh independent class-C+transition-R and conservation required; no EOS feedback, interpolation accuracy, source/reference/model/abundance admission or production/merge/publication. Isolated full-coupling preconditioner after toy and full-O fixed-population rate-action tests. No change to physical source or admission/default/production. Prospective finite-cap derivative preconditioning after compiled derivative and full-O unchanged-rate tests; original analytical cap, source and numerical limits unchanged. Prospective independent solar-centered +/-10K and extended microturbulence controls. Xi varies the depth-constant RT Doppler velocity only on the SAME xi1 MARCS thermal/pressure structure; this is not a self-consistent turbulent-pressure atmosphere or a fitted optimum. Solar replay plus eight probes; baseline remains available as a dry context only. All independently start from the original common fractions; no failed seeds, sequential warm starts or observation tuning.",
+  "generator": {
+    "name": "run_bride_solar_matched_mali.py",
+    "bytes": 13283,
+    "sha256": "e25cfd7ccbf31a7254b4809c03350e98cc02abfb3eb11d2248dc2fff3152a1c5"
+  },
+  "plan": {
+    "name": "rya1281_solar_sensitivity.json",
+    "bytes": 5937,
+    "sha256": "9800587369569da95e46490dae08be0db532252ef9eed82e54c7f7bd1661f00b"
+  },
+  "state": {
+    "case": "model_mass_H",
+    "height_m": [
+      695027.6421117042,
+      669054.4040359743,
+      642833.8380115343,
+      616546.8261835777,
+      590057.4635985593,
+      563320.8997070068,
+      536382.0793967019,
+      509291.8278147952,
+      482004.6445824378,
+      454369.099939231,
+      426632.49107444246,
+      413065.10037992004,
+      399351.3838003007,
+      385682.69319067453,
+      371912.80889883585,
+      358066.1866445743,
+      344190.6927925786,
+      330214.9845974267,
+      316234.744978127,
+      302240.12198746076,
+      288140.7462070053,
+      273935.81467193644,
+      259721.82412920456,
+      245497.96544978724,
+      231063.81165463317,
+      216720.82807345822,
+      202167.52434470042,
+      187599.81484387236,
+      172927.36837425275,
+      158144.84096791764,
+      143248.5656993158,
+      128246.75556433121,
+      113131.69707014604,
+      97951.50272466865,
+      82736.59705476166,
+      67590.25276333696,
+      52658.72501335168,
+      38167.642332090974,
+      24391.956572260882,
+      11604.602959476777,
+      0.0,
+      -10288.877879592294,
+      -19238.56235292257,
+      -26841.31136832438,
+      -33109.01541177022,
+      -38308.250209988495,
+      -42873.692336743814,
+      -47130.282570769894,
+      -51288.937992404666,
+      -55486.086889418795,
+      -59794.72109559196,
+      -69298.3349647973,
+      -80099.82864545776,
+      -92604.02742255584,
+      -107213.10476331787,
+      -124320.20004799843
+    ],
+    "temperature_K": [
+      4054.7612,
+      4090.5467999999996,
+      4133.9428,
+      4178.6056,
+      4223.778,
+      4269.1504,
+      4314.4448,
+      4359.6316,
+      4404.6204,
+      4449.3312,
+      4493.263199999999,
+      4515.7244,
+      4537.7952000000005,
+      4559.8460000000005,
+      4581.8312,
+      4603.8135999999995,
+      4625.9712,
+      4648.2584,
+      4670.9256,
+      4693.9976,
+      4717.7648,
+      4742.6072,
+      4768.579199999999,
+      4796.2216,
+      4825.859199999999,
+      4857.909199999999,
+      4892.3844,
+      4932.3856,
+      4974.520799999999,
+      5022.084,
+      5075.610000000001,
+      5135.506799999999,
+      5203.719599999999,
+      5281.0976,
+      5368.987999999999,
+      5469.5396,
+      5583.3060000000005,
+      5713.2508,
+      5861.2104,
+      6029.3904,
+      6219.7244,
+      6435.771199999999,
+      6678.129599999999,
+      6965.74,
+      7294.5548,
+      7598.5336,
+      7857.9944,
+      8079.466799999999,
+      8272.8904,
+      8445.6756,
+      8603.698,
+      8887.7932,
+      9152.992,
+      9409.5592,
+      9663.638799999999,
+      9919.9208
+    ],
+    "electron_pressure_Pa": [
+      0.0020854853202743624,
+      0.002691685234775351,
+      0.0034853718367627625,
+      0.004510739981977365,
+      0.0058317540058362705,
+      0.007530233537136245,
+      0.009711043719677867,
+      0.012508679962596532,
+      0.01609113513062496,
+      0.02067546858846916,
+      0.026523264567537452,
+      0.03004208422122989,
+      0.03400823027781902,
+      0.03848804655412656,
+      0.04354779816850967,
+      0.04926181685160075,
+      0.0557192597349956,
+      0.06301667598348504,
+      0.07127320007264647,
+      0.08061915926848905,
+      0.0912217455612457,
+      0.10327451135844855,
+      0.11701171514970678,
+      0.13271565629399776,
+      0.15073511614603294,
+      0.17148470970425198,
+      0.1954268841646763,
+      0.22364167689902734,
+      0.25633995138155097,
+      0.2950579670513038,
+      0.3413450554001106,
+      0.39717001347285963,
+      0.46597880932887736,
+      0.5526181009400002,
+      0.6648996986057139,
+      0.8167233105679828,
+      1.029879927164215,
+      1.345288269868235,
+      1.83267685232294,
+      2.6131329474041203,
+      3.8989661108922804,
+      6.078860263522262,
+      9.8124695115085,
+      16.75215592801218,
+      29.55834624296455,
+      48.15032790213904,
+      71.18781589893277,
+      97.7356990919543,
+      127.41329633787788,
+      160.13087753352076,
+      196.0914390210098,
+      278.4382297139299,
+      380.71004028701674,
+      509.1498455108889,
+      672.0858993504905,
+      880.9072377483396
+    ],
+    "ne_m3": [
+      3.725252728015638e+16,
+      4.766030230489739e+16,
+      6.106586886466985e+16,
+      7.818623447920182e+16,
+      1.0000276287997845e+17,
+      1.277558737542474e+17,
+      1.630252514574684e+17,
+      2.078143703144525e+17,
+      2.6460136630576115e+17,
+      3.3656931004553875e+17,
+      4.2754221692533997e+17,
+      4.818551633492584e+17,
+      5.428164839430988e+17,
+      6.113495263374775e+17,
+      6.884002232475498e+17,
+      7.750087040076324e+17,
+      8.724012909829115e+17,
+      9.819268026966988e+17,
+      1.1051906320219881e+18,
+      1.243968227074288e+18,
+      1.4004769940106412e+18,
+      1.5772112959278497e+18,
+      1.7772733610883295e+18,
+      2.004180372908295e+18,
+      2.2623181487180997e+18,
+      2.55675960311748e+18,
+      2.893194437281248e+18,
+      3.284048823885354e+18,
+      3.7323205222915855e+18,
+      4.2553693345911393e+18,
+      4.871012658000856e+18,
+      5.601534682719191e+18,
+      6.485839045262063e+18,
+      7.579050461571006e+18,
+      8.96969320919163e+18,
+      1.0815287446179693e+19,
+      1.336007971352709e+19,
+      1.7054773365542932e+19,
+      2.2647093300621464e+19,
+      3.1390771304878887e+19,
+      4.540380036366786e+19,
+      6.841249833583031e+19,
+      1.0642345735996065e+20,
+      1.741876391111141e+20,
+      2.934912967758983e+20,
+      4.5896899363731866e+20,
+      6.561571112570066e+20,
+      8.761619917414042e+20,
+      1.1155046040537823e+21,
+      1.373265703247347e+21,
+      1.6507730198879713e+21,
+      2.2690747823696204e+21,
+      3.0126254038236644e+21,
+      3.919135000662487e+21,
+      5.03730191282481e+21,
+      6.431849293596315e+21
+    ],
+    "nH_m3": [
+      4.4139155655701155e+20,
+      5.6720773407818855e+20,
+      7.255960991182754e+20,
+      9.27044905087066e+20,
+      1.183274409252244e+21,
+      1.5091511259932713e+21,
+      1.9235366464936802e+21,
+      2.4503571670624145e+21,
+      3.1200020911510803e+21,
+      3.9711493097537096e+21,
+      5.053061035004757e+21,
+      5.69866422992776e+21,
+      6.426525053747604e+21,
+      7.246760564938734e+21,
+      8.170829708332883e+21,
+      9.212011316757109e+21,
+      1.038509467674305e+22,
+      1.1705855341961434e+22,
+      1.3192181410723143e+22,
+      1.4865245379029444e+22,
+      1.6746646784164133e+22,
+      1.8860332512422734e+22,
+      2.1233278382725795e+22,
+      2.3895078828464623e+22,
+      2.6875895323494915e+22,
+      3.021045613626513e+22,
+      3.3937080972563033e+22,
+      3.8074035159130714e+22,
+      4.268784212480537e+22,
+      4.780072761927391e+22,
+      5.344594716021436e+22,
+      5.966612868089142e+22,
+      6.646525792061549e+22,
+      7.3844688975547584e+22,
+      8.177113275731417e+22,
+      9.013182624240658e+22,
+      9.875782982617599e+22,
+      1.0732828947023035e+23,
+      1.1543780020445447e+23,
+      1.2263739939741582e+23,
+      1.28527048451494e+23,
+      1.3279015387254768e+23,
+      1.3532440614792e+23,
+      1.3573949081472723e+23,
+      1.3423722455832748e+23,
+      1.3242260470504586e+23,
+      1.3099195929771232e+23,
+      1.3001699250313772e+23,
+      1.2943359222127365e+23,
+      1.2918322644247497e+23,
+      1.2922345176992556e+23,
+      1.3012185827596833e+23,
+      1.3192846129081405e+23,
+      1.346791012670119e+23,
+      1.3847153647437077e+23,
+      1.4346924642655835e+23
+    ],
+    "vturb_m_s": [
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0
+    ],
+    "ne_owner": "source-precision MARCS/interpolated Pe/(LW k*T)",
+    "nH_owner": "source-precision MARCS/interpolated rho*X/(LW Amu*H mass)"
+  },
+  "state_helper": {
+    "name": "bride_solar_matched.py",
+    "bytes": 3412,
+    "sha256": "d4961f44be38a67ff6f4f120fafb780cb862600ee3fc16b26f3b2b56bcf721df"
+  },
+  "context_helper": {
+    "name": "bride_H_nlte_control.py",
+    "bytes": 3571,
+    "sha256": "a5f5d638c5262c5664fd5c305aa8e48c0a63e52af9b831ab31b3b497cfcd9e17"
+  },
+  "case_parameters": {
+    "name": "T_5762",
+    "teff": 5762.0,
+    "logg": 4.438,
+    "native": false
+  },
+  "source_nodes": [
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    }
+  ],
+  "column_preparation": {
+    "sources": [
+      {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      },
+      {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      },
+      {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    ],
+    "case_interpolation": {
+      "baseline": {
+        "method": "native source precision, no interpolation",
+        "target": [
+          5750.0,
+          4.5
+        ]
+      },
+      "solar": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "T_5762": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.048,
+          0.8279999999999994,
+          0.12400000000000055
+        ]
+      },
+      "T_5782": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.128,
+          0.7479999999999994,
+          0.12400000000000055
+        ]
+      },
+      "xi_0p25": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "xi_0p5": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "xi_0p75": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "xi_1p25": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "xi_1p5": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "xi_2p0": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      }
+    },
+    "native_node_max_absolute_identity": {
+      "height_m": 1.1641532182693481e-10,
+      "temperature_K": 0.0,
+      "electron_pressure_Pa": 2.2737367544323206e-13,
+      "rho_kg_m3": 2.710505431213761e-19,
+      "logtau_ross": 0.0,
+      "logtau_500": 0.0
+    },
+    "native_node_interpolation": {
+      "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+      "thermodynamic_scale": "log_positive_layers",
+      "target": [
+        5750.0,
+        4.5
+      ],
+      "simplex_source_indices": [
+        3,
+        1,
+        0
+      ],
+      "weights": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "field_ownership": "Native MARCS source precision for baseline; audited nearest-cell simplex log-positive Pe/rho/log-layer-thickness interpolation for others,56depths. ne=Pe/(LW k*T),nH=rho*X/(LW Amu*H mass). No exported native network/Pe rounding packet or molecule provider transplanted.",
+  "binding_change_from_prior": {
+    "height_m": {
+      "max_absolute": 92627.64211170422,
+      "max_relative": null
+    },
+    "temperature_K": {
+      "max_absolute": 21.76660468749924,
+      "max_relative": 0.002701342090161374
+    },
+    "electron_pressure_Pa": {
+      "max_absolute": 41.47274272041045,
+      "max_relative": 0.06164889825414299
+    },
+    "ne_m3": {
+      "max_absolute": 3.101633180432146e+20,
+      "max_relative": 0.06369957596572806
+    },
+    "nH_m3": {
+      "max_absolute": 1.6441662995703148e+22,
+      "max_relative": 0.10281764424394091
+    },
+    "vturb_m_s": {
+      "max_absolute": 0.0,
+      "max_relative": 0.0
+    }
+  },
+  "density_helper": {
+    "name": "bride_reference.py",
+    "bytes": 10407,
+    "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+  },
+  "interpolator": {
+    "name": "bride_parameter_checks.py",
+    "bytes": 6354,
+    "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "warm_report": {
+    "name": "report.json",
+    "bytes": 17385,
+    "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+  },
+  "warm_populations": {
+    "name": "populations.npz",
+    "bytes": 54276,
+    "sha256": "176a42000b1c4cb09c9c093b4008df185a14e0454507f4f5951c1cc74951d8b3"
+  },
+  "initialization": "Same completed v2 model-H level fractions for ALL four fresh solves, separately mapped to each new O total. No sequential matrix warm starts, imported J/rates or observational tuning.",
+  "initialization_mode": "common_fractions",
+  "solver_operator": "Complete weighted MALI with incoming finite-cap emissivity response; physical boundary unchanged.",
+  "controls": {
+    "rays": 5,
+    "qscale": 2,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 7,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "cap_length_m": 84362.76027271051,
+  "background": "Native FastBackground plus existing passive atoms, explicitly empty LW molecule population table; no added Fe/CN line providers. Full source O model radiative grid with doubled line quadratures; only diagnostic-window endpoints added to SE grid, emergent full4001point rays sampled afterward.",
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "LW_constants": {
+    "name": "constants.py",
+    "bytes": 941,
+    "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+  },
+  "iteration_plugin": {
+    "receipt": {
+      "name": "receipt.json",
+      "bytes": 12068,
+      "sha256": "6d1c11c2410f32dc62a36ebf9767c01a6adc9dd5cee4e1db29a7107f932c0eec"
+    },
+    "plugin": {
+      "name": "bride_overlap_guard.dylib",
+      "bytes": 239768,
+      "sha256": "9a9d696c989d2053a101cbfa60d08ba7230e02c04915670fe6ee82760be7facd"
+    },
+    "backend": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "properties": {
+      "name": "bride_full_coupling_cap_scalar",
+      "Ndim": -1,
+      "dimensionSpecific": false,
+      "respectsFormalSolver": true,
+      "defaultPerAtomStorage": true,
+      "defaultWlaGijStorage": true
+    }
+  },
+  "numerical_algorithm": {
+    "method": "full_coupling_cap_mali",
+    "native_ng": true,
+    "scope": "Complete quadrature-weighted cross-level MALI plus the fixed-extinction emissivity derivative of the EXISTING finite cap, on incoming top-layer PsiStar only. Actual transfer, cap length/coefficients, physical rates, original Ng and final thresholds/budgets unchanged. No observations or failed seeds used."
+  },
+  "initial_total_conservation_error": 1.1102230246251565e-15,
+  "SE_wavelength_rows": 6796,
+  "source_collision_contract": {
+    "spline": {
+      "oracle": {
+        "name": "manifest.json",
+        "bytes": 1897,
+        "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+      },
+      "source_directions": true,
+      "reversible_ch0_LTE_reservoir_hypothesis": false,
+      "temperature_unchanged_required": true,
+      "CH_negative_spline_values_clipped_as_native": 0
+    },
+    "MN": {
+      "author_data": {
+        "name": "receipt.json",
+        "bytes": 2847,
+        "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+      },
+      "adapter": {
+        "name": "bride_charge_contract.py",
+        "bytes": 5734,
+        "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+      },
+      "CH0_replaced": 24,
+      "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+      "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+      "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+      "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+    }
+  },
+  "coupled": {
+    "controls": {
+      "rays": 5,
+      "qscale": 2,
+      "rtol": 1e-06,
+      "maxiter": 1500,
+      "seconds_per_case": 600,
+      "flux_rays": 7,
+      "ng": true,
+      "reject_invalid_ng": true,
+      "converge_cap_radiation": true,
+      "cap_radiation_rtol": 1e-08,
+      "cap_radiation_maxiter": 100
+    },
+    "iterations": 8,
+    "final_diagnostics": {
+      "iteration": 8,
+      "population_change": 1.3837378207312266e-07,
+      "physical_rate_residual": 2.7274468740607814e-08,
+      "J_change": 5.257113094898518e-07,
+      "cap_boundary_change": 5.257116516833736e-07,
+      "particle_conservation_error": 6.661338147750939e-16,
+      "rejected_invalid_ng": false,
+      "fixed_population_radiation": {
+        "iterations": 4,
+        "final_J_change": 5.913269207624694e-09,
+        "final_boundary_change": 1.9381706062641035e-09,
+        "outer_J_change": 5.257113094898518e-07,
+        "outer_boundary_change": 5.257116516833736e-07,
+        "mali_refresh_J_change": 1.6000402114357826e-09,
+        "mali_refresh_boundary_change": 1.332967910440624e-09
+      }
+    },
+    "fresh_physical_rate_residual": 1.1731094054282106e-08,
+    "fresh_radiation": {
+      "iterations": 3,
+      "final_J_change": 1.6998902285791928e-09,
+      "final_boundary_change": 1.7292394558031902e-09,
+      "outer_J_change": 8.432891852325432e-08,
+      "outer_boundary_change": 8.296854249217033e-08
+    },
+    "max_relative_population_change_from_initial": 0.19035829355329636,
+    "source_spline": {
+      "oracle": {
+        "name": "manifest.json",
+        "bytes": 1897,
+        "sha256": "9dff1bd6a0108d60d475a3c724d907f4cfc53b5c58b1680832ee6e090c5fcad3"
+      },
+      "source_directions": true,
+      "reversible_ch0_LTE_reservoir_hypothesis": false,
+      "temperature_unchanged_required": true,
+      "CH_negative_spline_values_clipped_as_native": 0
+    },
+    "source_mn": {
+      "author_data": {
+        "name": "receipt.json",
+        "bytes": 2847,
+        "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+      },
+      "adapter": {
+        "name": "bride_charge_contract.py",
+        "bytes": 5734,
+        "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+      },
+      "CH0_replaced": 24,
+      "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+      "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+      "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+      "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+    },
+    "history": {
+      "name": "history.jsonl",
+      "bytes": 4761,
+      "sha256": "3731252684b55b16c681b3fce072d3ce6004cd853d0c931cac9aea1f6bb4c3ad"
+    },
+    "populations": {
+      "name": "populations.npz",
+      "bytes": 54238,
+      "sha256": "0ea4850fd428dc617c11cde8359403e369cdeae25dee948fe279c2fbd5becff0"
+    },
+    "rates": {
+      "name": "rates.npz",
+      "bytes": 4240526,
+      "sha256": "2e605125778bc9587d02fe7adc05ee01d4b5e6f86403bfebce71b028e02cfc0d"
+    },
+    "helper": {
+      "name": "bride_coupled_cap_mali_control.py",
+      "bytes": 6127,
+      "sha256": "bba5ec6d0fa5285ffc8ecc5a7a95304ab226958e837ef147aba9664ab87de97d"
+    },
+    "operator": "Complete weighted MALI with incoming finite-cap emissivity derivative; unchanged physical rates",
+    "legacy_helper": {
+      "name": "bride_coupled_control.py",
+      "bytes": 4768,
+      "sha256": "24dd389d3ad69c49096aa3f18be8e7421631b7d43f7bfcd01ade50bff371f3bb"
+    }
+  },
+  "independent": {
+    "physical_rate_residual": 1.1731094161625443e-08,
+    "particle_conservation_error": 6.661338147750939e-16,
+    "collision_classes": [
+      "CE",
+      "CI",
+      "CH",
+      "CH0"
+    ],
+    "rates": {
+      "name": "independent_rates.npz",
+      "bytes": 887315,
+      "sha256": "909df52af334732286bd75f3c4f39a439d468d1c59b1c94fa939e3d8df5392bb"
+    },
+    "kernel": {
+      "name": "bride_rate_audit.py",
+      "bytes": 1365,
+      "sha256": "227c447738f727c0d8a302105acee4a4c000ce96871186ad2ebc272fa193a17f"
+    }
+  },
+  "continuum_radiation": {
+    "iterations": 36,
+    "final_J_change": 6.081000258895131e-09,
+    "final_boundary_change": 3.16661866219356e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "6effda61801160a01faa6f04cf0ae7cd0343fc60ff7693cc96f2fcf2093b76c4"
+  },
+  "baseline_lookup_inventory": [
+    "CH",
+    "H",
+    "H-",
+    "H2",
+    "OH"
+  ],
+  "telemetry": {
+    "seconds": 43.76339208288118,
+    "process_peak_rss_bytes": 687652864,
+    "threads": 1,
+    "load": [
+      8.6162109375,
+      8.6435546875,
+      7.15283203125
+    ]
+  },
+  "limitations": [
+    "Explicit model-H/source-owned column experiment; no exported native-network packet transplanted; same initial fractions across four fresh cases.",
+    "Same experimental collision spline/MN and finite-cap hypotheses, not independent physical model/reference admission.",
+    "No added Fe/CN line opacity, validated interpolation/column mass, abundance fit, EOS/charge/thermal feedback or preferred source/model admission."
+  ]
+}

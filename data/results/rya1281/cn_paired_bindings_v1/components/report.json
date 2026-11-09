@@ -1,0 +1,65 @@
+{
+  "schema": "codex.bride_H_background_components/1",
+  "scientific_admission": "HOLD",
+  "scope": "Read-only component closure of paired H-control arrays. Reconstruct source H0*H+ free-free table component and fixed-ne Thomson scattering without fitting coefficients to array differences. Test chiB=r*chiA+(r^2-r)*pairA+(1-r)*Thomson, etaB=r*etaA+(r^2-r)*pairA*Bnu, scaB=r*scaA+(1-r)*Thomson. Source/runtime interoperability only, not independent continuum physics or EOS validation.",
+  "generator": {
+    "name": "check_bride_H_background_components.py",
+    "bytes": 6782,
+    "sha256": "99409f49c0038c37d1a14e23b5b8868a47f11028c01c7665f7cdf6f767e18f01"
+  },
+  "plan": {
+    "name": "rya1281_H_background_components.json",
+    "bytes": 567,
+    "sha256": "1faa90294de6ed85aa21af930533451356112f2f536b0eb5ec66d2d81fd3fb42"
+  },
+  "parent": {
+    "name": "report.json",
+    "bytes": 6306,
+    "sha256": "8f1a8209a45339add329849458efbd9abcdf98b9fc7c54870fb5f60f4a44746e"
+  },
+  "inspected_source": {
+    "name": "Background.cpp",
+    "bytes": 73266,
+    "sha256": "d4d0f92e28ebf0dc5f82f4ffa7e6798acee9363023e2727689ca6e875031f048"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "constants": {
+    "name": "constants.py",
+    "bytes": 941,
+    "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+  },
+  "closure_max_relative_errors": {
+    "chi": 3.3306690738754696e-15,
+    "eta": 3.1086244689504383e-15,
+    "sca": 8.881784197001252e-16
+  },
+  "prospective_arithmetic_bound": 1.1368683772161603e-13,
+  "closure_passed": true,
+  "summary": {
+    "pair_fraction_of_baseline_chi_min": [
+      1.0781105251436734e-05,
+      0.020711363100613948
+    ],
+    "pair_fraction_of_baseline_chi_max": [
+      1.0797419996197153e-05,
+      0.020711658171852287
+    ],
+    "Thomson_fraction_of_baseline_sca_min": [
+      0.21524633971797685,
+      0.9932521868539955
+    ],
+    "Thomson_fraction_of_baseline_sca_max": [
+      0.21703199360396702,
+      0.9933224605188203
+    ]
+  },
+  "limitations": [
+    "Source-table/runtime closure on fixed state, not independent physical continuum validation or source-to-binary rebuild attestation.",
+    "H0*H+ pair continuum is present despite empty LW molecular population table; no additional molecular equilibrium inferred.",
+    "No fitted amplitude, background/default change, formal solution or O NLTE solve."
+  ]
+}

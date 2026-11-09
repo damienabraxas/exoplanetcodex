@@ -1,0 +1,116 @@
+{
+  "schema": "codex.bride_solar_matched_columns_plan/1",
+  "nodes": [
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "source": {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      }
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "source": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.0,
+      "source": {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "source": {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "name": "baseline",
+      "teff": 5750.0,
+      "logg": 4.5,
+      "native": true
+    },
+    {
+      "name": "temperature",
+      "teff": 5772.0,
+      "logg": 4.5,
+      "native": false
+    },
+    {
+      "name": "gravity",
+      "teff": 5750.0,
+      "logg": 4.438,
+      "native": false
+    },
+    {
+      "name": "solar",
+      "teff": 5772.0,
+      "logg": 4.438,
+      "native": false
+    }
+  ],
+  "xi_km_s": 1.0,
+  "interpolation": "log_positive_layers",
+  "warm_report": "data/results/rya1281/H_nlte_pair_v2/model_mass_H/report.json",
+  "warm_populations": "data/results/rya1281/H_nlte_pair_v2/model_mass_H/populations.npz",
+  "controls": {
+    "rays": 5,
+    "qscale": 2,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 7,
+    "ng": false,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "range_air_A": [
+    7763,
+    7783
+  ],
+  "step_air_A": 0.005,
+  "cap_length_m": 84362.76027271051,
+  "cap_policy": "Same original baseline geometric cap length for ALL four columns; no invented/interpolated column mass or H-network transplant.",
+  "initialization": "Same completed v2 model-H level fractions for ALL four fresh solves, separately mapped to each new O total. No sequential matrix warm starts, imported J/rates or observational tuning.",
+  "field_ownership": "Native MARCS source precision for baseline; audited nearest-cell simplex log-positive Pe/rho/log-layer-thickness interpolation for others,56depths. ne=Pe/(LW k*T),nH=rho*X/(LW Amu*H mass). No exported native network/Pe rounding packet or molecule provider transplanted.",
+  "scope": "Prospective numerical acceleration control after isolated transition-local rate-identity and baseline qualification. Same original source/atom/collision/cap/background/xi/ownership/common fractional seed and every joint/radiation/resource threshold. Explicit native Ng off. Candidate screening uses fresh physical rates, not observational residuals. No physical source/reference/model/abundance/EOS/3D/production/merge/publication admission.",
+  "background": "Native FastBackground plus existing passive atoms, explicitly empty LW molecule population table; no added Fe/CN line providers. Full source O model radiative grid with doubled line quadratures; only diagnostic-window endpoints added to SE grid, emergent full4001point rays sampled afterward.",
+  "iteration_plugin": {
+    "resource": "experiments.bride_transition_plugin",
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 12071,
+      "sha256": "affeddb27f44ca985c48f8101c3e2ae010c20cc33ee4a00bb7edde267a890fb9"
+    }
+  },
+  "numerical_algorithm": {
+    "method": "transition_local_safeguarded_anderson",
+    "native_ng": false,
+    "parameters": {
+      "memory": 5,
+      "delay": 10,
+      "rcond": 1e-10,
+      "max_log_step": 0.05,
+      "step_policy": "backtrack"
+    },
+    "scope": "Log-fraction Anderson of transition-local MALI map. Evaluate fresh physical radiation/rates for plain and proposed states; accept extrapolation only when its fresh physical residual is strictly smaller. Re-evaluate plain state after rejection. No stale-field admission, changed tolerances, budget extension or failed seed reuse. Oversized log proposals use uniform dyadic step reduction and normalization until the actual log-population step is <=0.05; no per-population clipping/floor. Fresh physical screening still required."
+  },
+  "solver_operator": "Transition-local MALI with bounded Anderson and fresh physical residual safeguard; explicit native Ng off."
+}

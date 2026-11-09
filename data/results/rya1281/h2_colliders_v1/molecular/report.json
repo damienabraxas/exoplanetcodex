@@ -1,0 +1,196 @@
+{
+  "schema": "codex.bride_h2_collider_flux/1",
+  "scientific_admission": "HOLD",
+  "mode": "molecular",
+  "generator": {
+    "name": "run_bride_h2_colliders.py",
+    "bytes": 17168,
+    "sha256": "da3d1fe40e77c71f75a0e926860c114ae6fe6a9417ade6e1043fba874b2b925e"
+  },
+  "input_manifest": {
+    "name": "input_manifest.json",
+    "bytes": 2196,
+    "sha256": "30259311b2b1d8100fcf1eccb5f3937520e367689ed1caa50e5c253912c47952"
+  },
+  "stark_source": {
+    "name": "report.json",
+    "bytes": 157208,
+    "sha256": "afe5685a659c5451ff0dc847bec0566d1fdc1eb4d6632284546904d2c2b09ace"
+  },
+  "stark_kernel": {
+    "name": "bride_fe_stark.py",
+    "bytes": 2274,
+    "sha256": "6af871b84b229db24c4dc226829111c7ac53afb51256d607d9e8b3464e485cae"
+  },
+  "population_mode": "fixed",
+  "stark_mode": "cowley",
+  "chemistry_source": {
+    "name": "receipt.json",
+    "bytes": 4209,
+    "sha256": "1945104907e783471b6dd7cf535f289a0ea603372ce9979bcaf89e922b8b9c92"
+  },
+  "chemistry_adapter": {
+    "name": "bride_h2_tables.py",
+    "bytes": 5520,
+    "sha256": "368fbba2359607c3e507c7cca88e179eb38b9c5706ad7833f2c6133ee30ecf86"
+  },
+  "collider_provider": {
+    "name": "bride_h2_colliders.py",
+    "bytes": 2606,
+    "sha256": "54ade3678e4731ee1fa96ef33383bf339c70d9bda787a5fdd322a8c1da5bc88a"
+  },
+  "pressure_source": {
+    "name": "report.json",
+    "bytes": 10920,
+    "sha256": "b1dc0157063fdef4f3dc0c72f2c159449fec30d674d26683396d02a413b31ab1"
+  },
+  "pressure_provider": {
+    "name": "bride_fe_pressure.py",
+    "bytes": 3324,
+    "sha256": "4554015c6372c7d86c99562459e43f1aeae91ef8091f1e620b43e8eedc82ac07"
+  },
+  "provider": {
+    "name": "bride_trace_fe_lines.py",
+    "bytes": 4432,
+    "sha256": "f3aef32bb1708b92c6b2ba1cd1a9f52b565fcaa04df53f28e1909f5b34e5482f"
+  },
+  "line_coefficients": {
+    "name": "bride_lte_blend.py",
+    "bytes": 3653,
+    "sha256": "e301d597c3a4e29948488abeeb4063dcbb2c059ec1d508e2bbc161bd19448547"
+  },
+  "lines": {
+    "name": "lines.json",
+    "bytes": 110825,
+    "sha256": "cf84901b4e1e50012ce987788a68f1af975b5b35ac146619581ab26342f63ee0"
+  },
+  "partition": {
+    "name": "pf_Kurucz.input",
+    "bytes": 592244,
+    "sha256": "a7d15b25406b2736331253b6457d8ef4cfa3f3ef2275462120999121b8a734a8"
+  },
+  "selected_line_count": 41,
+  "excluded_component_count": 6,
+  "source_manifest": {
+    "name": "manifest.json",
+    "bytes": 7118,
+    "sha256": "82c06f7ef8cf8608d439493f447b11ceba6cf8610b6fe960cf3ee21e71bf6720"
+  },
+  "source_populations": {
+    "name": "populations.npz",
+    "bytes": 36823,
+    "sha256": "e754d9df4823bb9c044da898751b022553bb4efbeeb67ff5839db37571cdd14c"
+  },
+  "source_flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "33b1a565df4ac1d1e68b530c3839182151397e38bad8d6ed84dac81c6c99dc24"
+  },
+  "binding": {
+    "name": "experimental_input.json",
+    "bytes": 17148,
+    "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+  },
+  "wide_baseline": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "811bf321f12c4834335ff53f84b1c07a44c659aa33c68cf8ed135ef82aa60e13"
+  },
+  "no_blend_baseline_max_flux_difference": 0.6057035711281897,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "daf5f31ef75909ace99a7da96c36d6b38272d2d480e4cf18875e7909cc741d4b"
+  },
+  "neutral_reservoir": {
+    "name": "neutral_reservoir.csv",
+    "bytes": 5704,
+    "sha256": "071586dc705bea72216a340104b8831f3e96b394065de0c8ed58af23c3ed47b5"
+  },
+  "neutral_colliders": {
+    "name": "neutral_colliders.csv",
+    "bytes": 8533,
+    "sha256": "a28dd5a91f69bd1bb89909f14d78acbb790fb1d20db3d0abcc8316c2db252274"
+  },
+  "widths": {
+    "name": "widths.csv",
+    "bytes": 269256,
+    "sha256": "55524456e33b224b1fded1a6bdff536aef595cd5ce5377ae068716621a60a1d3"
+  },
+  "source_corner_H2_screen": [
+    {
+      "source": {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      },
+      "HI_H2_header": " k  lgPgas   H I    H-     H2     H2+    H2O    OH     CH     CO     CN     C2  ",
+      "max_H2_over_HI": 0.00044668359215096305,
+      "max_H2_fraction_of_HI_width_term": 0.0003796810533283186
+    },
+    {
+      "source": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      "HI_H2_header": " k  lgPgas   H I    H-     H2     H2+    H2O    OH     CH     CO     CN     C2  ",
+      "max_H2_over_HI": 0.0008317637711026717,
+      "max_H2_fraction_of_HI_width_term": 0.000706999205437271
+    },
+    {
+      "source": {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      },
+      "HI_H2_header": " k  lgPgas   H I    H-     H2     H2+    H2O    OH     CH     CO     CN     C2  ",
+      "max_H2_over_HI": 0.0002754228703338169,
+      "max_H2_fraction_of_HI_width_term": 0.00023410943978374434
+    },
+    {
+      "source": {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      },
+      "HI_H2_header": " k  lgPgas   H I    H-     H2     H2+    H2O    OH     CH     CO     CN     C2  ",
+      "max_H2_over_HI": 0.0005248074602497723,
+      "max_H2_fraction_of_HI_width_term": 0.00044608634121230645
+    }
+  ],
+  "trace_to_native_FeI_range": [
+    1.030915361936328,
+    1.1846144864807049
+  ],
+  "radiation": {
+    "iterations": 65,
+    "final_J_change": 8.29726543027931e-09,
+    "final_boundary_change": 1.117806121881141e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "continuum_radiation": {
+    "iterations": 36,
+    "final_J_change": 6.308356947926086e-09,
+    "final_boundary_change": 4.075227660636093e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "telemetry": {
+    "elapsed_seconds": 11.733937334269285,
+    "process_peak_rss_bytes": 742326272,
+    "host_load_start": [
+      3.0166015625,
+      3.2978515625,
+      2.8037109375
+    ],
+    "host_load_end": [
+      3.16748046875,
+      3.3203125,
+      2.8173828125
+    ],
+    "context_threads": 1
+  },
+  "caveats": "Paired FeI pressure-collider intervention only. H2 formation depletes HI; native H populations, ne, continuum and O collisions unchanged. No coupled O SE, complete EOS or molecular opacity. Fixed source Cowley Stark. No fitted opacity/damping/abundance; scientific HOLD."
+}
