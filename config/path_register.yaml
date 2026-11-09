@@ -250,6 +250,26 @@ entries:
     env: CODEX_BRIDE_FEII_COUPLED_ANALYSIS
     kind: dir
     desc: Both fixed RVs and current-ORCH continuum references for frozen versus freshly coupled O controls.
+  experiments.bride_transition_plugin:
+    root: work
+    rel: bride_mac_checks/rya1281-transition-plugin-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
+  experiments.bride_solar_transition:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-transition-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
+  experiments.bride_solar_anderson:
+    root: work
+    rel: bride_mac_checks/rya1281-solar-anderson-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
+  experiments.bride_solver_conditioning:
+    root: work
+    rel: bride_mac_checks/rya1281-solver-conditioning-v1
+    kind: dir
+    desc: Isolated Mac numerical control and retained evidence; no installed solver or scientific admission.
   experiments.bride_solar_matched:
     root: work
     rel: bride_mac_checks/rya1281-solar-matched-v1
