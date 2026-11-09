@@ -25,3 +25,15 @@ def test_oversized_proposal_returns_exact_direct_map_without_clipping():
     out,info=a.update(g,h,[1.])
     assert info['attempted']and not info['accepted']
     np.testing.assert_array_equal(out,h)
+
+
+def test_backtracking_preserves_direction_bound_positivity_and_particle_total():
+    a=LogPopulationAnderson(memory=2,delay=0,rcond=1e-10,max_log_step=.01,step_policy='backtrack')
+    n=np.array([[.6],[.4]]);root=np.array([[.7],[.3]])
+    g=.99*n+.01*root;a.update(n,g,[1.]);h=.99*g+.01*root
+    out,info=a.update(g,h,[1.])
+    assert info['accepted']and 0<info['backtracking_factor']<1
+    assert np.max(abs(np.log(out/g)))<=.01
+    assert np.all(out>0)
+    np.testing.assert_allclose(out.sum(axis=0),[1.],rtol=1e-14)
+    assert np.max(abs(out-root))<np.max(abs(h-root))
