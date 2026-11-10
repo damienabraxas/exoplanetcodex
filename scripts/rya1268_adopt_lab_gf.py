@@ -156,14 +156,18 @@ def main(only_element: str | None = None) -> None:
                  & ((g.ep_eV - cg.at[i, "excitation_potential_eV"]).abs() <= 0.02)]
 
     held = []
-    # RYA-728: a line already held for a >HOLD_MOVE_DEX lab disagreement stays held. Lab sources
-    # that disagree that much make the line a discrepancy (RYA-1378 register), and a later source
-    # landing near the list value does not settle it (Cr II 3179.449, 3183.33: Gurell vs Ward).
+    # RYA-728: a line held for a >HOLD_MOVE_DEX lab disagreement stays held until it is released
+    # on purpose. Lab sources that far apart make the line a discrepancy (RYA-1378 register); a later
+    # source landing near the list value does not settle it by itself (Cr II 3179.449, 3183.33:
+    # Gurell vs Ward). A hold is not a write-off: a better lab gf releases it through a row in
+    # data/reference/gf_hold_releases.csv naming the line_id, the releasing source and the reason.
     held_before = set(pd.read_csv(AUD / "held_large_gf_moves.csv").line_id)
+    _rel = pd.read_csv(ROOT / "data" / "reference" / "gf_hold_releases.csv")
+    released = set(zip(_rel.line_id, _rel.release_source))
     refused["already_held"] = 0
 
     def ok(i, gf, e_up, a_hz=None, w=None, src=""):
-        if cg.at[i, "line_id"] in held_before:
+        if cg.at[i, "line_id"] in held_before and (cg.at[i, "line_id"], src) not in released:
             refused["already_held"] += 1
             return False
         if abs(gf - float(cg.at[i, "log_gf"])) > HOLD_MOVE_DEX:
