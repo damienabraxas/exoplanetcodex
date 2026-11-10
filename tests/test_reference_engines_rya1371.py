@@ -35,7 +35,7 @@ def test_unknown_dimensions_and_over_budget_runs_cannot_execute(tmp_path):
     for key,value in [('mode','3D-NLTE'),('engine','unknown'),('profile_variant','unreviewed')]:
         bad=copy.deepcopy(p);bad[key]=value
         with pytest.raises(ValueError):validate_plan(bad)
-    for key,value in [('threads',2),('seconds',601),('rtol',1e-3),('maxiter',1501),('ntheta',7),('molecular_equilibrium','disabled-control'),('output_solver','unsupported'),('disable_stark_control',1)]:
+    for key,value in [('threads',2),('seconds',601),('rtol',1e-3),('maxiter',1501),('ntheta',7),('molecular_equilibrium','disabled-control'),('output_solver','unsupported'),('disable_stark_control',1),('disable_vdw_control',1)]:
         bad=copy.deepcopy(p);bad['controls'][key]=value
         with pytest.raises(ValueError):validate_plan(bad)
     for path in ['../escape','/absolute']:
@@ -104,3 +104,11 @@ def test_derived_profile_refuses_any_unexpected_source_diff_including_staged_cha
     with pytest.raises(ValueError,match='derivative source'):
         module.load_plan_engine(dict(engine='openmulti3d',profile_variant='accurate-kernel-control'),resolver=resolve)
     assert ['git','diff','--binary','HEAD']in calls
+
+
+def test_composition_controls_share_one_native_namelist_group(tmp_path):
+    p,app,resolve=fixture_plan(tmp_path)
+    p['controls'].update(disable_stark_control=True,disable_vdw_control=True,save_species='O I,O II,CO,OH,H2O,H I,H II')
+    out=tmp_path/'combined';prepare_run(p,out,app,resolver=resolve)
+    text=(out/'input.nml').read_text();assert text.count('&composition_params')==1
+    assert 'disable_stk=T, disable_vdw=T'in text and "save_species='O I,O II,CO,OH,H2O,H I,H II'"in text

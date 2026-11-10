@@ -92,9 +92,10 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
+    if not isinstance(vdw_broadening,bool):raise ValueError('Require explicit VDW diagnostic boolean')
     import lightweaver as lw
     from lightweaver import rh_atoms
     from lightweaver.atomic_table import PeriodicTable
@@ -117,6 +118,7 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
         table_audit=apply_table_control(model,*table_control)
     for line in model.lines:
         line.quadrature.Nlambda=2*(line.quadrature.Nlambda-1)+1
+        if not vdw_broadening:line.broadening.elastic=[]
         line.broadening.elastic=[NativePerturberBroadener(x,perturbers)for x in line.broadening.elastic]
     if continuum_only:model.lines=[]
     abundance={PeriodicTable[z+1]:value for z,value in enumerate(structure['abundances_dex'])};abundance[PeriodicTable['O']]=atom.abundance
@@ -125,5 +127,6 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     spect=rad.compute_wavelength_grid(extraWavelengths=np.asarray(extra_vac_nm));records=[]
     def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records)
     ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory);ctx.depthData.fill=True
-    if not continuum_only:verify_helium_reads(perturbers.reads,helium_broadening)
-    return ctx,dict(table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
+    if not continuum_only and vdw_broadening:verify_helium_reads(perturbers.reads,helium_broadening)
+    if not vdw_broadening and (perturbers.reads or any(line.broadening.elastic for line in model.lines)):raise ValueError('VDW-off diagnostic retained elastic broadening reads/terms')
+    return ctx,dict(vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

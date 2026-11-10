@@ -1,0 +1,202 @@
+{
+  "generator": {
+    "name": "audit_vdw_profile_control.py",
+    "bytes": 3426,
+    "sha256": "bc9ab0abb3a983a4d7ff2e02122c6cb168f9253abf08fdb12ad9612852a3be47"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85404,
+      "sha256": "a76996b75c92ab40f0cff7b10f048ca3777f5fc4cfd8bd4bbe38b0ec84548acf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85397,
+      "sha256": "d3bb822308656104bbe56bf51de4cb9008acfbd0ef093a73c647c2707aada956"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "d84a6ca5cf44823d454abbb23a0ae4e446fbd075790ab6f0a35499a4df3158ad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "c7e5526eb9ad47095b54dda694e57d8f507ac603c5d1e4eaedaffb9b25d43d51"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "662081bc24f9f7f9983dd88f3cf3a47c46d21e5067be23f1bb967ddb54cb767a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "57152befcdf331f6d8e24c36387d1e3eb4e21e70ae9ebf25f1e0f5d4529ff3fe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "2a0fda5f586fe80223166049bc3bf2d6803ff0bcb284ab56087e672513aa555d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "1de1641fb7e1aa8904cc951a45c59ea386284289165ab7eeb7aa287c418d951e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "a522d3ca25a359430405ad84e4222aff85c983c2f4a41d2963bec5eaa0b87a83"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "24e4b3b85e4c18256a7c60766b353bc93251a695af298333648fa1e094835562"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "f87ad7e6ed5304ddaa31a50d0474c3409e87807c0185c1d842df6d9c10867c1c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "b3681b8e191a15a3c71ed98dea9c7e04b3ec01c6b8b79752e1b1c8fff2eed79f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "cd88e7f4611848179e24cecd8cd772e858a9c94d4af7b4da8c7dbd506d7109de"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "530e6350389e7a697e813495e1f4e5c86fa7fc90ef3118f98badb19f2cf319c4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "1a38e99fb1e20856780bc9600daa28dcad30c6dd382c625ae18f1a92e57312f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "8cd2dfd26cbf8517c3649d1be707a2a57ae23e621927ad490987c257dfb30ddf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "467df2b622c4a5e36b6f3dac774a249ebfdcf69842cd3f378ef4a448614da9ce"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "735724bed849f8ad89037e91140e4184f32acc2712a41f7def92569a226c781b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "6a781f7205d045a328528de876e8a8db1657e2d90a2487702158969f9c48d849"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-vdw-transfer-v1/report.json": {
+      "name": "report.json",
+      "bytes": 142666,
+      "sha256": "a5b7daec72e4ee5d0dc4eef3c3c60e24717299683eb0ecf95a572f64f9731e04"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 4832,
+      "sha256": "0b5a2584654ff2d4c7cf299fb4d17c3f039eeeec1b9278df90db8bacef1bddfa"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "mesh_thermodynamics_nstar_collisions_bit_identical": true,
+  "native_max_relative_n_response": 0.008523422553503468,
+  "native_stored_rate_residual": 3.95879711643238e-08,
+  "limitations": [
+    "Explicit VDW-off diagnostic only, not physical omission or width/default adoption. Natural widths retained.",
+    "Own-state transfer and stored-rate balance do not qualify fresh-field/collider/SE/observed solar physics."
+  ]
+}

@@ -1164,3 +1164,9 @@ entries:
     rel: bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1
     kind: dir
     desc: Isolated accurate-kernel native Oxygen control state and spectrum, not model admission.
+
+  experiments.openmulti3d_oxygen_no_vdw_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-no-vdw-analysis-v1
+    kind: dir
+    desc: Explicit VDW-off accurate-kernel native control, not physical model adoption.

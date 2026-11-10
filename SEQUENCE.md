@@ -5,7 +5,7 @@
 - **RYA-1373** — `10f0dc95` PR #618 lands the Spectroscopic Frontier inventory/schema/coverage matrix; no scientific adoption or public HTML. Publication remains1377 after1370.
 - **RYA-1278** — `d1728c92` PR #619 integrates the completed foundation; Done records software/roadmap integration, not science admission.
 - **RYA-1281** — same landing closes the reviewed checkpoint; scientific HOLD remains and newer1371 work is excluded.
-- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v263 isolated accurate-kernel control reduces triplet area/profile differences to0.0035mA/below8.4e-5; original replay exact, VDW/source-width control next, science HOLD.
+- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v264 VDW mechanism and native wavelength roundtrip measured; six diagnostic windows within0.0072mA, explicit vacuum-centre packet/source-width control next, science HOLD.
 
 ## 2026-11-09
 

@@ -75,6 +75,7 @@ def validate_plan(plan):
     if c.get('output_angle_quad','none')not in ['none','disk_center']:raise ValueError('Unsupported reference output quadrature')
     if c.get('output_solver','quadratic')not in ['linear','quadratic']:raise ValueError('Unsupported reference output formal solver')
     if not isinstance(c.get('disable_stark_control',False),bool):raise ValueError('Require explicit Stark diagnostic boolean')
+    if not isinstance(c.get('disable_vdw_control',False),bool):raise ValueError('Require explicit VDW diagnostic boolean')
     if 'output_grid' in plan:
         g=plan['output_grid']
         if g['frame']!='air_A' or not 0<g['step_A']<=0.01:raise ValueError('Require explicit fine AIR output grid')
@@ -116,10 +117,13 @@ def prepare_run(plan,output,app,*,resolver):
 &run_params mem_limit_gb=2. /
 &m3d_debug_params verbose=1, check_NaN=T /
 '''
-    if c.get('disable_stark_control',False):nml+='&composition_params disable_stk=T /\n'
+    composition=[]
+    if c.get('disable_stark_control',False):composition.append('disable_stk=T')
+    if c.get('disable_vdw_control',False):composition.append('disable_vdw=T')
     if c.get('save_species')or c.get('molecular_equilibrium','native')!='native':
-        molecular=c.get('molecular_equilibrium','native')
-        nml+='&composition_params save_species='+quote_nml(c.get('save_species',''))+(', tmolim=1'if molecular=='suppressed-above-1K-control'else'')+' /\n'
+        composition.append('save_species='+quote_nml(c.get('save_species','')))
+        if c.get('molecular_equilibrium','native')=='suppressed-above-1K-control':composition.append('tmolim=1')
+    if composition:nml+='&composition_params '+', '.join(composition)+' /\n'
     output=Path(output)
     if output.resolve().is_relative_to(app.resolve()):raise ValueError('Run output must be outside engine source')
     output.mkdir(parents=True,exist_ok=False);(output/'input').symlink_to(app/'input',target_is_directory=True);(output/'input.nml').write_text(nml)

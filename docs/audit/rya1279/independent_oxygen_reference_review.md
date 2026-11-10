@@ -560,3 +560,58 @@ pass; original/default preservation is an actual execution check as well as a un
 regression.392 raw receipts/34 compact copies verified in accurate_profile_v1.
 Original nine-model registry and production/source atom unchanged; physical1D/3D,
 observational and all-band gates HOLD. Explicit profile variant is diagnostic only.
+
+### VDW mechanism and typed native wavelength roundtrip (v264)
+
+An explicit native VDW-off control (accurate-kernel, zero-source-Stark, linear RT)
+completes5.911s. Saved native params confirm disable_vdw=T and disable_stk=T.
+Mesh/thermodynamics/nStar and all collision matrices remain bit-identical; n changes
+at most0.852342percent, stored-rate residual3.95880e-8. The paired LW transfer uses
+that complete new state; all elastic VDW terms and perturber reads are demonstrably
+absent, natural widths retained. No omission of physical VDW is adopted.
+
+| AIR centre | own-state VDW-off area difference mA | max NLTE normalized difference |
+|---|---:|---:|
+|6158.170|+.000976|.00002386|
+|6300.304|-.00000105|.00001540|
+|7771.944|+.004886|.00009297|
+|7774.166|+.004620|.00008655|
+|7775.388|+.004136|.00007696|
+|8446.400|+.007140|.00005469|
+
+Finite +/-0.5A vertical intensities, not flux/abundance. The8446 discrepancy falls
+from-.092746 to+.007140mA; source VDW conventions explain most of its remaining
+area difference. All six windows now within.0072mA under declared diagnostic
+conventions. A residual-only six-panel plot is inspected and archived: smooth
+small antisymmetric triplet/6300 residuals persist after the QLG structure is removed.
+Each curve is its own native population comparison, not an attribution at fixed old n.
+
+A typed Fortran probe links the verified original HOP library/module and directly
+calls native air2vac/vac2air; no converter formula is copied.59 FUV line centres:
+consumed rounded table maps back to source vacuum within.000492563A, unrounded
+native roundtrip within6.97e-7A.197 other lines: consumed-table difference within
+.000497446A, unrounded roundtrip within9.1e-13A. The prior~1.04A FUV table-coordinate
+difference is NOT a photon-frequency error; internal inverse mapping recovers the
+source vacuum frequency to table precision. This qualifies numerical BB line-centre
+encoding only; canonical observation coordinates remain vacuum below2000A. UV
+opacity, bound-free/rate accuracy and all-band applicability remain separate gates.
+
+Initial probe SIGABRT from unresolved native library install-name build/libhop.so
+is preserved with an authored failure note. Fresh v2 invokes pure helpers from their
+required read-only library cwd, no original/binary modification or dependency install.
+Runtime stderr now saved. Native saved nml has embedded NUL bytes; read without
+altering its source bytes. No invalid output promoted.
+
+A further measured precision difference: canonical project's documented one-step
+AIR inverse versus native iterative inverse differs by2.23e-5A at the triplet,
+2.81e-5A6300 and2.04e-5A8446. This is a small documented approximation difference,
+not a wrong-medium finding or a reason to change global production conversion.
+Next use an explicit source-bound native vacuum photon-centre packet in this
+fixed-population diagnostic only (observation axes retain canonical conversion
+once), then qualify source-aware full widths and collider/EOS/SE. No empirical shift.
+
+50 focused tests pass2.43s.210 raw receipts/25 exact compact copies verified in
+vdw_wavelength_v1, including residual plot. Generated archive was expanded before
+commit to include that plot; initial compact-copy directory retained external under
+/private/tmp/rya1371-vdw-wavelength-initial-archive. Physical1D/observed/3D/all-band
+admission remains HOLD.
