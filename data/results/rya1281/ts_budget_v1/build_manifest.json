@@ -1,0 +1,643 @@
+{
+  "schema": "codex.bride_ts_budget_build/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "build_bride_ts_budget.py",
+    "bytes": 4830,
+    "sha256": "e9b74da491bfbf2879c4a8469b115b5c49945cf76ab6488d19b1652eaa8a9807"
+  },
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "source_files": [
+    {
+      "name": "Makefile",
+      "bytes": 6071,
+      "sha256": "a754d8a5e34f27446a6e09578a247f2ea209fa09c9518aa304c6983932a202d2"
+    },
+    {
+      "name": "trrays.f",
+      "bytes": 4277,
+      "sha256": "1ad3ebac6188600bfcddfbbc1e8aeaa9223697152f13887eec8d68f78536728a"
+    },
+    {
+      "name": "bsynb.f",
+      "bytes": 24569,
+      "sha256": "ae69a4cdad6807537521f7ba9c3328638ba56a6354a12d4b04afd2286b30de45"
+    },
+    {
+      "name": "heborysowopac.f",
+      "bytes": 2089,
+      "sha256": "0d59629659eb536d0c5b21871092ad588b6b37ab54ddf834e6292e7c6ba454af"
+    },
+    {
+      "name": "inabs.f",
+      "bytes": 19372,
+      "sha256": "fe7b1715581aa5a636cc716cf90467662dcae75af4fa05f51215669213810971"
+    },
+    {
+      "name": "tranw.f",
+      "bytes": 761,
+      "sha256": "9745cdc39a09887208c61b2fdfffa62887a2985b16fecb6776874bdaaaa1ac6b"
+    },
+    {
+      "name": "lenstr.f",
+      "bytes": 338,
+      "sha256": "dd1606145bfc1a84d6fca5b173a9e899c6c17d5997217b037448e783e416358b"
+    },
+    {
+      "name": "input.f",
+      "bytes": 11808,
+      "sha256": "452f3670d4f754c77994a487a306bb83a32bd0bebb2ff58173ec2b1871792c2f"
+    },
+    {
+      "name": "gausi.f",
+      "bytes": 2679,
+      "sha256": "2a5fceba9051088b106f0c71524fb742c88909e2dc7ba6824fb15c128a6efc18"
+    },
+    {
+      "name": "getinfospecies.f",
+      "bytes": 1939,
+      "sha256": "0cfa905411b21ee75b8f3032b7dca2f5c8917b5cef99cd0d784eaec0426c5d1e"
+    },
+    {
+      "name": "read_segments.f",
+      "bytes": 935,
+      "sha256": "0242a11602bed459a10ee35bea9337a9772ff7757da02b17cd7e7cf0546fb824"
+    },
+    {
+      "name": "newvoigt.f",
+      "bytes": 1551,
+      "sha256": "bae6fa6da6022f578616aa9bcdb6a2f4e0072e690bafc306bd3138053b3cf31f"
+    },
+    {
+      "name": "bsynbplatt.f",
+      "bytes": 9884,
+      "sha256": "e56e8c449f64f9ff1d2c609b59eb5323fd15f4de52258a11fc6e17ae6b918503"
+    },
+    {
+      "name": "detabs.f",
+      "bytes": 19687,
+      "sha256": "eed281d970617d3dc103ee88329126bfa9b6c8f8b2e13bfcbc336e73570e18a9"
+    },
+    {
+      "name": "lubksb.f",
+      "bytes": 649,
+      "sha256": "06569c33baa72709984455bcf5a1fe0eeeda2ce4c9f8843d65c4654288ecfe55"
+    },
+    {
+      "name": "partfamesh2o.f",
+      "bytes": 5800,
+      "sha256": "f5619ffba8ff5ce5ac89e3531df4cc2db97290ff36f68cd3fb757e77fec1bb6f"
+    },
+    {
+      "name": "clock-gf.f",
+      "bytes": 814,
+      "sha256": "a302f5ae90f8a3bf67d30304088061ea10c27748aae6a48075ff399e6f33031f"
+    },
+    {
+      "name": "traneq.f",
+      "bytes": 5764,
+      "sha256": "3be3eee134efc48457729fea56676f404a6918cc2db4bb8346d6280cd8e105f2"
+    },
+    {
+      "name": "inp3.f",
+      "bytes": 635,
+      "sha256": "a251955d5d75d98251629cb60fa668fedc3efbc140cfbbf9cf06d7a188278aad"
+    },
+    {
+      "name": "molecpartf.f",
+      "bytes": 5895,
+      "sha256": "787416832f7100c504d7b3be9c2dfad327add22f915355ebcdf83d755cb67db3"
+    },
+    {
+      "name": "zerof.f",
+      "bytes": 524,
+      "sha256": "598ab2bfc6d1e0ed7c1d2ad86e19215c953b79f7ff47d8fdc9a496c059d10b95"
+    },
+    {
+      "name": "hlinprof.f",
+      "bytes": 37894,
+      "sha256": "a660329db736df5eafefcbc7caf1cc2dcc0e1b1094a11b5ddcdb4b2cf1d57cae"
+    },
+    {
+      "name": "nhop.f",
+      "bytes": 2874,
+      "sha256": "e963d8bd93e8e3f293153ca79a0735f4bd83ed800acb9885f33d9970e837e01d"
+    },
+    {
+      "name": "h2opartf2001.f",
+      "bytes": 2131,
+      "sha256": "84292e4f60f4b36ebfe77a6798ec7e11670c39ccfbfb1688829d65522d63d7b2"
+    },
+    {
+      "name": "bpl.f",
+      "bytes": 434,
+      "sha256": "f7e6890ee3b2aaeda4b2b867b66e013f16521305df716b47e335031ba2429566"
+    },
+    {
+      "name": "tranfrplatt.f",
+      "bytes": 4513,
+      "sha256": "51637f4c2f3e213a4c4bde9cf1b9f899e56efc0d67368cdd0d39675ddc44b194"
+    },
+    {
+      "name": "CIAh2h.f",
+      "bytes": 2177,
+      "sha256": "a585e57ba6c1fbacbb1ab5a3ce25c9f106e384eddff80440aba2589d231d692d"
+    },
+    {
+      "name": "bsyn.f",
+      "bytes": 60388,
+      "sha256": "9a0b404a508e3c1443dcda45e8e490c403a0ff02cfbdc8040cb7419db434155d"
+    },
+    {
+      "name": "test-lint.f",
+      "bytes": 1734,
+      "sha256": "7bb755d65aa44452de544653f97d47a03b8d8911fc67fb418b3a8b0a266408e0"
+    },
+    {
+      "name": "getlele.f",
+      "bytes": 2083,
+      "sha256": "02032d7ab685126002eddd8946d5f5d9a4afe9b8716eba4d7f7dd07fc095cdbd"
+    },
+    {
+      "name": "plot2xy.f",
+      "bytes": 799,
+      "sha256": "36f9b67cb9eb811e1dd98a0aaded4259504a71c2d6431d3959eb33e2ea9ebef6"
+    },
+    {
+      "name": "h2opac.f",
+      "bytes": 1905,
+      "sha256": "da51a9fa63102857bc629e40b289348ab5de9040b07f8ce0d745dd3fb6de2ee9"
+    },
+    {
+      "name": "test.f",
+      "bytes": 11466,
+      "sha256": "6714a967565d805a175acc8b4be76faa40744d9ef9bccc905855196d491e75b9"
+    },
+    {
+      "name": "ludcmp.f",
+      "bytes": 1657,
+      "sha256": "48326809ed989be4567b196c9ba6222a297a0074ca7aba91bc62de698f09819c"
+    },
+    {
+      "name": "eqmol_pe_lu.f",
+      "bytes": 23589,
+      "sha256": "13587a0ecf671e1765ada304ffbd52dda8f12935f7fb42774a824e99c4474fb7"
+    },
+    {
+      "name": "rinteg.f",
+      "bytes": 1740,
+      "sha256": "0ed7a1ab41ae4eec0e91ce7ca90543d9351c1d9bc5e99df34840c58f9a20f6d1"
+    },
+    {
+      "name": "transc.f",
+      "bytes": 3793,
+      "sha256": "fb7987a4783d2c25ef17c0c274661993660256a266ed9ffc425e8bff7bd33fa3"
+    },
+    {
+      "name": "funcv.f",
+      "bytes": 6410,
+      "sha256": "92357d19afa50bad789e9809e81088c82c66ac43e962478236d4326eef60b4ee"
+    },
+    {
+      "name": "rossop.f",
+      "bytes": 703,
+      "sha256": "9be2290dc001be76a74936d943632f8645f57fe6aedd8ff5558942796bcdbc45"
+    },
+    {
+      "name": "test2.f",
+      "bytes": 11466,
+      "sha256": "6714a967565d805a175acc8b4be76faa40744d9ef9bccc905855196d491e75b9"
+    },
+    {
+      "name": "tryck.f",
+      "bytes": 3303,
+      "sha256": "bfafbb5fb45c3a07034e48ca53e10cb4905aaad9308297d6476258c9b76f9585"
+    },
+    {
+      "name": "molmat.f",
+      "bytes": 4363,
+      "sha256": "97cb127d9b02079ba58de9fdfbf545c958ce5a40cb9b2e004a453b4d5cbcfa80"
+    },
+    {
+      "name": "pemakero.f",
+      "bytes": 1346,
+      "sha256": "799cd03b45df48b862c2b150f78a5cc6864d739b13d1e12881c4d2575b24455d"
+    },
+    {
+      "name": "tsuji.par",
+      "bytes": 232,
+      "sha256": "26437d8b42de5581ec442568f0285fd17ae3713a37075ceeca57e2e8616f167d"
+    },
+    {
+      "name": "weightlimb.f",
+      "bytes": 2074,
+      "sha256": "eddef938c8c90dcb6659493d6bf327f7ce5d58050150e08998bf5b0c5be06fc2"
+    },
+    {
+      "name": "getisotopmass.f",
+      "bytes": 2496,
+      "sha256": "62d70afa3681eb5bb238b5cfc93e3d59f14c68c8bec40812ea361c44fd49057c"
+    },
+    {
+      "name": "readmo.f",
+      "bytes": 3742,
+      "sha256": "5bf5f590d8fbf2730f9d0bae18eaa4e922b0698e6c18fe3d1435149fab978090"
+    },
+    {
+      "name": "lowercase_conversion.f90",
+      "bytes": 667,
+      "sha256": "ef4d25677037dfae617ff3bc4f8604a1c0729ab9c6e6be2a6fd5ed8f2d46311b"
+    },
+    {
+      "name": "hydropac.f",
+      "bytes": 6172,
+      "sha256": "38ba0a6c73b34653f954cf26bbdf428107e742db7cd7c51c892416a186715d5a"
+    },
+    {
+      "name": "absko.f",
+      "bytes": 12122,
+      "sha256": "f6bf92575be6b938725e25ef01f9143ab1779599fbbfb5a4d88a8e7300c501c7"
+    },
+    {
+      "name": "h2borysowopac.f",
+      "bytes": 2088,
+      "sha256": "510fe1c303d2474cf5bd2c456ca4f6494a0ead0c2081913f1ae880c716cfd6d0"
+    },
+    {
+      "name": "tranfr.f",
+      "bytes": 12427,
+      "sha256": "87bceba3ce333e6ed87504f93958615acf7fbf1e27fb342c47dc04b134dfa8c8"
+    },
+    {
+      "name": "h2opartf.f",
+      "bytes": 3171,
+      "sha256": "95675464b4b6cd345c9a22160646155f2f6862f826ab812d80e8884fd43dd16f"
+    },
+    {
+      "name": "tint.f",
+      "bytes": 1328,
+      "sha256": "7b9b8e17f94b417c70ca8b56b24ef521569718f6d8b41421d6a4414781a6c775"
+    },
+    {
+      "name": "moleq.f",
+      "bytes": 1757,
+      "sha256": "43f3d2f8930bb798a67d79a5ed80c0d6a5695a7a1bf8050fbfd7f888c6eba6d8"
+    },
+    {
+      "name": "read_modelatom.f",
+      "bytes": 2203,
+      "sha256": "0f5500644fb95c07166eb59a42f733f5650f4210061db014a685efa8e6386357"
+    },
+    {
+      "name": "CIAh2h2.f",
+      "bytes": 2195,
+      "sha256": "64ed960b0b8a0f1d84e8af49da0648b78c2a1a26dba1558d1b47265a92dceb5e"
+    },
+    {
+      "name": "injon.f",
+      "bytes": 16221,
+      "sha256": "d3b24026f170b9e45e85077da28700cf1d63658c77a1ae4c8596f56849a091b3"
+    },
+    {
+      "name": "heopac.f",
+      "bytes": 1405,
+      "sha256": "d4f38ed12ca4bc7cf373154847f9a52f6b2e176f78236e88879c050d8694a19b"
+    },
+    {
+      "name": "read_nlteinfofile.f",
+      "bytes": 2515,
+      "sha256": "70ef27d8d7bccec21ace3ea72eefdd44c89b1e1b4d83e23bd12a442dc43ca546"
+    },
+    {
+      "name": "tabs.f",
+      "bytes": 6258,
+      "sha256": "4f71fa5029b586901e462d6d29626df1902754a6b6a61d81931593618579e655"
+    },
+    {
+      "name": "partffordepth.f",
+      "bytes": 2532,
+      "sha256": "6db1242323774574775ec35e753ddc8d02634639279264db69dfacf1aaabf205"
+    },
+    {
+      "name": "makeabund.f",
+      "bytes": 26551,
+      "sha256": "57a4631c5b1d5cca619f8ebfb3996c570978b17d64d6f3d906cdbcb04964192c"
+    },
+    {
+      "name": "pemake.f",
+      "bytes": 2152,
+      "sha256": "3efd441a47d78d99a1e250d929480395ede6032327462a9f2b12b4e007aba482"
+    },
+    {
+      "name": "qas.f",
+      "bytes": 1432,
+      "sha256": "252f12b71d94c956cb7cb0c2beb56d90d98ec8aa1a42efa1b97939fc981599f7"
+    },
+    {
+      "name": "CIAhhe.f",
+      "bytes": 2178,
+      "sha256": "aed65dc805b650ded92487d5856771589a00dfb1a0fd7f825c9718b697c82b2e"
+    },
+    {
+      "name": "lint.f",
+      "bytes": 1933,
+      "sha256": "938ebab58bde3b7f96f8ce388bfd627d866ebd0b0f3dda255d8ef515d8d16801"
+    },
+    {
+      "name": "read_departure.f",
+      "bytes": 3805,
+      "sha256": "588f5a5c11452ecd4b6e6ef3a3f53401ef89ea0a942032d282fa30bc3317c60e"
+    },
+    {
+      "name": "qtrav.f",
+      "bytes": 1745,
+      "sha256": "06a7e83a1dce677ca66cbb9dff415d5c9d3cd3d8deab1d8f4fb3b82b25a49b0e"
+    },
+    {
+      "name": "traneqplatt.f",
+      "bytes": 4060,
+      "sha256": "2baf1629807aea2843e114429fc58d7fcdc24cef07e31a4a5c0655b4daa8f2c1"
+    },
+    {
+      "name": "transcplatt.f",
+      "bytes": 2450,
+      "sha256": "a8f168c532a93c94b1767fe96600249dad93df03143ebd79a0188cf4c08bfce4"
+    },
+    {
+      "name": "trqua2.f",
+      "bytes": 1486,
+      "sha256": "9f428c029a98d1fe0ea8c1d1b8075ae3f8c95a683ff8a59e1e480369375540a4"
+    },
+    {
+      "name": "readfilt.f",
+      "bytes": 830,
+      "sha256": "ba8daefde295a5891656e05d1d81a3ef00dafd0c66d4a5c9a1af6387f92d78ae"
+    },
+    {
+      "name": "babsma.f",
+      "bytes": 42949,
+      "sha256": "dc7014789733f42f116aad13ecb65fcf96715074f31dfd201e0b331a38c0a8aa"
+    },
+    {
+      "name": "depth.f",
+      "bytes": 11007,
+      "sha256": "d8b87b9f2d58ea1ab515e7b78771284a06629eb9606e0c3cc61e418b2b9a057b"
+    },
+    {
+      "name": "read_departure_csv.f",
+      "bytes": 1445,
+      "sha256": "ba42c8e27d0461f784a5ac281e17469a648af616d040635daf57410162a82e56"
+    },
+    {
+      "name": "hbop.f",
+      "bytes": 60145,
+      "sha256": "f75f658252f3b9a8ee7c02c367237622ffef6abb9bbb5b20ff7db282a5d22e19"
+    },
+    {
+      "name": "partfBarberH2O.f",
+      "bytes": 1014,
+      "sha256": "9d7a5389522330c11d376f957b90e9c47d8684eb9646053c98c062e1ed91e271"
+    },
+    {
+      "name": "Iplus_calc.f",
+      "bytes": 2458,
+      "sha256": "8dea4a89ab10edaeba6be7f3bdf50a6b9f6674949206a18211c735e157d4f24b"
+    },
+    {
+      "name": "die_pe_lu.f",
+      "bytes": 22073,
+      "sha256": "aba96f367b281b3af7df61d8f1678e68f44c44cdd6eac15b9f010e9d830c0215"
+    },
+    {
+      "name": "cubint_module.f90",
+      "bytes": 32166,
+      "sha256": "bd064edb11f2c94b3cd0dddec71fe330ad3cb31991a2ce6c876dce1fad2f7a82"
+    },
+    {
+      "name": "extract_multi.f",
+      "bytes": 1113,
+      "sha256": "fa6dd6f2f84ded654a7f83cd0f6b706821a9c5c2144350163c840dd61173f654"
+    },
+    {
+      "name": "takemolec.f",
+      "bytes": 9909,
+      "sha256": "10d9bc1ffcd4a4196c31dd4736facba8e1500a6095d0c9ec8d629fb219a084a0"
+    },
+    {
+      "name": "anstee.f",
+      "bytes": 15261,
+      "sha256": "64dd54dc1710ab24f6d6ee217d243feace425bec3b8516181ed79a25a7cb23b0"
+    },
+    {
+      "name": "partf.f",
+      "bytes": 8804,
+      "sha256": "35ce02f5392c621654790a05587e07a4019a71812d532a42b948c1565a5311fe"
+    },
+    {
+      "name": "clock.f",
+      "bytes": 812,
+      "sha256": "ec03251edb43d0f83d7af707a8d546d0b351475af016b8dd7c58c6528403fceb"
+    },
+    {
+      "name": "xy2moog.f",
+      "bytes": 1115,
+      "sha256": "ac254d782441e19bd751e35d470aaab6d0897090c6c6592871cb1cbf3b26ec5a"
+    },
+    {
+      "name": "molfys.f",
+      "bytes": 1324,
+      "sha256": "3ec43e67b4770a73b9ce8522cbf90f3d208b425e7eff82a04e84577163e501a1"
+    },
+    {
+      "name": "spectrum.inc",
+      "bytes": 1526,
+      "sha256": "e2c790180ad81ceb99540325e220bf9787cf0c99a57a84cf348955bf04ef9006"
+    },
+    {
+      "name": "jon.f",
+      "bytes": 13675,
+      "sha256": "a84cf8d0e48cdf0edb245bdac878821c847659b1abc9497f4653d6c4c3ab4c6d"
+    },
+    {
+      "name": "CIAh2he.f",
+      "bytes": 2192,
+      "sha256": "1b7da605e7146d295fdcb3fcd56cec835918c0c03105b49aba7bee15363dc8e5"
+    },
+    {
+      "name": "strings_module.f90",
+      "bytes": 1142,
+      "sha256": "e63a57fa70e92153b5de00cd9db32f1f4bbd11921f0c6f0d6603a403d38aae15"
+    }
+  ],
+  "compiler": "/opt/homebrew/bin/gfortran",
+  "compiler_version": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "interpretation": "NTO/NTPO print selection and diagnostic field formatting only in isolated derivative; source files protected. No rate or opacity formula edit.",
+  "builds": [
+    {
+      "name": "baseline",
+      "command": [
+        "/opt/homebrew/bin/gfortran",
+        "-fconvert=big-endian",
+        "-O3",
+        "-fno-automatic",
+        "-fbacktrace",
+        "-std=legacy",
+        "-mcmodel=small",
+        "-fallow-argument-mismatch",
+        "-o",
+        "babsma_lu",
+        "absko.f",
+        "nhop.f",
+        "babsma.f",
+        "detabs.f",
+        "getinfospecies.f",
+        "inabs.f",
+        "injon.f",
+        "input.f",
+        "jon.f",
+        "lenstr.f",
+        "qas.f",
+        "qtrav.f",
+        "rossop.f",
+        "tabs.f",
+        "tryck.f",
+        "zerof.f",
+        "heopac.f",
+        "h2opac.f",
+        "CIAh2h2.f",
+        "CIAh2h.f",
+        "CIAhhe.f",
+        "CIAh2he.f",
+        "heborysowopac.f",
+        "h2borysowopac.f",
+        "hbop.f",
+        "hlinprof.f",
+        "eqmol_pe_lu.f",
+        "die_pe_lu.f",
+        "funcv.f",
+        "moleq.f",
+        "takemolec.f",
+        "makeabund.f",
+        "getisotopmass.f",
+        "molmat.f",
+        "partf.f",
+        "pemake.f",
+        "pemakero.f",
+        "rinteg.f",
+        "molecpartf.f",
+        "ludcmp.f",
+        "lubksb.f",
+        "lowercase_conversion.f90",
+        "molfys.f"
+      ],
+      "program": {
+        "name": "babsma_lu",
+        "bytes": 346472,
+        "sha256": "da2f05f66494a7ec0e727c7f17cd38511c002aee8e7fc2d77b98819865bb4843"
+      },
+      "babsma_source": {
+        "name": "babsma.f",
+        "bytes": 42949,
+        "sha256": "dc7014789733f42f116aad13ecb65fcf96715074f31dfd201e0b331a38c0a8aa"
+      },
+      "detabs_source": {
+        "name": "detabs.f",
+        "bytes": 19687,
+        "sha256": "eed281d970617d3dc103ee88329126bfa9b6c8f8b2e13bfcbc336e73570e18a9"
+      },
+      "absko_source": {
+        "name": "absko.f",
+        "bytes": 12122,
+        "sha256": "f6bf92575be6b938725e25ef01f9143ab1779599fbbfb5a4d88a8e7300c501c7"
+      },
+      "compiler_log": {
+        "name": "compiler.log",
+        "bytes": 4636,
+        "sha256": "d5e4261ca012dbf0d054a1061b9b03901771eef76028c29e8f725b02497e8b07"
+      }
+    },
+    {
+      "name": "reporting",
+      "command": [
+        "/opt/homebrew/bin/gfortran",
+        "-fconvert=big-endian",
+        "-O3",
+        "-fno-automatic",
+        "-fbacktrace",
+        "-std=legacy",
+        "-mcmodel=small",
+        "-fallow-argument-mismatch",
+        "-o",
+        "babsma_lu",
+        "absko.f",
+        "nhop.f",
+        "babsma.f",
+        "detabs.f",
+        "getinfospecies.f",
+        "inabs.f",
+        "injon.f",
+        "input.f",
+        "jon.f",
+        "lenstr.f",
+        "qas.f",
+        "qtrav.f",
+        "rossop.f",
+        "tabs.f",
+        "tryck.f",
+        "zerof.f",
+        "heopac.f",
+        "h2opac.f",
+        "CIAh2h2.f",
+        "CIAh2h.f",
+        "CIAhhe.f",
+        "CIAh2he.f",
+        "heborysowopac.f",
+        "h2borysowopac.f",
+        "hbop.f",
+        "hlinprof.f",
+        "eqmol_pe_lu.f",
+        "die_pe_lu.f",
+        "funcv.f",
+        "moleq.f",
+        "takemolec.f",
+        "makeabund.f",
+        "getisotopmass.f",
+        "molmat.f",
+        "partf.f",
+        "pemake.f",
+        "pemakero.f",
+        "rinteg.f",
+        "molecpartf.f",
+        "ludcmp.f",
+        "lubksb.f",
+        "lowercase_conversion.f90",
+        "molfys.f"
+      ],
+      "program": {
+        "name": "babsma_lu",
+        "bytes": 346536,
+        "sha256": "376b459a0292f4f6545d54d68fdadbd93024979ba901c99608dc58510e645671"
+      },
+      "babsma_source": {
+        "name": "babsma.f",
+        "bytes": 42965,
+        "sha256": "8fa6a2af49c64734c10f00a7abce642e016005d81116658aeee5f0a68c69e479"
+      },
+      "detabs_source": {
+        "name": "detabs.f",
+        "bytes": 19807,
+        "sha256": "629ab3d7f9bbe8701ee69f70511ae10e408a2a30302fd9ceb06382f37d46939c"
+      },
+      "absko_source": {
+        "name": "absko.f",
+        "bytes": 12281,
+        "sha256": "890ca7f86664f00749f24abe946659e98636565f97a757c4878c97d98fe62115"
+      },
+      "compiler_log": {
+        "name": "compiler.log",
+        "bytes": 4639,
+        "sha256": "b79f68029ee46cd7f9780371fd1de1fedff36a0189cfce2672448ed4a4280e6d"
+      }
+    }
+  ]
+}

@@ -1,0 +1,840 @@
+{
+  "schema": "codex.bride_H_bracket_support_analysis/1",
+  "scientific_admission": "HOLD",
+  "scope": "Fixed-support synthesis/IAG denominator controls on archived six-spectrum Kitt Peak replay. Retain native initial/exact coefficient supports as extrapolation controls. Shared intersection and separately IAG-per-side upper-decile masks predeclared without using observed residuals; refuse deficient bracketing/support, no clipping or geometry relaxation. Native bound remains pinned0.15. No continuum/model/RV/abundance adoption, RT/EOS/provider change or significance claim.",
+  "generator": {
+    "name": "analyze_bride_H_bracket_support.py",
+    "bytes": 11387,
+    "sha256": "01a91f9d3c1f488a6a9d67e3da43e0e347a0186865deb3516cfdfab6b7fc937f"
+  },
+  "helper": {
+    "name": "bride_fixed_support.py",
+    "bytes": 3138,
+    "sha256": "31c541128d04588bccbbd31087434739c6d878caa46ea24b9d1849c003a4288e"
+  },
+  "plan": {
+    "name": "rya1281_H_bracket_support.json",
+    "bytes": 1935,
+    "sha256": "300bc75f3a57fbbf4b90e767cbac9ff895a6b69e92ed9f77d0592fe8fb7da89f"
+  },
+  "source_files": {
+    "summary.csv": {
+      "name": "summary.csv",
+      "bytes": 27075,
+      "sha256": "8d295ccf40bfbc1c4615f1d67dd7416da329155dc8a8afcfc34b3d7b9441c3fc"
+    },
+    "profiles_and_continua.npz": {
+      "name": "profiles_and_continua.npz",
+      "bytes": 2807662,
+      "sha256": "d7711a829c513af00b4d088277c7cb79cef55a3e7d610c20c2d458c82f52bddc"
+    },
+    "report.json": {
+      "name": "report.json",
+      "bytes": 46275,
+      "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+    },
+    "support.json": {
+      "name": "support.json",
+      "bytes": 498875,
+      "sha256": "371ca7aee5aa20cac527235f8de99f87dc85c1f64ca5be514d7d8fb300bab3c7"
+    }
+  },
+  "orch_commit": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+  "pinned_native": {
+    "name": "local_continuum.py",
+    "bytes": 22974,
+    "sha256": "72ea567d378c7995c4372a9c277a0c8fe60ad20596b83dc8f5c5f30628eec6fc"
+  },
+  "maximum_shift": 0.15,
+  "minimum_pixels": 20,
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "iag": {
+    "name": "iag_telfree_solaratlas.fits",
+    "bytes": 11658240,
+    "sha256": "2ddd21b78582a7cb2efaf32ff41c98696c941cacf1a8de4cae5a4cd9d0794546"
+  },
+  "frame": "Delivered observed vacuum nm -> canonical AIR Angstrom once by established reader; model AIR sampled output is already AIR. No further observation wavelength/telluric correction.",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "RV_km_s": {
+    "no_gravity": 0.0,
+    "plus_gravity": 0.633
+  },
+  "rows": 360,
+  "applied": 276,
+  "refused": 84,
+  "native_coefficient_replays": [
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 8.508458270150876e-12
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7771.944,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.4655038080126665e-12
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 9.521431463175715e-12
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7774.166,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 6.287939726415515e-13
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_synthesis",
+      "reference": "synthesis",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 1.0365288636634184e-11
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "centre_air_A": 7775.388,
+      "support": "native_coeff_iag",
+      "reference": "iag",
+      "level_difference": 0.0,
+      "slope_difference": 0.0,
+      "bound": 3.7170432982804416e-13
+    }
+  ],
+  "by_support": {
+    "native_selected_synthesis": {
+      "applied": 60,
+      "refused": 12
+    },
+    "native_coeff_synthesis": {
+      "applied": 72,
+      "refused": 0
+    },
+    "native_coeff_iag": {
+      "applied": 72,
+      "refused": 0
+    },
+    "shared_top_decile_intersection": {
+      "applied": 0,
+      "refused": 72
+    },
+    "balanced_iag_per_side": {
+      "applied": 72,
+      "refused": 0
+    }
+  },
+  "limitations": [
+    "Fixed support is an intervention, not a new validated continuum or ratified estimator.",
+    "Shared bracketing criteria are prospective diagnostic guards, not physical error bounds.",
+    "No clipping; original native selected/exact coefficient supports retained as controls.",
+    "No new broadening, RV, observation conditioning outside saved local diagnostics, RT/EOS/provider/abundance or product admission.",
+    "Finite areas/unweighted residuals have no noise/significance/abundance interpretation."
+  ],
+  "finite_accounting": {
+    "quartets": 36,
+    "source_support": "native_coeff_synthesis",
+    "target_support": "balanced_iag_per_side",
+    "scope": "Finite path-average changes in conditioned observed area only; correlated interventions, not unique causal/error-budget terms",
+    "helper": {
+      "name": "bride_crossed_continuum.py",
+      "bytes": 2215,
+      "sha256": "4f8f1b88f82201858d84091c695082566801ec49a5040242ff425a948dfdb53f"
+    }
+  }
+}

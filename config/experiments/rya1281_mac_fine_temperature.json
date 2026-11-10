@@ -1,0 +1,16 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "10K sampling about canonical solar5772 at logg4.438; common bottom cut; held-out5750 quantifies interpolation error separately from nominal sampling",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized Mac experiment",
+  "controls": {"rays": 3, "qscale": 1, "rtol": 1e-6, "maxiter": 1500, "seconds_per_case": 600, "flux_rays": 5},
+  "window_air_A": [7768.0, 7780.0],
+  "step_A": 0.005,
+  "cases": [
+    {"name": "fine_T5752", "teff": 5752, "logg": 4.438, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1, "interpolate": true, "bracket_teff": [5750,6000], "bracket_logg": [4.0,4.5]},
+    {"name": "fine_T5762", "teff": 5762, "logg": 4.438, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1, "interpolate": true, "bracket_teff": [5750,6000], "bracket_logg": [4.0,4.5]},
+    {"name": "fine_T5772", "teff": 5772, "logg": 4.438, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1, "interpolate": true, "bracket_teff": [5750,6000], "bracket_logg": [4.0,4.5]},
+    {"name": "fine_T5782", "teff": 5782, "logg": 4.438, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1, "interpolate": true, "bracket_teff": [5750,6000], "bracket_logg": [4.0,4.5]},
+    {"name": "fine_T5792", "teff": 5792, "logg": 4.438, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1, "interpolate": true, "bracket_teff": [5750,6000], "bracket_logg": [4.0,4.5]},
+    {"name": "holdout_interp_5750", "teff": 5750, "logg": 4.5, "xi": 1.0, "abundance": 8.7, "drop_bottom": 1, "interpolate": true, "bracket_teff": [5500,6000], "bracket_logg": [4.0,4.5]}
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schema": "codex.bride_cn_binding_closure/1",
+  "scientific_admission": "HOLD",
+  "scope": "Read-only decomposition of accepted native binding inventory using explicitly recorded LW unit constants. Separate native legacy EOS density factor from pressure-weighted atomic-mass-unit density, composition/H-mass normalization and model input density. Check exported atmosphere fields match previously accepted CN coefficient states. Do not replace a constant, choose a density or rescale CN opacity.",
+  "generator": {
+    "name": "analyze_bride_cn_binding_closure.py",
+    "bytes": 5954,
+    "sha256": "b413203a8f2593655f916ea37e9918bdf997c599ff4dc930d1f1a57ac9f2a680"
+  },
+  "plan": {
+    "name": "rya1281_cn_binding_closure.json",
+    "bytes": 474,
+    "sha256": "2f327a2090ce5a63b17f3dca90fb9988b15ee60d6eace7f4a262cb52621e2765"
+  },
+  "source_report": {
+    "name": "report.json",
+    "bytes": 9061,
+    "sha256": "51e0dcd2d40b99b59e0f890cd9ded8994c2a05f1340c55fbeedf13b0e23ab752"
+  },
+  "source_states": {
+    "name": "state_binding.csv",
+    "bytes": 29300,
+    "sha256": "40ac3ee9e59a4046ea4d5e97f3b69930c6776355bb2c987d4237a562119eb565"
+  },
+  "source_species": {
+    "name": "implemented_species.npz",
+    "bytes": 1074886,
+    "sha256": "838f7f86c1a14dcb2d22f8fd532098a5054c3f91b48e93b845c2d13fe3628b67"
+  },
+  "source_composition": {
+    "name": "composition.json",
+    "bytes": 13334,
+    "sha256": "b7e35223bac6b704ce14f4fca2a04bb38eea79db2f50bfd3cc13c9210b16dc8e"
+  },
+  "original_cn_states": {
+    "name": "states.csv",
+    "bytes": 99289,
+    "sha256": "1ecb7547bb6280daf3abd1e00fac528e225d3b5dbae11c31379a1751dafd4cc1"
+  },
+  "native_EOS_source": {
+    "name": "eqmol_pe_lu.f",
+    "bytes": 23589,
+    "sha256": "13587a0ecf671e1765ada304ffbd52dda8f12935f7fb42774a824e99c4474fb7"
+  },
+  "LW_constants": {
+    "name": "constants.py",
+    "bytes": 941,
+    "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+  },
+  "LW_Amu_kg": 1.6605402e-27,
+  "LW_KBoltzmann_J_K": 1.380658e-23,
+  "LW_H_mean_mass_amu": 1.007975,
+  "native_H_mean_mass_amu": 1.007859230041504,
+  "native_electron_mass_amu": 0.0005485800211317837,
+  "legacy_density_factor": 1.2123000381336624e-08,
+  "original_CN_atmosphere_fields_exact": true,
+  "H_ratio_factorization_max_relative_difference": 4.440892098500626e-16,
+  "summary": {
+    "legacy_density_factor_over_LW_amu_per_k": [
+      1.007969676695934,
+      1.007969676695934
+    ],
+    "rho_mass_unit_g_cm3": [
+      1.0771121892413516e-09,
+      3.696143230294599e-07
+    ],
+    "rho_mass_unit_over_model": [
+      0.9923642797506463,
+      1.0194851000674663
+    ],
+    "network_H_mass_fraction": [
+      0.7378679541197665,
+      0.7378802268029863
+    ],
+    "network_over_model_H_mass_fraction": [
+      0.9994689596074099,
+      0.9994855834028475
+    ],
+    "LW_over_native_H_mean_mass": [
+      1.0001148671908193,
+      1.0001148671908193
+    ],
+    "reconstructed_nH_ratio": [
+      0.9919675919913354,
+      1.0190607555015216
+    ],
+    "native_nH_ratio": [
+      0.9919675919913356,
+      1.0190607555015219
+    ]
+  },
+  "limitations": [
+    "LW atomic-mass-unit convention is an explicit comparative unit reference, not an adopted replacement for native constants or an independent EOS.",
+    "Source mass-density factor differs from amu/k by about0.8percent; no upstream physical bug or correction is adjudicated.",
+    "Factorization is dimensional bookkeeping on the same exported state; not independent chemical validation.",
+    "CN populations per gram already use atmosphere density; multiplying their existing absolute opacity by EOS/atmosphere density would introduce a new inconsistent rescaling.",
+    "No native packet/provider/model admission, RT/SE or abundance change."
+  ]
+}

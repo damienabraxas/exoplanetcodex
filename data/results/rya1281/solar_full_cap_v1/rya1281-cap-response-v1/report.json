@@ -1,0 +1,67 @@
+{
+  "schema": "codex.bride_cap_response/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_cap_response.py",
+    "bytes": 3737,
+    "sha256": "0136318e469e519074de0be0b25ed2b85d04927fdc70bab96a58615e689fa639"
+  },
+  "plugin": {
+    "receipt": {
+      "name": "receipt.json",
+      "bytes": 12068,
+      "sha256": "6d1c11c2410f32dc62a36ebf9767c01a6adc9dd5cee4e1db29a7107f932c0eec"
+    },
+    "plugin": {
+      "name": "bride_overlap_guard.dylib",
+      "bytes": 239768,
+      "sha256": "9a9d696c989d2053a101cbfa60d08ba7230e02c04915670fe6ee82760be7facd"
+    },
+    "backend": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "properties": {
+      "name": "bride_full_coupling_cap_scalar",
+      "Ndim": -1,
+      "dimensionSpecific": false,
+      "respectsFormalSolver": true,
+      "defaultPerAtomStorage": true,
+      "defaultWlaGijStorage": true
+    }
+  },
+  "chi_m_inv": [
+    1e-08,
+    0.1,
+    2.0,
+    100.0
+  ],
+  "rows": [
+    {
+      "length_m": 0.0,
+      "max_absolute_analytic_error": 0.0,
+      "max_absolute_finite_difference_error": 0.0,
+      "physical_intensity_exact": true
+    },
+    {
+      "length_m": 0.1,
+      "max_absolute_analytic_error": 5.551115123125783e-17,
+      "max_absolute_finite_difference_error": 3.152028638098159e-11,
+      "physical_intensity_exact": true
+    },
+    {
+      "length_m": 3.0,
+      "max_absolute_analytic_error": 1.7763568394002505e-15,
+      "max_absolute_finite_difference_error": 1.390221271435621e-09,
+      "physical_intensity_exact": true
+    },
+    {
+      "length_m": 30.0,
+      "max_absolute_analytic_error": 2.842170943040401e-14,
+      "max_absolute_finite_difference_error": 1.5532890529357246e-08,
+      "physical_intensity_exact": true
+    }
+  ],
+  "scope": "Fixed-opacity derivative of actual incoming slab intensity with respect to cap emissivity; zero/thin/thick and angular controls. No abundance, atmosphere or physical-model admission."
+}

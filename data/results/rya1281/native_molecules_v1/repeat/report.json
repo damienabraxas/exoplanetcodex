@@ -1,0 +1,91 @@
+{
+  "schema": "codex.bride_native_molecule_repeat/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "repeat_bride_native_molecules.py",
+    "bytes": 3599,
+    "sha256": "52d5610ca38941361870b28c97015ee50fd2e812514a0b5881c3005cda2a1038"
+  },
+  "source": {
+    "name": "report.json",
+    "bytes": 21601,
+    "sha256": "f8ba99b48b9fcf3e02f79ed9fe4ba26af0e24fe653eacd2da32c6f47206308a1"
+  },
+  "plan": {
+    "name": "rya1281_native_molecules_repeat.json",
+    "bytes": 475,
+    "sha256": "ad38625c96d8f715dcb01e448c6f019d38c5336ffa8e037c383be7f40e2cc2d0"
+  },
+  "program": {
+    "name": "bsyn_lu",
+    "bytes": 383304,
+    "sha256": "c1a1697e37d0d1fd38611a095e043a2da27c7920f55efa8aa723d8c1891bf2b8"
+  },
+  "scope": "Repeat both accepted nominal native spectra in fresh directories with identical inputs except result pathname; require byte-identical native numeric outputs. Measure actual native-program RSS using Darwin time -l, not retrospectively attribute it to all earlier cases or Python preparation. No changed physics, serialization or native tolerances.",
+  "cases": [
+    {
+      "name": "off",
+      "seconds": 0.6961605418473482,
+      "native_maximum_resident_set_size_bytes": 26247168,
+      "raw_spectrum_byte_identical": true,
+      "only_result_path_changed": true,
+      "command": [
+        "/usr/bin/time",
+        "-l",
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-native-lte-build-v2/bsyn_lu/bsyn_lu"
+      ],
+      "input": {
+        "name": "input.txt",
+        "bytes": 5455,
+        "sha256": "9842dcdd39355b78e52cb61ce7c5481563986693b590c1acc3fe93d29e4e9b19"
+      },
+      "native_flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "113fdd6c801bd72ce299fd990e36c1991074649afb6739fe88b84329dfe1ef09"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 96730,
+        "sha256": "954ecf3b0634e82a06411a7ebd8891f876a0daa51ec68ea1ec4026bf83f53433"
+      },
+      "stderr": {
+        "name": "stderr.txt",
+        "bytes": 777,
+        "sha256": "d860f42d2703b955b7bf410b591a4a5fb0d270ec8f733891793d262ad56f64a1"
+      }
+    },
+    {
+      "name": "all",
+      "seconds": 0.637102291919291,
+      "native_maximum_resident_set_size_bytes": 26198016,
+      "raw_spectrum_byte_identical": true,
+      "only_result_path_changed": true,
+      "command": [
+        "/usr/bin/time",
+        "-l",
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-native-lte-build-v2/bsyn_lu/bsyn_lu"
+      ],
+      "input": {
+        "name": "input.txt",
+        "bytes": 6375,
+        "sha256": "f1d2a1d8cfc9f2719977b313e5dbd9bc9c67b5d27a54aa6379ad8a530b11d0b2"
+      },
+      "native_flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "072ba40b6ddb00206de3e5a2f4d2468c5d674328485df8672c55af4b431130ba"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 103923,
+        "sha256": "cd8e03ca2b26e9afb570a2461559e8d5f7c7a81634eff484bec738dd706440fd"
+      },
+      "stderr": {
+        "name": "stderr.txt",
+        "bytes": 777,
+        "sha256": "089fd687dd6b6b65af955683c083d7ab22a7fbbf73ef6b04af650b8fcd53d7ce"
+      }
+    }
+  ]
+}

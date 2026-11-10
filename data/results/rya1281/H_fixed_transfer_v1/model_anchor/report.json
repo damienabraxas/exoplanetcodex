@@ -1,0 +1,72 @@
+{
+  "schema": "codex.bride_H_fixed_transfer_analysis/1",
+  "scientific_admission": "HOLD",
+  "scope": "Fixed O fractions from completed v2 model-H solution mapped to each named total. Fresh radiation/background/continuum; no SE update or SE-convergence claim. Conditional transfer contrast versus coupled contrast, not unique additive physics decomposition. Original geometry/cap/grid/rays, no added Fe/CN, no EOS/model/abundance admission. Same-H replay screen is numerical interoperability only.",
+  "generator": {
+    "name": "run_bride_H_fixed_transfer.py",
+    "bytes": 10691,
+    "sha256": "c9d879fc7e2b2eb56f47668df875a727b8ea01cc9e2b7c202722ffb590d6cc29"
+  },
+  "plan": {
+    "name": "rya1281_H_fixed_transfer.json",
+    "bytes": 883,
+    "sha256": "e9afcb10ef7909b11c35905ea791f123592fabf7b72fa240230f4229d73db75e"
+  },
+  "source_reports": [
+    {
+      "name": "report.json",
+      "bytes": 17385,
+      "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+    },
+    {
+      "name": "report.json",
+      "bytes": 17389,
+      "sha256": "b2822fd5fcc8d5336b5792d2f9645fe59be2396f9e04373e8e49d6cdbe464dec"
+    }
+  ],
+  "case_reports": [
+    {
+      "name": "report.json",
+      "bytes": 11369,
+      "sha256": "a15fe7420885f100d1cb38e1fa7287748bcbe2957ed07244c7f048651d4a7250"
+    },
+    {
+      "name": "report.json",
+      "bytes": 11378,
+      "sha256": "1e0f3c0df105701d8ef2bc8561fd21f4e2646fcc236669f2a6247b481a3734e0"
+    }
+  ],
+  "fraction_max_relative_difference": 1.1102230246251565e-15,
+  "same_H_replay_max_normalized_flux_difference": 4.9960036108132044e-15,
+  "same_H_replay_max_relative_continuum_difference": 0.0,
+  "max_absolute_coupled_contrast": 0.0008426290723997365,
+  "max_absolute_fixed_contrast": 0.0005782634362950789,
+  "max_absolute_conditional_remainder": 0.0002643656361046576,
+  "max_relative_fixed_continuum_contrast": 0.0023478576895832326,
+  "windows": [
+    {
+      "centre_air_A": 7771.944,
+      "coupled_delta_mA": 0.19432663428636943,
+      "fixed_delta_mA": 0.13913615030644166,
+      "conditional_remainder_mA": 0.05519048397992776
+    },
+    {
+      "centre_air_A": 7774.166,
+      "coupled_delta_mA": 0.17707735454530393,
+      "fixed_delta_mA": 0.12970829357129077,
+      "conditional_remainder_mA": 0.047369060974013166
+    },
+    {
+      "centre_air_A": 7775.388,
+      "coupled_delta_mA": 0.1492698387351652,
+      "fixed_delta_mA": 0.1130446858893066,
+      "conditional_remainder_mA": 0.03622515284585859
+    }
+  ],
+  "limitations": [
+    "Frozen O fractions are deliberately not recomputed in SE; no physical rate-balance claim.",
+    "Transfer intervention includes H background and rescaled O total at fixed fractions; conditional remainder is not a unique collision contribution.",
+    "Replay screen and inherited radiation/joint controls are numerical diagnostics, not independent physical accuracy.",
+    "No chemistry/EOS/model/abundance/reference-data or all-band admission."
+  ]
+}

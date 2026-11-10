@@ -1,0 +1,21 @@
+{
+  "schema": "codex.bride_H_fixed_transfer_plan/1",
+  "paired_archive": "data/results/rya1281/H_nlte_pair_v2",
+  "cases": [
+    "model_mass_H",
+    "native_network_H"
+  ],
+  "fraction_source": "model_mass_H",
+  "radiation_rtol": 1e-08,
+  "radiation_maxiter": 1000,
+  "seconds_per_case": 600,
+  "replay_max_absolute_normalized_flux": 1e-08,
+  "replay_max_relative_continuum": 1e-08,
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "half_width_A": 0.5,
+  "scope": "Fixed O fractions from completed v2 model-H solution mapped to each named total. Fresh radiation/background/continuum; no SE update or SE-convergence claim. Conditional transfer contrast versus coupled contrast, not unique additive physics decomposition. Original geometry/cap/grid/rays, no added Fe/CN, no EOS/model/abundance admission. Same-H replay screen is numerical interoperability only."
+}

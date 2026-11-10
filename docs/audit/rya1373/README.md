@@ -86,3 +86,13 @@ source/component independence and historical conflict. Then review version/reuse
 terms, completeness and source acquisition. Finally approve a reviewed atlas release
 and decide public HTML integration after Roadmap approval. Until then, continue only
 bounded source curation and preserve the draft/no-execution contract.
+
+## Merge-conflict resolution
+
+Merged current main `d1728c92f663d15853c392dfcd157d4fe5f230bb` after PR #619 landed.
+The sole content conflict was simultaneous appends to the run-bug ledger. All main
+rows and the RYA-1373 finding are retained, verified by a full-row multiset check.
+Refreshed the atlas science-base pin and generated source receipts to the merged
+main revision, including the updated experimental Lightweaver model-registry row
+and bibliography additions. No validation/adoption state or scientific value advanced.
+The atlas's 12 focused tests and regeneration check pass after integration.

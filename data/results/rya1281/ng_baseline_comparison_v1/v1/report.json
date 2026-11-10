@@ -1,0 +1,97 @@
+{
+  "schema": "codex.bride_ng_baseline/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_ng_baseline.py",
+    "bytes": 6309,
+    "sha256": "e77b55b8354207d42d0b2228f3accc108761492f08522567c8814fc7049ed8ef"
+  },
+  "source_reports": [
+    {
+      "name": "report.json",
+      "bytes": 23279,
+      "sha256": "c671fb5e4de06651dba82d37e8110d714ca5411c12dfaaf2b0a0aeb7a9131b16"
+    },
+    {
+      "name": "report.json",
+      "bytes": 23541,
+      "sha256": "b2628b8437658e3089dea109845cffa63962da02e2ebbbbfeedd24d2b14579a2"
+    }
+  ],
+  "screen_plan": {
+    "name": "rya1281_solar_matched_analysis.json",
+    "bytes": 3348,
+    "sha256": "a7dfd0431ea410ca001ac1bff9e5a84607f16baf5a49ca687e1541258d75a9b0"
+  },
+  "summaries": [
+    {
+      "control": "Ng_on",
+      "iterations": 197,
+      "seconds": 398.33486920781434,
+      "fresh_physical": {
+        "residual": 6.810874767043803e-08,
+        "conservation": 1.3322676295501878e-15
+      },
+      "population_change_increase_iterations": [
+        9,
+        14,
+        19,
+        24,
+        29,
+        34,
+        39,
+        44,
+        49,
+        54,
+        59,
+        64,
+        69,
+        74,
+        79,
+        84,
+        89,
+        94,
+        99,
+        104,
+        109,
+        114,
+        119,
+        124,
+        129,
+        134,
+        139,
+        144,
+        149,
+        154,
+        159,
+        164,
+        169,
+        174,
+        179,
+        184,
+        189,
+        194
+      ]
+    },
+    {
+      "control": "Ng_off",
+      "iterations": 339,
+      "seconds": 396.91995445778593,
+      "fresh_physical": {
+        "residual": 2.482388977559358e-07,
+        "conservation": 1.3322676295501878e-15
+      },
+      "population_change_increase_iterations": []
+    }
+  ],
+  "max_normalized_flux_difference": 2.557918876711085e-09,
+  "max_relative_continuum_difference": 8.881784197001252e-15,
+  "identities": [
+    "Physical inputs, original starting populations, LTE populations, collision arrays and wavelengths exact; only native Ng flag differs."
+  ],
+  "limitations": [
+    "Single native atmosphere and two bounded runs, not a general performance or convergence proof.",
+    "History rate residual uses old radiation; only independently replayed final residuals qualify the endpoints.",
+    "Stellar T/g/xi/abundance inference and full four-case factorial analysis remain separate gates."
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_mali_operator.py",
+    "bytes": 3179,
+    "sha256": "83d4ea793ae877d17555be2b1e0a28f664c24a451c937d62aea7c2b43be6e011"
+  },
+  "plugin": {
+    "receipt": {
+      "name": "receipt.json",
+      "bytes": 12068,
+      "sha256": "6d1c11c2410f32dc62a36ebf9767c01a6adc9dd5cee4e1db29a7107f932c0eec"
+    },
+    "plugin": {
+      "name": "bride_overlap_guard.dylib",
+      "bytes": 239768,
+      "sha256": "9a9d696c989d2053a101cbfa60d08ba7230e02c04915670fe6ee82760be7facd"
+    },
+    "backend": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "properties": {
+      "name": "bride_full_coupling_cap_scalar",
+      "Ndim": -1,
+      "dimensionSpecific": false,
+      "respectsFormalSolver": true,
+      "defaultPerAtomStorage": true,
+      "defaultWlaGijStorage": true
+    }
+  },
+  "cap_preconditioner": true,
+  "rows": [
+    {
+      "lambda_iterate": true,
+      "physical_residual": 3.956231546503086e-07,
+      "operator_action_discrepancy": 5.991892822873286e-15,
+      "operator_residual": 3.956231547472489e-07
+    },
+    {
+      "lambda_iterate": false,
+      "physical_residual": 3.956231546503086e-07,
+      "operator_action_discrepancy": 3.768840515953466e-14,
+      "operator_residual": 3.9562315461377204e-07
+    },
+    {
+      "lambda_iterate": true,
+      "physical_residual": 3.956231546503086e-07,
+      "operator_action_discrepancy": 5.991892822873286e-15,
+      "operator_residual": 3.956231547472489e-07
+    }
+  ]
+}

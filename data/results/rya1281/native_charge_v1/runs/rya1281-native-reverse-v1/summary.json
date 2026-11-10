@@ -1,0 +1,41 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "c0c1248d2ff82f0fb6f8297b34c9eb4b7c37a6ef",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 10335,
+    "sha256": "a56bfecb69f87f962c5f8495717a35dc4b147f0de52ed648e326b2e01c7ce9c4"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "plan": {
+    "name": "rya1281_mac_reverse_charge_control.json",
+    "bytes": 845,
+    "sha256": "f617931e047963e000ebfd0437d94648948228ef0436ce3c963b1fd8e0537ec5"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "native_tautsp_lte_balanced_CH0",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2056,
+        "sha256": "34f3a7582a54200375526b1a8e594ecdaa8ab1e140bc6328a41cd27d04335adf"
+      }
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Broader xi sweep following the first local slice; five predeclared amplitudes spanning0.5-1.5km/s, fresh producer certificates and coupled oxygen solves. Fixed thermal structure, no fit/adoption.",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized exception to Sirius compute",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "window_air_A": [
+    7768.0,
+    7780.0
+  ],
+  "step_A": 0.005,
+  "cases": [
+    {
+      "name": "solar5772_wide_xi050",
+      "teff": 5772,
+      "logg": 4.438,
+      "xi": 0.5,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "solar5772_wide_xi050"
+    },
+    {
+      "name": "solar5772_wide_xi075",
+      "teff": 5772,
+      "logg": 4.438,
+      "xi": 0.75,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "solar5772_wide_xi075"
+    },
+    {
+      "name": "solar5772_wide_xi100",
+      "teff": 5772,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "solar5772_wide_xi100"
+    },
+    {
+      "name": "solar5772_wide_xi125",
+      "teff": 5772,
+      "logg": 4.438,
+      "xi": 1.25,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "solar5772_wide_xi125"
+    },
+    {
+      "name": "solar5772_wide_xi150",
+      "teff": 5772,
+      "logg": 4.438,
+      "xi": 1.5,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "solar5772_wide_xi150"
+    }
+  ],
+  "sweep": {
+    "axis": "microturbulence_km_s",
+    "phase": "wider_five_point_slice",
+    "broader_sweep": "docs/audit/rya1279/parameter_sweep_plan.md",
+    "fixed_physics": "Bound solar atom/continuum/cap,41 source FeI pressure lines and Cowley Stark; native atomic H/EOS, H2 omitted"
+  }
+}

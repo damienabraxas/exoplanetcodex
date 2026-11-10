@@ -1,0 +1,793 @@
+{
+  "schema": "codex.bride_column_interpolation_audit/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_column_interpolation.py",
+    "bytes": 4699,
+    "sha256": "e085511c2796ac3f732f236b8e69d222a5cbc11b9efc29c9342a99b3bdd4581b"
+  },
+  "column_checks": {
+    "name": "bride_column_checks.py",
+    "bytes": 1388,
+    "sha256": "a50e457140595358cf099006e80b4da42d473e7d673c18bd33da2b233e90ff10"
+  },
+  "interpolator": {
+    "name": "bride_parameter_checks.py",
+    "bytes": 6354,
+    "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+  },
+  "sources": [
+    {
+      "teff": 5500,
+      "logg": 4.0,
+      "source": {
+        "name": "p5500_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "ad88e8232600f6adb1358581eb1753e6c430b03cf0ae5c7a0cb9b1298310191e"
+      }
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "source": {
+        "name": "p5500_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "4198b9af5d5a3e0872a13f1ab432f0ca79519a48bc5b50f86f0482329baba990"
+      }
+    },
+    {
+      "teff": 5500,
+      "logg": 5.0,
+      "source": {
+        "name": "p5500_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "567be42d5a52a88092519e0ccfda939daa920eaa8be0eb05d3e7c1e145921536"
+      }
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "source": {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      }
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "source": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      }
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "source": {
+        "name": "p5750_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "b575d9790c1bb362a8334e9edbe232dcc73bcc5d73435bbe908744aa97435bd4"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.0,
+      "source": {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "source": {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 5.0,
+      "source": {
+        "name": "p6000_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "01ac6bf714e9fd94fdb1dfe80150ca94b71b6d5bc803a36bfc042f3c0fdfa2d4"
+      }
+    }
+  ],
+  "native_closure": [
+    {
+      "teff": 5500,
+      "logg": 4.0,
+      "max_fractional_mass_closure": 0.002217393305507631
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "max_fractional_mass_closure": 0.0007625362365425437
+    },
+    {
+      "teff": 5500,
+      "logg": 5.0,
+      "max_fractional_mass_closure": 0.0016820416982824549
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "max_fractional_mass_closure": 0.00132396755585229
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "max_fractional_mass_closure": 0.0007196028738948312
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "max_fractional_mass_closure": 0.0030733129680037274
+    },
+    {
+      "teff": 6000,
+      "logg": 4.0,
+      "max_fractional_mass_closure": 0.0018703806234454667
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "max_fractional_mass_closure": 0.0006690084502322113
+    },
+    {
+      "teff": 6000,
+      "logg": 5.0,
+      "max_fractional_mass_closure": 0.0019276588242671533
+    }
+  ],
+  "method": "Four5500/6000K,g4/5corners; five distinct native held-out targets; all3 existing thermodynamic and3 candidate column conventions retained. The integrated candidate enforces mass closure by construction; only held-out native error independently tests its accuracy. No hydrostatic/radiative equilibrium certification.",
+  "production_column_admission": false,
+  "cases": [
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "linear",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.14516305537316687,
+      "max_fractional_rho_error": 0.3241769362238014,
+      "max_fractional_column_error": 0.14066955977290663,
+      "top_fractional_column_error": 0.11662951586575487,
+      "max_fractional_mass_closure": 0.8814299743936733,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "log",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.14516305537316687,
+      "max_fractional_rho_error": 0.3241769362238014,
+      "max_fractional_column_error": 0.006462472266992814,
+      "top_fractional_column_error": 0.00013247024878793034,
+      "max_fractional_mass_closure": 1.1301231147648467,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.14516305537316687,
+      "max_fractional_rho_error": 0.3241769362238014,
+      "max_fractional_column_error": 1.1413853311467341,
+      "top_fractional_column_error": 0.00013247024878793034,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "linear",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.017197336729732005,
+      "max_fractional_rho_error": 0.0066536001546981804,
+      "max_fractional_column_error": 0.14066955977290663,
+      "top_fractional_column_error": 0.11662951586575487,
+      "max_fractional_mass_closure": 0.5433682841367113,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "log",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.017197336729732005,
+      "max_fractional_rho_error": 0.0066536001546981804,
+      "max_fractional_column_error": 0.006462472266992814,
+      "top_fractional_column_error": 0.00013247024878793034,
+      "max_fractional_mass_closure": 0.751316591639503,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.017197336729732005,
+      "max_fractional_rho_error": 0.0066536001546981804,
+      "max_fractional_column_error": 0.7594552750061685,
+      "top_fractional_column_error": 0.00013247024878793034,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "linear",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.017197336729732005,
+      "max_fractional_rho_error": 0.0066536001546981804,
+      "max_fractional_column_error": 0.14066955977290663,
+      "top_fractional_column_error": 0.11662951586575487,
+      "max_fractional_mass_closure": 0.11953911279828677,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "log",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.017197336729732005,
+      "max_fractional_rho_error": 0.0066536001546981804,
+      "max_fractional_column_error": 0.006462472266992814,
+      "top_fractional_column_error": 0.00013247024878793034,
+      "max_fractional_mass_closure": 0.009522090022610397,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 8.800000000000182,
+      "max_fractional_Pe_error": 0.017197336729732005,
+      "max_fractional_rho_error": 0.0066536001546981804,
+      "max_fractional_column_error": 0.006680958832177675,
+      "top_fractional_column_error": 0.00013247024878793034,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.0, 0.5, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "linear",
+      "column_scale": "linear",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.0972992457852706,
+      "max_fractional_rho_error": 0.02460153199479409,
+      "max_fractional_column_error": 0.022713864192813515,
+      "top_fractional_column_error": 0.017758270640416463,
+      "max_fractional_mass_closure": 0.010234549352644451,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "linear",
+      "column_scale": "log",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.0972992457852706,
+      "max_fractional_rho_error": 0.02460153199479409,
+      "max_fractional_column_error": 0.0227050688233974,
+      "top_fractional_column_error": 0.017605887310945034,
+      "max_fractional_mass_closure": 0.007942353382521139,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "linear",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.0972992457852706,
+      "max_fractional_rho_error": 0.02460153199479409,
+      "max_fractional_column_error": 0.023212365304185134,
+      "top_fractional_column_error": 0.017605887310945034,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "linear",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.04028982394568925,
+      "max_fractional_rho_error": 0.023635263888101443,
+      "max_fractional_column_error": 0.022713864192813515,
+      "top_fractional_column_error": 0.017758270640416463,
+      "max_fractional_mass_closure": 0.01892564732813118,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "log",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.04028982394568925,
+      "max_fractional_rho_error": 0.023635263888101443,
+      "max_fractional_column_error": 0.0227050688233974,
+      "top_fractional_column_error": 0.017605887310945034,
+      "max_fractional_mass_closure": 0.0035170394201141653,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.04028982394568925,
+      "max_fractional_rho_error": 0.023635263888101443,
+      "max_fractional_column_error": 0.022870669901249085,
+      "top_fractional_column_error": 0.017605887310945034,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "linear",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.04028982394568925,
+      "max_fractional_rho_error": 0.023635263888101443,
+      "max_fractional_column_error": 0.022713864192813515,
+      "top_fractional_column_error": 0.017758270640416463,
+      "max_fractional_mass_closure": 0.02288929633541925,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "log",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.04028982394568925,
+      "max_fractional_rho_error": 0.023635263888101443,
+      "max_fractional_column_error": 0.0227050688233974,
+      "top_fractional_column_error": 0.017605887310945034,
+      "max_fractional_mass_closure": 0.008260393327139237,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 8.049999999999272,
+      "max_fractional_Pe_error": 0.04028982394568925,
+      "max_fractional_rho_error": 0.023635263888101443,
+      "max_fractional_column_error": 0.022783379911844315,
+      "top_fractional_column_error": 0.017605887310945034,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "linear",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.3812848675034868,
+      "max_fractional_rho_error": 0.1913442049014189,
+      "max_fractional_column_error": 0.19074849050097575,
+      "top_fractional_column_error": 0.13442664163882,
+      "max_fractional_mass_closure": 0.7082835070387781,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "log",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.3812848675034868,
+      "max_fractional_rho_error": 0.1913442049014189,
+      "max_fractional_column_error": 0.007162982041191368,
+      "top_fractional_column_error": 0.003247427897902444,
+      "max_fractional_mass_closure": 1.0083715613256579,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.3812848675034868,
+      "max_fractional_rho_error": 0.1913442049014189,
+      "max_fractional_column_error": 1.0083686702582044,
+      "top_fractional_column_error": 0.003247427897902444,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "linear",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.05002043128270384,
+      "max_fractional_rho_error": 0.008748387492679255,
+      "max_fractional_column_error": 0.19074849050097575,
+      "top_fractional_column_error": 0.13442664163882,
+      "max_fractional_mass_closure": 0.46734222514891743,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "log",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.05002043128270384,
+      "max_fractional_rho_error": 0.008748387492679255,
+      "max_fractional_column_error": 0.007162982041191368,
+      "top_fractional_column_error": 0.003247427897902444,
+      "max_fractional_mass_closure": 0.7400310741559675,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.05002043128270384,
+      "max_fractional_rho_error": 0.008748387492679255,
+      "max_fractional_column_error": 0.7411490027961876,
+      "top_fractional_column_error": 0.003247427897902444,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "linear",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.05002043128270384,
+      "max_fractional_rho_error": 0.008748387492679255,
+      "max_fractional_column_error": 0.19074849050097575,
+      "top_fractional_column_error": 0.13442664163882,
+      "max_fractional_mass_closure": 0.16046230733255418,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "log",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.05002043128270384,
+      "max_fractional_rho_error": 0.008748387492679255,
+      "max_fractional_column_error": 0.007162982041191368,
+      "top_fractional_column_error": 0.003247427897902444,
+      "max_fractional_mass_closure": 0.005446989393582458,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 19.799999999999272,
+      "max_fractional_Pe_error": 0.05002043128270384,
+      "max_fractional_rho_error": 0.008748387492679255,
+      "max_fractional_column_error": 0.0067697797143655425,
+      "top_fractional_column_error": 0.003247427897902444,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.0, 0.5]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "linear",
+      "column_scale": "linear",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.10091576324826623,
+      "max_fractional_rho_error": 0.04048024423178531,
+      "max_fractional_column_error": 0.03620378968379945,
+      "top_fractional_column_error": 0.03416674441475287,
+      "max_fractional_mass_closure": 0.006875448212365964,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "linear",
+      "column_scale": "log",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.10091576324826623,
+      "max_fractional_rho_error": 0.04048024423178531,
+      "max_fractional_column_error": 0.03523147218551137,
+      "top_fractional_column_error": 0.03376526010042191,
+      "max_fractional_mass_closure": 0.008722891136384803,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "linear",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.10091576324826623,
+      "max_fractional_rho_error": 0.04048024423178531,
+      "max_fractional_column_error": 0.03751058968586185,
+      "top_fractional_column_error": 0.03376526010042191,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "linear",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.039194090918613034,
+      "max_fractional_rho_error": 0.03653236358656464,
+      "max_fractional_column_error": 0.03620378968379945,
+      "top_fractional_column_error": 0.03416674441475287,
+      "max_fractional_mass_closure": 0.015655672203759297,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "log",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.039194090918613034,
+      "max_fractional_rho_error": 0.03653236358656464,
+      "max_fractional_column_error": 0.03523147218551137,
+      "top_fractional_column_error": 0.03376526010042191,
+      "max_fractional_mass_closure": 0.0026234643488848297,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.039194090918613034,
+      "max_fractional_rho_error": 0.03653236358656464,
+      "max_fractional_column_error": 0.03541829686546438,
+      "top_fractional_column_error": 0.03376526010042191,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "linear",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.039194090918613034,
+      "max_fractional_rho_error": 0.03653236358656464,
+      "max_fractional_column_error": 0.03620378968379945,
+      "top_fractional_column_error": 0.03416674441475287,
+      "max_fractional_mass_closure": 0.01850738265981644,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "log",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.039194090918613034,
+      "max_fractional_rho_error": 0.03653236358656464,
+      "max_fractional_column_error": 0.03523147218551137,
+      "top_fractional_column_error": 0.03376526010042191,
+      "max_fractional_mass_closure": 0.006313190432511662,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 5750,
+      "logg": 5.0,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 4.199999999998909,
+      "max_fractional_Pe_error": 0.039194090918613034,
+      "max_fractional_rho_error": 0.03653236358656464,
+      "max_fractional_column_error": 0.035157264928632914,
+      "top_fractional_column_error": 0.03376526010042191,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[3, 1, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "linear",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.1566863951104409,
+      "max_fractional_rho_error": 0.34169857768052525,
+      "max_fractional_column_error": 0.1460228599546305,
+      "top_fractional_column_error": 0.13555185679687076,
+      "max_fractional_mass_closure": 0.8570853409095422,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "log",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.1566863951104409,
+      "max_fractional_rho_error": 0.34169857768052525,
+      "max_fractional_column_error": 0.006121274231198015,
+      "top_fractional_column_error": -0.003953305646010485,
+      "max_fractional_mass_closure": 1.0743050404266272,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "linear",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.1566863951104409,
+      "max_fractional_rho_error": 0.34169857768052525,
+      "max_fractional_column_error": 1.0722234302411784,
+      "top_fractional_column_error": -0.003953305646010485,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "linear",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.017638510380824313,
+      "max_fractional_rho_error": 0.007448027670930668,
+      "max_fractional_column_error": 0.1460228599546305,
+      "top_fractional_column_error": 0.13555185679687076,
+      "max_fractional_mass_closure": 0.5173482974970498,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "log",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.017638510380824313,
+      "max_fractional_rho_error": 0.007448027670930668,
+      "max_fractional_column_error": 0.006121274231198015,
+      "top_fractional_column_error": -0.003953305646010485,
+      "max_fractional_mass_closure": 0.7288836456797427,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.017638510380824313,
+      "max_fractional_rho_error": 0.007448027670930668,
+      "max_fractional_column_error": 0.7282007537764452,
+      "top_fractional_column_error": -0.003953305646010485,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "linear",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.017638510380824313,
+      "max_fractional_rho_error": 0.007448027670930668,
+      "max_fractional_column_error": 0.1460228599546305,
+      "top_fractional_column_error": 0.13555185679687076,
+      "max_fractional_mass_closure": 0.12323879566507534,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "log",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.017638510380824313,
+      "max_fractional_rho_error": 0.007448027670930668,
+      "max_fractional_column_error": 0.006121274231198015,
+      "top_fractional_column_error": -0.003953305646010485,
+      "max_fractional_mass_closure": 0.0097700439602465,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "thermodynamic_scale": "log_positive_layers",
+      "column_scale": "density_integrated_log_top",
+      "max_temperature_error_K": 10.899999999999636,
+      "max_fractional_Pe_error": 0.017638510380824313,
+      "max_fractional_rho_error": 0.007448027670930668,
+      "max_fractional_column_error": 0.007670365121293821,
+      "top_fractional_column_error": -0.003953305646010485,
+      "max_fractional_mass_closure": 0.0,
+      "weights": "[0.5, 0.5, 0.0]",
+      "simplex_indices": "[2, 3, 0]"
+    }
+  ],
+  "summary.csv": {
+    "name": "summary.csv",
+    "bytes": 8314,
+    "sha256": "e6bfa1ffa3fd448d2bace77b1ad588c7172b31e048026fb97b8708a2c2bea77a"
+  },
+  "columns.csv": {
+    "name": "columns.csv",
+    "bytes": 224737,
+    "sha256": "843d41b10dbe88b92e602171c02b8377ed338152f8c9a9cd5520072a196c447f"
+  }
+}

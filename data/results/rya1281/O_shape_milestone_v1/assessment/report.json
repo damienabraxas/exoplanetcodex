@@ -1,0 +1,101 @@
+{
+  "schema": "codex.bride_O_shape_assessment/1",
+  "diagnostic_milestone": "COMPLETE",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "assess_bride_O_shape_milestone.py",
+    "bytes": 10125,
+    "sha256": "809f2f2485afc7cd77ac36162553022ccd151ad8e020a25ddd77fd1a602d660e"
+  },
+  "plan": {
+    "name": "rya1281_O_shape_milestone.json",
+    "bytes": 3107,
+    "sha256": "3e0d618aceadaadf19eb5d73fe49f66748d3abb8b8ca1e0ac897699029222a7e"
+  },
+  "run_receipts": {
+    "report.json": {
+      "name": "report.json",
+      "bytes": 22509,
+      "sha256": "ac84cca6f630d77b39305fe305fbd97796329f330ea82a50cea028acb571a2d9"
+    },
+    "broadening_intervals.csv": {
+      "name": "broadening_intervals.csv",
+      "bytes": 42037,
+      "sha256": "6b506521e823c9bb2b33c5621f1a542aa9b70dc4969400c8e4b58aec01620896"
+    },
+    "shoulder_inventory.json": {
+      "name": "shoulder_inventory.json",
+      "bytes": 21836,
+      "sha256": "6e06a28a43aab20541ddd198f2ae81f4c777dbd2c71bdee5b149a42656161a21"
+    },
+    "metrics.csv": {
+      "name": "metrics.csv",
+      "bytes": 139082,
+      "sha256": "a6f38c0d41d41919c93c6c0c7ca83bd2fc6d978ff8d2e3f227a900dc022c4586"
+    },
+    "comparisons.csv": {
+      "name": "comparisons.csv",
+      "bytes": 1029903,
+      "sha256": "de038c770be6e1665173a8f20f3a0b7c2c29301052047ab7111c2a96bc91f510"
+    },
+    "shape_milestone.png": {
+      "name": "shape_milestone.png",
+      "bytes": 355520,
+      "sha256": "d4621544c88dfd0f19372b7e8d93723bbf39d764fbff1ea07b8dad388da7d770"
+    },
+    "profiles.npz": {
+      "name": "profiles.npz",
+      "bytes": 890014,
+      "sha256": "5f4869ea6a4fef007d98fd65319a2756a36ef781ce5c94eb50ff4e9378dce990"
+    },
+    "sampling.csv": {
+      "name": "sampling.csv",
+      "bytes": 122587,
+      "sha256": "fc908876fa55ffd51d05830b21d9578d68f8db7eca9ff27b5498be0016274cc9"
+    }
+  },
+  "complete_case_counts": {
+    "metrics": 540,
+    "comparisons": 3024,
+    "sampling": 1008,
+    "intervals": 216,
+    "summary": 12
+  },
+  "all_declared_cases_present": true,
+  "numerical_checks": {
+    "nominal_replays": 12,
+    "scale_canaries": 1080,
+    "max_scale_contrast_error": 4.440892098500626e-16,
+    "max_scale_area_error_mA": 3.907985046680551e-13,
+    "max_model_sampling_contrast_difference": 5.383392710278656e-05,
+    "max_model_sampling_feature_area_difference_mA": 0.00046022821863545005,
+    "max_observation_sampling_contrast_difference": 5.7339901401665117e-05,
+    "max_observation_sampling_feature_area_difference_mA": 0.0024104283320411923
+  },
+  "conditional_findings": {
+    "all12contexts_observed_contrast_above_tested_coupled_interval": true,
+    "all12contexts_observed_area_above_tested_coupled_interval": true,
+    "minimum_contrast_gap": 0.002846201905426504,
+    "minimum_relative_area_gap_mA": 1.6093309884529106,
+    "all216individual_diagnostic_intervals_include_observation_contrast": 0,
+    "all216individual_diagnostic_intervals_include_observation_area": 0,
+    "maximum_observed_shoulder_fractional_range": 0.010407798813317775,
+    "candidate_band_records": 24
+  },
+  "qualification": {
+    "numerical_and_frame_receipts": "Existing source/rate/coordinate receipts plus exact12nominal replays and scale identities pass; not physical accuracy",
+    "continuum_level": "Separated experimentally; absolute atlas continuum-error independence remains unestablished",
+    "shape": "Current source column underpredicts conditional triplet contrast/relative area throughout declared broadening, shoulder and RV controls",
+    "solar_model": "NOT ADMITTED: source column5750/logg4.5 differs from canonical5772/logg4.438; no unique physics diagnosis or solar abundance",
+    "broadening": "No fit/adoption; one-at-a-time test intervals are not calibrated uncertainty bounds or full interaction sweep",
+    "opacity_and_source": "Real Fe/CN completeness, source41level atom, collision/cap/EOS and independent MULTI closure remain open",
+    "CNO": "C/N source intake can proceed; no cross-element abundance/reference-star or adaptive3D/all-band admission"
+  },
+  "next_physical_step": "Predeclare a matched5750/4.5 versus canonical-solar5772/4.438 column control under the SAME current O atom/collision/background/convergence conventions, using previously audited interpolation/source ownership and no native-H packet transplantation. Rebuild fresh rates/continuum and repeat this shape package before assigning remaining mismatch to abundance or choosing a model.",
+  "limitations": [
+    "COMPLETE refers only to this diagnostic milestone; parent/child scientific tickets remain open.",
+    "Repeated model/RV/atlas views and finer interpolation are correlated diagnostics, not new independent solar observations.",
+    "Shoulder ratios cancel a common multiplicative level, not blends/wavelength-dependent continua; all shoulder candidates retained without identification.",
+    "All conclusions are conditional on finite test choices; no noise-weighted significance, optimized parameters or physical uncertainty bound."
+  ]
+}

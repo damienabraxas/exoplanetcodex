@@ -1,0 +1,86 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "145e1ff74443ab61fc8a021644bc66d546ba8fce",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 8299,
+    "sha256": "5d4870507addc51f9ec6a2d8a7d73004bcfaf8bf1cbc9aa296a7f2c418a558e5"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "plan": {
+    "name": "rya1281_mac_fine_temperature.json",
+    "bytes": 1577,
+    "sha256": "59e9e6e9f89dd0a0e62515c27e6a0b3e09016acdeba11957b666cffb483ad964"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "fine_T5752",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2597,
+        "sha256": "03276b0ce912a25bbe00956633855e8f472b62c5e8606f28946c9636768ec345"
+      }
+    },
+    {
+      "name": "fine_T5762",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2598,
+        "sha256": "919a300f894eb6a8ff502e261cd2a67c929a49a4e8d106e63dc973cb6d3ebe2f"
+      }
+    },
+    {
+      "name": "fine_T5772",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2596,
+        "sha256": "99d67eda4f207ad533d8ca4cefe98a7a13be1272e82209be16db5c6cb2dc93e7"
+      }
+    },
+    {
+      "name": "fine_T5782",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2598,
+        "sha256": "10a3862a0478a79ecd8e02fb769b30a189823e337b59d423567b21399555c78d"
+      }
+    },
+    {
+      "name": "fine_T5792",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2607,
+        "sha256": "c6fade3e869aab91783084505477a8f455431310bb9976260d0c7da4fe4633e3"
+      }
+    },
+    {
+      "name": "holdout_interp_5750",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2565,
+        "sha256": "f294727d5a545d60b6117e758e60e732f8ec6eb5d3d6e80576323cf0c9ef14d7"
+      }
+    }
+  ]
+}

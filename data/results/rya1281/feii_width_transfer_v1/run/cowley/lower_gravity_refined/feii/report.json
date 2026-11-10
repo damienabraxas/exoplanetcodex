@@ -1,0 +1,30 @@
+{
+  "mode": "feii",
+  "radiation": {
+    "iterations": 67,
+    "final_J_change": 8.621272362674404e-09,
+    "final_boundary_change": 1.5218328277426689e-09,
+    "outer_J_change": 1.0,
+    "outer_boundary_change": 1.0
+  },
+  "seconds": 18.706059709191322,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 400167,
+    "sha256": "dd94d3c7afc285c0776ca281821265655f2e1fafd56c91c1df3b9e527b87b92d"
+  },
+  "max_flux_difference_from_natural": 0.000425736021951173,
+  "oxygen_populations_unchanged": true,
+  "continuum_array_unchanged": true,
+  "source_manifest": {
+    "name": "manifest.json",
+    "bytes": 7118,
+    "sha256": "82c06f7ef8cf8608d439493f447b11ceba6cf8610b6fe960cf3ee21e71bf6720"
+  },
+  "source_flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "33b1a565df4ac1d1e68b530c3839182151397e38bad8d6ed84dac81c6c99dc24"
+  },
+  "scientific_admission": "HOLD"
+}

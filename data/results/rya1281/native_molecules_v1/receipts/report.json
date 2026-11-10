@@ -1,0 +1,33 @@
+{
+  "schema": "codex.bride_native_molecule_receipts/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "receipt_bride_native_molecules.py",
+    "bytes": 3866,
+    "sha256": "dcb86e208c3b778bae9ad3c628061e5e8db3d563cc248c9c6a00a113e9db1b44"
+  },
+  "source": {
+    "name": "report.json",
+    "bytes": 21601,
+    "sha256": "f8ba99b48b9fcf3e02f79ed9fe4ba26af0e24fe653eacd2da32c6f47206308a1"
+  },
+  "unchanged_checks": 136,
+  "protected_inputs_unchanged": true,
+  "native_opacity_ndep": 56,
+  "native_opacity_nwave": 121,
+  "native_opacity_air_min": 7763.0,
+  "native_opacity_air_max": 7883.0,
+  "failed_build_log": {
+    "name": "compiler.log",
+    "bytes": 102,
+    "sha256": "caac510c1e2fab522f9ce0bc99a09053b2a42a5b8cde85be4fb93a9735f557eb"
+  },
+  "failed_run_stdout": {
+    "name": "stdout.txt",
+    "bytes": 382,
+    "sha256": "0ad82bb013249916a9b37fb63b6b0049e6f21cae2882e4763101650d1f0af99b"
+  },
+  "no_accepted_first_attempt": true,
+  "accepted_atomic_headers_all_LTE": true,
+  "scope": "Source/build/derived-input invariance and native ABI guards, not physical molecular/EOS validation"
+}

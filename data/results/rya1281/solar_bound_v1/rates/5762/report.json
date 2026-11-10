@@ -1,0 +1,177 @@
+{
+  "schema": "codex.bride_bound_rate_replay/1",
+  "status": "DIAGNOSTIC_COMPLETE",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "replay_bride_bound_rates.py",
+    "bytes": 7540,
+    "sha256": "231de4fb6cd77afae50cbc93dfac7e81a5c982d6a90d06f6ee4a621df6990476"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 10407,
+    "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+  },
+  "source_manifest": {
+    "name": "manifest.json",
+    "bytes": 7116,
+    "sha256": "4ebff798b7a53fafce8f28ca4f70e84d9df3f8fe25790f464e5153c3d04326a4"
+  },
+  "source_populations": {
+    "name": "populations.npz",
+    "bytes": 36821,
+    "sha256": "bda330c699ade2c9835dc6bd8707cb70481dd0a41fb7ccf83175ca2534205eaf"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+  "experimental_bound_input": {
+    "receipt": {
+      "name": "experimental_input.json",
+      "bytes": 17339,
+      "sha256": "048dd60705e50c4f755e7818a29430c4daa309746e03b249a1143e56e8eded14"
+    },
+    "adapter": {
+      "name": "bride_solar_control.py",
+      "bytes": 5698,
+      "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+    },
+    "source_certificate": {
+      "name": "manifest.json",
+      "bytes": 16328,
+      "sha256": "eb1e6eb3a63b4d4f6479d932d4e444c74902db1c103ad522e397a68e0d14e6a0"
+    },
+    "normalization": "local_neutral",
+    "packet_sampling": true,
+    "support_vac_nm": [
+      200.06481832193217,
+      360.1027162074426
+    ]
+  },
+  "experimental_column_contract": {
+    "schema": "codex.bride_experimental_column/1",
+    "method": "density_integral_log_native_top",
+    "top_anchor_kg_m2": 0.09764852945778675,
+    "weights": [
+      0.048,
+      0.8279999999999994,
+      0.12400000000000055
+    ],
+    "source_indices": [
+      3,
+      1,
+      0
+    ],
+    "source_nodes": [
+      {
+        "point": [
+          5750,
+          4.0
+        ],
+        "top_column_kg_m2": 0.15234309999999998
+      },
+      {
+        "point": [
+          5750,
+          4.5
+        ],
+        "top_column_kg_m2": 0.09156734
+      },
+      {
+        "point": [
+          6000,
+          4.0
+        ],
+        "top_column_kg_m2": 0.15773140000000002
+      },
+      {
+        "point": [
+          6000,
+          4.5
+        ],
+        "top_column_kg_m2": 0.09383928999999999
+      }
+    ],
+    "interpretation": "Explicit diagnostic interpolant, not native/equilibrium column. Native mass-definition basis; top anchor interpolated, no fitted scale. Zero mass closure is construction, not validation."
+  },
+  "finite_column_top_cap": {
+    "adapter": {
+      "name": "bride_top_cap.py",
+      "bytes": 7676,
+      "sha256": "0dc1d46fc3adb78c3a239c7e707a69651483c2c4fc6bd834044cc9fd11d525cb"
+    },
+    "column_mass_top_kg_m2": 0.09764852945778675,
+    "density_top_kg_m3": 1.0007228988184774e-06,
+    "effective_length_m": 97577.99044378554,
+    "column_contract": {
+      "schema": "codex.bride_experimental_column/1",
+      "method": "density_integral_log_native_top",
+      "top_anchor_kg_m2": 0.09764852945778675,
+      "weights": [
+        0.048,
+        0.8279999999999994,
+        0.12400000000000055
+      ],
+      "source_indices": [
+        3,
+        1,
+        0
+      ],
+      "source_nodes": [
+        {
+          "point": [
+            5750,
+            4.0
+          ],
+          "top_column_kg_m2": 0.15234309999999998
+        },
+        {
+          "point": [
+            5750,
+            4.5
+          ],
+          "top_column_kg_m2": 0.09156734
+        },
+        {
+          "point": [
+            6000,
+            4.0
+          ],
+          "top_column_kg_m2": 0.15773140000000002
+        },
+        {
+          "point": [
+            6000,
+            4.5
+          ],
+          "top_column_kg_m2": 0.09383928999999999
+        }
+      ],
+      "interpretation": "Explicit diagnostic interpolant, not native/equilibrium column. Native mass-definition basis; top anchor interpolated, no fitted scale. Zero mass closure is construction, not validation."
+    },
+    "interpretation": "Experimental density integral with source-log-native top anchor; uniform top opacity/source, no fitted thickness or external illumination, not exact producer proof"
+  },
+  "modes": [
+    {
+      "name": "local_nlte",
+      "array": {
+        "name": "local_nlte_rates.npz",
+        "bytes": 5251698,
+        "sha256": "554f7fbdfaa140cebf6fd53e5e170f86245e3e9217be4600804e4083c06a17a0"
+      },
+      "max_physical_rate_residual": 2.9846059943097194e-07,
+      "radiation": {
+        "iterations": 65,
+        "final_J_change": 7.980322180856092e-09,
+        "final_boundary_change": 8.387097795905823e-10,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 1.0
+      }
+    }
+  ],
+  "elapsed_seconds": 6.066295665688813,
+  "interpretation": "Fresh matched radiation with immutable saved solar populations, no SE update or external-reference comparison; original outer1e-6 tolerance retained."
+}

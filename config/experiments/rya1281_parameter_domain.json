@@ -1,0 +1,160 @@
+{
+  "schema": "codex.bride_candidate_domain_plan/1",
+  "purpose": "Predeclared wider Teff/gravity candidates for source-domain checks only; no physical admission or SE runs",
+  "cases": [
+    {
+      "name": "candidate_T5572",
+      "axis": "teff_K",
+      "teff": 5572,
+      "logg": 4.438,
+      "bracket_teff": [
+        5500,
+        5750
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_T5672",
+      "axis": "teff_K",
+      "teff": 5672,
+      "logg": 4.438,
+      "bracket_teff": [
+        5500,
+        5750
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_T5772",
+      "axis": "teff_K",
+      "teff": 5772,
+      "logg": 4.438,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_T5822",
+      "axis": "teff_K",
+      "teff": 5822,
+      "logg": 4.438,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_T5872",
+      "axis": "teff_K",
+      "teff": 5872,
+      "logg": 4.438,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_T5972",
+      "axis": "teff_K",
+      "teff": 5972,
+      "logg": 4.438,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_g4p338",
+      "axis": "logg_cgs",
+      "teff": 5772,
+      "logg": 4.338,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_g4p388",
+      "axis": "logg_cgs",
+      "teff": 5772,
+      "logg": 4.388,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_g4p438",
+      "axis": "logg_cgs",
+      "teff": 5772,
+      "logg": 4.438,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_g4p488",
+      "axis": "logg_cgs",
+      "teff": 5772,
+      "logg": 4.488,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.0,
+        4.5
+      ]
+    },
+    {
+      "name": "candidate_g4p538",
+      "axis": "logg_cgs",
+      "teff": 5772,
+      "logg": 4.538,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.5,
+        5.0
+      ]
+    }
+  ]
+}

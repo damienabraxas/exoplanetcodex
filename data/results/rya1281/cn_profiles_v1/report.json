@@ -1,0 +1,138 @@
+{
+  "schema": "codex.bride_cn_profiles/1",
+  "scientific_admission": "HOLD",
+  "scope": "Call unchanged compiled native newvoigt on exported CN damping states and signed dimensionless offsets; compare SciPy Faddeeva and numerical profile areas. Separately verify external-state SI extinction against native mass-opacity/density conversion. This is a diagnostic kernel with explicit external populations, not a chemistry/EOS/background provider, wavelength-frame adapter, spectrum or abundance result. Measure native approximation differences without choosing an admission threshold after seeing them.",
+  "generator": {
+    "name": "check_bride_cn_profiles.py",
+    "bytes": 8747,
+    "sha256": "58e842ba5dfadeb2a685aef042723ffc7557a2495101be23c531ca4504b41591"
+  },
+  "kernel": {
+    "name": "bride_cn_diagnostic.py",
+    "bytes": 1707,
+    "sha256": "946935ee093ee083d148c21e9640aaa7ff39bc9a12dc4ea0071b975c371684b2"
+  },
+  "plan": {
+    "name": "rya1281_cn_profiles.json",
+    "bytes": 995,
+    "sha256": "dd74a834dbbed04c3a2925ba7c29dda0f8e03ba8be59c4d5cf2526776a7177b2"
+  },
+  "source": {
+    "name": "newvoigt.f",
+    "bytes": 1551,
+    "sha256": "bae6fa6da6022f578616aa9bcdb6a2f4e0072e690bafc306bd3138053b3cf31f"
+  },
+  "state_report": {
+    "name": "report.json",
+    "bytes": 12081,
+    "sha256": "3e9949bcb1c3506058c7520c53d7cf39ccbc16107452923e03e93ec20063b0dd"
+  },
+  "states": {
+    "name": "states.csv",
+    "bytes": 99289,
+    "sha256": "1ecb7547bb6280daf3abd1e00fac528e225d3b5dbae11c31379a1751dafd4cc1"
+  },
+  "wrapper": {
+    "name": "probe.f90",
+    "bytes": 233,
+    "sha256": "9d8c3f3aed96dca702f3ab781c2076e097d740e833037b07b314b30dce7c938e"
+  },
+  "program": {
+    "name": "probe",
+    "bytes": 34504,
+    "sha256": "0f30146d91ee69b2062d87d207cd97c7ba168f83f5eb5b00bcfa9d5ed06cc35c"
+  },
+  "compiler_command": [
+    "/opt/homebrew/bin/gfortran",
+    "-O3",
+    "-fno-automatic",
+    "-std=legacy",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-cn-profiles-v1/probe",
+    "probe.f90",
+    "newvoigt.f"
+  ],
+  "compile_seconds": 0.552963875234127,
+  "probe_seconds": 0.3892102502286434,
+  "native_calls": 8472,
+  "sampled_states": 168,
+  "offsets": [
+    -100.0,
+    -30.0,
+    -15.0,
+    -10.0,
+    -5.5,
+    -4.0,
+    -3.0,
+    -2.0,
+    -1.0,
+    -0.5,
+    -0.10000000149011612,
+    0.0,
+    0.10000000149011612,
+    0.5,
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.5,
+    10.0,
+    15.0,
+    30.0,
+    100.0
+  ],
+  "max_profile_relative_difference": 8.212704927368364e-05,
+  "max_profile_absolute_difference": 3.034693756676088e-05,
+  "worst_state_index": 109,
+  "worst_offset": -1.0,
+  "native_signed_symmetry_exact": true,
+  "profile_accuracy_admission_threshold": null,
+  "unit_accounting_max_relative_difference": 1.8186684069831927e-07,
+  "unit_accounting_prospective_bound": 1.52587890625e-05,
+  "unit_accounting_passed": true,
+  "area_checks": [
+    {
+      "order": 512,
+      "damping_a": 1.0867957200844103e-07,
+      "native_H_area_over_sqrt_pi": 1.000004841762108,
+      "faddeeva_H_area_over_sqrt_pi": 1.000000002181254
+    },
+    {
+      "order": 512,
+      "damping_a": 2.1085013941046782e-05,
+      "native_H_area_over_sqrt_pi": 1.000004842603792,
+      "faddeeva_H_area_over_sqrt_pi": 1.0000000021813344
+    },
+    {
+      "order": 512,
+      "damping_a": 0.07078589498996735,
+      "native_H_area_over_sqrt_pi": 0.9999968683882952,
+      "faddeeva_H_area_over_sqrt_pi": 1.000000002417207
+    },
+    {
+      "order": 1024,
+      "damping_a": 1.0867957200844103e-07,
+      "native_H_area_over_sqrt_pi": 1.0000046510639191,
+      "faddeeva_H_area_over_sqrt_pi": 0.9999999993326807
+    },
+    {
+      "order": 1024,
+      "damping_a": 2.1085013941046782e-05,
+      "native_H_area_over_sqrt_pi": 1.0000046482092775,
+      "faddeeva_H_area_over_sqrt_pi": 0.9999999993326486
+    },
+    {
+      "order": 1024,
+      "damping_a": 0.07078589498996735,
+      "native_H_area_over_sqrt_pi": 0.9999968419688452,
+      "faddeeva_H_area_over_sqrt_pi": 0.9999999992433871
+    }
+  ],
+  "limitations": [
+    "Explicit native damping and dimensionless offsets; no AIR/vacuum wavelength conversion or linear-versus-exact frequency mapping is validated.",
+    "External native lower populations, isotope weights and native constants retained; no chemical/primary provenance or physical opacity admission.",
+    "Unit check separates native profile approximation from SI bookkeeping; diagnostic uses uncorrected SciPy Faddeeva. No fitted profile correction applied.",
+    "Finite quadrature orders demonstrate only sampled numerical area behavior, not a physical error budget or complete far-wing validation.",
+    "No new RT spectrum, NLTE solve, background provider, per-program peak-memory measurement or abundance."
+  ]
+}

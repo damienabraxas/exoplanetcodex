@@ -1,0 +1,12 @@
+{
+  "schema": "codex.bride_cn_coordinates_plan/1",
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "range_air_A": [7763, 7783],
+  "step_air_A": 0.005,
+  "native_probe_air_A": [7763,7770.5,7771.944,7771.95,7771.957,7771.96,7771.98,7772,7772.751,7773,7774,7775,7776,7783],
+  "cases": ["native_linear_air", "exact_air_frequency", "exact_vacuum_frozen_width", "exact_vacuum_rescaled_width_a_stim"],
+  "compile_seconds": 30,
+  "probe_seconds": 30,
+  "native_arithmetic_eps_multiple": 128,
+  "scope": "Source-matched native wavelength-offset probe and controlled profile-coordinate comparisons on fixed external CN populations/constants. Preserve original AIR grid; convert to vacuum once through canonical owner. Separate linearization, coordinate conversion and width/a/stim rescaling. Extinction profiles and finite AIR-window integrals are not emergent flux, EWs, independent chemistry validation or abundance corrections. No background provider or NLTE run in this phase."
+}

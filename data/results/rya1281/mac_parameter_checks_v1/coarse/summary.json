@@ -1,0 +1,149 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "e8dbd039e98c8cda3580ac65df289fa6403eaeb9",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 7627,
+    "sha256": "007d5f25c67d5bee147dbce44b8c0de7fc5680271c06955609aad34772aceabe"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "plan": {
+    "name": "rya1281_mac_checks.json",
+    "bytes": 1745,
+    "sha256": "6fb6353f564f8dddda7312e4e6d8813b8a4f145df836c79367005c08aaa98274"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1313,
+        "sha256": "28e1a2310bf391b4360aebe1fb2ea75ae426989cbe4b72e0b9450bf62df1f039"
+      }
+    },
+    {
+      "name": "depth_cut1",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1315,
+        "sha256": "cf3e8ce7113898f0ff148d7559ff1e5c8b154b4b616452b01d036a4d1872ac83"
+      }
+    },
+    {
+      "name": "depth_cut2",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1312,
+        "sha256": "b03fa9269c49eeb1705978cc98f5ac9eaec417b185c7de7909ea31b5c0382fe5"
+      }
+    },
+    {
+      "name": "xi_minus",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1315,
+        "sha256": "e1691700d99c2f1f3d1973a30f15649ebb4ede528a1ba5af96b3a4ea90adf4c9"
+      }
+    },
+    {
+      "name": "xi_plus",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1314,
+        "sha256": "2593e9c802fd9e2354329e43e81fbff2122afb6c78bb22764d68ff90f151e213"
+      }
+    },
+    {
+      "name": "xi_low",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1312,
+        "sha256": "f912bdb6ea521dd46d225591ce65385c3e358faf04e421921fc4080d4b39fde1"
+      }
+    },
+    {
+      "name": "xi_high",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1314,
+        "sha256": "f1e751e53128baefd948a83cc22a3ce0f144a5392457665ace87d03f77a82c96"
+      }
+    },
+    {
+      "name": "teff_low_cut1",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1320,
+        "sha256": "760290380df7eddfd01d48e0377c8e893344a9f068be68712f977047ccdbc759"
+      }
+    },
+    {
+      "name": "teff_high_cut1",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1320,
+        "sha256": "f73bbf73b826da2addc96d283a5249d8ded935b86b25f6e259b5327eb2aa0d20"
+      }
+    },
+    {
+      "name": "logg_low",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1313,
+        "sha256": "7f4e7f24329f72d4c3b11c65d03250026827d312fbf32a01bc72170e44d1a3d4"
+      }
+    },
+    {
+      "name": "logg_high",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1314,
+        "sha256": "3764f38523df83f527858c589e9663fb35147370e405d7f25d8609b794136a0a"
+      }
+    },
+    {
+      "name": "abundance_minus",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1321,
+        "sha256": "27281974a92bb9426ac6c1b663091b3c2dca018aa4116345d5982c86df82ac5d"
+      }
+    },
+    {
+      "name": "abundance_plus",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1318,
+        "sha256": "b589f5fa791e99e2b43a303099a38e0c6dd44ed33dd4079033a8f42fc1bdb0f9"
+      }
+    }
+  ]
+}

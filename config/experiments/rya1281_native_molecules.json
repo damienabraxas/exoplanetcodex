@@ -1,0 +1,29 @@
+{
+  "schema": "codex.bride_native_molecules_plan/1",
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "orch_commit": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+  "range_air_A": [
+    7763.0,
+    7783.0
+  ],
+  "atomic_padding_A": 10.0,
+  "line_step_A": 0.005,
+  "refined_line_step_A": 0.002,
+  "opacity_step_A": 0.1,
+  "oxygen_abundance": 8.7,
+  "xi_km_s": 1.0,
+  "seconds_per_program": 180,
+  "build_seconds": 90,
+  "cases": [
+    "off",
+    "all",
+    "CH",
+    "CN",
+    "C2",
+    "NH",
+    "OH",
+    "off_refined",
+    "all_refined"
+  ],
+  "scope": "Native5750/4.5 LTE reference, same MARCS92element vector except fixed O8.70; same latest canonical atomic inputs and explicit isotope file, identical native continuum file for all legs. Toggle only full routed molecular line files. Native chemistry/scattering and EPS1e-4 remain active, five-decimal normalized flux retained. Family-only differences not independent additive errors. CO.dat separate, not automatically routed. No Bride mixed-opacity/3D/NLTE/abundance or production admission."
+}

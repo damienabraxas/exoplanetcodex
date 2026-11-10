@@ -1,0 +1,41 @@
+{
+  "schema": "codex.bride_fe_packet/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "prepare_bride_fe_packet.py",
+    "bytes": 3352,
+    "sha256": "b5e580f50ccd26a78305dc3ed3ad1979dde8de3735908d6cf9544943bd604e1c"
+  },
+  "run": {
+    "name": "report.json",
+    "bytes": 10024,
+    "sha256": "ca6f777e72e0db52192b4963481b705f1b4d6a403324b3cb920ec0fa3c1722f3"
+  },
+  "source_detail": {
+    "name": "detail.txt",
+    "bytes": 124467165,
+    "sha256": "fe10c361b3208fc51fa6715fc658e3393d2c6b8ddee9c88934f8fa3d6dc0886a"
+  },
+  "source_opacity": {
+    "name": "continuum.opa",
+    "bytes": 2056587,
+    "sha256": "7f9ffc91e859741d1cab8515a959640932bccd296c397bb6b82a5344fe1ba1da"
+  },
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "array": {
+    "name": "packet.npz",
+    "bytes": 1368760,
+    "sha256": "b784af51cd1e68281b3f9ec8df6b8e7a86fde98cad67a3d6e53dd52c7cdf6178"
+  },
+  "support_vac_nm": [
+    200.06481832193217,
+    360.1027162074426
+  ],
+  "ndep": 56,
+  "nwave": 1601,
+  "interpretation": "Native TS FeI bf component only. Raw specific opacity and net opacity per native neutral Fe retained. Exact native atmospheric node only; no depth/T/ne interpolation. Finite support intervention, not full producer parity or source-independent cross-sections."
+}
