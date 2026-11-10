@@ -1,0 +1,31 @@
+{
+  "schema": "rya1354.pending-native-collection.v1",
+  "observed_utc": "2026-11-10T00:56:45.685526+00:00",
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "campaigns": {
+    "lifetime_relax_n4_v1": {
+      "collection": "ARCHIVED_TERMINAL_OUTPUTS",
+      "native_status": "FAILED_RETAINED",
+      "native_error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/lifetime_relax_n4_v1/ground",
+      "native_receipt_sha256": "74e569e7793f415fc89afa0b20555b6b1457c543619fdabc88dc9dca94b74005",
+      "manifest_sha256": "23e38b4c4de7318e521b1212d83c3a2188328c632edcc9af458121aa4266068e",
+      "bundle": "evidence/pending_collection_v6/lifetime_relax_n4_v1",
+      "scientific_admission": "HOLD",
+      "adoption_allowed": false,
+      "verification": "Packer verified byte-identical archive replay; physical-state/lifetime review still required"
+    },
+    "lifetime_mr_n4_v1": {
+      "collection": "ARCHIVED_TERMINAL_OUTPUTS",
+      "native_status": "BALANCED_CORE_LIFETIMES_COMPLETED_REVIEW_REQUIRED",
+      "native_error": null,
+      "native_receipt_sha256": "0e45d491c29a66197dd463c67bc3a8253633c394169f7e0ac0214951ed08583b",
+      "manifest_sha256": "39f9b25851b9bdcff81584923d26862f13a8e6723655479e02886dc81228461a",
+      "bundle": "evidence/pending_collection_v6/lifetime_mr_n4_v1",
+      "scientific_admission": "HOLD",
+      "adoption_allowed": false,
+      "verification": "Packer verified byte-identical archive replay; physical-state/lifetime review still required"
+    }
+  },
+  "scope": "NATIVE_RECEIPT_AND_ARCHIVE_COLLECTION_ONLY_NO_SCIENTIFIC_ACCEPTANCE"
+}

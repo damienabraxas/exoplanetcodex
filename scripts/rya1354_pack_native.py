@@ -12,6 +12,8 @@ import tarfile
 
 
 def pack(root,paths,out,limit=5*1024*1024,*,omit_rci_restart_cache=False):
+    if limit < 1024:
+        raise ValueError('Archive ceiling must allow gzip/tar headers (at least1024bytes)')
     root=root.resolve()
     out.mkdir(parents=True,exist_ok=False)
     files={}
@@ -34,6 +36,8 @@ def pack(root,paths,out,limit=5*1024*1024,*,omit_rci_restart_cache=False):
                                     source='Pinned rci90/lodres.f90 and matrix.f90: restart matrix cache; wavefunctions/mixing/CSFs/transition tables retained in archive')
                 continue
             files[name]=p.read_bytes()
+    original=dict(files)
+    fragments={}
     parts=[]
     def write(names):
         candidate=out/f'.candidate_{len(parts):03}.tar.gz'
@@ -58,7 +62,22 @@ def pack(root,paths,out,limit=5*1024*1024,*,omit_rci_restart_cache=False):
             # source outputs and already accepted parts are never changed.
             candidate.unlink()
             if len(names)<2:
-                raise ValueError('Single native artifact exceeds part ceiling: '+names[0])
+                name=names[0]
+                data=files.pop(name)
+                prefix='.rya1354_fragments/'+hashlib.sha256(name.encode()).hexdigest()+'/'
+                if name.startswith('.rya1354_fragments/') or any(k.startswith(prefix) for k in files):
+                    raise ValueError('Fragment namespace collision or fragment still exceeds ceiling')
+                records=[]
+                for offset in range(0,len(data),limit//2):
+                    member=prefix+str(offset)
+                    chunk=data[offset:offset+limit//2]
+                    if member in files:
+                        raise ValueError('Fragment member collision')
+                    files[member]=chunk
+                    records.append(dict(member=member,offset=offset,bytes=len(chunk),sha256=hashlib.sha256(chunk).hexdigest()))
+                fragments[name]=records
+                write([r['member'] for r in records])
+                return
             middle=len(names)//2
             write(names[:middle])
             write(names[middle:])
@@ -73,14 +92,20 @@ def pack(root,paths,out,limit=5*1024*1024,*,omit_rci_restart_cache=False):
             replay.update({m.name:archive.extractfile(m).read() for m in archive.getmembers() if m.isfile() or m.islnk()})
     if replay!=files:
         raise ValueError('Native archive partition did not preserve every byte')
-    manifest=dict(schema='rya1354.native-evidence-parts.v1',
+    manifest=dict(schema='rya1354.native-evidence-parts.v2' if fragments else 'rya1354.native-evidence-parts.v1',
                   parts={p.name:dict(sha256=hashlib.sha256(p.read_bytes()).hexdigest(),bytes=p.stat().st_size) for p in parts},
-                  files={n:dict(sha256=hashlib.sha256(b).hexdigest(),bytes=len(b)) for n,b in files.items()},
-                  native_paths_preserved_byte_for_byte=len(files),omitted_angular_caches=omitted,
+                  files={n:dict(sha256=hashlib.sha256(b).hexdigest(),bytes=len(b)) for n,b in original.items()},
+                  native_paths_preserved_byte_for_byte=len(original),omitted_angular_caches=omitted,
                   external_restart_caches=external,
                   verification='Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched.')
+    if fragments:
+        from rya1354_native_parts import reassemble
+        manifest['fragments']=fragments
+        manifest['stored_members']={n:dict(sha256=hashlib.sha256(b).hexdigest(),bytes=len(b)) for n,b in files.items()}
+        if reassemble(replay,fragments)!=original:
+            raise ValueError('Fragment reassembly did not preserve original native bytes')
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    print(json.dumps(dict(parts=len(parts),native_files=len(files),compressed_bytes=sum(p.stat().st_size for p in parts))))
+    print(json.dumps(dict(parts=len(parts),native_files=len(original),compressed_bytes=sum(p.stat().st_size for p in parts))))
 
 
 if __name__=='__main__':
