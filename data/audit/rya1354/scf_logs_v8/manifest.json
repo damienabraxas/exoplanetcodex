@@ -1,0 +1,55 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "056ae9b82993c5ef2a53d298af28d16ddfb3e5c2bd894b37c1e3afc5726c4853",
+      "bytes": 102449
+    }
+  },
+  "files": {
+    "evidence/nodebudget_log_snapshot_v8/capture.json": {
+      "sha256": "ee37b2a396d34c639b75b4b3f8dd349d42cceeec15d8acd7c1b3555719d0b3f9",
+      "bytes": 246131
+    },
+    "evidence/nodebudget_log_snapshot_v8/driver.py": {
+      "sha256": "e4327e506e09077f88ab5eb255c282a482e8f6f0b27f0237b81cbfbb057827a5",
+      "bytes": 3229
+    },
+    "evidence/nodebudget_log_snapshot_v8/rmcdhf.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/nodebudget_log_snapshot_v8/rmcdhf.stdin": {
+      "sha256": "42519c6634b1518951d1a0f53845d5cc07cb8db5c22d9d98d8690daae66c2518",
+      "bytes": 136
+    },
+    "evidence/nodebudget_log_snapshot_v8/rmcdhf.stdout": {
+      "sha256": "b0a15a7f72db391c32e18ca7afef65d4eda117c8eb6b099a91a1c8cad0576cea",
+      "bytes": 541274
+    },
+    "evidence/pcomponents_log_snapshot_v8/capture.json": {
+      "sha256": "d0738921be9f8ba0637a30c7526c7f7b1d9db0a0d6f18774f103057f54c3f066",
+      "bytes": 14820
+    },
+    "evidence/pcomponents_log_snapshot_v8/driver.py": {
+      "sha256": "e4327e506e09077f88ab5eb255c282a482e8f6f0b27f0237b81cbfbb057827a5",
+      "bytes": 3229
+    },
+    "evidence/pcomponents_log_snapshot_v8/rmcdhf.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/pcomponents_log_snapshot_v8/rmcdhf.stdin": {
+      "sha256": "47b42f54e32f5ffe21e25177281a9c17888128edd85f391959d5aab52cba4878",
+      "bytes": 140
+    },
+    "evidence/pcomponents_log_snapshot_v8/rmcdhf.stdout": {
+      "sha256": "5d0c0e08722b4f00a01932842b9c8c6f0a92a10a209cd6008c8dba1181cf86b8",
+      "bytes": 37277
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 10,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

@@ -37,9 +37,9 @@ def validate_core_layer(core, n):
     return sha(core / 'receipt.json')
 
 
-def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iteration_floor=None):
+def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iteration_floor=None,both_2p_spectroscopic=False):
     """Try method3 for2s optimization; fresh restart restores node-checked defaults."""
-    spectroscopic='2s,2p'+(',3s' if state!='ground' else '')
+    spectroscopic=('2s,2p-,2p' if both_2p_spectroscopic else '2s,2p')+(',3s' if state!='ground' else '')
     grid=f'n\nn\ny\nn\ny\n{math.exp(-65/16)/8:.17g}\n0.03125\n0\n439\ny\n{.0625**6:.17g}\n'
     nsic='n\n' if verify else 'y\n20\n'
     methods='y\n\n\n2s\n\n' if two_s_method3 and not verify else 'n\n'
@@ -65,6 +65,7 @@ def main():
     ap.add_argument('--cycles',type=int,default=500)
     ap.add_argument('--two-s-method3',action='store_true',help='Method3 for2s optimization only; mandatory fresh default-method node-checked restart before promotion')
     ap.add_argument('--radial-iteration-floor',type=int,help='Explicit NSOLV: pinned SOLVE permits MAX(NSOLV,3*n) inner iterations; node and bracket criteria unchanged')
+    ap.add_argument('--both-2p-spectroscopic',action='store_true',help='Explicitly constrain both physical2p-/2p components; preserve old selection as a separate control')
     args=ap.parse_args()
     if not 0<args.damping<1 or args.cycles<1:
         raise ValueError('Damping must lie strictly between zero and one')
@@ -82,6 +83,7 @@ def main():
                  n=args.n,varied_orbitals=varied,core_receipt_sha256=core_receipt_sha256,
                  two_s_method3=args.two_s_method3,
                  radial_iteration_floor=args.radial_iteration_floor,
+                 both_2p_spectroscopic=args.both_2p_spectroscopic,
                  resume_triplet=str(args.resume_triplet) if args.resume_triplet else None,
                  damping=args.damping,resume_ground=str(args.resume_ground) if args.resume_ground else None,
                  cycles=args.cycles,resume_quintet=str(args.resume_quintet) if args.resume_quintet else None,
@@ -106,7 +108,8 @@ def main():
                 receipt['steps'].append(run(args.grasp_bin/'rangular','y\n',out,1800))
                 controls=scf_controls(state,args.n,args.cycles,args.damping,verify,
                                       two_s_method3=args.two_s_method3,
-                                      radial_iteration_floor=args.radial_iteration_floor)
+                                      radial_iteration_floor=args.radial_iteration_floor,
+                                      both_2p_spectroscopic=args.both_2p_spectroscopic)
                 receipt['steps'].append(run(args.strict_bin/'rmcdhf',controls,out,43200))
                 if any(s['semantic_errors'] for s in receipt['steps']):
                     raise ValueError('Native numerical refusal; no state promotion')
