@@ -1176,3 +1176,14 @@ entries:
     rel: bride_mac_checks/rya1371-native-wavelength-roundtrip-v2
     kind: dir
     desc: Typed original-native numerical vacuum photon-centre packet, no physical FUV admission.
+
+  engines.multi_width_oracle:
+    root: work
+    rel: bride_inputs/rya1371/multi-width-oracle-v1
+    kind: dir
+    desc: Pinned original MULTI DAMP oracle, native DP recipe and capacity-only expansion; O-only, no RT/SE/producer identity admission.
+  engines.pymulti_reference_source:
+    root: work
+    rel: bride_inputs/rya1281/pymulti-source-v2
+    kind: dir
+    desc: Pinned original MULTI source for narrow typed diagnostic oracles, no data redistribution rights inferred.

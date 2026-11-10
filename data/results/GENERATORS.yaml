@@ -32057,3 +32057,55 @@ artifacts:
     generator: scripts/plot_oxygen_transfer_residuals.py
     ticket: RYA-1371
     note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/multi_width_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-comparison-v1/input.txt
+    generator: scripts/audit_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-comparison-v1/manifest.json
+    generator: scripts/audit_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-comparison-v1/output.txt
+    generator: scripts/audit_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-comparison-v1/report.json
+    generator: scripts/audit_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-comparison-v1/run.log
+    generator: scripts/audit_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-comparison-v1/widths.npz
+    generator: scripts/audit_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-laws-v2/laws.npz
+    generator: scripts/probe_multi_width_laws.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-laws-v2/manifest.json
+    generator: scripts/probe_multi_width_laws.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/rya1371-multi-width-laws-v2/report.json
+    generator: scripts/probe_multi_width_laws.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/width_oracle_build/compiler.log
+    generator: scripts/build_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/width_oracle_build/manifest.json
+    generator: scripts/build_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/multi_width_v1/width_oracle_build/receipt.json
+    generator: scripts/build_multi_width_oracle.py
+    ticket: RYA-1371
+    note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.

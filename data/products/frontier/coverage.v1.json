@@ -1,139 +1,139 @@
 {
   "schema": "codex.spectroscopic_frontier/1",
   "updated": "2026-11-09",
-  "science_base": "ebbaf109d502fb9c837710a784af57b7e4d322a9",
+  "science_base": "a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c",
   "sources": {
     "elements": {
       "path": "data/config/elements_master.json",
       "sha256": "6c0376637083267de97e25cb9ffa35a015ff6a56dbfa1f3f3ecad733da4ea0e4",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/config/elements_master.json"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/config/elements_master.json"
     },
     "stars": {
       "path": "data/catalog/system_catalog.csv",
       "sha256": "c53a174f2232241dc69848a2a7643b647356567dc04d43dc4c8dad9610fc2be6",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/catalog/system_catalog.csv"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/catalog/system_catalog.csv"
     },
     "models": {
       "path": "data/catalog/model_registry.csv",
       "sha256": "57bf70b1d514374491a9753d046d20c3d7fa60e93152436bfccd45352b9dd258",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/catalog/model_registry.csv"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/catalog/model_registry.csv"
     },
     "cno-readme": {
       "path": "data/nlte_grids/amarsi2019_cno/ReadMe",
       "upstream": "https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/J/A+A/630/A104?format=html",
       "bibliography_key": "amarsi2019",
       "sha256": "e37237fe7b627db0be3c22d466945247223daff2b87991938b386e78a7c497a2",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/amarsi2019_cno/ReadMe"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/amarsi2019_cno/ReadMe"
     },
     "cno-lines": {
       "path": "data/nlte_grids/amarsi2019_cno/table1.dat",
       "sha256": "f317e31ab72fb2c3be8a58dda44654910ccb7768aa9bafaa573da58dace48574",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/amarsi2019_cno/table1.dat"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/amarsi2019_cno/table1.dat"
     },
     "cno-provenance": {
       "path": "data/nlte_grids/amarsi2019_cno/provenance.json",
       "sha256": "1828b2bd755884fd7119edbd07ead9a0db5c49a681215bc7fbdcdef25fddecb8",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/amarsi2019_cno/provenance.json"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/amarsi2019_cno/provenance.json"
     },
     "oi-3n": {
       "path": "data/nlte_grids/amarsi2019_cno/table3.dat.gz",
       "sha256": "4b182a75c246fd06d76c23dfab62b952f07269acb08bf354fd404c666bcbddc5",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/amarsi2019_cno/table3.dat.gz"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/amarsi2019_cno/table3.dat.gz"
     },
     "ci-3n": {
       "path": "data/nlte_grids/amarsi2019_cno/table2.dat.gz",
       "sha256": "68ce51e412fbe3eae267b34dcfe3c8b479acf0cf8c48481ed35bcd69f0eb254d",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/amarsi2019_cno/table2.dat.gz"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/amarsi2019_cno/table2.dat.gz"
     },
     "oi-1n": {
       "path": "data/nlte_grids/amarsi2019_cno/table6.dat.gz",
       "sha256": "c3bbd6f103840972e3f4fd2a0c0178a70b1455b8807722a61afdd66da6d0770d",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/amarsi2019_cno/table6.dat.gz"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/amarsi2019_cno/table6.dat.gz"
     },
     "ci-1n": {
       "path": "data/nlte_grids/amarsi2019_cno/table5.dat.gz",
       "sha256": "5f924a07c981c8fd86d94d0639c698c9bfde634bdf3f644b8f84990a023ba5f1",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/amarsi2019_cno/table5.dat.gz"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/amarsi2019_cno/table5.dat.gz"
     },
     "fe-atom-reach": {
       "path": "data/results/rya1055/atom_ion_reach.json",
       "sha256": "dedd91fbea12169c4f2461d901fdbbe0b52c708f72ff60c5ba5888b838ac0442",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/results/rya1055/atom_ion_reach.json"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/results/rya1055/atom_ion_reach.json"
     },
     "fe-ml-domain": {
       "path": "data/reference/amarsi2022_training/amarsi2022_training_lines.csv",
       "sha256": "785af1fa7ace0d48ffddfd6c7015aeb3fbbf1d5a8d95d15003eb15f51a1c131d",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/reference/amarsi2022_training/amarsi2022_training_lines.csv"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/reference/amarsi2022_training/amarsi2022_training_lines.csv"
     },
     "fe-ml-readme": {
       "path": "vendor/1L-3NErrors/README.md",
       "upstream": "https://github.com/sliljegren/1L-3NErrors",
       "bibliography_key": "amarsi2022",
       "sha256": "79e64d4ac46861eb34f2ae996fd9f025f1827aeece562cb8f1ddb45d2adbfcb4",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/vendor/1L-3NErrors/README.md"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/vendor/1L-3NErrors/README.md"
     },
     "fe-ml-license": {
       "path": "vendor/1L-3NErrors/LICENSE",
       "sha256": "1861ee304a29c6ccbea27226b008555e8ce937b26cd738c4a7d751d11ecac7bf",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/vendor/1L-3NErrors/LICENSE"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/vendor/1L-3NErrors/LICENSE"
     },
     "fe-ml-audit": {
       "path": "docs/science/rya817_3dnlte_frontier.md",
       "sha256": "235e77fa0009be969458c70fd59511304589ef6a367e40add2ce61efe1de8647",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/docs/science/rya817_3dnlte_frontier.md"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/docs/science/rya817_3dnlte_frontier.md"
     },
     "fe-mpia": {
       "path": "data/nlte_grids/Fe_Bergemann_MPIA.prov.json",
       "upstream": "https://nlte.mpia.de/gui-siuAC_secE.php",
       "sha256": "e53e321ce37848b3435f5f463af65553f9fc8696095e7d60825241f4d974d56f",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/Fe_Bergemann_MPIA.prov.json"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/Fe_Bergemann_MPIA.prov.json"
     },
     "gerber": {
       "path": "pipeline/gerber_nlte.py",
       "bibliography_key": "gerber2023",
       "sha256": "96bf29492efad91d70e9b7826fcc2739d160d1519958b64de3718f54430dfd5f",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/pipeline/gerber_nlte.py"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/pipeline/gerber_nlte.py"
     },
     "molecular-manifest": {
       "path": "data/linelists/molecular/turbospectrum/MOLECULAR_MANIFEST.json",
       "sha256": "ee21a31a5dfd7f8060ec29023931caa03ece0c2939a6954849158e33eb944b3e",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/linelists/molecular/turbospectrum/MOLECULAR_MANIFEST.json"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/linelists/molecular/turbospectrum/MOLECULAR_MANIFEST.json"
     },
     "molecular-schema": {
       "path": "data/schemas/canonical_molecular_transition.schema.json",
       "sha256": "1bf58a4eccd3748b42c1b031b5b370447dab1980d659a8962ea955f637b3df9f",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/schemas/canonical_molecular_transition.schema.json"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/schemas/canonical_molecular_transition.schema.json"
     },
     "molecular-intake": {
       "path": "docs/science/rya1136_cno_primary_molecular_intake.md",
       "bibliography_key": "amarsi2021_molecular_cno",
       "sha256": "e5932df53166e82906ef5fce1643f702c8aa0e67d7e4bc7de20bf6bf97431eed",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/docs/science/rya1136_cno_primary_molecular_intake.md"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/docs/science/rya1136_cno_primary_molecular_intake.md"
     },
     "grade-governance": {
       "path": "docs/audit/rya1352/README.md",
       "sha256": "789ccd92e427de4f67a07733364560127077902ed1a44af5be9e60471c383045",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/docs/audit/rya1352/README.md"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/docs/audit/rya1352/README.md"
     },
     "atomic-census": {
       "path": "docs/audit/rya1353_line_census.md",
       "sha256": "e5d573720bc87f93d359f1051d26208a70de49b9de2bedbe3e3162f7985e5a4b",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/docs/audit/rya1353_line_census.md"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/docs/audit/rya1353_line_census.md"
     },
     "nlte-availability": {
       "path": "data/curation/threednlte_availability.csv",
       "sha256": "b810f8bed56a0d53ae3c93cc3bc3a0e5f999076f7609768aa0ebe4352001678d",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/curation/threednlte_availability.csv"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/curation/threednlte_availability.csv"
     },
     "model-domain": {
       "path": "pipeline/nlte_corrections.py",
       "sha256": "bb1bfc767393266364edf79403cc6cdc6064e1b78d18807b62732489d17f1633",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/pipeline/nlte_corrections.py"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/pipeline/nlte_corrections.py"
     },
     "atmosphere-policy": {
       "path": "docs/decisions/fe_mean3d_dimensionality_rya1032.md",
       "sha256": "6f6df0c302bcfeaedd616c729542baf0e63048ade7a4f768347817d7b0c6b17c",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/docs/decisions/fe_mean3d_dimensionality_rya1032.md"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/docs/decisions/fe_mean3d_dimensionality_rya1032.md"
     },
     "exomol": {
       "url": "https://www.exomol.com/data/",
@@ -174,17 +174,17 @@
     "n-grid": {
       "path": "data/nlte_grids/N_Amarsi2020_PySME.csv",
       "sha256": "f9573e98ff1a679164f696f3b96ca03b4c21d506e1520b2ac1c33a04c0413550",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/nlte_grids/N_Amarsi2020_PySME.csv"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/nlte_grids/N_Amarsi2020_PySME.csv"
     },
     "fe-route-decision": {
       "path": "docs/decisions/fe_3d_nlte_route_rya1035.md",
       "sha256": "ab802ffcd4ed7fa072b05564d8a07a4d1eeab95502b3b2ad68b024e0bf12ddfa",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/docs/decisions/fe_3d_nlte_route_rya1035.md"
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/docs/decisions/fe_3d_nlte_route_rya1035.md"
     },
     "bibliography": {
       "path": "data/refs/bibliography.csv",
-      "sha256": "4574e2c00e1fd7398753651b68a043466b014a93904c00530a6ac3f526013129",
-      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/ebbaf109d502fb9c837710a784af57b7e4d322a9/data/refs/bibliography.csv"
+      "sha256": "ea2f8c049cda4bec103c88fb0128a067a550c2ef42be2d23cb299b22b09d3a72",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/a0bbd0ec6c688d950cce0ab01ca6ded995f6d94c/data/refs/bibliography.csv"
     }
   },
   "entries": [

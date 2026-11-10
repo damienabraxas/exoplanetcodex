@@ -690,3 +690,57 @@ separate from focused passes. Next resume at full source-aware widths, collider/
 atomic-molecular EOS interface qualification, coupled SE/fresh balance, and observed
 solar benchmarks. The controlled numerical transfer milestone is complete; physical
 Oxygen1D,3D and all-band model completion stays open. PR620 remains draft.
+
+### Original full-width oracle and prescription meaning (v267)
+
+Compile the actual pinned pymulti4d6aa3c MULTI2.3 DAMP routine and BCONST, following
+its native DP recipe (PREC.dp, REAL-to-REAL(8) include conversion). Only workspace
+capacities grow MK30->64/MLINE150->512. Recording WDAMP shim observes natural/VDW/
+Stark/total widths and ADAMP without replacing formulas. ATOMID hard O; NH aggregate
+is used solely by SUM NH1:5, not represented as H level populations. No RT/EOS/SE.
+Fresh native build.945s; all41levels/256lines/56 matched native states evaluated.
+
+Interpretation clarification: the original DAMP header explicitly describes a fixed
+He/H0.1 assumption in its historical Unsold recipe; the current executable uses
+8.411 and1.283984e-12. Earlier HI-only wording describes runtime density input,
+NOT proof that the physical coefficient excludes helium. Comments and executable
+prescription are kept distinct, not used to infer an extra He term automatically.
+
+Measured actual LW/original VDW ratios across all matched states:
+
+| LW prescription |253 Unsold lines|3 ABO lines|
+|---|---:|---:|
+|without added LW He term|.96528903-.96528908|.9999844340|
+|with actual native HeI term|1.0223318-1.0245011|1.0326208-1.0343547|
+
+No empirical coefficient adjustment or preferred physical recipe follows. This
+quantifies why dropping the added LW He term alone was not exact source-width
+reproduction. Original natural widths match source GA exactly, all source O GQ0
+Stark widths zero, total equals natural+VDW. Source mass15.999amu versus LW15.9994
+is recorded, not silently changed. Native default-REAL literal promotion is visible
+in exported constants (e.g. BK1.38066198349e-16, PI3.14159274101); this oracle does
+not establish the unavailable held MULTI producer's binary/build identity.
+
+Five fresh source-law controls retain EOS densities explicitly: halve HI, +10K,
+xi.25/2/4km/s. Half-H VDW ratio is exactly.5. +10K follows T^.3 Unsold/T^((1-alpha)/2)
+ABO with max relative error2.94e-11. All three xi changes leave every natural/VDW/
+Stark width bit-identical; native ADAMP responds through Doppler width. Independent
+SI normalization differs at most4.24e-8, below an8-default-REAL-epsilon bound9.54e-7.
+These are width-component controls, not new physical stellar atmospheres, HSE/EOS
+or full SE parameter sweeps. v1 report serialization refused a NumPy scalar;
+corrected fresh v2 preserves all budgets and source physics; failed attempt retained.
+
+59 raw receipts/12 compact copies verified in multi_width_v1. Next export the exact
+native source-law coefficients from one source evaluation (no fitted regression),
+verify them on all remaining states and controls, and restore full positive widths
+through an explicitly named experimental component before coupled SE qualification.
+Source-law temperature/density response must be owned and tested; no extra He factor
+may be silently stacked on a source prescription. Physical1D/solar/3D/all-band HOLD.
+
+Standing bibliography refresh found three newly held CrII PDFs. First two pages
+inspected and metadata indexed only (Gurell2010 preprint, Ward2023, Engstrom2014).
+Gurell's2018 template-header/date versus2010 arXiv stamp caveat is explicit; no final
+journal/DOI guessed, no numerical table/gf/grade adoption. Library now215 documents,
+132 indexed/83 old unindexed,17 non-documents. Generated sources page222 rows passes.
+Atlas source evidence pin refreshed to metadata commit a0bbd0ec; all30 entries/gaps/
+citations/states remain unchanged. No dependency install or website publication.
