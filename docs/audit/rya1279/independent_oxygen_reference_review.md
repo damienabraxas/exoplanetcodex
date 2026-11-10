@@ -660,3 +660,33 @@ coupled SE with fresh radiative/collisional balance and solar intensity/flux ben
 continuum/bracketing, blends, instrumental response and uncertainties. Parameter/xi
 sweeps, CNO then Fe/reference-star and RYA-1374 expansion remain downstream. Original
 reference and default dispatch remain intact; no production or scientific admission.
+
+### Current-main integration for review (v266)
+
+PR620 was reported mergeable=false/dirty after RYA-1373 landed. Merge origin/main
+10f0dc95 into this continuation, without merging/publishing the PR. Sole content
+conflict is the append-only bug ledger. Resolve using full-row multiset union and
+original record bytes:96 own rows,91 main rows,97 combined rows; the added main row
+is RYA-1373. No row dropped/reworded, no historical verdict rewritten.
+
+Incoming Frontier package generation initially reports a stale coverage snapshot,
+as this branch already corrected two bibliography verification-state fields.
+Freeze its source-evidence pin at immutable pre-integration ebbaf109 and regenerate
+only provenance-bearing draft metadata. All30 entries, gaps, citations, release/
+publication states equal main exactly; no scientific inventory fact is changed.
+The pin now points to actual retained bibliography bytes rather than older metadata.
+
+Use the existing Python3.9.6/jsonschema environment /private/tmp/rya1370-qa read-only
+(PYTHONDONTWRITEBYTECODE=1), without installs or environment changes. Atlas generation,
+--check and all12 unittest mutations pass2.739s. Repeat the51 compiled RT/reference/
+register tests after integration; no scientific gate promoted. Source constants,
+stars, catalogs, graded products, observations and gold/reference remain equal to
+current main; only the draft Frontier provenance metadata differs outside experimental
+Oxygen changes. No original/other worker worktree modified.
+
+All15 Oxygen archive groups verify:2794 raw-file receipts and303 exact compact copies.
+Current main integration keeps the global artifact diagnostic debt explicit and
+separate from focused passes. Next resume at full source-aware widths, collider/
+atomic-molecular EOS interface qualification, coupled SE/fresh balance, and observed
+solar benchmarks. The controlled numerical transfer milestone is complete; physical
+Oxygen1D,3D and all-band model completion stays open. PR620 remains draft.

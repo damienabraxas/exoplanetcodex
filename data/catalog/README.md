@@ -55,3 +55,11 @@ the documented capability of its parent source.
 instrument register. `manifest_path` is repository-relative; `evidence_state`
 is `verified`, `audited`, `candidate`, or `rejected`. This registry asserts only
 that the named manifest contains the cited evidence, never a live file count.
+
+## Spectroscopic Frontier atlas (draft)
+
+The independently reviewable atomic/molecular resource inventory is described in
+[`docs/science/spectroscopic_frontier.md`](../../docs/science/spectroscopic_frontier.md).
+Its source selectors, generated JSON/schema, coverage matrix and contribution guide
+reuse these catalogs; they do not replace model, star, instrument or holdings owners.
+Draft atlas membership is not scientific validation or permission to execute a model.

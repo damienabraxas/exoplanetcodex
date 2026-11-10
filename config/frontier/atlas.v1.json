@@ -1,0 +1,2184 @@
+{
+  "schema": "codex.frontier_seed/1",
+  "updated": "2026-11-09",
+  "science_base": "ebbaf109d502fb9c837710a784af57b7e4d322a9",
+  "sources": {
+    "elements": {
+      "path": "data/config/elements_master.json"
+    },
+    "stars": {
+      "path": "data/catalog/system_catalog.csv"
+    },
+    "models": {
+      "path": "data/catalog/model_registry.csv"
+    },
+    "cno-readme": {
+      "path": "data/nlte_grids/amarsi2019_cno/ReadMe",
+      "upstream": "https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/J/A+A/630/A104?format=html",
+      "bibliography_key": "amarsi2019"
+    },
+    "cno-lines": {
+      "path": "data/nlte_grids/amarsi2019_cno/table1.dat"
+    },
+    "cno-provenance": {
+      "path": "data/nlte_grids/amarsi2019_cno/provenance.json"
+    },
+    "oi-3n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table3.dat.gz"
+    },
+    "ci-3n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table2.dat.gz"
+    },
+    "oi-1n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table6.dat.gz"
+    },
+    "ci-1n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table5.dat.gz"
+    },
+    "fe-atom-reach": {
+      "path": "data/results/rya1055/atom_ion_reach.json"
+    },
+    "fe-ml-domain": {
+      "path": "data/reference/amarsi2022_training/amarsi2022_training_lines.csv"
+    },
+    "fe-ml-readme": {
+      "path": "vendor/1L-3NErrors/README.md",
+      "upstream": "https://github.com/sliljegren/1L-3NErrors",
+      "bibliography_key": "amarsi2022"
+    },
+    "fe-ml-license": {
+      "path": "vendor/1L-3NErrors/LICENSE"
+    },
+    "fe-ml-audit": {
+      "path": "docs/science/rya817_3dnlte_frontier.md"
+    },
+    "fe-mpia": {
+      "path": "data/nlte_grids/Fe_Bergemann_MPIA.prov.json",
+      "upstream": "https://nlte.mpia.de/gui-siuAC_secE.php"
+    },
+    "gerber": {
+      "path": "pipeline/gerber_nlte.py",
+      "bibliography_key": "gerber2023"
+    },
+    "molecular-manifest": {
+      "path": "data/linelists/molecular/turbospectrum/MOLECULAR_MANIFEST.json"
+    },
+    "molecular-schema": {
+      "path": "data/schemas/canonical_molecular_transition.schema.json"
+    },
+    "molecular-intake": {
+      "path": "docs/science/rya1136_cno_primary_molecular_intake.md",
+      "bibliography_key": "amarsi2021_molecular_cno"
+    },
+    "grade-governance": {
+      "path": "docs/audit/rya1352/README.md"
+    },
+    "atomic-census": {
+      "path": "docs/audit/rya1353_line_census.md"
+    },
+    "nlte-availability": {
+      "path": "data/curation/threednlte_availability.csv"
+    },
+    "model-domain": {
+      "path": "pipeline/nlte_corrections.py"
+    },
+    "atmosphere-policy": {
+      "path": "docs/decisions/fe_mean3d_dimensionality_rya1032.md"
+    },
+    "exomol": {
+      "url": "https://www.exomol.com/data/",
+      "bibliography_key": "tennyson2016",
+      "audit": "Upstream data index inspected 2026-11-09; individual species/release completeness is not established."
+    },
+    "exomol-h2o": {
+      "url": "https://www.exomol.com/data/molecules/H2O/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed."
+    },
+    "exomol-tio": {
+      "url": "https://www.exomol.com/data/molecules/TiO/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed."
+    },
+    "exomol-feh": {
+      "url": "https://www.exomol.com/data/molecules/FeH/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed."
+    },
+    "exomol-cah": {
+      "url": "https://www.exomol.com/data/molecules/CaH/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed."
+    },
+    "exomol-mgh": {
+      "url": "https://www.exomol.com/data/molecules/MgH/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed."
+    },
+    "exomol-sio": {
+      "url": "https://www.exomol.com/data/molecules/SiO/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed."
+    },
+    "n-grid": {
+      "path": "data/nlte_grids/N_Amarsi2020_PySME.csv"
+    },
+    "fe-route-decision": {
+      "path": "docs/decisions/fe_3d_nlte_route_rya1035.md"
+    }
+  },
+  "entries": [
+    {
+      "id": "o-i-amarsi2019-3n",
+      "species": {
+        "kind": "atom",
+        "element": "O",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "oi-3n"
+      ],
+      "derivation": {
+        "type": "cno_grid",
+        "source": "oi-3n",
+        "species": "OI"
+      },
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      }
+    },
+    {
+      "id": "o-i-amarsi2019-1n",
+      "species": {
+        "kind": "atom",
+        "element": "O",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "oi-1n"
+      ],
+      "derivation": {
+        "type": "cno_grid",
+        "source": "oi-1n",
+        "species": "OI"
+      },
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      }
+    },
+    {
+      "id": "c-i-amarsi2019-3n",
+      "species": {
+        "kind": "atom",
+        "element": "C",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "ci-3n"
+      ],
+      "derivation": {
+        "type": "cno_grid",
+        "source": "ci-3n",
+        "species": "CI"
+      },
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      }
+    },
+    {
+      "id": "c-i-amarsi2019-1n",
+      "species": {
+        "kind": "atom",
+        "element": "C",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "ci-1n"
+      ],
+      "derivation": {
+        "type": "cno_grid",
+        "source": "ci-1n",
+        "species": "CI"
+      },
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      }
+    },
+    {
+      "id": "fe-i-amarsi2022-surrogate",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_surrogate",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Published neural-network surrogate for 1D LTE versus 3D NLTE corrections; not a full-3D transport executable.",
+      "source_ids": [
+        "fe-ml-readme",
+        "fe-ml-license",
+        "fe-ml-domain",
+        "fe-ml-audit",
+        "model-domain"
+      ],
+      "derivation": {
+        "type": "fe_training",
+        "source": "fe-ml-domain",
+        "ion": "I"
+      },
+      "domain": {
+        "scope": "FG-dwarf published parameter domain only; additionally check excitation, transition energy, log gf, abundance axis and the line-specific domain guard. IR extrapolation is unsupported.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "verified",
+        "note": "MIT; copyright 2022 Sofie Liljegren. Retain copyright and permission notice with source copies/substantial portions; cite Amarsi, Liljegren & Nissen 2022."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-817",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "fe-ii-amarsi2022-surrogate",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "II",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_surrogate",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Published neural-network surrogate for 1D LTE versus 3D NLTE corrections; not a full-3D transport executable.",
+      "source_ids": [
+        "fe-ml-readme",
+        "fe-ml-license",
+        "fe-ml-domain",
+        "fe-ml-audit",
+        "model-domain"
+      ],
+      "derivation": {
+        "type": "fe_training",
+        "source": "fe-ml-domain",
+        "ion": "II"
+      },
+      "domain": {
+        "scope": "FG-dwarf published parameter domain only; additionally check excitation, transition energy, log gf, abundance axis and the line-specific domain guard. IR extrapolation is unsupported.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "verified",
+        "note": "MIT; copyright 2022 Sofie Liljegren. Retain copyright and permission notice with source copies/substantial portions; cite Amarsi, Liljegren & Nissen 2022."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-817",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "fe-i-gerber-atom",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "model_atom",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Pinned Fe model-atom reach audit; ionization-reservoir levels do not establish bound-bound NLTE support.",
+      "source_ids": [
+        "fe-atom-reach",
+        "gerber",
+        "models"
+      ],
+      "derivation": {
+        "type": "atom_reach",
+        "source": "fe-atom-reach",
+        "ion_stage": 1
+      },
+      "domain": {
+        "scope": "atom.fe607a only. Fe II has no bound-bound transitions in this atom. This limit does not say Fe II NLTE is absent elsewhere in literature.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1055"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [
+          "turbospectrum"
+        ],
+        "atmosphere_ids": [
+          "marcs"
+        ],
+        "model_atom_ids": [],
+        "note": "Existing Gerber 1D route references; exact atom/departure/atmosphere compatibility remains a per-run gate."
+      }
+    },
+    {
+      "id": "fe-ii-gerber-atom",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "II",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "model_atom",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "incompatible",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Pinned Fe model-atom reach audit; ionization-reservoir levels do not establish bound-bound NLTE support.",
+      "source_ids": [
+        "fe-atom-reach",
+        "gerber",
+        "models"
+      ],
+      "derivation": {
+        "type": "atom_reach",
+        "source": "fe-atom-reach",
+        "ion_stage": 2
+      },
+      "domain": {
+        "scope": "atom.fe607a only. Fe II has no bound-bound transitions in this atom. This limit does not say Fe II NLTE is absent elsewhere in literature.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1055"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [
+          "turbospectrum"
+        ],
+        "atmosphere_ids": [
+          "marcs"
+        ],
+        "model_atom_ids": [],
+        "note": "Existing Gerber 1D route references; exact atom/departure/atmosphere compatibility remains a per-run gate."
+      }
+    },
+    {
+      "id": "fe-ii-amarsi2019-table4",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "II",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "3D_LTE",
+      "availability": "published_not_acquired",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Primary release describes Fe II 3D LTE versus 1D LTE table4; table4 is not vendored in this checkout.",
+      "source_ids": [
+        "cno-readme",
+        "cno-provenance"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Fe II only, release-specific atmospheres/lines/parameters. Not a 3D NLTE Fe II grid. No table4 numeric domain asserted without acquisition and inspection.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373"
+      ],
+      "gap_ids": [
+        "fe-table4-treatment",
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      }
+    },
+    {
+      "id": "fe-mpia-1d",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Existing MPIA/Bergemann correction source. This inventory does not rerun its numerical/scientific validation.",
+      "source_ids": [
+        "fe-mpia",
+        "model-domain"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Only the actual grid hull and admitted Fe transitions; do not infer general Fe/NLTE coverage from a source label.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "co-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CO",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "CO"
+      },
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "oh-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "OH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "OH"
+      },
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "cn-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CN",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "CN"
+      },
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "nh-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "NH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "NH"
+      },
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "ch-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "CH"
+      },
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "c2-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "C2",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "C2"
+      },
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "oh-mythos-midir",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "OH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Additional held rovibrational release, kept distinct from optical list families.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "OH_MYTHOS_midIR"
+      },
+      "domain": {
+        "scope": "Exact release and transition schema apply. Mid-IR list acquisition does not authorize stellar abundance beyond project applicability/telluric limits.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "nh-knight-midir",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "NH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Additional held rovibrational release, kept distinct from optical list families.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "NH_kNigHt_midIR"
+      },
+      "domain": {
+        "scope": "Exact release and transition schema apply. Mid-IR list acquisition does not authorize stellar abundance beyond project applicability/telluric limits.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "ch-mollist-midir",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Additional held rovibrational release, kept distinct from optical list families.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema"
+      ],
+      "derivation": {
+        "type": "molecular_manifest",
+        "source": "molecular-manifest",
+        "key": "CH_MoLLIST_midIR"
+      },
+      "domain": {
+        "scope": "Exact release and transition schema apply. Mid-IR list acquisition does not authorize stellar abundance beyond project applicability/telluric limits.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "h2o-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "H2O",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-h2o"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "tio-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "TiO",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-tio"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "feh-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "FeH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-feh"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "cah-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CaH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-cah"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "mgh-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "MgH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-mgh"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "sio-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "SiO",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-sio"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "n-i-1d-grid",
+      "species": {
+        "kind": "atom",
+        "element": "N",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held nitrogen 1D NLTE route is separate from the 2019 C/O release. Solar full-3D nitrogen literature does not establish an off-solar held grid.",
+      "source_ids": [
+        "n-grid",
+        "nlte-availability"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Verify the specific grid node and line hull; no full-3D/off-solar claim inherited from the CNO label.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "turbospectrum",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "solver",
+      "treatment": "1D_NLTE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "External Turbospectrum synthesis uses precomputed atomic departure coefficients; that does not make it an independent statistical-equilibrium solver.",
+      "source_ids": [
+        "gerber"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Match atmosphere, model-atom identities and input departures. No molecular NLTE capability is inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "marcs",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "atmosphere_grid",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "MARCS atmosphere family referenced by existing Gerber treatments; atmosphere availability is separate from departures and line data.",
+      "source_ids": [
+        "models"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Use the exact compatible grid, geometry, chemistry, node and EOS. Family name alone does not authorize interpolation.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "stagger-mean",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "atmosphere_grid",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Mean-3D STAGGER atmosphere treatment is explicitly distinct from a coupled full-3D radiation field.",
+      "source_ids": [
+        "atmosphere-policy"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "Averaging convention and exact model identity required; no horizontal transfer is implied.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    },
+    {
+      "id": "coupled-3d",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "solver",
+      "treatment": "FULL3D_NLTE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "The BRIDE full-3D objective has separate physical/backend validation gates. An atmosphere cube or collection of columns does not demonstrate coupled transfer.",
+      "source_ids": [
+        "models"
+      ],
+      "derivation": null,
+      "domain": {
+        "scope": "No full-3D Codex solver admission or coverage domain established by this catalog.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      }
+    }
+  ],
+  "gaps": [
+    {
+      "id": "fe-table4-treatment",
+      "priority": "high",
+      "question": "Reconcile the historical RYA-1035 decision-text claim of a 2019 Fe II 3D NLTE leg with the primary release description of 3D LTE table4.",
+      "entry_ids": [
+        "fe-ii-amarsi2019-table4"
+      ],
+      "source_ids": [
+        "cno-readme",
+        "fe-route-decision"
+      ],
+      "issues": [
+        "RYA-1373"
+      ],
+      "next_gate": "Review the proposed source-text correction; keep the atlas table4 record 3D LTE and do not promote any product."
+    },
+    {
+      "id": "molecular-physics",
+      "priority": "high",
+      "question": "Which molecular diagnostics have compatible thermochemistry, rates, broadening, isotopic normalization and independent stellar validation?",
+      "entry_ids": [
+        "co-held-line-list",
+        "oh-held-line-list",
+        "cn-held-line-list",
+        "nh-held-line-list",
+        "ch-held-line-list",
+        "c2-held-line-list",
+        "oh-mythos-midir",
+        "nh-knight-midir",
+        "ch-mollist-midir",
+        "h2o-discovery",
+        "tio-discovery",
+        "feh-discovery",
+        "cah-discovery",
+        "mgh-discovery",
+        "sio-discovery"
+      ],
+      "source_ids": [
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "issues": [
+        "RYA-1314",
+        "RYA-751"
+      ],
+      "next_gate": "Release-specific primary-source and applicability review; LTE line lists do not close molecular NLTE completeness."
+    },
+    {
+      "id": "cool-star-benchmark",
+      "priority": "normal",
+      "question": "Which physically characterized reference star and diagnostics can validate the cool-star extension?",
+      "entry_ids": [
+        "h2o-discovery",
+        "tio-discovery",
+        "feh-discovery",
+        "cah-discovery",
+        "mgh-discovery",
+        "sio-discovery"
+      ],
+      "source_ids": [
+        "stars"
+      ],
+      "issues": [
+        "RYA-970"
+      ],
+      "next_gate": "Independent benchmark-star selection and verified parameters; this atlas does not adopt a star."
+    },
+    {
+      "id": "node-and-identity-domain",
+      "priority": "high",
+      "question": "Which exact line/multiplet and stellar/abundance nodes are supported without interpolation or chemistry/atmosphere mismatch?",
+      "entry_ids": [
+        "o-i-amarsi2019-3n",
+        "o-i-amarsi2019-1n",
+        "c-i-amarsi2019-3n",
+        "c-i-amarsi2019-1n",
+        "fe-i-amarsi2022-surrogate",
+        "fe-ii-amarsi2022-surrogate",
+        "fe-ii-amarsi2019-table4"
+      ],
+      "source_ids": [
+        "cno-readme",
+        "model-domain",
+        "fe-ml-audit"
+      ],
+      "issues": [
+        "RYA-1368",
+        "RYA-1373"
+      ],
+      "next_gate": "Review exact nodes, component versus multiplet identity and full hull; broad envelopes are insufficient."
+    },
+    {
+      "id": "source-reuse-and-completeness",
+      "priority": "normal",
+      "question": "What are the exact version, upstream reuse terms, collision/broadening and thermochemistry provenance for each pending resource?",
+      "entry_ids": [
+        "o-i-amarsi2019-3n",
+        "o-i-amarsi2019-1n",
+        "c-i-amarsi2019-3n",
+        "c-i-amarsi2019-1n",
+        "fe-i-gerber-atom",
+        "fe-ii-gerber-atom",
+        "fe-ii-amarsi2019-table4",
+        "fe-mpia-1d",
+        "co-held-line-list",
+        "oh-held-line-list",
+        "cn-held-line-list",
+        "nh-held-line-list",
+        "ch-held-line-list",
+        "c2-held-line-list",
+        "oh-mythos-midir",
+        "nh-knight-midir",
+        "ch-mollist-midir",
+        "h2o-discovery",
+        "tio-discovery",
+        "feh-discovery",
+        "cah-discovery",
+        "mgh-discovery",
+        "sio-discovery",
+        "n-i-1d-grid",
+        "turbospectrum",
+        "marcs",
+        "stagger-mean",
+        "coupled-3d"
+      ],
+      "source_ids": [
+        "molecular-schema",
+        "gerber",
+        "atomic-census"
+      ],
+      "issues": [
+        "RYA-1356",
+        "RYA-1314",
+        "RYA-1373"
+      ],
+      "next_gate": "Primary release and license audit plus component-specific completeness review before reuse or adoption."
+    }
+  ],
+  "roadmap_integration": {
+    "issue": "RYA-1370",
+    "track_ids": [
+      "atomic-laboratory",
+      "cross-engine"
+    ],
+    "roadmap_pr_url": "https://github.com/damienabraxas/exoplanetcodex-site/pull/87",
+    "public_page_gate": "Roadmap review/approval and independent atlas scientific review precede public HTML integration."
+  }
+}

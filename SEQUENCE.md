@@ -1,11 +1,11 @@
 ## 2026-11-09 — reviewed foundation and reference-provider continuation
 
-> **Current as of `main` 10f0dc95** (PR #618 RYA-1373; merged diff and ticket comments8990d0ae/a1c68001 verified; current experimental worktree remains based on d1728c92).
+> **Current as of `main` 10f0dc95** (PR #618 RYA-1373; merged diff and ticket comments8990d0ae/a1c68001 verified; current continuation integrates this main after its pinned d1728c92 experiments, v266).
 
 - **RYA-1373** — `10f0dc95` PR #618 lands the Spectroscopic Frontier inventory/schema/coverage matrix; no scientific adoption or public HTML. Publication remains1377 after1370.
 - **RYA-1278** — `d1728c92` PR #619 integrates the completed foundation; Done records software/roadmap integration, not science admission.
 - **RYA-1281** — same landing closes the reviewed checkpoint; scientific HOLD remains and newer1371 work is excluded.
-- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v265 six-window controlled transfer milestone: pointwise below2.4e-5/areas within0.0077mA, original/defaults intact; full source widths/collider/EOS/SE/solar qualification next, science HOLD.
+- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v266 main integration preserves both ledger appends and source-only atlas provenance; six-window transfer milestone below2.4e-5/within0.0077mA remains diagnostic. Full source widths/collider/EOS/SE/solar qualification next, HOLD.
 
 ## 2026-11-09
 

@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v265** · _Last updated: 2026-11-09 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v266** · _Last updated: 2026-11-09 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -29,7 +29,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 | component | verdict | value | established by | status | reopen-only-if |
 |---|---|---|---|---|---|
-| RYA-1373 Spectroscopic Frontier foundation | Done for inventory scope; science/public HTML unadmitted | PR618 landed10f0dc95 after this worktree base d1728c92;30-entry sourced atomic/molecular inventory, JSON/schema/semantic validator, generated coverage matrix and contributor process; no model/abundance adoption. Public HTML tracked1377 after1370. Current continuation records the landing without importing its code | merged10f0dc95; RYA-1373 comments8990d0ae/a1c68001; docs/science/spectroscopic_frontier.md at that commit | SETTLED-WITH-CAVEAT | New reviewed release or separate publication/scientific admission |
+| RYA-1373 Spectroscopic Frontier foundation | Done for inventory scope; science/public HTML unadmitted | PR618 landed10f0dc95 after this worktree base d1728c92;30-entry sourced atomic/molecular inventory, JSON/schema/semantic validator, generated coverage matrix and contributor process; no model/abundance adoption. Public HTML tracked1377 after1370. Current continuation integrates10f0dc95 for draft review; retains97-row bug-ledger union and refreshes source-only Frontier evidence pin/snapshot at ebbaf109, preserving all30 entries/gaps/citations/states | merged10f0dc95; RYA-1373 comments8990d0ae/a1c68001; docs/science/spectroscopic_frontier.md at that commit | SETTLED-WITH-CAVEAT | New reviewed release or separate publication/scientific admission |
 
 ## Bride native molecular diagnostic — NATIVE
 
@@ -727,3 +727,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v264** (2026-11-09) — RYA-1371 VDW-off mechanism reduces8446 residual from0.093 to0.0071mA and all six windows below0.0072mA, own-state n response0.852percent; no physical width omission adopted. Typed actual native wavelength helpers resolve apparent FUV table-coordinate discrepancy: photon centres match source vacuum within0.0005A. Canonical observation medium unchanged. Residual plot inspected; measured native/project inverse precision suggests explicit vacuum-centre packet control next.50 tests,210 raw receipts/25 compact copies. Physical/coupled-SE/solar/3D/all-band HOLD.
 
 - **v265** (2026-11-09) — RYA-1371 controlled transfer milestone: explicit source-bound native vacuum photon centres reduce all six optical pointwise differences below2.4e-5 with unchanged n/nStar/continuum/axes, finite-window areas within0.0077mA. No fitted shifts or global converter change.51 tests pass,10 raw receipts/10 compact copies verified,153 paths present/18 existing broken. Physical widths/collider/molecular-EOS/coupled SE/fresh balance and observed solar next; no completed physical1D/3D/all-band or production adoption.
+
+- **v266** (2026-11-09) — RYA-1371 current-main10f0dc95 integration makes draft PR620 reviewable after RYA-1373 landing. Preserve96 own/91 main bug rows as97-row full-record-byte union; refresh only draft atlas source pin/snapshot at ebbaf109 for bibliography metadata, all30 entries/gaps/citations/states unchanged. Existing read-only environment passes12 atlas tests,51 RT/reference/register checks repeated; no installs, default adoption or PR merge. All15 archive groups verify2794 raw receipts/303 compact copies. Controlled transfer milestone complete, physical1D/3D/observed/all-band gates remain open.
