@@ -1,0 +1,27 @@
+{
+ "element": "Zn",
+ "n_rows": 43,
+ "held_reason": {
+  "UNGRADED_GF": 43
+ },
+ "flags": {
+  "UNRATED_GF": 43,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 14,
+  "GF_DISCREPANCY": 9,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 43
+ },
+ "no_graded_route": [
+  "Zn I K",
+  "Zn I NIR",
+  "Zn I VIS",
+  "Zn I near-UV",
+  "Zn I red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

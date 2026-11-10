@@ -1,0 +1,31 @@
+{
+ "element": "Co",
+ "n_rows": 6119,
+ "held_reason": {
+  "UNGRADED_GF": 5945,
+  "GRADED_NOT_LAB": 174
+ },
+ "flags": {
+  "UNRATED_GF": 6119,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 1233,
+  "GF_DISCREPANCY": 73,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 613,
+  "2": 73,
+  "3": 4265,
+  "4": 1168
+ },
+ "no_graded_route": [
+  "Co I H",
+  "Co I K",
+  "Co I NIR",
+  "Co II H",
+  "Co II NIR"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}
