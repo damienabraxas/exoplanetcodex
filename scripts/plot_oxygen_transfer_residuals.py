@@ -10,7 +10,7 @@ def main():
     import matplotlib.pyplot as plt
     from pipeline.reference_engines import fingerprint
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();inputs={};curves=[]
-    cases=[('QLG-bot, table matched','rya1371-oxygen-linear-no-stark-analysis-v1','rya1371-hop-table-combined-v1'),('Native fp64 kernel','rya1371-oxygen-accurate-profile-analysis-v1','rya1371-hop-accurate-profile-transfer-v1'),('VDW-off diagnostic','rya1371-oxygen-no-vdw-analysis-v1','rya1371-hop-no-vdw-transfer-v1')]
+    cases=[('QLG-bot, table matched','rya1371-oxygen-linear-no-stark-analysis-v1','rya1371-hop-table-combined-v1'),('Native fp64 kernel','rya1371-oxygen-accurate-profile-analysis-v1','rya1371-hop-accurate-profile-transfer-v1'),('VDW-off diagnostic','rya1371-oxygen-no-vdw-analysis-v1','rya1371-hop-no-vdw-transfer-v1'),('Native vacuum-centre packet','rya1371-oxygen-no-vdw-analysis-v1','rya1371-hop-native-vacuum-centres-v1')]
     for label,native,transfer in cases:
         ds=[]
         for path in [a.raw_root/native/'spectra.npz',a.raw_root/transfer/'native_NLTE.npz']:

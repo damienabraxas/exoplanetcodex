@@ -32,3 +32,11 @@ def test_strength_only_keeps_transfer_frequency_and_original_line_object(tmp_pat
     np.testing.assert_allclose(line.Aji/prior.Aji,2.)
     path.write_text(path.read_text().replace('0 0 1','0 1 0',1))
     with pytest.raises(ValueError,match='identity'):apply_table_control(model,path,'centres')
+
+
+def test_verified_vacuum_packet_is_used_without_a_second_air_conversion(tmp_path):
+    model,path=fixture_model(tmp_path);centres=np.full(10,7776.25)
+    audit=apply_table_control(model,path,'centres',centres)
+    assert model.lines[0].lambda0==pytest.approx(777.625,rel=1e-15)
+    assert 'no conversion'in audit['vacuum_centre_source']
+    with pytest.raises(ValueError,match='purpose/shape'):apply_table_control(model,path,'strengths',centres)

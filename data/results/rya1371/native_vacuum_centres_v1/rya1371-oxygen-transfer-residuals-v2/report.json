@@ -1,0 +1,51 @@
+{
+  "generator": {
+    "name": "plot_oxygen_transfer_residuals.py",
+    "bytes": 2874,
+    "sha256": "dcb62cd6e27cae38b8a263c3ac02eabcf4195ef35f47b146ebe778212feeb2bd"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 206843,
+      "sha256": "f30e9c32d98d119b114badf2416bfc5d9d1962be59ec672416095a468e46f314"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-table-combined-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 205006,
+      "sha256": "6f24d836b9fec02cab954a547e9f4bd64f5e887610089cadbe3f9173fc6d3316"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 206878,
+      "sha256": "69e8a27a554df4c5d148795108d0a9fd3bb8ac982caf8570f78b56f8fdc51128"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-accurate-profile-transfer-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 204996,
+      "sha256": "72a93d454fa8768a35b283e7d6a576db96ac5065fbc6ccdb72619602cd471b92"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-no-vdw-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 200880,
+      "sha256": "0471aa08917119788651721d6d3339ee79c01c134860dbc34bed1f43451556e4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-vdw-transfer-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 198929,
+      "sha256": "94211949276f87a482de9b169b515b1102d3bfa98ef8a2e759f4f5bd52ea6d9d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 198932,
+      "sha256": "76383c35e75d2f0cddb27117782339381c3f8dfbcd07fa69749a88def31adaee"
+    }
+  },
+  "plot": {
+    "name": "residuals.png",
+    "bytes": 412472,
+    "sha256": "cca27bd63252a54aee2d7ff1bf6ab30076a81daf331b63613c0c7730e523e7c0"
+  },
+  "scientific_admission": "HOLD",
+  "scope": "Own-state six-window NLTE normalized residuals; no observational fit, cross-state population attribution or scientific admission."
+}

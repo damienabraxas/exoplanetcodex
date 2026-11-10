@@ -615,3 +615,48 @@ vdw_wavelength_v1, including residual plot. Generated archive was expanded befor
 commit to include that plot; initial compact-copy directory retained external under
 /private/tmp/rya1371-vdw-wavelength-initial-archive. Physical1D/observed/3D/all-band
 admission remains HOLD.
+
+### Explicit vacuum photon-centre packet (v265)
+
+Final prospective fixed-transfer control uses actual original-native vacuum photon
+centres, qualified by the typed roundtrip packet and its source/library/compiler/
+atom/table receipts. No new converter formula, fitted shift or global SSOT change.
+The ten optical transfer properties consume already-vacuum centres directly; output/
+observation axes retain their canonical conversion once. All other transitions and
+original levels remain unchanged; this transfer object remains unqualified for SE.
+Loader refuses changed producer/report/inputs/table/schema/precision; runtime audit
+checks every actual optical photon centre against its source-bound packet.
+
+Both native NLTE/LTE population cases finish5.857s, preserving n/nStar/continuum/
+output axes bit-identically to the preceding VDW-off control. No native SE rerun or
+population fitting occurs. One-axis control changes only the small inverse precision.
+
+| AIR centre | fixed-state area difference mA | max NLTE normalized difference |
+|---|---:|---:|
+|6158.170|+.000976|.00000835|
+|6300.304|-.00000112|.000000821|
+|7771.944|+.004885|.00002326|
+|7774.166|+.004619|.00002230|
+|7775.388|+.004134|.00002173|
+|8446.400|+.007663|.00001741|
+
+All six pointwise differences below2.4e-5; all finite-window areas within.0077mA.
+The8446 finite-area difference slightly increases despite better pointwise agreement:
+blended truncated windows are not full equivalent widths or an agreement optimizer.
+6363 remains a missing-transition control. Four-stage residual plot inspected: the
+antisymmetric remainder falls with the verified vacuum packet; no visual continuum
+adjustment or result-selected wavelength/abundance shift was introduced.
+
+51 focused tests pass2.75s, including no-double-conversion and strict purpose routing.
+10 raw receipts/10 compact copies verify in native_vacuum_centres_v1. Path register
+153 present/18 pre-existing broken. Target mirror and artifact guards checked against
+explicit clean d1728c92 baseline; source constants, stars, model registry, observations,
+production products and gold/reference remain unchanged.
+
+This completes a controlled transfer-comparison milestone, not a completed physical
+Oxygen1D model. Next stop stripping physics: qualify/restore full original-source
+width prescriptions, collider and molecular/atomic EOS population interfaces; then
+coupled SE with fresh radiative/collisional balance and solar intensity/flux benchmarks,
+continuum/bracketing, blends, instrumental response and uncertainties. Parameter/xi
+sweeps, CNO then Fe/reference-star and RYA-1374 expansion remain downstream. Original
+reference and default dispatch remain intact; no production or scientific admission.

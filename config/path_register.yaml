@@ -1170,3 +1170,9 @@ entries:
     rel: bride_mac_checks/rya1371-oxygen-no-vdw-analysis-v1
     kind: dir
     desc: Explicit VDW-off accurate-kernel native control, not physical model adoption.
+
+  experiments.native_wavelength_roundtrip:
+    root: work
+    rel: bride_mac_checks/rya1371-native-wavelength-roundtrip-v2
+    kind: dir
+    desc: Typed original-native numerical vacuum photon-centre packet, no physical FUV admission.

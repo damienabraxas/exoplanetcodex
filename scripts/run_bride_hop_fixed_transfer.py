@@ -20,7 +20,7 @@ def main():
     options_file=ROOT/'config/experiments/rya1371_hop_native_options.json'
     if fingerprint(options_file)!=plan['native_options']:raise ValueError('Changed predeclared native module options')
     checks[str(options_file)]=plan['native_options']
-    for relative in ['pipeline/bride_hop_transfer.py','pipeline/bride_native_table_control.py','pipeline/hop_packet.py','pipeline/hop_abi.py','pipeline/bride_top_cap.py','pipeline/multi_atom.py','pipeline/bride_reference.py']:
+    for relative in ['pipeline/bride_hop_transfer.py','pipeline/bride_native_table_control.py','pipeline/native_vacuum_centres.py','pipeline/hop_packet.py','pipeline/hop_abi.py','pipeline/bride_top_cap.py','pipeline/multi_atom.py','pipeline/bride_reference.py']:
         path=ROOT/relative;checks[str(path)]=fingerprint(path)
     if os.environ.get('OMP_NUM_THREADS')!='1'or not 0<plan['seconds']<=600 or plan['purpose']!='fixed-native-oxygen-transfer':raise ValueError('Require explicit bounded one-thread fixed-transfer plan')
     native=Path(require_codex_path(plan['native_analysis_resource']));arrays=native/'arrays.npz';spectra=native/'spectra.npz';report_file=native/'report.json';r=json.loads(report_file.read_text());_,_,_,reference=load_plan_engine(dict(engine='openmulti3d',profile_variant=r.get('profile_variant','original')))
@@ -41,6 +41,9 @@ def main():
         item=plan['table_control'];table=require_codex_path(item['resource'])/'native/atoms/O.txt'
         if fingerprint(table)!=item['receipt']:raise ValueError('Changed consumed native table')
         checks[str(table)]=item['receipt'];table_control=(table,item['mode'])
+        if 'native_vacuum_packet'in item:
+            from pipeline.native_vacuum_centres import load_centres
+            centres,centre_checks=load_centres(item['native_vacuum_packet'],table,read_multi_atom(atom_file));checks.update(centre_checks);table_control=(*table_control,centres)
     structure=read_marcs_structure(model_file);extra=np.unique([vac[0]/10,vac[-1]/10]);a.output.mkdir(parents=True,exist_ok=False);start=time.perf_counter();records=[]
     manifest=dict(generator=fingerprint(__file__),plan=fingerprint(a.plan),scientific_admission='HOLD',inputs=checks,scope=plan['scope'],dry_run=a.dry_run)
     (a.output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

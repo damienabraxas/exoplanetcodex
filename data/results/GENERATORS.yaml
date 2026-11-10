@@ -32013,3 +32013,47 @@ artifacts:
     generator: scripts/audit_vdw_profile_control.py
     ticket: RYA-1371
     note: Exact compact VDW-off mechanism and typed native wavelength roundtrip controls; no physical omission or default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-hop-native-vacuum-centres-comparison-v1/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-hop-native-vacuum-centres-comparison-v1/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-hop-native-vacuum-centres-comparison-v1/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-hop-native-vacuum-centres-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-hop-native-vacuum-centres-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-hop-native-vacuum-centres-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-hop-native-vacuum-centres-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-native-vacuum-centres-audit-v1/report.json
+    generator: scripts/audit_native_vacuum_centres_control.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-oxygen-transfer-residuals-v2/report.json
+    generator: scripts/plot_oxygen_transfer_residuals.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
+  - artifact: rya1371/native_vacuum_centres_v1/rya1371-oxygen-transfer-residuals-v2/residuals.png
+    generator: scripts/plot_oxygen_transfer_residuals.py
+    ticket: RYA-1371
+    note: Exact compact fixed-state native vacuum photon-centre diagnostic; no global converter or physical/default adoption.
