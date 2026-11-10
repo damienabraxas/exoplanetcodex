@@ -6,8 +6,8 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 def main():
     from pipeline.reference_engines import fingerprint
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--output-opacity-supplement',action='store_true');p.add_argument('--boundary-eos-supplement',action='store_true');p.add_argument('--molecular-preflight-supplement',action='store_true');p.add_argument('--hop-provider-supplement',action='store_true');p.add_argument('--hop-trace-supplement',action='store_true');p.add_argument('--hop-fixed-transfer-supplement',action='store_true');p.add_argument('--hop-formal-stark-supplement',action='store_true');p.add_argument('--hop-helium-supplement',action='store_true');p.add_argument('--hop-profile-source-supplement',action='store_true');p.add_argument('--hop-table-profile-supplement',action='store_true');a=p.parse_args()
-    if sum([a.output_opacity_supplement,a.boundary_eos_supplement,a.molecular_preflight_supplement,a.hop_provider_supplement,a.hop_trace_supplement,a.hop_fixed_transfer_supplement,a.hop_formal_stark_supplement,a.hop_helium_supplement,a.hop_profile_source_supplement,a.hop_table_profile_supplement])>1:raise ValueError('Choose one supplement')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--raw-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--output-opacity-supplement',action='store_true');p.add_argument('--boundary-eos-supplement',action='store_true');p.add_argument('--molecular-preflight-supplement',action='store_true');p.add_argument('--hop-provider-supplement',action='store_true');p.add_argument('--hop-trace-supplement',action='store_true');p.add_argument('--hop-fixed-transfer-supplement',action='store_true');p.add_argument('--hop-formal-stark-supplement',action='store_true');p.add_argument('--hop-helium-supplement',action='store_true');p.add_argument('--hop-profile-source-supplement',action='store_true');p.add_argument('--hop-table-profile-supplement',action='store_true');p.add_argument('--hop-atmospheric-profile-supplement',action='store_true');a=p.parse_args()
+    if sum([a.output_opacity_supplement,a.boundary_eos_supplement,a.molecular_preflight_supplement,a.hop_provider_supplement,a.hop_trace_supplement,a.hop_fixed_transfer_supplement,a.hop_formal_stark_supplement,a.hop_helium_supplement,a.hop_profile_source_supplement,a.hop_table_profile_supplement,a.hop_atmospheric_profile_supplement])>1:raise ValueError('Choose one supplement')
     extra_sources={}
     groups={
       'rya1281-independent-oxygen-populations-v1':'analysis',
@@ -56,6 +56,7 @@ def main():
       'rya1371-hop-table-centres-v2':'analysis','rya1371-hop-table-strengths-v1':'analysis','rya1371-hop-table-combined-v1':'analysis',
       'rya1371-hop-table-centres-comparison-v2':'analysis','rya1371-hop-table-strengths-comparison-v1':'analysis','rya1371-hop-table-combined-comparison-v1':'analysis',
       'rya1371-hop-table-audit-v1':'analysis','rya1371-qlg-profile-probe-v1':'receipt-only','rya1371-qlg-profile-probe-v2':'kernel'}
+    if a.hop_atmospheric_profile_supplement:groups={'rya1371-optical-damping-samples-v1':'receipt-only','rya1371-optical-damping-samples-v2':'analysis','rya1371-qlg-atmospheric-probe-v1':'receipt-only','rya1371-qlg-atmospheric-probe-v2':'receipt-only','rya1371-qlg-atmospheric-probe-v3':'kernel'}
     a.output.mkdir(parents=True,exist_ok=False);records=[]
     for name,kind in groups.items():
         source=extra_sources.get(name,a.raw_root/name)

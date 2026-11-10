@@ -470,3 +470,46 @@ measure the kernel on actual matched atmospheric damping support, then an isolat
 native accurate-profile transfer control with explicit population response, before
 qualified collider/EOS/SE and fresh-field validation. Physical1D/3D/solar/all-band
 admission remains HOLD; no production or source atom changes.
+
+### Measured damping-support probe and main reconciliation (v262)
+
+Sample the actual LW damping formulas used by the matched table/He-off transfer:
+ten optical transitions,56 consumed native T/ne/rho states. The isolated HOP packet
+supplies the same native HI perturbers; original broadening formulas and source
+constants remain declared. Damping spans3.50742e-5..0.131501. External LW atomic,
+broadening, table, constants and compiled module fingerprints are bound; no RT/SE
+or population update. These are measured LW damping inputs at native atmospheric
+states, NOT a claim to reproduce native stored damping arrays.
+
+The actual pinned QLG module is then probed at all560 distinct damping values and
+401 offsets over[-20,20] (224,560 samples). QLG-bot max absolute H difference from
+SciPy is.00326579; max relative.00651143 where H>1e-8. Finite-grid profile integrals
+differ at most.000241852relative (0.024185percent). Native fp64 reference max absolute
+error on this support is1.73230e-8. Native probe v3 takes1.581s. This still does not
+bound an emergent Oxygen profile/area/abundance or demonstrate the full residual's
+cause. Accurate-kernel RT control must measure its own SE/population response and
+boundary/broadening differences, not silently replace the original reference.
+
+Earlier sample/probe reports remain receipted external; final sample v2 binds the
+external modules and final probe v3 includes the damping input in its initial
+manifest and correctly distinguishes measured support from a generic grid.28raw
+files/6 exact compact copies verified in hop_atmospheric_profile_v1.47 focused tests
+pass (see session journal for elapsed time). Kernel/transfer/state/observation
+qualification remain separate; physical1D/3D/all-band gates stay HOLD.
+
+While pushing v261, the ordinary pre-push gate correctly refused a newly unrecorded
+main landing: RYA-1373 PR618 at10f0dc95. Inspected merged diff, atlas audit/methodology
+and both chronological ticket comments (8990d0ae, a1c68001). It adds the30-entry
+Spectroscopic Frontier inventory/schema/source-hashed generation and coverage/gap
+matrix;12 focused tests pass per merge evidence. It confers no scientific model
+admission or public HTML publication; RYA-1377 owns the latter after1370. The FeII
+historical LTE/NLTE source conflict is recorded, no abundance affected asserted.
+
+Current worktree remains based on d1728c92; this records newer main reality without
+silently importing its code or rewriting our experiments. No original/other worker
+source modified. SEQUENCE stamp advances to10f0dc95 and records the actual landing;
+register includes its scoped Done state. No hook bypass. Future integration must
+retain both independent bug-ledger additions. Artifact-guard comparison continues
+to name the clean d1728c92 tree baseline rather than claiming a full test of newer
+main code. Next: isolated accurate-kernel native transfer, fresh-field balance and
+qualified collider/EOS/SE, then observed solar validation.

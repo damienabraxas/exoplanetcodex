@@ -31741,3 +31741,31 @@ artifacts:
     generator: scripts/probe_native_qlg_profiles.py
     ticket: RYA-1371
     note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_atmospheric_profile_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
+  - artifact: rya1371/hop_atmospheric_profile_v1/rya1371-optical-damping-samples-v2/damping.npz
+    generator: scripts/sample_hop_optical_damping.py
+    ticket: RYA-1371
+    note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
+  - artifact: rya1371/hop_atmospheric_profile_v1/rya1371-optical-damping-samples-v2/report.json
+    generator: scripts/sample_hop_optical_damping.py
+    ticket: RYA-1371
+    note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
+  - artifact: rya1371/hop_atmospheric_profile_v1/rya1371-qlg-atmospheric-probe-v3/build.log
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
+  - artifact: rya1371/hop_atmospheric_profile_v1/rya1371-qlg-atmospheric-probe-v3/manifest.json
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
+  - artifact: rya1371/hop_atmospheric_profile_v1/rya1371-qlg-atmospheric-probe-v3/profiles.npz
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
+  - artifact: rya1371/hop_atmospheric_profile_v1/rya1371-qlg-atmospheric-probe-v3/report.json
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
