@@ -1,0 +1,35 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "5c6a0ef0cddb5386cebfb6c5ab6be884c5b931c320375bafd08513b64d3c31d8",
+      "bytes": 12795
+    }
+  },
+  "files": {
+    "evidence/staged_log_snapshot_v9/capture.json": {
+      "sha256": "79489f1545b6807f317ffa5f3a4fb35e944cab5e74132bbb4bbe7eb3fdea9fff",
+      "bytes": 18952
+    },
+    "evidence/staged_log_snapshot_v9/driver.py": {
+      "sha256": "96cdc6e87b6f52e62e0745be68950564ddb093de1054daf80d6462d50796a1c9",
+      "bytes": 5411
+    },
+    "evidence/staged_log_snapshot_v9/rmcdhf.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/staged_log_snapshot_v9/rmcdhf.stdin": {
+      "sha256": "e8a1df04c7763a5e9f3de6c68f9008ce5a06c36577f63a217c9e177a2ef3ea4f",
+      "bytes": 141
+    },
+    "evidence/staged_log_snapshot_v9/rmcdhf.stdout": {
+      "sha256": "00d6b833ec51299fe9df6c138653a6aeb3acce1254f96f2aaf9232ad5158d7d3",
+      "bytes": 49374
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 5,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

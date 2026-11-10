@@ -1,0 +1,98 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "1d48efb1e94f507228ca3c6b6ecccb2de68854952157d1804ec1947df423b9cf",
+      "bytes": 355289
+    }
+  },
+  "files": {
+    "runs/lifetime_relax_n4_pcomponents_v4/driver.py": {
+      "sha256": "125c7e867d2771b5bb133c250a534acf261d8bbadc3aa5525f73499fcdeae1ee",
+      "bytes": 8975
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rangular.stdout": {
+      "sha256": "cead58924eabfc51386dd47bcc8f9550d87c14e866eaed760c0cd82d2f44790d",
+      "bytes": 4878
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rmcdhf.log": {
+      "sha256": "e86366585fd03fb2ec0cdb0f2870b8cb3f8ea9b57d1a62a23ae8f2e878767538",
+      "bytes": 29
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rmcdhf.stderr": {
+      "sha256": "a7b80b6101a631f95f5610a625177fe2c54985295b3c10903b8c707aada95b38",
+      "bytes": 3538
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rmcdhf.stdin": {
+      "sha256": "47b42f54e32f5ffe21e25177281a9c17888128edd85f391959d5aab52cba4878",
+      "bytes": 140
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rmcdhf.stdout": {
+      "sha256": "95994e56d228db2a6b78b1d48ec18a4361f5f2d0c163a02436e4a91589d618bd",
+      "bytes": 784772
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rmcdhf.sum": {
+      "sha256": "63e1a92e84f783f38b732f77560d52c38298d623f1d42915660cd2970118e91a",
+      "bytes": 638
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rmix.out": {
+      "sha256": "e13c5a8e53e6f3f1960f7fb4433174ee19767d5f0c5b5b87bf3ca3d59c519a5c",
+      "bytes": 45494
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/rwfn.out": {
+      "sha256": "e9f53fa756d3ad8c214e6fbb9d2edf369e5baa7b9cfd3f16bd1f3e565a0a300f",
+      "bytes": 136230
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/state.c": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/state.w": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_pcomponents_v4/receipt.json": {
+      "sha256": "126b47a6466b34cdf094a3104ce781fd5f5d7391789bb759ac4c1483b2a5d38a",
+      "bytes": 4827
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 18,
+  "omitted_angular_caches": [
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.30",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.31",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.32",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.33",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.34",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.35",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.36",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.37",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.38",
+    "runs/lifetime_relax_n4_pcomponents_v4/ground/mcp.39"
+  ],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}
