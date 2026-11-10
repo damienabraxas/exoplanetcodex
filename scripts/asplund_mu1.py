@@ -128,6 +128,109 @@ def run_cell(symbol: str, ion: str, band: str, out: Path) -> None:
     del np
 
 
+#: C/N/O are measured by pipeline.cno_synthesis (molecular bands + atomic cross-checks), not
+#: by a line set; their mu=1 run is the VIS CNO region on Liege. A21 Table 3 gives one 1D
+#: MARCS LTE value per INDICATOR; only the indicators A21 also uses on this spectrum pair
+#: (CN red, and the near-UV OH/NH A-X, have no A21 counterpart: its CN/OH/NH are other systems).
+CNO = ("C", "N", "O")
+CNO_A21 = {"CH_Gband": "CH (A-X)", "CI_5052": "C I", "CI_5380": "C I",
+           "C2_Swan": "C2 Swan", "OI_6300": "[O I]"}
+
+
+def run_cno_cell(out: Path) -> None:
+    """The VIS C/N/O region fitted to the Liege disk-centre atlas at mu=1 (one run serves
+    C, N and O: the fit is coupled through the molecular equilibrium)."""
+    import dataclasses
+    import pipeline.cno_synthesis as cs
+    import pipeline.local_continuum as lc
+    from ace_co_mu1_bracket import turbospectrum_intensity_at_mu
+
+    base = cs.REGIONS["vis"]
+    reg = dataclasses.replace(base, name="vis_liege_mu1", instrument="delbouille_liege",
+                              R=500000.0, holding="solar_delbouille_liege",
+                              notes="RYA-1350 Asplund geometry: Liege disk centre, mu=1")
+    cs.REGIONS[reg.name] = reg
+    cs.REGION_DIAGNOSTICS[reg.name] = cs.REGION_DIAGNOSTICS["vis"]
+    with gzip.open(LIEGE, "rt") as fh:
+        import pandas as pd
+        L = pd.read_csv(fh).to_numpy(float)
+    m = (L[:, 0] >= reg.wave_min_A) & (L[:, 0] <= reg.wave_max_A)
+    _load = cs._load_region_spectrum
+    cs._load_region_spectrum = (lambda star, region: (L[m, 0] / 10.0, L[m, 1])
+                                if region.name == reg.name else _load(star, region))
+    _rb = cs._resolve_broadening
+
+    def rb(star):
+        R, vmac, _vsini, fit_vmac = _rb(star)
+        return R, vmac, 0.0, fit_vmac                   # one point on the disk: no rotation
+    cs._resolve_broadening = rb
+    lc.solar_atlas_reference = lambda *a, **k: None     # the IAG atlas is flux, not mu=1
+
+    out.mkdir(parents=True, exist_ok=True)
+    with turbospectrum_intensity_at_mu(1.0) as st:
+        res = cs.run_cno("solar", reg.name, out_dir=out, with_systematics=False,
+                         tmp_dir=str(out / "ts_tmp"))
+    print(f"[asplund-mu1] intensity injections fired={st['fired']} remapped={st['remapped']}")
+    assert st["remapped"] > 0, "no intensity remap -> this would be flux"
+    rows = [{k: (v if isinstance(v, (str, int, float, bool)) or v is None else str(v))
+             for k, v in r.items()} for r in res.per_band]
+    (out / "cno_mu1_per_band.json").write_text(json.dumps(
+        {"abundances": res.abundances, "converged": res.converged, "flags": res.flags,
+         "measured_elements": list(res.measured_elements), "per_band": rows},
+        indent=1, default=str) + "\n")
+
+
+def collect_cno(symbol: str, work: Path) -> dict:
+    a21 = {}
+    with (ROOT / "data/reference/agss21_cited_sets/agss21_table3_cno.csv").open(newline="") as fh:
+        for r in csv.DictReader(fh):
+            a21[r["indicator"]] = float(r["lte_MARCS"]) if r["lte_MARCS"] else None
+    d = json.loads((work / "cno_VIS" / "cno_mu1_per_band.json").read_text())
+    lines = []
+    for r in d["per_band"]:
+        if r.get("element") != symbol:
+            continue
+        a = r.get("A_X")
+        ok = isinstance(a, (int, float)) and a == a and r.get("constrained", True) is not False
+        ind = CNO_A21.get(r.get("key"))
+        lines.append({"indicator": r.get("key"), "role": r.get("role"),
+                      "A_mu1": a if ok else None, "red_chi2": r.get("red_chi2"),
+                      "status": r.get("status"), "A21_indicator": ind,
+                      "A21_marcs_lte": a21.get(ind) if ind else None})
+    used = [x["A_mu1"] for x in lines if x["A_mu1"] is not None]
+    paired = [x["A_mu1"] - x["A21_marcs_lte"] for x in lines
+              if x["A_mu1"] is not None and x["A21_marcs_lte"] is not None]
+    return {"element": symbol, "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
+            "treatment": "1D-LTE", "route": "pipeline.cno_synthesis VIS region (coupled C/N/O)",
+            "a21_basis": "AGSS21 Table 3 lte_MARCS, per indicator",
+            "n_lines": len(used),
+            "mean_A_mu1": round(sum(used) / len(used), 3) if used else None,
+            "mean_minus_A21_marcs_lte": round(sum(paired) / len(paired), 3) if paired else None,
+            "n_paired": len(paired), "lines": lines}
+
+
+def main_cno(symbol: str) -> int:
+    """C/N/O share one coupled run; it is reused if a sibling element already made it."""
+    budget = ROOT / "data/results/orchestrator/budget"
+    work = budget / "solar_CNO_asplund_mu1"
+    rc = 0
+    if not (work / "cno_VIS" / "cno_mu1_per_band.json").exists():
+        env = {**os.environ, "CODEX_SYNTH_CACHE": "0"}
+        print(f"[asplund-mu1] C/N/O VIS region on Liege (shared by C, N, O)", flush=True)
+        rc = subprocess.run([sys.executable, __file__, "--cno-cell", str(work / "cno_VIS")],
+                            env=env).returncode
+        if rc:
+            return rc
+    res = collect_cno(symbol, work)
+    res["cells"] = [{"ion": "C/N/O", "band": "VIS"}]
+    out = budget / f"solar_{symbol}" / "asplund_mu1.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(res, indent=1) + "\n")
+    print(f"[asplund-mu1] {symbol}: mu=1 mean {res['mean_A_mu1']} on {res['n_lines']} indicators; "
+          f"vs A21 1D MARCS {res['mean_minus_A21_marcs_lte']} (n={res['n_paired']})")
+    return rc
+
+
 def collect(symbol: str, work: Path) -> dict:
     """Per-line mu=1 values from the cells' 1D-LTE line files, joined to A21's per-line
     values where the set records them."""
@@ -164,7 +267,12 @@ def main(argv: list[str]) -> int:
         _, symbol, ion, band, out = argv
         run_cell(symbol, ion, band, Path(out))
         return 0
+    if argv and argv[0] == "--cno-cell":
+        run_cno_cell(Path(argv[1]))
+        return 0
     symbol = argv[0]
+    if symbol in CNO:
+        return main_cno(symbol)
     work = ROOT / f"data/results/orchestrator/budget/solar_{symbol}/asplund_mu1"
     cells = plan(symbol)
     if not cells:

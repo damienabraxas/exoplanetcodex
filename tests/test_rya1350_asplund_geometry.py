@@ -39,3 +39,25 @@ def test_the_checklist_shows_the_mu1_measurement_or_owes_it(tmp_path):
     cov["asplund_mu1"] = cr._asplund_mu1(tmp_path)
     out = cr.render(cov)
     assert "[x] measured as Asplund does (mu=1, Liege): 7.500 (-0.010) on 9 lines" in out
+
+
+def test_cno_mu1_pairs_only_the_indicators_a21_shares(tmp_path, monkeypatch):
+    import json
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import asplund_mu1 as am
+    (tmp_path / "cno_VIS").mkdir()
+    (tmp_path / "cno_VIS" / "cno_mu1_per_band.json").write_text(json.dumps({"per_band": [
+        {"key": "CH_Gband", "element": "C", "role": "primary", "A_X": 8.45},
+        {"key": "CI_5052", "element": "C", "role": "cross_check", "A_X": 8.50},
+        {"key": "C2_Swan", "element": "C", "role": "cross_check", "A_X": 8.40,
+         "constrained": False},
+        {"key": "CN_red", "element": "N", "role": "primary", "A_X": 7.90}]}))
+    c = am.collect_cno("C", tmp_path)
+    assert c["n_lines"] == 2 and c["n_paired"] == 2          # unconstrained fit is not a value
+    a21 = {r["indicator"]: r["A21_marcs_lte"] for r in c["lines"]}
+    assert c["mean_minus_A21_marcs_lte"] == round(((8.45 - a21["CH_Gband"])
+                                                   + (8.50 - a21["CI_5052"])) / 2, 3)
+    n = am.collect_cno("N", tmp_path)
+    assert n["n_lines"] == 1 and n["n_paired"] == 0 and n["mean_minus_A21_marcs_lte"] is None
