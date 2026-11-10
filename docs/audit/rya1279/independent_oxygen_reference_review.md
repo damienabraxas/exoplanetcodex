@@ -794,3 +794,29 @@ All17 archive groups verify:2867 raw receipts/329 exact compact copies. Staged
 plain artifact diagnostics exactly match clean baseline5120; no new diagnostic.
 Path check156present/18pre-existing broken. Register pointer v268 passes.
 Overlay inspected; residual magnitudes come from arrays, not visual overlap.
+
+
+### Collider continuation and current ORCH integration (v269)
+
+Fresh origin/main45901e76 (PR621, RYA1378) integrated without conflict in88d9dc64;
+merge retains both sequence histories. This adds the current atomic gap register
+and ORCH step without changing any experimental input. Eight incoming gap-register
+tests and41 focused Oxygen tests pass locally after merge. No CI/Sirius run.
+
+Source inspection establishes the next collision contract, not a new discovery of
+an untested converter fix. Existing bride_gencol_controls/native_spline already
+record source direction differences. Pinned mul23_opacu.f GENCL4660--4740:
+CH uses ground-H NH(1) with downward coefficient, CH0 uses raw directed endpoints;
+CP uses proton NH(6). Source DAMP instead reduces SUM NH(1:5). Thus the neutral-H
+width packet must NOT be substituted for the full collision H-level packet.
+Installed LW collisional_rates.py150--180 uses H[0] and CH upward coefficients;
+its generic CH0 is downward only. Pinned OpenMULTI3D atom_mod.f90 CH is downward,
+CH0 ion-pair upward plus LTE inverse (optional H-minus energy control), and its
+nh1 comes from native composition. These are distinct hypotheses, not a universal
+class-name mapping. Reuse the existing named direction/interpolation controls;
+explicit ground-H/proton/H-minus roles and native EOS reservoir consistency are
+required before the HOP provider's active-SE refusal can be removed. No new
+rate direction, density substitution, reverse channel or producer identity adopted.
+Raw inspected source hashes: /private/tmp/rya1371-collider-next-audit.txt (local
+resume aid); authoritative source pins/build receipts remain registered. Physical
+1D/solar and1374 gates stay open.

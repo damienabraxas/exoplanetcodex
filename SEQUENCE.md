@@ -1,5 +1,7 @@
 ## 2026-11-10 — restored source-width component
 
+- **RYA-1371** — Current ORCH gap-register main integrated; collider roles and source-direction hypotheses retained for SE qualification (v269).
+
 - **RYA-1371** — Full positive widths restore six-window parity; radiative inputs audited, collider/EOS/SE/solar HOLD (v268).
 
 ## 2026-11-09 — reviewed foundation and reference-provider continuation

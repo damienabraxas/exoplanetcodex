@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v268** · _Last updated: 2026-11-10 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v269** · _Last updated: 2026-11-10 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -733,3 +733,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v267** (2026-11-09) — RYA-1371 original pinned DAMP full-width oracle passes256x56 comparisons and five density/T+10K/xi.25-4 component laws. Runtime HI-only is not proof of helium-free physical coefficients; historical fixedHe0.1 comment and measured LW/source ratios explicitly distinguished. Natural/Stark/source constants and SI normalization checked, no physical/default adoption.59 raw receipts/12 compact copies; three newly held CrII PDFs metadata-only indexed, library215/132/83. Source-only atlas pin refreshed at a0bbd0ec. Next exact source-law coefficient export/restored full widths, then collider/EOS/SE/solar gates.
 
 - **v268** (2026-11-10) — RYA-1371 restores full positive original-source widths without fitted scaling; six fixed-state areas within.0075mA and compiled256x56 width routing verified. Radiative-input inconsistencies at1355/6300 quantified against pressure widths; no source correction/adoption. Collider/EOS/coupled SE/solar gates remain open.
+
+- **v269** (2026-11-10) — Integrated current ORCH main45901e76/PR621 gap register without conflict;8 incoming and41 Oxygen tests pass. Collision continuation explicitly separates ground-H, total neutral-H width, proton and H-minus roles and existing source direction hypotheses; active SE remains refused.
