@@ -148,3 +148,50 @@ def test_method3_divergence_is_retained_and_cannot_be_relabeled_completed(monkey
     monkeypatch.setattr(audit,'load_parts',lambda directory:(files,manifest))
     with pytest.raises(ValueError,match='failure receipt'):
         audit.summarize(bundle)
+
+
+def test_native_relativistic_component_selection_and_explicit_control():
+    from rya1354_lifetime_relax import scf_controls
+    from rya1354_lifetime_ladder import STATES
+    files,_=load_parts(ROOT/'data/audit/rya1354/rsl_component_v8')
+    prefix='validation/rsl_component_v8/'
+    receipt=json.loads(files[prefix+'receipt.json'])
+    assert receipt['status']=='NATIVE_COMPONENT_SELECTION_VERIFIED_NO_ATOMIC_PREDICTION'
+    assert receipt['atomic_prediction'] is False
+    assert files[prefix+'component.stdout'].decode().splitlines()==['2 1 3','3 1 2 3','2 2 3']
+    assert receipt['selections']==[[2,1,3],[3,1,2,3],[2,2,3]]
+    for state in STATES:
+        for verify in (False,True):
+            old=scf_controls(state,4,1500,.5,verify,radial_iteration_floor=24)
+            new=scf_controls(state,4,1500,.5,verify,radial_iteration_floor=24,both_2p_spectroscopic=True)
+            assert new==old.replace('\n2s,2p', '\n2s,2p-,2p',1)
+
+
+def test_history_does_not_confuse_inner_failures_or_partial_cycles_with_convergence():
+    from rya1354_scf_history import history
+    text=('Iteration number 1\n2s 1.0 1 2.0 1.0D-3 0 0 1 2 0 1\n'
+          'Weighted average energy of these levels = -75.0\nGeneralised occupation numbers:\n'
+          'Iteration number 2\n2s 1.0 2 2.0 9.0D-2 0 0 1 2 0 3\n'
+          'Iteration number: 6, limit: 6\nConvergence not obtained\n')
+    rows=history(text)
+    assert [r['iteration'] for r in rows]==[1,2]
+    assert rows[0]['complete_printed_cycle'] and not rows[1]['complete_printed_cycle']
+    assert rows[1]['orbitals']['2s']==dict(residual=.09,method=2,nodes=3)
+    with pytest.raises(ValueError,match='nonmonotonic'):
+        history(text+'Iteration number 2\n')
+
+
+def test_native_running_snapshots_preserve_actual_component_methods_without_admission():
+    from rya1354_scf_history import history
+    files,_=load_parts(ROOT/'data/audit/rya1354/scf_logs_v8')
+    for name,method in (('nodebudget',3),('pcomponents',1)):
+        prefix=f'evidence/{name}_log_snapshot_v8/'
+        capture=json.loads(files[prefix+'capture.json'])
+        assert capture['accepted_lifetime'] is None and not capture['adoption_allowed']
+        for path,record in capture['files'].items():
+            assert hashlib.sha256(files[prefix+path]).hexdigest()==record['sha256']
+            assert len(files[prefix+path])==record['bytes']
+        assert history(files[prefix+'rmcdhf.stdout'].decode())==capture['history']
+        complete=[r for r in capture['history'] if r['complete_printed_cycle']]
+        assert complete and all(r['orbitals']['2p-']['method']==method for r in complete)
+        assert all(r['max_reported_residual']>5.960464477539063e-8 for r in complete)

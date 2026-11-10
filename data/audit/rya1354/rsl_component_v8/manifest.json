@@ -1,0 +1,55 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "b1c98e29485c11827cc48b40845a6f08f573633f76482b481d747d970b5792c0",
+      "bytes": 9594
+    }
+  },
+  "files": {
+    "validation/rsl_component_v8/compile.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "validation/rsl_component_v8/compile.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "validation/rsl_component_v8/component.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "validation/rsl_component_v8/component.stdin": {
+      "sha256": "d1c0805ed0d53094a98c5f566ccadb774fcf0659687f9d85a01a982ee1d85a8f",
+      "bytes": 20
+    },
+    "validation/rsl_component_v8/component.stdout": {
+      "sha256": "3d72091d15f09e7ba6a506632e4e6b2769e36d6db6efa785b90c1b4a9fa552c7",
+      "bytes": 20
+    },
+    "validation/rsl_component_v8/component_control": {
+      "sha256": "472de38875406640e48f656c1f295a66f361744dfa501f6ebcb549775584f9a7",
+      "bytes": 22952
+    },
+    "validation/rsl_component_v8/component_control.f90": {
+      "sha256": "9b6679836a037215542ccb3fef4a42a49da9c202109e7bb0f722c42a5ac25ca0",
+      "bytes": 298
+    },
+    "validation/rsl_component_v8/driver.py": {
+      "sha256": "b1c41e955f92d54888519ba5bdc70dc1cb8450a9447a1502138386debebd22e0",
+      "bytes": 3321
+    },
+    "validation/rsl_component_v8/fort.734": {
+      "sha256": "d1c0805ed0d53094a98c5f566ccadb774fcf0659687f9d85a01a982ee1d85a8f",
+      "bytes": 20
+    },
+    "validation/rsl_component_v8/receipt.json": {
+      "sha256": "cb4517d04154021a0ef3b87b7027e538bdee2b82ae0ccc9152dc0c3a0a1fe112",
+      "bytes": 2939
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 10,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}
