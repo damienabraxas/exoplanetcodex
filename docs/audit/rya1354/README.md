@@ -1,4 +1,5 @@
-Latest continuation: [n4 multireference and orbital-relaxation work](mr_continuation_v5.md).
+Latest continuation: [terminal MR audit and numerical continuation](terminal_continuation_v6.md).
+Previous: [n4 multireference and orbital-relaxation work](mr_continuation_v5.md).
 
 # RYA-1354 — O I atomic-structure pilot checkpoint
 

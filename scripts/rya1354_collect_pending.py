@@ -32,10 +32,12 @@ def terminal_receipt(path):
     return result
 
 
-def collect(root,out):
+def collect(root,out,campaigns=CAMPAIGNS):
     """One observation/collection pass; return statuses without inferred success."""
     result={}
-    for name in CAMPAIGNS:
+    for name in campaigns:
+        if not name or Path(name).name!=name or name in ('.','..'):
+            raise ValueError('Campaign must name one task-owned run directory')
         source=root/'runs'/name
         receipt_path=source/'receipt.json'
         receipt=terminal_receipt(receipt_path)
@@ -58,11 +60,44 @@ def collect(root,out):
     return result
 
 
+def observe(root,out,campaigns=CAMPAIGNS):
+    """Persist collection failures with native status, then propagate the error."""
+    if not campaigns or any(not name or Path(name).name!=name or name in ('.','..') for name in campaigns):
+        raise ValueError('Campaign must name one task-owned run directory')
+    error=None
+    try:
+        states=collect(root,out,campaigns)
+    except Exception as exc:
+        error=exc
+        states={}
+        for name in campaigns:
+            path=root/'runs'/name/'receipt.json'
+            # A malformed receipt remains a collection failure, not a prediction.
+            try:
+                receipt=terminal_receipt(path)
+                native_status=receipt.get('status') if receipt else None
+            except (ValueError, OSError):
+                native_status=None
+            states[name]=dict(collection='COLLECTION_FAILED_REVIEW_REQUIRED',
+                              native_status=native_status,scientific_admission='HOLD')
+    record=dict(schema='rya1354.pending-native-collection.v1',observed_utc=datetime.now(timezone.utc).isoformat(),
+                scientific_admission='HOLD',adoption_allowed=False,campaigns=states,
+                scope='NATIVE_RECEIPT_AND_ARCHIVE_COLLECTION_ONLY_NO_SCIENTIFIC_ACCEPTANCE')
+    if error is not None:
+        record['collection_error']=type(error).__name__+': '+str(error)
+    temporary=out/'status.next.json';temporary.write_text(json.dumps(record,indent=2)+'\n')
+    temporary.replace(out/'status.json')
+    if error is not None:
+        raise error
+    return record
+
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--root',type=Path,required=True)
     ap.add_argument('--out',type=Path,required=True)
     ap.add_argument('--watch',action='store_true')
+    ap.add_argument('--campaign',action='append',help='Explicit task-owned run name; repeat for multiple campaigns (defaults to original n4 MR/relaxation)')
     args=ap.parse_args()
     if platform.node().lower().split('.')[0]!='sirius':
         raise RuntimeError('Collect native task outputs on Sirius')
@@ -71,12 +106,8 @@ def main():
         raise ValueError('Collection output must belong to the task evidence directory')
     out.mkdir(parents=True,exist_ok=False)
     while True:
-        states=collect(root,out)
-        record=dict(schema='rya1354.pending-native-collection.v1',observed_utc=datetime.now(timezone.utc).isoformat(),
-                    scientific_admission='HOLD',adoption_allowed=False,campaigns=states,
-                    scope='NATIVE_RECEIPT_AND_ARCHIVE_COLLECTION_ONLY_NO_SCIENTIFIC_ACCEPTANCE')
-        temporary=out/'status.next.json';temporary.write_text(json.dumps(record,indent=2)+'\n')
-        temporary.replace(out/'status.json')
+        record=observe(root,out,args.campaign or CAMPAIGNS)
+        states=record['campaigns']
         if not args.watch or all(s['collection']=='ARCHIVED_TERMINAL_OUTPUTS' for s in states.values()):
             print(json.dumps(record));return
         time.sleep(30)

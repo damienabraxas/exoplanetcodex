@@ -37,6 +37,16 @@ def validate_core_layer(core, n):
     return sha(core / 'receipt.json')
 
 
+def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False):
+    """Try method3 for2s optimization; fresh restart restores node-checked defaults."""
+    spectroscopic='2s,2p'+(',3s' if state!='ground' else '')
+    grid=f'n\nn\ny\nn\ny\n{math.exp(-65/16)/8:.17g}\n0.03125\n0\n439\ny\n{.0625**6:.17g}\n'
+    nsic='n\n' if verify else 'y\n20\n'
+    methods='y\n\n\n2s\n\n' if two_s_method3 and not verify else 'n\n'
+    return (f'{grid}{STATES[state]["roots"]}{variational_orbitals(n)}\n{spectroscopic}\n{cycles}\n'
+            f'y\nn\n{methods}n\ny\nn\n{-damping}\nn\n{nsic}n\nn\n1\n')
+
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--grasp-bin',type=Path,required=True)
@@ -49,6 +59,7 @@ def main():
     ap.add_argument('--resume-quintet',type=Path,help='Explicit same-CSF quintet continuation initializer')
     ap.add_argument('--resume-triplet',type=Path,help='Explicit same-CSF triplet continuation initializer')
     ap.add_argument('--cycles',type=int,default=500)
+    ap.add_argument('--two-s-method3',action='store_true',help='Method3 for2s optimization only; mandatory fresh default-method node-checked restart before promotion')
     args=ap.parse_args()
     if not 0<args.damping<1 or args.cycles<1:
         raise ValueError('Damping must lie strictly between zero and one')
@@ -62,6 +73,7 @@ def main():
     receipt=dict(schema='rya1354.core-relaxed-lifetime.v1',status='RUNNING',scientific_admission='HOLD',
                  started_utc=datetime.now(timezone.utc).isoformat(),steps=[],diagnostics={},
                  n=args.n,varied_orbitals=varied,core_receipt_sha256=core_receipt_sha256,
+                 two_s_method3=args.two_s_method3,
                  resume_triplet=str(args.resume_triplet) if args.resume_triplet else None,
                  damping=args.damping,resume_ground=str(args.resume_ground) if args.resume_ground else None,
                  cycles=args.cycles,resume_quintet=str(args.resume_quintet) if args.resume_quintet else None,
@@ -84,10 +96,8 @@ def main():
                     shutil.copyfile(resumed/'rwfn.out',out/'state.w')
                 shutil.copyfile(out/'state.c',out/'rcsf.inp');shutil.copyfile(out/'state.w',out/'rwfn.inp')
                 receipt['steps'].append(run(args.grasp_bin/'rangular','y\n',out,1800))
-                spectroscopic='2s,2p'+(',3s' if state!='ground' else '')
-                grid=f'n\nn\ny\nn\ny\n{math.exp(-65/16)/8:.17g}\n0.03125\n0\n439\ny\n{.0625**6:.17g}\n'
-                nsic='n\n' if verify else 'y\n20\n'
-                controls=f'{grid}{spec["roots"]}{varied}\n{spectroscopic}\n{args.cycles}\ny\nn\nn\nn\ny\nn\n{-args.damping}\nn\n{nsic}n\nn\n1\n'
+                controls=scf_controls(state,args.n,args.cycles,args.damping,verify,
+                                      two_s_method3=args.two_s_method3)
                 receipt['steps'].append(run(args.strict_bin/'rmcdhf',controls,out,43200))
                 if any(s['semantic_errors'] for s in receipt['steps']):
                     raise ValueError('Native numerical refusal; no state promotion')
