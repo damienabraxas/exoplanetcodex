@@ -1,0 +1,1236 @@
+{
+  "schema": "rya1354.merged-gap-register-intake.v9",
+  "observed_utc": "2026-11-10T14:59:41.561502+00:00",
+  "source_issue": "RYA-1378",
+  "source_commit": "45901e7678ab6c8624fe659e552fba3f2681457d",
+  "source_PR": 621,
+  "source_scope": "MERGED_VERSIONED_RESEARCH_QUEUE_NOT_PARAMETER_AUTHORITY",
+  "elements": 27,
+  "rows": 126399,
+  "priority1_rows": 20117,
+  "generator_path": "pipeline/gap_register.py",
+  "generator_sha256": "9d14bfea8e6647acc80cec3d43f831742d7f84e087d5c61ee3f470fd110f7878",
+  "canonical_gf_path": "data/linelists/canonical_gf.csv",
+  "canonical_gf_sha256": "30e8e4bc0c7ce899313a6ecadde93e1b444696d5920dc9124a7fa0f07043ea72",
+  "registers": [
+    {
+      "element": "Al",
+      "source_path": "data/audit/atomic_gap_register/solar_Al.csv",
+      "csv_sha256": "cdd4229951d6664dd668d1a6b4d473a250e5b271c67c803cef03a42217aeeba5",
+      "summary_path": "data/audit/atomic_gap_register/solar_Al.json",
+      "summary_sha256": "69586fa03f1142de4d4edfec86d048a5f9fc67fe7dc85a6fc9027dc03cd65552",
+      "rows": 379,
+      "held_reason": {
+        "UNGRADED_GF": 372,
+        "GRADED_NOT_LAB": 7
+      },
+      "flags": {
+        "UNRATED_GF": 379,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 20,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 269,
+        "3": 76,
+        "4": 34
+      },
+      "priority1_groups": [
+        {
+          "species": "Al I",
+          "band": "H",
+          "rows": 18
+        },
+        {
+          "species": "Al I",
+          "band": "K",
+          "rows": 33
+        },
+        {
+          "species": "Al I",
+          "band": "near-UV",
+          "rows": 10
+        },
+        {
+          "species": "Al II",
+          "band": "VIS",
+          "rows": 96
+        },
+        {
+          "species": "Al II",
+          "band": "near-UV",
+          "rows": 2
+        },
+        {
+          "species": "Al II",
+          "band": "red-optical",
+          "rows": 110
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Ba",
+      "source_path": "data/audit/atomic_gap_register/solar_Ba.csv",
+      "csv_sha256": "8167d2cfabefebb7938b21909e3cd0673afa62be0e9d5e7c69161e3fab041b1b",
+      "summary_path": "data/audit/atomic_gap_register/solar_Ba.json",
+      "summary_sha256": "494d371033f4b4c07c18984d7ac82776feed1a60b72ead6f3588fbc0363427d4",
+      "rows": 112,
+      "held_reason": {
+        "UNGRADED_GF": 66,
+        "GRADED_NOT_LAB": 46
+      },
+      "flags": {
+        "UNRATED_GF": 112,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 3,
+        "GF_DISCREPANCY": 7,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 3,
+        "2": 7,
+        "3": 94,
+        "4": 8
+      },
+      "priority1_groups": [
+        {
+          "species": "Ba I",
+          "band": "NIR",
+          "rows": 1
+        },
+        {
+          "species": "Ba II",
+          "band": "NIR",
+          "rows": 2
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "C",
+      "source_path": "data/audit/atomic_gap_register/solar_C.csv",
+      "csv_sha256": "306b6d133d09edf550d4bd7e2d54e059ee1de7cd313c64596e7f1b3c052b5abb",
+      "summary_path": "data/audit/atomic_gap_register/solar_C.json",
+      "summary_sha256": "ffd171d0cd42a20af7a1dd9f7bb7a95e986a8627c423c90a841d6ec7d1c904b6",
+      "rows": 1702,
+      "held_reason": {
+        "UNGRADED_GF": 1154,
+        "GRADED_NOT_LAB": 547,
+        "REGISTRY_EXCLUDED": 1
+      },
+      "flags": {
+        "UNRATED_GF": 1702,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 13,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "3": 1373,
+        "4": 329
+      },
+      "priority1_groups": [],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Ca",
+      "source_path": "data/audit/atomic_gap_register/solar_Ca.csv",
+      "csv_sha256": "bf7d2c4b6117950d92010b5aa92d186c867107f13eac33f0d1e03b2969503534",
+      "summary_path": "data/audit/atomic_gap_register/solar_Ca.json",
+      "summary_sha256": "017c1d6f5fadc63d102787f7c43ff7eccb3f76f273f4eebb683af1a4bed9f2e5",
+      "rows": 7105,
+      "held_reason": {
+        "UNGRADED_GF": 7035,
+        "GRADED_NOT_LAB": 65,
+        "REGISTRY_EXCLUDED": 5
+      },
+      "flags": {
+        "UNRATED_GF": 7100,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 483,
+        "GF_DISCREPANCY": 6,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 15,
+        "2": 6,
+        "3": 6277,
+        "4": 807
+      },
+      "priority1_groups": [
+        {
+          "species": "Ca II",
+          "band": "H",
+          "rows": 10
+        },
+        {
+          "species": "Ca II",
+          "band": "K",
+          "rows": 5
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Co",
+      "source_path": "data/audit/atomic_gap_register/solar_Co.csv",
+      "csv_sha256": "eeed4e1bda80e9a1087050b3bda3660e9ded3e9bee0b6534860f2cd173cf1495",
+      "summary_path": "data/audit/atomic_gap_register/solar_Co.json",
+      "summary_sha256": "c50e2ae41b1cf42159a967fb0f1951dbc2ff567ca6d50091abc75f918ba21b7a",
+      "rows": 6119,
+      "held_reason": {
+        "UNGRADED_GF": 5945,
+        "GRADED_NOT_LAB": 174
+      },
+      "flags": {
+        "UNRATED_GF": 6119,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 1233,
+        "GF_DISCREPANCY": 73,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 613,
+        "2": 73,
+        "3": 4265,
+        "4": 1168
+      },
+      "priority1_groups": [
+        {
+          "species": "Co I",
+          "band": "H",
+          "rows": 200
+        },
+        {
+          "species": "Co I",
+          "band": "K",
+          "rows": 208
+        },
+        {
+          "species": "Co I",
+          "band": "NIR",
+          "rows": 192
+        },
+        {
+          "species": "Co II",
+          "band": "H",
+          "rows": 7
+        },
+        {
+          "species": "Co II",
+          "band": "NIR",
+          "rows": 6
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Cr",
+      "source_path": "data/audit/atomic_gap_register/solar_Cr.csv",
+      "csv_sha256": "fb4d324daa9d59b64ce7a228dc6d032f92f0dabd38d9bcd740d89e05675ab4f2",
+      "summary_path": "data/audit/atomic_gap_register/solar_Cr.json",
+      "summary_sha256": "b31b89617330f4621391a680ec39d42dfab6b42f28f823ac669a4f93236b16ed",
+      "rows": 17817,
+      "held_reason": {
+        "UNGRADED_GF": 17765,
+        "GRADED_NOT_LAB": 50,
+        "NOT_IN_CANONICAL": 2
+      },
+      "flags": {
+        "UNRATED_GF": 17815,
+        "MISSING_GF": 2,
+        "PROVENANCE_GAP": 3947,
+        "GF_DISCREPANCY": 5,
+        "SOLAR_DISCREPANCY": 2
+      },
+      "priority": {
+        "1": 2939,
+        "2": 5,
+        "3": 10997,
+        "4": 3876
+      },
+      "priority1_groups": [
+        {
+          "species": "Cr I",
+          "band": "H",
+          "rows": 64
+        },
+        {
+          "species": "Cr I",
+          "band": "K",
+          "rows": 66
+        },
+        {
+          "species": "Cr II",
+          "band": "NIR",
+          "rows": 2
+        },
+        {
+          "species": "Cr II",
+          "band": "red-optical",
+          "rows": 2807
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Cu",
+      "source_path": "data/audit/atomic_gap_register/solar_Cu.csv",
+      "csv_sha256": "e56310cff0acce57bc9a4c6ac6e02044de404a3e0f08b6332c2fedef0c46f0ae",
+      "summary_path": "data/audit/atomic_gap_register/solar_Cu.json",
+      "summary_sha256": "3cf7818fcc961de8c10ac9aa3eee1ef683e4084e44bf3232f2560d3ee093e963",
+      "rows": 3030,
+      "held_reason": {
+        "UNGRADED_GF": 3013,
+        "GRADED_NOT_LAB": 17
+      },
+      "flags": {
+        "UNRATED_GF": 3030,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 208,
+        "GF_DISCREPANCY": 1,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 2061,
+        "2": 1,
+        "3": 760,
+        "4": 208
+      },
+      "priority1_groups": [
+        {
+          "species": "Cu I",
+          "band": "H",
+          "rows": 12
+        },
+        {
+          "species": "Cu I",
+          "band": "K",
+          "rows": 9
+        },
+        {
+          "species": "Cu I",
+          "band": "NIR",
+          "rows": 7
+        },
+        {
+          "species": "Cu I",
+          "band": "red-optical",
+          "rows": 362
+        },
+        {
+          "species": "Cu II",
+          "band": "VIS",
+          "rows": 1047
+        },
+        {
+          "species": "Cu II",
+          "band": "red-optical",
+          "rows": 624
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Eu",
+      "source_path": "data/audit/atomic_gap_register/solar_Eu.csv",
+      "csv_sha256": "ae97416ff5f954f1bf5fe09458dca91bcb1cba36ee6448799ef735576d33c6af",
+      "summary_path": "data/audit/atomic_gap_register/solar_Eu.json",
+      "summary_sha256": "a3fe1f36ac9eef7686b5ddc6908c225660a85ba9e337ad1e67d57f7a8dcb85ac",
+      "rows": 219,
+      "held_reason": {
+        "UNGRADED_GF": 215,
+        "GRADED_NOT_LAB": 4
+      },
+      "flags": {
+        "UNRATED_GF": 219,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 63,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 142,
+        "3": 14,
+        "4": 63
+      },
+      "priority1_groups": [
+        {
+          "species": "Eu I",
+          "band": "VIS",
+          "rows": 111
+        },
+        {
+          "species": "Eu I",
+          "band": "red-optical",
+          "rows": 29
+        },
+        {
+          "species": "Eu II",
+          "band": "NIR",
+          "rows": 2
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Fe",
+      "source_path": "data/audit/atomic_gap_register/solar_Fe.csv",
+      "csv_sha256": "f6915c870e2393295bb4aefce35bdd46649e3507c8dfa95b08e9f333a7f7426e",
+      "summary_path": "data/audit/atomic_gap_register/solar_Fe.json",
+      "summary_sha256": "b104e37fc547a8f224088bdc5282992538a57d02b9b467be0b82838340f9ccdf",
+      "rows": 40571,
+      "held_reason": {
+        "UNGRADED_GF": 38816,
+        "GRADED_NOT_LAB": 1740,
+        "REGISTRY_EXCLUDED": 15
+      },
+      "flags": {
+        "UNRATED_GF": 40569,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 6826,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 1465,
+        "3": 27183,
+        "4": 11923
+      },
+      "priority1_groups": [
+        {
+          "species": "Fe I",
+          "band": "K",
+          "rows": 1368
+        },
+        {
+          "species": "Fe II",
+          "band": "H",
+          "rows": 41
+        },
+        {
+          "species": "Fe II",
+          "band": "K",
+          "rows": 10
+        },
+        {
+          "species": "Fe II",
+          "band": "NIR",
+          "rows": 46
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "K",
+      "source_path": "data/audit/atomic_gap_register/solar_K.csv",
+      "csv_sha256": "995eb423ace3f939d5018a4f1cec4273c3e8a6c89756dfc38f32552ff9474195",
+      "summary_path": "data/audit/atomic_gap_register/solar_K.json",
+      "summary_sha256": "9642d3d6bb8db48be22bdfd25799bf5cd11c9f9ea3d16a2a45bb25acfefb2789",
+      "rows": 231,
+      "held_reason": {
+        "UNGRADED_GF": 157,
+        "GRADED_NOT_LAB": 74
+      },
+      "flags": {
+        "UNRATED_GF": 231,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 1,
+        "GF_DISCREPANCY": 10,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 74,
+        "2": 10,
+        "3": 100,
+        "4": 47
+      },
+      "priority1_groups": [
+        {
+          "species": "K II",
+          "band": "VIS",
+          "rows": 38
+        },
+        {
+          "species": "K II",
+          "band": "red-optical",
+          "rows": 36
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Li",
+      "source_path": "data/audit/atomic_gap_register/solar_Li.csv",
+      "csv_sha256": "3159bdadf7228e55f91021190c7167987c4a94be04bcd277674acf62b823143b",
+      "summary_path": "data/audit/atomic_gap_register/solar_Li.json",
+      "summary_sha256": "896a6ed92e7d7b36602e08626a14d0364324ccc2ba2422b78bad44fb3a523a52",
+      "rows": 18,
+      "held_reason": {
+        "UNGRADED_GF": 10,
+        "GRADED_NOT_LAB": 8
+      },
+      "flags": {
+        "UNRATED_GF": 18,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 0,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 1,
+        "3": 17
+      },
+      "priority1_groups": [
+        {
+          "species": "Li II",
+          "band": "red-optical",
+          "rows": 1
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Mg",
+      "source_path": "data/audit/atomic_gap_register/solar_Mg.csv",
+      "csv_sha256": "ea500c684305ea6af8428c738d4d1cfa112c4c64f9f53640e8d650b3ec6c651e",
+      "summary_path": "data/audit/atomic_gap_register/solar_Mg.json",
+      "summary_sha256": "4bc3d5ed2f11aada9c092ba05ca79946651d938d9e622bb8e1313a9a6c748ce6",
+      "rows": 561,
+      "held_reason": {
+        "UNGRADED_GF": 479,
+        "GRADED_NOT_LAB": 74,
+        "REGISTRY_EXCLUDED": 8
+      },
+      "flags": {
+        "UNRATED_GF": 560,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 130,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 65,
+        "3": 160,
+        "4": 336
+      },
+      "priority1_groups": [
+        {
+          "species": "Mg I",
+          "band": "near-UV",
+          "rows": 11
+        },
+        {
+          "species": "Mg II",
+          "band": "VIS",
+          "rows": 44
+        },
+        {
+          "species": "Mg II",
+          "band": "near-UV",
+          "rows": 10
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Mn",
+      "source_path": "data/audit/atomic_gap_register/solar_Mn.csv",
+      "csv_sha256": "22945c0b05c0c5e74e6637b6c397e68d78c873e3999935fcdb6275db9ab5b047",
+      "summary_path": "data/audit/atomic_gap_register/solar_Mn.json",
+      "summary_sha256": "8e5da51067cfa4609670c09da768c986a9c1ce17cd44cc8703cce1d715b70e7b",
+      "rows": 8498,
+      "held_reason": {
+        "UNGRADED_GF": 8362,
+        "GRADED_NOT_LAB": 136
+      },
+      "flags": {
+        "UNRATED_GF": 8498,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 1832,
+        "GF_DISCREPANCY": 2,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 1882,
+        "2": 2,
+        "3": 4696,
+        "4": 1918
+      },
+      "priority1_groups": [
+        {
+          "species": "Mn I",
+          "band": "H",
+          "rows": 79
+        },
+        {
+          "species": "Mn I",
+          "band": "K",
+          "rows": 115
+        },
+        {
+          "species": "Mn I",
+          "band": "red-optical",
+          "rows": 1687
+        },
+        {
+          "species": "Mn II",
+          "band": "NIR",
+          "rows": 1
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "N",
+      "source_path": "data/audit/atomic_gap_register/solar_N.csv",
+      "csv_sha256": "e66a53f8f096d43b38fcec5198ffae1214d9a03ab305ea7ad50d1fdb368d48c6",
+      "summary_path": "data/audit/atomic_gap_register/solar_N.json",
+      "summary_sha256": "40233a026fe035500a16b21acac94fa47bb20da4586aad2400d4da2350d88be8",
+      "rows": 398,
+      "held_reason": {
+        "GRADED_NOT_LAB": 283,
+        "UNGRADED_GF": 115
+      },
+      "flags": {
+        "UNRATED_GF": 398,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 1,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 1,
+        "3": 382,
+        "4": 15
+      },
+      "priority1_groups": [
+        {
+          "species": "N I",
+          "band": "near-UV",
+          "rows": 1
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Na",
+      "source_path": "data/audit/atomic_gap_register/solar_Na.csv",
+      "csv_sha256": "20bb2c814615a68f71ff0b79a3812af13623ca9e409de689372badc79ed65c62",
+      "summary_path": "data/audit/atomic_gap_register/solar_Na.json",
+      "summary_sha256": "7bd8701f74115b14b087260b73a17c39ec847e98ff6f21feee73d9797ef8b72f",
+      "rows": 113,
+      "held_reason": {
+        "GRADED_NOT_LAB": 61,
+        "UNGRADED_GF": 34,
+        "REGISTRY_EXCLUDED": 18
+      },
+      "flags": {
+        "UNRATED_GF": 113,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 2,
+        "GF_DISCREPANCY": 11,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "2": 11,
+        "3": 52,
+        "4": 50
+      },
+      "priority1_groups": [],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Ni",
+      "source_path": "data/audit/atomic_gap_register/solar_Ni.csv",
+      "csv_sha256": "6a83e9f431ec3c152cd67d4f82ef9d2aeefe9746388b964e2e67d4e2dbf0cd52",
+      "summary_path": "data/audit/atomic_gap_register/solar_Ni.json",
+      "summary_sha256": "74415e9940283bca152e09a76c0757728ec5661bd9392ca45aed761279c4fc8f",
+      "rows": 8743,
+      "held_reason": {
+        "UNGRADED_GF": 8729,
+        "GRADED_NOT_LAB": 14
+      },
+      "flags": {
+        "UNRATED_GF": 8743,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 956,
+        "GF_DISCREPANCY": 1,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 6295,
+        "2": 1,
+        "3": 1591,
+        "4": 856
+      },
+      "priority1_groups": [
+        {
+          "species": "Ni I",
+          "band": "H",
+          "rows": 166
+        },
+        {
+          "species": "Ni I",
+          "band": "K",
+          "rows": 159
+        },
+        {
+          "species": "Ni I",
+          "band": "NIR",
+          "rows": 417
+        },
+        {
+          "species": "Ni II",
+          "band": "VIS",
+          "rows": 3177
+        },
+        {
+          "species": "Ni II",
+          "band": "near-UV",
+          "rows": 40
+        },
+        {
+          "species": "Ni II",
+          "band": "red-optical",
+          "rows": 2336
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "O",
+      "source_path": "data/audit/atomic_gap_register/solar_O.csv",
+      "csv_sha256": "027b87997c8e957d78ee424ca8220f254de7ae1ed4aebadb390c66712402159b",
+      "summary_path": "data/audit/atomic_gap_register/solar_O.json",
+      "summary_sha256": "dd72253594e314bf7e3ec2163a764e6e9a9c76387f71473508dd309b9f7e7de1",
+      "rows": 327,
+      "held_reason": {
+        "UNGRADED_GF": 191,
+        "GRADED_NOT_LAB": 136
+      },
+      "flags": {
+        "UNRATED_GF": 327,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 6,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 2,
+        "3": 288,
+        "4": 37
+      },
+      "priority1_groups": [
+        {
+          "species": "O I",
+          "band": "near-UV",
+          "rows": 1
+        },
+        {
+          "species": "O II",
+          "band": "NIR",
+          "rows": 1
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "P",
+      "source_path": "data/audit/atomic_gap_register/solar_P.csv",
+      "csv_sha256": "7d049e90360b6484fd90edbaffa22f485974507225aee47e1f29baf82618bf96",
+      "summary_path": "data/audit/atomic_gap_register/solar_P.json",
+      "summary_sha256": "54b4ac8d0e5a00640e9b9cd6dc0e1e8e797b08c6cee1b2e5b3a8e182fe317b45",
+      "rows": 722,
+      "held_reason": {
+        "UNGRADED_GF": 720,
+        "GRADED_NOT_LAB": 2
+      },
+      "flags": {
+        "UNRATED_GF": 722,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 1,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 551,
+        "3": 169,
+        "4": 2
+      },
+      "priority1_groups": [
+        {
+          "species": "P I",
+          "band": "H",
+          "rows": 23
+        },
+        {
+          "species": "P I",
+          "band": "K",
+          "rows": 3
+        },
+        {
+          "species": "P I",
+          "band": "NIR",
+          "rows": 31
+        },
+        {
+          "species": "P I",
+          "band": "red-optical",
+          "rows": 239
+        },
+        {
+          "species": "P II",
+          "band": "VIS",
+          "rows": 156
+        },
+        {
+          "species": "P II",
+          "band": "red-optical",
+          "rows": 99
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "S",
+      "source_path": "data/audit/atomic_gap_register/solar_S.csv",
+      "csv_sha256": "c2b9958c04f403770186bc4024ea4b6cd6399e8516c7f46c034a313dfa4d92cc",
+      "summary_path": "data/audit/atomic_gap_register/solar_S.json",
+      "summary_sha256": "1abc576e0fbc85e115971ed4fabc04d71f5137b28308723b2f49876608cb485d",
+      "rows": 2281,
+      "held_reason": {
+        "UNGRADED_GF": 2279,
+        "GRADED_NOT_LAB": 2
+      },
+      "flags": {
+        "UNRATED_GF": 2281,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 93,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 2194,
+        "4": 87
+      },
+      "priority1_groups": [
+        {
+          "species": "S I",
+          "band": "K",
+          "rows": 76
+        },
+        {
+          "species": "S I",
+          "band": "NIR",
+          "rows": 106
+        },
+        {
+          "species": "S I",
+          "band": "VIS",
+          "rows": 1404
+        },
+        {
+          "species": "S I",
+          "band": "near-UV",
+          "rows": 23
+        },
+        {
+          "species": "S I",
+          "band": "red-optical",
+          "rows": 505
+        },
+        {
+          "species": "S II",
+          "band": "VIS",
+          "rows": 58
+        },
+        {
+          "species": "S II",
+          "band": "red-optical",
+          "rows": 22
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Sc",
+      "source_path": "data/audit/atomic_gap_register/solar_Sc.csv",
+      "csv_sha256": "a2e7ad9fed8c251b364e8fdd864fcda8c19679ea8c622850bf38bf745f050c4b",
+      "summary_path": "data/audit/atomic_gap_register/solar_Sc.json",
+      "summary_sha256": "3d5c08db4ad24e399c2b01404c6b4886e4c54e4ad0e4c3ec7c53d3e950ff63b0",
+      "rows": 3524,
+      "held_reason": {
+        "UNGRADED_GF": 3323,
+        "GRADED_NOT_LAB": 201
+      },
+      "flags": {
+        "UNRATED_GF": 3524,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 287,
+        "GF_DISCREPANCY": 8,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 233,
+        "2": 8,
+        "3": 2894,
+        "4": 389
+      },
+      "priority1_groups": [
+        {
+          "species": "Sc I",
+          "band": "NIR",
+          "rows": 11
+        },
+        {
+          "species": "Sc II",
+          "band": "K",
+          "rows": 4
+        },
+        {
+          "species": "Sc II",
+          "band": "NIR",
+          "rows": 1
+        },
+        {
+          "species": "Sc II",
+          "band": "red-optical",
+          "rows": 217
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Si",
+      "source_path": "data/audit/atomic_gap_register/solar_Si.csv",
+      "csv_sha256": "28ec0292879a1e8d3dff6cc55ec7039f0a4ca40871f1759fae1d7b9e7ef59ec8",
+      "summary_path": "data/audit/atomic_gap_register/solar_Si.json",
+      "summary_sha256": "3001abb944f59d3e4935b5f6fb8eb2bece31c0f67105e67e8642d2c761f33794",
+      "rows": 2453,
+      "held_reason": {
+        "UNGRADED_GF": 2022,
+        "GRADED_NOT_LAB": 372,
+        "REGISTRY_EXCLUDED": 59
+      },
+      "flags": {
+        "UNRATED_GF": 2440,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 78,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 24,
+        "3": 1395,
+        "4": 1034
+      },
+      "priority1_groups": [
+        {
+          "species": "Si I",
+          "band": "near-UV",
+          "rows": 21
+        },
+        {
+          "species": "Si II",
+          "band": "near-UV",
+          "rows": 3
+        }
+      ],
+      "with_codex_fit_evidence": 208
+    },
+    {
+      "element": "Sr",
+      "source_path": "data/audit/atomic_gap_register/solar_Sr.csv",
+      "csv_sha256": "51c61d8181dff452f0c69e4563bf03074f18ab707dc8dac2c270c5cc4881dcf9",
+      "summary_path": "data/audit/atomic_gap_register/solar_Sr.json",
+      "summary_sha256": "e43bd2c6ff5e26ba136a9c28f64fa6f26c479769f852a0522cacaa717c7494ca",
+      "rows": 121,
+      "held_reason": {
+        "UNGRADED_GF": 66,
+        "GRADED_NOT_LAB": 55
+      },
+      "flags": {
+        "UNRATED_GF": 121,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 15,
+        "GF_DISCREPANCY": 2,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 14,
+        "2": 2,
+        "3": 93,
+        "4": 12
+      },
+      "priority1_groups": [
+        {
+          "species": "Sr I",
+          "band": "near-UV",
+          "rows": 6
+        },
+        {
+          "species": "Sr II",
+          "band": "near-UV",
+          "rows": 3
+        },
+        {
+          "species": "Sr II",
+          "band": "red-optical",
+          "rows": 5
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Ti",
+      "source_path": "data/audit/atomic_gap_register/solar_Ti.csv",
+      "csv_sha256": "eaa3395df1464fbc3b1f5f6fbd38eca9b92949cfe0f4441df7cdfff1d692eb3e",
+      "summary_path": "data/audit/atomic_gap_register/solar_Ti.json",
+      "summary_sha256": "c6adca13547ee42c6f43ed78000788a7d8a925a537edaea151ae4470f3b362aa",
+      "rows": 9864,
+      "held_reason": {
+        "UNGRADED_GF": 9736,
+        "GRADED_NOT_LAB": 128
+      },
+      "flags": {
+        "UNRATED_GF": 9864,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 1806,
+        "GF_DISCREPANCY": 2,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 13,
+        "2": 2,
+        "3": 7532,
+        "4": 2317
+      },
+      "priority1_groups": [
+        {
+          "species": "Ti II",
+          "band": "H",
+          "rows": 11
+        },
+        {
+          "species": "Ti II",
+          "band": "K",
+          "rows": 2
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "V",
+      "source_path": "data/audit/atomic_gap_register/solar_V.csv",
+      "csv_sha256": "1068d3593cad379294810303cc3c3023f638a4a04cd3f69a97bb66a57260e0c1",
+      "summary_path": "data/audit/atomic_gap_register/solar_V.json",
+      "summary_sha256": "8687b8757b0f7110072ebec2c0b960335c209621994c4cd6b8aa92fce8e78622",
+      "rows": 8252,
+      "held_reason": {
+        "UNGRADED_GF": 7991,
+        "GRADED_NOT_LAB": 261
+      },
+      "flags": {
+        "UNRATED_GF": 8252,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 1317,
+        "GF_DISCREPANCY": 50,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 6,
+        "2": 50,
+        "3": 6598,
+        "4": 1598
+      },
+      "priority1_groups": [
+        {
+          "species": "V II",
+          "band": "H",
+          "rows": 3
+        },
+        {
+          "species": "V II",
+          "band": "NIR",
+          "rows": 3
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Y",
+      "source_path": "data/audit/atomic_gap_register/solar_Y.csv",
+      "csv_sha256": "9efb2e790a84cd3283549ecb3c28312e644ff9b921a62df8347336f7def25042",
+      "summary_path": "data/audit/atomic_gap_register/solar_Y.json",
+      "summary_sha256": "4851383bb7d1b4ed5114e1c6a17db467e751db8605ccefdf8ca080cf45aadcf1",
+      "rows": 2158,
+      "held_reason": {
+        "UNGRADED_GF": 1975,
+        "GRADED_NOT_LAB": 183
+      },
+      "flags": {
+        "UNRATED_GF": 2158,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 180,
+        "GF_DISCREPANCY": 14,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 554,
+        "2": 14,
+        "3": 1370,
+        "4": 220
+      },
+      "priority1_groups": [
+        {
+          "species": "Y I",
+          "band": "H",
+          "rows": 8
+        },
+        {
+          "species": "Y I",
+          "band": "K",
+          "rows": 5
+        },
+        {
+          "species": "Y I",
+          "band": "NIR",
+          "rows": 6
+        },
+        {
+          "species": "Y II",
+          "band": "red-optical",
+          "rows": 535
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Zn",
+      "source_path": "data/audit/atomic_gap_register/solar_Zn.csv",
+      "csv_sha256": "15fe70a1b0793185d2f31bf3e542d50cb43e03dcdae4346c4e5050c46a05b24b",
+      "summary_path": "data/audit/atomic_gap_register/solar_Zn.json",
+      "summary_sha256": "db3ebbbc03fbbf5800c7319964f8a12483c1eec44258838a5f9645b8fd18a9c4",
+      "rows": 43,
+      "held_reason": {
+        "UNGRADED_GF": 43
+      },
+      "flags": {
+        "UNRATED_GF": 43,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 14,
+        "GF_DISCREPANCY": 9,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 43
+      },
+      "priority1_groups": [
+        {
+          "species": "Zn I",
+          "band": "K",
+          "rows": 3
+        },
+        {
+          "species": "Zn I",
+          "band": "NIR",
+          "rows": 5
+        },
+        {
+          "species": "Zn I",
+          "band": "VIS",
+          "rows": 17
+        },
+        {
+          "species": "Zn I",
+          "band": "near-UV",
+          "rows": 10
+        },
+        {
+          "species": "Zn I",
+          "band": "red-optical",
+          "rows": 8
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    },
+    {
+      "element": "Zr",
+      "source_path": "data/audit/atomic_gap_register/solar_Zr.csv",
+      "csv_sha256": "bb1e3f3a8a9bdf38d50090f19f15ae4407e406ca677ea9d54f22a2613829fde7",
+      "summary_path": "data/audit/atomic_gap_register/solar_Zr.json",
+      "summary_sha256": "2d4269248246c7178477ae4ba3490fc6a5cf31c25a227d3e54a6a71433d1cc89",
+      "rows": 1038,
+      "held_reason": {
+        "UNGRADED_GF": 1038
+      },
+      "flags": {
+        "UNRATED_GF": 1038,
+        "MISSING_GF": 0,
+        "PROVENANCE_GAP": 499,
+        "GF_DISCREPANCY": 0,
+        "SOLAR_DISCREPANCY": 0
+      },
+      "priority": {
+        "1": 658,
+        "3": 83,
+        "4": 297
+      },
+      "priority1_groups": [
+        {
+          "species": "Zr I",
+          "band": "VIS",
+          "rows": 421
+        },
+        {
+          "species": "Zr I",
+          "band": "near-UV",
+          "rows": 92
+        },
+        {
+          "species": "Zr I",
+          "band": "red-optical",
+          "rows": 138
+        },
+        {
+          "species": "Zr II",
+          "band": "red-optical",
+          "rows": 7
+        }
+      ],
+      "with_codex_fit_evidence": 0
+    }
+  ],
+  "oxygen_priority1": [
+    {
+      "line_id": "gf_165007",
+      "physical_id": "pk_1cdd19e1b14b",
+      "species": "O I",
+      "wavelength_air_A": "3692.395",
+      "band": "near-UV",
+      "held_reason": "UNGRADED_GF",
+      "flags": "UNRATED_GF;PROVENANCE_GAP",
+      "review_state": "candidate"
+    },
+    {
+      "line_id": "gf_109001",
+      "physical_id": "pk_7d85b7952f40",
+      "species": "O II",
+      "wavelength_air_A": "9199.816",
+      "band": "NIR",
+      "held_reason": "UNGRADED_GF",
+      "flags": "UNRATED_GF",
+      "review_state": "candidate"
+    }
+  ],
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "accepted_benchmark_rows": 0,
+  "scope": "Counts/hash/pointers verified directly from merged CSV and JSON. No canonical gf copied, line values changed or observability/experimental reliability/blindness certified. Join line_id to canonical source at this commit; validate state/J/ion/energy/operator and primary dependence/uncertainty before selection.",
+  "reconciliation": "Supersedes preliminary untracked17772-rowCr intake as current queue. MergedCr17817 rows with different population/flags; preserve oldreceipt as historical. Generator UNRATED_GF means no primary lab attachment; separate held_reason distinguishes actually ungraded versus graded-not-lab. Priority1 means no graded route in band, not poor gf.",
+  "fit_evidence_gate": "Merged register requires fit evidence from runs on/after continuum commit01f51846; no inherited pre-gate solar discrepancy used as accuracy evidence.",
+  "oxygen_scope": "Priority1 OI/OII rows are source/identity leads only. OII is not automatically included in neutral-oxygen pilot. Later Li/P/S/Cr controls require their own model feasibility and independent experimental evidence."
+}

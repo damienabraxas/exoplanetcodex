@@ -195,3 +195,93 @@ def test_native_running_snapshots_preserve_actual_component_methods_without_admi
         complete=[r for r in capture['history'] if r['complete_printed_cycle']]
         assert complete and all(r['orbitals']['2p-']['method']==method for r in complete)
         assert all(r['max_reported_residual']>5.960464477539063e-8 for r in complete)
+
+
+def test_terminal_node_failures_replay_and_expose_bracket_guard():
+    from rya1354_node_failure_summary import summarize
+    report=summarize(ROOT/'data/audit/rya1354')
+    assert report==json.loads((ROOT/'data/audit/rya1354/source_curation_v2/node_failures_v9.json').read_text())
+    assert report['cases']['nodebudget']['first_193_cycles_exactly_reproduce_default_budget']
+    assert report['cases']['pcomponents']['last_printed_outer_iteration']==206
+    for case in report['cases'].values():
+        final=case['failed_attempts'][-1]
+        assert final['iterations']<final['limit']==24
+        assert final['width_guard_triggered'] and final['counted_nodes']==3 and final['required_nodes']==1
+        assert case['accepted_lifetime'] is None
+
+
+def test_staged_preconditioning_changes_only_varied_scope_and_preserves_frozen_records(tmp_path):
+    import struct
+    from rya1354_lifetime_relax import scf_controls
+    from rya1354_lifetime_staged import require_frozen
+    for state in ('ground','quintet','triplet'):
+        for verify in (False,True):
+            full=scf_controls(state,4,1500,.5,verify,radial_iteration_floor=24,both_2p_spectroscopic=True)
+            pre=scf_controls(state,4,1500,.5,verify,radial_iteration_floor=24,both_2p_spectroscopic=True,freeze_2s=True)
+            assert pre==full.replace('\n2*,3*,4*\n','\n2p*,3*,4*\n',1)
+    def record(data):
+        marker=struct.pack('<i',len(data));return marker+data+marker
+    def wave(two_s_energy):
+        data=record(b'G92RWF')
+        for n,e in ((1,-20.),(2,two_s_energy)):
+            data+=record(struct.pack('<iidi',n,-1,e,2))
+            data+=record(struct.pack('<5d',1.,0.,1.,0.,.01))
+            data+=record(struct.pack('<2d',0.,.1))
+        return data
+    a=tmp_path/'a.w';b=tmp_path/'b.w';a.write_bytes(wave(-2.));b.write_bytes(wave(-2.))
+    require_frozen(a,b,True)
+    b.write_bytes(wave(-3.))
+    with pytest.raises(ValueError,match='fixed radial'):
+        require_frozen(a,b,True)
+    require_frozen(a,b,False)  #2s is explicitly released;1s remains fixed.
+
+
+def test_failed_preconditioner_cannot_release_core_or_complete_phase(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    import rya1354_lifetime_staged as staged
+    called=[]
+    def fail(args,phase,state,seed,receipt):
+        called.append((phase,state))
+        if state=='quintet':raise ValueError('unqualified preconditioner')
+        return tmp_path/state
+    monkeypatch.setattr(staged,'optimize',fail)
+    receipt=dict(phases=['fixed_2s','released_2s'])
+    with pytest.raises(ValueError,match='unqualified preconditioner'):
+        staged.optimize_stages(SimpleNamespace(core=tmp_path,out=tmp_path),receipt)
+    assert called==[('fixed_2s','ground'),('fixed_2s','quintet')]
+    assert 'last_completed_phase' not in receipt
+
+
+def test_live_snapshot_reads_explicit_staged_directory(tmp_path,monkeypatch):
+    import rya1354_scf_history as audit
+    monkeypatch.setattr(audit.platform,'node',lambda:'sirius')
+    run=tmp_path/'run';out=tmp_path/'snapshot'
+    stage=run/'fixed_2s_ground';stage.mkdir(parents=True)
+    for name in ('rmcdhf.stdin','rmcdhf.stderr'):(stage/name).write_text('staged')
+    (stage/'rmcdhf.stdout').write_text('Iteration number 7\n')
+    audit.snapshot(run,out,'fixed_2s_ground')
+    capture=json.loads((out/'capture.json').read_text())
+    assert capture['source_stage']=='fixed_2s_ground' and capture['latest_printed_outer_iteration']==7
+    assert capture['accepted_lifetime'] is None and not capture['adoption_allowed']
+    with pytest.raises(ValueError,match='stage directory'):
+        audit.snapshot(run,tmp_path/'bad','../other')
+
+
+def test_native_preconditioner_snapshot_uses_intended_fixed_core_scope():
+    from rya1354_lifetime_relax import scf_controls
+    from rya1354_scf_history import history
+    files,_=load_parts(ROOT/'data/audit/rya1354/staged_logs_v9')
+    prefix='evidence/staged_log_snapshot_v9/'
+    capture=json.loads(files[prefix+'capture.json'])
+    assert capture['source_stage']=='fixed_2s_ground' and capture['accepted_lifetime'] is None
+    assert files[prefix+'rmcdhf.stdin'].decode()==scf_controls('ground',4,1500,.5,False,
+        radial_iteration_floor=24,both_2p_spectroscopic=True,freeze_2s=True)
+    rows=history(files[prefix+'rmcdhf.stdout'].decode())
+    assert rows==capture['history']
+    complete=[r for r in rows if r['complete_printed_cycle']]
+    assert complete
+    for row in complete:
+        assert len(row['orbitals'])==14 and '1s' not in row['orbitals'] and '2s' not in row['orbitals']
+        assert row['orbitals']['2p-']['method']==row['orbitals']['2p']['method']==1
+    for name,record in capture['files'].items():
+        assert hashlib.sha256(files[prefix+name]).hexdigest()==record['sha256']

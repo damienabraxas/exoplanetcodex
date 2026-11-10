@@ -35,19 +35,21 @@ def history(text):
     return records
 
 
-def snapshot(run,out):
+def snapshot(run,out,stage='ground'):
     """Capture a read-only prefix of live logs; timing is asynchronous, not atomic."""
     if platform.node().lower().split('.')[0]!='sirius':
         raise RuntimeError('Capture native live logs on Sirius')
+    if not stage or Path(stage).name!=stage or stage in ('.','..'):
+        raise ValueError('Snapshot stage must name one native stage directory')
     if (run/'receipt.json').exists():
         raise ValueError('Terminal receipt exists; collect the full native campaign instead')
     out.mkdir(parents=True,exist_ok=False)
     shutil.copyfile(__file__,out/'driver.py')
     for name in ('rmcdhf.stdin','rmcdhf.stdout','rmcdhf.stderr'):
-        (out/name).write_bytes((run/'ground'/name).read_bytes())
+        (out/name).write_bytes((run/stage/name).read_bytes())
     rows=history((out/'rmcdhf.stdout').read_text())
     capture=dict(schema='rya1354.running-scf-log-snapshot.v8',captured_utc=datetime.now(timezone.utc).isoformat(),
-        source=str(run),scope='POSTHOC_ASYNCHRONOUS_LOG_PREFIX_NOT_TERMINAL_RECEIPT_NOT_ACCEPTED_STATE',
+        source=str(run),source_stage=stage,scope='POSTHOC_ASYNCHRONOUS_LOG_PREFIX_NOT_TERMINAL_RECEIPT_NOT_ACCEPTED_STATE',
         scientific_admission='HOLD',adoption_allowed=False,accepted_lifetime=None,
         latest_printed_outer_iteration=rows[-1]['iteration'],history=rows,
         files={p.name:dict(sha256=hashlib.sha256(p.read_bytes()).hexdigest(),bytes=p.stat().st_size)
@@ -90,7 +92,8 @@ if __name__=='__main__':
     mode=ap.add_mutually_exclusive_group(required=True)
     mode.add_argument('--run',type=Path)
     mode.add_argument('--plot-bundle',type=Path)
+    ap.add_argument('--stage',default='ground',help='Explicit native stage for a live snapshot (default: ground)')
     ap.add_argument('--out',type=Path,required=True)
     args=ap.parse_args()
-    if args.run:snapshot(args.run,args.out)
+    if args.run:snapshot(args.run,args.out,args.stage)
     else:plot(args.plot_bundle,args.out)
