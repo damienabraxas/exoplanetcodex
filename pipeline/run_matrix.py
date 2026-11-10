@@ -2011,7 +2011,9 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     try:
         from pipeline import gap_register
         symbol, _ = split_symbol(element)
-        report["gap_register"] = gap_register.write(symbol, star)
+        # a test run's report_dir keeps its register out of the repo's data/audit
+        report["gap_register"] = gap_register.write(
+            symbol, star, out_dir=None if report_dir is None else Path(report_dir) / "atomic_gap_register")
         print(gap_register.render(report["gap_register"]))
     except Exception as exc:                                   # noqa: BLE001
         print(f"WARNING: gap register for {star} {element} failed: "
