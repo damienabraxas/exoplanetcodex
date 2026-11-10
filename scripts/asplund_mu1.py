@@ -155,8 +155,15 @@ def run_cno_cell(out: Path) -> None:
         import pandas as pd
         L = pd.read_csv(fh).to_numpy(float)
     m = (L[:, 0] >= reg.wave_min_A) & (L[:, 0] <= reg.wave_max_A)
+    # the atlas is observed-frame (disk-centre gravitational redshift less convective
+    # blueshift, ~+0.26 km/s on Fe I cores) and the CNO fit has no shift term: to rest first
+    # (the RYA-478 rule the UVES arm follows)
+    from pipeline.abundances_derive import _measure_rv_kms
+    rv = _measure_rv_kms(L[m, 0] / 10.0, L[m, 1])
+    print(f"[asplund-mu1] Liege VIS frame {rv:+.3f} km/s -> rest", flush=True)
+    w_nm = L[m, 0] / 10.0 / (1.0 + rv / 299792.458)
     _load = cs._load_region_spectrum
-    cs._load_region_spectrum = (lambda star, region: (L[m, 0] / 10.0, L[m, 1])
+    cs._load_region_spectrum = (lambda star, region: (w_nm, L[m, 1])
                                 if region.name == reg.name else _load(star, region))
     _rb = cs._resolve_broadening
 
@@ -195,13 +202,19 @@ def collect_cno(symbol: str, work: Path) -> dict:
         ind = CNO_A21.get(r.get("key"))
         lines.append({"indicator": r.get("key"), "role": r.get("role"),
                       "A_mu1": a if ok else None, "red_chi2": r.get("red_chi2"),
+                      "sigma_fit": r.get("sigma_fit"),
                       "status": r.get("status"), "A21_indicator": ind,
                       "A21_marcs_lte": a21.get(ind) if ind else None})
     used = [x["A_mu1"] for x in lines if x["A_mu1"] is not None]
-    paired = [x["A_mu1"] - x["A21_marcs_lte"] for x in lines
-              if x["A_mu1"] is not None and x["A21_marcs_lte"] is not None]
+    pl = [x for x in lines if x["A_mu1"] is not None and x["A21_marcs_lte"] is not None]
+    paired = [x["A_mu1"] - x["A21_marcs_lte"] for x in pl]
+    # one weak indicator can pass the constraint gate with a fit sigma of dex: the offset is
+    # carried WITH that sigma, so it reads as what it is rather than as a disagreement
+    sig = [x["sigma_fit"] for x in pl if isinstance(x["sigma_fit"], (int, float))]
     return {"element": symbol, "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
             "treatment": "1D-LTE", "route": "pipeline.cno_synthesis VIS region (coupled C/N/O)",
+            "mean_minus_A21_sigma_fit": (round(sum(v * v for v in sig) ** 0.5 / len(sig), 3)
+                                         if pl and len(sig) == len(pl) else None),
             "a21_basis": "AGSS21 Table 3 lte_MARCS, per indicator",
             "n_lines": len(used),
             "mean_A_mu1": round(sum(used) / len(used), 3) if used else None,
@@ -227,7 +240,8 @@ def main_cno(symbol: str) -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(res, indent=1) + "\n")
     print(f"[asplund-mu1] {symbol}: mu=1 mean {res['mean_A_mu1']} on {res['n_lines']} indicators; "
-          f"vs A21 1D MARCS {res['mean_minus_A21_marcs_lte']} (n={res['n_paired']})")
+          f"vs A21 1D MARCS {res['mean_minus_A21_marcs_lte']} +/- {res['mean_minus_A21_sigma_fit']} "
+          f"(fit sigma, n={res['n_paired']})")
     return rc
 
 

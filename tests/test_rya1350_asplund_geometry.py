@@ -61,3 +61,16 @@ def test_cno_mu1_pairs_only_the_indicators_a21_shares(tmp_path, monkeypatch):
                                                    + (8.50 - a21["CI_5052"])) / 2, 3)
     n = am.collect_cno("N", tmp_path)
     assert n["n_lines"] == 1 and n["n_paired"] == 0 and n["mean_minus_A21_marcs_lte"] is None
+
+
+def test_cno_mu1_carries_the_fit_sigma_with_the_offset(tmp_path):
+    import json
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import asplund_mu1 as am
+    (tmp_path / "cno_VIS").mkdir()
+    (tmp_path / "cno_VIS" / "cno_mu1_per_band.json").write_text(json.dumps({"per_band": [
+        {"key": "OI_6300", "element": "O", "role": "primary", "A_X": 7.78, "sigma_fit": 2.6}]}))
+    o = am.collect_cno("O", tmp_path)
+    assert o["mean_minus_A21_sigma_fit"] == 2.6 and abs(o["mean_minus_A21_marcs_lte"]) < 2.6

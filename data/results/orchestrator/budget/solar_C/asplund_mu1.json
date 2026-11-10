@@ -1,0 +1,60 @@
+{
+ "element": "C",
+ "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
+ "treatment": "1D-LTE",
+ "route": "pipeline.cno_synthesis VIS region (coupled C/N/O)",
+ "mean_minus_A21_sigma_fit": 0.019,
+ "a21_basis": "AGSS21 Table 3 lte_MARCS, per indicator",
+ "n_lines": 4,
+ "mean_A_mu1": 8.353,
+ "mean_minus_A21_marcs_lte": -0.084,
+ "n_paired": 4,
+ "lines": [
+  {
+   "indicator": "CH_Gband",
+   "role": "primary",
+   "A_mu1": 8.349,
+   "red_chi2": 26.703,
+   "sigma_fit": 0.004,
+   "status": "ok",
+   "A21_indicator": "CH (A-X)",
+   "A21_marcs_lte": 8.393
+  },
+  {
+   "indicator": "CI_5052",
+   "role": "cross_check",
+   "A_mu1": 8.423,
+   "red_chi2": 43.997,
+   "sigma_fit": 0.044,
+   "status": "ok",
+   "A21_indicator": "C I",
+   "A21_marcs_lte": 8.462
+  },
+  {
+   "indicator": "CI_5380",
+   "role": "cross_check",
+   "A_mu1": 8.285,
+   "red_chi2": 64.975,
+   "sigma_fit": 0.063,
+   "status": "ok",
+   "A21_indicator": "C I",
+   "A21_marcs_lte": 8.462
+  },
+  {
+   "indicator": "C2_Swan",
+   "role": "cross_check",
+   "A_mu1": 8.356,
+   "red_chi2": 28.433,
+   "sigma_fit": 0.007,
+   "status": "ok",
+   "A21_indicator": "C2 Swan",
+   "A21_marcs_lte": 8.433
+  }
+ ],
+ "cells": [
+  {
+   "ion": "C/N/O",
+   "band": "VIS"
+  }
+ ]
+}
