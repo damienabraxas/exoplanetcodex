@@ -32109,3 +32109,63 @@ artifacts:
     generator: scripts/build_multi_width_oracle.py
     ticket: RYA-1371
     note: Exact compact original MULTI DAMP oracle, all256x56 width comparison and frozen-EOS source-law controls; no width/default adoption.
+  - artifact: rya1371/original_source_widths_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-comparison-v1/comparison.png
+    generator: scripts/compare_oxygen_reference_spectra.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-comparison-v1/report.json
+    generator: scripts/compare_oxygen_reference_spectra.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-comparison-v1/windows.csv
+    generator: scripts/compare_oxygen_reference_spectra.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-dry-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-dry-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-hop-original-source-widths-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-multi-width-law-export-v1/law.json
+    generator: scripts/export_multi_width_law.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-multi-width-law-export-v1/report.json
+    generator: scripts/export_multi_width_law.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-radiative-width-audit-v1/report.json
+    generator: scripts/audit_oxygen_radiative_widths.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-source-width-backend-audit-v1/backend.npz
+    generator: scripts/audit_source_width_backend.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/original_source_widths_v1/rya1371-source-width-backend-audit-v1/report.json
+    generator: scripts/audit_source_width_backend.py
+    ticket: RYA-1371
+    note: Exact source-width fixed-population evidence; no physical model or default adoption.

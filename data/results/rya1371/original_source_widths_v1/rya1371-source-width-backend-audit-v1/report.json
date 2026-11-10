@@ -1,0 +1,2488 @@
+{
+  "generator": {
+    "name": "audit_source_width_backend.py",
+    "bytes": 6241,
+    "sha256": "4a83b548c66548629ca2c984d3142ecfb45522565fbfb68b51035776178715f3"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_original_source_widths.json": {
+      "name": "rya1371_hop_original_source_widths.json",
+      "bytes": 4565,
+      "sha256": "cc523327cc47e64459dbd532328d25333e2d95ed12f69bb7ee9c32fb5dc61653"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/LwCompiled.cpython-312-darwin.so": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85404,
+      "sha256": "a76996b75c92ab40f0cff7b10f048ca3777f5fc4cfd8bd4bbe38b0ec84548acf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 206878,
+      "sha256": "69e8a27a554df4c5d148795108d0a9fd3bb8ac982caf8570f78b56f8fdc51128"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 4887,
+      "sha256": "f8ab625d0f77f84420f0b52404c33a17f00411f9d540692d20f1c04e950238f4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/law.json": {
+      "name": "law.json",
+      "bytes": 73892,
+      "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/report.json": {
+      "name": "report.json",
+      "bytes": 1840,
+      "sha256": "334d66abe7f43ef563f29d55fc4576320b0a8c6692e49c88d0b625dd13eb3fa9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-output-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-wavelength-roundtrip-v2/output.txt": {
+      "name": "output.txt",
+      "bytes": 33280,
+      "sha256": "e0828d111a559405944db44ab0d2e20ef7da558d7d875f743335ea6e0faa861c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-wavelength-roundtrip-v2/report.json": {
+      "name": "report.json",
+      "bytes": 3896,
+      "sha256": "2945c786506aa1b7e84f88da5a0605c8125e4971c59d969b945d653ba59a74ef"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+      "name": "libhop.so",
+      "bytes": 1164024,
+      "sha256": "8b5c6d60f8d7a2257db50c752e1a809c9b6282e076ad264512dc3f3ecf624a3b"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.mod": {
+      "name": "handyfuncs_mod.mod",
+      "bytes": 10215,
+      "sha256": "88df2a98dac408345bdae83806457862250379f813783a6782f4ebe7ef177a8c"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/airvac_profile_probe/probe.f90": {
+      "name": "probe.f90",
+      "bytes": 516,
+      "sha256": "a6623852bcc88146cc27decacbe43449e9e446956675bad5e29d5b09837c3e1d"
+    },
+    "/opt/homebrew/bin/gfortran": {
+      "name": "gfortran",
+      "bytes": 3039240,
+      "sha256": "f86a6dc75b07aa490e3789208b2f17f869883af975eb21897d4693d24cc44b73"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/handyfuncs_mod.f90": {
+      "name": "handyfuncs_mod.f90",
+      "bytes": 39086,
+      "sha256": "e4002d0ccf494c013d4f9c7946f9750b13150aa845ec2433cd48e2bb528f4c40"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-comparison-v1/widths.npz": {
+      "name": "widths.npz",
+      "bytes": 725580,
+      "sha256": "f003a1f6682c48b67e1e959d416c62dc878055f4f333b518667481a30e519cad"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json": {
+      "name": "reference-5750-4.5-A8.70-v1.json",
+      "bytes": 72076,
+      "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+    },
+    "/Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/constants.py": {
+      "name": "constants.py",
+      "bytes": 941,
+      "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_width_law.py": {
+      "name": "multi_width_law.py",
+      "bytes": 4651,
+      "sha256": "3a4a791687c3e32fa66e3275d9c814e3dfd897a9f9095f0fc7ad129e29345121"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_hop_transfer.py": {
+      "name": "bride_hop_transfer.py",
+      "bytes": 11336,
+      "sha256": "ec71b6570e01a11c36e160a4304d3f396262d861c96b15ea661787435764e0a4"
+    }
+  },
+  "audit": {
+    "original_width_law": {
+      "source_mass_amu": 15.999,
+      "temperature_numeric_interval": [
+        4045.89892578125,
+        9779.8701171875
+      ],
+      "inputs": {
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/law.json": {
+          "name": "law.json",
+          "bytes": 73892,
+          "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+        },
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/report.json": {
+          "name": "report.json",
+          "bytes": 1840,
+          "sha256": "334d66abe7f43ef563f29d55fc4576320b0a8c6692e49c88d0b625dd13eb3fa9"
+        }
+      },
+      "actual_calls": [
+        {
+          "line_index": 0,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 1,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 2,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 3,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 4,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 5,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 6,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 7,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 8,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 9,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 10,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 11,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 12,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 13,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 14,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 15,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 16,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 17,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 18,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 19,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 20,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 21,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 22,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 23,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 24,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 25,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 26,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 27,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 28,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 29,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 30,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 31,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 32,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 33,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 34,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 35,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 36,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 37,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 38,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 39,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 40,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 41,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 42,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 43,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 44,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 45,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 46,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 47,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 48,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 49,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 50,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 51,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 52,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 53,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 54,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 55,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 56,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 57,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 58,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 59,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 60,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 61,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 62,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 63,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 64,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 65,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 66,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 67,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 68,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 69,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 70,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 71,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 72,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 73,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 74,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 75,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 76,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 77,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 78,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 79,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 80,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 81,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 82,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 83,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 84,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 85,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 86,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 87,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 88,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 89,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 90,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 91,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 92,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 93,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 94,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 95,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 96,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 97,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 98,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 99,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 100,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 101,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 102,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 103,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 104,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 105,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 106,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 107,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 108,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 109,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 110,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 111,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 112,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 113,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 114,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 115,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 116,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 117,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 118,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 119,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 120,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 121,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 122,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 123,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 124,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 125,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 126,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 127,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 128,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 129,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 130,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 131,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 132,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 133,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 134,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 135,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 136,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 137,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 138,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 139,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 140,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 141,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 142,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 143,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 144,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 145,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 146,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 147,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 148,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 149,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 150,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 151,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 152,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 153,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 154,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 155,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 156,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 157,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 158,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 159,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 160,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 161,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 162,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 163,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 164,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 165,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 166,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 167,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 168,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 169,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 170,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 171,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 172,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 173,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 174,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 175,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 176,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 177,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 178,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 179,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 180,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 181,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 182,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 183,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 184,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 185,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 186,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 187,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 188,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 189,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 190,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 191,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 192,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 193,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 194,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 195,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 196,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 197,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 198,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 199,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 200,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 201,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 202,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 203,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 204,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 205,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 206,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 207,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 208,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 209,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 210,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 211,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 212,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 213,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 214,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 215,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 216,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 217,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 218,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 219,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 220,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 221,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 222,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 223,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 224,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 225,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 226,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 227,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 228,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 229,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 230,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 231,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 232,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 233,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 234,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 235,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 236,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 237,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 238,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 239,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 240,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 241,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 242,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 243,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 244,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 245,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 246,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 247,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 248,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 249,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 250,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 251,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 252,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 253,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 254,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 255,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        }
+      ]
+    },
+    "vdw_broadening": true,
+    "elastic_terms_remaining": 256,
+    "table_control": {
+      "vacuum_centre_source": "verified native vacuum packet, no conversion or fitted offset",
+      "mode": "centres_and_strengths",
+      "changes": [
+        {
+          "line_index": 73,
+          "i": 7,
+          "j": 35,
+          "source_vac_nm": 615.7709405993485,
+          "transfer_vac_nm": 615.7709709303801,
+          "source_f": 0.07224,
+          "transfer_f": 0.07225680349398982,
+          "native_table_air_A": 6156.006,
+          "native_loggf": -0.664
+        },
+        {
+          "line_index": 74,
+          "i": 8,
+          "j": 35,
+          "source_vac_nm": 615.8475811724065,
+          "transfer_vac_nm": 615.8475914818191,
+          "source_f": 0.07227,
+          "transfer_f": 0.07228197252792265,
+          "native_table_air_A": 6156.772,
+          "native_loggf": -0.442
+        },
+        {
+          "line_index": 75,
+          "i": 9,
+          "j": 35,
+          "source_vac_nm": 615.9870317482178,
+          "transfer_vac_nm": 615.9870288824459,
+          "source_f": 0.07222,
+          "transfer_f": 0.07226066600044487,
+          "native_table_air_A": 6158.166,
+          "native_loggf": -0.296
+        },
+        {
+          "line_index": 102,
+          "i": 5,
+          "j": 9,
+          "source_vac_nm": 777.4082669906074,
+          "transfer_vac_nm": 777.4082789712802,
+          "source_f": 0.4678,
+          "transfer_f": 0.46776744773187096,
+          "native_table_air_A": 7771.944,
+          "native_loggf": 0.369
+        },
+        {
+          "line_index": 103,
+          "i": 5,
+          "j": 8,
+          "source_vac_nm": 777.6304945621068,
+          "transfer_vac_nm": 777.6305389612736,
+          "source_f": 0.3342,
+          "transfer_f": 0.33421812286214153,
+          "native_table_air_A": 7774.166,
+          "native_loggf": 0.223
+        },
+        {
+          "line_index": 104,
+          "i": 5,
+          "j": 7,
+          "source_vac_nm": 777.7527254983193,
+          "transfer_vac_nm": 777.7527719532197,
+          "source_f": 0.2009,
+          "transfer_f": 0.20092315805567904,
+          "native_table_air_A": 7775.388,
+          "native_loggf": 0.002
+        },
+        {
+          "line_index": 111,
+          "i": 6,
+          "j": 12,
+          "source_vac_nm": 844.8568284497098,
+          "transfer_vac_nm": 844.8567986961543,
+          "source_f": 0.1148,
+          "transfer_f": 0.11478331025444616,
+          "native_table_air_A": 8446.247,
+          "native_loggf": -0.463
+        },
+        {
+          "line_index": 112,
+          "i": 6,
+          "j": 11,
+          "source_vac_nm": 844.8680349924078,
+          "transfer_vac_nm": 844.868001724658,
+          "source_f": 0.574,
+          "transfer_f": 0.5739561916620023,
+          "native_table_air_A": 8446.359,
+          "native_loggf": 0.236
+        },
+        {
+          "line_index": 113,
+          "i": 6,
+          "j": 10,
+          "source_vac_nm": 844.9079384085773,
+          "transfer_vac_nm": 844.9079125137077,
+          "source_f": 0.3443,
+          "transfer_f": 0.3442538019204658,
+          "native_table_air_A": 8446.758,
+          "native_loggf": 0.014
+        },
+        {
+          "line_index": 255,
+          "i": 0,
+          "j": 3,
+          "source_vac_nm": 630.2046236600747,
+          "transfer_vac_nm": 630.2046439055719,
+          "source_f": 3.811e-11,
+          "transfer_f": 3.8109214359264887e-11,
+          "native_table_air_A": 6300.304,
+          "native_loggf": -9.72
+        }
+      ],
+      "scope": "Ten transitions in predeclared six-window optical support only; centre source explicit (canonical AIR inverse once or verified native vacuum packet with no conversion). All other transitions, atom levels, continua and collisions unchanged. Transfer override is not a self-consistent energy-level/SE atom; fixed populations only. No empirical shift/strength fit or physical/default adoption."
+    },
+    "helium_broadening": false,
+    "formal_solver": "piecewise_linear_1d",
+    "seed": {
+      "reference": {
+        "registry": {
+          "name": "reference_engines.yaml",
+          "bytes": 877,
+          "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+        },
+        "build_receipt": {
+          "name": "receipt.json",
+          "bytes": 1552,
+          "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+        },
+        "executable": {
+          "name": "dispatch.x",
+          "bytes": 3614040,
+          "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+        },
+        "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+      },
+      "inputs": {
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+          "name": "libhop.so",
+          "bytes": 1164328,
+          "sha256": "306e3cf806ab335e29a1b685a8de05e708942e9ac588ec385f44ad90d41df2d0"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+          "name": "libhop.h",
+          "bytes": 2102,
+          "sha256": "2732074eb71f1c58ea908276b7fad061458bf95f74854805708f9cb76475476d"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/receipt.json": {
+          "name": "receipt.json",
+          "bytes": 1591,
+          "sha256": "d4c2e8ab13d1dbff80e0a66db40d643ee11457b8ad63acb91da00251b86d2d6b"
+        },
+        "/Users/ryanschmitt/codex/rya1371/native/hop_trace_provider/trace_continua.patch": {
+          "name": "trace_continua.patch",
+          "bytes": 4874,
+          "sha256": "3148e0f98fb21c3f4d5a421827da88f10ccfbbfaaea6c7eaee9c59d380274c74"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+          "name": "const_mod.f90",
+          "bytes": 5473,
+          "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+        },
+        "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+          "name": "hop_abi.py",
+          "bytes": 959,
+          "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+        },
+        "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+          "name": "rya1371_hop_native_options.json",
+          "bytes": 1512,
+          "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+          "name": "TS_absdat.txt",
+          "bytes": 397207,
+          "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+          "name": "abund_magg22.txt",
+          "bytes": 912,
+          "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+          "name": "isotopes_blp.txt",
+          "bytes": 8960,
+          "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+          "name": "molec_data_BC.txt",
+          "bytes": 5993,
+          "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+          "name": "Anstee-1802-2014.txt",
+          "bytes": 4766137,
+          "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+          "name": "stehle_paschen.txt",
+          "bytes": 374761,
+          "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+          "name": "vcs_balmer.txt",
+          "bytes": 1373161,
+          "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+          "name": "vcs_paschen.txt",
+          "bytes": 312313,
+          "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+          "name": "vcs_bracket.txt",
+          "bytes": 331828,
+          "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+          "name": "stehle_balmer.txt",
+          "bytes": 374761,
+          "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+        }
+      },
+      "module_options_reset": {
+        "ref_lam": 5000.0,
+        "debug_opac": 0.0,
+        "tolerance": 9.99999975e-05,
+        "opac_table_vmic": 1.0,
+        "eosmet": 0.5,
+        "lam_tolerance": 0.0010000000474974513,
+        "mhd_eos": true,
+        "helium_scattering": true,
+        "relative_abundances": false,
+        "line_scattering": false,
+        "sample_linelist": false,
+        "h_occupation_probability": true,
+        "debye_shield": true,
+        "irwin_dis": true,
+        "disable_rad": false,
+        "disable_stk": false,
+        "disable_vdw": false,
+        "molecule_damping_estimates": true,
+        "hydrogen_bpo": true,
+        "hydrogen_profiles": "stehle",
+        "ll_profile": false,
+        "voigt_kernel": 0,
+        "line_reject_frac": 0.0,
+        "exclude_elements": "",
+        "only_elements": ""
+      },
+      "source_constants_cgs": {
+        "hh": 6.626176e-27,
+        "bk": 1.380662e-16,
+        "cc": 29979245800.0
+      },
+      "atom_trace_selection": {
+        "symbol": "O",
+        "abundance": 8.7,
+        "weight": 15.999,
+        "stages": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "excitation_eV": [
+          0.0,
+          0.019622358307079604,
+          0.028141560177335535,
+          1.9673640648993322,
+          4.189746133053594,
+          9.146090746964331,
+          9.521363374721485,
+          10.740224575718,
+          10.740475147772079,
+          10.988791805394698,
+          10.988880578076895,
+          11.930385047826697,
+          12.078662951586121,
+          12.087017874400637,
+          12.087026553294148,
+          12.28596167066612,
+          12.286045112028019,
+          12.358864376157308,
+          12.358906654767125,
+          12.541673365480955,
+          12.75370369331888,
+          12.766435258146725
+        ]
+      },
+      "excluded_O_records": 1,
+      "frame": "vacuum_nm",
+      "opacity": "total extinction m-1 including scattering exactly once",
+      "source": "native HOP historical-constant LTE I_nu; scattering source added by RT backend",
+      "molecular_equilibrium": "native HOP, LTE; no molecular line-list opacity",
+      "scientific_admission": "HOLD"
+    },
+    "angles": {
+      "source": {
+        "name": "ray_mod.f90",
+        "bytes": 24625,
+        "sha256": "b6f55089ab835924fc97fc60ae9ef94d9fda2e4aec4cb71a2fb4aae3032ef9ec"
+      },
+      "literal_precision": "default real4 promoted to real8; no weight renormalization",
+      "mu": [
+        1.0,
+        0.919533908367157,
+        0.7387738823890686,
+        0.4779249429702759,
+        0.16527895629405975
+      ],
+      "weight": [
+        0.02222222276031971,
+        0.13330599665641785,
+        0.22488933801651,
+        0.29204267263412476,
+        0.3275397717952728
+      ]
+    },
+    "background_records": [
+      {
+        "wavelengths": 6796,
+        "depths": 56,
+        "packet": {
+          "reference": {
+            "registry": {
+              "name": "reference_engines.yaml",
+              "bytes": 877,
+              "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+            },
+            "build_receipt": {
+              "name": "receipt.json",
+              "bytes": 1552,
+              "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+            },
+            "executable": {
+              "name": "dispatch.x",
+              "bytes": 3614040,
+              "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+            },
+            "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+          },
+          "inputs": {
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+              "name": "libhop.so",
+              "bytes": 1164328,
+              "sha256": "306e3cf806ab335e29a1b685a8de05e708942e9ac588ec385f44ad90d41df2d0"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+              "name": "libhop.h",
+              "bytes": 2102,
+              "sha256": "2732074eb71f1c58ea908276b7fad061458bf95f74854805708f9cb76475476d"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/receipt.json": {
+              "name": "receipt.json",
+              "bytes": 1591,
+              "sha256": "d4c2e8ab13d1dbff80e0a66db40d643ee11457b8ad63acb91da00251b86d2d6b"
+            },
+            "/Users/ryanschmitt/codex/rya1371/native/hop_trace_provider/trace_continua.patch": {
+              "name": "trace_continua.patch",
+              "bytes": 4874,
+              "sha256": "3148e0f98fb21c3f4d5a421827da88f10ccfbbfaaea6c7eaee9c59d380274c74"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+              "name": "const_mod.f90",
+              "bytes": 5473,
+              "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+            },
+            "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+              "name": "hop_abi.py",
+              "bytes": 959,
+              "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+            },
+            "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+              "name": "rya1371_hop_native_options.json",
+              "bytes": 1512,
+              "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+              "name": "TS_absdat.txt",
+              "bytes": 397207,
+              "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+              "name": "abund_magg22.txt",
+              "bytes": 912,
+              "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+              "name": "isotopes_blp.txt",
+              "bytes": 8960,
+              "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+              "name": "molec_data_BC.txt",
+              "bytes": 5993,
+              "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+              "name": "Anstee-1802-2014.txt",
+              "bytes": 4766137,
+              "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+              "name": "stehle_paschen.txt",
+              "bytes": 374761,
+              "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+              "name": "vcs_balmer.txt",
+              "bytes": 1373161,
+              "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+              "name": "vcs_paschen.txt",
+              "bytes": 312313,
+              "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+              "name": "vcs_bracket.txt",
+              "bytes": 331828,
+              "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+              "name": "stehle_balmer.txt",
+              "bytes": 374761,
+              "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+            }
+          },
+          "module_options_reset": {
+            "ref_lam": 5000.0,
+            "debug_opac": 0.0,
+            "tolerance": 9.99999975e-05,
+            "opac_table_vmic": 1.0,
+            "eosmet": 0.5,
+            "lam_tolerance": 0.0010000000474974513,
+            "mhd_eos": true,
+            "helium_scattering": true,
+            "relative_abundances": false,
+            "line_scattering": false,
+            "sample_linelist": false,
+            "h_occupation_probability": true,
+            "debye_shield": true,
+            "irwin_dis": true,
+            "disable_rad": false,
+            "disable_stk": false,
+            "disable_vdw": false,
+            "molecule_damping_estimates": true,
+            "hydrogen_bpo": true,
+            "hydrogen_profiles": "stehle",
+            "ll_profile": false,
+            "voigt_kernel": 0,
+            "line_reject_frac": 0.0,
+            "exclude_elements": "",
+            "only_elements": ""
+          },
+          "source_constants_cgs": {
+            "hh": 6.626176e-27,
+            "bk": 1.380662e-16,
+            "cc": 29979245800.0
+          },
+          "atom_trace_selection": {
+            "symbol": "O",
+            "abundance": 8.7,
+            "weight": 15.999,
+            "stages": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "excitation_eV": [
+              0.0,
+              0.019622358307079604,
+              0.028141560177335535,
+              1.9673640648993322,
+              4.189746133053594,
+              9.146090746964331,
+              9.521363374721485,
+              10.740224575718,
+              10.740475147772079,
+              10.988791805394698,
+              10.988880578076895,
+              11.930385047826697,
+              12.078662951586121,
+              12.087017874400637,
+              12.087026553294148,
+              12.28596167066612,
+              12.286045112028019,
+              12.358864376157308,
+              12.358906654767125,
+              12.541673365480955,
+              12.75370369331888,
+              12.766435258146725
+            ]
+          },
+          "excluded_O_records": 1,
+          "frame": "vacuum_nm",
+          "opacity": "total extinction m-1 including scattering exactly once",
+          "source": "native HOP historical-constant LTE I_nu; scattering source added by RT backend",
+          "molecular_equilibrium": "native HOP, LTE; no molecular line-list opacity",
+          "scientific_admission": "HOLD"
+        }
+      }
+    ],
+    "perturbers": [],
+    "scope": "Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission."
+  },
+  "compiled_gamma_max_relative_error": 5.551115123125783e-16,
+  "compiled_adamp_max_relative_error": 7.771561172376096e-16,
+  "all_256x56_VDW_widths_positive": true,
+  "source_mass_amu": 15.999,
+  "LW_mass_amu": 15.9994,
+  "scientific_admission": "HOLD",
+  "scope": "Actual compiled fixed-population backend width routing, not a coupled SE or observed solar admission."
+}

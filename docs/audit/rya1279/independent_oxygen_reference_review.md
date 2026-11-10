@@ -744,3 +744,53 @@ journal/DOI guessed, no numerical table/gf/grade adoption. Library now215 docume
 132 indexed/83 old unindexed,17 non-documents. Generated sources page222 rows passes.
 Atlas source evidence pin refreshed to metadata commit a0bbd0ec; all30 entries/gaps/
 citations/states remain unchanged. No dependency install or website publication.
+
+
+### Restored positive source widths and radiative-input audit (v268)
+
+Exact source-law coefficients exported algebraically from native sample0, never
+regressed or fitted to spectra. All remaining states and five independent native
+controls reconstruct within6.66e-16 relative. Explicit numeric T support
+4045.89892578125--9779.8701171875K is a component validation domain, not a physical
+stellar-grid hull. Source owns its historical He convention; extra He is refused.
+Immutable neutral-H total density comes from HOP, never artificial H level storage.
+The component is opt-in and fixed-population only; coupled SE remains refused.
+
+Actual full-positive-VDW transfer completes5.646s, preserving native full-physics
+accurate-kernel n/nStar/totals, native vacuum photon centres and explicit table
+rounding controls. Six finite +/-0.5A NLTE area differences (Bride-native,mA):
+6158 +.00557010,6300 +.00000391,7771 +.00366057,7774 +.00366909,
+7775 +.00345414,8446 +.00748132. Max normalized profile error2.40849e-5.
+No VDW omission, empirical width multiplier, wavelength shift or continuum fit.
+These are controlled theoretical vertical intensities, not solar validation or
+complete equivalent widths. Missing6363 remains an absent-transition control.
+
+Compiled-backend audit inspects all256x56 actual transition Qelast/aDamp arrays:
+all positive VDW, original DAMP gamma agreement5.55e-16, independent SI aDamp
+agreement7.77e-16. Source15.999 versus LW15.9994amu remains explicit. Width law,
+constructor, transfer, comparison and backend proof are preserved byte-for-byte.
+
+Radiative-input qualification remains open: source GA is below the same model's
+own Einstein A for source transitions1->6 (1355.597669vacA:2951 versus4196.02943/s)
+and1->4 (6302.046237vacA:2.11e-5 versus.006400562/s). NIST's lifetime definition
+is inverse sum of outgoing spontaneous rates:
+https://physics.nist.gov/Pubs/AtSpec/node18.html . The incomplete model graph is
+not a complete independent lifetime and no source correction is adopted.
+The actual pressure widths dominate: replacing GA diagnostically with the greater
+of GA and this partial upper+lower graph would alter total damping by at most
+.000452355 fractionally for1355 and3.85932e-9 for6300 over the56 states.
+This is an algebraic width sensitivity, NOT an emergent-spectrum/SE bound.
+Thus the6300 input inconsistency is unlikely to explain its visible discrepancy;
+independent lifetime provenance and direct response remain to test. No source atom
+or radiative A modified. This caveat is data qualification, not a new code defect.
+
+Focused current tests41pass/11skip: all11 skips are historical Fe fixture availability,
+not newly bypassed Oxygen tests. Three new source-law tests exercise immutable H,
+density/T/micro roles, invalid domain/species and double-He/VDW-omission refusal.
+Scientific1D/observed-solar/3D/all-band HOLD; next collider/EOS and fresh coupled
+balance, with radiative lifetime source qualification tracked explicitly.
+
+All17 archive groups verify:2867 raw receipts/329 exact compact copies. Staged
+plain artifact diagnostics exactly match clean baseline5120; no new diagnostic.
+Path check156present/18pre-existing broken. Register pointer v268 passes.
+Overlay inspected; residual magnitudes come from arrays, not visual overlap.

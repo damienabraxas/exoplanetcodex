@@ -1,3 +1,7 @@
+## 2026-11-10 — restored source-width component
+
+- **RYA-1371** — Full positive widths restore six-window parity; radiative inputs audited, collider/EOS/SE/solar HOLD (v268).
+
 ## 2026-11-09 — reviewed foundation and reference-provider continuation
 
 > **Current as of `main` 10f0dc95** (PR #618 RYA-1373; merged diff and ticket comments8990d0ae/a1c68001 verified; current continuation integrates this main after its pinned d1728c92 experiments, v266).
