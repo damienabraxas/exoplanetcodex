@@ -1,0 +1,30 @@
+{
+  "schema": "rya1354.lifetime-plan.v7",
+  "starting_commit": "ab666ac3b2b7e0641014e9c219ace8cda9d38bc1",
+  "main_at_start": "10f0dc955803253570a944ca37012654e80ead9f",
+  "exposure": "EXPOSED_NONBLIND",
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "uncertainty": null,
+  "experiment": "Default node-checked radial methods, no method3. Same qualified n4 full2s-SD/DC initializers, varied2/3/4 fixed1s for all3states. Explicit NSOLV24 inner-iteration floor during optimization and mandatory fresh NSIC0 verification. No failed-wave or observed inputs.",
+  "numerics": {
+    "grid_H": 0.03125,
+    "grid_N": 439,
+    "ACCY": 5.960464477539063e-08,
+    "damping": 0.5,
+    "cycles": 1500,
+    "NSIC_optimization": 20,
+    "NSIC_fresh_restart": 0,
+    "promotion": "Strict native orbital criterion, native parent/term/J/parity and fresh restart for every state before full13-channel lifetime.",
+    "radial_iteration_floor": 24,
+    "method3": false
+  },
+  "failure_policy": "New output directory; preserve every failed attempt, no automatic parameter/physics fallback. Native exit0 is insufficient. Continued states require byte-identical CSF/nucleus.",
+  "source_controls": "Verify core campaign status/n against native receipt and source CSF/wave/nucleus SHA256 and bytes before output creation. Record initializer receipt SHA256 and explicit varied radial shells.",
+  "future": "Larger Rydberg-targeted MR/AS, balanced core and explicit orbital strategy; independently implemented relativistic checks; separately curated physical experimental groups for other elements. No gauge or grade selected because closer to experiment.",
+  "MR_inventory": "Native generation-only n4, all eight parity/VV-CV/SR-MR combinations. Four-reference even and odd families restricted to n<=4 from Li2023 Table1. Verify native electron count,1s inactivity,2s constraints,parity and duplicateCSFs; allpassed. FullCV MR even29185 (largestJblock14432), odd25382 (largestJblock14490). No energies/wavefunctions/rates from inventory.",
+  "MR_fixed_orbital_control": "After measured inventory, n4 fixed qualified VV orbitals: identicalSR/DC reproduction, VV-MR/DC, full2s-MR/DC, samefull2s-MR+staticBreit. All3 matchedstates and13channels, unchangednativeRCIgrid. No MR orbital optimization or published-protocol reproduction. Preserve wave/nucleus inputs and coreMR DC/Breit CSF identity. n4 relaxation continues as a separate experiment. Single-thread/nice19; measure resources, do not change otherworkers.",
+  "native_method_caveat": "Pinned SOLVE line93: NLOOPS=MAX(NSOLV,3*NP(J)), despite GETSCD calling NSOLV a factor. NSOLV24 is a floor, not24*n. Node targets and bracket-width refusal unchanged. Prior method1 bracket-width refusal may persist; no assumed cure.",
+  "output": "runs/lifetime_relax_n4_nodebudget_v3",
+  "evidence_collection": "Lossless v2 archive fragments with original SHA/bytes and contiguous offsets; all parts <=5MiB. Previous partial collection preserved. Reassemble original native bytes before receipt/scientific replay. Explicit hashed rci.res matrix caches retained on Sirius; mcp.* caches retained there."
+}

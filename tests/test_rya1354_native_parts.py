@@ -118,3 +118,33 @@ def test_terminal_audit_refuses_misdeclared_native_hamiltonian(monkeypatch):
     monkeypatch.setattr(audit,'load_parts',lambda directory:(files,manifest))
     with pytest.raises(ValueError,match='Hamiltonian/root input'):
         audit.summarize(base/'lifetime_mr_complete_v6',base/'lifetime_relax_failed_v6')
+
+
+def test_node_checked_radial_budget_changes_only_native_inner_limit():
+    from rya1354_lifetime_relax import scf_controls
+    from rya1354_lifetime_ladder import STATES
+    for state in STATES:
+        for verify in (False,True):
+            original=scf_controls(state,4,1500,.5,verify)
+            expanded=scf_controls(state,4,1500,.5,verify,radial_iteration_floor=24)
+            assert original.endswith('n\nn\n1\n')
+            assert expanded==original[:-len('n\nn\n1\n')]+'y\n24\nn\n1\n'
+    with pytest.raises(ValueError,match='positive'):
+        scf_controls('ground',4,1500,.5,False,radial_iteration_floor=0)
+
+
+def test_method3_divergence_is_retained_and_cannot_be_relabeled_completed(monkeypatch):
+    import rya1354_method3_failure as audit
+    bundle=ROOT/'data/audit/rya1354/lifetime_method3_failed_v7'
+    report=audit.summarize(bundle)
+    assert report==json.loads((ROOT/'data/audit/rya1354/source_curation_v2/method3_failure_v7.json').read_text())
+    assert report['diagnostics']['iterations']==307
+    assert report['diagnostics']['max_reported_self_consistency']==47.8
+    assert report['accepted_lifetime'] is None and not report['adoption_allowed']
+    files,manifest=load_parts(bundle)
+    key='runs/lifetime_relax_n4_method3_v2/receipt.json'
+    receipt=json.loads(files[key]);receipt['status']='CORE_RELAXED_MODEL_LIFETIME_COMPLETED_REVIEW_REQUIRED'
+    files[key]=json.dumps(receipt).encode()
+    monkeypatch.setattr(audit,'load_parts',lambda directory:(files,manifest))
+    with pytest.raises(ValueError,match='failure receipt'):
+        audit.summarize(bundle)
