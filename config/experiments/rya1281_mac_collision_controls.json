@@ -1,0 +1,64 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Causal electron/hydrogen collision-class sensitivity at the fixed native reference node; no rates adopted or fit. Factors chosen symmetrically before running.",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized exception to Sirius compute",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5
+  },
+  "window_air_A": [
+    7768.0,
+    7780.0
+  ],
+  "step_A": 0.005,
+  "cases": [
+    {
+      "name": "CE_x0.1",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "diagnostic_collision_scales": {
+        "CE": 0.1
+      }
+    },
+    {
+      "name": "CE_x10",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "diagnostic_collision_scales": {
+        "CE": 10.0
+      }
+    },
+    {
+      "name": "CH_x0.1",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "diagnostic_collision_scales": {
+        "CH": 0.1
+      }
+    },
+    {
+      "name": "CH_x10",
+      "teff": 5750,
+      "logg": 4.5,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "diagnostic_collision_scales": {
+        "CH": 10.0
+      }
+    }
+  ]
+}

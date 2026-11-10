@@ -1,0 +1,50 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "eeea376f60987e985c42e525a91a4bbea6b09f26",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 9518,
+    "sha256": "d6c8eb3b43c4b41956e618e5aa2cb0c577ccf5c3dd9d2c3b47a72b011ce69dd7"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "plan": {
+    "name": "rya1281_mac_gencol_controls.json",
+    "bytes": 1011,
+    "sha256": "de34928e35873a73bb512a3e671e7a8fa146be0881b70991859c2e1290cdbd65"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "directed_CH0_lograte",
+      "status": "FAILED",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1189,
+        "sha256": "0d4a7ded2b00cbf2f23e990cec8ba5340e688a9738d2247aac3170dd67507da1"
+      }
+    },
+    {
+      "name": "gencol_CH_down_directed_CH0_lograte",
+      "status": "FAILED",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1234,
+        "sha256": "07517c61cccfc4e903e9618cc7f0673ec3e9cd00285d9ac79ae08c0181808cc9"
+      }
+    }
+  ]
+}

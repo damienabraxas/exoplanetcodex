@@ -1,0 +1,318 @@
+{
+  "schema": "codex.bride_convention_controls/1",
+  "scientific_admission": "HOLD",
+  "code_commit": "d5e522bee4d1010110788059229c264cbded3bf6",
+  "generator": {
+    "name": "summarize_bride_rate_controls.py",
+    "bytes": 5982,
+    "sha256": "d71bedb27f4d50b5e9a3b1afb0766b587467cc3a8af29f2433180e91ba08caa7"
+  },
+  "gencol": {
+    "name": "rya1281-gencol.f",
+    "bytes": 21883,
+    "sha256": "fd4a6b46b2ab684b916c198087673dc6277a8e175fa8f3b0b49118cd2dcc6718"
+  },
+  "gencol_url": "https://github.com/sjbruce3301/FORWARD-coronal-modeling/blob/15145239ffdbb62d19dca0749b11c5920f9fdf13/idl/FORCOMP/NOTUSEDBYFORWARD/EXTRAS/gencol.f",
+  "exact_grid_producer_build": "UNKNOWN; controls are not admitted native MULTI replication",
+  "runs": [
+    {
+      "name": "rya1281-gencol-v1",
+      "summary": {
+        "name": "summary.json",
+        "bytes": 1471,
+        "sha256": "76e59eae5893f2ae90fd6a0370663a465fa88ccaa1a4ab1cdd4dbc6d0daf918a"
+      },
+      "cases": [
+        {
+          "name": "directed_CH0_lograte",
+          "manifest": {
+            "name": "manifest.json",
+            "bytes": 1161,
+            "sha256": "bee498619daa5cfe54a4e4971e24df880269a334a2fe1144a44b71ac7d74e95d"
+          },
+          "status": "FAILED",
+          "error": "ValueError: Invalid populations",
+          "elapsed_seconds": 2.5350317084230483,
+          "controls": {
+            "rays": 3,
+            "qscale": 1,
+            "rtol": 1e-06,
+            "maxiter": 1500,
+            "seconds_per_case": 600,
+            "flux_rays": 5
+          },
+          "history": {
+            "name": "history.jsonl",
+            "bytes": 3497,
+            "sha256": "778a8267d8b275d70f75b8a49c02e06a6c0a514cc08655964f309be4075957ef"
+          },
+          "recorded_iterations": 18,
+          "rejected_invalid_ng_count": 0,
+          "last_recorded_diagnostics": {
+            "iteration": 18,
+            "population_change": 0.008913318548211344,
+            "J_change": 0.009529252508968633,
+            "physical_rate_residual": 3.4866793788703206e-15,
+            "particle_conservation_error": 6.661338147750939e-16
+          }
+        },
+        {
+          "name": "gencol_CH_down_directed_CH0_lograte",
+          "manifest": {
+            "name": "manifest.json",
+            "bytes": 1206,
+            "sha256": "c52c7d28341f512c0dfd652e149275f8d8ce679a009c1cb645feb322598ce495"
+          },
+          "status": "FAILED",
+          "error": "ValueError: Invalid populations",
+          "elapsed_seconds": 1.4214095412753522,
+          "controls": {
+            "rays": 3,
+            "qscale": 1,
+            "rtol": 1e-06,
+            "maxiter": 1500,
+            "seconds_per_case": 600,
+            "flux_rays": 5
+          },
+          "history": {
+            "name": "history.jsonl",
+            "bytes": 3501,
+            "sha256": "3239dfe5ad08febbf55694597f0bc301625cf3cdbfdca4f4d25d72d28c51b6a3"
+          },
+          "recorded_iterations": 18,
+          "rejected_invalid_ng_count": 0,
+          "last_recorded_diagnostics": {
+            "iteration": 18,
+            "population_change": 0.008355738952337023,
+            "J_change": 0.008946784371895444,
+            "physical_rate_residual": 3.0164011447995876e-15,
+            "particle_conservation_error": 1.1102230246251565e-15
+          }
+        }
+      ]
+    },
+    {
+      "name": "rya1281-gencol-v2-no-ng",
+      "summary": {
+        "name": "summary.json",
+        "bytes": 1472,
+        "sha256": "967e0853f342129277727c6f8770eacd2c7df07f330148875f8137348d0cce84"
+      },
+      "cases": [
+        {
+          "name": "directed_CH0_lograte",
+          "manifest": {
+            "name": "manifest.json",
+            "bytes": 1189,
+            "sha256": "0d4a7ded2b00cbf2f23e990cec8ba5340e688a9738d2247aac3170dd67507da1"
+          },
+          "status": "FAILED",
+          "error": "RuntimeError: Joint convergence not reached",
+          "elapsed_seconds": 100.7380065410398,
+          "controls": {
+            "rays": 3,
+            "qscale": 1,
+            "rtol": 1e-06,
+            "maxiter": 1500,
+            "seconds_per_case": 600,
+            "flux_rays": 5,
+            "ng": false
+          },
+          "history": {
+            "name": "history.jsonl",
+            "bytes": 303401,
+            "sha256": "6ddcf0f0e42bc0ed0ddfe49e48931ad525b264254ceb392777640085cbafab62"
+          },
+          "recorded_iterations": 1500,
+          "rejected_invalid_ng_count": 0,
+          "last_recorded_diagnostics": {
+            "iteration": 1500,
+            "population_change": 2.070815421502511e-05,
+            "J_change": 2.072274999642687e-05,
+            "physical_rate_residual": 3.249046453072678e-15,
+            "particle_conservation_error": 6.661338147750939e-16
+          }
+        },
+        {
+          "name": "gencol_CH_down_directed_CH0_lograte",
+          "manifest": {
+            "name": "manifest.json",
+            "bytes": 1234,
+            "sha256": "07517c61cccfc4e903e9618cc7f0673ec3e9cd00285d9ac79ae08c0181808cc9"
+          },
+          "status": "FAILED",
+          "error": "RuntimeError: Joint convergence not reached",
+          "elapsed_seconds": 100.5862673339434,
+          "controls": {
+            "rays": 3,
+            "qscale": 1,
+            "rtol": 1e-06,
+            "maxiter": 1500,
+            "seconds_per_case": 600,
+            "flux_rays": 5,
+            "ng": false
+          },
+          "history": {
+            "name": "history.jsonl",
+            "bytes": 303774,
+            "sha256": "6071278195a5cc14fd0326d4867c5dfa4e59ec8f753c49a308bda355a16fa598"
+          },
+          "recorded_iterations": 1500,
+          "rejected_invalid_ng_count": 0,
+          "last_recorded_diagnostics": {
+            "iteration": 1500,
+            "population_change": 2.110967648796286e-05,
+            "J_change": 2.1124506153435973e-05,
+            "physical_rate_residual": 2.3398010291071752e-15,
+            "particle_conservation_error": 7.771561172376096e-16
+          }
+        }
+      ]
+    },
+    {
+      "name": "rya1281-gencol-v3-safe-ng",
+      "summary": {
+        "name": "summary.json",
+        "bytes": 1500,
+        "sha256": "5aec2a9b14e7a544a73e612b803d68ef9686983dec13a0cc1b6a8ea958dce898"
+      },
+      "cases": [
+        {
+          "name": "directed_CH0_lograte",
+          "manifest": {
+            "name": "manifest.json",
+            "bytes": 1654,
+            "sha256": "ec2e15c70155e2454fcbc9b7cd3cbf6d22c2b2fbb60f8bf135f3db7b6285e118"
+          },
+          "status": "CONVERGED_EXPERIMENT",
+          "error": null,
+          "elapsed_seconds": 60.73124833405018,
+          "controls": {
+            "rays": 3,
+            "qscale": 1,
+            "rtol": 1e-06,
+            "maxiter": 1500,
+            "seconds_per_case": 600,
+            "flux_rays": 5,
+            "ng": true,
+            "reject_invalid_ng": true
+          },
+          "history": {
+            "name": "history.jsonl",
+            "bytes": 205257,
+            "sha256": "03d0fc750f9bc6f7f1f87e238876a8e7744dab04ac23bd5e96e17170eb3ac522"
+          },
+          "recorded_iterations": 887,
+          "rejected_invalid_ng_count": 1,
+          "last_recorded_diagnostics": {
+            "iteration": 887,
+            "population_change": 4.6381958011521574e-07,
+            "J_change": 9.834412223463929e-07,
+            "physical_rate_residual": 3.4580475842823846e-15,
+            "particle_conservation_error": 6.661338147750939e-16,
+            "rejected_invalid_ng": false
+          },
+          "flux": {
+            "name": "flux.csv",
+            "bytes": 240167,
+            "sha256": "0981100fb38ecca26feda6d1908f9f391a549d99a0fba3b0e41439e04a80a5cd"
+          },
+          "populations": {
+            "name": "populations.npz",
+            "bytes": 36607,
+            "sha256": "ac87d2d84ed80aa34ad5740bc314707be08936aa542db646718d417889a31353"
+          },
+          "window_area_mA": [
+            59.85548103460921,
+            51.66354213591895,
+            40.57644436499025
+          ],
+          "population_shape_checks": {
+            "reference": "External b renormalized on local LTE in fixed rate replay",
+            "selected_logtau500": -1.2621,
+            "b_lower": 0.9231838246266999,
+            "b_upper": 0.9073328358580335,
+            "reference_b_lower": 1.030175817531132,
+            "reference_b_upper": 0.8455927474083271,
+            "upper_max_absolute_difference_all_depths": 1.2717694100577654,
+            "upper_max_absolute_difference_logtau_minus3_to0": 0.1194812354419289,
+            "all_level_depth_max_absolute_difference": 13.240889065527984
+          }
+        },
+        {
+          "name": "gencol_CH_down_directed_CH0_lograte",
+          "manifest": {
+            "name": "manifest.json",
+            "bytes": 1698,
+            "sha256": "c018f57b01a3094f055b76751dc16f1769825f734d6f1de821b42e6d4ec42477"
+          },
+          "status": "CONVERGED_EXPERIMENT",
+          "error": null,
+          "elapsed_seconds": 26.837672708090395,
+          "controls": {
+            "rays": 3,
+            "qscale": 1,
+            "rtol": 1e-06,
+            "maxiter": 1500,
+            "seconds_per_case": 600,
+            "flux_rays": 5,
+            "ng": true,
+            "reject_invalid_ng": true
+          },
+          "history": {
+            "name": "history.jsonl",
+            "bytes": 90661,
+            "sha256": "9f7514a992f31f096d201ed91bf9e2832449fe6fe0b5f7068a4fe4ec6dfbc557"
+          },
+          "recorded_iterations": 392,
+          "rejected_invalid_ng_count": 1,
+          "last_recorded_diagnostics": {
+            "iteration": 392,
+            "population_change": 4.552607933207854e-07,
+            "J_change": 8.854729287577356e-07,
+            "physical_rate_residual": 3.081553306512471e-15,
+            "particle_conservation_error": 8.881784197001252e-16,
+            "rejected_invalid_ng": false
+          },
+          "flux": {
+            "name": "flux.csv",
+            "bytes": 240167,
+            "sha256": "91db6f9856373a7eb179cdd9744ebc3b2c080af9fadd86374bfc6799de9db31e"
+          },
+          "populations": {
+            "name": "populations.npz",
+            "bytes": 36601,
+            "sha256": "1b4d0f3d9b0246bca156a027ee023112f7ff6ba3fedcbedf7bf171776ade181f"
+          },
+          "window_area_mA": [
+            71.82767850353153,
+            62.26735017624946,
+            49.24059710963223
+          ],
+          "population_shape_checks": {
+            "reference": "External b renormalized on local LTE in fixed rate replay",
+            "selected_logtau500": -1.2621,
+            "b_lower": 0.9617710946999792,
+            "b_upper": 0.7759665828934224,
+            "reference_b_lower": 1.030175817531132,
+            "reference_b_upper": 0.8455927474083271,
+            "upper_max_absolute_difference_all_depths": 1.2498949488796256,
+            "upper_max_absolute_difference_logtau_minus3_to0": 0.12926030001967637,
+            "all_level_depth_max_absolute_difference": 12.211714388555096
+          }
+        }
+      ]
+    }
+  ],
+  "rate_audit_receipt": {
+    "name": "report.json",
+    "bytes": 306623,
+    "sha256": "1e5bc40493db5256cd78055d5f6142c4ced5a54d047f506d265378bcee951761"
+  },
+  "rate_replay_physical_imbalance": {
+    "local_nlte": 4.770878422525922e-07,
+    "local_lte": 0.9999999552376848,
+    "external_b_local_lte": 0.9999999539422139
+  },
+  "status": "DIAGNOSTIC_COMPLETE"
+}

@@ -1,0 +1,100 @@
+{
+  "schema": "codex.bride_O_shape_milestone_plan/1",
+  "source_files": {
+    "data/results/rya1281/H_kitt_orch_v1/report.json": {
+      "name": "report.json",
+      "bytes": 46275,
+      "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+    },
+    "data/results/rya1281/H_kitt_orch_v1/profiles_and_continua.npz": {
+      "name": "profiles_and_continua.npz",
+      "bytes": 2807662,
+      "sha256": "d7711a829c513af00b4d088277c7cb79cef55a3e7d610c20c2d458c82f52bddc"
+    },
+    "data/results/rya1281/anchor_influence_v1/candidate_intake.json": {
+      "name": "candidate_intake.json",
+      "bytes": 520433,
+      "sha256": "8bb911697b9bad2f8dce0faeb3a5275722e14b26284c229a3b3bb64509dbcf2c"
+    },
+    "data/results/rya1281/H_reference_values_v1/report.json": {
+      "name": "report.json",
+      "bytes": 4665,
+      "sha256": "8b902ff174a6d63c51e8a41fae9e9463a80f5af26cf35cfa2587eed569407189"
+    }
+  },
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "core_half_A": 0.1,
+  "feature_half_A": 0.5,
+  "plot_half_A": 0.9,
+  "shoulders": {
+    "inner": {
+      "shoulder_inner_A": 0.35,
+      "shoulder_outer_A": 0.55
+    },
+    "outer": {
+      "shoulder_inner_A": 0.65,
+      "shoulder_outer_A": 0.85
+    }
+  },
+  "grids_air_A": [
+    0.005,
+    0.0025
+  ],
+  "scale_canaries": [
+    0.92,
+    1.08
+  ],
+  "scale_contrast_atol": 1.1368683772161603e-13,
+  "scale_area_atol_mA": 1.1368683772161603e-10,
+  "RVs": [
+    "no_gravity",
+    "plus_gravity"
+  ],
+  "broadening_variants": [
+    {
+      "name": "nominal"
+    },
+    {
+      "name": "vmac_3p3",
+      "vmac_km_s": 3.3
+    },
+    {
+      "name": "vmac_4p3",
+      "vmac_km_s": 4.3
+    },
+    {
+      "name": "vsini_1p3",
+      "vsini_km_s": 1.3
+    },
+    {
+      "name": "vsini_2p3",
+      "vsini_km_s": 2.3
+    },
+    {
+      "name": "R_400k",
+      "R": 400000.0
+    },
+    {
+      "name": "R_600k",
+      "R": 600000.0
+    }
+  ],
+  "observation_legs": [
+    "kitt_shipped",
+    "iag_native",
+    "iag_pinned_gaussian"
+  ],
+  "plot_rv": "plus_gravity",
+  "plot_shoulder": "inner",
+  "scope": "O777 observational shape milestone: native-grid core/symmetric-shoulder contrast and finite relative area, shared-grid residuals with2numerical sampling steps, 2fixed shoulder schemes, all6source models/2RV controls/3atlas views and seven fixed one-at-a-time broadening variants. No fit, optimal selection, adopted normalization or independent noise/physical error bound. Alternative shoulders retain neighboring-line contamination. No new RT/EOS/provider, abundance/default/product/production/merge/publication admission.",
+  "milestone_acceptance": [
+    "Complete all declared cases and retain every valid/refused diagnostic without moving windows",
+    "Source/coordinate/nominal-broadening replay and multiplicative-scale canaries pass",
+    "Quantify shape discrepancies against both atlases and declared broadening/shoulder/sampling sensitivities",
+    "Publish a single evidence-backed O777 assessment, explicit scientific holds and concrete next physical work; update both tickets and draft PR"
+  ]
+}

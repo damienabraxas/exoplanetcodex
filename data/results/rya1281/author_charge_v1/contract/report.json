@@ -1,0 +1,49 @@
+{
+  "schema": "codex.bride_charge_contract/1",
+  "scientific_admission": "HOLD",
+  "code_commit": "19c3276390a619a175df21d0a9c62b088559d936",
+  "generator": {
+    "name": "audit_bride_charge_contract.py",
+    "bytes": 4780,
+    "sha256": "f24352c1df03928ba6a45b0c0f714a0d36beecf2d1d5f006f1fd44ecb5b19a17"
+  },
+  "adapter": {
+    "name": "bride_charge_contract.py",
+    "bytes": 5734,
+    "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "author_acquisition": {
+    "name": "receipt.json",
+    "bytes": 2847,
+    "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+  },
+  "entries": 240,
+  "candidate": "raw_CH0 ~= q_MN_term * g_OII/g_OI_J * exp[-(E_OII-E_OI_J)/kT]",
+  "candidate_ratio_range": [
+    0.9961007901702866,
+    1.0047739387645358
+  ],
+  "candidate_max_absolute_relative_difference": 0.004773938764535801,
+  "raw_over_published_ion_pair_range": [
+    0.00031744186046511627,
+    20.833333333333332
+  ],
+  "conclusion": "Strong numerical identification of an encoded reverse/Boltzmann relationship, not exact producer identity. No coefficient changes or rate adoption.",
+  "source": "https://github.com/barklem/public-data/tree/cd2f54ed46687659017b343763e95478ed93653e/inelastic-O%2BH",
+  "assumptions": "Manual LS/J term mapping explicit in TERM_MAP; source tables rounded. No best-fit factor, energy offset or abundance fit.",
+  "author_input_receipt_snapshot": {
+    "name": "author_input_receipt.json",
+    "bytes": 2847,
+    "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+  },
+  "comparison": {
+    "name": "coefficient_comparison.csv",
+    "bytes": 30802,
+    "sha256": "dc8cb86bf3a3b0595e5029d0d5bf4f0f0a4364dda10b7c95a8b76c2258c2b2cc"
+  }
+}

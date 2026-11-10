@@ -29,7 +29,9 @@ import pytest
 
 from pipeline.multi_atom import (CM1_TO_EV, read_multi_atom, levels_touched, restrict)
 
-ATOM = Path.home() / "Documents/Exoplanet Codex/grids/nlte/gerber_ts/atom.fe607a"
+from config.constants import codex_path
+
+ATOM = codex_path("grids.gerber_ts") / "atom.fe607a"
 pytestmark = pytest.mark.skipif(not ATOM.exists(),
                                 reason="atom.fe607a is a vendor deck, not in the repo")
 

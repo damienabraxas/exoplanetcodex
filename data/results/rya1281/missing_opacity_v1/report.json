@@ -1,0 +1,313 @@
+{
+  "schema": "codex.bride_missing_opacity/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_missing_opacity.py",
+    "bytes": 8768,
+    "sha256": "a6a67c16c2150a55de052ca01dd71339978652db91f9eaa60d0ca303028e499d"
+  },
+  "plan": {
+    "name": "rya1281_missing_opacity.json",
+    "bytes": 842,
+    "sha256": "656cf39e19afa2b3123937a79431b067933d26f55067bb81a1bfd3b42c980695"
+  },
+  "molecular_parser": {
+    "name": "molecular_canonical.py",
+    "bytes": 6001,
+    "sha256": "76ae3c821fe129cfbdc8ed2d14468246c0c9aa151cb8468a583c881acb8ffc6a"
+  },
+  "manifest": {
+    "name": "MOLECULAR_MANIFEST.json",
+    "bytes": 16736,
+    "sha256": "ee21a31a5dfd7f8060ec29023931caa03ece0c2939a6954849158e33eb944b3e"
+  },
+  "wrapper": {
+    "name": "turbospectrum.py",
+    "bytes": 23327,
+    "sha256": "053bd135db7b04265787a4b0056bc7f1d14498b44cfe95cc8c369a2d16f62daa"
+  },
+  "air_evidence": {
+    "name": "babsma.f",
+    "bytes": 42949,
+    "sha256": "dc7014789733f42f116aad13ecb65fcf96715074f31dfd201e0b331a38c0a8aa"
+  },
+  "native_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "scope": "Existing canonical molecular parser/manifest and exact installed/vendor equality. Consumer-coordinate geometry at both fixed RVs only, not wavelength-only transition identification or molecular strength. Primary source frame/probability/normalization metadata stay unresolved unless established. Rank all remaining atomic rows from both frozen source screens, not a new transfer. No opacity installed, EOS change, spectral fit, abundance/adoption/production/merge/publication.",
+  "frame": "Stored molecule coordinates interpreted as AIR A by TS consumer; native bsyn AIR documented in babsma/hydropac. This does not promote unknown primary-release frame metadata.",
+  "files": [
+    {
+      "molecule": "CH",
+      "filename": "12CH_750-800.bsyn",
+      "source": {
+        "name": "12CH_750-800.bsyn",
+        "bytes": 85935,
+        "sha256": "83d050fc4c8eda6786b6e3c9d6898142c1235a9145cc916293d841dcbeef9274"
+      },
+      "installed": {
+        "name": "12CH_750-800.bsyn",
+        "bytes": 85935,
+        "sha256": "83d050fc4c8eda6786b6e3c9d6898142c1235a9145cc916293d841dcbeef9274"
+      },
+      "declared_rows": 629,
+      "parsed_rows": 629,
+      "region_rows": 15,
+      "label": "'CH PGopher'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "CH",
+      "filename": "13CH_750-800.bsyn",
+      "source": {
+        "name": "13CH_750-800.bsyn",
+        "bytes": 87273,
+        "sha256": "456bf12a0b289f7c3b0b87edebbe0ba84f7a1650fb1e0615db0a19f4bbd864bb"
+      },
+      "installed": {
+        "name": "13CH_750-800.bsyn",
+        "bytes": 87273,
+        "sha256": "456bf12a0b289f7c3b0b87edebbe0ba84f7a1650fb1e0615db0a19f4bbd864bb"
+      },
+      "declared_rows": 614,
+      "parsed_rows": 614,
+      "region_rows": 11,
+      "label": "'CH PGopher'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "CN",
+      "filename": "12C14N_750-800.bsyn",
+      "source": {
+        "name": "12C14N_750-800.bsyn",
+        "bytes": 625163,
+        "sha256": "825b1588d57eb6587bff9c84b2ba98d3f41f34ab106285edd26c9aee72a5405c"
+      },
+      "installed": {
+        "name": "12C14N_750-800.bsyn",
+        "bytes": 625163,
+        "sha256": "825b1588d57eb6587bff9c84b2ba98d3f41f34ab106285edd26c9aee72a5405c"
+      },
+      "declared_rows": 5628,
+      "parsed_rows": 5628,
+      "region_rows": 205,
+      "label": "'Sneden web'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "CN",
+      "filename": "13C14N_750-800.bsyn",
+      "source": {
+        "name": "13C14N_750-800.bsyn",
+        "bytes": 465090,
+        "sha256": "47f19032012fd73db1d57709fd44a248742cc5a757783bcb37ce643f58ea0f81"
+      },
+      "installed": {
+        "name": "13C14N_750-800.bsyn",
+        "bytes": 465090,
+        "sha256": "47f19032012fd73db1d57709fd44a248742cc5a757783bcb37ce643f58ea0f81"
+      },
+      "declared_rows": 4185,
+      "parsed_rows": 4185,
+      "region_rows": 149,
+      "label": "'Sneden web'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "CN",
+      "filename": "12C15N_750-800.bsyn",
+      "source": {
+        "name": "12C15N_750-800.bsyn",
+        "bytes": 43008,
+        "sha256": "74c6f175c358221577686143175a9b05c81244d01b454c74c4d571a67f804ffe"
+      },
+      "installed": {
+        "name": "12C15N_750-800.bsyn",
+        "bytes": 43008,
+        "sha256": "74c6f175c358221577686143175a9b05c81244d01b454c74c4d571a67f804ffe"
+      },
+      "declared_rows": 387,
+      "parsed_rows": 387,
+      "region_rows": 1,
+      "label": "'Sneden web'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "C2",
+      "filename": "12C12C_750-800.bsyn",
+      "source": {
+        "name": "12C12C_750-800.bsyn",
+        "bytes": 420219,
+        "sha256": "926cb1f6fabdbebb98858a3d071125881dacfcb74daa13de32eedec5d32beb50"
+      },
+      "installed": {
+        "name": "12C12C_750-800.bsyn",
+        "bytes": 420219,
+        "sha256": "926cb1f6fabdbebb98858a3d071125881dacfcb74daa13de32eedec5d32beb50"
+      },
+      "declared_rows": 3854,
+      "parsed_rows": 3854,
+      "region_rows": 85,
+      "label": "'Sneden web'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "C2",
+      "filename": "13C13C_750-800.bsyn",
+      "source": {
+        "name": "13C13C_750-800.bsyn",
+        "bytes": 106808,
+        "sha256": "01c342fc168df5a0a2b451697fc816aedf5ad802fedef2a697c890023d841252"
+      },
+      "installed": {
+        "name": "13C13C_750-800.bsyn",
+        "bytes": 106808,
+        "sha256": "01c342fc168df5a0a2b451697fc816aedf5ad802fedef2a697c890023d841252"
+      },
+      "declared_rows": 1057,
+      "parsed_rows": 1057,
+      "region_rows": 64,
+      "label": "'Sneden web'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "NH",
+      "filename": "14NH_750-800.bsyn",
+      "source": {
+        "name": "14NH_750-800.bsyn",
+        "bytes": 8327,
+        "sha256": "e45eb8e63d0ce208b8669ba87af006452524ff76428ae2e1bb03e7a958dd9a7c"
+      },
+      "installed": {
+        "name": "14NH_750-800.bsyn",
+        "bytes": 8327,
+        "sha256": "e45eb8e63d0ce208b8669ba87af006452524ff76428ae2e1bb03e7a958dd9a7c"
+      },
+      "declared_rows": 62,
+      "parsed_rows": 62,
+      "region_rows": 0,
+      "label": "'NH PGopher'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    },
+    {
+      "molecule": "OH",
+      "filename": "16OH_750-800.bsyn",
+      "source": {
+        "name": "16OH_750-800.bsyn",
+        "bytes": 424270,
+        "sha256": "f15fb3a3f7b1fdbd2bae72262185b1e665b8f96754b406ea1ecf5781249d7bbf"
+      },
+      "installed": {
+        "name": "16OH_750-800.bsyn",
+        "bytes": 424270,
+        "sha256": "f15fb3a3f7b1fdbd2bae72262185b1e665b8f96754b406ea1ecf5781249d7bbf"
+      },
+      "declared_rows": 3088,
+      "parsed_rows": 3088,
+      "region_rows": 121,
+      "label": "'OH PGopher'",
+      "missing_provenance": [
+        "database",
+        "release",
+        "retrieved_at",
+        "license",
+        "partition_function_source",
+        "dissociation_energy_source",
+        "component_convention",
+        "isotopologue_convention"
+      ]
+    }
+  ],
+  "atomic_intake": {
+    "name": "candidate_intake.json",
+    "bytes": 520433,
+    "sha256": "8bb911697b9bad2f8dce0faeb3a5275722e14b26284c229a3b3bb64509dbcf2c"
+  },
+  "atomic_screen": {
+    "name": "report.json",
+    "bytes": 217880,
+    "sha256": "471f5eb19fee9e02e5d56a1ffb6db542778cacbd3dcf625895b32e17f32fcd97"
+  },
+  "atomic_ranks": {
+    "name": "line_ranks.csv",
+    "bytes": 387697,
+    "sha256": "43d31b0f7417238f80657db9fe80b0fbf6ab67a99fab0a142a0b5888b128e931"
+  },
+  "current_main": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+  "molecule_region_rows": 651,
+  "molecule_intake_statuses": {
+    "BLOCKED_PROVENANCE": 651
+  },
+  "atomic_rank_rows": 400,
+  "molecular_strength_admission": "HOLD: primary transition identity/probability, component/isotope weights, partition convention, equilibrium depletion/EOS and widths not established by source-row counts"
+}

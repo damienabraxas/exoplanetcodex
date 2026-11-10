@@ -1,0 +1,144 @@
+{
+  "schema": "codex.bride_ts_point_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_ts_points.py",
+    "bytes": 4807,
+    "sha256": "e376a36da343eb4cffed8f7789eebc2669d7c6da253668d6c99e77cf475783e0"
+  },
+  "source_run": {
+    "name": "report.json",
+    "bytes": 19997,
+    "sha256": "e7be946be2eb5d5fb651c4be8a7b6ce5fc683ff86f9ba25aa3135008ffccefd3"
+  },
+  "source_build": {
+    "name": "manifest.json",
+    "bytes": 4034,
+    "sha256": "d20d1ef4363a0d54f2c66bdd96e1cc35dc24d28e4eee6d4b247470b1364e9c83"
+  },
+  "original_native_packet": {
+    "name": "manifest.json",
+    "bytes": 1449,
+    "sha256": "12e98f246a5def0835302e3b102a52b200463feeedb21d7a02f7d20900537d35"
+  },
+  "native_packet_array_identity": true,
+  "method": "Exact native array equality; selected diagnostic wavelength closest to277nm, all56 rows; adjacent solar input responses, not cross-section/abundance errors. Producer EOS density remains separate from local input density.",
+  "cases": [
+    {
+      "name": "native_identity",
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": true,
+      "max_abs_T_quantization_K": 0.0004000000008090865,
+      "max_fractional_Pe_quantization": 8.06256552632334e-08,
+      "max_fractional_producer_local_rho_difference": 0.0006660030309334486,
+      "elapsed_seconds": 7.308655832894146,
+      "selected_wavelength_vac_nm": 276.9817797293469,
+      "FeI_per_neutral_m2_depth_1": 4.3645544240219355e-25,
+      "fractional_change_previous_10K_depth_1": null,
+      "FeI_per_neutral_m2_depth_29": 3.1898562996626885e-24,
+      "fractional_change_previous_10K_depth_29": null
+    },
+    {
+      "name": "fine_T5752",
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.00030000000151630957,
+      "max_fractional_Pe_quantization": 5.753633081084786e-08,
+      "max_fractional_producer_local_rho_difference": 0.001882184014941335,
+      "elapsed_seconds": 4.670860250014812,
+      "selected_wavelength_vac_nm": 276.9817797293469,
+      "FeI_per_neutral_m2_depth_1": 4.378030402868387e-25,
+      "fractional_change_previous_10K_depth_1": null,
+      "FeI_per_neutral_m2_depth_29": 3.201151993829218e-24,
+      "fractional_change_previous_10K_depth_29": null
+    },
+    {
+      "name": "fine_T5762",
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0004000000008090865,
+      "max_fractional_Pe_quantization": 7.072259911033996e-08,
+      "max_fractional_producer_local_rho_difference": 0.003897865904924691,
+      "elapsed_seconds": 5.073417000006884,
+      "selected_wavelength_vac_nm": 276.9817797293469,
+      "FeI_per_neutral_m2_depth_1": 4.466815398284869e-25,
+      "fractional_change_previous_10K_depth_1": 0.020279666253188333,
+      "FeI_per_neutral_m2_depth_29": 3.2502297060494323e-24,
+      "fractional_change_previous_10K_depth_29": 0.015331265842677855
+    },
+    {
+      "name": "fine_T5772",
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0004000000026280759,
+      "max_fractional_Pe_quantization": 6.115614947788117e-08,
+      "max_fractional_producer_local_rho_difference": 0.0058124257432417,
+      "elapsed_seconds": 4.868677666876465,
+      "selected_wavelength_vac_nm": 276.9817797293469,
+      "FeI_per_neutral_m2_depth_1": 4.557103439286413e-25,
+      "fractional_change_previous_10K_depth_1": 0.02021306746551721,
+      "FeI_per_neutral_m2_depth_29": 3.299906611927988e-24,
+      "fractional_change_previous_10K_depth_29": 0.015284121545654283
+    },
+    {
+      "name": "fine_T5782",
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0004000000008090865,
+      "max_fractional_Pe_quantization": 4.9755356501535175e-08,
+      "max_fractional_producer_local_rho_difference": 0.007517672144850662,
+      "elapsed_seconds": 4.820057000033557,
+      "selected_wavelength_vac_nm": 276.9817797293469,
+      "FeI_per_neutral_m2_depth_1": 4.649003101294791e-25,
+      "fractional_change_previous_10K_depth_1": 0.02016624446487625,
+      "FeI_per_neutral_m2_depth_29": 3.3501739333278145e-24,
+      "fractional_change_previous_10K_depth_29": 0.01523295271997327
+    },
+    {
+      "name": "fine_T5792",
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0005000000001018634,
+      "max_fractional_Pe_quantization": 7.321440476104613e-08,
+      "max_fractional_producer_local_rho_difference": 0.009011394326708722,
+      "elapsed_seconds": 4.823667082935572,
+      "selected_wavelength_vac_nm": 276.9817797293469,
+      "FeI_per_neutral_m2_depth_1": 4.742463878175642e-25,
+      "fractional_change_previous_10K_depth_1": 0.020103401706662805,
+      "FeI_per_neutral_m2_depth_29": 3.4010612622602044e-24,
+      "fractional_change_previous_10K_depth_29": 0.015189458799782951
+    }
+  ],
+  "summary.csv": {
+    "name": "summary.csv",
+    "bytes": 1586,
+    "sha256": "25e4494dea1e5d4c7671ecdc4e55484d6dfdccabab9b2e05758d7d13eb5254fc"
+  },
+  "selected_points.csv": {
+    "name": "selected_points.csv",
+    "bytes": 64146,
+    "sha256": "e6b9e8916d4171971517ce153d92b3ed00c9680a78b5ca38dc87c933c1e11e86"
+  },
+  "run_report.json": {
+    "name": "run_report.json",
+    "bytes": 19997,
+    "sha256": "e7be946be2eb5d5fb651c4be8a7b6ce5fc683ff86f9ba25aa3135008ffccefd3"
+  },
+  "build_manifest.json": {
+    "name": "build_manifest.json",
+    "bytes": 4034,
+    "sha256": "d20d1ef4363a0d54f2c66bdd96e1cc35dc24d28e4eee6d4b247470b1364e9c83"
+  }
+}

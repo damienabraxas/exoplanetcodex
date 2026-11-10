@@ -1,0 +1,58 @@
+{
+  "schema": "codex.bride_co_source/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_co_source.py",
+    "bytes": 3814,
+    "sha256": "979edeab337e32f9c2afecc7a5f1a3cba872f84d95c535c735aed2bf120ea7ed"
+  },
+  "plan": {
+    "name": "rya1281_co_source.json",
+    "bytes": 502,
+    "sha256": "5f2b7c408b9d0c02df79046b8bf825f35d41fcb2571813f7e14bcfb18296941c"
+  },
+  "manifest": {
+    "name": "MOLECULAR_MANIFEST.json",
+    "bytes": 16736,
+    "sha256": "ee21a31a5dfd7f8060ec29023931caa03ece0c2939a6954849158e33eb944b3e"
+  },
+  "source": {
+    "name": "CO_IR_Li2015.dat",
+    "bytes": 14229604,
+    "sha256": "7fd53a540693be2c5b9b63148095aab8b63d0f31e8a202246c8af26618aab56a"
+  },
+  "installed": {
+    "name": "CO_IR_Li2015.dat",
+    "bytes": 14229604,
+    "sha256": "7fd53a540693be2c5b9b63148095aab8b63d0f31e8a202246c8af26618aab56a"
+  },
+  "conversion": {
+    "converter": "scripts/molecular_linelist_convert.py (RYA-503)",
+    "source_format": "ExoMol .states/.trans",
+    "source_dataset": "ExoMol CO Li2015",
+    "source_url": "https://www.exomol.com/db/CO/12C-16O/Li2015/",
+    "version": "20170101",
+    "doi": "10.1088/0067-0049/216/1/15",
+    "citation": "Li, Gordon, Rothman et al. 2015, ApJS 216, 15 (CO rovibrational line lists), ExoMol-hosted Li2015",
+    "recipe": "vacuum \u03bb = 1e8/(E_u\u2212E_l); \u03c7_low = E_l/8065.543937 eV; loggf = log10(1.49919e-16\u00b7\u03bb\u00b2\u00b7g_u\u00b7A_ul); filter \u03bd \u2265 1000 cm\u207b\u00b9 (drops 7713 pure-rotational lines below 1000 cm\u207b\u00b9 / above 10 \u00b5m)",
+    "roundtrip": "PASS \u2014 reproduces the vendored CO_IR_Li2015.dat: 117783/117783 lines, 0 only-in-either; max dev \u03bb 8.7e-3 \u00c5, \u03c7 5.1e-6 eV, loggf 5.0e-4 dex, A exact at the file's 3-sig-fig precision. Closes the RYA-360 CO-script reproducibility gap."
+  },
+  "wavelength_kernel": {
+    "name": "wavelength_util.py",
+    "bytes": 2583,
+    "sha256": "456110c2eb209db9ea7f339a567d854ec1426c6a8df8b98d2dd305a2a14951ee"
+  },
+  "canonical_parser": {
+    "name": "molecular_canonical.py",
+    "bytes": 6001,
+    "sha256": "76ae3c821fe129cfbdc8ed2d14468246c0c9aa151cb8468a583c881acb8ffc6a"
+  },
+  "parsed_rows": 117783,
+  "raw_vacuum_window_count": 192,
+  "converted_air_window_count": 191,
+  "raw_air_membership_intersection": 171,
+  "raw_air_membership_symmetric_difference": 41,
+  "automatic_bsyn_glob_selects_file": false,
+  "scope": "Supplement the five-family automatic-bsyn inventory with the held converted CO dat source. Verify native/vendor equality and declared row count, preserve canonical IDs/status, use manifest-documented vacuum coordinate and canonical vacuum-to-air conversion explicitly. Source-row geometry only, no line strength or claim about dedicated production CO routing. No RT/EOS/opacity/adoption/production change.",
+  "qualification": "Canonical source status retained; consumer automatic routing and separate dedicated CO production paths must not be conflated"
+}

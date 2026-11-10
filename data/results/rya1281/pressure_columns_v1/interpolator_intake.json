@@ -1,0 +1,104 @@
+{
+  "schema": "codex.bride_marcs_interpolator_intake/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "intake_bride_marcs_interpolator.py",
+    "bytes": 2533,
+    "sha256": "99cecd8c479e6b5e08dde6d9e0dd772ce6353ccd672c30bd024bf00a22710709"
+  },
+  "source_url": "https://marcs.astro.uu.se/documents/auxiliary/interpol_marcs.tar.gz",
+  "archive": {
+    "name": "interpol_marcs.tar.gz",
+    "bytes": 580881,
+    "sha256": "8a3d0fbd15a378830ece79c8cdc3c8ee60d74f2fd385f03b1bb3fbecb762f189"
+  },
+  "files": [
+    {
+      "relative_path": "interpol_marcs/.smhist",
+      "name": ".smhist",
+      "bytes": 1295,
+      "sha256": "c1ac2c1fe48657bfef0d627f36b727ce39396c927476599a4fba8a1ed90bdca6"
+    },
+    {
+      "relative_path": "interpol_marcs/interpol.com",
+      "name": "interpol.com",
+      "bytes": 6411,
+      "sha256": "fe2682a54c8c19c311892cd35819bbaa7f0bb3cc0d0ead1fdc51548b8cec3017"
+    },
+    {
+      "relative_path": "interpol_marcs/interpol_modeles.f",
+      "name": "interpol_modeles.f",
+      "bytes": 48833,
+      "sha256": "9349bcfe153b0d905b498656daf5ba056c9a6f0feee803eef888762550c9d46c"
+    },
+    {
+      "relative_path": "interpol_marcs/interpol_modeles_manual.pdf",
+      "name": "interpol_modeles_manual.pdf",
+      "bytes": 567833,
+      "sha256": "e6c915b5a146a6c781f8bbbfdc0fb4cb8149418d1f781a5c75018c2e36680d72"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p5500:g+4.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p5500:g+4.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "b7376527efae42a8c71ba26e2d534df2021bd0f443f304ccd3631fe124139537"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p5500:g+4.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p5500:g+4.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "576b93d18987a73ac3a5227adaea3d745afe7d1f8fe1f896225ecb6d932069d7"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p5500:g+5.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p5500:g+5.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "024bfb29c4ef5b9671af8c7a0238a3812006b065b8fb32294efc25a1291244d7"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p5500:g+5.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p5500:g+5.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "6ecce1305f1fcf60173032e2e73e7212a690318b0243bebdce15c8c3833f8b65"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p5750:g+4.5:m0.0:t01:ap:z-0.25:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p5750:g+4.5:m0.0:t01:ap:z-0.25:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "e52f25641c327ee4298582404c7c3a266c4bdee2e8a00b1c63ad9bb581c49ae7"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p6000:g+4.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p6000:g+4.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "56963095f2f9a4c9a78ac48f0343877ae9c536827a9ac6fc8a06a142ddb8905b"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p6000:g+4.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p6000:g+4.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "cd775aa4bc6d85b7f1bdcf4a9439a10ecfe5bee6f91c2e8d5fe5eef98fbe90a1"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p6000:g+5.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p6000:g+5.0:m0.0:t01:ap:z-0.50:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "863046fe4cd18042c22b99b261a1ead46523171828cf1b46d4595da2816d9bf1"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/p6000:g+5.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "name": "p6000:g+5.0:m0.0:t01:st:z+0.00:a+0.00:c+0.00:n+0.00:o+0.00:r+0.00:s+0.00.mod",
+      "bytes": 23887,
+      "sha256": "ff1335b1cc47f1c98b080d742cadfba5466b6c556503a30451232809bac7d84f"
+    },
+    {
+      "relative_path": "interpol_marcs/Testwebformat/sun.mod",
+      "name": "sun.mod",
+      "bytes": 23818,
+      "sha256": "7dce1771ec179ced4cdb2cc1f80f0e0972f2e55c0f43c0e33d5d2f0d622e6ec6"
+    }
+  ],
+  "execution": false,
+  "redistribution_license": "UNVERIFIED; source kept externally; no vendored upstream code or manual",
+  "purpose": "Official source/manual inspection and prospective independent interpolation comparison. Not the native atmosphere-generation source, not physical admission. Upstream shell/control scripts are data only and were not executed."
+}

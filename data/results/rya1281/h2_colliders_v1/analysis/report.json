@@ -1,0 +1,217 @@
+{
+  "schema": "codex.bride_h2_collider_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_h2_colliders.py",
+    "bytes": 8366,
+    "sha256": "82f0da02449e2225f93a6a1f79e99214de7536105f313123e9b47f2e139f3c8c"
+  },
+  "controls": [
+    {
+      "name": "report.json",
+      "bytes": 6736,
+      "sha256": "7326dbbfb10fae299885e702de7561e7a36ace7fa5ee19120891839063aaf282"
+    },
+    {
+      "name": "report.json",
+      "bytes": 6742,
+      "sha256": "04d98c1b244e61486580d9bc5eea205f398736ee318dd44eb94817a4c8160572"
+    }
+  ],
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "policy": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "cases": [
+    {
+      "mode": "H2_off",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.13049278994644
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.41461284371898
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.934804167753434
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10573334825999,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.39383148949666,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.92666801259937,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10773712203364,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38636108748689,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.935818350203775,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "H2_molecular",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.13046189133226
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.41455491446147
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.93471074141799
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10570286490861,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.3937735469916,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.92657461712983,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.1077068590677,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38630349705593,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.935725702910034,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "width_decomposition": {
+    "H2_added_relative_native_HHe_range": [
+      1.505688261645072e-05,
+      0.0006433711045914634
+    ],
+    "HI_depletion_relative_native_HHe_range": [
+      -0.0015138129120173325,
+      -3.538684806904978e-05
+    ],
+    "net_relative_native_HHe_range": [
+      -0.0008704418074258692,
+      -2.0329965452599066e-05
+    ]
+  },
+  "oxygen_aperture_max_flux_delta": [
+    5.627811439090635e-08,
+    9.892201868755279e-08,
+    1.4280752080875203e-07
+  ],
+  "area_changes_vs_H2_off_mA": {
+    "H2_off": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "H2_molecular": [
+      -3.08986141845935e-05,
+      -5.7929257508249066e-05,
+      -9.342633544662249e-05
+    ]
+  },
+  "max_profile_change_vs_H2_off": {
+    "H2_off": 0.0,
+    "H2_molecular": 7.786463772130325e-05
+  },
+  "difference_figure": {
+    "name": "h2_collider_difference.png",
+    "bytes": 111260,
+    "sha256": "1aedfe961cbd8af0cbb63f1f4b68458196e6a8e0ebd550f479f00047117d4a6a"
+  },
+  "profiles": {
+    "name": "profiles.csv",
+    "bytes": 600317,
+    "sha256": "3d1132c7b8a4a0f05c03530668232770987535da1dc01fde73884b297fd23f69"
+  },
+  "figure": {
+    "name": "h2_collider_control.png",
+    "bytes": 195647,
+    "sha256": "cd72dd994367493b0dad9228845933c35ebc4637df7ccf31b3b7e9150e69c7f2"
+  },
+  "caveats": "FeI pressure collider intervention only, depleted HI plus H2, fixed Cowley Stark/O populations/native continuum and O collisions. No full EOS, molecular opacity or abundance admission. Both RV variants retained; no optimization."
+}

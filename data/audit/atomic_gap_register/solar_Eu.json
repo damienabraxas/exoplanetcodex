@@ -1,0 +1,28 @@
+{
+ "element": "Eu",
+ "n_rows": 219,
+ "held_reason": {
+  "UNGRADED_GF": 215,
+  "GRADED_NOT_LAB": 4
+ },
+ "flags": {
+  "UNRATED_GF": 219,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 63,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 142,
+  "3": 14,
+  "4": 63
+ },
+ "no_graded_route": [
+  "Eu I VIS",
+  "Eu I red-optical",
+  "Eu II NIR"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

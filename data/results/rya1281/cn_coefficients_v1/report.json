@@ -1,0 +1,393 @@
+{
+  "schema": "codex.bride_cn_coefficients/1",
+  "scientific_admission": "HOLD",
+  "scope": "Reporting-only native private build. Require byte-identical numeric spectra for original/reporting off,CN,all and original accepted spectra before coefficient interpretation. Compare source-equation populations, partition, stimulated emission and pre-Voigt amplitude on identical exported state, not an independent physical opacity/EOS benchmark. No Bride insertion, new abundance or source-primary admission.",
+  "generator": {
+    "name": "probe_bride_cn_coefficients.py",
+    "bytes": 12179,
+    "sha256": "42cea447a4e23b3bb113702f9957cef5920d021896eae132bc84fed34e2bb915"
+  },
+  "plan": {
+    "name": "rya1281_cn_coefficients.json",
+    "bytes": 900,
+    "sha256": "3640cf77ee20e6355071355d1f6edd37a45ade2796f2514c4bf04f1e117587fe"
+  },
+  "native_run": {
+    "name": "report.json",
+    "bytes": 21601,
+    "sha256": "f8ba99b48b9fcf3e02f79ed9fe4ba26af0e24fe653eacd2da32c6f47206308a1"
+  },
+  "native_build": {
+    "name": "report.json",
+    "bytes": 26258,
+    "sha256": "118298216faa660b711c5f8e0e9fc2615f65c201b32a600ca3ac8267ae236a9c"
+  },
+  "interface": {
+    "name": "report.json",
+    "bytes": 8609,
+    "sha256": "2396594c47cabd9802688913ac12d64b2f5512f1e58382aa3486225bfc14fcae"
+  },
+  "source_pin": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "selection": [
+    {
+      "filename": "12C14N_750-800.bsyn",
+      "C": 12,
+      "N": 14,
+      "source_line": 3043,
+      "wave": 7771.957,
+      "raw": "  7771.957   2.27800 -3.648    0.000   23.5  1.00E+00 'X' 'X'   0.0    0.0  'X' 'X'   0.0    0.0  '1309Qd0235'"
+    },
+    {
+      "filename": "13C14N_750-800.bsyn",
+      "C": 13,
+      "N": 14,
+      "source_line": 2544,
+      "wave": 7771.98,
+      "raw": "  7771.980   2.08800 -10.857    0.000   29.5  1.00E+00 'X' 'X'   0.0    0.0  'X' 'X'   0.0    0.0  '0108Rb0295'"
+    },
+    {
+      "filename": "12C15N_750-800.bsyn",
+      "C": 12,
+      "N": 15,
+      "source_line": 102,
+      "wave": 7772.751,
+      "raw": "  7772.751   1.01100 -3.363    0.000   57.5  1.00E+00 'X' 'X'   0.0    0.0  'X' 'X'   0.0    0.0  '0401Pc0575'"
+    }
+  ],
+  "original_source": {
+    "name": "bsyn.f",
+    "bytes": 60388,
+    "sha256": "9a0b404a508e3c1443dcda45e8e490c403a0ff02cfbdc8040cb7419db434155d"
+  },
+  "reporting_source": {
+    "name": "bsyn.f",
+    "bytes": 61294,
+    "sha256": "a9145c769a1ff933d61533ee131d271b0ad12761e28e7ca65f0be6b285d5a78d"
+  },
+  "reporting_block": {
+    "name": "reporting_block.txt",
+    "bytes": 906,
+    "sha256": "f6c83d05fc6b04869e45cb1c29eb0cb67c56201ed4e15403c6431c835a89ea51"
+  },
+  "compiler_command": [
+    "/opt/homebrew/bin/gfortran",
+    "-fconvert=big-endian",
+    "-O3",
+    "-fno-automatic",
+    "-fbacktrace",
+    "-std=legacy",
+    "-mcmodel=small",
+    "-fallow-argument-mismatch",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1281-cn-coefficients-v2/source/bsyn_reporting",
+    "cubint_module.f90",
+    "strings_module.f90",
+    "anstee.f",
+    "bpl.f",
+    "bsyn.f",
+    "bsynb.f",
+    "bsynbplatt.f",
+    "clock-gf.f",
+    "depth.f",
+    "gausi.f",
+    "getinfospecies.f",
+    "getlele.f",
+    "hydropac.f",
+    "hbop.f",
+    "hlinprof.f",
+    "inp3.f",
+    "input.f",
+    "Iplus_calc.f",
+    "lenstr.f",
+    "eqmol_pe_lu.f",
+    "die_pe_lu.f",
+    "funcv.f",
+    "ludcmp.f",
+    "lubksb.f",
+    "makeabund.f",
+    "getisotopmass.f",
+    "molfys.f",
+    "takemolec.f",
+    "readmo.f",
+    "readfilt.f",
+    "read_segments.f",
+    "read_modelatom.f",
+    "read_departure.f",
+    "read_nlteinfofile.f",
+    "tint.f",
+    "lint.f",
+    "traneq.f",
+    "traneqplatt.f",
+    "tranw.f",
+    "newvoigt.f",
+    "molmat.f",
+    "tranfr.f",
+    "tranfrplatt.f",
+    "trrays.f",
+    "trqua2.f",
+    "transc.f",
+    "transcplatt.f",
+    "partf.f",
+    "molecpartf.f",
+    "partffordepth.f",
+    "h2opartf.f",
+    "h2opartf2001.f",
+    "partfamesh2o.f",
+    "partfBarberH2O.f",
+    "weightlimb.f"
+  ],
+  "compile_seconds": 7.396538749802858,
+  "program": {
+    "name": "bsyn_reporting",
+    "bytes": 383312,
+    "sha256": "1b55be5ac4558130ebd89409fd23c59543ab325c1599e6d65d2ee21195cdb494"
+  },
+  "cases": [
+    {
+      "case": "off",
+      "program": "original",
+      "seconds": 0.6392579171806574,
+      "spectrum_byte_identical": true,
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "113fdd6c801bd72ce299fd990e36c1991074649afb6739fe88b84329dfe1ef09"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 96732,
+        "sha256": "7f877dad3a8920b4dc1b709f0b99475df120e6832f0b308b3c99e47ae850a020"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 5456,
+        "sha256": "9324b67d03c0451a7e7dcfb68b4eed3afaac8a2bbb2943628fe6857df41a648f"
+      },
+      "state_rows": 0
+    },
+    {
+      "case": "off",
+      "program": "reporting",
+      "seconds": 0.7848456250503659,
+      "spectrum_byte_identical": true,
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "113fdd6c801bd72ce299fd990e36c1991074649afb6739fe88b84329dfe1ef09"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 96734,
+        "sha256": "9488a16f4245c14b2e7968ffa88a8e17e617e405a31cb7aa363bf488bd954552"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 5457,
+        "sha256": "f3f6b6ba2b7bc4126e283dde61ed636f43a4e66d72573a2ef73da50833a658e1"
+      },
+      "state_rows": 0
+    },
+    {
+      "case": "CN",
+      "program": "original",
+      "seconds": 0.6411224156618118,
+      "spectrum_byte_identical": true,
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "9f0cf5488a919ca3fa5082642f372f9d0e6f1acad877faaee2509db9e96944ce"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 99130,
+        "sha256": "f5992b9194ce36b7a37d2b4f47f71c5f2d331d88d2f739f08012ea969b241cd9"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 5764,
+        "sha256": "71a0e2f3f2a621e5f6f2c9c71cfc5e0281c58d12071021a2f2a59e007a7933a0"
+      },
+      "state_rows": 0
+    },
+    {
+      "case": "CN",
+      "program": "reporting",
+      "seconds": 0.6536923754028976,
+      "spectrum_byte_identical": true,
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "9f0cf5488a919ca3fa5082642f372f9d0e6f1acad877faaee2509db9e96944ce"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 240924,
+        "sha256": "a42c44d5affc4fc14f91d59db0bae826c9c38cb64443420435b20fd4318f0e06"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 5765,
+        "sha256": "b227bd7c6757d2aa1a696d4730599d77ac290d0fab03d4e33f9552e73214a652"
+      },
+      "state_rows": 168
+    },
+    {
+      "case": "all",
+      "program": "original",
+      "seconds": 0.6337759168818593,
+      "spectrum_byte_identical": true,
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "072ba40b6ddb00206de3e5a2f4d2468c5d674328485df8672c55af4b431130ba"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 103925,
+        "sha256": "044f1e9dbadfd1dd154c896813b5e7989507005e8dd4e97e0e5ee92048c34593"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 6376,
+        "sha256": "f7167121cf8da1488aec02072f9abeba7239d598a5712c4bf35ce20066d0cfbd"
+      },
+      "state_rows": 0
+    },
+    {
+      "case": "all",
+      "program": "reporting",
+      "seconds": 0.6271354169584811,
+      "spectrum_byte_identical": true,
+      "flux": {
+        "name": "native_flux.txt",
+        "bytes": 144036,
+        "sha256": "072ba40b6ddb00206de3e5a2f4d2468c5d674328485df8672c55af4b431130ba"
+      },
+      "stdout": {
+        "name": "stdout.txt",
+        "bytes": 245719,
+        "sha256": "e54fc88e0ef4c06c3ea5146f4056f78c45e9bb0cb46857e30a68834cf596aaab"
+      },
+      "input": {
+        "name": "input.txt",
+        "bytes": 6377,
+        "sha256": "8458b1725d67d7e16521d9a63e93096f5a150624f061da62cb3f8b83928f3bac"
+      },
+      "state_rows": 168
+    }
+  ],
+  "comparisons": {
+    "CN": {
+      "ntt_per_g": {
+        "max_relative_difference": 1.1674418476381732e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "ntot_per_g": {
+        "max_relative_difference": 1.1674418476381732e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "Q": {
+        "max_relative_difference": 0.0,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "lower_population_per_g": {
+        "max_relative_difference": 7.318652852639218e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "stim": {
+        "max_relative_difference": 5.895659360710681e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "gf": {
+        "max_relative_difference": 3.225381295379748e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "constant": {
+        "max_relative_difference": 5.583419482313445e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "calf": {
+        "max_relative_difference": 7.772977439479689e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "plez": {
+        "max_relative_difference": 7.936695620713863e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "pre_voigt_amplitude_over_standard": {
+        "max_relative_difference": 8.100199493377147e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      }
+    },
+    "all": {
+      "ntt_per_g": {
+        "max_relative_difference": 1.1674418476381732e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "ntot_per_g": {
+        "max_relative_difference": 1.1674418476381732e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "Q": {
+        "max_relative_difference": 0.0,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "lower_population_per_g": {
+        "max_relative_difference": 7.318652852639218e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "stim": {
+        "max_relative_difference": 5.895659360710681e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "gf": {
+        "max_relative_difference": 3.225381295379748e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "constant": {
+        "max_relative_difference": 5.583419482313445e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "calf": {
+        "max_relative_difference": 7.772977439479689e-08,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "plez": {
+        "max_relative_difference": 7.936695620713863e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      },
+      "pre_voigt_amplitude_over_standard": {
+        "max_relative_difference": 8.100199493377147e-07,
+        "prospective_relative_bound": 1.52587890625e-05,
+        "passed": true
+      }
+    }
+  },
+  "protected_input_checks": 139,
+  "all_equation_checks_pass": true,
+  "limitations": [
+    "Same-source equation comparison on exported state, not independent EOS or molecular-primary validation.",
+    "The pre-Voigt amplitude is normalized by standard opacity; no profile, spectral integration or abundance claim.",
+    "128float32eps is a prospective arithmetic screening bound, not a physical/numerical opacity error budget.",
+    "No new per-program peak-memory measurement; previous native repeats were about26MB, not a new measurement."
+  ]
+}

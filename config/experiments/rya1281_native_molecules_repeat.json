@@ -1,0 +1,6 @@
+{
+  "schema": "codex.bride_native_molecule_repeat_plan/1",
+  "cases": ["off", "all"],
+  "seconds_per_case": 180,
+  "scope": "Repeat both accepted nominal native spectra in fresh directories with identical inputs except result pathname; require byte-identical native numeric outputs. Measure actual native-program RSS using Darwin time -l, not retrospectively attribute it to all earlier cases or Python preparation. No changed physics, serialization or native tolerances."
+}

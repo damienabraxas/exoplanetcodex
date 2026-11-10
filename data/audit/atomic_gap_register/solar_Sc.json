@@ -1,0 +1,30 @@
+{
+ "element": "Sc",
+ "n_rows": 3524,
+ "held_reason": {
+  "UNGRADED_GF": 3323,
+  "GRADED_NOT_LAB": 201
+ },
+ "flags": {
+  "UNRATED_GF": 3524,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 287,
+  "GF_DISCREPANCY": 8,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 233,
+  "2": 8,
+  "3": 2894,
+  "4": 389
+ },
+ "no_graded_route": [
+  "Sc I NIR",
+  "Sc II K",
+  "Sc II NIR",
+  "Sc II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

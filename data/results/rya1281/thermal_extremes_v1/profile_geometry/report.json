@@ -1,0 +1,159 @@
+{
+  "schema": "codex.bride_profile_geometry/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_profile_geometry.py",
+    "bytes": 5903,
+    "sha256": "ca48072e12a50bafb2e3726e81dc7ef8934e83a68bc2492de4e4a85253409a7d"
+  },
+  "source_reports": [
+    {
+      "name": "report.json",
+      "bytes": 17568,
+      "sha256": "9acd336ac588050cc8e288d50d686990acfa5cb73af4bcbdf2603e95de65a3a4"
+    },
+    {
+      "name": "report.json",
+      "bytes": 8359,
+      "sha256": "6869fdfea2266c73014b549d48f1d57b979fb5f7ed3a1b31dcd1e80b17c129ed"
+    }
+  ],
+  "axis_order": [
+    "temperature",
+    "gravity",
+    "xi"
+  ],
+  "intervals": {
+    "temperature": [
+      5672,
+      5822
+    ],
+    "gravity": [
+      4.338,
+      4.538
+    ],
+    "xi": [
+      0.9,
+      1.1
+    ]
+  },
+  "area_geometry": {
+    "column_norms": [
+      17.179276740533194,
+      7.562469067726343,
+      1.2844929827156502
+    ],
+    "signed_cosines": [
+      [
+        1.0,
+        -0.9993863713443634,
+        0.9970842439872363
+      ],
+      [
+        -0.9993863713443634,
+        1.0000000000000002,
+        -0.9938001615750478
+      ],
+      [
+        0.9970842439872363,
+        -0.9938001615750478,
+        0.9999999999999999
+      ]
+    ],
+    "singular_values": [
+      1.7301779122131071,
+      0.08052468124536363,
+      0.00040963425782937854
+    ],
+    "smallest_to_largest_singular_ratio": 0.00023675845988890628
+  },
+  "pixel_count": 600,
+  "wavelength_step_air_A": 0.005,
+  "aperture_centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "aperture_half_width_A": 0.5,
+  "variants": [
+    {
+      "name": "canonical_broadened",
+      "geometry": {
+        "column_norms": [
+          0.4027359361725892,
+          0.21444141060195523,
+          0.029993600671757756
+        ],
+        "signed_cosines": [
+          [
+            1.0000000000000002,
+            -0.9881074837428813,
+            0.5861130650138666
+          ],
+          [
+            -0.9881074837428813,
+            1.0000000000000007,
+            -0.4789439710093377
+          ],
+          [
+            0.5861130650138666,
+            -0.4789439710093377,
+            1.0000000000000002
+          ]
+        ],
+        "singular_values": [
+          1.5476754291908472,
+          0.775172444290227,
+          0.061712620200754936
+        ],
+        "smallest_to_largest_singular_ratio": 0.039874394228135684
+      },
+      "nominal_array_identity": true
+    },
+    {
+      "name": "plus_gravitational_shift",
+      "geometry": {
+        "column_norms": [
+          0.4026823650096197,
+          0.21440024552936499,
+          0.029977949140539733
+        ],
+        "signed_cosines": [
+          [
+            1.0,
+            -0.9881146329468993,
+            0.5866305912538733
+          ],
+          [
+            -0.9881146329468993,
+            0.9999999999999984,
+            -0.47951612262518645
+          ],
+          [
+            0.5866305912538733,
+            -0.47951612262518645,
+            0.9999999999999993
+          ]
+        ],
+        "singular_values": [
+          1.5478852957656126,
+          0.774756832024576,
+          0.061668163454441385
+        ],
+        "smallest_to_largest_singular_ratio": 0.03984026699080385
+      },
+      "nominal_array_identity": true
+    }
+  ],
+  "interpretation": "Unit directions discard response amplitude and parameter units. Fixed-grid unweighted finite-response geometry, not a noise-weighted Jacobian, Fisher matrix, parameter covariance, inverse fit, rank threshold or measured identifiability. Broadening/continuum/atom/opacity uncertainties remain open; no favorable variant selected.",
+  "figure": {
+    "name": "profile_geometry.png",
+    "bytes": 286764,
+    "sha256": "7cb0837e41f39a37fbb8cf0ad5d03163759ae4381b2d517ccf93f9126cce5e13"
+  },
+  "directions": {
+    "name": "directions.csv",
+    "bytes": 717985,
+    "sha256": "4df3c3ff029b180d5103b3b3aa47cc975034e8a6c09e61e48d18016309c5a281"
+  }
+}

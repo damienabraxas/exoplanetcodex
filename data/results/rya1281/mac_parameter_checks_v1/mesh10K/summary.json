@@ -1,0 +1,95 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "bc8fb32311bd51d6e72628b182afe9a58a37f31b",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 8535,
+    "sha256": "ecca3ebde745ef25c0af6313dfc79f55cf98df940e65730e8e0eae3c2117fd03"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "plan": {
+    "name": "rya1281_mac_mesh_interpolation.json",
+    "bytes": 3025,
+    "sha256": "5b40d0c75b9b81661e4d40a26fbdd6475900f96808a8823868d7d4023abf7db6"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "holdout_mesh_5750",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2654,
+        "sha256": "1ff701a394df21eb300f6d164fc9b37588eb468201dd6df6de81503864216b9d"
+      }
+    },
+    {
+      "name": "holdout_logg_mesh",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2643,
+        "sha256": "ffb11fd1a70451a1b311aa518ef749a8b8c89e5707352ab0873b1330e4b9aa5c"
+      }
+    },
+    {
+      "name": "meshfine_T5752",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2691,
+        "sha256": "6501ec9f83d73273d1d4311a3c33c42a8068d1bc8bd37bd769ecf6ffe7303005"
+      }
+    },
+    {
+      "name": "meshfine_T5762",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2694,
+        "sha256": "8cd2768c37d3707d51dda4776ee6a092028cdd825dd9560c48be7687811f1213"
+      }
+    },
+    {
+      "name": "meshfine_T5772",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2693,
+        "sha256": "b44fdc9b841ec3d1484b102488e97b40376db4cf885050496078cd0c4aeca3c6"
+      }
+    },
+    {
+      "name": "meshfine_T5782",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2690,
+        "sha256": "b291890f46a94dc3818599cffcc381170ecdb6e7f83064cf760ebc5953c2d752"
+      }
+    },
+    {
+      "name": "meshfine_T5792",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2703,
+        "sha256": "9c08bfd4e7ccd829a98702ee99380f91555e0b3e6cfbf3e1d1ee44f72bbbbc40"
+      }
+    }
+  ]
+}

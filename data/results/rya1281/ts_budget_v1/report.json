@@ -1,0 +1,95 @@
+{
+  "schema": "codex.bride_ts_budget_analysis/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_ts_budget.py",
+    "bytes": 7614,
+    "sha256": "3fdbd8c7da21fbb7a3c146d21de6939aa0f7e9a63972144b4b50b1273b31a05e"
+  },
+  "parser": {
+    "name": "bride_ts_budget.py",
+    "bytes": 4494,
+    "sha256": "491ed480ca3151ceb0cc301721de4a68ccecbbcbd276e8fa5669fa173c35b061"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 10001,
+    "sha256": "e2c6eff0f983cdc4c09cc3bfe4bd96ee7794797e7de0cd464b88463614a2d053"
+  },
+  "run": {
+    "name": "report.json",
+    "bytes": 12543,
+    "sha256": "5d81e694a47d48775ddcae7e70332766899c9eb4c61cd11e39eea0b460178d31"
+  },
+  "cases": [
+    {
+      "name": "OPA_is_vacuum_reporting",
+      "Fe_partition_range": [
+        24.8037567,
+        61.4869652
+      ],
+      "local_Fe_model_levels": 32,
+      "local_Fe_continua": 15,
+      "top": {
+        "case": "OPA_is_vacuum_reporting",
+        "depth_1based": 1,
+        "logtau500": -4.9177,
+        "wavelength_TS_air_A": 2768.942,
+        "wavelength_conditional_OPA_A": 2769.759783186969,
+        "ts_absorption_m2_kg": 0.00090333172773,
+        "marcs_absorption_m2_kg": 0.0009022592726105525,
+        "local_absorption_m2_kg": 0.00024137131408175682,
+        "TS_over_MARCS_absorption": 1.0011886329705924,
+        "TS_FeI_fraction": 0.7386296485507005,
+        "DETABS_FeI_fraction": 0.73921317,
+        "post_DETABS_H_bf_m2_kg": 2.30306841e-07,
+        "post_DETABS_NH_m2_kg": 4.891174917871689e-07,
+        "TS_FeI_m2_kg": 0.0006672275965779069,
+        "local_FeI_m2_kg": 7.908657280873146e-06,
+        "TS_over_local_FeI_opacity": 84.36673544971751,
+        "TS_over_local_neutral_Fe_per_kg": 1.0384186310119103,
+        "TS_over_local_net_opacity_per_neutral_Fe": 81.24539846468709
+      }
+    },
+    {
+      "name": "OPA_is_air_reporting",
+      "Fe_partition_range": [
+        24.8037567,
+        61.4869652
+      ],
+      "local_Fe_model_levels": 32,
+      "local_Fe_continua": 15,
+      "top": {
+        "case": "OPA_is_air_reporting",
+        "depth_1based": 1,
+        "logtau500": -4.9177,
+        "wavelength_TS_air_A": 2769.76,
+        "wavelength_conditional_OPA_A": 2769.76,
+        "ts_absorption_m2_kg": 0.000902979505845,
+        "marcs_absorption_m2_kg": 0.000902259174,
+        "local_absorption_m2_kg": 0.0002415346564831763,
+        "TS_over_MARCS_absorption": 1.000798364667002,
+        "TS_FeI_fraction": 0.738303509493371,
+        "DETABS_FeI_fraction": 0.73889875,
+        "post_DETABS_H_bf_m2_kg": 2.3041845900000002e-07,
+        "post_DETABS_NH_m2_kg": 4.956849646674449e-07,
+        "TS_FeI_m2_kg": 0.0006666729381659534,
+        "local_FeI_m2_kg": 7.915601564294187e-06,
+        "TS_over_local_FeI_opacity": 84.22264975705595,
+        "TS_over_local_neutral_Fe_per_kg": 1.0384186310119103,
+        "TS_over_local_net_opacity_per_neutral_Fe": 81.10664354604587
+      }
+    }
+  ],
+  "limitations": "Conditional OPA frame, distinct EOS/density and constant vintages retained. Net opacity per neutral atom includes level weights and cross-sections, not a measured single-level cross-section. No opacity substitution or O NLTE run.",
+  "comparison.csv": {
+    "name": "comparison.csv",
+    "bytes": 33903,
+    "sha256": "1c6107d7673dccde6545acd422e425c79b44212af07296793b2f1e198649515a"
+  },
+  "native_components.csv": {
+    "name": "native_components.csv",
+    "bytes": 339014,
+    "sha256": "94aba57f838c82b0898b8858ec8d5589546e557332645ab733e485e9f17333c9"
+  }
+}

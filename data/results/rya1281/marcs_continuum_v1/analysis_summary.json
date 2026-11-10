@@ -1,0 +1,23 @@
+{
+  "schema": "codex.bride_marcs_continuum_analysis/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_marcs_continuum.py",
+    "bytes": 3002,
+    "sha256": "c7ab9014ea85fa5d3da085f4f2ffaffd0768b9a7f21009f09d90e2c606d16bd0"
+  },
+  "audit": {
+    "name": "report.json",
+    "bytes": 12401,
+    "sha256": "449caf4a07fc50bc13c326e3ff030729739bdb2ef08d572821b8ac44399e596e"
+  },
+  "figure": {
+    "name": "conditional_continuum_ratios.png",
+    "bytes": 221328,
+    "sha256": "dd13f769f74b86eaa1ac736a87f740f175429d1a698cd13b06914e46039f5f57"
+  },
+  "wavelength_source_A_277_sample": 2769.76,
+  "top_277_frame_fractional_effect": 0.0006764909270895458,
+  "top_277_O866_to_870_fractional_effect": 9.309380473165874e-07,
+  "caveat": "Both frame hypotheses retained. FUV below2000A is vacuum in both project-convention hypotheses. Sampling ratios do not certify matched EOS/opacity partition or native producer inputs."
+}

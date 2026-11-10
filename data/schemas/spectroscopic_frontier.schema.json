@@ -1,0 +1,727 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "updated",
+    "science_base",
+    "sources",
+    "entries",
+    "gaps",
+    "release_status",
+    "public_html_status",
+    "citations",
+    "roadmap_integration"
+  ],
+  "properties": {
+    "schema": {
+      "const": "codex.spectroscopic_frontier/1"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "science_base": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_url"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "upstream": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "bibliography_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "audit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "species",
+          "component_type",
+          "treatment",
+          "availability",
+          "coverage_status",
+          "verification",
+          "execution_approved",
+          "summary",
+          "source_ids",
+          "domain",
+          "input_completeness",
+          "grade_policy_ref",
+          "license",
+          "version",
+          "upstream_citation_refs",
+          "literature_audit",
+          "issues",
+          "gap_ids",
+          "coverage",
+          "components"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "species": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "element",
+              "ion",
+              "molecule",
+              "isotopologues"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "atom",
+                  "molecule",
+                  "not_species_specific"
+                ]
+              },
+              "element": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ion": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "molecule": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "isotopologues": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "component_type": {
+            "enum": [
+              "line_list",
+              "model_atom",
+              "atmosphere_grid",
+              "solver",
+              "correction_grid",
+              "correction_surrogate"
+            ]
+          },
+          "treatment": {
+            "enum": [
+              "NOT_ASSESSED",
+              "NOT_APPLICABLE",
+              "LTE",
+              "1D_LTE",
+              "3D_LTE",
+              "1D_NLTE",
+              "MEAN3D_NLTE",
+              "ONE_POINT_FIVE_D_NLTE",
+              "FULL3D_NLTE",
+              "STRUCTURE_ONLY"
+            ]
+          },
+          "availability": {
+            "enum": [
+              "held",
+              "published_not_acquired",
+              "not_checked",
+              "unavailable"
+            ]
+          },
+          "coverage_status": {
+            "enum": [
+              "not_yet_searched",
+              "not_published",
+              "unavailable",
+              "incompatible",
+              "unvalidated",
+              "validated"
+            ]
+          },
+          "verification": {
+            "enum": [
+              "not_independently_reviewed",
+              "independently_reviewed"
+            ]
+          },
+          "execution_approved": {
+            "const": false
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "domain": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope",
+              "axes",
+              "interpolation",
+              "unassessed_constraints"
+            ],
+            "properties": {
+              "scope": {
+                "type": "string",
+                "minLength": 1
+              },
+              "axes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "min",
+                    "max",
+                    "unit",
+                    "source_id"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "min": {
+                      "type": "number"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "source_id": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "interpolation": {
+                "const": "NOT_AUTHORIZED_BY_ATLAS"
+              },
+              "unassessed_constraints": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "input_completeness": {
+            "type": "string",
+            "minLength": 1
+          },
+          "grade_policy_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "license": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "note"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "pending",
+                  "verified"
+                ]
+              },
+              "note": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "upstream_citation_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "literature_audit": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "date",
+              "scope",
+              "complete"
+            ],
+            "properties": {
+              "date": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string",
+                    "format": "date"
+                  }
+                ]
+              },
+              "scope": {
+                "type": "string",
+                "minLength": 1
+              },
+              "complete": {
+                "type": "boolean"
+              }
+            }
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^RYA-[0-9]+$"
+            }
+          },
+          "gap_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "coverage": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "transitions",
+              "wavelength_air_nm",
+              "bands",
+              "atom_reach",
+              "molecular_manifest",
+              "source_labels",
+              "labels_without_component_wavelength",
+              "wavelength_native"
+            ],
+            "properties": {
+              "transitions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "source_label",
+                    "air_nm",
+                    "vacuum_nm",
+                    "source_id"
+                  ],
+                  "properties": {
+                    "source_label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "air_nm": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "vacuum_nm": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      ]
+                    },
+                    "source_id": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "wavelength_air_nm": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "min",
+                      "max",
+                      "meaning"
+                    ],
+                    "properties": {
+                      "min": {
+                        "type": "number"
+                      },
+                      "max": {
+                        "type": "number"
+                      },
+                      "meaning": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "bands": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "UV",
+                    "VIS",
+                    "IR"
+                  ]
+                }
+              },
+              "atom_reach": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "atom",
+                      "sha256",
+                      "ion_stage",
+                      "n_levels",
+                      "n_bound_bound",
+                      "nlte_capable"
+                    ],
+                    "properties": {
+                      "atom": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "ion_stage": {
+                        "type": "integer"
+                      },
+                      "n_levels": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "n_bound_bound": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "nlte_capable": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                ]
+              },
+              "molecular_manifest": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "source_labels": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "labels_without_component_wavelength": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "wavelength_native": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "min",
+                      "max",
+                      "unit",
+                      "medium",
+                      "source_id"
+                    ],
+                    "properties": {
+                      "min": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "max": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "unit": {
+                        "const": "Angstrom"
+                      },
+                      "medium": {
+                        "type": "string"
+                      },
+                      "source_id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "components": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "solver_ids",
+              "atmosphere_ids",
+              "model_atom_ids",
+              "note"
+            ],
+            "properties": {
+              "solver_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "atmosphere_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "model_atom_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "note": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "priority",
+          "question",
+          "entry_ids",
+          "source_ids",
+          "issues",
+          "next_gate"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "priority": {
+            "enum": [
+              "high",
+              "normal",
+              "low"
+            ]
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "entry_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "next_gate": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "release_status": {
+      "const": "DRAFT_SCIENTIFIC_REVIEW_REQUIRED"
+    },
+    "public_html_status": {
+      "const": "DEFERRED_UNTIL_RYA_1370_APPROVED"
+    },
+    "citations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "authors",
+          "year",
+          "title",
+          "doi",
+          "url"
+        ],
+        "properties": {
+          "authors": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "doi": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "roadmap_integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issue",
+        "track_ids",
+        "roadmap_pr_url",
+        "public_page_gate"
+      ],
+      "properties": {
+        "issue": {
+          "const": "RYA-1370"
+        },
+        "track_ids": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "atomic-laboratory",
+              "cross-engine"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "roadmap_pr_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "public_page_gate": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,31 @@
+{
+ "element": "Al",
+ "n_rows": 379,
+ "held_reason": {
+  "UNGRADED_GF": 372,
+  "GRADED_NOT_LAB": 7
+ },
+ "flags": {
+  "UNRATED_GF": 379,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 20,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 269,
+  "3": 76,
+  "4": 34
+ },
+ "no_graded_route": [
+  "Al I H",
+  "Al I K",
+  "Al I near-UV",
+  "Al II VIS",
+  "Al II near-UV",
+  "Al II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

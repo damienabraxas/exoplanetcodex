@@ -1,0 +1,63 @@
+{
+  "schema": "codex.bride_h2_domain_audit/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_h2_domain.py",
+    "bytes": 5088,
+    "sha256": "16863515032fb8f72cff0da2d1bd01cc4d7da3bf0229df08dac1290fec55fcf9"
+  },
+  "binding": {
+    "name": "experimental_input.json",
+    "bytes": 17148,
+    "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+  },
+  "molecule": {
+    "name": "H2.molecule",
+    "bytes": 504,
+    "sha256": "f73b214e8babba19b6da0cd18d49fb24e65c4011e765a0fb43c54d6aebcc5f5c"
+  },
+  "molecule_code": {
+    "name": "molecule.py",
+    "bytes": 7500,
+    "sha256": "7d3a10027f9dc83d173a336cc6f6df26b5699c3ae42e3b799eaa88f3ca0bfc10"
+  },
+  "chemistry_code": {
+    "name": "atomic_set.py",
+    "bytes": 48032,
+    "sha256": "ffccbfc61413ea11347fa30e68f6893f2c214ca6d7a9773c52059cc808d4b5f7"
+  },
+  "H_He_atoms": {
+    "name": "rh_atoms.py",
+    "bytes": 4432071,
+    "sha256": "99982a90746acaf293bcdb48ddab6e46c5fe30407e177735c0f255829379731f"
+  },
+  "domain_K": [
+    1000.0,
+    9000.0
+  ],
+  "covered_count": 52,
+  "uncovered_depth_indices": [
+    52,
+    53,
+    54,
+    55
+  ],
+  "uncovered_temperatures_K": [
+    9163.116,
+    9419.539200000001,
+    9673.558799999999,
+    9930.0128
+  ],
+  "full_column_admission": false,
+  "max_covered_nH2_over_total_H": 0.0007480925867855672,
+  "max_covered_nuclei_residual": 1.3300550660844124e-08,
+  "chemistry_native_relative_step_limit": 0.001,
+  "max_covered_neutral_H_depletion": 0.0014961929802852492,
+  "lightweaver_version": "0.16.1",
+  "covered_chemistry": {
+    "name": "covered_chemistry.csv",
+    "bytes": 10904,
+    "sha256": "baebbc29dd8e25b08bfc27fe8af096b175366b6459e15fa601cc89479a73b9d0"
+  },
+  "interpretation": "In-domain H2-only LTE chemical audit at fixed ne/nH, no RT or O update. NaN in CSV denotes explicitly uncovered chemistry, never zero. Native fit returns zero outside range; full-column consumer must refuse. No high-T extension, partial H2 patch or new continuum installed."
+}

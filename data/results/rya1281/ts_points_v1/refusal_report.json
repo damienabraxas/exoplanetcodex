@@ -1,0 +1,66 @@
+{
+  "schema": "codex.bride_ts_point_refusals/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "check_bride_ts_point_refusals.py",
+    "bytes": 3050,
+    "sha256": "c19b7c33fe3a866e7fb8873421e913f3005be8af27c03a8f9dcb78a11c4f6e58"
+  },
+  "source_run": {
+    "name": "report.json",
+    "bytes": 19997,
+    "sha256": "e7be946be2eb5d5fb651c4be8a7b6ce5fc683ff86f9ba25aa3135008ffccefd3"
+  },
+  "build": {
+    "name": "manifest.json",
+    "bytes": 4034,
+    "sha256": "d20d1ef4363a0d54f2c66bdd96e1cc35dc24d28e4eee6d4b247470b1364e9c83"
+  },
+  "probes": [
+    {
+      "name": "wrong_count",
+      "returncode": 72,
+      "expected": 72,
+      "points": {
+        "name": "point_state.txt",
+        "bytes": 2691,
+        "sha256": "fea61fd919f5078dfd9f1ae9889fd7e9887f871f4d1cad511a0454944313ca4e"
+      },
+      "stderr": {
+        "name": "stderr.log",
+        "bytes": 90,
+        "sha256": "3290afa5057d878dcf5d0aeed14f88aa19c7a7f9f1ebf62d8b2fc9dcc9ff646b"
+      }
+    },
+    {
+      "name": "truncated",
+      "returncode": 73,
+      "expected": 73,
+      "points": {
+        "name": "point_state.txt",
+        "bytes": 2643,
+        "sha256": "3bed5c010b4d537e5a204a16f463a94ebf7779695ba2031abf0f028c24cd1369"
+      },
+      "stderr": {
+        "name": "stderr.log",
+        "bytes": 90,
+        "sha256": "9693244fb87dce99cc897bcdce539d334a50a140bd2c0a1f95bac41ff3132bf8"
+      }
+    },
+    {
+      "name": "extra_row",
+      "returncode": 76,
+      "expected": 76,
+      "points": {
+        "name": "point_state.txt",
+        "bytes": 2693,
+        "sha256": "4099d1f788bbe57345b8be96059770599b61ecbb70aaf76777cd44c2fedfe718"
+      },
+      "stderr": {
+        "name": "stderr.log",
+        "bytes": 90,
+        "sha256": "c0c6d878031b5e5944b5a26687a0102035a945f35e7b4a38431af422d32e34bb"
+      }
+    }
+  ]
+}

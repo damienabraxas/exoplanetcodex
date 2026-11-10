@@ -1,0 +1,9 @@
+{
+  "schema": "codex.bride_continuum_anchor_plan/1",
+  "cases": [
+    {"name": "canonical_refined", "resource": "experiments.bride_mac_grid", "relative": "rya1281-thermal-refined-v1", "prior_synthesis": "data/results/rya1281/thermal_slice_v1/continuum/refined_nominal/synthesis.json", "prior_iag": "data/results/rya1281/thermal_slice_v1/continuum/refined_nominal/iag.json"},
+    {"name": "lower_gravity_refined", "resource": "experiments.bride_ng_extended", "relative": "", "prior_synthesis": "data/results/rya1281/ng_extended_v1/continuum/synthesis/report.json", "prior_iag": "data/results/rya1281/ng_extended_v1/continuum/iag/report.json"}
+  ],
+  "reference_modes": ["synthesis", "iag"],
+  "purpose": "Frozen-profile selection/denominator and support diagnostics; native continuum remains unchanged. No reference selection or abundance fit."
+}

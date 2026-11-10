@@ -1,0 +1,88 @@
+{
+  "schema": "codex.bride_molecular_source/1",
+  "source_commit": "cd2f54ed46687659017b343763e95478ed93653e",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "intake_bride_h2_tables.py",
+    "bytes": 2760,
+    "sha256": "4ca1a8ba8e1ba43c830b03d9c98289de8ab86ea9b97d31d1692d9b766ab4c641"
+  },
+  "source": "https://github.com/barklem/public-data/tree/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants",
+  "license": "BSD-3-Clause; copyright notice retained",
+  "adopted_H2_D0_eV": 4.478007,
+  "files": {
+    "ReadMe": {
+      "git_blob_sha": "fdf02bc000782c3097df67dc0d38f2428fc5ca47",
+      "fingerprint": {
+        "name": "ReadMe",
+        "bytes": 14797,
+        "sha256": "31cd701028aa7957554f96e765957023d764d180bdf1c83db90d33593ba63078"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants/ReadMe"
+    },
+    "ReadMe_Bug_fix_Oct-Nov2022": {
+      "git_blob_sha": "5f3a3392948d3954e1881026f42ac494886d3662",
+      "fingerprint": {
+        "name": "ReadMe_Bug_fix_Oct-Nov2022",
+        "bytes": 2942,
+        "sha256": "4f7eab690c3ffe8eb5c4a503588f75ce9ff7e2eea5f41e2e4d98890add8d5c21"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants/ReadMe_Bug_fix_Oct-Nov2022"
+    },
+    "table1.dat": {
+      "git_blob_sha": "1b0a6b70e1658a139600f6510859c44786a0a033",
+      "fingerprint": {
+        "name": "table1.dat",
+        "bytes": 30620,
+        "sha256": "08387a4d0ae4bf0fc0ee6cee8e8e1ad9d47ca434ebe85f85da57d2d5ad0848dd"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants/table1.dat"
+    },
+    "table6.dat": {
+      "git_blob_sha": "5bfeb3bf5d84bafab57eb2d0c5aa8bca8f614f12",
+      "fingerprint": {
+        "name": "table6.dat",
+        "bytes": 173485,
+        "sha256": "2fa8cf81dc27d0492cbf27ec482bd5187212a42beb3259bef5d8e8bce0f5281f"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants/table6.dat"
+    },
+    "table7.dat": {
+      "git_blob_sha": "1c6e0113bd0bc9aa699dece4bd2d8ecf5ebc993c",
+      "fingerprint": {
+        "name": "table7.dat",
+        "bytes": 173496,
+        "sha256": "47e98887dd6b3e3cc18888170b11662e671862e42bbe36ccf36c3949f42a9ee5"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants/table7.dat"
+    },
+    "table7_vNov2022.dat": {
+      "git_blob_sha": "922d6f383d641bfe6c98c9da87f3fc50d2bda206",
+      "fingerprint": {
+        "name": "table7_vNov2022.dat",
+        "bytes": 173496,
+        "sha256": "3e5844e25d50d2d175b2b59d751aee47d2a933e2de27995972037a8dbe340000"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants/table7_vNov2022.dat"
+    },
+    "table8_vNov2022.dat": {
+      "git_blob_sha": "5119005df7fa0c3b7cc5d3966d01be00908ae85d",
+      "fingerprint": {
+        "name": "table8_vNov2022.dat",
+        "bytes": 169897,
+        "sha256": "64f355c9447247417a068358ee0b4390ef86e05b0b1372238204b6f2d3e134b5"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/partition-functions_and_equilibrium-constants/table8_vNov2022.dat"
+    },
+    "LICENSE": {
+      "git_blob_sha": "4ca4978c233e23329f1e61eb83ead1ddda5919f6",
+      "fingerprint": {
+        "name": "LICENSE",
+        "bytes": 1520,
+        "sha256": "670abb39c30cd172291f1e6b2c9166b77aa22ec9da25b746fc1d5639bf11915c"
+      },
+      "url": "https://raw.githubusercontent.com/barklem/public-data/cd2f54ed46687659017b343763e95478ed93653e/LICENSE"
+    }
+  },
+  "scope": "Full source tables held; only neutral H2 interface being qualified. Not adoption of production CNO chemistry. Original CDS partial holding unchanged."
+}

@@ -1,0 +1,31 @@
+{
+ "element": "S",
+ "n_rows": 2281,
+ "held_reason": {
+  "UNGRADED_GF": 2279,
+  "GRADED_NOT_LAB": 2
+ },
+ "flags": {
+  "UNRATED_GF": 2281,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 93,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 2194,
+  "4": 87
+ },
+ "no_graded_route": [
+  "S I K",
+  "S I NIR",
+  "S I VIS",
+  "S I near-UV",
+  "S I red-optical",
+  "S II VIS",
+  "S II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

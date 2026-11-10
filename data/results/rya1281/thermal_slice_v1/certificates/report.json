@@ -1,0 +1,790 @@
+{
+  "schema": "codex.bride_bound_coefficients_audit/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "bind_bride_thermal_coefficients.py",
+    "bytes": 7644,
+    "sha256": "750dbfe56c01c96409bcf72243cba0ee800a0f9148e947101495653d794aa86c"
+  },
+  "sweep_adapter": {
+    "name": "bride_thermal_sweep.py",
+    "bytes": 4440,
+    "sha256": "1d46ec8438ea746101e6289c34a7af073d49c57f9add17f398614abc22d027c7"
+  },
+  "binding_code": {
+    "name": "bride_opacity_binding.py",
+    "bytes": 6360,
+    "sha256": "fbb1878709e026d6a8d0eaf906d8693f7143c75a3255c8189efeb93b99b710cc"
+  },
+  "source_run": {
+    "name": "report.json",
+    "bytes": 30112,
+    "sha256": "5cda6f179cd9ebeb44693afa456b5ff1e5053d661e27305b724c2a3fd0d9876d"
+  },
+  "plan": {
+    "name": "rya1281_mac_thermal_slice.json",
+    "bytes": 4393,
+    "sha256": "2a801251b25c184abd755c2ab8b99519226a88fe0bdad08687422dfe2b04624c"
+  },
+  "cases": [
+    {
+      "name": "native_identity",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 15090,
+        "sha256": "1dac9fec3dda309d89da2602c9729373ef852e8785eadcb77311a50024e0c61c"
+      },
+      "binding_sha256": "bab8f9a79329b2859ce0dd64baeb27cecc337387360b945efa9f950f9d9eabb8",
+      "ndep": 56,
+      "nwave": 1601,
+      "local_column_present": true,
+      "exact_identity_pass": true
+    },
+    {
+      "name": "thermal_T5572",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 16012,
+        "sha256": "8e8260a42a964729fa98a6b1d1c23ba77b19946ac17b4184b528f351ddb2aca7"
+      },
+      "binding_sha256": "44f5e1c32087959c600919efb566544b586eaa338fbccb48a431ca3df145ec7b",
+      "ndep": 56,
+      "nwave": 1601,
+      "local_column_present": false,
+      "exact_identity_pass": true
+    },
+    {
+      "name": "thermal_T5672",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 16150,
+        "sha256": "99c6eb13830d5e5f24207df069b9b7f5ffa9c8539b85f48d9116c9e78f2d455e"
+      },
+      "binding_sha256": "d3e4a3d94a172dbd8ba3fb071af85472bec6d0d5dc0e4f1943ceb89a4dd04f82",
+      "ndep": 56,
+      "nwave": 1601,
+      "local_column_present": false,
+      "exact_identity_pass": true
+    },
+    {
+      "name": "thermal_nominal",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 16155,
+        "sha256": "28e1a6055fdc490d66e2464017f5b0529ba20ce6d4b3161e2bf52d23627138a9"
+      },
+      "binding_sha256": "7c83698ef751cf9af1f6c8eec8007ac598daceb795a00c55514759765f3b9145",
+      "ndep": 56,
+      "nwave": 1601,
+      "local_column_present": false,
+      "exact_identity_pass": true
+    },
+    {
+      "name": "thermal_T5822",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 15883,
+        "sha256": "6494795ee969cea0cdb889ba3cec69e4c51483a115f807aca5664855f90bf8ce"
+      },
+      "binding_sha256": "b3b83c5c515911bfb16bb37cd0c1582c338399c5c565057d8a4de4e6bde09bea",
+      "ndep": 56,
+      "nwave": 1601,
+      "local_column_present": false,
+      "exact_identity_pass": true
+    },
+    {
+      "name": "thermal_g4338",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 15940,
+        "sha256": "85b2b7be7a1f130dd5a1f99fda6502fd74ae7e3ee2c4952f3b94c8ec30193f15"
+      },
+      "binding_sha256": "aff8c4da97e477503880fbb929995c03a6229b3ee47f5f49ac85c31c8575f7e3",
+      "ndep": 56,
+      "nwave": 1601,
+      "local_column_present": false,
+      "exact_identity_pass": true
+    },
+    {
+      "name": "thermal_g4538",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 16003,
+        "sha256": "152a5a6f900470f26d3454ef21da4f65f6e917d967cf0f49b3cfab4c1dbde6a6"
+      },
+      "binding_sha256": "d7d2379d76a5c95a7bb0b0a3ca807bccb660200ffc30061658d4023d6253695a",
+      "ndep": 56,
+      "nwave": 1601,
+      "local_column_present": false,
+      "exact_identity_pass": true
+    }
+  ],
+  "refusals": [
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_temperature_K",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_electron_pressure_Pa",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_rho_kg_m3",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_height_m",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_logtau_ross",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_logtau_500",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_vturb_m_s",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_hydrogen_mass_fraction",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "one_ulp_logg_cgs",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "changed_Fe_composition",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "changed_active_O_abundance",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "changed_or_added_column",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "native_identity",
+      "probe": "depth_cut",
+      "refused": true,
+      "reason": "Invalid bound field: temperature_K"
+    },
+    {
+      "case": "native_identity",
+      "probe": "unmodeled_velocity",
+      "refused": true,
+      "reason": "Unmodeled fields in static local-input binding"
+    },
+    {
+      "case": "native_identity",
+      "probe": "legacy_provider_schema_refusal",
+      "refused": true,
+      "reason": "Wrong Fe packet schema"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_temperature_K",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_electron_pressure_Pa",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_rho_kg_m3",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_height_m",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_logtau_ross",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_logtau_500",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_vturb_m_s",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_hydrogen_mass_fraction",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "one_ulp_logg_cgs",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "changed_Fe_composition",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "changed_active_O_abundance",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "changed_or_added_column",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "depth_cut",
+      "refused": true,
+      "reason": "Invalid bound field: temperature_K"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "unmodeled_velocity",
+      "refused": true,
+      "reason": "Unmodeled fields in static local-input binding"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "legacy_provider_schema_refusal",
+      "refused": true,
+      "reason": "Wrong Fe packet schema"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_temperature_K",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_electron_pressure_Pa",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_rho_kg_m3",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_height_m",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_logtau_ross",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_logtau_500",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_vturb_m_s",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_hydrogen_mass_fraction",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "one_ulp_logg_cgs",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "changed_Fe_composition",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "changed_active_O_abundance",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "changed_or_added_column",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "depth_cut",
+      "refused": true,
+      "reason": "Invalid bound field: temperature_K"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "unmodeled_velocity",
+      "refused": true,
+      "reason": "Unmodeled fields in static local-input binding"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "legacy_provider_schema_refusal",
+      "refused": true,
+      "reason": "Wrong Fe packet schema"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_temperature_K",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_electron_pressure_Pa",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_rho_kg_m3",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_height_m",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_logtau_ross",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_logtau_500",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_vturb_m_s",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_hydrogen_mass_fraction",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "one_ulp_logg_cgs",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "changed_Fe_composition",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "changed_active_O_abundance",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "changed_or_added_column",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "depth_cut",
+      "refused": true,
+      "reason": "Invalid bound field: temperature_K"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "unmodeled_velocity",
+      "refused": true,
+      "reason": "Unmodeled fields in static local-input binding"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "legacy_provider_schema_refusal",
+      "refused": true,
+      "reason": "Wrong Fe packet schema"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_temperature_K",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_electron_pressure_Pa",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_rho_kg_m3",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_height_m",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_logtau_ross",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_logtau_500",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_vturb_m_s",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_hydrogen_mass_fraction",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "one_ulp_logg_cgs",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "changed_Fe_composition",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "changed_active_O_abundance",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "changed_or_added_column",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "depth_cut",
+      "refused": true,
+      "reason": "Invalid bound field: temperature_K"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "unmodeled_velocity",
+      "refused": true,
+      "reason": "Unmodeled fields in static local-input binding"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "legacy_provider_schema_refusal",
+      "refused": true,
+      "reason": "Wrong Fe packet schema"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_temperature_K",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_electron_pressure_Pa",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_rho_kg_m3",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_height_m",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_logtau_ross",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_logtau_500",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_vturb_m_s",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_hydrogen_mass_fraction",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "one_ulp_logg_cgs",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "changed_Fe_composition",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "changed_active_O_abundance",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "changed_or_added_column",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "depth_cut",
+      "refused": true,
+      "reason": "Invalid bound field: temperature_K"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "unmodeled_velocity",
+      "refused": true,
+      "reason": "Unmodeled fields in static local-input binding"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "legacy_provider_schema_refusal",
+      "refused": true,
+      "reason": "Wrong Fe packet schema"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_temperature_K",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_electron_pressure_Pa",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_rho_kg_m3",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_height_m",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_logtau_ross",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_logtau_500",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_vturb_m_s",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_hydrogen_mass_fraction",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "one_ulp_logg_cgs",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "changed_Fe_composition",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "changed_active_O_abundance",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "changed_or_added_column",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "depth_cut",
+      "refused": true,
+      "reason": "Invalid bound field: temperature_K"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "unmodeled_velocity",
+      "refused": true,
+      "reason": "Unmodeled fields in static local-input binding"
+    },
+    {
+      "case": "thermal_g4538",
+      "probe": "legacy_provider_schema_refusal",
+      "refused": true,
+      "reason": "Wrong Fe packet schema"
+    },
+    {
+      "case": "thermal_T5572",
+      "probe": "neighbor_thermal_T5672",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5672",
+      "probe": "neighbor_thermal_nominal",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_nominal",
+      "probe": "neighbor_thermal_T5822",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_T5822",
+      "probe": "neighbor_thermal_g4338",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    },
+    {
+      "case": "thermal_g4338",
+      "probe": "neighbor_thermal_g4538",
+      "refused": true,
+      "reason": "Bound opacity refuses changed local inputs, composition, abundance or depth/column identity"
+    }
+  ],
+  "checks": {
+    "name": "checks.csv",
+    "bytes": 13671,
+    "sha256": "8ea52aa186986e8e44d2a677dcfc9a485c88c52f2bba4231c3d5d501260356e1"
+  },
+  "provider_admission": false
+}

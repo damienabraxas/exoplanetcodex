@@ -1,0 +1,201 @@
+{
+  "schema": "codex.bride_feii_width_analysis/1",
+  "scientific_admission": "HOLD",
+  "stark_mode": "cowley",
+  "leg_labels": {
+    "zero": "natural",
+    "feii": "W+cowley"
+  },
+  "generator": {
+    "name": "analyze_bride_feii_width_transfer.py",
+    "bytes": 8665,
+    "sha256": "3f056046b512509fbd04e90abb86d755a9703d1bc2e923578af8ef01ef019b60"
+  },
+  "source_plan": {
+    "name": "rya1281_feii_width_transfer.json",
+    "bytes": 805,
+    "sha256": "da14c7c1ea90b2bb6bc119c1f31c177a53143d94f389f755f31780352aa4e980"
+  },
+  "comparison": {
+    "name": "report.json",
+    "bytes": 31834,
+    "sha256": "e30ee9d666e1102ddd0d441cb44aad4959f26c49bc0474cb9754b1da9f0c1511"
+  },
+  "caveats": "Fixed O populations; natural FeII versus W pressure plus explicit ionic Stark. Direct model response and observed continuum-reference response are separate. Historical3percent estimator retained; main15percent rule unexercised. No abundance or preferred reference/RV adopted.",
+  "cases": [
+    {
+      "name": "canonical_refined",
+      "source": {
+        "name": "report.json",
+        "bytes": 27603,
+        "sha256": "606de3957d4e80fea0e2d3c57a7c5bb081e4bd868b793956252ea3437005ab1d"
+      },
+      "direct": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_area_delta_mA": 1.2417510021123235e-05,
+          "max_intrinsic_O_window_flux_change": 2.0158564151273595e-08,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 72.10310520135651,
+              "feii_area_mA": 72.10311762788405,
+              "delta_mA": 1.2426527533193621e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 72.10510889067501,
+              "feii_area_mA": 72.10512121103248,
+              "delta_mA": 1.2320357470230192e-05
+            }
+          }
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_area_delta_mA": 4.070732501304519e-05,
+          "max_intrinsic_O_window_flux_change": 7.404038693259452e-08,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 62.39296615296518,
+              "feii_area_mA": 62.39300692614258,
+              "delta_mA": 4.07731774032527e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 62.38549549582119,
+              "feii_area_mA": 62.38553567013059,
+              "delta_mA": 4.017430939740052e-05
+            }
+          }
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_area_delta_mA": 0.00013506391733386636,
+          "max_intrinsic_O_window_flux_change": 3.0020892727300463e-07,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 48.92790201045304,
+              "feii_area_mA": 48.92803771261732,
+              "delta_mA": 0.0001357021642789391
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 48.93705112552244,
+              "feii_area_mA": 48.937183386844424,
+              "delta_mA": 0.0001322613219869595
+            }
+          }
+        }
+      ],
+      "audit_receipts": {
+        "zero": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341951,
+            "sha256": "fb9af70f6a4492a9743805547ca4690cdd18e78c880d696a812c6c1f7753ecda"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342630,
+            "sha256": "cf19ad4db5e5a4a7d36fd91e49ab3b387151d1f7359897b6b52c14b42d21ab0f"
+          }
+        },
+        "feii": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341960,
+            "sha256": "8eb598ab01c6818c08e32696ee47ec45237fcacd5326f8b22bc2928c64bbe442"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342646,
+            "sha256": "a4b9eff8c95c710466c5c02906c01677552c8731df15085f76599a3773d34f45"
+          }
+        }
+      }
+    },
+    {
+      "name": "lower_gravity_refined",
+      "source": {
+        "name": "report.json",
+        "bytes": 27400,
+        "sha256": "a608d09120317471645abc5473def1c1825d57dca2d599a382334e9bc3f4a59b"
+      },
+      "direct": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_area_delta_mA": 1.1979756266100594e-05,
+          "max_intrinsic_O_window_flux_change": 1.948395478290621e-08,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 74.5554066224644,
+              "feii_area_mA": 74.55541861070279,
+              "delta_mA": 1.1988238384219585e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 74.55772915116,
+              "feii_area_mA": 74.5577410367472,
+              "delta_mA": 1.188558719888988e-05
+            }
+          }
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_area_delta_mA": 3.924041874370232e-05,
+          "max_intrinsic_O_window_flux_change": 7.155428183303059e-08,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 64.67537867121526,
+              "feii_area_mA": 64.67541797480466,
+              "delta_mA": 3.9303589403516526e-05
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 64.66831298053424,
+              "feii_area_mA": 64.66835170522285,
+              "delta_mA": 3.8724688607771895e-05
+            }
+          }
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_area_delta_mA": 0.00013008939026804,
+          "max_intrinsic_O_window_flux_change": 2.899976531134385e-07,
+          "rv_variants": {
+            "canonical_broadened": {
+              "zero_area_mA": 50.928548571076966,
+              "feii_area_mA": 50.92867927586842,
+              "delta_mA": 0.0001307047914522741
+            },
+            "plus_gravitational_shift": {
+              "zero_area_mA": 50.937251419969634,
+              "feii_area_mA": 50.93737880131782,
+              "delta_mA": 0.00012738134818590652
+            }
+          }
+        }
+      ],
+      "audit_receipts": {
+        "zero": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341968,
+            "sha256": "50d0dece5dfedc324e13b60a861e4f437ba263ace6776aa0104d15dd0159b3df"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342652,
+            "sha256": "016c4806b182d6967a437a628300880d9c75552b63198943c545424ec87d9b69"
+          }
+        },
+        "feii": {
+          "synthesis": {
+            "name": "report.json",
+            "bytes": 341981,
+            "sha256": "efe3487309a4d0b40eb064121d2a5de5b9cd70fa451c9f88d159825d68891e71"
+          },
+          "iag": {
+            "name": "report.json",
+            "bytes": 342668,
+            "sha256": "5fd4f6631ec692ea23062ef2988ededf9212f54f556434c2b42daf7261c66329"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "CN",
+  "step_A": 0.005,
+  "molecular_files": [
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/12C14N_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/13C14N_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/12C15N_750-800.bsyn"
+  ],
+  "seconds": 0.6711960411630571,
+  "rows": 4001,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 300129,
+    "sha256": "73118db7cd4ef64efe1413234950e894556eef228c3ce78dec7ee67c928bb742"
+  },
+  "native_flux": {
+    "name": "native_flux.txt",
+    "bytes": 144036,
+    "sha256": "9f0cf5488a919ca3fa5082642f372f9d0e6f1acad877faaee2509db9e96944ce"
+  },
+  "input": {
+    "name": "input.txt",
+    "bytes": 5756,
+    "sha256": "9f28550b3f007230e4b0784ee4be685907ad6d358f4f5dd8b081e4afedc3c770"
+  },
+  "stdout": {
+    "name": "stdout.txt",
+    "bytes": 99114,
+    "sha256": "3cf6de6ba8520cdf0540ae3025995fd1f7c153c69b877075cadd3efc375c806a"
+  },
+  "stderr": {
+    "name": "stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

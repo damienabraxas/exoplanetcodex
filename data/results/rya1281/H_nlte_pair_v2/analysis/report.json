@@ -1,0 +1,66 @@
+{
+  "schema": "codex.bride_H_nlte_pair_analysis/1",
+  "scientific_admission": "HOLD",
+  "scope": "Compare independently admitted paired O NLTE states and intrinsic7ray flux/true-continuum outputs. All41levels/56depths retained; common source and state fields checked. Fixed signed residual-flux windows, no observation, reference-fit, broadening,RV,telluric conditioning or abundance inference. Differences below retained joint accuracy are not assigned physical precision.",
+  "generator": {
+    "name": "analyze_bride_H_nlte_pair.py",
+    "bytes": 7751,
+    "sha256": "358f1593c3b8c0195c23e37dd5ba564de846f51d77c2655d725adc90241a2d2e"
+  },
+  "plan": {
+    "name": "rya1281_H_nlte_pair_analysis.json",
+    "bytes": 569,
+    "sha256": "3e052af4efb563d64ee69200df8d91b515560ba6f6f72e715623b5462d996cda"
+  },
+  "source_reports": [
+    {
+      "name": "report.json",
+      "bytes": 17385,
+      "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+    },
+    {
+      "name": "report.json",
+      "bytes": 17389,
+      "sha256": "b2822fd5fcc8d5336b5792d2f9645fe59be2396f9e04373e8e49d6cdbe464dec"
+    }
+  ],
+  "independent_rate_residuals": [
+    3.967907458149324e-07,
+    3.1753466052034624e-07
+  ],
+  "warm_fraction_max_relative_difference": 1.3322676295501878e-15,
+  "Hratio_range": [
+    0.9919675919913356,
+    1.0190607555015219
+  ],
+  "max_relative_departure_change": 0.007881707180964925,
+  "max_absolute_departure_change": 0.10662785405934727,
+  "max_absolute_population_fraction_change": 2.299372549969484e-08,
+  "max_normalized_flux_difference": 0.0008426290723997365,
+  "max_relative_continuum_difference": 0.0023478579486202467,
+  "windows": [
+    {
+      "centre_air_A": 7771.944,
+      "model_mass_H_mA": 68.77889665764536,
+      "native_network_H_mA": 68.97322329193173,
+      "delta_mA": 0.19432663428636943
+    },
+    {
+      "centre_air_A": 7774.166,
+      "model_mass_H_mA": 59.23292849482671,
+      "native_network_H_mA": 59.41000584937201,
+      "delta_mA": 0.17707735454530393
+    },
+    {
+      "centre_air_A": 7775.388,
+      "model_mass_H_mA": 46.28324511421135,
+      "native_network_H_mA": 46.43251495294651,
+      "delta_mA": 0.1492698387351652
+    }
+  ],
+  "limitations": [
+    "Both inherit joint1e-6accuracy; paired difference is not a validated abundance error or physical accuracy bound.",
+    "Bare native backgrounds and experimental cap/collision hypotheses; no direct earlier Fe-blanketed/profile/observation comparison.",
+    "No CN added, chemistry/EOS update, source parameter fit, preferred normalization or solar/model admission."
+  ]
+}

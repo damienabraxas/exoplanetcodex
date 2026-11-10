@@ -1,0 +1,12 @@
+NOTICE — GENERATED SURFACE IS BEHIND ITS INPUTS (RYA-777):
+  data/audit/element_status_tracker.csv declares it was generated from phase_c @ 94ca526b3332,
+  but config/constants.py has moved 76d 1h since then.
+  The register-vs-surface comparison cannot see this: a surface that AGES
+  without CHANGING is never 'newer than' anything. Re-run phase_c and
+  regenerate the tracker to clear it.
+  NOT FATAL: phase_c currently refuses to run — solar_scale_provenance
+  raises on gold v3's Fe row (3D value, 1D label; the RYA-669 defect), and
+  the fix is a gold re-freeze, not a code change. This becomes a hard
+  failure once phase_c can regenerate.
+Register structure OK: 1 header line (v180), 178 changelog rows, all version numbers unique.
+Register freshness OK: CODEX_STATE_REGISTER.md is at or ahead of all 17 state surfaces.

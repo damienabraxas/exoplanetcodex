@@ -1,0 +1,56 @@
+{
+  "schema": "codex.bride_fe_stark_input/1",
+  "source_manifest": {
+    "name": "manifest.json",
+    "bytes": 7118,
+    "sha256": "82c06f7ef8cf8608d439493f447b11ceba6cf8610b6fe960cf3ee21e71bf6720"
+  },
+  "binding": {
+    "name": "experimental_input.json",
+    "bytes": 17148,
+    "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+  },
+  "initial_populations": {
+    "name": "populations.npz",
+    "bytes": 36823,
+    "sha256": "e754d9df4823bb9c044da898751b022553bb4efbeeb67ff5839db37571cdd14c"
+  },
+  "lines": {
+    "name": "lines.json",
+    "bytes": 110825,
+    "sha256": "cf84901b4e1e50012ce987788a68f1af975b5b35ac146619581ab26342f63ee0"
+  },
+  "pressure_source": {
+    "name": "report.json",
+    "bytes": 10920,
+    "sha256": "b1dc0157063fdef4f3dc0c72f2c159449fec30d674d26683396d02a413b31ab1"
+  },
+  "stark_source": {
+    "name": "report.json",
+    "bytes": 157208,
+    "sha256": "afe5685a659c5451ff0dc847bec0566d1fdc1eb4d6632284546904d2c2b09ace"
+  },
+  "generator": {
+    "name": "run_bride_fe_stark_controls.py",
+    "bytes": 16231,
+    "sha256": "9f96e0b6977528ce66da7a1213b1c6bf07f3c92233549f9c82686075c752ddaf"
+  },
+  "mode": "cowley",
+  "population_mode": "coupled",
+  "H2": "OMITTED: held fit does not cover complete column",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "code_commit": "3b7b9592802ee0f6fb8f5e4d8b0a5421197bc53c",
+  "scientific_admission": "HOLD"
+}

@@ -1,0 +1,597 @@
+{
+  "schema": "codex.bride_feii_profile_comparison/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "compare_bride_feii_profile.py",
+    "bytes": 9690,
+    "sha256": "f988dfd99f836c9a499c4f6e6a565e53db9daca735b8e5cbfe7392513e722ecf"
+  },
+  "adapter": {
+    "name": "bride_feii_profile.py",
+    "bytes": 2438,
+    "sha256": "9b89584a980955d24f22c73bc2d02e08e02e682560e64332e52f6bcec1098d33"
+  },
+  "plan": {
+    "name": "rya1281_feii_profile.json",
+    "bytes": 676,
+    "sha256": "df5cf8df9f9aff4db404083058c8494274421428f108ae66d20e6fb18e62c2a2"
+  },
+  "kitt": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "iag": {
+    "name": "iag_telfree_solaratlas.fits",
+    "bytes": 11658240,
+    "sha256": "2ddd21b78582a7cb2efaf32ff41c98696c941cacf1a8de4cae5a4cd9d0794546"
+  },
+  "native_iag_reader": {
+    "name": "measure_band_ew.py",
+    "bytes": 99784,
+    "sha256": "e448bc606f5403dc7ff48e523e7bc267fd13867568a88d74ef9574d9883b8907"
+  },
+  "reference_helper": {
+    "name": "local_continuum.py",
+    "bytes": 21906,
+    "sha256": "b561cb43abffd29236dc5308be8c0d499bdd2c9d8ed1dcb0c0acf8cb5ef1ed85"
+  },
+  "policies": {
+    "solar_kpno_kurucz2005_corrected": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+    "solar_iag": "solar_iag: iag_fts_solar_atlas is registered telluric_required=no on basis 'corrected', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made."
+  },
+  "iag_feature_flag0_count": 176,
+  "interpolation_step_A": 0.005,
+  "rest_air_A": 7777.099,
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "caveats": "Raw shipped and fixed-shoulder shape views retained. Contrast is not an isolated EW or adopted continuum. No gf/width/RV/LSF fit, pixel covariance/noise significance, extra telluric correction or preferred atlas. IAG native and Gaussian legs are correlated views of one holding. Interpolation adds no resolution.",
+  "cases": [
+    {
+      "name": "canonical_refined",
+      "source": {
+        "name": "report.json",
+        "bytes": 26942,
+        "sha256": "f0900dfdf7b912cc75ee3bdb696575600e27a8e6ae73b4ae0f227299040fc349"
+      },
+      "spectra": {
+        "zero": {
+          "name": "flux.csv",
+          "bytes": 400167,
+          "sha256": "afec2588fa6ca3e8dd2cd5d2ad164e712841be7dd515eaa53ffae97a1391e823"
+        },
+        "feii": {
+          "name": "flux.csv",
+          "bytes": 400167,
+          "sha256": "98d3cd11ad6e7140de16974eb1acfb9732de813e8308ce9abfbbb8899591a01a"
+        }
+      },
+      "metrics": [
+        {
+          "case": "canonical_refined",
+          "rv": "canonical_broadened",
+          "model": "zero",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.099,
+          "model_contrast": -0.00027277702140904303,
+          "observed_contrast": 0.0046937293728728235,
+          "contrast_difference": -0.004966506394281867,
+          "model_relative_core_area_mA": -0.0545554042817864,
+          "observed_relative_core_area_mA": 0.9387458745745425,
+          "raw_core_rms": 0.012969534108346349,
+          "shoulder_scaled_core_rms": 0.00535371363368511,
+          "model_max_shoulder_range_fraction": 0.0005606637220968997,
+          "observed_max_shoulder_range_fraction": 0.00728279836466408
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "canonical_broadened",
+          "model": "zero",
+          "observation": "iag_native",
+          "centre_air_A": 7777.099,
+          "model_contrast": -0.00027277702140904303,
+          "observed_contrast": 0.005003616636905517,
+          "contrast_difference": -0.00527639365831456,
+          "model_relative_core_area_mA": -0.0545554042817864,
+          "observed_relative_core_area_mA": 1.0007233273811311,
+          "raw_core_rms": 0.01747618389955325,
+          "shoulder_scaled_core_rms": 0.005595789403256066,
+          "model_max_shoulder_range_fraction": 0.0005606637220968997,
+          "observed_max_shoulder_range_fraction": 0.007172705824067504
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "canonical_broadened",
+          "model": "zero",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.099,
+          "model_contrast": -0.00027277702140904303,
+          "observed_contrast": 0.004992097913983362,
+          "contrast_difference": -0.005264874935392405,
+          "model_relative_core_area_mA": -0.0545554042817864,
+          "observed_relative_core_area_mA": 0.9984195827967002,
+          "raw_core_rms": 0.01745458076251929,
+          "shoulder_scaled_core_rms": 0.005580787185249788,
+          "model_max_shoulder_range_fraction": 0.0005606637220968997,
+          "observed_max_shoulder_range_fraction": 0.007015690614483431
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "canonical_broadened",
+          "model": "feii",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.099,
+          "model_contrast": 0.004281359661848172,
+          "observed_contrast": 0.0046937293728728235,
+          "contrast_difference": -0.0004123697110246516,
+          "model_relative_core_area_mA": 0.85627193236959,
+          "observed_relative_core_area_mA": 0.9387458745745425,
+          "raw_core_rms": 0.00828792685113437,
+          "shoulder_scaled_core_rms": 0.0011398143223773762,
+          "model_max_shoulder_range_fraction": 0.0005599687238122818,
+          "observed_max_shoulder_range_fraction": 0.00728279836466408
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "canonical_broadened",
+          "model": "feii",
+          "observation": "iag_native",
+          "centre_air_A": 7777.099,
+          "model_contrast": 0.004281359661848172,
+          "observed_contrast": 0.005003616636905517,
+          "contrast_difference": -0.0007222569750573449,
+          "model_relative_core_area_mA": 0.85627193236959,
+          "observed_relative_core_area_mA": 1.0007233273811311,
+          "raw_core_rms": 0.012809972476222332,
+          "shoulder_scaled_core_rms": 0.0011928449029776473,
+          "model_max_shoulder_range_fraction": 0.0005599687238122818,
+          "observed_max_shoulder_range_fraction": 0.007172705824067504
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "canonical_broadened",
+          "model": "feii",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.099,
+          "model_contrast": 0.004281359661848172,
+          "observed_contrast": 0.004992097913983362,
+          "contrast_difference": -0.0007107382521351902,
+          "model_relative_core_area_mA": 0.85627193236959,
+          "observed_relative_core_area_mA": 0.9984195827967002,
+          "raw_core_rms": 0.012788146666969197,
+          "shoulder_scaled_core_rms": 0.0011724958232385734,
+          "model_max_shoulder_range_fraction": 0.0005599687238122818,
+          "observed_max_shoulder_range_fraction": 0.007015690614483431
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "zero",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": -0.00027271952834118096,
+          "observed_contrast": 0.004856142391684637,
+          "contrast_difference": -0.005128861920025818,
+          "model_relative_core_area_mA": -0.0545439056682806,
+          "observed_relative_core_area_mA": 0.9712284783368885,
+          "raw_core_rms": 0.013139486634163297,
+          "shoulder_scaled_core_rms": 0.005324985580020148,
+          "model_max_shoulder_range_fraction": 0.0005553016026029745,
+          "observed_max_shoulder_range_fraction": 0.0067790816690421795
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "zero",
+          "observation": "iag_native",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": -0.00027271952834118096,
+          "observed_contrast": 0.005090364280558091,
+          "contrast_difference": -0.005363083808899272,
+          "model_relative_core_area_mA": -0.0545439056682806,
+          "observed_relative_core_area_mA": 1.018072856111607,
+          "raw_core_rms": 0.017569366598092086,
+          "shoulder_scaled_core_rms": 0.005546235198878425,
+          "model_max_shoulder_range_fraction": 0.0005553016026029745,
+          "observed_max_shoulder_range_fraction": 0.006567565821930679
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "zero",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": -0.00027271952834118096,
+          "observed_contrast": 0.005091877355004826,
+          "contrast_difference": -0.005364596883346007,
+          "model_relative_core_area_mA": -0.0545439056682806,
+          "observed_relative_core_area_mA": 1.0183754710009485,
+          "raw_core_rms": 0.0175595482578636,
+          "shoulder_scaled_core_rms": 0.00554028939526237,
+          "model_max_shoulder_range_fraction": 0.0005553016026029745,
+          "observed_max_shoulder_range_fraction": 0.006557207042454178
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "feii",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": 0.0042803121430146085,
+          "observed_contrast": 0.004856142391684637,
+          "contrast_difference": -0.0005758302486700284,
+          "model_relative_core_area_mA": 0.8560624286029495,
+          "observed_relative_core_area_mA": 0.9712284783368885,
+          "raw_core_rms": 0.008537181712802164,
+          "shoulder_scaled_core_rms": 0.0008315913851647393,
+          "model_max_shoulder_range_fraction": 0.0005546329429360108,
+          "observed_max_shoulder_range_fraction": 0.0067790816690421795
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "feii",
+          "observation": "iag_native",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": 0.0042803121430146085,
+          "observed_contrast": 0.005090364280558091,
+          "contrast_difference": -0.0008100521375434822,
+          "model_relative_core_area_mA": 0.8560624286029495,
+          "observed_relative_core_area_mA": 1.018072856111607,
+          "raw_core_rms": 0.01297795593097778,
+          "shoulder_scaled_core_rms": 0.0009999718086407324,
+          "model_max_shoulder_range_fraction": 0.0005546329429360108,
+          "observed_max_shoulder_range_fraction": 0.006567565821930679
+        },
+        {
+          "case": "canonical_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "feii",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": 0.0042803121430146085,
+          "observed_contrast": 0.005091877355004826,
+          "contrast_difference": -0.0008115652119902173,
+          "model_relative_core_area_mA": 0.8560624286029495,
+          "observed_relative_core_area_mA": 1.0183754710009485,
+          "raw_core_rms": 0.012970024009606347,
+          "shoulder_scaled_core_rms": 0.0009919354943779656,
+          "model_max_shoulder_range_fraction": 0.0005546329429360108,
+          "observed_max_shoulder_range_fraction": 0.006557207042454178
+        }
+      ]
+    },
+    {
+      "name": "lower_gravity_refined",
+      "source": {
+        "name": "report.json",
+        "bytes": 26732,
+        "sha256": "547ae816ab0daeb6552d55136832d789513c65d0f1deb1143427cd2d1a5def61"
+      },
+      "spectra": {
+        "zero": {
+          "name": "flux.csv",
+          "bytes": 400167,
+          "sha256": "700e69a7a6477810b867d0c1ea04b66fb422ab2ef2f8c3bb32010496aca8541f"
+        },
+        "feii": {
+          "name": "flux.csv",
+          "bytes": 400167,
+          "sha256": "0d4b3070d96034cd36f59544de62999dc5b5df46dad93b461906af3f4f12b170"
+        }
+      },
+      "metrics": [
+        {
+          "case": "lower_gravity_refined",
+          "rv": "canonical_broadened",
+          "model": "zero",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.099,
+          "model_contrast": -0.00027157060695115476,
+          "observed_contrast": 0.0046937293728728235,
+          "contrast_difference": -0.004965299979823978,
+          "model_relative_core_area_mA": -0.05431412139023095,
+          "observed_relative_core_area_mA": 0.9387458745745425,
+          "raw_core_rms": 0.013022051795797568,
+          "shoulder_scaled_core_rms": 0.005352745975597119,
+          "model_max_shoulder_range_fraction": 0.0005704925718214253,
+          "observed_max_shoulder_range_fraction": 0.00728279836466408
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "canonical_broadened",
+          "model": "zero",
+          "observation": "iag_native",
+          "centre_air_A": 7777.099,
+          "model_contrast": -0.00027157060695115476,
+          "observed_contrast": 0.005003616636905517,
+          "contrast_difference": -0.005275187243856672,
+          "model_relative_core_area_mA": -0.05431412139023095,
+          "observed_relative_core_area_mA": 1.0007233273811311,
+          "raw_core_rms": 0.017528950161315525,
+          "shoulder_scaled_core_rms": 0.005594771428136277,
+          "model_max_shoulder_range_fraction": 0.0005704925718214253,
+          "observed_max_shoulder_range_fraction": 0.007172705824067504
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "canonical_broadened",
+          "model": "zero",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.099,
+          "model_contrast": -0.00027157060695115476,
+          "observed_contrast": 0.004992097913983362,
+          "contrast_difference": -0.005263668520934517,
+          "model_relative_core_area_mA": -0.05431412139023095,
+          "observed_relative_core_area_mA": 0.9984195827967002,
+          "raw_core_rms": 0.017507349227496343,
+          "shoulder_scaled_core_rms": 0.005579768481509023,
+          "model_max_shoulder_range_fraction": 0.0005704925718214253,
+          "observed_max_shoulder_range_fraction": 0.007015690614483431
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "canonical_broadened",
+          "model": "feii",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.099,
+          "model_contrast": 0.004761335869405525,
+          "observed_contrast": 0.0046937293728728235,
+          "contrast_difference": 6.760649653270168e-05,
+          "model_relative_core_area_mA": 0.9522671738811384,
+          "observed_relative_core_area_mA": 0.9387458745745425,
+          "raw_core_rms": 0.007863525742894395,
+          "shoulder_scaled_core_rms": 0.0011029220927199468,
+          "model_max_shoulder_range_fraction": 0.0005697233568162653,
+          "observed_max_shoulder_range_fraction": 0.00728279836466408
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "canonical_broadened",
+          "model": "feii",
+          "observation": "iag_native",
+          "centre_air_A": 7777.099,
+          "model_contrast": 0.004761335869405525,
+          "observed_contrast": 0.005003616636905517,
+          "contrast_difference": -0.0002422807674999916,
+          "model_relative_core_area_mA": 0.9522671738811384,
+          "observed_relative_core_area_mA": 1.0007233273811311,
+          "raw_core_rms": 0.012382472065410521,
+          "shoulder_scaled_core_rms": 0.001036078627050308,
+          "model_max_shoulder_range_fraction": 0.0005697233568162653,
+          "observed_max_shoulder_range_fraction": 0.007172705824067504
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "canonical_broadened",
+          "model": "feii",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.099,
+          "model_contrast": 0.004761335869405525,
+          "observed_contrast": 0.004992097913983362,
+          "contrast_difference": -0.0002307620445778369,
+          "model_relative_core_area_mA": 0.9522671738811384,
+          "observed_relative_core_area_mA": 0.9984195827967002,
+          "raw_core_rms": 0.012360635894451808,
+          "shoulder_scaled_core_rms": 0.0010187814363274668,
+          "model_max_shoulder_range_fraction": 0.0005697233568162653,
+          "observed_max_shoulder_range_fraction": 0.007015690614483431
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "zero",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": -0.0002715122441854234,
+          "observed_contrast": 0.004856142391684637,
+          "contrast_difference": -0.00512765463587006,
+          "model_relative_core_area_mA": -0.05430244883705693,
+          "observed_relative_core_area_mA": 0.9712284783368885,
+          "raw_core_rms": 0.013192189045016305,
+          "shoulder_scaled_core_rms": 0.005323872593473619,
+          "model_max_shoulder_range_fraction": 0.0005651041153380002,
+          "observed_max_shoulder_range_fraction": 0.0067790816690421795
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "zero",
+          "observation": "iag_native",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": -0.0002715122441854234,
+          "observed_contrast": 0.005090364280558091,
+          "contrast_difference": -0.005361876524743514,
+          "model_relative_core_area_mA": -0.05430244883705693,
+          "observed_relative_core_area_mA": 1.018072856111607,
+          "raw_core_rms": 0.017622183044531625,
+          "shoulder_scaled_core_rms": 0.005545087271302885,
+          "model_max_shoulder_range_fraction": 0.0005651041153380002,
+          "observed_max_shoulder_range_fraction": 0.006567565821930679
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "zero",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": -0.0002715122441854234,
+          "observed_contrast": 0.005091877355004826,
+          "contrast_difference": -0.005363389599190249,
+          "model_relative_core_area_mA": -0.05430244883705693,
+          "observed_relative_core_area_mA": 1.0183754710009485,
+          "raw_core_rms": 0.017612372784808303,
+          "shoulder_scaled_core_rms": 0.0055391406614136275,
+          "model_max_shoulder_range_fraction": 0.0005651041153380002,
+          "observed_max_shoulder_range_fraction": 0.006557207042454178
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "feii",
+          "observation": "kitt_shipped",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": 0.0047601730235202755,
+          "observed_contrast": 0.004856142391684637,
+          "contrast_difference": -9.596936816436141e-05,
+          "model_relative_core_area_mA": 0.9520346047040273,
+          "observed_relative_core_area_mA": 0.9712284783368885,
+          "raw_core_rms": 0.008122266296496611,
+          "shoulder_scaled_core_rms": 0.0007156504893614804,
+          "model_max_shoulder_range_fraction": 0.0005643640492701083,
+          "observed_max_shoulder_range_fraction": 0.0067790816690421795
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "feii",
+          "observation": "iag_native",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": 0.0047601730235202755,
+          "observed_contrast": 0.005090364280558091,
+          "contrast_difference": -0.00033019125703781516,
+          "model_relative_core_area_mA": 0.9520346047040273,
+          "observed_relative_core_area_mA": 1.018072856111607,
+          "raw_core_rms": 0.012558927312130758,
+          "shoulder_scaled_core_rms": 0.0007741011974763804,
+          "model_max_shoulder_range_fraction": 0.0005643640492701083,
+          "observed_max_shoulder_range_fraction": 0.006567565821930679
+        },
+        {
+          "case": "lower_gravity_refined",
+          "rv": "plus_gravitational_shift",
+          "model": "feii",
+          "observation": "iag_shipped_gaussian",
+          "centre_air_A": 7777.115421056411,
+          "model_contrast": 0.0047601730235202755,
+          "observed_contrast": 0.005091877355004826,
+          "contrast_difference": -0.00033170433148455025,
+          "model_relative_core_area_mA": 0.9520346047040273,
+          "observed_relative_core_area_mA": 1.0183754710009485,
+          "raw_core_rms": 0.012551283471249676,
+          "shoulder_scaled_core_rms": 0.0007671228885699337,
+          "model_max_shoulder_range_fraction": 0.0005643640492701083,
+          "observed_max_shoulder_range_fraction": 0.006557207042454178
+        }
+      ]
+    }
+  ],
+  "shoulder_intake": {
+    "name": "candidate_intake.json",
+    "bytes": 520433,
+    "sha256": "8bb911697b9bad2f8dce0faeb3a5275722e14b26284c229a3b3bb64509dbcf2c"
+  },
+  "shoulder_inventory": [
+    {
+      "rv": "canonical_broadened",
+      "side": "blue",
+      "lo_air_A": 7776.549,
+      "hi_air_A": 7776.749,
+      "candidates": [
+        {
+          "line_id": "gf_064816",
+          "species": "Fe I",
+          "wave_air_A": "7776.632",
+          "treatment": "trace_FeI",
+          "source_matches": 1
+        },
+        {
+          "line_id": "gf_127792",
+          "species": "Ti I",
+          "wave_air_A": "7776.672",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        },
+        {
+          "line_id": "gf_127793",
+          "species": "Ti I",
+          "wave_air_A": "7776.718",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        }
+      ]
+    },
+    {
+      "rv": "canonical_broadened",
+      "side": "red",
+      "lo_air_A": 7777.4490000000005,
+      "hi_air_A": 7777.649,
+      "candidates": [
+        {
+          "line_id": "gf_039285",
+          "species": "Cr I",
+          "wave_air_A": "7777.562",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        }
+      ]
+    },
+    {
+      "rv": "plus_gravitational_shift",
+      "side": "blue",
+      "lo_air_A": 7776.565421056411,
+      "hi_air_A": 7776.765421056411,
+      "candidates": [
+        {
+          "line_id": "gf_015748",
+          "species": "Ca I",
+          "wave_air_A": "7776.765",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        },
+        {
+          "line_id": "gf_039284",
+          "species": "Cr I",
+          "wave_air_A": "7776.764",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        },
+        {
+          "line_id": "gf_064816",
+          "species": "Fe I",
+          "wave_air_A": "7776.632",
+          "treatment": "trace_FeI",
+          "source_matches": 1
+        },
+        {
+          "line_id": "gf_127792",
+          "species": "Ti I",
+          "wave_air_A": "7776.672",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        },
+        {
+          "line_id": "gf_127793",
+          "species": "Ti I",
+          "wave_air_A": "7776.718",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        }
+      ]
+    },
+    {
+      "rv": "plus_gravitational_shift",
+      "side": "red",
+      "lo_air_A": 7777.465421056411,
+      "hi_air_A": 7777.665421056411,
+      "candidates": [
+        {
+          "line_id": "gf_039285",
+          "species": "Cr I",
+          "wave_air_A": "7777.562",
+          "treatment": "not_in_trace_subset",
+          "source_matches": 1
+        }
+      ]
+    }
+  ],
+  "shoulder_limitation": "Fixed bands show structured atlas absorption; range statistics and candidate centres do not identify blends or qualify an isolated FeII profile. Bands are retained, not retuned."
+}

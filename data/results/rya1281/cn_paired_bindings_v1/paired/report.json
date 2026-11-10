@@ -1,0 +1,191 @@
+{
+  "schema": "codex.bride_cn_paired_bindings/1",
+  "scientific_admission": "HOLD",
+  "scope": "Actual LW background/LTE-initialization arrays on two explicit56depth H-normalization controls, fixed native T/Pe/geometry/composition and common CN per-volume populations. No formal solution, RT/SE, source-population provider attachment, abundance fitting, EOS/chemistry admission or selected preferred normalization. Postprocessed background-plus-CN arrays are diagnostic sums, not a new Context background or spectrum.",
+  "generator": {
+    "name": "check_bride_cn_paired_bindings.py",
+    "bytes": 12583,
+    "sha256": "d87d68300127830fe9a7891750c851da6bdbc200994b61251ebb4d790f441ea6"
+  },
+  "plan": {
+    "name": "rya1281_cn_paired_bindings.json",
+    "bytes": 1024,
+    "sha256": "d1fefd300af5169e6017cc5894932466edc1325350c5b68a9a1b56c6f3018c0b"
+  },
+  "state_helper": {
+    "name": "bride_binding_controls.py",
+    "bytes": 1830,
+    "sha256": "4f2fc25ccb1a6c111a0b0c43a6100ec7ac41b7b1ebac26091f35d0ffb149b2fa"
+  },
+  "CN_kernel": {
+    "name": "bride_cn_diagnostic.py",
+    "bytes": 3974,
+    "sha256": "8f4a6487a8ae8c9269599fd24db8254a14b05c1ab9805a92a737578f6e22f985"
+  },
+  "native_inventory": {
+    "name": "report.json",
+    "bytes": 9061,
+    "sha256": "51e0dcd2d40b99b59e0f890cd9ded8994c2a05f1340c55fbeedf13b0e23ab752"
+  },
+  "model": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "CN_states": {
+    "name": "states.csv",
+    "bytes": 99289,
+    "sha256": "1ecb7547bb6280daf3abd1e00fac528e225d3b5dbae11c31379a1751dafd4cc1"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "LW_constants": {
+    "name": "constants.py",
+    "bytes": 941,
+    "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+  },
+  "cases": [
+    {
+      "case": "model_mass_H",
+      "seconds": 0.5263178329914808,
+      "input": {
+        "name": "input.json",
+        "bytes": 7938,
+        "sha256": "bf67c4288f4aa7630f1ae588ee4a680042a9077573cb0a187072c7e7a3476142"
+      },
+      "background_window": {
+        "name": "background_window.npz",
+        "bytes": 5410354,
+        "sha256": "e056a6f1e2bfe7c4b0a30e6372c857cc46aeca59dbb01dd82241e241f1841592"
+      },
+      "oxygen_LTE": {
+        "name": "oxygen_LTE.npz",
+        "bytes": 20736,
+        "sha256": "7f7d289f581a0684dc297e8f9516a13a2a8ea7c2cf4fc0dcbca5727ef7971323"
+      },
+      "particle_budget_max_relative_difference": 7.771561172376096e-16,
+      "particle_budget_prospective_bound": 1.4566126083082054e-13,
+      "base_lookup_inventory": [
+        "CH",
+        "H",
+        "H-",
+        "H2",
+        "OH"
+      ],
+      "LW_molecular_equilibrium_species": []
+    },
+    {
+      "case": "native_network_H",
+      "seconds": 0.13593866722658277,
+      "input": {
+        "name": "input.json",
+        "bytes": 7941,
+        "sha256": "b990654828342b0c74cc596c9550fa611ed2ba902fa8eb010a70b108a6a5db71"
+      },
+      "background_window": {
+        "name": "background_window.npz",
+        "bytes": 5410354,
+        "sha256": "0c6ad539fff56a931161f02be4972cbe0ef44679ee528e2fed55b6462e35f46d"
+      },
+      "oxygen_LTE": {
+        "name": "oxygen_LTE.npz",
+        "bytes": 20736,
+        "sha256": "ed2c42ee72070317f75bb8e336b841b5e6bba909f9b3ae83deb2270595b7e4aa"
+      },
+      "particle_budget_max_relative_difference": 1.2212453270876722e-15,
+      "particle_budget_prospective_bound": 1.4566126083082054e-13,
+      "base_lookup_inventory": [
+        "CH",
+        "H",
+        "H-",
+        "H2",
+        "OH"
+      ],
+      "LW_molecular_equilibrium_species": []
+    }
+  ],
+  "common_fields_exact": true,
+  "relative_abundance_exact": true,
+  "common_CN_population_fixed": true,
+  "sampled_CN_lines": 3,
+  "oxygen_total_ratio_identity_max_relative_difference": 1.1102230246251565e-15,
+  "oxygen_LTE_fraction_max_absolute_difference": 6.661338147750939e-16,
+  "summary": {
+    "nH_ratio": [
+      0.9919675919913356,
+      1.0190607555015219
+    ],
+    "oxygen_LTE_total_ratio": [
+      0.9919675919913352,
+      1.0190607555015216
+    ],
+    "O_fraction_max_absolute_change": [
+      1.0587911840678754e-22,
+      6.661338147750939e-16
+    ],
+    "chi_ratio_min": [
+      0.992045041510191,
+      1.019318706134828
+    ],
+    "chi_ratio_max": [
+      0.992045079819079,
+      1.0193193837935886
+    ],
+    "chi_max_relative_departure_from_H_scaling": [
+      1.5603864200741668e-07,
+      0.00025379084678744945
+    ],
+    "eta_ratio_min": [
+      0.9919675019970058,
+      1.0193211622964746
+    ],
+    "eta_ratio_max": [
+      0.9919675020966894,
+      1.019321851653953
+    ],
+    "eta_max_relative_departure_from_H_scaling": [
+      9.072305440227524e-08,
+      0.0002562125477030275
+    ],
+    "sca_ratio_min": [
+      0.9937144501460835,
+      1.00024549931292
+    ],
+    "sca_ratio_max": [
+      0.9937289003200996,
+      1.0002479823463652
+    ],
+    "sca_max_relative_departure_from_H_scaling": [
+      0.0006581071662051796,
+      0.01857934029144459
+    ],
+    "postprocessed_chi_ratio_min": [
+      0.992045041510191,
+      1.019318706134828
+    ],
+    "postprocessed_chi_ratio_max": [
+      0.9920468486198947,
+      1.0193193837935886
+    ],
+    "max_common_CN_over_model_background": [
+      1.855861535313725e-11,
+      0.0002245787653332646
+    ]
+  },
+  "seconds_main": 2.26576487487182,
+  "process_peak_rss_bytes": 322830336,
+  "limitations": [
+    "LTE initialization/background arrays on two deliberately different H budgets, not an O NLTE solve or spectrum.",
+    "LW molecular equilibrium explicitly empty; fixed native CN opacity from only three sampled transitions is postprocessed, not installed as provider or chemistry.",
+    "Native CN constants/coordinate rescaling retained; LTE emission diagnostic uses explicit LW Planck convention.",
+    "No physical normalization chosen, density correction applied, primary provenance or EOS/reference admission."
+  ]
+}

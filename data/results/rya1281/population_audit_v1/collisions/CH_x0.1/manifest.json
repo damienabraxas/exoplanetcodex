@@ -1,0 +1,54 @@
+{
+  "case": {
+    "name": "CH_x0.1",
+    "teff": 5750,
+    "logg": 4.5,
+    "xi": 1.0,
+    "abundance": 8.7,
+    "drop_bottom": 0,
+    "diagnostic_collision_scales": {
+      "CH": 0.1
+    }
+  },
+  "status": "CONVERGED_EXPERIMENT",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5
+  },
+  "threads": 1,
+  "interpretation": "xi changes formal-transfer/SE microturbulence at fixed MARCS t01 structure; Teff/logg use actual independent atmosphere files; explicit collision-class scaling is a causal sensitivity control, not adopted atomic data",
+  "diagnostic_collision_scales": {
+    "CH": 0.1
+  },
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "original_depths": 56,
+  "retained_depths": 56,
+  "temperature_range_K": [
+    4045.9,
+    9909.1
+  ],
+  "bottom_logtau500": 1.7744,
+  "iterations": 433,
+  "final_diagnostics": {
+    "iteration": 433,
+    "population_change": 9.276057933011679e-07,
+    "J_change": 9.282524091602795e-07,
+    "physical_rate_residual": 1.798358966532605e-14,
+    "particle_conservation_error": 8.881784197001252e-16
+  },
+  "elapsed_seconds": 61.120637208689004,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 240167,
+    "sha256": "394a645d779d1d6c58ad93e7e6c33c1e02d92606fd0cf76a80c7b23af5cdfd75"
+  },
+  "continuum_iterations": 35
+}

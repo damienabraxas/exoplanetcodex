@@ -1,0 +1,26 @@
+{
+  "schema": "codex.bride_external_derived_artifact/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "receipt_bride_refined_rates.py",
+    "bytes": 1548,
+    "sha256": "d4f46b637c721fb02ebe901436487f46c5b1b944c769f6cfdcadadd9c6da4bc5"
+  },
+  "resource_key": "experiments.bride_thermal_refined_rates",
+  "artifact": {
+    "name": "rates.npz",
+    "bytes": 6382021,
+    "sha256": "944ca6614c00e616ffc82c85ab795a87bcbd08c4619f31157d1acdb509576316"
+  },
+  "source_report": {
+    "name": "report.json",
+    "bytes": 28477,
+    "sha256": "ea9729437af638557520e32c647dd76f28c076960e7ab114dcab5d6ebd810721"
+  },
+  "source_writer": {
+    "name": "bride_coupled_control.py",
+    "bytes": 4768,
+    "sha256": "24dd389d3ad69c49096aa3f18be8e7421631b7d43f7bfcd01ade50bff371f3bb"
+  },
+  "scope": "Full derived radiative/collision/J arrays, not raw observation or adopted product. Retained in registered Mac storage under repository5MiB ceiling; no renaming or truncating numerical content."
+}

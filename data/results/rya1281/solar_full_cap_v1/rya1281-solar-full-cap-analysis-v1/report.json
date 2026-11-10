@@ -1,0 +1,197 @@
+{
+  "schema": "codex.bride_solar_matched_analysis/1",
+  "scientific_admission": "HOLD",
+  "scope": "Admit only all four completed source-owned column solves after independent fresh rate/conservation replay and common-input/starting-fraction checks. Same retained atlas shape data/geometry/RVs/nominal broadening; measure T,g and finite interaction without inversion/adoption. Baseline replay screen is numerical interoperability, not physical error. No solar abundance, source/EOS/atom/cap/provider/production/merge/publication admission.",
+  "generator": {
+    "name": "analyze_bride_solar_matched_columns.py",
+    "bytes": 15396,
+    "sha256": "51956b22853844fd9fb933cda8d447bfb96aa4047a2282cb5de583630f4119f3"
+  },
+  "plan": {
+    "name": "rya1281_solar_matched_analysis.json",
+    "bytes": 3348,
+    "sha256": "a7dfd0431ea410ca001ac1bff9e5a84607f16baf5a49ca687e1541258d75a9b0"
+  },
+  "run_plan": {
+    "name": "rya1281_solar_matched_full_cap.json",
+    "bytes": 4716,
+    "sha256": "629fc604574353a242a69c3103603b8381ca834fd764f6b1552c53e7e13aeed7"
+  },
+  "source_reports": [
+    {
+      "name": "report.json",
+      "bytes": 23507,
+      "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+    },
+    {
+      "name": "report.json",
+      "bytes": 24788,
+      "sha256": "1597d4729b69339306f1ca740ea37fdb33c5bd1297f9e56b8791bdd0d9d1bf52"
+    },
+    {
+      "name": "report.json",
+      "bytes": 24726,
+      "sha256": "52c90bc3ab4985b0fe11971b658f0a92c26b5d942f58305513d1fb869a6c8bd0"
+    },
+    {
+      "name": "report.json",
+      "bytes": 24779,
+      "sha256": "aa807a66587d44b546c0bea6cff86c59ae2e8a3f968483f28081f4eefee35f7d"
+    }
+  ],
+  "rates": [
+    {
+      "case": "baseline",
+      "rate_residual": 2.8762584392581852e-11,
+      "conservation": 1.3322676295501878e-15,
+      "iterations": 5,
+      "seconds": 21.887378041166812,
+      "peak_rss_bytes": 692240384
+    },
+    {
+      "case": "temperature",
+      "rate_residual": 1.7545437360159114e-08,
+      "conservation": 1.3322676295501878e-15,
+      "iterations": 8,
+      "seconds": 35.32015145896003,
+      "peak_rss_bytes": 695828480
+    },
+    {
+      "case": "gravity",
+      "rate_residual": 1.1889421281706603e-08,
+      "conservation": 1.1102230246251565e-15,
+      "iterations": 7,
+      "seconds": 31.125518708024174,
+      "peak_rss_bytes": 690208768
+    },
+    {
+      "case": "solar",
+      "rate_residual": 2.4545425480513253e-12,
+      "conservation": 1.5543122344752192e-15,
+      "iterations": 9,
+      "seconds": 37.822851249948144,
+      "peak_rss_bytes": 686129152
+    }
+  ],
+  "source_files": {
+    "data/results/rya1281/H_nlte_pair_v2/model_mass_H/report.json": {
+      "name": "report.json",
+      "bytes": 17385,
+      "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+    },
+    "data/results/rya1281/H_nlte_pair_v2/model_mass_H/flux.csv": {
+      "name": "flux.csv",
+      "bytes": 400167,
+      "sha256": "e7341fcebe74d957878f175fc3e3eaac6bce622ba45ae13d8a27e69198ea6e95"
+    },
+    "data/results/rya1281/O_shape_milestone_v1/run/report.json": {
+      "name": "report.json",
+      "bytes": 22509,
+      "sha256": "ac84cca6f630d77b39305fe305fbd97796329f330ea82a50cea028acb571a2d9"
+    },
+    "data/results/rya1281/O_shape_milestone_v1/run/profiles.npz": {
+      "name": "profiles.npz",
+      "bytes": 890014,
+      "sha256": "5f4869ea6a4fef007d98fd65319a2756a36ef781ce5c94eb50ff4e9378dce990"
+    },
+    "data/results/rya1281/O_shape_milestone_v1/run/metrics.csv": {
+      "name": "metrics.csv",
+      "bytes": 139082,
+      "sha256": "a6f38c0d41d41919c93c6c0c7ca83bd2fc6d978ff8d2e3f227a900dc022c4586"
+    },
+    "data/results/rya1281/H_kitt_orch_v1/report.json": {
+      "name": "report.json",
+      "bytes": 46275,
+      "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+    },
+    "data/results/rya1281/solar_matched_v1/run/baseline/report.json": {
+      "name": "report.json",
+      "bytes": 21398,
+      "sha256": "4fd754e36948140710f86fc9f05f92392501660b12fd602b0c2918b65c5d7dec"
+    },
+    "data/results/rya1281/solar_matched_v1/run/baseline/flux.csv": {
+      "name": "flux.csv",
+      "bytes": 400167,
+      "sha256": "8198e04d1bb8e26da071f015826343ae7cd29d11de6c794b39bf4fabc250180b"
+    },
+    "data/results/rya1281/solar_matched_v1/run/gravity/report.json": {
+      "name": "report.json",
+      "bytes": 22617,
+      "sha256": "af1700608c08b4f400006aa673a61ff7c71aa7c8be277bd2551c99233f76c9fe"
+    },
+    "data/results/rya1281/solar_matched_v1/run/gravity/flux.csv": {
+      "name": "flux.csv",
+      "bytes": 400167,
+      "sha256": "b9127e5a13cf38808d6b5f6775e11a7c4076e2691ca3f4bd0d2b4f9c12fb52bd"
+    }
+  },
+  "baseline_replay": {
+    "max_absolute_normalized_flux_difference": 1.3561714207188658e-07,
+    "max_relative_continuum_difference": 1.6216983311778677e-09,
+    "source_field_changes": {
+      "height_m": {
+        "max_absolute": 0.0,
+        "max_relative": null
+      },
+      "temperature_K": {
+        "max_absolute": 0.0003906250003637979,
+        "max_relative": 4.6840897716116103e-08
+      },
+      "electron_pressure_Pa": {
+        "max_absolute": 1.9531250018189894e-05,
+        "max_relative": 4.782596130237238e-08
+      },
+      "ne_m3": {
+        "max_absolute": 172326116655104.0,
+        "max_relative": 7.82787512587646e-08
+      },
+      "nH_m3": {
+        "max_absolute": 0.0,
+        "max_relative": 0.0
+      },
+      "vturb_m_s": {
+        "max_absolute": 0.0,
+        "max_relative": 0.0
+      }
+    }
+  },
+  "endpoint_replays": [
+    {
+      "case": "baseline",
+      "legacy_report": {
+        "name": "report.json",
+        "bytes": 21398,
+        "sha256": "4fd754e36948140710f86fc9f05f92392501660b12fd602b0c2918b65c5d7dec"
+      },
+      "max_normalized_flux_difference": 1.4606087184176886e-07,
+      "max_relative_continuum_difference": 1.0935696792557792e-13,
+      "scope": "Same physical inputs under separate initialization/operator; numerical screen only, not independent physical accuracy"
+    },
+    {
+      "case": "gravity",
+      "legacy_report": {
+        "name": "report.json",
+        "bytes": 22617,
+        "sha256": "af1700608c08b4f400006aa673a61ff7c71aa7c8be277bd2551c99233f76c9fe"
+      },
+      "max_normalized_flux_difference": 4.974834052484667e-07,
+      "max_relative_continuum_difference": 3.8968828164342995e-14,
+      "scope": "Same physical inputs under separate initialization/operator; numerical screen only, not independent physical accuracy"
+    }
+  ],
+  "initialization_mode": "common_fractions",
+  "max_common_seed_pattern_difference": 1.6653345369377348e-15,
+  "rows": {
+    "metrics": 48,
+    "comparisons": 144,
+    "factorial": 24
+  },
+  "total_solved_seconds": 126.15589945809916,
+  "limitations": [
+    "Exact canonical labels are interpolated input controls, not independent atmosphere/EOS/interpolation accuracy or physical model validation.",
+    "Fixed original geometric cap is an experimental control, not an interpolated/validated column mass.",
+    "Only this model-H source ownership; exported native-network packet not transplanted.",
+    "Finite T/g effects/interactions are correlated controlled differences, not independent uncertainty components or inverse parameter fits.",
+    "Current source atom/collision/cap/MULTI/opacity/reference/3D/all-band and CNO gates remain open; no adopted abundance/model/continuum/production."
+  ]
+}

@@ -1,0 +1,630 @@
+{
+  "schema": "codex.bride_solar_matched_column/1",
+  "scientific_admission": "HOLD",
+  "case": "temperature",
+  "scope": "Matched baseline/T-only/g-only/canonical-solar column experiment at unchanged source O8.70/41level atom/collision hypotheses/bare background/xi1/geometry-cap policy/numerical controls. Fresh independent class-C+transition-R and conservation required; no EOS feedback, interpolation accuracy, source/reference/model/abundance admission or production/merge/publication. Isolated full-coupling preconditioner after toy and full-O fixed-population rate-action tests. No change to physical source or admission/default/production.",
+  "generator": {
+    "name": "run_bride_solar_matched_mali.py",
+    "bytes": 12706,
+    "sha256": "0dcbb8a38583220c10ffe836413a38bee36464414757d0eac7d1971675d4bc37"
+  },
+  "plan": {
+    "name": "rya1281_solar_matched_full_coupling.json",
+    "bytes": 4472,
+    "sha256": "361fc34a5c9e1a3983321044e9503f6ba6d16c5ef4b4c3b7c795317e943908ac"
+  },
+  "state": {
+    "case": "model_mass_H",
+    "height_m": [
+      603300.2517202556,
+      580756.691372544,
+      558013.1272046594,
+      535235.3239160054,
+      512257.50872503367,
+      489079.6818329023,
+      465701.84343571245,
+      442215.5130066207,
+      418537.6577088816,
+      394559.78592503,
+      370481.90873528033,
+      358738.7435207345,
+      346812.64222134586,
+      334969.47011700284,
+      323026.291235671,
+      311000.1874859765,
+      298957.0019377157,
+      286822.3216386439,
+      274687.64133957215,
+      262544.4492317826,
+      250309.76475955747,
+      237975.07618066913,
+      225640.3876017808,
+      213297.18268691696,
+      200762.48608791584,
+      188319.2749205988,
+      175684.57440514135,
+      163041.3510233866,
+      150306.64665194572,
+      137471.93848360435,
+      124545.81436586707,
+      111519.6881565924,
+      98401.79284169845,
+      85222.67314630706,
+      72011.28827531039,
+      58854.24536630639,
+      45874.830679865496,
+      33269.957922652684,
+      21274.532405586826,
+      10127.896058729979,
+      0.0,
+      -8989.761189259241,
+      -16817.955708135454,
+      -23469.45407940726,
+      -28952.94650069655,
+      -33524.73960870283,
+      -37570.05410408777,
+      -41356.9248648694,
+      -45068.55578302583,
+      -48815.86098337983,
+      -52666.907244032474,
+      -61155.51471387104,
+      -70795.05157180442,
+      -81936.21537549986,
+      -94923.23566711045,
+      -110109.99991733505
+    ],
+    "temperature_K": [
+      4062.8048000000003,
+      4098.5784,
+      4141.9256000000005,
+      4186.4816,
+      4231.555200000001,
+      4276.8288,
+      4322.02,
+      4367.12,
+      4412.0464,
+      4456.6903999999995,
+      4500.596,
+      4523.040000000001,
+      4545.101600000001,
+      4567.1720000000005,
+      4589.16,
+      4611.165599999999,
+      4633.3712000000005,
+      4655.6856,
+      4678.4088,
+      4701.540800000001,
+      4725.3640000000005,
+      4750.287200000001,
+      4776.3192,
+      4804.0424,
+      4833.7568,
+      4865.8712,
+      4900.356,
+      4940.5856,
+      4982.7880000000005,
+      5030.3584,
+      5084.072800000001,
+      5144.0048,
+      5212.319200000001,
+      5289.8304,
+      5377.8416,
+      5478.6408,
+      5592.6368,
+      5722.9296,
+      5871.2192000000005,
+      6039.8144,
+      6230.532800000001,
+      6447.2096,
+      6689.9272,
+      6980.8352,
+      7309.2832,
+      7608.1056,
+      7863.82,
+      8083.352,
+      8276.0072,
+      8448.712000000001,
+      8607.0488,
+      8892.3832,
+      9159.1728,
+      9417.456,
+      9673.224,
+      9931.3024
+    ],
+    "electron_pressure_Pa": [
+      0.002252255730106914,
+      0.0029056602465418898,
+      0.003760779633235828,
+      0.004864899047603477,
+      0.006286677136241671,
+      0.00811407242662742,
+      0.010459517950159309,
+      0.013467525509640935,
+      0.017318001610444746,
+      0.022243909171637894,
+      0.028526031704700656,
+      0.03230554431470873,
+      0.03656492324168615,
+      0.04137599489088853,
+      0.04680889437425269,
+      0.05294391837278894,
+      0.05987760694235482,
+      0.06771227197983697,
+      0.07657663463087604,
+      0.08661095866608842,
+      0.09799438502688425,
+      0.11093569411908842,
+      0.1256863121310499,
+      0.14254940069669578,
+      0.16190293461462205,
+      0.18418645515407744,
+      0.2098955039113984,
+      0.2402385111008834,
+      0.27537783417679706,
+      0.31697111550490886,
+      0.36675184334433597,
+      0.42673032014233636,
+      0.5006463496974504,
+      0.5936609407440296,
+      0.7140095687225874,
+      0.8765829092713391,
+      1.1043502625568116,
+      1.4410204711893064,
+      1.960525779255266,
+      2.791930768878553,
+      4.160414578549156,
+      6.4815144178678095,
+      10.449519114998362,
+      17.907160694213747,
+      31.506715470614633,
+      50.84617662071028,
+      74.73281907017724,
+      102.32934556136573,
+      133.29026733854369,
+      167.5394185737603,
+      205.29667243498338,
+      292.07814413779647,
+      400.27811727883363,
+      536.5760292129178,
+      709.8890808990965,
+      932.6219524482291
+    ],
+    "ne_m3": [
+      4.015185644453527e+16,
+      5.1348229197609784e+16,
+      6.5764190545705256e+16,
+      8.416635743181915e+16,
+      1.0760563946064691e+17,
+      1.3741397423066162e+17,
+      1.752825907484893e+17,
+      2.2336059996336826e+17,
+      2.8429655092632784e+17,
+      3.6150352302262605e+17,
+      4.590766639385524e+17,
+      5.173214910634181e+17,
+      5.826865005070463e+17,
+      6.561678814151891e+17,
+      7.387696916085023e+17,
+      8.316091273543379e+17,
+      9.360115903903487e+17,
+      1.0534104634122351e+18,
+      1.1855284885332744e+18,
+      1.3342786065215214e+18,
+      1.502034160237399e+18,
+      1.6914739890572723e+18,
+      1.9059369374847885e+18,
+      2.1491783169149601e+18,
+      2.425960978732118e+18,
+      2.7416434037736054e+18,
+      3.102339985544722e+18,
+      3.521908637792735e+18,
+      4.0028605109328983e+18,
+      4.5638845106627707e+18,
+      5.224857268236576e+18,
+      6.008499407579044e+18,
+      6.956870776791183e+18,
+      8.128503819472756e+18,
+      9.616342257087713e+18,
+      1.1588682323379343e+19,
+      1.4302241565210194e+19,
+      1.823751378862066e+19,
+      2.4185671436562985e+19,
+      3.348073149878467e+19,
+      4.836434485357677e+19,
+      7.281462015450771e+19,
+      1.1313286860655318e+20,
+      1.8579466173472008e+20,
+      3.122067067327735e+20,
+      4.840560539182975e+20,
+      6.883220580477331e+20,
+      9.169013070606488e+20,
+      1.1665180562045528e+21,
+      1.4362842037412322e+21,
+      1.7275933796946482e+21,
+      2.379001836221629e+21,
+      3.165333558107659e+21,
+      4.12678224901408e+21,
+      5.315365555195376e+21,
+      6.801634870312967e+21
+    ],
+    "nH_m3": [
+      4.7777943061995415e+20,
+      6.137712636032369e+20,
+      7.84881039980138e+20,
+      1.0024135537637613e+21,
+      1.2790205886884938e+21,
+      1.6307340927677985e+21,
+      2.0778805699318178e+21,
+      2.6462801078394075e+21,
+      3.368665858916739e+21,
+      4.2867450368514893e+21,
+      5.45362075449288e+21,
+      6.149908071055206e+21,
+      6.934854728321772e+21,
+      7.819367203491309e+21,
+      8.815796176639164e+21,
+      9.938536442516614e+21,
+      1.120338668879782e+22,
+      1.2627428450807461e+22,
+      1.4230029736350797e+22,
+      1.603380383443194e+22,
+      1.8062129122337637e+22,
+      2.0340868667629554e+22,
+      2.289889198096619e+22,
+      2.5768196851898704e+22,
+      2.898126289027957e+22,
+      3.2575659423548467e+22,
+      3.6592835847339897e+22,
+      4.1050157938053936e+22,
+      4.602240405987956e+22,
+      5.153290951895913e+22,
+      5.761449371235441e+22,
+      6.431745036052439e+22,
+      7.164327521243206e+22,
+      7.95949363331597e+22,
+      8.813999152711674e+22,
+      9.715464508140914e+22,
+      1.0646601822750693e+23,
+      1.1572682742267743e+23,
+      1.2450476959429685e+23,
+      1.3231471604621475e+23,
+      1.3872377649639203e+23,
+      1.4337909981773783e+23,
+      1.461775429464062e+23,
+      1.4661454943341361e+23,
+      1.450515541697302e+23,
+      1.4325730027001494e+23,
+      1.4186147670073082e+23,
+      1.409267242398516e+23,
+      1.4039632448633562e+23,
+      1.4021726291936165e+23,
+      1.4034884325140388e+23,
+      1.4149811164805784e+23,
+      1.4364599974081603e+23,
+      1.4684364443752629e+23,
+      1.512045177957666e+23,
+      1.569170664452722e+23
+    ],
+    "vturb_m_s": [
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0,
+      1000.0
+    ],
+    "ne_owner": "source-precision MARCS/interpolated Pe/(LW k*T)",
+    "nH_owner": "source-precision MARCS/interpolated rho*X/(LW Amu*H mass)"
+  },
+  "state_helper": {
+    "name": "bride_solar_matched.py",
+    "bytes": 3392,
+    "sha256": "41ad3e6b0f40840ce9f31277ca7a416034682a9f412acc308086859e11d89f38"
+  },
+  "context_helper": {
+    "name": "bride_H_nlte_control.py",
+    "bytes": 3571,
+    "sha256": "a5f5d638c5262c5664fd5c305aa8e48c0a63e52af9b831ab31b3b497cfcd9e17"
+  },
+  "case_parameters": {
+    "name": "temperature",
+    "teff": 5772.0,
+    "logg": 4.5,
+    "native": false
+  },
+  "source_nodes": [
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    }
+  ],
+  "column_preparation": {
+    "sources": [
+      {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      },
+      {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      },
+      {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      },
+      {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    ],
+    "case_interpolation": {
+      "baseline": {
+        "method": "native source precision, no interpolation",
+        "target": [
+          5750.0,
+          4.5
+        ]
+      },
+      "temperature": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.5
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.912,
+          0.0
+        ]
+      },
+      "gravity": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5750.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.0,
+          0.8759999999999994,
+          0.12400000000000055
+        ]
+      },
+      "solar": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      }
+    },
+    "native_node_max_absolute_identity": {
+      "height_m": 1.1641532182693481e-10,
+      "temperature_K": 0.0,
+      "electron_pressure_Pa": 2.2737367544323206e-13,
+      "rho_kg_m3": 2.710505431213761e-19,
+      "logtau_ross": 0.0,
+      "logtau_500": 0.0
+    },
+    "native_node_interpolation": {
+      "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+      "thermodynamic_scale": "log_positive_layers",
+      "target": [
+        5750.0,
+        4.5
+      ],
+      "simplex_source_indices": [
+        3,
+        1,
+        0
+      ],
+      "weights": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "field_ownership": "Native MARCS source precision for baseline; audited nearest-cell simplex log-positive Pe/rho/log-layer-thickness interpolation for others,56depths. ne=Pe/(LW k*T),nH=rho*X/(LW Amu*H mass). No exported native network/Pe rounding packet or molecule provider transplanted.",
+  "binding_change_from_prior": {
+    "height_m": {
+      "max_absolute": 900.25172025559,
+      "max_relative": null
+    },
+    "temperature_K": {
+      "max_absolute": 28.28319999999985,
+      "max_relative": 0.004178278767217547
+    },
+    "electron_pressure_Pa": {
+      "max_absolute": 10.24197197947899,
+      "max_relative": 0.04062996883244474
+    },
+    "ne_m3": {
+      "max_absolute": 5.962225867343738e+19,
+      "max_relative": 0.036525279816747025
+    },
+    "nH_m3": {
+      "max_absolute": 2.99384297698928e+21,
+      "max_relative": 0.01872194328583121
+    },
+    "vturb_m_s": {
+      "max_absolute": 0.0,
+      "max_relative": 0.0
+    }
+  },
+  "density_helper": {
+    "name": "bride_reference.py",
+    "bytes": 10407,
+    "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+  },
+  "interpolator": {
+    "name": "bride_parameter_checks.py",
+    "bytes": 6354,
+    "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "warm_report": {
+    "name": "report.json",
+    "bytes": 17385,
+    "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+  },
+  "warm_populations": {
+    "name": "populations.npz",
+    "bytes": 54276,
+    "sha256": "176a42000b1c4cb09c9c093b4008df185a14e0454507f4f5951c1cc74951d8b3"
+  },
+  "initialization": "Same completed v2 model-H level fractions for ALL four fresh solves, separately mapped to each new O total. No sequential matrix warm starts, imported J/rates or observational tuning.",
+  "initialization_mode": "common_fractions",
+  "solver_operator": "Complete quadrature-weighted cross-level MALI with original native Ng; no physical rate change.",
+  "controls": {
+    "rays": 5,
+    "qscale": 2,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 7,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "cap_length_m": 84362.76027271051,
+  "background": "Native FastBackground plus existing passive atoms, explicitly empty LW molecule population table; no added Fe/CN line providers. Full source O model radiative grid with doubled line quadratures; only diagnostic-window endpoints added to SE grid, emergent full4001point rays sampled afterward.",
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "LW_constants": {
+    "name": "constants.py",
+    "bytes": 941,
+    "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+  },
+  "iteration_plugin": {
+    "receipt": {
+      "name": "receipt.json",
+      "bytes": 12074,
+      "sha256": "74e0a192cdf72a9e7153499e3ee8d5fed4751c9dac04ca7a0408afbf50f154a2"
+    },
+    "plugin": {
+      "name": "bride_overlap_guard.dylib",
+      "bytes": 239528,
+      "sha256": "c5c51cb79aa3de7f970c484e9ec0b5477cd7a39fb9413345945bfe0f3c6f4d6d"
+    },
+    "backend": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "properties": {
+      "name": "bride_full_coupling_scalar",
+      "Ndim": -1,
+      "dimensionSpecific": false,
+      "respectsFormalSolver": true,
+      "defaultPerAtomStorage": true,
+      "defaultWlaGijStorage": true
+    }
+  },
+  "numerical_algorithm": {
+    "method": "full_coupling_mali",
+    "native_ng": true,
+    "scope": "Complete per-atom quadrature-weighted extinction/emissivity cross-level preconditioning; exact current-population rate action. Same physical rates, transfer, source controls, initial fractions and original native Ng/budgets/thresholds."
+  }
+}

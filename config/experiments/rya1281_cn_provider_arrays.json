@@ -1,0 +1,19 @@
+{
+  "schema": "codex.bride_cn_provider_arrays_plan/1",
+  "backend_version": "0.16.1",
+  "purpose": "synthetic_array_test",
+  "depths": 3,
+  "temperature_K": [5000,5500,6000],
+  "ne_m3": [1e15,2e15,3e15],
+  "nH_m3": [1e20,2e20,3e20],
+  "height_m": [2e5,1e5,0],
+  "xi_m_s": 1000,
+  "lower_population_m3": [1e12,2e12,3e12],
+  "line_air_A": 7771.957,
+  "gf": 0.01,
+  "mass_amu": 26,
+  "gamma_s_inv": 1e7,
+  "support_vac_nm": [777,779],
+  "mapping": "exact_vacuum_frequency",
+  "scope": "Actual LW background-array integration on disposable H-only three-depth synthetic state, not native CN populations or a solar column. Require disabled/zero parity, additive extinction/emissivity, unchanged scattering/outside support, LTE Kirchhoff, deepcopy/repeat identity, runtime base lookup inventory, and fail-before-write on state/abundance/mapping changes. No Context formal solution, RT/SE, abundance or model/chemistry admission."
+}

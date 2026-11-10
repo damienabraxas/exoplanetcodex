@@ -1,0 +1,18 @@
+{
+  "schema": "codex.bride_feii_width_transfer_plan/1",
+  "line_id": "gf_079010",
+  "seconds_per_leg": 180,
+  "radiation_rtol": 1e-08,
+  "radiation_maxiter": 1000,
+  "baseline_flux_max_absolute": 1e-06,
+  "cases": [
+    "canonical_refined",
+    "lower_gravity_refined"
+  ],
+  "scope": "Two paired natural/W-pressure+ionic-Stark transfers per column, separate cowley and provided alternatives. Natural baseline must reproduce archived natural FeII at unchanged 1e-6 guard. Exact O populations, continuum, inherited FeI and geometry. Live depth-dependent H0/He0/ne; H2 zero. Both references/RVs, historical 3percent continuum. No fitting, feedback or adoption.",
+  "stark_modes": [
+    "cowley",
+    "provided"
+  ],
+  "width_source": "data/results/rya1281/feii_profile_source_v1/width_source/report.json"
+}

@@ -1,0 +1,30 @@
+{
+ "element": "Fe",
+ "n_rows": 40571,
+ "held_reason": {
+  "UNGRADED_GF": 38816,
+  "GRADED_NOT_LAB": 1740,
+  "REGISTRY_EXCLUDED": 15
+ },
+ "flags": {
+  "UNRATED_GF": 40569,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 6826,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 1465,
+  "3": 27183,
+  "4": 11923
+ },
+ "no_graded_route": [
+  "Fe I K",
+  "Fe II H",
+  "Fe II K",
+  "Fe II NIR"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

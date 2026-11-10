@@ -1,0 +1,32 @@
+{
+  "name": "off",
+  "step_A": 0.005,
+  "molecular_files": [],
+  "seconds": 0.6603419580496848,
+  "rows": 4001,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 300129,
+    "sha256": "132377f6a351ee409f10e910dc05198968ea9c4f73e53a0bb16cb954f18a02ff"
+  },
+  "native_flux": {
+    "name": "native_flux.txt",
+    "bytes": 144036,
+    "sha256": "113fdd6c801bd72ce299fd990e36c1991074649afb6739fe88b84329dfe1ef09"
+  },
+  "input": {
+    "name": "input.txt",
+    "bytes": 5448,
+    "sha256": "13e1d0e6ef138bd1344b9bbec9c4fd8b81151a77056c77cb3b21669df5594426"
+  },
+  "stdout": {
+    "name": "stdout.txt",
+    "bytes": 96716,
+    "sha256": "d83b94078dada420ca5b1bff341f38354985ef14292eecdbc7932ed2c9976893"
+  },
+  "stderr": {
+    "name": "stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

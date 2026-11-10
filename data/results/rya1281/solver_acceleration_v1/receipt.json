@@ -1,0 +1,997 @@
+{
+  "schema": "codex.bride_solver_acceleration_archive/1",
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "path": "rya1281-solar-anderson-dry-v1/baseline/input.json",
+      "bytes": 15991,
+      "sha256": "76294aeb256affd50234b66c1099295d0abb4e5fb4b6e51acc1327de3dbf59ae",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-dry-v1/baseline/report.json",
+      "bytes": 17370,
+      "sha256": "85093af95112e7c0fb174ef7aece72d11c6f72fbb631e17ad37da86715d06f30",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-dry-v1/gravity/input.json",
+      "bytes": 17210,
+      "sha256": "b4d92ba684cc2655da22aa8d68db07f20e623a9adbdf6112dc717e55e13bdfe1",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-dry-v1/gravity/report.json",
+      "bytes": 18591,
+      "sha256": "e3bc732ee3b2e52002a19244d7ddafab6b442c53a81073638626c2d62f642b71",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-dry-v1/solar/input.json",
+      "bytes": 17267,
+      "sha256": "e95f072be5464c8a288185d0e582d018dd1d2ea2072e2202a419747edbf5d7de",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-dry-v1/solar/report.json",
+      "bytes": 18647,
+      "sha256": "6df1dcff43761b3dbf72d753be47aa9f606a9a707bb5397ce6c2a05b9fa259ef",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-dry-v1/temperature/input.json",
+      "bytes": 17275,
+      "sha256": "957cacb7a69f4a8a5cb5d63fb3744ef84e8c28fe7066d6ebe9444fdd0c653767",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-dry-v1/temperature/report.json",
+      "bytes": 18656,
+      "sha256": "7708561c686567bef5eafc5e71cc01d2a28fa4a5d1f61f30275076ae32da91e3",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/baseline/flux.csv",
+      "bytes": 400167,
+      "sha256": "8198e04d1bb8e26da071f015826343ae7cd29d11de6c794b39bf4fabc250180b",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/baseline/history.jsonl",
+      "bytes": 1729,
+      "sha256": "0767414790e51c1b496a5961815f379b9aedb568763525b287fb2457e95800cd",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/baseline/independent_rates.npz",
+      "bytes": 888705,
+      "sha256": "e9c6792513c2508ab9c651245b7fc7b1722ae90dc72c49763704caa87c0dc255",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/baseline/input.json",
+      "bytes": 15991,
+      "sha256": "76294aeb256affd50234b66c1099295d0abb4e5fb4b6e51acc1327de3dbf59ae",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/baseline/populations.npz",
+      "bytes": 54268,
+      "sha256": "63baa50455d598eeee66b77c6fc818c064c80ea0cd24d6091500f36405c23769",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/baseline/rates.npz",
+      "bytes": 4239907,
+      "sha256": "201a44a23b754241777beacf635f543833a27fb14878b7131d5887b134223cf0",
+      "archived": false
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/baseline/report.json",
+      "bytes": 22858,
+      "sha256": "1a5a57ca164d7c07d518f062c5a700ebb3e57b88733c530d7dcf7c263cc11a68",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/temperature/failure.json",
+      "bytes": 18956,
+      "sha256": "c01ae43d595cd888d703c2b4cce1a8c1bf6bed98e111d01dffb6b64ca66b6a04",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/temperature/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "e01b070c076a91827f586c322af6f12728524cc40c9565f1abe2a65fe3c653d8",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/temperature/history.jsonl",
+      "bytes": 70099,
+      "sha256": "87059626ddcb6b89b39a1d119258757984daf7e27c85de1f80b49087f78af987",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-anderson-v1/temperature/input.json",
+      "bytes": 17275,
+      "sha256": "957cacb7a69f4a8a5cb5d63fb3744ef84e8c28fe7066d6ebe9444fdd0c653767",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solver-conditioning-v1/conditioning.csv",
+      "bytes": 29977,
+      "sha256": "cf4590a4026c9d10c4356422851fa982191690508048caed9df2593ca55478a7",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solver-conditioning-v1/report.json",
+      "bytes": 3064,
+      "sha256": "80df5fdfbb82f7131c31bff7279963d85734c6b438daf7a9e8dafac5afad0dd9",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v2/operators.npz",
+      "bytes": 7670,
+      "sha256": "8b2ace7078e1d7fb04b2cf02ff3054bb71568b342628a7a0b593b4abcf8c3122",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v2/report.json",
+      "bytes": 3146,
+      "sha256": "24f1bbc3791d7b26e46925b60ea87cb146e6a357e7f2f64153aee2664ccdf923",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v3/operators.npz",
+      "bytes": 9012,
+      "sha256": "b8af7dbde3499aa8817f8e3baa48180725af1c849a5ce1a04c53bfd5615eff26",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v3/report.json",
+      "bytes": 3159,
+      "sha256": "193a5bc696cc6550a5beb85691bb2cd8b828d5feb6ffcee58c00c0cdc1f253a5",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v4/operators.npz",
+      "bytes": 9003,
+      "sha256": "166e887eeebb144a06c2d9d73d9bb3ec4927ced9be30b3e67ed0ab2291ad29d6",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v4/report.json",
+      "bytes": 3920,
+      "sha256": "08358fbeaf9b8b2389c1eee0ea70295eb74480d952a08a9d7340274aa981ffdf",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v5/operators.npz",
+      "bytes": 9015,
+      "sha256": "41f11eb604f2a3d4a2dfac8bc2e3062f81c8305bcef281ae1c9fcfda05a9f061",
+      "archived": true
+    },
+    {
+      "path": "rya1281-continuum-overlap-v5/report.json",
+      "bytes": 3924,
+      "sha256": "e0206d567a34d42f39039a3ddf97986d4d42acbd369b05de3d85ed6a6ed1ba3b",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v2/failure.json",
+      "bytes": 17615,
+      "sha256": "8e926ecd7210e11c68577c129164c58801d29e333f6cebb4d5d2c7ac76965f24",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v2/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "3c3ca92c4f446f4c100a1aa62608b00ffb81b8aaf8c57424e4de64777fb856a2",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v2/input.json",
+      "bytes": 15918,
+      "sha256": "dbd0e441eea026bda60d751c2bdc27262ccee72943db55a87e3d71c0888ab37d",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v2/operator_audit.json",
+      "bytes": 1585,
+      "sha256": "4e8344bb710b2b583ee61f20d4e468a68fa18b6e2802375322d7a53f59ecb8d1",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v2/operator_audit.npz",
+      "bytes": 3995929,
+      "sha256": "b5595cea96cc00ac41eac53f2e9afc5d9aceed0ba8fdbee343169f97bc095395",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v3/failure.json",
+      "bytes": 17616,
+      "sha256": "6671bcbbf065e9d6a6cc0f6c2b8f7bd82145f0aac7812948eb0707a953bc659a",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v3/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "3c3ca92c4f446f4c100a1aa62608b00ffb81b8aaf8c57424e4de64777fb856a2",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v3/input.json",
+      "bytes": 15918,
+      "sha256": "dbd0e441eea026bda60d751c2bdc27262ccee72943db55a87e3d71c0888ab37d",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v3/operator_audit.json",
+      "bytes": 1591,
+      "sha256": "359825735c6b2cab78bf49ef83195cfd70b78aff34ba94f3dada6e0f5c01271a",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v3/operator_audit.npz",
+      "bytes": 3995833,
+      "sha256": "770ffe64b7792c100099a908102a41e2caaa65ff76aacbe041424491384b6dfd",
+      "archived": true
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/.clang-format",
+      "bytes": 3473,
+      "sha256": "3b8a1b50c29d393cb2304e9fe17f51ac26e66a8f70e3a33d4446d1fc19b7c07e",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Atmosphere.cpp",
+      "bytes": 2389,
+      "sha256": "69a57256afedf0033049ec38c22fa2c65bc2010b75bb27455745e37cf0236fc3",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Background.cpp",
+      "bytes": 73266,
+      "sha256": "d4d0f92e28ebf0dc5f82f4ffa7e6798acee9363023e2727689ca6e875031f048",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Background.hpp",
+      "bytes": 519,
+      "sha256": "bc9ee63f54064b49c04790a9f5791f0b48bfaccf391f81a36e27c3dcb71183a5",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Bezier.hpp",
+      "bytes": 3732,
+      "sha256": "6ad7111744fcdaf556c4f2b0fa53362202dadd070961f149a2a1e29068245466",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/CmoArray.hpp",
+      "bytes": 70783,
+      "sha256": "d5773a682ef06b8d5e69344323ddbe57ffb6ae0dfaa38e2a25981ae8bb39d25b",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/CmoArray.pxd",
+      "bytes": 8439,
+      "sha256": "c15ca6ec38b29a5664c5aa927e3dff8cfc05c8b9aa5ffbf68fb0201bdfaa64ae",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/CmoArrayHelper.pxd",
+      "bytes": 293,
+      "sha256": "d9b98a0df8fa1803416f5310519e02db5cb3bc9751ca551fa9243e9caa4d73e7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/CmoArrayHelper.pyx",
+      "bytes": 709,
+      "sha256": "7c6fad1944cf7ff4ecbb93245ca809f6a8e55ed4a0a1e98faca4ccf28fedeb6f",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Constants.hpp",
+      "bytes": 3039,
+      "sha256": "e627c2e1c652ce29309debebe32aa453b71f603f76195ef752f2db66145655e0",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Dispatch_chi_eta_aux_accum.ipp",
+      "bytes": 2553,
+      "sha256": "7a9258731605d72805807e3bc8cc68450f4960da76a4ced311d1b27a60d5d648",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Dispatch_compute_full_operator_rates.ipp",
+      "bytes": 939,
+      "sha256": "1e76de9eb92fcd22ede9c2b0387a97e85dc4a95278a3eaaaa2a8865eadc9255c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Dispatch_intensity_core_opt.ipp",
+      "bytes": 2571,
+      "sha256": "02b5efe7e0bf49bf053179abdc1d5e619b72e35c16d6e11584416c884343fe19",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/EscapeProbability.cpp",
+      "bytes": 8090,
+      "sha256": "996708a2389bef6edc1dd36c29e74e995d23ab7761285325180ad10fc3b0978a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Faddeeva.cc",
+      "bytes": 126227,
+      "sha256": "46dc0d4e7d81ddcce5a95953b97d31696ffb424228e751aac10dfd9aeb3430a0",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Faddeeva.hh",
+      "bytes": 2645,
+      "sha256": "c21f02ba67af33f56eb89eba23286f0c01af3c9a3142b7664fa5303874e6316a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/FastBackground.cpp",
+      "bytes": 6470,
+      "sha256": "0a9ca1862f6d1d0b4609772d3c6fd6f78da84277e297dfae4c426d17592a6b8d",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/FastBackground.hpp",
+      "bytes": 1904,
+      "sha256": "f1acdb3707f5231a48f1f71754f32ffcb4de89d4b6e253c208e098e0ddfad3d7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/FormalInterface.cpp",
+      "bytes": 2711,
+      "sha256": "22579991bdd7b524a2cd82a39dd7cee221d33ef8ad6019f7e468b5520fdc20bb",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/FormalScalar.cpp",
+      "bytes": 21788,
+      "sha256": "0b3e84bcfd34e61f0210a7151cf37fae1440c16c5c021f771d21c9848ddff74c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/FormalScalar2d.cpp",
+      "bytes": 48039,
+      "sha256": "75070dd08e3a0ab12413ce79de462a18685e69801d9ff901b729e1d32e6fc16b",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/FormalStokes.cpp",
+      "bytes": 25465,
+      "sha256": "31da0685f6e51c262ba5e16bbe68ed298fa8e6c2bbf1a4d7e3dcd8e6f43ce376",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/JasPP.hpp",
+      "bytes": 7228,
+      "sha256": "12e584db27264e688d52f38e2f6d2f077ba9d435a91b5099a497abdf7be7741f",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Lightweaver.hpp",
+      "bytes": 3068,
+      "sha256": "3662b2f4ca9b9f6751e51230ca9c19dd21b419886e774792e44466cd4a331e42",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LightweaverAmalgamated.cpp",
+      "bytes": 548,
+      "sha256": "c0ed47eccff291cc1c74aada49202c319400a71a1c1a00170e95ee3365c79924",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LockLessMultiReadPipe.h",
+      "bytes": 11088,
+      "sha256": "d346681dbdd7f6cadbc025341b9c41b14bde072496e9b9cd91677f57501d8eef",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LuSolve.cpp",
+      "bytes": 2812,
+      "sha256": "4d7c6389185ea1638b75fccdcca25c73c44bf29d4b8bf93df3df532f72ea67da",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LuSolve.hpp",
+      "bytes": 143,
+      "sha256": "9c629e33146960a9cf3ace1b2950acef888919e5f885c5b9f06ad93c7eac0dca",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwAtmosphere.hpp",
+      "bytes": 4673,
+      "sha256": "2efab73514408bba991067828f6425d661fb114d229eb3067cba85e366af27a0",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwAtom.hpp",
+      "bytes": 3820,
+      "sha256": "7f38fd78c75b26086fef552b984622c39487d0a7d16b64a60cb0b02a76008903",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwContext.hpp",
+      "bytes": 890,
+      "sha256": "4dc05933e5035ec2bb3a9472f1a19cf37a33172a7469c4c1b3f8b7f5ead656f6",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwExtraParams.hpp",
+      "bytes": 2480,
+      "sha256": "a9733190d3a3414b42f262ace9b8bee66eb970f49c7cac33db499783ef863f40",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwFormalInterface.hpp",
+      "bytes": 4451,
+      "sha256": "2d93ed29c05fc80330cc3341870670ef776febee1e91b14e92d0ffb7506c21dd",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwFormalInterfacePosix.hpp",
+      "bytes": 690,
+      "sha256": "f5df530eb49424db5a401864ce3d59778efd4a5713ae752d4ddade3960f70b15",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwFormalInterfaceWin.hpp",
+      "bytes": 1238,
+      "sha256": "8a3ef97a4a8f657aadf8a5f6574efc6415279bbc267736caecef2cfb5c90bfc4",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwInternal.hpp",
+      "bytes": 3846,
+      "sha256": "a1623e6e73e018a5886a28f797e19b64396d934d26696f2b51bece36120ff60a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwIterationResult.hpp",
+      "bytes": 555,
+      "sha256": "d9d9de8688576908b823e6f8d52ec1c2aa2c60aa869640d66b228ef75567f98e",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwMiddleLayer.pyx",
+      "bytes": 149674,
+      "sha256": "13428eab7aa0e0e2374015895cef73f60482aa30200cf87c09fae3942c5ab57a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwMisc.hpp",
+      "bytes": 2504,
+      "sha256": "4ce6f4b885263dfac7c997951feb36d2cb1b968e9b4c1f607967ae59601919f9",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/LwTransition.hpp",
+      "bytes": 4843,
+      "sha256": "b3dee8794fa7a38151c7881589a3659cec370a4546adba7a1feb567387b3565c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Ng.hpp",
+      "bytes": 5193,
+      "sha256": "bd329458573ed21ffafebeb35e9858a9eb1ad5c466b44c88fa6c6230f3d3b184",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Prd.cpp",
+      "bytes": 31622,
+      "sha256": "d8264099e905b0f5df4cf1a52a2b73fe079041c5ebaabbc4bbda9ca6a891a1a7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/PrdTemplates.hpp",
+      "bytes": 11023,
+      "sha256": "a48f913e17da837d3aeb13ed5b5967abd28b03e9130c14c52fd2deebd79c0b3d",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Simd.hpp",
+      "bytes": 1161,
+      "sha256": "3b1577f72cda93ff2f19f8187c3566125bc0ad4ec0c39afdc0cf78e3b8558ec3",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/SimdFullIterationTemplates.hpp",
+      "bytes": 25805,
+      "sha256": "711a50fff4b5c8d2d288f5d1f385098e891852e62ff430479e5d9d21a1fa5e85",
+      "archived": true
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/SimdImpl_AVX2FMA.cpp",
+      "bytes": 23717,
+      "sha256": "114002c2bc42e4210d30468d2a108164d1f445072e7d2ddaf3c7adc625eebc41",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/SimdImpl_AVX512.cpp",
+      "bytes": 23246,
+      "sha256": "50c4b04efda42d5f5d6e407c9d72381ab6a19833fd7fb9c4deec3110becc6f2a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/SimdImpl_SSE2.cpp",
+      "bytes": 18752,
+      "sha256": "63d51cf1c18df7b4fcf3b50dcb3e1860eec389ce221cce17235e297332818267",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/SimdLinear.cpp",
+      "bytes": 15213,
+      "sha256": "c7ccd446b58d88bec68d636a9dab2549936571c9de992b0ecfa930f278eb4ce9",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/TaskScheduler.cpp",
+      "bytes": 48624,
+      "sha256": "8de2d05451e48f4fdfb479791cf21c13fc556fe1ca00b1016cf181fd15938f8d",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/TaskScheduler.h",
+      "bytes": 27215,
+      "sha256": "1563b49a0448c354622ae6b890cefbfb4fa2774a5960a182c194ec1ee4d6fb03",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/TaskSetWrapper.hpp",
+      "bytes": 854,
+      "sha256": "cb84dc23448c15b4cc04073aa5d5d75a02a1a40401e7792832c3088d486ebe0c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/ThreadStorage.cpp",
+      "bytes": 15179,
+      "sha256": "222ddcf523e5b28a398214a1b6c278a5dbf3d3aafd589581ba0feaee0fb54c64",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/ThreadStorage.hpp",
+      "bytes": 5802,
+      "sha256": "da125abf036f7893b3719746f3f95a6d977685e7f8eb5a511b8e7c21ca99a512",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/UpdatePopulations.cpp",
+      "bytes": 15223,
+      "sha256": "77ef60f8db7f121ec85f47bc0a4e5a610553a6b992bcc03fe76432922a5dcbbe",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/Utils.hpp",
+      "bytes": 2406,
+      "sha256": "995c995dfe6b50793e15885b2ba04e62dd204f2d465ebf127187cb780638d2c7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/WinCompile.bat",
+      "bytes": 250,
+      "sha256": "c5775e2f48e1f9bb23b96c35b66d9922dadc53c0094c3cec422d9455236f431f",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/Source/WindowsExtensionStub.cpp",
+      "bytes": 326,
+      "sha256": "02927b73cbe80465f2e379125ea41e254c646099028fe72b6171305a554a9fdd",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/bride_overlap_guard.dylib",
+      "bytes": 222648,
+      "sha256": "d51d739c87f772587476cf3f23aa7a052c28690976c83722bfca46e09cc76b68",
+      "archived": false
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/overlap_guard.cpp",
+      "bytes": 872,
+      "sha256": "2399e58d4075e1c690680f65defe3f960145661555fb83f16bc7a14c6383c18a",
+      "archived": true
+    },
+    {
+      "path": "rya1281-overlap-plugin-v1/receipt.json",
+      "bytes": 11960,
+      "sha256": "a0a1a15bc5817cd3e5f1d87b65bd894a6f9b92d4cea919b6ae6692ceaa8009de",
+      "archived": true
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/.clang-format",
+      "bytes": 3473,
+      "sha256": "3b8a1b50c29d393cb2304e9fe17f51ac26e66a8f70e3a33d4446d1fc19b7c07e",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Atmosphere.cpp",
+      "bytes": 2389,
+      "sha256": "69a57256afedf0033049ec38c22fa2c65bc2010b75bb27455745e37cf0236fc3",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Background.cpp",
+      "bytes": 73266,
+      "sha256": "d4d0f92e28ebf0dc5f82f4ffa7e6798acee9363023e2727689ca6e875031f048",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Background.hpp",
+      "bytes": 519,
+      "sha256": "bc9ee63f54064b49c04790a9f5791f0b48bfaccf391f81a36e27c3dcb71183a5",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Bezier.hpp",
+      "bytes": 3732,
+      "sha256": "6ad7111744fcdaf556c4f2b0fa53362202dadd070961f149a2a1e29068245466",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/CmoArray.hpp",
+      "bytes": 70783,
+      "sha256": "d5773a682ef06b8d5e69344323ddbe57ffb6ae0dfaa38e2a25981ae8bb39d25b",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/CmoArray.pxd",
+      "bytes": 8439,
+      "sha256": "c15ca6ec38b29a5664c5aa927e3dff8cfc05c8b9aa5ffbf68fb0201bdfaa64ae",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/CmoArrayHelper.pxd",
+      "bytes": 293,
+      "sha256": "d9b98a0df8fa1803416f5310519e02db5cb3bc9751ca551fa9243e9caa4d73e7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/CmoArrayHelper.pyx",
+      "bytes": 709,
+      "sha256": "7c6fad1944cf7ff4ecbb93245ca809f6a8e55ed4a0a1e98faca4ccf28fedeb6f",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Constants.hpp",
+      "bytes": 3039,
+      "sha256": "e627c2e1c652ce29309debebe32aa453b71f603f76195ef752f2db66145655e0",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Dispatch_chi_eta_aux_accum.ipp",
+      "bytes": 2553,
+      "sha256": "7a9258731605d72805807e3bc8cc68450f4960da76a4ced311d1b27a60d5d648",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Dispatch_compute_full_operator_rates.ipp",
+      "bytes": 939,
+      "sha256": "1e76de9eb92fcd22ede9c2b0387a97e85dc4a95278a3eaaaa2a8865eadc9255c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Dispatch_intensity_core_opt.ipp",
+      "bytes": 2571,
+      "sha256": "02b5efe7e0bf49bf053179abdc1d5e619b72e35c16d6e11584416c884343fe19",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/EscapeProbability.cpp",
+      "bytes": 8090,
+      "sha256": "996708a2389bef6edc1dd36c29e74e995d23ab7761285325180ad10fc3b0978a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Faddeeva.cc",
+      "bytes": 126227,
+      "sha256": "46dc0d4e7d81ddcce5a95953b97d31696ffb424228e751aac10dfd9aeb3430a0",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Faddeeva.hh",
+      "bytes": 2645,
+      "sha256": "c21f02ba67af33f56eb89eba23286f0c01af3c9a3142b7664fa5303874e6316a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/FastBackground.cpp",
+      "bytes": 6470,
+      "sha256": "0a9ca1862f6d1d0b4609772d3c6fd6f78da84277e297dfae4c426d17592a6b8d",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/FastBackground.hpp",
+      "bytes": 1904,
+      "sha256": "f1acdb3707f5231a48f1f71754f32ffcb4de89d4b6e253c208e098e0ddfad3d7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/FormalInterface.cpp",
+      "bytes": 2711,
+      "sha256": "22579991bdd7b524a2cd82a39dd7cee221d33ef8ad6019f7e468b5520fdc20bb",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/FormalScalar.cpp",
+      "bytes": 21788,
+      "sha256": "0b3e84bcfd34e61f0210a7151cf37fae1440c16c5c021f771d21c9848ddff74c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/FormalScalar2d.cpp",
+      "bytes": 48039,
+      "sha256": "75070dd08e3a0ab12413ce79de462a18685e69801d9ff901b729e1d32e6fc16b",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/FormalStokes.cpp",
+      "bytes": 25465,
+      "sha256": "31da0685f6e51c262ba5e16bbe68ed298fa8e6c2bbf1a4d7e3dcd8e6f43ce376",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/JasPP.hpp",
+      "bytes": 7228,
+      "sha256": "12e584db27264e688d52f38e2f6d2f077ba9d435a91b5099a497abdf7be7741f",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Lightweaver.hpp",
+      "bytes": 3068,
+      "sha256": "3662b2f4ca9b9f6751e51230ca9c19dd21b419886e774792e44466cd4a331e42",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LightweaverAmalgamated.cpp",
+      "bytes": 548,
+      "sha256": "c0ed47eccff291cc1c74aada49202c319400a71a1c1a00170e95ee3365c79924",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LockLessMultiReadPipe.h",
+      "bytes": 11088,
+      "sha256": "d346681dbdd7f6cadbc025341b9c41b14bde072496e9b9cd91677f57501d8eef",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LuSolve.cpp",
+      "bytes": 2812,
+      "sha256": "4d7c6389185ea1638b75fccdcca25c73c44bf29d4b8bf93df3df532f72ea67da",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LuSolve.hpp",
+      "bytes": 143,
+      "sha256": "9c629e33146960a9cf3ace1b2950acef888919e5f885c5b9f06ad93c7eac0dca",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwAtmosphere.hpp",
+      "bytes": 4673,
+      "sha256": "2efab73514408bba991067828f6425d661fb114d229eb3067cba85e366af27a0",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwAtom.hpp",
+      "bytes": 3820,
+      "sha256": "7f38fd78c75b26086fef552b984622c39487d0a7d16b64a60cb0b02a76008903",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwContext.hpp",
+      "bytes": 890,
+      "sha256": "4dc05933e5035ec2bb3a9472f1a19cf37a33172a7469c4c1b3f8b7f5ead656f6",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwExtraParams.hpp",
+      "bytes": 2480,
+      "sha256": "a9733190d3a3414b42f262ace9b8bee66eb970f49c7cac33db499783ef863f40",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwFormalInterface.hpp",
+      "bytes": 4451,
+      "sha256": "2d93ed29c05fc80330cc3341870670ef776febee1e91b14e92d0ffb7506c21dd",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwFormalInterfacePosix.hpp",
+      "bytes": 690,
+      "sha256": "f5df530eb49424db5a401864ce3d59778efd4a5713ae752d4ddade3960f70b15",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwFormalInterfaceWin.hpp",
+      "bytes": 1238,
+      "sha256": "8a3ef97a4a8f657aadf8a5f6574efc6415279bbc267736caecef2cfb5c90bfc4",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwInternal.hpp",
+      "bytes": 3846,
+      "sha256": "a1623e6e73e018a5886a28f797e19b64396d934d26696f2b51bece36120ff60a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwIterationResult.hpp",
+      "bytes": 555,
+      "sha256": "d9d9de8688576908b823e6f8d52ec1c2aa2c60aa869640d66b228ef75567f98e",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwMiddleLayer.pyx",
+      "bytes": 149674,
+      "sha256": "13428eab7aa0e0e2374015895cef73f60482aa30200cf87c09fae3942c5ab57a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwMisc.hpp",
+      "bytes": 2504,
+      "sha256": "4ce6f4b885263dfac7c997951feb36d2cb1b968e9b4c1f607967ae59601919f9",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/LwTransition.hpp",
+      "bytes": 4843,
+      "sha256": "b3dee8794fa7a38151c7881589a3659cec370a4546adba7a1feb567387b3565c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Ng.hpp",
+      "bytes": 5193,
+      "sha256": "bd329458573ed21ffafebeb35e9858a9eb1ad5c466b44c88fa6c6230f3d3b184",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Prd.cpp",
+      "bytes": 31622,
+      "sha256": "d8264099e905b0f5df4cf1a52a2b73fe079041c5ebaabbc4bbda9ca6a891a1a7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/PrdTemplates.hpp",
+      "bytes": 11023,
+      "sha256": "a48f913e17da837d3aeb13ed5b5967abd28b03e9130c14c52fd2deebd79c0b3d",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Simd.hpp",
+      "bytes": 1161,
+      "sha256": "3b1577f72cda93ff2f19f8187c3566125bc0ad4ec0c39afdc0cf78e3b8558ec3",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/SimdFullIterationTemplates.hpp",
+      "bytes": 25202,
+      "sha256": "7037b5395b1272070e7bf7eb0c0d7cebd263720fdf42d6675d75315d601c6e46",
+      "archived": true
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/SimdImpl_AVX2FMA.cpp",
+      "bytes": 23717,
+      "sha256": "114002c2bc42e4210d30468d2a108164d1f445072e7d2ddaf3c7adc625eebc41",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/SimdImpl_AVX512.cpp",
+      "bytes": 23246,
+      "sha256": "50c4b04efda42d5f5d6e407c9d72381ab6a19833fd7fb9c4deec3110becc6f2a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/SimdImpl_SSE2.cpp",
+      "bytes": 18752,
+      "sha256": "63d51cf1c18df7b4fcf3b50dcb3e1860eec389ce221cce17235e297332818267",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/SimdLinear.cpp",
+      "bytes": 15213,
+      "sha256": "c7ccd446b58d88bec68d636a9dab2549936571c9de992b0ecfa930f278eb4ce9",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/TaskScheduler.cpp",
+      "bytes": 48624,
+      "sha256": "8de2d05451e48f4fdfb479791cf21c13fc556fe1ca00b1016cf181fd15938f8d",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/TaskScheduler.h",
+      "bytes": 27215,
+      "sha256": "1563b49a0448c354622ae6b890cefbfb4fa2774a5960a182c194ec1ee4d6fb03",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/TaskSetWrapper.hpp",
+      "bytes": 854,
+      "sha256": "cb84dc23448c15b4cc04073aa5d5d75a02a1a40401e7792832c3088d486ebe0c",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/ThreadStorage.cpp",
+      "bytes": 15179,
+      "sha256": "222ddcf523e5b28a398214a1b6c278a5dbf3d3aafd589581ba0feaee0fb54c64",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/ThreadStorage.hpp",
+      "bytes": 5802,
+      "sha256": "da125abf036f7893b3719746f3f95a6d977685e7f8eb5a511b8e7c21ca99a512",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/UpdatePopulations.cpp",
+      "bytes": 15223,
+      "sha256": "77ef60f8db7f121ec85f47bc0a4e5a610553a6b992bcc03fe76432922a5dcbbe",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/Utils.hpp",
+      "bytes": 2406,
+      "sha256": "995c995dfe6b50793e15885b2ba04e62dd204f2d465ebf127187cb780638d2c7",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/WinCompile.bat",
+      "bytes": 250,
+      "sha256": "c5775e2f48e1f9bb23b96c35b66d9922dadc53c0094c3cec422d9455236f431f",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/Source/WindowsExtensionStub.cpp",
+      "bytes": 326,
+      "sha256": "02927b73cbe80465f2e379125ea41e254c646099028fe72b6171305a554a9fdd",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/bride_overlap_guard.dylib",
+      "bytes": 222696,
+      "sha256": "2f9545455a8e4bdaf5fcbe9dae3b64f164ee51b0041c89df500e21cdbe129f16",
+      "archived": false
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archived": true
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/overlap_guard.cpp",
+      "bytes": 886,
+      "sha256": "24bd2e9ebe40a564488935491b580cab2d75cc890201e436581a6439713c76f4",
+      "archived": true
+    },
+    {
+      "path": "rya1281-transition-plugin-v1/receipt.json",
+      "bytes": 12071,
+      "sha256": "affeddb27f44ca985c48f8101c3e2ae010c20cc33ee4a00bb7edde267a890fb9",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-dry-v1/baseline/input.json",
+      "bytes": 16788,
+      "sha256": "aaac78520766f39c30a4e9690c4048b5b7faaa111af1a9ce82286f4bfff8446b",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-dry-v1/baseline/report.json",
+      "bytes": 18168,
+      "sha256": "cc8f0181f036606c7d970f3e92bb7683addf5a73c03357c1ff8be7c3331d0917",
+      "archived": true
+    }
+  ],
+  "note": "Exact compact archival copies. Installed backend untouched; compiled plugins and full J/rate arrays remain externally receipted. Failure seeds are initialization only."
+}

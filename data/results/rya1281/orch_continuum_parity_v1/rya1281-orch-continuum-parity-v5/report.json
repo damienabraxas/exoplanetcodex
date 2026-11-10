@@ -1,0 +1,202 @@
+{
+  "schema": "codex.bride_orch_continuum_parity/1",
+  "scientific_admission": "HOLD",
+  "scope": "Side-by-side actual Git-pinned RYA1315/RYA1350 ORCH local-continuum estimator replay on all four completed columns and Kitt/native IAG AIR holdings. Retain shipped, previous and current corrected spectra separately. No RT, abundance fitting/adoption, new shift/telluric processing, synthesis extrapolation or source/product mutation. Continuum windows stay centred on the rest AIR line, matching the existing ORCH replay; model RVs are separate fixed controls. Earlier shifted-window attempt retained as a diagnostic, not selected as nominal.",
+  "generator": {
+    "name": "analyze_bride_orch_continuum_parity.py",
+    "bytes": 12144,
+    "sha256": "5ec9859ca560993458ee8d80899795998002210c8f6ad7946e062311e16b8390"
+  },
+  "plan": {
+    "name": "rya1281_orch_continuum_parity.json",
+    "bytes": 2032,
+    "sha256": "5cfa82e47f3e199ec540fe5b3c3c1ddf79010eed02707d0b4d05bc62d3ad1ed8"
+  },
+  "orch_commits": {
+    "previous": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+    "current": "078cf7dedfa961452c8bd9af43c4bf83c5463fdf"
+  },
+  "continuum_centre": "rest_air",
+  "source_receipts": [
+    {
+      "case": "baseline",
+      "report": {
+        "name": "report.json",
+        "bytes": 23507,
+        "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "23b40301788b048cabe029f6dacc593102b77e14034ecd50ebbaf4e1a1199cb3"
+      }
+    },
+    {
+      "case": "temperature",
+      "report": {
+        "name": "report.json",
+        "bytes": 24788,
+        "sha256": "1597d4729b69339306f1ca740ea37fdb33c5bd1297f9e56b8791bdd0d9d1bf52"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "b0a5f71362f17f9aece6165dbdb119334c393424b5504bb6d8849c51be3bd3c1"
+      }
+    },
+    {
+      "case": "gravity",
+      "report": {
+        "name": "report.json",
+        "bytes": 24726,
+        "sha256": "52c90bc3ab4985b0fe11971b658f0a92c26b5d942f58305513d1fb869a6c8bd0"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "b314c86748ac063d54337b4c1bcad5f2a0d92218332892abbc2d175ed8b17e57"
+      }
+    },
+    {
+      "case": "solar",
+      "report": {
+        "name": "report.json",
+        "bytes": 24779,
+        "sha256": "aa807a66587d44b546c0bea6cff86c59ae2e8a3f968483f28081f4eefee35f7d"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "c7ec498718d71c0117d9258326f0a7b7e4cb8e8cd287dd7bfe50ff8cd2d2183f"
+      }
+    }
+  ],
+  "protected_inputs": [
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/config/experiments/rya1281_orch_continuum_parity.json",
+      "receipt": {
+        "name": "rya1281_orch_continuum_parity.json",
+        "bytes": 2032,
+        "sha256": "5cfa82e47f3e199ec540fe5b3c3c1ddf79010eed02707d0b4d05bc62d3ad1ed8"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/scripts/analyze_bride_orch_continuum_parity.py",
+      "receipt": {
+        "name": "analyze_bride_orch_continuum_parity.py",
+        "bytes": 12144,
+        "sha256": "5ec9859ca560993458ee8d80899795998002210c8f6ad7946e062311e16b8390"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/H_kitt_orch_v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 46275,
+        "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/spectra/KITTS/irradrelwl.dat",
+      "receipt": {
+        "name": "irradrelwl.dat",
+        "bytes": 11934143,
+        "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/sirius_local_srv/solar_reference/iag_baker2020/iag_telfree_solaratlas.fits",
+      "receipt": {
+        "name": "iag_telfree_solaratlas.fits",
+        "bytes": 11658240,
+        "sha256": "2ddd21b78582a7cb2efaf32ff41c98696c941cacf1a8de4cae5a4cd9d0794546"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/ispec/ispec/synth/effects.py",
+      "receipt": {
+        "name": "effects.py",
+        "bytes": 15124,
+        "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/baseline/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 23507,
+        "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/baseline/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "23b40301788b048cabe029f6dacc593102b77e14034ecd50ebbaf4e1a1199cb3"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/temperature/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 24788,
+        "sha256": "1597d4729b69339306f1ca740ea37fdb33c5bd1297f9e56b8791bdd0d9d1bf52"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/temperature/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "b0a5f71362f17f9aece6165dbdb119334c393424b5504bb6d8849c51be3bd3c1"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/gravity/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 24726,
+        "sha256": "52c90bc3ab4985b0fe11971b658f0a92c26b5d942f58305513d1fb869a6c8bd0"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/gravity/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "b314c86748ac063d54337b4c1bcad5f2a0d92218332892abbc2d175ed8b17e57"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/solar/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 24779,
+        "sha256": "aa807a66587d44b546c0bea6cff86c59ae2e8a3f968483f28081f4eefee35f7d"
+      }
+    },
+    {
+      "path": "/Users/ryanschmitt/codex/rya1279/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/solar/flux.csv",
+      "receipt": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "c7ec498718d71c0117d9258326f0a7b7e4cb8e8cd287dd7bfe50ff8cd2d2183f"
+      }
+    }
+  ],
+  "rows": 96,
+  "required_neighbourhood": 24,
+  "changed_rows": 24,
+  "level_range": [
+    0.9904615883778183,
+    1.1318564762684449
+  ],
+  "max_corrected_flux_change": 0.22530262087348363,
+  "limitations": [
+    "Actual estimator replay, not complete ORCH synthesis or abundance inversion.",
+    "Synthesis covers only7763-7783AIR A; no invented neighbourhood opacity. Missing wide synthesis would refuse a beyond3percent correction.",
+    "No extra telluric operation, observation shift or source renormalisation.",
+    "Native IAG and Kitt holding identities retained; IAG reference leg uses established resolving-power Gaussian."
+  ]
+}

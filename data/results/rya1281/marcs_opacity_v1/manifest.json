@@ -1,0 +1,83 @@
+{
+  "schema": "codex.bride_marcs_opacity_intake/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "stage_bride_marcs_opacity.py",
+    "bytes": 4274,
+    "sha256": "df90687e70717c6fecc6991837d00f6e8348c9f791f52e5415dfc9d08bd5c4c7"
+  },
+  "parser": {
+    "name": "bride_marcs_opacity.py",
+    "bytes": 2387,
+    "sha256": "576357e17a077d82c64cecb348a83c376510266c64ed56f9ef0eca1e9bd5162b"
+  },
+  "source": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.opa.gz",
+    "bytes": 391918,
+    "sha256": "a2a2a7fdb77cec7a143e9c792ec4b25db5a055b4757d39dd06a5526f8bce4b1a"
+  },
+  "archive": {
+    "name": "rya1281-marcs-opacity.tar",
+    "bytes": 399360,
+    "sha256": "9133e57c5d229ec8ca1f9cd96b19d35ead0614bbfbf7811214324e4f22244f0b"
+  },
+  "official_reader": {
+    "name": "rya1281-marcs-readopa.f",
+    "bytes": 4832,
+    "sha256": "843ee11db64fa5bbc6d895c4a47dadaad6ee5cefa2c27071c4c8ff1fd72d3922"
+  },
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "official_response": {
+    "tarname": "Marcs_Data_2026-10-29T04:42:35.379891.tar",
+    "status": "succes",
+    "error": [],
+    "exception": ""
+  },
+  "official_response_receipt": {
+    "name": "rya1281-marcs-download-response.json",
+    "bytes": 106,
+    "sha256": "b3beb840a6812d87e7e617af3277352bbe49a8b54dff2b87202e692fa81e2558"
+  },
+  "source_urls": [
+    "https://marcs.oreme.org/data/",
+    "https://marcs.oreme.org/data/downloadmodels/",
+    "https://marcs.astro.uu.se/documents/auxiliary/readopa.f"
+  ],
+  "request": {
+    "file_type": [
+      "opa"
+    ],
+    "filenames": [
+      "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod.gz"
+    ]
+  },
+  "ndepth": 56,
+  "nwave": 1071,
+  "wavelength_range_source_A": [
+    912.82,
+    2000482.0
+  ],
+  "structure_checks": {
+    "temperature_K": {
+      "max_abs_difference": 0.0,
+      "max_fractional_difference": 0.0
+    },
+    "electron_pressure_Pa": {
+      "max_abs_difference": 0.0,
+      "max_fractional_difference": 0.0
+    },
+    "rho_kg_m3": {
+      "max_abs_difference": 0.0,
+      "max_fractional_difference": 0.0
+    },
+    "logtau500_max_abs_difference": 5.445133096859678e-05,
+    "abundances_max_abs_difference_dex": 0.0,
+    "vturb_max_abs_difference_m_s": 0.0
+  },
+  "wavelength_medium": "UNVERIFIED",
+  "limitations": "Independent MARCS continuum absorption/scattering; not MULTI ABSDAT or native producer opacity. Wavelength medium must be established before spectral comparison; source values retained without conversion."
+}

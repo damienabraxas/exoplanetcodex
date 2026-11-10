@@ -1,0 +1,14 @@
+{
+  "schema": "codex.bride_H_nlte_pair_plan/1",
+  "cases": ["model_mass_H", "native_network_H"],
+  "paired_array_archive": "data/results/rya1281/cn_paired_bindings_v1/paired",
+  "warm_report": "data/results/rya1281/feii_coupled_v1/run/natural/report.json",
+  "warm_populations": "data/results/rya1281/feii_coupled_v1/run/natural/populations.npz",
+  "range_air_A": [7763,7783],
+  "step_air_A": 0.005,
+  "controls": {"rays":5,"qscale":2,"rtol":1e-6,"maxiter":1500,"seconds_per_case":600,"flux_rays":7,"ng":true,"reject_invalid_ng":true,"converge_cap_radiation":true,"cap_radiation_rtol":1e-8,"cap_radiation_maxiter":100},
+  "initialization": "Same saved canonical-control per-level/depth fractions, renormalized to each case O total; no sequential warm start or imported radiation/rates. Initialization only, not a matched prior baseline.",
+  "cap_policy": "Same original model column_mass[0]/rho_model[0] geometric length in both cases, uniform-source experimental cap; no H-dependent cap rescaling.",
+  "background": "Native FastBackground plus existing passive atoms, explicitly empty LW molecule population table; no added Fe/CN line providers. Full source O model radiative grid with doubled line quadratures; only diagnostic-window endpoints added to SE grid, emergent full4001point rays sampled afterward.",
+  "scope": "Fresh paired O SE/radiation sensitivity at explicit fixed T/Pe/geometry/composition, only total-H normalization differs. Original joint/radiation controls and collision receipts unchanged. Independent fresh per-class C+transition-R flow and conservation required. Fresh standalone continuum at final populations. No abundance fit, preferred H/EOS/model admission, source correction, production/merge/publication."
+}

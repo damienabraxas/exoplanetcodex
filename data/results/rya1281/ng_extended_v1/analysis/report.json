@@ -1,0 +1,156 @@
+{
+  "schema": "codex.bride_ng_extended_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_ng_extended.py",
+    "bytes": 10739,
+    "sha256": "488162c25edd625647728f948835c02393cce94284860530865f588262143ef6"
+  },
+  "declaration": {
+    "name": "rya1281_ng_extended.json",
+    "bytes": 562,
+    "sha256": "264449a7662ae3e332108c3352dd17180ea25802bc3dff20e9b0c6eb0b0c1632"
+  },
+  "input_manifest": {
+    "name": "input_manifest.json",
+    "bytes": 23421,
+    "sha256": "b6bc2f16b51c5566e141a7850ceb9e94de7e9c17dfd943a4acdfe8c506013f05"
+  },
+  "attempt_log": {
+    "name": "rya1281-ng-extended-run.log",
+    "bytes": 800,
+    "sha256": "ebd5205b0523e90a39416dee5712e525bf59fd15c0ae23bae7bc1b7b63288e52"
+  },
+  "history": {
+    "name": "history.jsonl",
+    "bytes": 117788,
+    "sha256": "a75ef792864a0d5dfa3f494571eccf226fa3820b72f2c7ff21dadfe05c90b04a"
+  },
+  "updates": {
+    "name": "iteration_updates.jsonl",
+    "bytes": 58222,
+    "sha256": "14a4bb67aa251ef5ddaeff705be0e3cfdd843a9c40866ad6ceab95ea8d408d56"
+  },
+  "reference_input": {
+    "name": "input_manifest.json",
+    "bytes": 23085,
+    "sha256": "ccf8baa144d21b1b028fed66d784db67d945021e532f778e146bc1bb9d433864"
+  },
+  "reference_history": {
+    "name": "history.jsonl",
+    "bytes": 111697,
+    "sha256": "4aff365a3bc743cfbc43566f4211bc12e18c446f36013986b21aa42424890e94"
+  },
+  "reference_updates": {
+    "name": "iteration_updates.jsonl",
+    "bytes": 55212,
+    "sha256": "1d2a9650439450851485c011329425f76f2c7305be65a534ea46cdda56271033"
+  },
+  "exact_history_prefix_rows": 221,
+  "exact_update_prefix_calls": 221,
+  "iterations": 233,
+  "native_ng_calls": 45,
+  "controls": {
+    "rays": 5,
+    "qscale": 2,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 1200,
+    "flux_rays": 7,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "scope": "One cost-only extension. Previous600s failures remain failures. Same physical equations, sampling, initial state and accuracy gates; no universal convergence or physical/abundance admission.",
+  "status": "CONVERGED_EXPERIMENT",
+  "source_report": {
+    "name": "report.json",
+    "bytes": 29874,
+    "sha256": "716bbd330435e2d3a045b5671c30a9cca4dc9bcd6ae3f3febb35658e3a88587c"
+  },
+  "balance": {
+    "residual": 3.550790391584338e-07,
+    "particle_conservation_error": 6.661338147750939e-16
+  },
+  "initial_array_identity": true,
+  "baseline_area_mA": [
+    74.57870761607111,
+    64.69266359071818,
+    50.932552852007056
+  ],
+  "refined_area_mA": [
+    74.57846213591043,
+    64.69511455583046,
+    50.936071235460645
+  ],
+  "area_delta_mA": [
+    -0.00024548016068592915,
+    0.0024509651122741616,
+    0.0035183834535885694
+  ],
+  "max_normalized_profile_delta": 7.55424243883418e-05,
+  "max_aperture_profile_delta": [
+    7.55424243883418e-05,
+    3.150083506997525e-05,
+    2.2465019130946118e-05
+  ],
+  "telemetry": {
+    "elapsed_seconds": 630.7120356662199,
+    "process_peak_rss_bytes": 1209335808,
+    "host_load_start": [
+      2.1435546875,
+      1.98095703125,
+      2.01806640625
+    ],
+    "host_load_end": [
+      2.439453125,
+      2.67333984375,
+      2.4423828125
+    ],
+    "context_threads": 1
+  },
+  "recorder_overhead_seconds": 0.043918763753026724,
+  "external_rates": {
+    "schema": "codex.bride_external_derived_artifact/1",
+    "scientific_admission": "HOLD",
+    "resource_key": "experiments.bride_ng_extended",
+    "relative_path": "rates.npz",
+    "artifact": {
+      "name": "rates.npz",
+      "bytes": 6380614,
+      "sha256": "cc1796473ac55589186e093d7469c7824145daca8384dd869f0cb2709a8f67b9"
+    },
+    "source_report": {
+      "name": "report.json",
+      "bytes": 29874,
+      "sha256": "716bbd330435e2d3a045b5671c30a9cca4dc9bcd6ae3f3febb35658e3a88587c"
+    },
+    "source_writer": {
+      "name": "bride_coupled_control.py",
+      "bytes": 4768,
+      "sha256": "24dd389d3ad69c49096aa3f18be8e7421631b7d43f7bfcd01ade50bff371f3bb"
+    },
+    "generator": {
+      "name": "analyze_bride_ng_extended.py",
+      "bytes": 10739,
+      "sha256": "488162c25edd625647728f948835c02393cce94284860530865f588262143ef6"
+    }
+  },
+  "figure": {
+    "name": "extended_history.png",
+    "bytes": 130133,
+    "sha256": "c42879b77dde64189c864ca231826e0539a2d46f401095d3d737c3784b4d1fc4"
+  },
+  "spectrum_figure": {
+    "name": "extended_spectrum.png",
+    "bytes": 109600,
+    "sha256": "31f2e892af704d643428bae02217ec52a6262caf92ed444508ba616e6001dfb1"
+  },
+  "iteration_table": {
+    "name": "iterations.csv",
+    "bytes": 30111,
+    "sha256": "26a492332126adb665d47b9852d674de7121b4cd645f96c9953ff63749888e4e"
+  }
+}

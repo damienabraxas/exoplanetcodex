@@ -1,0 +1,27 @@
+{
+ "element": "O",
+ "n_rows": 327,
+ "held_reason": {
+  "UNGRADED_GF": 191,
+  "GRADED_NOT_LAB": 136
+ },
+ "flags": {
+  "UNRATED_GF": 327,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 6,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 2,
+  "3": 288,
+  "4": 37
+ },
+ "no_graded_route": [
+  "O I near-UV",
+  "O II NIR"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

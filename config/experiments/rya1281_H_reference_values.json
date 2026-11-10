@@ -1,0 +1,65 @@
+{
+  "schema": "codex.bride_H_reference_values_plan/1",
+  "source_files": {
+    "data/results/rya1281/H_kitt_orch_v1/report.json": {
+      "name": "report.json",
+      "bytes": 46275,
+      "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+    },
+    "data/results/rya1281/H_kitt_orch_v1/profiles_and_continua.npz": {
+      "name": "profiles_and_continua.npz",
+      "bytes": 2807662,
+      "sha256": "d7711a829c513af00b4d088277c7cb79cef55a3e7d610c20c2d458c82f52bddc"
+    },
+    "data/results/rya1281/H_bracket_support_v1/fits.json": {
+      "name": "fits.json",
+      "bytes": 662316,
+      "sha256": "de795510e2e69fc095c4f3d02ca71ec7c5aad0d539ad424d2418a85bd74d3d11"
+    },
+    "data/results/rya1281/H_bracket_support_v1/summary.csv": {
+      "name": "summary.csv",
+      "bytes": 82861,
+      "sha256": "bc0174504fa2cd237632f3b773065859822ee2b7783058fe68d6b13db8b6ca7b"
+    },
+    "data/results/rya1281/iag_quality_v1/report.json": {
+      "name": "report.json",
+      "bytes": 3734,
+      "sha256": "b96f93cabdfaa731f51f101fcefa14c76856902e0a101c73e15ea13ec8a3d9f5"
+    },
+    "data/sirius_manifest/solar_atlas_iag_baker2020.json": {
+      "name": "solar_atlas_iag_baker2020.json",
+      "bytes": 3507,
+      "sha256": "76a922d2a1d1c18a01dbb3c0d3d075d9c7b11a367c22b12601e51a121543147a"
+    },
+    "data/audit/rya929_kurucz2005/intake_manifest.json": {
+      "name": "intake_manifest.json",
+      "bytes": 982,
+      "sha256": "f912d726d69125f7fac809e7166650057be4fd204edac29f08cd545ca625870c"
+    }
+  },
+  "papers": {
+    "Baker_2020_ApJS_247_24.pdf": {
+      "name": "Baker_2020_ApJS_247_24.pdf",
+      "bytes": 2210141,
+      "sha256": "1b6cee09d66d9a7ce62c865013467fdbd4ac226588bd4889cc09244434661dce"
+    },
+    "aa27530-15.pdf": {
+      "name": "aa27530-15.pdf",
+      "bytes": 1195042,
+      "sha256": "d20c673b7837f1550d6923c5245b86fa4e26b51f3db00a862e3e934611dae769"
+    }
+  },
+  "baseline": "coupled_model_mass_H",
+  "support": "balanced_iag_per_side",
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "half_width_A": 0.5,
+  "RVs": [
+    "no_gravity",
+    "plus_gravity"
+  ],
+  "scope": "Same-pixel synthesis/Kitt/IAG value and source-lineage audit on unchanged balanced support. Reproduce fitted coefficient differences and finite observed-area contrast algebraically; crossed level/slope area bookkeeping without atlas rescaling, support/RV/threshold tuning or reference/continuum/abundance adoption. Rebuild IAG reference from held FITS and actual pinned helper. No new RT/EOS/provider, product or physical attribution."
+}

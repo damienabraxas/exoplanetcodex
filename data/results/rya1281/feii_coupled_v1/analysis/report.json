@@ -1,0 +1,1400 @@
+{
+  "schema": "codex.bride_feii_coupled_analysis/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_feii_coupled.py",
+    "bytes": 7912,
+    "sha256": "d479f4fe1364bfb65e5f9b8c6724906cfd5c7c04aa32d011427c1aa9e911f7db"
+  },
+  "orch_commit": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+  "current_native": {
+    "name": "local_continuum.py",
+    "bytes": 22974,
+    "sha256": "72ea567d378c7995c4372a9c277a0c8fe60ad20596b83dc8f5c5f30628eec6fc"
+  },
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "iag": {
+    "name": "iag_telfree_solaratlas.fits",
+    "bytes": 11658240,
+    "sha256": "2ddd21b78582a7cb2efaf32ff41c98696c941cacf1a8de4cae5a4cd9d0794546"
+  },
+  "comparison": {
+    "name": "report.json",
+    "bytes": 31834,
+    "sha256": "e30ee9d666e1102ddd0d441cb44aad4959f26c49bc0474cb9754b1da9f0c1511"
+  },
+  "scope": "Fresh O SE/radiation at fixed atmosphere/EOS; both fixed RVs/references. Diagnostic finite areas, not isolated EWs or adopted continuum/abundance.",
+  "cases": [
+    {
+      "mode": "natural",
+      "source": {
+        "name": "report.json",
+        "bytes": 30198,
+        "sha256": "d034c11f5cb9a299c5732803fcb136c9b2cdcfb1ef3e7613bd279513915385bd"
+      },
+      "cases": [
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9967994580481979,
+                "slope_per_A": 2.6057480901250158e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.5947071118879
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9967994580426647,
+                "slope_per_A": 2.6057473146905726e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.59470710675174
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10310520135651,
+            "coupled": 72.10310281620727
+          },
+          "model_area_delta_mA": -2.3851492443327516e-06,
+          "observed_area_delta_mA": -5.136158165441884e-09
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10310520135651,
+            "coupled": 72.10310281620727
+          },
+          "model_area_delta_mA": -2.3851492443327516e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9986696795989933,
+                "slope_per_A": 0.00039800339734011217,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.95747956387753
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9986696795692372,
+                "slope_per_A": 0.00039800339226248103,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.95747953605151
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.39296615296518,
+            "coupled": 62.39296393342328
+          },
+          "model_area_delta_mA": -2.219541897829913e-06,
+          "observed_area_delta_mA": -2.782601882245217e-08
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.39296615296518,
+            "coupled": 62.39296393342328
+          },
+          "model_area_delta_mA": -2.219541897829913e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.994730634207327,
+                "slope_per_A": -0.0004601225836894346,
+                "n_bins": 84,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.7822248587805
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9947306341971891,
+                "slope_per_A": -0.00046012258229451863,
+                "n_bins": 84,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.78222484908543
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.92790201045304,
+            "coupled": 48.92789999631446
+          },
+          "model_area_delta_mA": -2.0141385803640333e-06,
+          "observed_area_delta_mA": -9.695071412352263e-09
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.92790201045304,
+            "coupled": 48.92789999631446
+          },
+          "model_area_delta_mA": -2.0141385803640333e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9967929086284263,
+                "slope_per_A": 1.1983131341475568e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.58862814167931
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9967929086229419,
+                "slope_per_A": 1.1983123668738583e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.58862813658841
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10510889067501,
+            "coupled": 72.1051065057367
+          },
+          "model_area_delta_mA": -2.384938312616214e-06,
+          "observed_area_delta_mA": -5.090896593173966e-09
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10510889067501,
+            "coupled": 72.1051065057367
+          },
+          "model_area_delta_mA": -2.384938312616214e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9986449902337456,
+                "slope_per_A": 0.00039314318570121416,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.93439161423635
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9986449902045406,
+                "slope_per_A": 0.00039314318072583776,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.93439158692419
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.38549549582119,
+            "coupled": 62.385493276665265
+          },
+          "model_area_delta_mA": -2.219155923910421e-06,
+          "observed_area_delta_mA": -2.7312154315950465e-08
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.38549549582119,
+            "coupled": 62.385493276665265
+          },
+          "model_area_delta_mA": -2.219155923910421e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9947470895878554,
+                "slope_per_A": -0.00044617609542963685,
+                "n_bins": 83,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.79795349968501
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9947470895776178,
+                "slope_per_A": -0.0004461760940819963,
+                "n_bins": 83,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.79795348989492
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.93705112552244,
+            "coupled": 48.9370491108541
+          },
+          "model_area_delta_mA": -2.014668339711534e-06,
+          "observed_area_delta_mA": -9.790085186978104e-09
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.93705112552244,
+            "coupled": 48.9370491108541
+          },
+          "model_area_delta_mA": -2.014668339711534e-06,
+          "observed_area_delta_mA": 0.0
+        }
+      ],
+      "max_relative_population_change_from_initial": 2.1510499927934745e-06,
+      "independent": {
+        "physical_rate_residual": 3.56465234431207e-07,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "classes": [
+          "CE",
+          "CI",
+          "CH",
+          "CH0"
+        ],
+        "rates": {
+          "name": "independent_rates.npz",
+          "bytes": 888252,
+          "sha256": "6b3a55b2a7575874cd2cf07a9967fdccc132566450e469756f11337383514fe2"
+        },
+        "kernel": {
+          "name": "bride_rate_audit.py",
+          "bytes": 1365,
+          "sha256": "227c447738f727c0d8a302105acee4a4c000ce96871186ad2ebc272fa193a17f"
+        },
+        "scope": "Fresh individual collision classes plus transition radiative rates; no accelerated Gamma used"
+      }
+    },
+    {
+      "mode": "cowley",
+      "source": {
+        "name": "report.json",
+        "bytes": 30198,
+        "sha256": "439cf8bb679da1fd0062a72f915c540b027fe7a6871f10e54a9ca6b9ea20e915"
+      },
+      "cases": [
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9967994672283073,
+                "slope_per_A": 2.606725998821148e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.59471563351521
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9967994672223408,
+                "slope_per_A": 2.606725163736103e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.59471562797692
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10311762788405,
+            "coupled": 72.1031149773049
+          },
+          "model_area_delta_mA": -2.6505791481667984e-06,
+          "observed_area_delta_mA": -5.538282721317955e-09
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10311762788405,
+            "coupled": 72.1031149773049
+          },
+          "model_area_delta_mA": -2.6505791481667984e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9986696972538552,
+                "slope_per_A": 0.0003980055267638527,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.95749607437197
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.998669697221719,
+                "slope_per_A": 0.0003980055212793295,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.95749604432022
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.39300692614258,
+            "coupled": 62.393004429863225
+          },
+          "model_area_delta_mA": -2.496279357444564e-06,
+          "observed_area_delta_mA": -3.005175130965654e-08
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.39300692614258,
+            "coupled": 62.393004429863225
+          },
+          "model_area_delta_mA": -2.496279357444564e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9947350297748802,
+                "slope_per_A": -0.0004592611773437966,
+                "n_bins": 84,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.786427719352474
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9947350297639155,
+                "slope_per_A": -0.00045926117584258933,
+                "n_bins": 84,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.78642770886681
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.92803771261732,
+            "coupled": 48.928035429420106
+          },
+          "model_area_delta_mA": -2.2831972117387522e-06,
+          "observed_area_delta_mA": -1.0485663892723096e-08
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.92803771261732,
+            "coupled": 48.928035429420106
+          },
+          "model_area_delta_mA": -2.2831972117387522e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9967929177700708,
+                "slope_per_A": 1.1992861034651818e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.58863662771344
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9967929177641562,
+                "slope_per_A": 1.1992852767513304e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.58863662222322
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10512121103248,
+            "coupled": 72.10511856068142
+          },
+          "model_area_delta_mA": -2.6503510639486194e-06,
+          "observed_area_delta_mA": -5.490221610671142e-09
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10512121103248,
+            "coupled": 72.10511856068142
+          },
+          "model_area_delta_mA": -2.6503510639486194e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.998645007790713,
+                "slope_per_A": 0.0003931453012746846,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.9344080339968
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9986450077591748,
+                "slope_per_A": 0.0003931452959012671,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.93440800450276
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.38553567013059,
+            "coupled": 62.38553317427103
+          },
+          "model_area_delta_mA": -2.4958595545854223e-06,
+          "observed_area_delta_mA": -2.9494046316358435e-08
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.38553567013059,
+            "coupled": 62.38553317427103
+          },
+          "model_area_delta_mA": -2.4958595545854223e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9946038057630487,
+                "slope_per_A": -0.00032106065289425116,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.66086097675434
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9946038057517604,
+                "slope_per_A": -0.00032106065128758134,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.66086096595628
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.937183386844424,
+            "coupled": 48.937181103075005
+          },
+          "model_area_delta_mA": -2.283769418909287e-06,
+          "observed_area_delta_mA": -1.0798061111927382e-08
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.937183386844424,
+            "coupled": 48.937181103075005
+          },
+          "model_area_delta_mA": -2.283769418909287e-06,
+          "observed_area_delta_mA": 0.0
+        }
+      ],
+      "max_relative_population_change_from_initial": 2.1510521464040977e-06,
+      "independent": {
+        "physical_rate_residual": 3.564651651512506e-07,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "classes": [
+          "CE",
+          "CI",
+          "CH",
+          "CH0"
+        ],
+        "rates": {
+          "name": "independent_rates.npz",
+          "bytes": 888274,
+          "sha256": "ce7dc0f4f0db0c89045a3cd572474edaa2879652f83451d68445fae20588e089"
+        },
+        "kernel": {
+          "name": "bride_rate_audit.py",
+          "bytes": 1365,
+          "sha256": "227c447738f727c0d8a302105acee4a4c000ce96871186ad2ebc272fa193a17f"
+        },
+        "scope": "Fresh individual collision classes plus transition radiative rates; no accelerated Gamma used"
+      }
+    },
+    {
+      "mode": "provided",
+      "source": {
+        "name": "report.json",
+        "bytes": 30190,
+        "sha256": "13d12fdcd0de5bc5e0b94c574d4e95de807d896b8721253d45c9e1656ec29ecb"
+      },
+      "cases": [
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9967994672851151,
+                "slope_per_A": 2.6067320474062246e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.59471568624832
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9967994672791403,
+                "slope_per_A": 2.6067312104271383e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.59471568070221
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10311769645068,
+            "coupled": 72.10311504557218
+          },
+          "model_area_delta_mA": -2.650878499821374e-06,
+          "observed_area_delta_mA": -5.546112902266032e-09
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.10311769645068,
+            "coupled": 72.10311504557218
+          },
+          "model_area_delta_mA": -2.650878499821374e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9986696973628046,
+                "slope_per_A": 0.00039800553988143805,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.9574961762594
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9986696973306669,
+                "slope_per_A": 0.00039800553439680057,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.95749614620624
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.39300715366418,
+            "coupled": 62.39300465705912
+          },
+          "model_area_delta_mA": -2.496605056023782e-06,
+          "observed_area_delta_mA": -3.005315818427334e-08
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.39300715366418,
+            "coupled": 62.39300465705912
+          },
+          "model_area_delta_mA": -2.496605056023782e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9947350569126282,
+                "slope_per_A": -0.00045925585852459695,
+                "n_bins": 84,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.78645366723289
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9947350569016613,
+                "slope_per_A": -0.0004592558570232138,
+                "n_bins": 84,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.786453656745124
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.928038483195785,
+            "coupled": 48.92803619969929
+          },
+          "model_area_delta_mA": -2.2834964923390544e-06,
+          "observed_area_delta_mA": -1.0487767099220946e-08
+        },
+        {
+          "rv": "no_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.928038483195785,
+            "coupled": 48.92803619969929
+          },
+          "model_area_delta_mA": -2.2834964923390544e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9967929178266413,
+                "slope_per_A": 1.199292121628685e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.58863668022678
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9967929178207172,
+                "slope_per_A": 1.19929129285711e-06,
+                "n_bins": 69,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 74.58863667472781
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.1051212789591,
+            "coupled": 72.10511862830873
+          },
+          "model_area_delta_mA": -2.650650372970631e-06,
+          "observed_area_delta_mA": -5.4989754971757066e-09
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7771.944,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0045515524639725,
+                "slope_per_A": 0.00022078342664825514,
+                "n_bins": 88,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 81.73581499351246
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 72.1051212789591,
+            "coupled": 72.10511862830873
+          },
+          "model_area_delta_mA": -2.650650372970631e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9986450078990653,
+                "slope_per_A": 0.00039314531430822026,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.9344081353309
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.998645007867525,
+                "slope_per_A": 0.0003931453089346656,
+                "n_bins": 70,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 65.93440810583488
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.3855358940308,
+            "coupled": 62.385533397845634
+          },
+          "model_area_delta_mA": -2.4961851678995117e-06,
+          "observed_area_delta_mA": -2.949602162516385e-08
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7774.166,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0038923551953478,
+                "slope_per_A": -7.955685554720213e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 70.81716468695168
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 62.3855358940308,
+            "coupled": 62.385533397845634
+          },
+          "model_area_delta_mA": -2.4961851678995117e-06,
+          "observed_area_delta_mA": 0.0
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "synthesis",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 0.9946038314200826,
+                "slope_per_A": -0.00032105553319534806,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.660885515158384
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 0.9946038314087924,
+                "slope_per_A": -0.0003210555315884008,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 48.660885504358504
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.9371841363091,
+            "coupled": 48.93718185224027
+          },
+          "model_area_delta_mA": -2.2840688274072818e-06,
+          "observed_area_delta_mA": -1.0799880101330928e-08
+        },
+        {
+          "rv": "plus_gravity",
+          "centre_air_A": 7775.388,
+          "reference": "iag",
+          "pair": {
+            "fixed": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            },
+            "coupled": {
+              "record": {
+                "level_at_centre": 1.0041484651560857,
+                "slope_per_A": 1.1644689475737177e-05,
+                "n_bins": 90,
+                "applied": true,
+                "reason": "applied",
+                "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+              },
+              "observed_area_mA": 57.7033818543199
+            }
+          },
+          "model_areas_mA": {
+            "fixed": 48.9371841363091,
+            "coupled": 48.93718185224027
+          },
+          "model_area_delta_mA": -2.2840688274072818e-06,
+          "observed_area_delta_mA": 0.0
+        }
+      ],
+      "max_relative_population_change_from_initial": 2.1510521532874805e-06,
+      "independent": {
+        "physical_rate_residual": 3.5646516525733925e-07,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "classes": [
+          "CE",
+          "CI",
+          "CH",
+          "CH0"
+        ],
+        "rates": {
+          "name": "independent_rates.npz",
+          "bytes": 888297,
+          "sha256": "2efcf77e905c8e9332e391a9dc5afc83c18ea7b9f26b5bb6f2bc31866a3c5f3e"
+        },
+        "kernel": {
+          "name": "bride_rate_audit.py",
+          "bytes": 1365,
+          "sha256": "227c447738f727c0d8a302105acee4a4c000ce96871186ad2ebc272fa193a17f"
+        },
+        "scope": "Fresh individual collision classes plus transition radiative rates; no accelerated Gamma used"
+      }
+    }
+  ],
+  "iag_reader": {
+    "name": "measure_band_ew.py",
+    "bytes": 100317,
+    "sha256": "8bc345a172cf88c428de3546836251079972ba32ea052d756f831d1ca915aac5"
+  },
+  "population_comparison_to_natural": {
+    "natural": 0.0,
+    "cowley": 2.570150914316116e-08,
+    "provided": 2.5773952638807884e-08
+  },
+  "caution": "Pairwise changes below retained1e-6joint tolerance are not a physical no-feedback bound; no tighter convergence or abundance accuracy inferred."
+}

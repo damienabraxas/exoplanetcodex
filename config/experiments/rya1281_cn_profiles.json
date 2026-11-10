@@ -1,0 +1,12 @@
+{
+  "schema": "codex.bride_cn_profiles_plan/1",
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "source_state_key": "experiments.bride_cn_coefficients",
+  "signed_offsets": [-100, -30, -15, -10, -5.5, -4, -3, -2, -1, -0.5, -0.1, 0, 0.1, 0.5, 1, 2, 3, 4, 5.5, 10, 15, 30, 100],
+  "quadrature_orders": [512, 1024],
+  "compile_seconds": 30,
+  "probe_seconds": 30,
+  "unit_check_float32_eps_multiple": 128,
+  "profile_accuracy_admission_threshold": null,
+  "scope": "Call unchanged compiled native newvoigt on exported CN damping states and signed dimensionless offsets; compare SciPy Faddeeva and numerical profile areas. Separately verify external-state SI extinction against native mass-opacity/density conversion. This is a diagnostic kernel with explicit external populations, not a chemistry/EOS/background provider, wavelength-frame adapter, spectrum or abundance result. Measure native approximation differences without choosing an admission threshold after seeing them."
+}

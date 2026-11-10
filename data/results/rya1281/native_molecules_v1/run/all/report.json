@@ -1,0 +1,42 @@
+{
+  "name": "all",
+  "step_A": 0.005,
+  "molecular_files": [
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/12CH_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/13CH_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/12C14N_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/13C14N_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/12C15N_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/12C12C_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/13C13C_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/14NH_750-800.bsyn",
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/16OH_750-800.bsyn"
+  ],
+  "seconds": 0.6287021250464022,
+  "rows": 4001,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 300129,
+    "sha256": "23236cc2c5dceb81a998cfd8b4713dff2ac5b3b2c10cdf4bbe44e200958317fd"
+  },
+  "native_flux": {
+    "name": "native_flux.txt",
+    "bytes": 144036,
+    "sha256": "072ba40b6ddb00206de3e5a2f4d2468c5d674328485df8672c55af4b431130ba"
+  },
+  "input": {
+    "name": "input.txt",
+    "bytes": 6368,
+    "sha256": "b0570958eb2b0dbca69f9c809d8bb6265969a01b3fad24f309201690b1e96b0a"
+  },
+  "stdout": {
+    "name": "stdout.txt",
+    "bytes": 103909,
+    "sha256": "047646f3560da200ae54a8c82bb10f6da511cd59e9a61b1ca3ba0fe83cd86766"
+  },
+  "stderr": {
+    "name": "stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

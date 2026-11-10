@@ -1,0 +1,343 @@
+{
+  "schema": "codex.bride_fe_stark_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_fe_stark_controls.py",
+    "bytes": 6565,
+    "sha256": "9d5eafd9c8c6a679f9640a890b9cebccbe75b4a0f9a0e93a428ad84dbed704f4"
+  },
+  "controls": [
+    {
+      "name": "report.json",
+      "bytes": 6509,
+      "sha256": "25c8fde88a08f4ea8678afbbc1457fa6c1172fbc8853f88db37198c3be06b426"
+    },
+    {
+      "name": "report.json",
+      "bytes": 6518,
+      "sha256": "587da31ad924ec814189995a050ff00e3f5c79b2beee9a732afb510a311c758a"
+    },
+    {
+      "name": "report.json",
+      "bytes": 6511,
+      "sha256": "b1b250b43da54093a67e6ff818c49b473559a5bd6cc299fb61040b346c8a138f"
+    },
+    {
+      "name": "report.json",
+      "bytes": 9712,
+      "sha256": "08b1ae7bfc6739ad568759c6e704b919e00a411ee7f6eef990e15971f6867d05"
+    }
+  ],
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "policy": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "cases": [
+    {
+      "mode": "none_fixed",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.13042972267243
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.41436049883391
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.934380630789
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.1056835240697,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.393579138273076,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.92625413996818,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10768736314505,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38610975275105,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.9354106737884,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "provided_fixed",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.13088388991481
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.41577666259099
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.93708180647729
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10598159337951,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.3949969231934,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.92880629862116,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.1079517004368,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38752516013463,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.93792435892291,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "cowley_fixed",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.13049278994644
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.41461284371898
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.934804167753434
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10573334825999,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.39383148949666,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.92666801259937,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10773712203364,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38636108748689,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.935818350203775,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "cowley_coupled",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.12825766895114
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.411752946195406
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.93310834296173
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10349891422283,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.390972210126066,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.924972413448145,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.105502801255,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38350198428724,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.93412241720815,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "area_changes_vs_no_stark_mA": {
+    "none_fixed": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "provided_fixed": [
+      0.0004541672423812315,
+      0.0014161637570850871,
+      0.002701175688287094
+    ],
+    "cowley_fixed": [
+      6.30672740129512e-05,
+      0.0002523448850695331,
+      0.00042353696443342415
+    ],
+    "cowley_coupled": [
+      -0.002172053721295697,
+      -0.0026075526385014314,
+      -0.0012722878272697358
+    ]
+  },
+  "coupled_minus_fixed_cowley_mA": [
+    -0.002235120995308648,
+    -0.0028598975235709645,
+    -0.00169582479170316
+  ],
+  "max_profile_change_vs_no_stark": {
+    "none_fixed": 0.0,
+    "provided_fixed": 0.0015742010991173228,
+    "cowley_fixed": 0.00032151449674022725,
+    "cowley_coupled": 0.0003215148835014059
+  },
+  "coupled_minus_fixed_cowley_max_flux_difference": 1.4519548168889784e-05,
+  "profiles": {
+    "name": "profiles.csv",
+    "bytes": 1000575,
+    "sha256": "b43675eecfd42cec71089c0414c9ed298c35a64763bc53e66211017920944611"
+  },
+  "figure": {
+    "name": "stark_fe_control.png",
+    "bytes": 214089,
+    "sha256": "fd6a0478e7db66fac49eeac6d2ee73c36b12479474d51fe67b1b2a267b2d6ba9"
+  },
+  "caveats": "FeI subset, H/He plus explicit Stark mode and population feedback; distinct Kurucz LTE neutral reservoir reported. No complete blend/continuum/abundance admission. Both RV variants retained; no optimization."
+}

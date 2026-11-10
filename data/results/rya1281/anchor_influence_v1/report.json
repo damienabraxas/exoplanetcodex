@@ -1,0 +1,2582 @@
+{
+  "schema": "codex.bride_anchor_influence/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_anchor_influence.py",
+    "bytes": 8527,
+    "sha256": "306470e2a6e5f1cfcef7ea0d694d2acca1321cf1c3615bc2ad6df6770bd1e031"
+  },
+  "adapter": {
+    "name": "bride_anchor_influence.py",
+    "bytes": 1552,
+    "sha256": "d2f05dd8fa08a0a1928fef21ed0bd87ae91f67d25e79d967856ded596c2851c9"
+  },
+  "plan": {
+    "name": "rya1281_anchor_influence.json",
+    "bytes": 763,
+    "sha256": "e18e28450279e9f47fe97c553926e603f8ea8dacdec99800867cdd4719066872"
+  },
+  "source_report": {
+    "name": "report.json",
+    "bytes": 1037512,
+    "sha256": "07e2ad951b679ccbd37c78d3dbcdfb6fbd09e818510baa4d46a6d7c1ae340197"
+  },
+  "derived_pixels": {
+    "name": "pixel_diagnostics.csv",
+    "bytes": 1362128,
+    "sha256": "b9ba8e19b08a28f34ef967a1a2409ed4cd904a382c53ecd6f9392d9ff4124f92"
+  },
+  "trace_packet": {
+    "name": "lines.json",
+    "bytes": 110825,
+    "sha256": "cf84901b4e1e50012ce987788a68f1af975b5b35ac146619581ab26342f63ee0"
+  },
+  "canonical": {
+    "name": "canonical_gf.csv",
+    "bytes": 25288767,
+    "sha256": "84a7e338739e06acbf8ef9826a0230783b859263bda70cce05118d9b7879687a"
+  },
+  "original": {
+    "name": "atomic_lines.tsv",
+    "bytes": 30604411,
+    "sha256": "9231e3109703afa9abcabf24609ff7a669c7b60731d85d5dafdd86123b263f17"
+  },
+  "bin_width_air_A": 0.1,
+  "candidate_accounting": {
+    "not_in_trace_subset": 338,
+    "trace_FeI": 41,
+    "excluded_combined_FeI": 6,
+    "active_OI_candidate": 3
+  },
+  "source_accounting": {
+    "1": 354,
+    "2": 18,
+    "0": 15,
+    "3": 1
+  },
+  "caveats": "Fixed-support linear centre accounting, not independent errors or a physical opacity attribution. Candidate centres within bins are an inventory only, not blend identities, wing coverage, predicted strengths or source/abundance admission. Original frozen spectra/reference choices unchanged.",
+  "cases": [
+    {
+      "name": "canonical_refined",
+      "physical_case": {
+        "name": "thermal_nominal",
+        "teff": 5772,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers",
+        "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+        "experimental_column_contract": "density_integral_log_native_top",
+        "bound_point_coefficients": "thermal_nominal"
+      },
+      "lines": [
+        {
+          "centre_air_A": 7771.944,
+          "masks": {
+            "synthesis": {
+              "centre_delta": 0.00903586095138299,
+              "absolute_contribution_sum": 0.09867642816706147,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 10,
+                  "centre_delta": -0.018953531718279373,
+                  "absolute_contribution_sum": 0.018953531718279373,
+                  "weight_sum": -2.8129585306099036,
+                  "weight_l1": 2.8129585306099036,
+                  "lo_air_A": 7766.944,
+                  "hi_air_A": 7767.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": -0.013261503448150818,
+                  "absolute_contribution_sum": 0.013261503448150818,
+                  "weight_sum": -2.0411901863155704,
+                  "weight_l1": 2.0411901863155704,
+                  "lo_air_A": 7767.044000000001,
+                  "hi_air_A": 7767.144,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": -0.008835945051100236,
+                  "absolute_contribution_sum": 0.008835945051100236,
+                  "weight_sum": -1.2694218420752958,
+                  "weight_l1": 1.2694218420752958,
+                  "lo_air_A": 7767.144,
+                  "hi_air_A": 7767.244000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -47,
+                  "lo_offset_A": -4.7,
+                  "hi_offset_A": -4.6000000000000005,
+                  "count": 10,
+                  "centre_delta": -0.003769303390308827,
+                  "absolute_contribution_sum": 0.003769303390308827,
+                  "weight_sum": -0.4976534978883808,
+                  "weight_l1": 0.4976534978883808,
+                  "lo_air_A": 7767.244000000001,
+                  "hi_air_A": 7767.344,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 9,
+                  "centre_delta": 0.01195378858157158,
+                  "absolute_contribution_sum": 0.01195378858157158,
+                  "weight_sum": 1.6706159563808756,
+                  "weight_l1": 1.6706159563808756,
+                  "lo_air_A": 7767.544000000001,
+                  "hi_air_A": 7767.644,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 10,
+                  "centre_delta": 0.017841421959944773,
+                  "absolute_contribution_sum": 0.017841421959944773,
+                  "weight_sum": 2.5894198782982945,
+                  "weight_l1": 2.5894198782982945,
+                  "lo_air_A": 7767.644,
+                  "hi_air_A": 7767.744000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 10,
+                  "centre_delta": 0.02406093401770589,
+                  "absolute_contribution_sum": 0.02406093401770589,
+                  "weight_sum": 3.361188222209982,
+                  "weight_l1": 3.361188222209982,
+                  "lo_air_A": 7767.744000000001,
+                  "hi_air_A": 7767.844,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 1.734723475976807e-18,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.009035860951381869,
+              "independent_fit_delta": 0.009035860951381869,
+              "roundoff_bound": 4.066801057356269e-13,
+              "coefficient_support_count": 69,
+              "level_reconstruction_error": 1.1206313654810174e-15,
+              "observed_area_delta_mA": 8.312982098434844
+            },
+            "iag": {
+              "centre_delta": 0.006446399370464661,
+              "absolute_contribution_sum": 0.018115320612183183,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 9,
+                  "centre_delta": -0.0019299346094615207,
+                  "absolute_contribution_sum": 0.0019299346094615207,
+                  "weight_sum": -0.288821276666042,
+                  "weight_l1": 0.288821276666042,
+                  "lo_air_A": 7766.944,
+                  "hi_air_A": 7767.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": -0.0018914706255313673,
+                  "absolute_contribution_sum": 0.0018914706255313673,
+                  "weight_sum": -0.29092913881916715,
+                  "weight_l1": 0.29092913881916715,
+                  "lo_air_A": 7767.044000000001,
+                  "hi_air_A": 7767.144,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 4,
+                  "centre_delta": -0.0007081157601552476,
+                  "absolute_contribution_sum": 0.0007081157601552476,
+                  "weight_sum": -0.10650283661029503,
+                  "weight_l1": 0.10650283661029503,
+                  "lo_air_A": 7767.144,
+                  "hi_air_A": 7767.244000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 4,
+                  "centre_delta": -0.000350915565913685,
+                  "absolute_contribution_sum": 0.000350915565913685,
+                  "weight_sum": -0.050990730210781876,
+                  "weight_l1": 0.050990730210781876,
+                  "lo_air_A": 7767.544000000001,
+                  "hi_air_A": 7767.644,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 8,
+                  "centre_delta": -0.0005931628445132878,
+                  "absolute_contribution_sum": 0.0005931628445132878,
+                  "weight_sum": -0.08717823205097142,
+                  "weight_l1": 0.08717823205097142,
+                  "lo_air_A": 7767.644,
+                  "hi_air_A": 7767.744000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 1,
+                  "centre_delta": -4.266723598888287e-05,
+                  "absolute_contribution_sum": 4.266723598888287e-05,
+                  "weight_sum": -0.006117069845380329,
+                  "weight_l1": 0.006117069845380329,
+                  "lo_air_A": 7767.744000000001,
+                  "hi_air_A": 7767.844,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -41,
+                  "lo_offset_A": -4.1000000000000005,
+                  "hi_offset_A": -4.0,
+                  "count": 10,
+                  "centre_delta": -0.0002996086586737249,
+                  "absolute_contribution_sum": 0.0002996086586737249,
+                  "weight_sum": -0.04420866594895185,
+                  "weight_l1": 0.04420866594895185,
+                  "lo_air_A": 7767.844,
+                  "hi_air_A": 7767.944,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -40,
+                  "lo_offset_A": -4.0,
+                  "hi_offset_A": -3.9000000000000004,
+                  "count": 2,
+                  "centre_delta": -1.8585320621544904e-05,
+                  "absolute_contribution_sum": 1.8585320621544904e-05,
+                  "weight_sum": -0.0026737213699989447,
+                  "weight_l1": 0.0026737213699989447,
+                  "lo_air_A": 7767.944,
+                  "hi_air_A": 7768.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -33,
+                  "lo_offset_A": -3.3000000000000003,
+                  "hi_offset_A": -3.2,
+                  "count": 1,
+                  "centre_delta": 0.00014663077537298722,
+                  "absolute_contribution_sum": 0.00014663077537298722,
+                  "weight_sum": 0.021638983336686637,
+                  "weight_l1": 0.021638983336686637,
+                  "lo_air_A": 7768.644,
+                  "hi_air_A": 7768.744000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -32,
+                  "lo_offset_A": -3.2,
+                  "hi_offset_A": -3.1,
+                  "count": 1,
+                  "centre_delta": 0.00015224912160851316,
+                  "absolute_contribution_sum": 0.00015224912160851316,
+                  "weight_sum": 0.02194738392753959,
+                  "weight_l1": 0.02194738392753959,
+                  "lo_air_A": 7768.744000000001,
+                  "hi_air_A": 7768.844,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -31,
+                  "lo_offset_A": -3.1,
+                  "hi_offset_A": -3.0,
+                  "count": 5,
+                  "centre_delta": 0.0008855405155834189,
+                  "absolute_contribution_sum": 0.0008855405155834189,
+                  "weight_sum": 0.13286696394745967,
+                  "weight_l1": 0.13286696394745967,
+                  "lo_air_A": 7768.844,
+                  "hi_air_A": 7768.944,
+                  "candidate_line_ids": [
+                    "gf_137515"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -27,
+                  "lo_offset_A": -2.7,
+                  "hi_offset_A": -2.6,
+                  "count": 8,
+                  "centre_delta": 0.0019864060014994794,
+                  "absolute_contribution_sum": 0.0019864060014994794,
+                  "weight_sum": 0.3125089337139058,
+                  "weight_l1": 0.3125089337139058,
+                  "lo_air_A": 7769.244000000001,
+                  "hi_air_A": 7769.344,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -26,
+                  "lo_offset_A": -2.6,
+                  "hi_offset_A": -2.5,
+                  "count": 9,
+                  "centre_delta": 0.0024472323285960793,
+                  "absolute_contribution_sum": 0.0024472323285960793,
+                  "weight_sum": 0.3751651956152071,
+                  "weight_l1": 0.3751651956152071,
+                  "lo_air_A": 7769.344,
+                  "hi_air_A": 7769.444,
+                  "candidate_line_ids": [
+                    "gf_024815"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -22,
+                  "lo_offset_A": -2.2,
+                  "hi_offset_A": -2.1,
+                  "count": 4,
+                  "centre_delta": 0.0014230216997743327,
+                  "absolute_contribution_sum": 0.0014230216997743327,
+                  "weight_sum": 0.22040178970857566,
+                  "weight_l1": 0.22040178970857566,
+                  "lo_air_A": 7769.744000000001,
+                  "hi_air_A": 7769.844,
+                  "candidate_line_ids": [
+                    "gf_018314"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -21,
+                  "lo_offset_A": -2.1,
+                  "hi_offset_A": -2.0,
+                  "count": 6,
+                  "centre_delta": 0.0023014486971369846,
+                  "absolute_contribution_sum": 0.0023014486971369846,
+                  "weight_sum": 0.3472563164534349,
+                  "weight_l1": 0.3472563164534349,
+                  "lo_air_A": 7769.844,
+                  "hi_air_A": 7769.944,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -20,
+                  "lo_offset_A": -2.0,
+                  "hi_offset_A": -1.9000000000000001,
+                  "count": 1,
+                  "centre_delta": 0.0003917491161415153,
+                  "absolute_contribution_sum": 0.0003917491161415153,
+                  "weight_sum": 0.058955454809158286,
+                  "weight_l1": 0.058955454809158286,
+                  "lo_air_A": 7769.944,
+                  "hi_air_A": 7770.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -16,
+                  "lo_offset_A": -1.6,
+                  "hi_offset_A": -1.5,
+                  "count": 1,
+                  "centre_delta": 0.0004735044651636595,
+                  "absolute_contribution_sum": 0.0004735044651636595,
+                  "weight_sum": 0.07375868315298481,
+                  "weight_l1": 0.07375868315298481,
+                  "lo_air_A": 7770.344,
+                  "hi_air_A": 7770.444,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -14,
+                  "lo_offset_A": -1.4000000000000001,
+                  "hi_offset_A": -1.3,
+                  "count": 4,
+                  "centre_delta": 0.002073077270446952,
+                  "absolute_contribution_sum": 0.002073077270446952,
+                  "weight_sum": 0.31292196685663576,
+                  "weight_l1": 0.31292196685663576,
+                  "lo_air_A": 7770.544000000001,
+                  "hi_air_A": 7770.644,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 0.0,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.006446399370465206,
+              "independent_fit_delta": 0.006446399370465206,
+              "roundoff_bound": 7.865029463304238e-14,
+              "coefficient_support_count": 88,
+              "level_reconstruction_error": -5.447031714567174e-16,
+              "observed_area_delta_mA": 5.930793109917005
+            }
+          }
+        },
+        {
+          "centre_air_A": 7774.166,
+          "masks": {
+            "synthesis": {
+              "centre_delta": 0.007542229033289236,
+              "absolute_contribution_sum": 0.10937360729356689,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 9,
+                  "centre_delta": -0.022547062342775172,
+                  "absolute_contribution_sum": 0.022547062342775172,
+                  "weight_sum": -2.7393014030666505,
+                  "weight_l1": 2.7393014030666505,
+                  "lo_air_A": 7769.166,
+                  "hi_air_A": 7769.2660000000005,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": -0.014616301931803842,
+                  "absolute_contribution_sum": 0.014616301931803842,
+                  "weight_sum": -2.3024773940196477,
+                  "weight_l1": 2.3024773940196477,
+                  "lo_air_A": 7769.2660000000005,
+                  "hi_air_A": 7769.366,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": -0.01029360995923012,
+                  "absolute_contribution_sum": 0.01029360995923012,
+                  "weight_sum": -1.5222765186967013,
+                  "weight_l1": 1.5222765186967013,
+                  "lo_air_A": 7769.366,
+                  "hi_air_A": 7769.466,
+                  "candidate_line_ids": [
+                    "gf_024815"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -47,
+                  "lo_offset_A": -4.7,
+                  "hi_offset_A": -4.6000000000000005,
+                  "count": 4,
+                  "centre_delta": -0.0034587148963296944,
+                  "absolute_contribution_sum": 0.0034587148963296944,
+                  "weight_sum": -0.39045436239770936,
+                  "weight_l1": 0.39045436239770936,
+                  "lo_air_A": 7769.466,
+                  "hi_air_A": 7769.566,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -45,
+                  "lo_offset_A": -4.5,
+                  "hi_offset_A": -4.4,
+                  "count": 10,
+                  "centre_delta": 0.006603725628211483,
+                  "absolute_contribution_sum": 0.006603725628211483,
+                  "weight_sum": 0.8183261069463463,
+                  "weight_l1": 0.8183261069463463,
+                  "lo_air_A": 7769.666,
+                  "hi_air_A": 7769.7660000000005,
+                  "candidate_line_ids": [
+                    "gf_018314"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 10,
+                  "centre_delta": 0.010913721446057371,
+                  "absolute_contribution_sum": 0.010913721446057371,
+                  "weight_sum": 1.59852698204926,
+                  "weight_l1": 1.59852698204926,
+                  "lo_air_A": 7769.7660000000005,
+                  "hi_air_A": 7769.866,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 10,
+                  "centre_delta": 0.016086142393991157,
+                  "absolute_contribution_sum": 0.016086142393991157,
+                  "weight_sum": 2.3787278570982315,
+                  "weight_l1": 2.3787278570982315,
+                  "lo_air_A": 7769.866,
+                  "hi_air_A": 7769.966,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 10,
+                  "centre_delta": 0.024854328695168057,
+                  "absolute_contribution_sum": 0.024854328695168057,
+                  "weight_sum": 3.15892873208687,
+                  "weight_l1": 3.15892873208687,
+                  "lo_air_A": 7769.966,
+                  "hi_air_A": 7770.066,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 3.469446951953614e-18,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.0075422290332883835,
+              "independent_fit_delta": 0.0075422290332883835,
+              "roundoff_bound": 4.2591587363806975e-13,
+              "coefficient_support_count": 73,
+              "level_reconstruction_error": 8.526165884426007e-16,
+              "observed_area_delta_mA": 7.001585980171399
+            },
+            "iag": {
+              "centre_delta": 0.006607030522930463,
+              "absolute_contribution_sum": 0.006607030522930463,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 4,
+                  "centre_delta": 9.719307283414172e-05,
+                  "absolute_contribution_sum": 9.719307283414172e-05,
+                  "weight_sum": 0.013205803370216743,
+                  "weight_l1": 0.013205803370216743,
+                  "lo_air_A": 7769.166,
+                  "hi_air_A": 7769.2660000000005,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": 0.00022369637851087662,
+                  "absolute_contribution_sum": 0.00022369637851087662,
+                  "weight_sum": 0.03544910983068475,
+                  "weight_l1": 0.03544910983068475,
+                  "lo_air_A": 7769.2660000000005,
+                  "hi_air_A": 7769.366,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": 0.00026496208406613344,
+                  "absolute_contribution_sum": 0.00026496208406613344,
+                  "weight_sum": 0.03892711183781618,
+                  "weight_l1": 0.03892711183781618,
+                  "lo_air_A": 7769.366,
+                  "hi_air_A": 7769.466,
+                  "candidate_line_ids": [
+                    "gf_024815"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -45,
+                  "lo_offset_A": -4.5,
+                  "hi_offset_A": -4.4,
+                  "count": 3,
+                  "centre_delta": 0.00010774031943353962,
+                  "absolute_contribution_sum": 0.00010774031943353962,
+                  "weight_sum": 0.015173525567980878,
+                  "weight_l1": 0.015173525567980878,
+                  "lo_air_A": 7769.666,
+                  "hi_air_A": 7769.7660000000005,
+                  "candidate_line_ids": [
+                    "gf_018314"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 10,
+                  "centre_delta": 0.00036098893435564604,
+                  "absolute_contribution_sum": 0.00036098893435564604,
+                  "weight_sum": 0.05283911986390876,
+                  "weight_l1": 0.05283911986390876,
+                  "lo_air_A": 7769.7660000000005,
+                  "hi_air_A": 7769.866,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 10,
+                  "centre_delta": 0.000381580999450995,
+                  "absolute_contribution_sum": 0.000381580999450995,
+                  "weight_sum": 0.05631712186981886,
+                  "weight_l1": 0.05631712186981886,
+                  "lo_air_A": 7769.866,
+                  "hi_air_A": 7769.966,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 2,
+                  "centre_delta": 8.456207107512739e-05,
+                  "absolute_contribution_sum": 8.456207107512739e-05,
+                  "weight_sum": 0.011680784614650962,
+                  "weight_l1": 0.011680784614650962,
+                  "lo_air_A": 7769.966,
+                  "hi_air_A": 7770.066,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -38,
+                  "lo_offset_A": -3.8000000000000003,
+                  "hi_offset_A": -3.7,
+                  "count": 5,
+                  "centre_delta": 0.00025132251609223986,
+                  "absolute_contribution_sum": 0.00025132251609223986,
+                  "weight_sum": 0.03728831619837828,
+                  "weight_l1": 0.03728831619837828,
+                  "lo_air_A": 7770.366,
+                  "hi_air_A": 7770.466,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -37,
+                  "lo_offset_A": -3.7,
+                  "hi_offset_A": -3.6,
+                  "count": 9,
+                  "centre_delta": 0.00048775132991457095,
+                  "absolute_contribution_sum": 0.00048775132991457095,
+                  "weight_sum": 0.06951879054007844,
+                  "weight_l1": 0.06951879054007844,
+                  "lo_air_A": 7770.466,
+                  "hi_air_A": 7770.566,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -36,
+                  "lo_offset_A": -3.6,
+                  "hi_offset_A": -3.5,
+                  "count": 5,
+                  "centre_delta": 0.00026898782261749636,
+                  "absolute_contribution_sum": 0.00026898782261749636,
+                  "weight_sum": 0.03989681770160456,
+                  "weight_l1": 0.03989681770160456,
+                  "lo_air_A": 7770.566,
+                  "hi_air_A": 7770.666,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 18,
+                  "lo_offset_A": 1.8,
+                  "hi_offset_A": 1.9000000000000001,
+                  "count": 4,
+                  "centre_delta": 0.0006861125524367474,
+                  "absolute_contribution_sum": 0.0006861125524367474,
+                  "weight_sum": 0.10780745774367209,
+                  "weight_l1": 0.10780745774367209,
+                  "lo_air_A": 7775.966,
+                  "hi_air_A": 7776.066,
+                  "candidate_line_ids": [
+                    "gf_064814",
+                    "gf_116059",
+                    "gf_130533"
+                  ],
+                  "candidate_treatments": {
+                    "trace_FeI": 1,
+                    "not_in_trace_subset": 2
+                  }
+                },
+                {
+                  "bin_index": 19,
+                  "lo_offset_A": 1.9000000000000001,
+                  "hi_offset_A": 2.0,
+                  "count": 10,
+                  "centre_delta": 0.0017445218661759417,
+                  "absolute_contribution_sum": 0.0017445218661759417,
+                  "weight_sum": 0.271953245752537,
+                  "weight_l1": 0.271953245752537,
+                  "lo_air_A": 7776.066,
+                  "hi_air_A": 7776.166,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 20,
+                  "lo_offset_A": 2.0,
+                  "hi_offset_A": 2.1,
+                  "count": 3,
+                  "centre_delta": 0.0005529392190770918,
+                  "absolute_contribution_sum": 0.0005529392190770918,
+                  "weight_sum": 0.08247286423329102,
+                  "weight_l1": 0.08247286423329102,
+                  "lo_air_A": 7776.166,
+                  "hi_air_A": 7776.2660000000005,
+                  "candidate_line_ids": [
+                    "gf_079008",
+                    "gf_106258",
+                    "gf_121980",
+                    "gf_140378"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 4
+                  }
+                },
+                {
+                  "bin_index": 21,
+                  "lo_offset_A": 2.1,
+                  "hi_offset_A": 2.2,
+                  "count": 1,
+                  "centre_delta": 0.00018671330270834128,
+                  "absolute_contribution_sum": 0.00018671330270834128,
+                  "weight_sum": 0.02780397492354431,
+                  "weight_l1": 0.02780397492354431,
+                  "lo_air_A": 7776.2660000000005,
+                  "hi_air_A": 7776.366,
+                  "candidate_line_ids": [
+                    "gf_026218",
+                    "gf_045620",
+                    "gf_079009",
+                    "gf_127790"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 4
+                  }
+                },
+                {
+                  "bin_index": 41,
+                  "lo_offset_A": 4.1000000000000005,
+                  "hi_offset_A": 4.2,
+                  "count": 4,
+                  "centre_delta": 0.000907958054181574,
+                  "absolute_contribution_sum": 0.000907958054181574,
+                  "weight_sum": 0.13966595595181705,
+                  "weight_l1": 0.13966595595181705,
+                  "lo_air_A": 7778.2660000000005,
+                  "hi_air_A": 7778.366,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 8.673617379884035e-19,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.006607030522930213,
+              "independent_fit_delta": 0.006607030522930213,
+              "roundoff_bound": 2.8567665213764634e-14,
+              "coefficient_support_count": 90,
+              "level_reconstruction_error": 2.498001805406602e-16,
+              "observed_area_delta_mA": 6.155886510321167
+            }
+          }
+        },
+        {
+          "centre_air_A": 7775.388,
+          "masks": {
+            "synthesis": {
+              "centre_delta": 0.011871433008019312,
+              "absolute_contribution_sum": 0.011871433008019312,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 4,
+                  "centre_delta": 0.0002377489762145194,
+                  "absolute_contribution_sum": 0.0002377489762145194,
+                  "weight_sum": 0.03368380740481873,
+                  "weight_l1": 0.03368380740481873,
+                  "lo_air_A": 7770.388,
+                  "hi_air_A": 7770.488,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": 0.0005888352961969205,
+                  "absolute_contribution_sum": 0.0005888352961969205,
+                  "weight_sum": 0.08463787699496189,
+                  "weight_l1": 0.08463787699496189,
+                  "lo_air_A": 7770.488,
+                  "hi_air_A": 7770.588,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": 0.0006242625880549371,
+                  "absolute_contribution_sum": 0.0006242625880549371,
+                  "weight_sum": 0.08524981768480608,
+                  "weight_l1": 0.08524981768480608,
+                  "lo_air_A": 7770.588,
+                  "hi_air_A": 7770.688,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -47,
+                  "lo_offset_A": -4.7,
+                  "hi_offset_A": -4.6000000000000005,
+                  "count": 7,
+                  "centre_delta": 0.0005790153584496187,
+                  "absolute_contribution_sum": 0.0005790153584496187,
+                  "weight_sum": 0.06003897708979536,
+                  "weight_l1": 0.06003897708979536,
+                  "lo_air_A": 7770.688,
+                  "hi_air_A": 7770.788,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 14,
+                  "lo_offset_A": 1.4000000000000001,
+                  "hi_offset_A": 1.5,
+                  "count": 8,
+                  "centre_delta": 0.0009067897681218883,
+                  "absolute_contribution_sum": 0.0009067897681218883,
+                  "weight_sum": 0.09860106755106252,
+                  "weight_l1": 0.09860106755106252,
+                  "lo_air_A": 7776.788,
+                  "hi_air_A": 7776.888,
+                  "candidate_line_ids": [
+                    "gf_015749"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 15,
+                  "lo_offset_A": 1.5,
+                  "hi_offset_A": 1.6,
+                  "count": 10,
+                  "centre_delta": 0.0012844881384904477,
+                  "absolute_contribution_sum": 0.0012844881384904477,
+                  "weight_sum": 0.12380208105721688,
+                  "weight_l1": 0.12380208105721688,
+                  "lo_air_A": 7776.888,
+                  "hi_air_A": 7776.988,
+                  "candidate_line_ids": [
+                    "gf_130078"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 16,
+                  "lo_offset_A": 1.6,
+                  "hi_offset_A": 1.7000000000000002,
+                  "count": 10,
+                  "centre_delta": 0.0019582003619921457,
+                  "absolute_contribution_sum": 0.0019582003619921457,
+                  "weight_sum": 0.12441402174428028,
+                  "weight_l1": 0.12441402174428028,
+                  "lo_air_A": 7776.988,
+                  "hi_air_A": 7777.088,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 17,
+                  "lo_offset_A": 1.7000000000000002,
+                  "hi_offset_A": 1.8,
+                  "count": 10,
+                  "centre_delta": 0.002306079700919556,
+                  "absolute_contribution_sum": 0.002306079700919556,
+                  "weight_sum": 0.1250259624312936,
+                  "weight_l1": 0.1250259624312936,
+                  "lo_air_A": 7777.088,
+                  "hi_air_A": 7777.188,
+                  "candidate_line_ids": [
+                    "gf_079010"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 18,
+                  "lo_offset_A": 1.8,
+                  "hi_offset_A": 1.9000000000000001,
+                  "count": 10,
+                  "centre_delta": 0.0018565071574113488,
+                  "absolute_contribution_sum": 0.0018565071574113488,
+                  "weight_sum": 0.12563790311826462,
+                  "weight_l1": 0.12563790311826462,
+                  "lo_air_A": 7777.188,
+                  "hi_air_A": 7777.288,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 19,
+                  "lo_offset_A": 1.9000000000000001,
+                  "hi_offset_A": 2.0,
+                  "count": 10,
+                  "centre_delta": 0.0013996783463553187,
+                  "absolute_contribution_sum": 0.0013996783463553187,
+                  "weight_sum": 0.12624984380520055,
+                  "weight_l1": 0.12624984380520055,
+                  "lo_air_A": 7777.288,
+                  "hi_air_A": 7777.388,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 20,
+                  "lo_offset_A": 2.0,
+                  "hi_offset_A": 2.1,
+                  "count": 1,
+                  "centre_delta": 0.0001298273158126114,
+                  "absolute_contribution_sum": 0.0001298273158126114,
+                  "weight_sum": 0.012658641118299098,
+                  "weight_l1": 0.012658641118299098,
+                  "lo_air_A": 7777.388,
+                  "hi_air_A": 7777.488,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 0.0,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.011871433008019294,
+              "independent_fit_delta": 0.011871433008019294,
+              "roundoff_bound": 2.858169939953491e-14,
+              "coefficient_support_count": 90,
+              "level_reconstruction_error": 1.734723475976807e-17,
+              "observed_area_delta_mA": 11.264916821590745
+            },
+            "iag": {
+              "centre_delta": 0.006803348825919835,
+              "absolute_contribution_sum": 0.006803348825919835,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 9,
+                  "centre_delta": 0.000503736169074656,
+                  "absolute_contribution_sum": 0.000503736169074656,
+                  "weight_sum": 0.07319519595932279,
+                  "weight_l1": 0.07319519595932279,
+                  "lo_air_A": 7770.388,
+                  "hi_air_A": 7770.488,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": 0.0005703376141664214,
+                  "absolute_contribution_sum": 0.0005703376141664214,
+                  "weight_sum": 0.0819801137181902,
+                  "weight_l1": 0.0819801137181902,
+                  "lo_air_A": 7770.488,
+                  "hi_air_A": 7770.588,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 9,
+                  "centre_delta": 0.0005403842028724216,
+                  "absolute_contribution_sum": 0.0005403842028724216,
+                  "weight_sum": 0.07436900873338162,
+                  "weight_l1": 0.07436900873338162,
+                  "lo_air_A": 7770.588,
+                  "hi_air_A": 7770.688,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -45,
+                  "lo_offset_A": -4.5,
+                  "hi_offset_A": -4.4,
+                  "count": 1,
+                  "centre_delta": 6.282632978023124e-05,
+                  "absolute_contribution_sum": 6.282632978023124e-05,
+                  "weight_sum": 0.008455426453814884,
+                  "weight_l1": 0.008455426453814884,
+                  "lo_air_A": 7770.888,
+                  "hi_air_A": 7770.988,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -23,
+                  "lo_offset_A": -2.3000000000000003,
+                  "hi_offset_A": -2.2,
+                  "count": 1,
+                  "centre_delta": 7.251855554379316e-05,
+                  "absolute_contribution_sum": 7.251855554379316e-05,
+                  "weight_sum": 0.010013645748697774,
+                  "weight_l1": 0.010013645748697774,
+                  "lo_air_A": 7773.088,
+                  "hi_air_A": 7773.188,
+                  "candidate_line_ids": [
+                    "gf_086628"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -19,
+                  "lo_offset_A": -1.9000000000000001,
+                  "hi_offset_A": -1.8,
+                  "count": 3,
+                  "centre_delta": 0.00020567489963624195,
+                  "absolute_contribution_sum": 0.00020567489963624195,
+                  "weight_sum": 0.03078229268085144,
+                  "weight_l1": 0.03078229268085144,
+                  "lo_air_A": 7773.488,
+                  "hi_air_A": 7773.588,
+                  "candidate_line_ids": [
+                    "gf_091447"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 5,
+                  "lo_offset_A": 0.5,
+                  "hi_offset_A": 0.6000000000000001,
+                  "count": 1,
+                  "centre_delta": 7.993981357452633e-05,
+                  "absolute_contribution_sum": 7.993981357452633e-05,
+                  "weight_sum": 0.01193567835566143,
+                  "weight_l1": 0.01193567835566143,
+                  "lo_air_A": 7775.888,
+                  "hi_air_A": 7775.988,
+                  "candidate_line_ids": [
+                    "gf_064814",
+                    "gf_130533"
+                  ],
+                  "candidate_treatments": {
+                    "trace_FeI": 1,
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 6,
+                  "lo_offset_A": 0.6000000000000001,
+                  "hi_offset_A": 0.7000000000000001,
+                  "count": 9,
+                  "centre_delta": 0.0007002062804778398,
+                  "absolute_contribution_sum": 0.0007002062804778398,
+                  "weight_sum": 0.10778491851547473,
+                  "weight_l1": 0.10778491851547473,
+                  "lo_air_A": 7775.988,
+                  "hi_air_A": 7776.088,
+                  "candidate_line_ids": [
+                    "gf_116059"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 7,
+                  "lo_offset_A": 0.7000000000000001,
+                  "hi_offset_A": 0.8,
+                  "count": 10,
+                  "centre_delta": 0.0007863557524331553,
+                  "absolute_contribution_sum": 0.0007863557524331553,
+                  "weight_sum": 0.12042076589149572,
+                  "weight_l1": 0.12042076589149572,
+                  "lo_air_A": 7776.088,
+                  "hi_air_A": 7776.188,
+                  "candidate_line_ids": [
+                    "gf_079008",
+                    "gf_140378"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 2
+                  }
+                },
+                {
+                  "bin_index": 8,
+                  "lo_offset_A": 0.8,
+                  "hi_offset_A": 0.9,
+                  "count": 10,
+                  "centre_delta": 0.0008477334637453735,
+                  "absolute_contribution_sum": 0.0008477334637453735,
+                  "weight_sum": 0.12110720610748227,
+                  "weight_l1": 0.12110720610748227,
+                  "lo_air_A": 7776.188,
+                  "hi_air_A": 7776.288,
+                  "candidate_line_ids": [
+                    "gf_106258",
+                    "gf_121980",
+                    "gf_127790"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 3
+                  }
+                },
+                {
+                  "bin_index": 9,
+                  "lo_offset_A": 0.9,
+                  "hi_offset_A": 1.0,
+                  "count": 6,
+                  "centre_delta": 0.0004932875421015584,
+                  "absolute_contribution_sum": 0.0004932875421015584,
+                  "weight_sum": 0.07299381496814691,
+                  "weight_l1": 0.07299381496814691,
+                  "lo_air_A": 7776.288,
+                  "hi_air_A": 7776.388,
+                  "candidate_line_ids": [
+                    "gf_026218",
+                    "gf_045620",
+                    "gf_064815",
+                    "gf_079009"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 3,
+                    "trace_FeI": 1
+                  }
+                },
+                {
+                  "bin_index": 29,
+                  "lo_offset_A": 2.9000000000000004,
+                  "hi_offset_A": 3.0,
+                  "count": 8,
+                  "centre_delta": 0.0007236963490070984,
+                  "absolute_contribution_sum": 0.0007236963490070984,
+                  "weight_sum": 0.10841796050561148,
+                  "weight_l1": 0.10841796050561148,
+                  "lo_air_A": 7778.288,
+                  "hi_air_A": 7778.388,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 31,
+                  "lo_offset_A": 3.1,
+                  "hi_offset_A": 3.2,
+                  "count": 5,
+                  "centre_delta": 0.000462793226156647,
+                  "absolute_contribution_sum": 0.000462793226156647,
+                  "weight_sum": 0.06853347055775776,
+                  "weight_l1": 0.06853347055775776,
+                  "lo_air_A": 7778.488,
+                  "hi_air_A": 7778.588,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 32,
+                  "lo_offset_A": 3.2,
+                  "hi_offset_A": 3.3000000000000003,
+                  "count": 8,
+                  "centre_delta": 0.00075385862734987,
+                  "absolute_contribution_sum": 0.00075385862734987,
+                  "weight_sum": 0.11001050180411105,
+                  "weight_l1": 0.11001050180411105,
+                  "lo_air_A": 7778.588,
+                  "hi_air_A": 7778.688,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": -8.673617379884035e-19,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.006803348825919264,
+              "independent_fit_delta": 0.006803348825919264,
+              "roundoff_bound": 2.856656475509657e-14,
+              "coefficient_support_count": 90,
+              "level_reconstruction_error": 5.707240235963695e-16,
+              "observed_area_delta_mA": 6.427861276666995
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "lower_gravity_refined",
+      "physical_case": {
+        "name": "thermal_g4338",
+        "teff": 5772,
+        "logg": 4.338,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0,
+        "interpolate": true,
+        "bracket_teff": [
+          5750,
+          6000
+        ],
+        "bracket_logg": [
+          4,
+          4.5
+        ],
+        "thermodynamic_scale": "log_positive_layers",
+        "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+        "experimental_column_contract": "density_integral_log_native_top",
+        "bound_point_coefficients": "thermal_g4338"
+      },
+      "lines": [
+        {
+          "centre_air_A": 7771.944,
+          "masks": {
+            "synthesis": {
+              "centre_delta": 0.009045346004476304,
+              "absolute_contribution_sum": 0.09875837538386245,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 10,
+                  "centre_delta": -0.018969376841835923,
+                  "absolute_contribution_sum": 0.018969376841835923,
+                  "weight_sum": -2.8129585306099036,
+                  "weight_l1": 2.8129585306099036,
+                  "lo_air_A": 7766.944,
+                  "hi_air_A": 7767.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": -0.013272443261147467,
+                  "absolute_contribution_sum": 0.013272443261147467,
+                  "weight_sum": -2.0411901863155704,
+                  "weight_l1": 2.0411901863155704,
+                  "lo_air_A": 7767.044000000001,
+                  "hi_air_A": 7767.144,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": -0.00884271402506061,
+                  "absolute_contribution_sum": 0.00884271402506061,
+                  "weight_sum": -1.2694218420752958,
+                  "weight_l1": 1.2694218420752958,
+                  "lo_air_A": 7767.144,
+                  "hi_air_A": 7767.244000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -47,
+                  "lo_offset_A": -4.7,
+                  "hi_offset_A": -4.6000000000000005,
+                  "count": 10,
+                  "centre_delta": -0.0037719805616490657,
+                  "absolute_contribution_sum": 0.0037719805616490657,
+                  "weight_sum": -0.4976534978883808,
+                  "weight_l1": 0.4976534978883808,
+                  "lo_air_A": 7767.244000000001,
+                  "hi_air_A": 7767.344,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 9,
+                  "centre_delta": 0.011963427003257681,
+                  "absolute_contribution_sum": 0.011963427003257681,
+                  "weight_sum": 1.6706159563808756,
+                  "weight_l1": 1.6706159563808756,
+                  "lo_air_A": 7767.544000000001,
+                  "hi_air_A": 7767.644,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 10,
+                  "centre_delta": 0.017856798700057436,
+                  "absolute_contribution_sum": 0.017856798700057436,
+                  "weight_sum": 2.5894198782982945,
+                  "weight_l1": 2.5894198782982945,
+                  "lo_air_A": 7767.644,
+                  "hi_air_A": 7767.744000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 10,
+                  "centre_delta": 0.024081634990854247,
+                  "absolute_contribution_sum": 0.024081634990854247,
+                  "weight_sum": 3.361188222209982,
+                  "weight_l1": 3.361188222209982,
+                  "lo_air_A": 7767.744000000001,
+                  "hi_air_A": 7767.844,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": -5.204170427930421e-18,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.009045346004474819,
+              "independent_fit_delta": 0.009045346004474819,
+              "roundoff_bound": 4.066801057356269e-13,
+              "coefficient_support_count": 69,
+              "level_reconstruction_error": 1.4849232954361469e-15,
+              "observed_area_delta_mA": 8.321787164547459
+            },
+            "iag": {
+              "centre_delta": 0.006468691623365348,
+              "absolute_contribution_sum": 0.01814741610423979,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 9,
+                  "centre_delta": -0.0019315554760295816,
+                  "absolute_contribution_sum": 0.0019315554760295816,
+                  "weight_sum": -0.288821276666042,
+                  "weight_l1": 0.288821276666042,
+                  "lo_air_A": 7766.944,
+                  "hi_air_A": 7767.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": -0.001893029248436861,
+                  "absolute_contribution_sum": 0.001893029248436861,
+                  "weight_sum": -0.29092913881916715,
+                  "weight_l1": 0.29092913881916715,
+                  "lo_air_A": 7767.044000000001,
+                  "hi_air_A": 7767.144,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 4,
+                  "centre_delta": -0.0007086832507143441,
+                  "absolute_contribution_sum": 0.0007086832507143441,
+                  "weight_sum": -0.10650283661029503,
+                  "weight_l1": 0.10650283661029503,
+                  "lo_air_A": 7767.144,
+                  "hi_air_A": 7767.244000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 4,
+                  "centre_delta": -0.0003512116598674284,
+                  "absolute_contribution_sum": 0.0003512116598674284,
+                  "weight_sum": -0.050990730210781876,
+                  "weight_l1": 0.050990730210781876,
+                  "lo_air_A": 7767.544000000001,
+                  "hi_air_A": 7767.644,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 8,
+                  "centre_delta": -0.0005936781233465626,
+                  "absolute_contribution_sum": 0.0005936781233465626,
+                  "weight_sum": -0.08717823205097142,
+                  "weight_l1": 0.08717823205097142,
+                  "lo_air_A": 7767.644,
+                  "hi_air_A": 7767.744000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 1,
+                  "centre_delta": -4.270560413871656e-05,
+                  "absolute_contribution_sum": 4.270560413871656e-05,
+                  "weight_sum": -0.006117069845380329,
+                  "weight_l1": 0.006117069845380329,
+                  "lo_air_A": 7767.744000000001,
+                  "hi_air_A": 7767.844,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -41,
+                  "lo_offset_A": -4.1000000000000005,
+                  "hi_offset_A": -4.0,
+                  "count": 10,
+                  "centre_delta": -0.0002998944336419918,
+                  "absolute_contribution_sum": 0.0002998944336419918,
+                  "weight_sum": -0.04420866594895185,
+                  "weight_l1": 0.04420866594895185,
+                  "lo_air_A": 7767.844,
+                  "hi_air_A": 7767.944,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -40,
+                  "lo_offset_A": -4.0,
+                  "hi_offset_A": -3.9000000000000004,
+                  "count": 2,
+                  "centre_delta": -1.8604444261735513e-05,
+                  "absolute_contribution_sum": 1.8604444261735513e-05,
+                  "weight_sum": -0.0026737213699989447,
+                  "weight_l1": 0.0026737213699989447,
+                  "lo_air_A": 7767.944,
+                  "hi_air_A": 7768.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -33,
+                  "lo_offset_A": -3.3000000000000003,
+                  "hi_offset_A": -3.2,
+                  "count": 1,
+                  "centre_delta": 0.00014680664480606648,
+                  "absolute_contribution_sum": 0.00014680664480606648,
+                  "weight_sum": 0.021638983336686637,
+                  "weight_l1": 0.021638983336686637,
+                  "lo_air_A": 7768.644,
+                  "hi_air_A": 7768.744000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -32,
+                  "lo_offset_A": -3.2,
+                  "hi_offset_A": -3.1,
+                  "count": 1,
+                  "centre_delta": 0.0001524281362143655,
+                  "absolute_contribution_sum": 0.0001524281362143655,
+                  "weight_sum": 0.02194738392753959,
+                  "weight_l1": 0.02194738392753959,
+                  "lo_air_A": 7768.744000000001,
+                  "hi_air_A": 7768.844,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -31,
+                  "lo_offset_A": -3.1,
+                  "hi_offset_A": -3.0,
+                  "count": 5,
+                  "centre_delta": 0.0008866849529394355,
+                  "absolute_contribution_sum": 0.0008866849529394355,
+                  "weight_sum": 0.13286696394745967,
+                  "weight_l1": 0.13286696394745967,
+                  "lo_air_A": 7768.844,
+                  "hi_air_A": 7768.944,
+                  "candidate_line_ids": [
+                    "gf_137515"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -27,
+                  "lo_offset_A": -2.7,
+                  "hi_offset_A": -2.6,
+                  "count": 8,
+                  "centre_delta": 0.001989605993021195,
+                  "absolute_contribution_sum": 0.001989605993021195,
+                  "weight_sum": 0.3125089337139058,
+                  "weight_l1": 0.3125089337139058,
+                  "lo_air_A": 7769.244000000001,
+                  "hi_air_A": 7769.344,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -26,
+                  "lo_offset_A": -2.6,
+                  "hi_offset_A": -2.5,
+                  "count": 9,
+                  "centre_delta": 0.0024512331304481086,
+                  "absolute_contribution_sum": 0.0024512331304481086,
+                  "weight_sum": 0.3751651956152071,
+                  "weight_l1": 0.3751651956152071,
+                  "lo_air_A": 7769.344,
+                  "hi_air_A": 7769.444,
+                  "candidate_line_ids": [
+                    "gf_024815"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -22,
+                  "lo_offset_A": -2.2,
+                  "hi_offset_A": -2.1,
+                  "count": 4,
+                  "centre_delta": 0.0014260281054560976,
+                  "absolute_contribution_sum": 0.0014260281054560976,
+                  "weight_sum": 0.22040178970857566,
+                  "weight_l1": 0.22040178970857566,
+                  "lo_air_A": 7769.744000000001,
+                  "hi_air_A": 7769.844,
+                  "candidate_line_ids": [
+                    "gf_018314"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -21,
+                  "lo_offset_A": -2.1,
+                  "hi_offset_A": -2.0,
+                  "count": 6,
+                  "centre_delta": 0.002306496455515084,
+                  "absolute_contribution_sum": 0.002306496455515084,
+                  "weight_sum": 0.3472563164534349,
+                  "weight_l1": 0.3472563164534349,
+                  "lo_air_A": 7769.844,
+                  "hi_air_A": 7769.944,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -20,
+                  "lo_offset_A": -2.0,
+                  "hi_offset_A": -1.9000000000000001,
+                  "count": 1,
+                  "centre_delta": 0.0003926291718773548,
+                  "absolute_contribution_sum": 0.0003926291718773548,
+                  "weight_sum": 0.058955454809158286,
+                  "weight_l1": 0.058955454809158286,
+                  "lo_air_A": 7769.944,
+                  "hi_air_A": 7770.044000000001,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -16,
+                  "lo_offset_A": -1.6,
+                  "hi_offset_A": -1.5,
+                  "count": 1,
+                  "centre_delta": 0.0004750903687936879,
+                  "absolute_contribution_sum": 0.0004750903687936879,
+                  "weight_sum": 0.07375868315298481,
+                  "weight_l1": 0.07375868315298481,
+                  "lo_air_A": 7770.344,
+                  "hi_air_A": 7770.444,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -14,
+                  "lo_offset_A": -1.4000000000000001,
+                  "hi_offset_A": -1.3,
+                  "count": 4,
+                  "centre_delta": 0.002081050904731175,
+                  "absolute_contribution_sum": 0.002081050904731175,
+                  "weight_sum": 0.31292196685663576,
+                  "weight_l1": 0.31292196685663576,
+                  "lo_air_A": 7770.544000000001,
+                  "hi_air_A": 7770.644,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 0.0,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.006468691623365164,
+              "independent_fit_delta": 0.006468691623365164,
+              "roundoff_bound": 7.865029463304238e-14,
+              "coefficient_support_count": 88,
+              "level_reconstruction_error": 1.8474805019152996e-16,
+              "observed_area_delta_mA": 5.951431207189813
+            }
+          }
+        },
+        {
+          "centre_air_A": 7774.166,
+          "masks": {
+            "synthesis": {
+              "centre_delta": 0.007587818378245296,
+              "absolute_contribution_sum": 0.10956180028547342,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 9,
+                  "centre_delta": -0.02257396302681244,
+                  "absolute_contribution_sum": 0.02257396302681244,
+                  "weight_sum": -2.7393014030666505,
+                  "weight_l1": 2.7393014030666505,
+                  "lo_air_A": 7769.166,
+                  "hi_air_A": 7769.2660000000005,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": -0.01463995557612637,
+                  "absolute_contribution_sum": 0.01463995557612637,
+                  "weight_sum": -2.3024773940196477,
+                  "weight_l1": 2.3024773940196477,
+                  "lo_air_A": 7769.2660000000005,
+                  "hi_air_A": 7769.366,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": -0.010310003042306714,
+                  "absolute_contribution_sum": 0.010310003042306714,
+                  "weight_sum": -1.5222765186967013,
+                  "weight_l1": 1.5222765186967013,
+                  "lo_air_A": 7769.366,
+                  "hi_air_A": 7769.466,
+                  "candidate_line_ids": [
+                    "gf_024815"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -47,
+                  "lo_offset_A": -4.7,
+                  "hi_offset_A": -4.6000000000000005,
+                  "count": 4,
+                  "centre_delta": -0.0034630693083685317,
+                  "absolute_contribution_sum": 0.0034630693083685317,
+                  "weight_sum": -0.39045436239770936,
+                  "weight_l1": 0.39045436239770936,
+                  "lo_air_A": 7769.466,
+                  "hi_air_A": 7769.566,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -45,
+                  "lo_offset_A": -4.5,
+                  "hi_offset_A": -4.4,
+                  "count": 10,
+                  "centre_delta": 0.006614168973626112,
+                  "absolute_contribution_sum": 0.006614168973626112,
+                  "weight_sum": 0.8183261069463463,
+                  "weight_l1": 0.8183261069463463,
+                  "lo_air_A": 7769.666,
+                  "hi_air_A": 7769.7660000000005,
+                  "candidate_line_ids": [
+                    "gf_018314"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 10,
+                  "centre_delta": 0.010935445683480201,
+                  "absolute_contribution_sum": 0.010935445683480201,
+                  "weight_sum": 1.59852698204926,
+                  "weight_l1": 1.59852698204926,
+                  "lo_air_A": 7769.7660000000005,
+                  "hi_air_A": 7769.866,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 10,
+                  "centre_delta": 0.016120801880876518,
+                  "absolute_contribution_sum": 0.016120801880876518,
+                  "weight_sum": 2.3787278570982315,
+                  "weight_l1": 2.3787278570982315,
+                  "lo_air_A": 7769.866,
+                  "hi_air_A": 7769.966,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 10,
+                  "centre_delta": 0.024904392793876524,
+                  "absolute_contribution_sum": 0.024904392793876524,
+                  "weight_sum": 3.15892873208687,
+                  "weight_l1": 3.15892873208687,
+                  "lo_air_A": 7769.966,
+                  "hi_air_A": 7770.066,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 5.204170427930421e-18,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.007587818378244848,
+              "independent_fit_delta": 0.007587818378244848,
+              "roundoff_bound": 4.2591587363806975e-13,
+              "coefficient_support_count": 73,
+              "level_reconstruction_error": 4.475586568020162e-16,
+              "observed_area_delta_mA": 7.044222759273808
+            },
+            "iag": {
+              "centre_delta": 0.006659338115181785,
+              "absolute_contribution_sum": 0.006659338115181785,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 4,
+                  "centre_delta": 9.732443221422978e-05,
+                  "absolute_contribution_sum": 9.732443221422978e-05,
+                  "weight_sum": 0.013205803370216743,
+                  "weight_l1": 0.013205803370216743,
+                  "lo_air_A": 7769.166,
+                  "hi_air_A": 7769.2660000000005,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": 0.00022406118011653072,
+                  "absolute_contribution_sum": 0.00022406118011653072,
+                  "weight_sum": 0.03544910983068475,
+                  "weight_l1": 0.03544910983068475,
+                  "lo_air_A": 7769.2660000000005,
+                  "hi_air_A": 7769.366,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": 0.0002653822880308362,
+                  "absolute_contribution_sum": 0.0002653822880308362,
+                  "weight_sum": 0.03892711183781618,
+                  "weight_l1": 0.03892711183781618,
+                  "lo_air_A": 7769.366,
+                  "hi_air_A": 7769.466,
+                  "candidate_line_ids": [
+                    "gf_024815"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -45,
+                  "lo_offset_A": -4.5,
+                  "hi_offset_A": -4.4,
+                  "count": 3,
+                  "centre_delta": 0.00010793731735271719,
+                  "absolute_contribution_sum": 0.00010793731735271719,
+                  "weight_sum": 0.015173525567980878,
+                  "weight_l1": 0.015173525567980878,
+                  "lo_air_A": 7769.666,
+                  "hi_air_A": 7769.7660000000005,
+                  "candidate_line_ids": [
+                    "gf_018314"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -44,
+                  "lo_offset_A": -4.4,
+                  "hi_offset_A": -4.3,
+                  "count": 10,
+                  "centre_delta": 0.00036170535834102415,
+                  "absolute_contribution_sum": 0.00036170535834102415,
+                  "weight_sum": 0.05283911986390876,
+                  "weight_l1": 0.05283911986390876,
+                  "lo_air_A": 7769.7660000000005,
+                  "hi_air_A": 7769.866,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -43,
+                  "lo_offset_A": -4.3,
+                  "hi_offset_A": -4.2,
+                  "count": 10,
+                  "centre_delta": 0.00038240022519443924,
+                  "absolute_contribution_sum": 0.00038240022519443924,
+                  "weight_sum": 0.05631712186981886,
+                  "weight_l1": 0.05631712186981886,
+                  "lo_air_A": 7769.866,
+                  "hi_air_A": 7769.966,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -42,
+                  "lo_offset_A": -4.2,
+                  "hi_offset_A": -4.1000000000000005,
+                  "count": 2,
+                  "centre_delta": 8.474006399187154e-05,
+                  "absolute_contribution_sum": 8.474006399187154e-05,
+                  "weight_sum": 0.011680784614650962,
+                  "weight_l1": 0.011680784614650962,
+                  "lo_air_A": 7769.966,
+                  "hi_air_A": 7770.066,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -38,
+                  "lo_offset_A": -3.8000000000000003,
+                  "hi_offset_A": -3.7,
+                  "count": 5,
+                  "centre_delta": 0.0002521434443645376,
+                  "absolute_contribution_sum": 0.0002521434443645376,
+                  "weight_sum": 0.03728831619837828,
+                  "weight_l1": 0.03728831619837828,
+                  "lo_air_A": 7770.366,
+                  "hi_air_A": 7770.466,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -37,
+                  "lo_offset_A": -3.7,
+                  "hi_offset_A": -3.6,
+                  "count": 9,
+                  "centre_delta": 0.0004894407671108464,
+                  "absolute_contribution_sum": 0.0004894407671108464,
+                  "weight_sum": 0.06951879054007844,
+                  "weight_l1": 0.06951879054007844,
+                  "lo_air_A": 7770.466,
+                  "hi_air_A": 7770.566,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -36,
+                  "lo_offset_A": -3.6,
+                  "hi_offset_A": -3.5,
+                  "count": 5,
+                  "centre_delta": 0.00027001901954295485,
+                  "absolute_contribution_sum": 0.00027001901954295485,
+                  "weight_sum": 0.03989681770160456,
+                  "weight_l1": 0.03989681770160456,
+                  "lo_air_A": 7770.566,
+                  "hi_air_A": 7770.666,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 18,
+                  "lo_offset_A": 1.8,
+                  "hi_offset_A": 1.9000000000000001,
+                  "count": 4,
+                  "centre_delta": 0.0006933166725674644,
+                  "absolute_contribution_sum": 0.0006933166725674644,
+                  "weight_sum": 0.10780745774367209,
+                  "weight_l1": 0.10780745774367209,
+                  "lo_air_A": 7775.966,
+                  "hi_air_A": 7776.066,
+                  "candidate_line_ids": [
+                    "gf_064814",
+                    "gf_116059",
+                    "gf_130533"
+                  ],
+                  "candidate_treatments": {
+                    "trace_FeI": 1,
+                    "not_in_trace_subset": 2
+                  }
+                },
+                {
+                  "bin_index": 19,
+                  "lo_offset_A": 1.9000000000000001,
+                  "hi_offset_A": 2.0,
+                  "count": 10,
+                  "centre_delta": 0.0017617698523801305,
+                  "absolute_contribution_sum": 0.0017617698523801305,
+                  "weight_sum": 0.271953245752537,
+                  "weight_l1": 0.271953245752537,
+                  "lo_air_A": 7776.066,
+                  "hi_air_A": 7776.166,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 20,
+                  "lo_offset_A": 2.0,
+                  "hi_offset_A": 2.1,
+                  "count": 3,
+                  "centre_delta": 0.0005577747464456144,
+                  "absolute_contribution_sum": 0.0005577747464456144,
+                  "weight_sum": 0.08247286423329102,
+                  "weight_l1": 0.08247286423329102,
+                  "lo_air_A": 7776.166,
+                  "hi_air_A": 7776.2660000000005,
+                  "candidate_line_ids": [
+                    "gf_079008",
+                    "gf_106258",
+                    "gf_121980",
+                    "gf_140378"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 4
+                  }
+                },
+                {
+                  "bin_index": 21,
+                  "lo_offset_A": 2.1,
+                  "hi_offset_A": 2.2,
+                  "count": 1,
+                  "centre_delta": 0.00018819946759842326,
+                  "absolute_contribution_sum": 0.00018819946759842326,
+                  "weight_sum": 0.02780397492354431,
+                  "weight_l1": 0.02780397492354431,
+                  "lo_air_A": 7776.2660000000005,
+                  "hi_air_A": 7776.366,
+                  "candidate_line_ids": [
+                    "gf_026218",
+                    "gf_045620",
+                    "gf_079009",
+                    "gf_127790"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 4
+                  }
+                },
+                {
+                  "bin_index": 41,
+                  "lo_offset_A": 4.1000000000000005,
+                  "hi_offset_A": 4.2,
+                  "count": 4,
+                  "centre_delta": 0.0009231232799301651,
+                  "absolute_contribution_sum": 0.0009231232799301651,
+                  "weight_sum": 0.13966595595181705,
+                  "weight_l1": 0.13966595595181705,
+                  "lo_air_A": 7778.2660000000005,
+                  "hi_air_A": 7778.366,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 0.0,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.006659338115181601,
+              "independent_fit_delta": 0.006659338115181601,
+              "roundoff_bound": 2.8567665213764634e-14,
+              "coefficient_support_count": 90,
+              "level_reconstruction_error": 1.8388068845354155e-16,
+              "observed_area_delta_mA": 6.204940578590808
+            }
+          }
+        },
+        {
+          "centre_air_A": 7775.388,
+          "masks": {
+            "synthesis": {
+              "centre_delta": 0.011850237711687714,
+              "absolute_contribution_sum": 0.011850237711687714,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 4,
+                  "centre_delta": 0.00024836070403769824,
+                  "absolute_contribution_sum": 0.00024836070403769824,
+                  "weight_sum": 0.03507197637693648,
+                  "weight_l1": 0.03507197637693648,
+                  "lo_air_A": 7770.388,
+                  "hi_air_A": 7770.488,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": 0.0006147282756227967,
+                  "absolute_contribution_sum": 0.0006147282756227967,
+                  "weight_sum": 0.08804632558469688,
+                  "weight_l1": 0.08804632558469688,
+                  "lo_air_A": 7770.488,
+                  "hi_air_A": 7770.588,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 10,
+                  "centre_delta": 0.000650964284036896,
+                  "absolute_contribution_sum": 0.000650964284036896,
+                  "weight_sum": 0.08856973221660408,
+                  "weight_l1": 0.08856973221660408,
+                  "lo_air_A": 7770.588,
+                  "hi_air_A": 7770.688,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -47,
+                  "lo_offset_A": -4.7,
+                  "hi_offset_A": -4.6000000000000005,
+                  "count": 6,
+                  "centre_delta": 0.0005013997513328281,
+                  "absolute_contribution_sum": 0.0005013997513328281,
+                  "weight_sum": 0.053393074513260724,
+                  "weight_l1": 0.053393074513260724,
+                  "lo_air_A": 7770.688,
+                  "hi_air_A": 7770.788,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 14,
+                  "lo_offset_A": 1.4000000000000001,
+                  "hi_offset_A": 1.5,
+                  "count": 7,
+                  "centre_delta": 0.0007817596296287995,
+                  "absolute_contribution_sum": 0.0007817596296287995,
+                  "weight_sum": 0.08476961802159182,
+                  "weight_l1": 0.08476961802159182,
+                  "lo_air_A": 7776.788,
+                  "hi_air_A": 7776.888,
+                  "candidate_line_ids": [
+                    "gf_015749"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 15,
+                  "lo_offset_A": 1.5,
+                  "hi_offset_A": 1.6,
+                  "count": 10,
+                  "centre_delta": 0.001267168337333324,
+                  "absolute_contribution_sum": 0.001267168337333324,
+                  "weight_sum": 0.1215443499516839,
+                  "weight_l1": 0.1215443499516839,
+                  "lo_air_A": 7776.888,
+                  "hi_air_A": 7776.988,
+                  "candidate_line_ids": [
+                    "gf_130078"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 16,
+                  "lo_offset_A": 1.6,
+                  "hi_offset_A": 1.7000000000000002,
+                  "count": 10,
+                  "centre_delta": 0.0019274662653003336,
+                  "absolute_contribution_sum": 0.0019274662653003336,
+                  "weight_sum": 0.12206775658121265,
+                  "weight_l1": 0.12206775658121265,
+                  "lo_air_A": 7776.988,
+                  "hi_air_A": 7777.088,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 17,
+                  "lo_offset_A": 1.7000000000000002,
+                  "hi_offset_A": 1.8,
+                  "count": 10,
+                  "centre_delta": 0.0022676247762726085,
+                  "absolute_contribution_sum": 0.0022676247762726085,
+                  "weight_sum": 0.12259116321069856,
+                  "weight_l1": 0.12259116321069856,
+                  "lo_air_A": 7777.088,
+                  "hi_air_A": 7777.188,
+                  "candidate_line_ids": [
+                    "gf_079010"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 18,
+                  "lo_offset_A": 1.8,
+                  "hi_offset_A": 1.9000000000000001,
+                  "count": 10,
+                  "centre_delta": 0.0018259825481574594,
+                  "absolute_contribution_sum": 0.0018259825481574594,
+                  "weight_sum": 0.12311456984014825,
+                  "weight_l1": 0.12311456984014825,
+                  "lo_air_A": 7777.188,
+                  "hi_air_A": 7777.288,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 19,
+                  "lo_offset_A": 1.9000000000000001,
+                  "hi_offset_A": 2.0,
+                  "count": 10,
+                  "centre_delta": 0.001377809977593934,
+                  "absolute_contribution_sum": 0.001377809977593934,
+                  "weight_sum": 0.12363797646956796,
+                  "weight_l1": 0.12363797646956796,
+                  "lo_air_A": 7777.288,
+                  "hi_air_A": 7777.388,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 20,
+                  "lo_offset_A": 2.0,
+                  "hi_offset_A": 2.1,
+                  "count": 3,
+                  "centre_delta": 0.0003869731623710348,
+                  "absolute_contribution_sum": 0.0003869731623710348,
+                  "weight_sum": 0.037193457233599174,
+                  "weight_l1": 0.037193457233599174,
+                  "lo_air_A": 7777.388,
+                  "hi_air_A": 7777.488,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 0.0,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.011850237711687583,
+              "independent_fit_delta": 0.011850237711687583,
+              "roundoff_bound": 2.858169939953494e-14,
+              "coefficient_support_count": 90,
+              "level_reconstruction_error": 1.3010426069826053e-16,
+              "observed_area_delta_mA": 11.243910198678186
+            },
+            "iag": {
+              "centre_delta": 0.006875185841628457,
+              "absolute_contribution_sum": 0.006875185841628457,
+              "blocks": [
+                {
+                  "bin_index": -50,
+                  "lo_offset_A": -5.0,
+                  "hi_offset_A": -4.9,
+                  "count": 9,
+                  "centre_delta": 0.0005053109215909747,
+                  "absolute_contribution_sum": 0.0005053109215909747,
+                  "weight_sum": 0.07319519595932279,
+                  "weight_l1": 0.07319519595932279,
+                  "lo_air_A": 7770.388,
+                  "hi_air_A": 7770.488,
+                  "candidate_line_ids": [
+                    "gf_024816"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -49,
+                  "lo_offset_A": -4.9,
+                  "hi_offset_A": -4.800000000000001,
+                  "count": 10,
+                  "centre_delta": 0.0005723592309797101,
+                  "absolute_contribution_sum": 0.0005723592309797101,
+                  "weight_sum": 0.0819801137181902,
+                  "weight_l1": 0.0819801137181902,
+                  "lo_air_A": 7770.488,
+                  "hi_air_A": 7770.588,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -48,
+                  "lo_offset_A": -4.800000000000001,
+                  "hi_offset_A": -4.7,
+                  "count": 9,
+                  "centre_delta": 0.0005423899570463357,
+                  "absolute_contribution_sum": 0.0005423899570463357,
+                  "weight_sum": 0.07436900873338162,
+                  "weight_l1": 0.07436900873338162,
+                  "lo_air_A": 7770.588,
+                  "hi_air_A": 7770.688,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -45,
+                  "lo_offset_A": -4.5,
+                  "hi_offset_A": -4.4,
+                  "count": 1,
+                  "centre_delta": 6.313843123477198e-05,
+                  "absolute_contribution_sum": 6.313843123477198e-05,
+                  "weight_sum": 0.008455426453814884,
+                  "weight_l1": 0.008455426453814884,
+                  "lo_air_A": 7770.888,
+                  "hi_air_A": 7770.988,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": -23,
+                  "lo_offset_A": -2.3000000000000003,
+                  "hi_offset_A": -2.2,
+                  "count": 1,
+                  "centre_delta": 7.310556469915091e-05,
+                  "absolute_contribution_sum": 7.310556469915091e-05,
+                  "weight_sum": 0.010013645748697774,
+                  "weight_l1": 0.010013645748697774,
+                  "lo_air_A": 7773.088,
+                  "hi_air_A": 7773.188,
+                  "candidate_line_ids": [
+                    "gf_086628"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": -19,
+                  "lo_offset_A": -1.9000000000000001,
+                  "hi_offset_A": -1.8,
+                  "count": 3,
+                  "centre_delta": 0.0002083058637472936,
+                  "absolute_contribution_sum": 0.0002083058637472936,
+                  "weight_sum": 0.03078229268085144,
+                  "weight_l1": 0.03078229268085144,
+                  "lo_air_A": 7773.488,
+                  "hi_air_A": 7773.588,
+                  "candidate_line_ids": [
+                    "gf_091447"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 5,
+                  "lo_offset_A": 0.5,
+                  "hi_offset_A": 0.6000000000000001,
+                  "count": 1,
+                  "centre_delta": 8.08176805276849e-05,
+                  "absolute_contribution_sum": 8.08176805276849e-05,
+                  "weight_sum": 0.01193567835566143,
+                  "weight_l1": 0.01193567835566143,
+                  "lo_air_A": 7775.888,
+                  "hi_air_A": 7775.988,
+                  "candidate_line_ids": [
+                    "gf_064814",
+                    "gf_130533"
+                  ],
+                  "candidate_treatments": {
+                    "trace_FeI": 1,
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 6,
+                  "lo_offset_A": 0.6000000000000001,
+                  "hi_offset_A": 0.7000000000000001,
+                  "count": 9,
+                  "centre_delta": 0.0007074838442252176,
+                  "absolute_contribution_sum": 0.0007074838442252176,
+                  "weight_sum": 0.10778491851547473,
+                  "weight_l1": 0.10778491851547473,
+                  "lo_air_A": 7775.988,
+                  "hi_air_A": 7776.088,
+                  "candidate_line_ids": [
+                    "gf_116059"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 1
+                  }
+                },
+                {
+                  "bin_index": 7,
+                  "lo_offset_A": 0.7000000000000001,
+                  "hi_offset_A": 0.8,
+                  "count": 10,
+                  "centre_delta": 0.0007938577000077023,
+                  "absolute_contribution_sum": 0.0007938577000077023,
+                  "weight_sum": 0.12042076589149572,
+                  "weight_l1": 0.12042076589149572,
+                  "lo_air_A": 7776.088,
+                  "hi_air_A": 7776.188,
+                  "candidate_line_ids": [
+                    "gf_079008",
+                    "gf_140378"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 2
+                  }
+                },
+                {
+                  "bin_index": 8,
+                  "lo_offset_A": 0.8,
+                  "hi_offset_A": 0.9,
+                  "count": 10,
+                  "centre_delta": 0.0008546272803329915,
+                  "absolute_contribution_sum": 0.0008546272803329915,
+                  "weight_sum": 0.12110720610748227,
+                  "weight_l1": 0.12110720610748227,
+                  "lo_air_A": 7776.188,
+                  "hi_air_A": 7776.288,
+                  "candidate_line_ids": [
+                    "gf_106258",
+                    "gf_121980",
+                    "gf_127790"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 3
+                  }
+                },
+                {
+                  "bin_index": 9,
+                  "lo_offset_A": 0.9,
+                  "hi_offset_A": 1.0,
+                  "count": 6,
+                  "centre_delta": 0.0004969352950970496,
+                  "absolute_contribution_sum": 0.0004969352950970496,
+                  "weight_sum": 0.07299381496814691,
+                  "weight_l1": 0.07299381496814691,
+                  "lo_air_A": 7776.288,
+                  "hi_air_A": 7776.388,
+                  "candidate_line_ids": [
+                    "gf_026218",
+                    "gf_045620",
+                    "gf_064815",
+                    "gf_079009"
+                  ],
+                  "candidate_treatments": {
+                    "not_in_trace_subset": 3,
+                    "trace_FeI": 1
+                  }
+                },
+                {
+                  "bin_index": 29,
+                  "lo_offset_A": 2.9000000000000004,
+                  "hi_offset_A": 3.0,
+                  "count": 8,
+                  "centre_delta": 0.0007354547355966527,
+                  "absolute_contribution_sum": 0.0007354547355966527,
+                  "weight_sum": 0.10841796050561148,
+                  "weight_l1": 0.10841796050561148,
+                  "lo_air_A": 7778.288,
+                  "hi_air_A": 7778.388,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 31,
+                  "lo_offset_A": 3.1,
+                  "hi_offset_A": 3.2,
+                  "count": 5,
+                  "centre_delta": 0.0004718454639410725,
+                  "absolute_contribution_sum": 0.0004718454639410725,
+                  "weight_sum": 0.06853347055775776,
+                  "weight_l1": 0.06853347055775776,
+                  "lo_air_A": 7778.488,
+                  "hi_air_A": 7778.588,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                },
+                {
+                  "bin_index": 32,
+                  "lo_offset_A": 3.2,
+                  "hi_offset_A": 3.3000000000000003,
+                  "count": 8,
+                  "centre_delta": 0.0007695538726018487,
+                  "absolute_contribution_sum": 0.0007695538726018487,
+                  "weight_sum": 0.11001050180411105,
+                  "weight_l1": 0.11001050180411105,
+                  "lo_air_A": 7778.588,
+                  "hi_air_A": 7778.688,
+                  "candidate_line_ids": [],
+                  "candidate_treatments": {}
+                }
+              ],
+              "closure": 0.0,
+              "scope": "Fixed-support linear centre accounting only; signed contributions can cancel. Bins are diagnostic bookkeeping, not identified blends or independent errors.",
+              "expected_level_delta": 0.006875185841628273,
+              "independent_fit_delta": 0.006875185841628273,
+              "roundoff_bound": 2.856656475509657e-14,
+              "coefficient_support_count": 90,
+              "level_reconstruction_error": 1.8388068845354155e-16,
+              "observed_area_delta_mA": 6.496195163597228
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

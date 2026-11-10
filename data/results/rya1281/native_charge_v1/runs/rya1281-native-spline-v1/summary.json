@@ -1,0 +1,50 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "2cf609624d084d4579289c57c37edc19ce73731f",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 10221,
+    "sha256": "4d9dcec7b5200b25a8b0c2bba383e7892e72a77a7c54799b66b6442ccb78965e"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "plan": {
+    "name": "rya1281_mac_native_spline_controls.json",
+    "bytes": 1055,
+    "sha256": "b940fd6ba72910a5167d4a029003d6e3ec88ae3f0512eeb0d63ac893879a9d12"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "native_tautsp_rh_directions",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 1996,
+        "sha256": "656dad45fc731d7b5f446a3266801d10c5ac9b33638cc2e072311ef289a1f71c"
+      }
+    },
+    {
+      "name": "native_tautsp_source_directions",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 2005,
+        "sha256": "289050e106588a4e1305c9b24d5659caa1bd5c94d4f5bce8a4a06a9a65e8781e"
+      }
+    }
+  ]
+}

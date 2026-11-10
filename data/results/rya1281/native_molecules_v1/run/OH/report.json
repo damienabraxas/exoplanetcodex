@@ -1,0 +1,34 @@
+{
+  "name": "OH",
+  "step_A": 0.005,
+  "molecular_files": [
+    "/Users/ryanschmitt/codex/engines/ispec_src/input/linelists/turbospectrum/molecules/16OH_750-800.bsyn"
+  ],
+  "seconds": 0.608842208981514,
+  "rows": 4001,
+  "flux": {
+    "name": "flux.csv",
+    "bytes": 300129,
+    "sha256": "ae912e2404055644ee046ed579b6953909f70bcedce5a379aecb72c402394462"
+  },
+  "native_flux": {
+    "name": "native_flux.txt",
+    "bytes": 144036,
+    "sha256": "9d315001773de38cfc196f32f9ae39357681d92302cab0e09bba322e6b5010d0"
+  },
+  "input": {
+    "name": "input.txt",
+    "bytes": 5548,
+    "sha256": "34cef2e5735ff7debed6fcf2c57497f468e5e97f0a6fcd925782bc70de88c34b"
+  },
+  "stdout": {
+    "name": "stdout.txt",
+    "bytes": 97512,
+    "sha256": "f0ad705fe005392c897c6a500a7047c1928918698d950cf8c94458ab7ca5fa60"
+  },
+  "stderr": {
+    "name": "stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "schema": "codex.bride_kitt_peak_diagnostic/1",
+  "status": "DIAGNOSTIC_COMPLETE",
+  "scientific_admission": "HOLD: fixed benchmark-node comparison, no solar abundance",
+  "code_commit": "9ddae7bd0f0d8923d008d785652e85a97d4a4de6",
+  "generator": {
+    "name": "compare_bride_kitt_peak.py",
+    "bytes": 9808,
+    "sha256": "dd471e003a7b399ed408fb6a0eff4690193d3ac04ea9aa62467aa76f0b51165f"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 7928,
+    "sha256": "1960ccf49769d5f09d0673b43b1caf1e08d7c0805d3a5e9c9aa41d978636e8d8"
+  },
+  "source_manifest": {
+    "name": "manifest.json",
+    "bytes": 8306,
+    "sha256": "32ea64045babd5f412466b31b6f910c8a15ab6abe492efd4afc979124ac905c5"
+  },
+  "comparison": {
+    "name": "comparison-v6-v7-v8.json",
+    "bytes": 12382,
+    "sha256": "54131dda7855896518bb96b45df545a80be94f45ea349e370bfec086ae47126d"
+  },
+  "populations": {
+    "name": "populations.npz",
+    "bytes": 716206,
+    "sha256": "5405676d38a3b686a433a1a33fbe857a3b64f111c7342f3185c26962e0d52021"
+  },
+  "observed_holding": "solar_kpno_kurucz2005_corrected",
+  "observed_key": "data.kurucz2005_residual",
+  "observed": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "observed_header": "KURUCZ RESIDUAL IRRADIANCE ATLAS 2005\n299.000 by 0.001 to 1001.000 nm\nvacuum wavelength including gravitational red shift\n \n \n",
+  "observed_normalization": "Published residual irradiance; no continuum refit",
+  "observed_frame": "vacuum nm including gravitational redshift -> canonical air Angstrom; no velocity shift fitted",
+  "model": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "fixed_abundance": 8.7,
+  "canonical_solar": {
+    "teff": 5772.0,
+    "e_teff": 1.0,
+    "logg": 4.438,
+    "e_logg": 0.0,
+    "feh_ref": 0.0,
+    "e_feh": 0.03,
+    "xi": 1.0,
+    "vmac": 3.8,
+    "vsini": 1.8,
+    "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+    "logg_basis": "IAU nominal solar mass + radius (logg fixed to ~0.001 dex)",
+    "pin": [
+      "teff",
+      "logg",
+      "xi"
+    ],
+    "solve": [
+      "feh"
+    ]
+  },
+  "observable": "disk-integrated plane-parallel F_nu=2pi integral I_nu(mu)*mu dmu",
+  "continuum": "Separate bound-bound-free context retaining fixed NLTE bound-free populations",
+  "broadening": "Intrinsic model only: source microturbulence; no macro/rotation/FTS convolution",
+  "caveats": [
+    "5750/4.5 benchmark node differs from canonical Sun",
+    "Missing observed blends/molecular opacity; original MULTI mismatch remains",
+    "No observational uncertainty vector or local telluric residual budget; no chi-square/admission",
+    "Delivered gravitational shift and convective shifts not fitted; shape residuals are diagnostic"
+  ],
+  "controls": {
+    "fixed_population_replay": true,
+    "no_SE_update": true,
+    "J_threshold": 1e-08,
+    "maxiter": 1000,
+    "flux_rays": [
+      5,
+      10
+    ],
+    "seconds": 900.0,
+    "threads": 1
+  },
+  "diskcentre_replay_max_relative_difference": 3.3306690738754696e-15,
+  "radiation_iterations": [
+    63,
+    35
+  ],
+  "flux_quadrature_max_relative_difference": 8.268987149451235e-06,
+  "observed_samples_in_window": 631,
+  "lines": [
+    {
+      "centre_air_A": 7771.944,
+      "window_air_A": [
+        7771.444,
+        7772.444
+      ],
+      "model_window_area_mA": 61.31014808435521,
+      "observed_window_area_mA": 77.55650815358007,
+      "model_min_normalized_flux": 0.7146091239145532,
+      "observed_min_normalized_flux": 0.7024,
+      "unweighted_profile_RMS": 0.026642497382679778
+    },
+    {
+      "centre_air_A": 7774.166,
+      "window_air_A": [
+        7773.666,
+        7774.666
+      ],
+      "model_window_area_mA": 53.077314461410204,
+      "observed_window_area_mA": 67.20039135548947,
+      "model_min_normalized_flux": 0.7426959025915985,
+      "observed_min_normalized_flux": 0.7359,
+      "unweighted_profile_RMS": 0.022685577537377773
+    },
+    {
+      "centre_air_A": 7775.388,
+      "window_air_A": [
+        7774.888,
+        7775.888
+      ],
+      "model_window_area_mA": 41.839127351609285,
+      "observed_window_area_mA": 53.794303530145754,
+      "model_min_normalized_flux": 0.784532246342995,
+      "observed_min_normalized_flux": 0.7835,
+      "unweighted_profile_RMS": 0.01884577047908447
+    }
+  ],
+  "elapsed_seconds": 43.14992928970605
+}

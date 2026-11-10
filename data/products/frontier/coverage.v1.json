@@ -1,0 +1,4682 @@
+{
+  "schema": "codex.spectroscopic_frontier/1",
+  "updated": "2026-11-09",
+  "science_base": "d1728c92f663d15853c392dfcd157d4fe5f230bb",
+  "sources": {
+    "elements": {
+      "path": "data/config/elements_master.json",
+      "sha256": "6c0376637083267de97e25cb9ffa35a015ff6a56dbfa1f3f3ecad733da4ea0e4",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/config/elements_master.json"
+    },
+    "stars": {
+      "path": "data/catalog/system_catalog.csv",
+      "sha256": "c53a174f2232241dc69848a2a7643b647356567dc04d43dc4c8dad9610fc2be6",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/catalog/system_catalog.csv"
+    },
+    "models": {
+      "path": "data/catalog/model_registry.csv",
+      "sha256": "57bf70b1d514374491a9753d046d20c3d7fa60e93152436bfccd45352b9dd258",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/catalog/model_registry.csv"
+    },
+    "cno-readme": {
+      "path": "data/nlte_grids/amarsi2019_cno/ReadMe",
+      "upstream": "https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/J/A+A/630/A104?format=html",
+      "bibliography_key": "amarsi2019",
+      "sha256": "e37237fe7b627db0be3c22d466945247223daff2b87991938b386e78a7c497a2",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/amarsi2019_cno/ReadMe"
+    },
+    "cno-lines": {
+      "path": "data/nlte_grids/amarsi2019_cno/table1.dat",
+      "sha256": "f317e31ab72fb2c3be8a58dda44654910ccb7768aa9bafaa573da58dace48574",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/amarsi2019_cno/table1.dat"
+    },
+    "cno-provenance": {
+      "path": "data/nlte_grids/amarsi2019_cno/provenance.json",
+      "sha256": "1828b2bd755884fd7119edbd07ead9a0db5c49a681215bc7fbdcdef25fddecb8",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/amarsi2019_cno/provenance.json"
+    },
+    "oi-3n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table3.dat.gz",
+      "sha256": "4b182a75c246fd06d76c23dfab62b952f07269acb08bf354fd404c666bcbddc5",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/amarsi2019_cno/table3.dat.gz"
+    },
+    "ci-3n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table2.dat.gz",
+      "sha256": "68ce51e412fbe3eae267b34dcfe3c8b479acf0cf8c48481ed35bcd69f0eb254d",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/amarsi2019_cno/table2.dat.gz"
+    },
+    "oi-1n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table6.dat.gz",
+      "sha256": "c3bbd6f103840972e3f4fd2a0c0178a70b1455b8807722a61afdd66da6d0770d",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/amarsi2019_cno/table6.dat.gz"
+    },
+    "ci-1n": {
+      "path": "data/nlte_grids/amarsi2019_cno/table5.dat.gz",
+      "sha256": "5f924a07c981c8fd86d94d0639c698c9bfde634bdf3f644b8f84990a023ba5f1",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/amarsi2019_cno/table5.dat.gz"
+    },
+    "fe-atom-reach": {
+      "path": "data/results/rya1055/atom_ion_reach.json",
+      "sha256": "dedd91fbea12169c4f2461d901fdbbe0b52c708f72ff60c5ba5888b838ac0442",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/results/rya1055/atom_ion_reach.json"
+    },
+    "fe-ml-domain": {
+      "path": "data/reference/amarsi2022_training/amarsi2022_training_lines.csv",
+      "sha256": "785af1fa7ace0d48ffddfd6c7015aeb3fbbf1d5a8d95d15003eb15f51a1c131d",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/reference/amarsi2022_training/amarsi2022_training_lines.csv"
+    },
+    "fe-ml-readme": {
+      "path": "vendor/1L-3NErrors/README.md",
+      "upstream": "https://github.com/sliljegren/1L-3NErrors",
+      "bibliography_key": "amarsi2022",
+      "sha256": "79e64d4ac46861eb34f2ae996fd9f025f1827aeece562cb8f1ddb45d2adbfcb4",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/vendor/1L-3NErrors/README.md"
+    },
+    "fe-ml-license": {
+      "path": "vendor/1L-3NErrors/LICENSE",
+      "sha256": "1861ee304a29c6ccbea27226b008555e8ce937b26cd738c4a7d751d11ecac7bf",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/vendor/1L-3NErrors/LICENSE"
+    },
+    "fe-ml-audit": {
+      "path": "docs/science/rya817_3dnlte_frontier.md",
+      "sha256": "235e77fa0009be969458c70fd59511304589ef6a367e40add2ce61efe1de8647",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/docs/science/rya817_3dnlte_frontier.md"
+    },
+    "fe-mpia": {
+      "path": "data/nlte_grids/Fe_Bergemann_MPIA.prov.json",
+      "upstream": "https://nlte.mpia.de/gui-siuAC_secE.php",
+      "sha256": "e53e321ce37848b3435f5f463af65553f9fc8696095e7d60825241f4d974d56f",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/Fe_Bergemann_MPIA.prov.json"
+    },
+    "gerber": {
+      "path": "pipeline/gerber_nlte.py",
+      "bibliography_key": "gerber2023",
+      "sha256": "96bf29492efad91d70e9b7826fcc2739d160d1519958b64de3718f54430dfd5f",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/pipeline/gerber_nlte.py"
+    },
+    "molecular-manifest": {
+      "path": "data/linelists/molecular/turbospectrum/MOLECULAR_MANIFEST.json",
+      "sha256": "ee21a31a5dfd7f8060ec29023931caa03ece0c2939a6954849158e33eb944b3e",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/linelists/molecular/turbospectrum/MOLECULAR_MANIFEST.json"
+    },
+    "molecular-schema": {
+      "path": "data/schemas/canonical_molecular_transition.schema.json",
+      "sha256": "1bf58a4eccd3748b42c1b031b5b370447dab1980d659a8962ea955f637b3df9f",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/schemas/canonical_molecular_transition.schema.json"
+    },
+    "molecular-intake": {
+      "path": "docs/science/rya1136_cno_primary_molecular_intake.md",
+      "bibliography_key": "amarsi2021_molecular_cno",
+      "sha256": "e5932df53166e82906ef5fce1643f702c8aa0e67d7e4bc7de20bf6bf97431eed",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/docs/science/rya1136_cno_primary_molecular_intake.md"
+    },
+    "grade-governance": {
+      "path": "docs/audit/rya1352/README.md",
+      "sha256": "789ccd92e427de4f67a07733364560127077902ed1a44af5be9e60471c383045",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/docs/audit/rya1352/README.md"
+    },
+    "atomic-census": {
+      "path": "docs/audit/rya1353_line_census.md",
+      "sha256": "e5d573720bc87f93d359f1051d26208a70de49b9de2bedbe3e3162f7985e5a4b",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/docs/audit/rya1353_line_census.md"
+    },
+    "nlte-availability": {
+      "path": "data/curation/threednlte_availability.csv",
+      "sha256": "b810f8bed56a0d53ae3c93cc3bc3a0e5f999076f7609768aa0ebe4352001678d",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/curation/threednlte_availability.csv"
+    },
+    "model-domain": {
+      "path": "pipeline/nlte_corrections.py",
+      "sha256": "bb1bfc767393266364edf79403cc6cdc6064e1b78d18807b62732489d17f1633",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/pipeline/nlte_corrections.py"
+    },
+    "atmosphere-policy": {
+      "path": "docs/decisions/fe_mean3d_dimensionality_rya1032.md",
+      "sha256": "6f6df0c302bcfeaedd616c729542baf0e63048ade7a4f768347817d7b0c6b17c",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/docs/decisions/fe_mean3d_dimensionality_rya1032.md"
+    },
+    "exomol": {
+      "url": "https://www.exomol.com/data/",
+      "bibliography_key": "tennyson2016",
+      "audit": "Upstream data index inspected 2026-11-09; individual species/release completeness is not established.",
+      "evidence_url": "https://www.exomol.com/data/"
+    },
+    "exomol-h2o": {
+      "url": "https://www.exomol.com/data/molecules/H2O/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed.",
+      "evidence_url": "https://www.exomol.com/data/molecules/H2O/"
+    },
+    "exomol-tio": {
+      "url": "https://www.exomol.com/data/molecules/TiO/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed.",
+      "evidence_url": "https://www.exomol.com/data/molecules/TiO/"
+    },
+    "exomol-feh": {
+      "url": "https://www.exomol.com/data/molecules/FeH/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed.",
+      "evidence_url": "https://www.exomol.com/data/molecules/FeH/"
+    },
+    "exomol-cah": {
+      "url": "https://www.exomol.com/data/molecules/CaH/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed.",
+      "evidence_url": "https://www.exomol.com/data/molecules/CaH/"
+    },
+    "exomol-mgh": {
+      "url": "https://www.exomol.com/data/molecules/MgH/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed.",
+      "evidence_url": "https://www.exomol.com/data/molecules/MgH/"
+    },
+    "exomol-sio": {
+      "url": "https://www.exomol.com/data/molecules/SiO/",
+      "audit": "Molecule landing-page inspection attempted 2026-11-09. H2O/SiO resolved; others were inaccessible through the web tool. No release-level audit or acquisition claimed.",
+      "evidence_url": "https://www.exomol.com/data/molecules/SiO/"
+    },
+    "n-grid": {
+      "path": "data/nlte_grids/N_Amarsi2020_PySME.csv",
+      "sha256": "f9573e98ff1a679164f696f3b96ca03b4c21d506e1520b2ac1c33a04c0413550",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/nlte_grids/N_Amarsi2020_PySME.csv"
+    },
+    "fe-route-decision": {
+      "path": "docs/decisions/fe_3d_nlte_route_rya1035.md",
+      "sha256": "ab802ffcd4ed7fa072b05564d8a07a4d1eeab95502b3b2ad68b024e0bf12ddfa",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/docs/decisions/fe_3d_nlte_route_rya1035.md"
+    },
+    "bibliography": {
+      "path": "data/refs/bibliography.csv",
+      "sha256": "edb5f5c08065cc41e322ccd3771e01f8ebe79b8f1dcb1dd06f0604e52255ca2a",
+      "evidence_url": "https://github.com/damienabraxas/exoplanetcodex/blob/d1728c92f663d15853c392dfcd157d4fe5f230bb/data/refs/bibliography.csv"
+    }
+  },
+  "entries": [
+    {
+      "id": "o-i-amarsi2019-3n",
+      "species": {
+        "kind": "atom",
+        "element": "O",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "oi-3n"
+      ],
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [
+          {
+            "name": "teff",
+            "min": 4927.0,
+            "max": 6513.0,
+            "unit": "K",
+            "source_id": "oi-3n"
+          },
+          {
+            "name": "logg",
+            "min": 3.0,
+            "max": 5.0,
+            "unit": "log10(cm/s2)",
+            "source_id": "oi-3n"
+          },
+          {
+            "name": "feh",
+            "min": -3.0,
+            "max": 0.5,
+            "unit": "dex",
+            "source_id": "oi-3n"
+          },
+          {
+            "name": "microturbulence",
+            "min": 0.0,
+            "max": 2.0,
+            "unit": "km/s",
+            "source_id": "oi-3n"
+          },
+          {
+            "name": "absolute_abundance",
+            "min": 5.29,
+            "max": 10.39,
+            "unit": "dex",
+            "source_id": "oi-3n"
+          }
+        ],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2019"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      },
+      "coverage": {
+        "transitions": [
+          {
+            "source_label": "615.6nm",
+            "air_nm": 615.596,
+            "vacuum_nm": 615.766,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.6nm",
+            "air_nm": 615.597,
+            "vacuum_nm": 615.767,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.6nm",
+            "air_nm": 615.599,
+            "vacuum_nm": 615.769,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.7nm",
+            "air_nm": 615.673,
+            "vacuum_nm": 615.844,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.7nm",
+            "air_nm": 615.675,
+            "vacuum_nm": 615.846,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.7nm",
+            "air_nm": 615.677,
+            "vacuum_nm": 615.848,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.8nm",
+            "air_nm": 615.815,
+            "vacuum_nm": 615.985,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.8nm",
+            "air_nm": 615.817,
+            "vacuum_nm": 615.988,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.8nm",
+            "air_nm": 615.818,
+            "vacuum_nm": 615.989,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "630.0nm",
+            "air_nm": 630.03,
+            "vacuum_nm": 630.205,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "636.4nm",
+            "air_nm": 636.377,
+            "vacuum_nm": 636.554,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "777.2nm",
+            "air_nm": 777.194,
+            "vacuum_nm": 777.408,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "777.4nm",
+            "air_nm": 777.416,
+            "vacuum_nm": 777.63,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "777.5nm",
+            "air_nm": 777.538,
+            "vacuum_nm": 777.753,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "844.6nm",
+            "air_nm": 844.624,
+            "vacuum_nm": 844.857,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "844.6nm",
+            "air_nm": 844.635,
+            "vacuum_nm": 844.868,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "844.7nm",
+            "air_nm": 844.675,
+            "vacuum_nm": 844.908,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.1nm",
+            "air_nm": 926.08,
+            "vacuum_nm": 926.335,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.1nm",
+            "air_nm": 926.084,
+            "vacuum_nm": 926.339,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.1nm",
+            "air_nm": 926.093,
+            "vacuum_nm": 926.348,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.3nm",
+            "air_nm": 926.258,
+            "vacuum_nm": 926.512,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.3nm",
+            "air_nm": 926.266,
+            "vacuum_nm": 926.521,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.3nm",
+            "air_nm": 926.277,
+            "vacuum_nm": 926.532,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.6nm",
+            "air_nm": 926.582,
+            "vacuum_nm": 926.837,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.6nm",
+            "air_nm": 926.593,
+            "vacuum_nm": 926.847,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.6nm",
+            "air_nm": 926.6,
+            "vacuum_nm": 926.855,
+            "source_id": "cno-lines"
+          }
+        ],
+        "wavelength_air_nm": {
+          "min": 615.596,
+          "max": 926.6,
+          "meaning": "sampled transition envelope, not continuous coverage"
+        },
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [
+          "615.6nm",
+          "615.7nm",
+          "615.8nm",
+          "616nm",
+          "630.0nm",
+          "636.4nm",
+          "777.2nm",
+          "777.4nm",
+          "777.5nm",
+          "777nm",
+          "844.6nm",
+          "844.7nm",
+          "844nm",
+          "926.1nm",
+          "926.3nm",
+          "926.6nm",
+          "926nm"
+        ],
+        "labels_without_component_wavelength": [
+          "616nm",
+          "777nm",
+          "844nm",
+          "926nm"
+        ],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "o-i-amarsi2019-1n",
+      "species": {
+        "kind": "atom",
+        "element": "O",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "oi-1n"
+      ],
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [
+          {
+            "name": "teff",
+            "min": 4000.0,
+            "max": 8000.0,
+            "unit": "K",
+            "source_id": "oi-1n"
+          },
+          {
+            "name": "logg",
+            "min": -0.5,
+            "max": 5.0,
+            "unit": "log10(cm/s2)",
+            "source_id": "oi-1n"
+          },
+          {
+            "name": "feh",
+            "min": -5.0,
+            "max": 0.5,
+            "unit": "dex",
+            "source_id": "oi-1n"
+          },
+          {
+            "name": "microturbulence",
+            "min": 0.0,
+            "max": 2.0,
+            "unit": "km/s",
+            "source_id": "oi-1n"
+          },
+          {
+            "name": "absolute_abundance",
+            "min": 3.26,
+            "max": 10.36,
+            "unit": "dex",
+            "source_id": "oi-1n"
+          }
+        ],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2019"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      },
+      "coverage": {
+        "transitions": [
+          {
+            "source_label": "615.6nm",
+            "air_nm": 615.596,
+            "vacuum_nm": 615.766,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.6nm",
+            "air_nm": 615.597,
+            "vacuum_nm": 615.767,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.6nm",
+            "air_nm": 615.599,
+            "vacuum_nm": 615.769,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.7nm",
+            "air_nm": 615.673,
+            "vacuum_nm": 615.844,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.7nm",
+            "air_nm": 615.675,
+            "vacuum_nm": 615.846,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.7nm",
+            "air_nm": 615.677,
+            "vacuum_nm": 615.848,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.8nm",
+            "air_nm": 615.815,
+            "vacuum_nm": 615.985,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.8nm",
+            "air_nm": 615.817,
+            "vacuum_nm": 615.988,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "615.8nm",
+            "air_nm": 615.818,
+            "vacuum_nm": 615.989,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "630.0nm",
+            "air_nm": 630.03,
+            "vacuum_nm": 630.205,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "636.4nm",
+            "air_nm": 636.377,
+            "vacuum_nm": 636.554,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "777.2nm",
+            "air_nm": 777.194,
+            "vacuum_nm": 777.408,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "777.4nm",
+            "air_nm": 777.416,
+            "vacuum_nm": 777.63,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "777.5nm",
+            "air_nm": 777.538,
+            "vacuum_nm": 777.753,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "844.6nm",
+            "air_nm": 844.624,
+            "vacuum_nm": 844.857,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "844.6nm",
+            "air_nm": 844.635,
+            "vacuum_nm": 844.868,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "844.7nm",
+            "air_nm": 844.675,
+            "vacuum_nm": 844.908,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.1nm",
+            "air_nm": 926.08,
+            "vacuum_nm": 926.335,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.1nm",
+            "air_nm": 926.084,
+            "vacuum_nm": 926.339,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.1nm",
+            "air_nm": 926.093,
+            "vacuum_nm": 926.348,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.3nm",
+            "air_nm": 926.258,
+            "vacuum_nm": 926.512,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.3nm",
+            "air_nm": 926.266,
+            "vacuum_nm": 926.521,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.3nm",
+            "air_nm": 926.277,
+            "vacuum_nm": 926.532,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.6nm",
+            "air_nm": 926.582,
+            "vacuum_nm": 926.837,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.6nm",
+            "air_nm": 926.593,
+            "vacuum_nm": 926.847,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "926.6nm",
+            "air_nm": 926.6,
+            "vacuum_nm": 926.855,
+            "source_id": "cno-lines"
+          }
+        ],
+        "wavelength_air_nm": {
+          "min": 615.596,
+          "max": 926.6,
+          "meaning": "sampled transition envelope, not continuous coverage"
+        },
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [
+          "615.6nm",
+          "615.7nm",
+          "615.8nm",
+          "616nm",
+          "630.0nm",
+          "636.4nm",
+          "777.2nm",
+          "777.4nm",
+          "777.5nm",
+          "777nm",
+          "844.6nm",
+          "844.7nm",
+          "844nm",
+          "926.1nm",
+          "926.3nm",
+          "926.6nm",
+          "926nm"
+        ],
+        "labels_without_component_wavelength": [
+          "616nm",
+          "777nm",
+          "844nm",
+          "926nm"
+        ],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "c-i-amarsi2019-3n",
+      "species": {
+        "kind": "atom",
+        "element": "C",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "ci-3n"
+      ],
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [
+          {
+            "name": "teff",
+            "min": 4927.0,
+            "max": 6513.0,
+            "unit": "K",
+            "source_id": "ci-3n"
+          },
+          {
+            "name": "logg",
+            "min": 3.0,
+            "max": 5.0,
+            "unit": "log10(cm/s2)",
+            "source_id": "ci-3n"
+          },
+          {
+            "name": "feh",
+            "min": -3.0,
+            "max": 0.5,
+            "unit": "dex",
+            "source_id": "ci-3n"
+          },
+          {
+            "name": "microturbulence",
+            "min": 0.0,
+            "max": 2.0,
+            "unit": "km/s",
+            "source_id": "ci-3n"
+          },
+          {
+            "name": "absolute_abundance",
+            "min": 5.03,
+            "max": 10.13,
+            "unit": "dex",
+            "source_id": "ci-3n"
+          }
+        ],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2019"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      },
+      "coverage": {
+        "transitions": [
+          {
+            "source_label": "505.2nm",
+            "air_nm": 505.216,
+            "vacuum_nm": 505.357,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "538.0nm",
+            "air_nm": 538.034,
+            "vacuum_nm": 538.183,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "658.8nm",
+            "air_nm": 658.761,
+            "vacuum_nm": 658.943,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "711.1nm",
+            "air_nm": 711.147,
+            "vacuum_nm": 711.343,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "711.3nm",
+            "air_nm": 711.318,
+            "vacuum_nm": 711.514,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "833.5nm",
+            "air_nm": 833.514,
+            "vacuum_nm": 833.744,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "872.7nm",
+            "air_nm": 872.712,
+            "vacuum_nm": 872.952,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "906.1nm",
+            "air_nm": 906.143,
+            "vacuum_nm": 906.392,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "906.2nm",
+            "air_nm": 906.248,
+            "vacuum_nm": 906.497,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "907.8nm",
+            "air_nm": 907.828,
+            "vacuum_nm": 908.078,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "908.9nm",
+            "air_nm": 908.85,
+            "vacuum_nm": 909.1,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "909.5nm",
+            "air_nm": 909.482,
+            "vacuum_nm": 909.733,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "911.2nm",
+            "air_nm": 911.18,
+            "vacuum_nm": 911.431,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "940.6nm",
+            "air_nm": 940.572,
+            "vacuum_nm": 940.831,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "960.3nm",
+            "air_nm": 960.303,
+            "vacuum_nm": 960.567,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "965.8nm",
+            "air_nm": 965.842,
+            "vacuum_nm": 966.108,
+            "source_id": "cno-lines"
+          }
+        ],
+        "wavelength_air_nm": {
+          "min": 505.216,
+          "max": 965.842,
+          "meaning": "sampled transition envelope, not continuous coverage"
+        },
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [
+          "505.2nm",
+          "538.0nm",
+          "658.8nm",
+          "711.1nm",
+          "711.3nm",
+          "833.5nm",
+          "872.7nm",
+          "906.1nm",
+          "906.2nm",
+          "907.8nm",
+          "908.9nm",
+          "909.5nm",
+          "911.2nm",
+          "940.6nm",
+          "960.3nm",
+          "962.8nm",
+          "965.8nm"
+        ],
+        "labels_without_component_wavelength": [
+          "962.8nm"
+        ],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "c-i-amarsi2019-1n",
+      "species": {
+        "kind": "atom",
+        "element": "C",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held line/multiplet abundance corrections, not a locally executed multidimensional RT solver.",
+      "source_ids": [
+        "cno-readme",
+        "cno-lines",
+        "cno-provenance",
+        "ci-1n"
+      ],
+      "domain": {
+        "scope": "Use only identified transitions and exact supported parameter nodes. Axis envelopes are descriptive, not an interpolation hull. Multiplet-averaged O corrections cannot become component-specific values by relabeling.",
+        "axes": [
+          {
+            "name": "teff",
+            "min": 4000.0,
+            "max": 8000.0,
+            "unit": "K",
+            "source_id": "ci-1n"
+          },
+          {
+            "name": "logg",
+            "min": -0.5,
+            "max": 5.0,
+            "unit": "log10(cm/s2)",
+            "source_id": "ci-1n"
+          },
+          {
+            "name": "feh",
+            "min": -5.0,
+            "max": 0.5,
+            "unit": "dex",
+            "source_id": "ci-1n"
+          },
+          {
+            "name": "microturbulence",
+            "min": 0.0,
+            "max": 2.0,
+            "unit": "km/s",
+            "source_id": "ci-1n"
+          },
+          {
+            "name": "absolute_abundance",
+            "min": 2.99,
+            "max": 10.09,
+            "unit": "dex",
+            "source_id": "ci-1n"
+          }
+        ],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2019"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      },
+      "coverage": {
+        "transitions": [
+          {
+            "source_label": "505.2nm",
+            "air_nm": 505.216,
+            "vacuum_nm": 505.357,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "538.0nm",
+            "air_nm": 538.034,
+            "vacuum_nm": 538.183,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "658.8nm",
+            "air_nm": 658.761,
+            "vacuum_nm": 658.943,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "711.1nm",
+            "air_nm": 711.147,
+            "vacuum_nm": 711.343,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "711.3nm",
+            "air_nm": 711.318,
+            "vacuum_nm": 711.514,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "833.5nm",
+            "air_nm": 833.514,
+            "vacuum_nm": 833.744,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "872.7nm",
+            "air_nm": 872.712,
+            "vacuum_nm": 872.952,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "906.1nm",
+            "air_nm": 906.143,
+            "vacuum_nm": 906.392,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "906.2nm",
+            "air_nm": 906.248,
+            "vacuum_nm": 906.497,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "907.8nm",
+            "air_nm": 907.828,
+            "vacuum_nm": 908.078,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "908.9nm",
+            "air_nm": 908.85,
+            "vacuum_nm": 909.1,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "909.5nm",
+            "air_nm": 909.482,
+            "vacuum_nm": 909.733,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "911.2nm",
+            "air_nm": 911.18,
+            "vacuum_nm": 911.431,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "940.6nm",
+            "air_nm": 940.572,
+            "vacuum_nm": 940.831,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "960.3nm",
+            "air_nm": 960.303,
+            "vacuum_nm": 960.567,
+            "source_id": "cno-lines"
+          },
+          {
+            "source_label": "965.8nm",
+            "air_nm": 965.842,
+            "vacuum_nm": 966.108,
+            "source_id": "cno-lines"
+          }
+        ],
+        "wavelength_air_nm": {
+          "min": 505.216,
+          "max": 965.842,
+          "meaning": "sampled transition envelope, not continuous coverage"
+        },
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [
+          "505.2nm",
+          "538.0nm",
+          "658.8nm",
+          "711.1nm",
+          "711.3nm",
+          "833.5nm",
+          "872.7nm",
+          "906.1nm",
+          "906.2nm",
+          "907.8nm",
+          "908.9nm",
+          "909.5nm",
+          "911.2nm",
+          "940.6nm",
+          "960.3nm",
+          "962.8nm",
+          "965.8nm"
+        ],
+        "labels_without_component_wavelength": [
+          "962.8nm"
+        ],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "fe-i-amarsi2022-surrogate",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_surrogate",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Published neural-network surrogate for 1D LTE versus 3D NLTE corrections; not a full-3D transport executable.",
+      "source_ids": [
+        "fe-ml-readme",
+        "fe-ml-license",
+        "fe-ml-domain",
+        "fe-ml-audit",
+        "model-domain"
+      ],
+      "domain": {
+        "scope": "FG-dwarf published parameter domain only; additionally check excitation, transition energy, log gf, abundance axis and the line-specific domain guard. IR extrapolation is unsupported.",
+        "axes": [
+          {
+            "name": "elo_eV",
+            "min": 0.0,
+            "max": 5.099,
+            "unit": "eV",
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "name": "eup_eV",
+            "min": 2.449274,
+            "max": 7.292806,
+            "unit": "eV",
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "name": "delta_E_eV",
+            "min": 1.820048,
+            "max": 2.588846,
+            "unit": "eV",
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "name": "loggf",
+            "min": -5.918,
+            "max": 0.643,
+            "unit": "dex",
+            "source_id": "fe-ml-domain"
+          }
+        ],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "verified",
+        "note": "MIT; copyright 2022 Sofie Liljegren. Retain copyright and permission notice with source copies/substantial portions; cite Amarsi, Liljegren & Nissen 2022."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2022"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-817",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [
+          {
+            "source_label": "gt02:CSV-row-2",
+            "air_nm": 478.783,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-3",
+            "air_nm": 478.87600000000003,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-4",
+            "air_nm": 480.288,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-5",
+            "air_nm": 480.81499999999994,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-6",
+            "air_nm": 486.946,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-7",
+            "air_nm": 487.588,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-8",
+            "air_nm": 487.76000000000005,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-9",
+            "air_nm": 490.77299999999997,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-10",
+            "air_nm": 492.47700000000003,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-11",
+            "air_nm": 494.639,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-12",
+            "air_nm": 495.01099999999997,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-13",
+            "air_nm": 496.25699999999995,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-14",
+            "air_nm": 496.992,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-15",
+            "air_nm": 498.555,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-16",
+            "air_nm": 499.413,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-17",
+            "air_nm": 500.186,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-18",
+            "air_nm": 501.26899999999995,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-19",
+            "air_nm": 504.421,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-20",
+            "air_nm": 504.98199999999997,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-21",
+            "air_nm": 505.85,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-22",
+            "air_nm": 506.008,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-23",
+            "air_nm": 508.81499999999994,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-24",
+            "air_nm": 510.745,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-25",
+            "air_nm": 510.764,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-26",
+            "air_nm": 510.965,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-27",
+            "air_nm": 512.736,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-28",
+            "air_nm": 513.147,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-29",
+            "air_nm": 514.174,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-30",
+            "air_nm": 519.4939999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-31",
+            "air_nm": 519.794,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-32",
+            "air_nm": 519.871,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-33",
+            "air_nm": 521.518,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-34",
+            "air_nm": 521.739,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-35",
+            "air_nm": 522.318,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-36",
+            "air_nm": 522.553,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-37",
+            "air_nm": 522.838,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-38",
+            "air_nm": 523.294,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-39",
+            "air_nm": 524.249,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-40",
+            "air_nm": 524.3779999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-41",
+            "air_nm": 524.705,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-42",
+            "air_nm": 525.021,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-43",
+            "air_nm": 525.0649999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-44",
+            "air_nm": 525.302,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-45",
+            "air_nm": 525.346,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-46",
+            "air_nm": 528.513,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-47",
+            "air_nm": 528.8520000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-48",
+            "air_nm": 529.396,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-49",
+            "air_nm": 529.455,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-50",
+            "air_nm": 529.5310000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-51",
+            "air_nm": 530.23,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-52",
+            "air_nm": 532.111,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-53",
+            "air_nm": 532.204,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-54",
+            "air_nm": 533.993,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-55",
+            "air_nm": 536.54,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-56",
+            "air_nm": 536.7470000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-57",
+            "air_nm": 537.371,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-58",
+            "air_nm": 537.957,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-59",
+            "air_nm": 538.633,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-60",
+            "air_nm": 538.948,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-61",
+            "air_nm": 539.522,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-62",
+            "air_nm": 539.713,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-63",
+            "air_nm": 539.828,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-64",
+            "air_nm": 541.278,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-65",
+            "air_nm": 541.52,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-66",
+            "air_nm": 541.703,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-67",
+            "air_nm": 542.4069999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-68",
+            "air_nm": 543.452,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-69",
+            "air_nm": 544.134,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-70",
+            "air_nm": 544.504,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-71",
+            "air_nm": 546.428,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-72",
+            "air_nm": 546.64,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-73",
+            "air_nm": 547.009,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-74",
+            "air_nm": 547.39,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-75",
+            "air_nm": 548.3100000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-76",
+            "air_nm": 548.7149999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-77",
+            "air_nm": 549.446,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-78",
+            "air_nm": 552.245,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-79",
+            "air_nm": 553.928,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-80",
+            "air_nm": 554.394,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-81",
+            "air_nm": 554.6510000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-82",
+            "air_nm": 556.021,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-83",
+            "air_nm": 556.962,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-84",
+            "air_nm": 557.609,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-85",
+            "air_nm": 558.676,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-86",
+            "air_nm": 561.863,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-87",
+            "air_nm": 561.96,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-88",
+            "air_nm": 563.395,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-89",
+            "air_nm": 563.67,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-90",
+            "air_nm": 563.826,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-91",
+            "air_nm": 564.143,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-92",
+            "air_nm": 564.999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-93",
+            "air_nm": 565.147,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-94",
+            "air_nm": 565.232,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-95",
+            "air_nm": 565.387,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-96",
+            "air_nm": 565.518,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-97",
+            "air_nm": 566.135,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-98",
+            "air_nm": 566.2520000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-99",
+            "air_nm": 567.902,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-100",
+            "air_nm": 569.15,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-101",
+            "air_nm": 569.609,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-102",
+            "air_nm": 569.802,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-103",
+            "air_nm": 570.154,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-104",
+            "air_nm": 570.546,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-105",
+            "air_nm": 573.176,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-106",
+            "air_nm": 573.23,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-107",
+            "air_nm": 574.1850000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-108",
+            "air_nm": 576.034,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-109",
+            "air_nm": 577.508,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-110",
+            "air_nm": 577.845,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-111",
+            "air_nm": 578.466,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-112",
+            "air_nm": 584.9680000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-113",
+            "air_nm": 585.3149999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-114",
+            "air_nm": 585.508,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-115",
+            "air_nm": 585.8779999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-116",
+            "air_nm": 588.382,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-117",
+            "air_nm": 590.2470000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-118",
+            "air_nm": 590.567,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-119",
+            "air_nm": 592.779,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-120",
+            "air_nm": 592.9680000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-121",
+            "air_nm": 593.018,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-122",
+            "air_nm": 593.4649999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-123",
+            "air_nm": 595.669,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-124",
+            "air_nm": 600.301,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-125",
+            "air_nm": 601.221,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-126",
+            "air_nm": 602.705,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-127",
+            "air_nm": 606.548,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-128",
+            "air_nm": 607.9010000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-129",
+            "air_nm": 609.364,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-130",
+            "air_nm": 609.437,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-131",
+            "air_nm": 609.6659999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-132",
+            "air_nm": 612.7909999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-133",
+            "air_nm": 613.699,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-134",
+            "air_nm": 615.162,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-135",
+            "air_nm": 616.536,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-136",
+            "air_nm": 617.333,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-137",
+            "air_nm": 618.799,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-138",
+            "air_nm": 620.0310000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-139",
+            "air_nm": 621.928,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-140",
+            "air_nm": 622.673,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-141",
+            "air_nm": 624.0649999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-142",
+            "air_nm": 624.632,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-143",
+            "air_nm": 625.2560000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-144",
+            "air_nm": 626.513,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-145",
+            "air_nm": 627.022,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-146",
+            "air_nm": 627.1279999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-147",
+            "air_nm": 629.779,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-148",
+            "air_nm": 630.15,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-149",
+            "air_nm": 631.581,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-150",
+            "air_nm": 632.269,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-151",
+            "air_nm": 633.533,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-152",
+            "air_nm": 633.682,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-153",
+            "air_nm": 639.36,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-154",
+            "air_nm": 641.165,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-155",
+            "air_nm": 643.085,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-156",
+            "air_nm": 648.187,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-157",
+            "air_nm": 649.4979999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-158",
+            "air_nm": 649.647,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-159",
+            "air_nm": 649.894,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-160",
+            "air_nm": 653.393,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-161",
+            "air_nm": 657.423,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-162",
+            "air_nm": 659.387,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-163",
+            "air_nm": 659.7560000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-164",
+            "air_nm": 660.911,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-165",
+            "air_nm": 662.754,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-166",
+            "air_nm": 664.808,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-167",
+            "air_nm": 669.914,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-168",
+            "air_nm": 670.357,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-169",
+            "air_nm": 671.374,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "lt02:CSV-row-170",
+            "air_nm": 673.952,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-171",
+            "air_nm": 675.015,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "gt02:CSV-row-172",
+            "air_nm": 681.0260000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          }
+        ],
+        "wavelength_air_nm": {
+          "min": 478.783,
+          "max": 681.0260000000001,
+          "meaning": "training-line envelope only; line and stellar-domain guards remain mandatory"
+        },
+        "bands": [
+          "VIS"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "fe-ii-amarsi2022-surrogate",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "II",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_surrogate",
+      "treatment": "FULL3D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Published neural-network surrogate for 1D LTE versus 3D NLTE corrections; not a full-3D transport executable.",
+      "source_ids": [
+        "fe-ml-readme",
+        "fe-ml-license",
+        "fe-ml-domain",
+        "fe-ml-audit",
+        "model-domain"
+      ],
+      "domain": {
+        "scope": "FG-dwarf published parameter domain only; additionally check excitation, transition energy, log gf, abundance axis and the line-specific domain guard. IR extrapolation is unsupported.",
+        "axes": [
+          {
+            "name": "elo_eV",
+            "min": 2.807,
+            "max": 3.903,
+            "unit": "eV",
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "name": "eup_eV",
+            "min": 4.817879,
+            "max": 5.875973,
+            "unit": "eV",
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "name": "delta_E_eV",
+            "min": 1.919806,
+            "max": 2.51729,
+            "unit": "eV",
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "name": "loggf",
+            "min": -3.881,
+            "max": -1.26,
+            "unit": "dex",
+            "source_id": "fe-ml-domain"
+          }
+        ],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "verified",
+        "note": "MIT; copyright 2022 Sofie Liljegren. Retain copyright and permission notice with source copies/substantial portions; cite Amarsi, Liljegren & Nissen 2022."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2022"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-817",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "node-and-identity-domain"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [
+          {
+            "source_label": "fe2:CSV-row-173",
+            "air_nm": 492.39300000000003,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-174",
+            "air_nm": 499.33599999999996,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-175",
+            "air_nm": 526.481,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-176",
+            "air_nm": 532.5550000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-177",
+            "air_nm": 541.4069999999999,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-178",
+            "air_nm": 542.5260000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-179",
+            "air_nm": 553.485,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-180",
+            "air_nm": 599.138,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-181",
+            "air_nm": 608.411,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-182",
+            "air_nm": 624.7560000000001,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-183",
+            "air_nm": 643.268,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          },
+          {
+            "source_label": "fe2:CSV-row-184",
+            "air_nm": 645.638,
+            "vacuum_nm": null,
+            "source_id": "fe-ml-domain"
+          }
+        ],
+        "wavelength_air_nm": {
+          "min": 492.39300000000003,
+          "max": 645.638,
+          "meaning": "training-line envelope only; line and stellar-domain guards remain mandatory"
+        },
+        "bands": [
+          "VIS"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "fe-i-gerber-atom",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "model_atom",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Pinned Fe model-atom reach audit; ionization-reservoir levels do not establish bound-bound NLTE support.",
+      "source_ids": [
+        "fe-atom-reach",
+        "gerber",
+        "models"
+      ],
+      "domain": {
+        "scope": "atom.fe607a only. Fe II has no bound-bound transitions in this atom. This limit does not say Fe II NLTE is absent elsewhere in literature.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "gerber2023"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1055"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [
+          "turbospectrum"
+        ],
+        "atmosphere_ids": [
+          "marcs"
+        ],
+        "model_atom_ids": [],
+        "note": "Existing Gerber 1D route references; exact atom/departure/atmosphere compatibility remains a per-run gate."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": {
+          "atom": "atom.fe607a",
+          "sha256": "53446fe1db5e22e35ad972c3d36b990d27bcf6b13c92c95c00aa57cf1f6d7243",
+          "ion_stage": 1,
+          "n_levels": 548,
+          "n_bound_bound": 12635,
+          "nlte_capable": true
+        },
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "fe-ii-gerber-atom",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "II",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "model_atom",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "incompatible",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Pinned Fe model-atom reach audit; ionization-reservoir levels do not establish bound-bound NLTE support.",
+      "source_ids": [
+        "fe-atom-reach",
+        "gerber",
+        "models"
+      ],
+      "domain": {
+        "scope": "atom.fe607a only. Fe II has no bound-bound transitions in this atom. This limit does not say Fe II NLTE is absent elsewhere in literature.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "gerber2023"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1055"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [
+          "turbospectrum"
+        ],
+        "atmosphere_ids": [
+          "marcs"
+        ],
+        "model_atom_ids": [],
+        "note": "Existing Gerber 1D route references; exact atom/departure/atmosphere compatibility remains a per-run gate."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": {
+          "atom": "atom.fe607a",
+          "sha256": "53446fe1db5e22e35ad972c3d36b990d27bcf6b13c92c95c00aa57cf1f6d7243",
+          "ion_stage": 2,
+          "n_levels": 58,
+          "n_bound_bound": 0,
+          "nlte_capable": false
+        },
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "fe-ii-amarsi2019-table4",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "II",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "3D_LTE",
+      "availability": "published_not_acquired",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Primary release describes Fe II 3D LTE versus 1D LTE table4; table4 is not vendored in this checkout.",
+      "source_ids": [
+        "cno-readme",
+        "cno-provenance"
+      ],
+      "domain": {
+        "scope": "Fe II only, release-specific atmospheres/lines/parameters. Not a 3D NLTE Fe II grid. No table4 numeric domain asserted without acquisition and inspection.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2019"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373"
+      ],
+      "gap_ids": [
+        "fe-table4-treatment",
+        "node-and-identity-domain",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "Published source calculation spans the named 3D STAGGER/mean-3D/1D atmosphere families in cno-readme; a correction table is not an installed solver. Preserve the exact source comparison and avoid hybrid mixing."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "fe-mpia-1d",
+      "species": {
+        "kind": "atom",
+        "element": "Fe",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Existing MPIA/Bergemann correction source. This inventory does not rerun its numerical/scientific validation.",
+      "source_ids": [
+        "fe-mpia",
+        "model-domain"
+      ],
+      "domain": {
+        "scope": "Only the actual grid hull and admitted Fe transitions; do not infer general Fe/NLTE coverage from a source label.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "co-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CO",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2021_molecular_cno"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "CO",
+          "source": "CO ExoMol line list, Li et al. 2015 (ApJS 216, 15)",
+          "wavelength_coverage": {
+            "min_A": 4515.025,
+            "max_A": 99957.608,
+            "min_cm-1": 1000.4,
+            "max_cm-1": 22148.3,
+            "regime": "mid-IR-rovibrational (+ NIR/optical overtones)"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 4515.025,
+          "max": 99957.608,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "oh-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "OH",
+        "isotopologues": [
+          "16OH"
+        ]
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2021_molecular_cno"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "OH",
+          "source": "OH A-X electronic (Masseron compilation, VALD-based)",
+          "wavelength_coverage": {
+            "min_A": 4200.04,
+            "max_A": 9199.99,
+            "min_cm-1": 10869.6,
+            "max_cm-1": 23809.3,
+            "regime": "electronic-optical"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 4200.04,
+          "max": 9199.99,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "cn-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CN",
+        "isotopologues": [
+          "12C14N",
+          "13C14N",
+          "12C15N"
+        ]
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2021_molecular_cno"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "CN",
+          "source": "CN red A-X: Brooke et al. 2014 / Sneden et al. 2014 (isotopologues)",
+          "wavelength_coverage": {
+            "min_A": 4200.0,
+            "max_A": 9199.843,
+            "min_cm-1": 10869.8,
+            "max_cm-1": 23809.5,
+            "regime": "electronic-optical"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 4200.0,
+          "max": 9199.843,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "nh-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "NH",
+        "isotopologues": [
+          "14NH"
+        ]
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2021_molecular_cno"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "VIS"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "NH",
+          "source": "NH A-X electronic (Masseron compilation, VALD-based)",
+          "wavelength_coverage": {
+            "min_A": 4200.023,
+            "max_A": 7730.282,
+            "min_cm-1": 12936.1,
+            "max_cm-1": 23809.4,
+            "regime": "electronic-optical"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 4200.023,
+          "max": 7730.282,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "ch-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CH",
+        "isotopologues": [
+          "12CH",
+          "13CH"
+        ]
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2021_molecular_cno"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "CH",
+          "source": "CH A-X: Masseron et al. 2014 (MNRAS 442, 1489) / 2022 update",
+          "wavelength_coverage": {
+            "min_A": 4200.299,
+            "max_A": 9199.633,
+            "min_cm-1": 10870.0,
+            "max_cm-1": 23807.8,
+            "regime": "electronic-optical"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 4200.299,
+          "max": 9199.633,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "c2-held-line-list",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "C2",
+        "isotopologues": [
+          "12C12C",
+          "12C13C",
+          "13C13C"
+        ]
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held molecular transition-list family. Atomic Codex/Deep grade is not inferred for molecules; line-list presence does not establish molecular NLTE or a stellar abundance.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "domain": {
+        "scope": "Manifest envelope describes held list wavelengths only, not all literature coverage. Molecular equilibrium, dissociation/partition data, isotopic normalization, pressure and stellar parameters require per-release review. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "amarsi2021_molecular_cno"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "C2",
+          "source": "C2 Swan d³Πg–a³Πu (Brooke et al. 2013 / Masseron compilation)",
+          "wavelength_coverage": {
+            "min_A": 4200.001,
+            "max_A": 9199.852,
+            "min_cm-1": 10869.7,
+            "max_cm-1": 23809.5,
+            "regime": "electronic-optical"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 4200.001,
+          "max": 9199.852,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "oh-mythos-midir",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "OH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Additional held rovibrational release, kept distinct from optical list families.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema"
+      ],
+      "domain": {
+        "scope": "Exact release and transition schema apply. Mid-IR list acquisition does not authorize stellar abundance beyond project applicability/telluric limits. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "UV",
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "OH (mid-IR ro-vibrational, MYTHOS)",
+          "source": "OH X–X ro-vibrational — Mitev, Bowesman, Zhang, Yurchenko & Tennyson 2025, MNRAS 536, 3401 (ExoMol LXI; OH MYTHOS)",
+          "doi": "10.1093/mnras/stae2803",
+          "version": "20240526",
+          "origin": "acquired (RYA-503)",
+          "wavelength_coverage": {
+            "min_A": 3133.337,
+            "max_A": 99939.241,
+            "min_cm-1": 1000.6,
+            "max_cm-1": 31914.9,
+            "regime": "mid-IR-rovibrational"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 3133.337,
+          "max": 99939.241,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "nh-knight-midir",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "NH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Additional held rovibrational release, kept distinct from optical list families.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema"
+      ],
+      "domain": {
+        "scope": "Exact release and transition schema apply. Mid-IR list acquisition does not authorize stellar abundance beyond project applicability/telluric limits. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "UV",
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "NH (mid-IR ro-vibrational, kNigHt)",
+          "source": "NH X–X ro-vibrational — Perri & McKemmish 2024, MNRAS 531, 3023 (NH kNigHt). Note: the newer 2kNigHt (v20260414) is in press with no DOI yet; kNigHt is the cited published variational list.",
+          "doi": "10.1093/mnras/stae1340",
+          "version": "20240301",
+          "origin": "acquired (RYA-503)",
+          "wavelength_coverage": {
+            "min_A": 3446.796,
+            "max_A": 99988.064,
+            "min_cm-1": 1000.1,
+            "max_cm-1": 29012.5,
+            "regime": "mid-IR-rovibrational"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 3446.796,
+          "max": 99988.064,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "ch-mollist-midir",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Additional held rovibrational release, kept distinct from optical list families.",
+      "source_ids": [
+        "molecular-manifest",
+        "molecular-schema"
+      ],
+      "domain": {
+        "scope": "Exact release and transition schema apply. Mid-IR list acquisition does not authorize stellar abundance beyond project applicability/telluric limits. Legacy manifest wavelength medium/frame are not inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [
+          "UV",
+          "VIS",
+          "IR"
+        ],
+        "atom_reach": null,
+        "molecular_manifest": {
+          "species": "CH (mid-IR ro-vibrational, MoLLIST)",
+          "source": "CH X–X ro-vibrational — Masseron et al. 2014, A&A 571, A47 (CH linelist); re-hosted via Bernath 2020, JQSRT 240, 106687 (MoLLIST, DOI 10.1016/j.jqsrt.2019.106687)",
+          "doi": "10.1051/0004-6361/201423956",
+          "version": "20190214",
+          "origin": "acquired (RYA-503)",
+          "wavelength_coverage": {
+            "min_A": 2751.321,
+            "max_A": 99970.106,
+            "min_cm-1": 1000.3,
+            "max_cm-1": 36346.2,
+            "regime": "mid-IR-rovibrational"
+          }
+        },
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": {
+          "min": 2751.321,
+          "max": 99970.106,
+          "unit": "Angstrom",
+          "medium": "not established by this manifest",
+          "source_id": "molecular-manifest"
+        }
+      }
+    },
+    {
+      "id": "h2o-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "H2O",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-h2o"
+      ],
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "tennyson2016"
+      ],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "tio-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "TiO",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-tio"
+      ],
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "tennyson2016"
+      ],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "feh-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "FeH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-feh"
+      ],
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "tennyson2016"
+      ],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "cah-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "CaH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-cah"
+      ],
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "tennyson2016"
+      ],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "mgh-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "MgH",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-mgh"
+      ],
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "tennyson2016"
+      ],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "sio-discovery",
+      "species": {
+        "kind": "molecule",
+        "element": null,
+        "ion": null,
+        "molecule": "SiO",
+        "isotopologues": []
+      },
+      "component_type": "line_list",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "not_yet_searched",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Atlas discovery scope for cool-star molecular data; no local completeness, adopted release or validation claim.",
+      "source_ids": [
+        "exomol",
+        "exomol-sio"
+      ],
+      "domain": {
+        "scope": "Spectral class alone is insufficient. Determine Teff/log g/metallicity, C/O, chemistry, pressure broadening and magnetic sensitivity for the actual diagnostic before use.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "data/schemas/canonical_molecular_transition.schema.json",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "tennyson2016"
+      ],
+      "literature_audit": {
+        "date": null,
+        "scope": "Discovery pointer only. A resolved index/landing page does not constitute a release-level literature audit.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-751",
+        "RYA-970",
+        "RYA-1314"
+      ],
+      "gap_ids": [
+        "molecular-physics",
+        "cool-star-benchmark",
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "n-i-1d-grid",
+      "species": {
+        "kind": "atom",
+        "element": "N",
+        "ion": "I",
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "correction_grid",
+      "treatment": "1D_NLTE",
+      "availability": "held",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Held nitrogen 1D NLTE route is separate from the 2019 C/O release. Solar full-3D nitrogen literature does not establish an off-solar held grid.",
+      "source_ids": [
+        "n-grid",
+        "nlte-availability"
+      ],
+      "domain": {
+        "scope": "Verify the specific grid node and line hull; no full-3D/off-solar claim inherited from the CNO label.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1314",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "turbospectrum",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "solver",
+      "treatment": "1D_NLTE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "External Turbospectrum synthesis uses precomputed atomic departure coefficients; that does not make it an independent statistical-equilibrium solver.",
+      "source_ids": [
+        "gerber"
+      ],
+      "domain": {
+        "scope": "Match atmosphere, model-atom identities and input departures. No molecular NLTE capability is inferred.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [
+        "gerber2023"
+      ],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "marcs",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "atmosphere_grid",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "MARCS atmosphere family referenced by existing Gerber treatments; atmosphere availability is separate from departures and line data.",
+      "source_ids": [
+        "models"
+      ],
+      "domain": {
+        "scope": "Use the exact compatible grid, geometry, chemistry, node and EOS. Family name alone does not authorize interpolation.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "stagger-mean",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "atmosphere_grid",
+      "treatment": "NOT_APPLICABLE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "Mean-3D STAGGER atmosphere treatment is explicitly distinct from a coupled full-3D radiation field.",
+      "source_ids": [
+        "atmosphere-policy"
+      ],
+      "domain": {
+        "scope": "Averaging convention and exact model identity required; no horizontal transfer is implied.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    },
+    {
+      "id": "coupled-3d",
+      "species": {
+        "kind": "not_species_specific",
+        "element": null,
+        "ion": null,
+        "molecule": null,
+        "isotopologues": []
+      },
+      "component_type": "solver",
+      "treatment": "FULL3D_NLTE",
+      "availability": "not_checked",
+      "coverage_status": "unvalidated",
+      "verification": "not_independently_reviewed",
+      "execution_approved": false,
+      "summary": "The BRIDE full-3D objective has separate physical/backend validation gates. An atmosphere cube or collection of columns does not demonstrate coupled transfer.",
+      "source_ids": [
+        "models"
+      ],
+      "domain": {
+        "scope": "No full-3D Codex solver admission or coverage domain established by this catalog.",
+        "axes": [],
+        "interpolation": "NOT_AUTHORIZED_BY_ATLAS",
+        "unassessed_constraints": [
+          "C/O and chemical equilibrium",
+          "activity/chromosphere",
+          "magnetic field and Zeeman physics",
+          "holding-specific telluric/continuum/LSF",
+          "exact line and parameter hull"
+        ]
+      },
+      "input_completeness": "not established; line data, rates, opacities and EOS require separate review",
+      "grade_policy_ref": "docs/audit/rya1352/README.md",
+      "license": {
+        "status": "pending",
+        "note": "Check exact upstream release terms and original data sources before redistribution; holding is not a license."
+      },
+      "version": "Pinned local source SHA256 in generated receipt; no global version inferred",
+      "upstream_citation_refs": [],
+      "literature_audit": {
+        "date": "2026-11-09",
+        "scope": "Scoped inspection of linked held artifacts and primary release description; not a comprehensive literature search.",
+        "complete": false
+      },
+      "issues": [
+        "RYA-1373",
+        "RYA-1368"
+      ],
+      "gap_ids": [
+        "source-reuse-and-completeness"
+      ],
+      "components": {
+        "solver_ids": [],
+        "atmosphere_ids": [],
+        "model_atom_ids": [],
+        "note": "No default solver/atmosphere/atom combination is authorized; inspect the exact source calculation and product provenance."
+      },
+      "coverage": {
+        "transitions": [],
+        "wavelength_air_nm": null,
+        "bands": [],
+        "atom_reach": null,
+        "molecular_manifest": null,
+        "source_labels": [],
+        "labels_without_component_wavelength": [],
+        "wavelength_native": null
+      }
+    }
+  ],
+  "gaps": [
+    {
+      "id": "fe-table4-treatment",
+      "priority": "high",
+      "question": "Reconcile the historical RYA-1035 decision-text claim of a 2019 Fe II 3D NLTE leg with the primary release description of 3D LTE table4.",
+      "entry_ids": [
+        "fe-ii-amarsi2019-table4"
+      ],
+      "source_ids": [
+        "cno-readme",
+        "fe-route-decision"
+      ],
+      "issues": [
+        "RYA-1373"
+      ],
+      "next_gate": "Review the proposed source-text correction; keep the atlas table4 record 3D LTE and do not promote any product."
+    },
+    {
+      "id": "molecular-physics",
+      "priority": "high",
+      "question": "Which molecular diagnostics have compatible thermochemistry, rates, broadening, isotopic normalization and independent stellar validation?",
+      "entry_ids": [
+        "co-held-line-list",
+        "oh-held-line-list",
+        "cn-held-line-list",
+        "nh-held-line-list",
+        "ch-held-line-list",
+        "c2-held-line-list",
+        "oh-mythos-midir",
+        "nh-knight-midir",
+        "ch-mollist-midir",
+        "h2o-discovery",
+        "tio-discovery",
+        "feh-discovery",
+        "cah-discovery",
+        "mgh-discovery",
+        "sio-discovery"
+      ],
+      "source_ids": [
+        "molecular-schema",
+        "molecular-intake"
+      ],
+      "issues": [
+        "RYA-1314",
+        "RYA-751"
+      ],
+      "next_gate": "Release-specific primary-source and applicability review; LTE line lists do not close molecular NLTE completeness."
+    },
+    {
+      "id": "cool-star-benchmark",
+      "priority": "normal",
+      "question": "Which physically characterized reference star and diagnostics can validate the cool-star extension?",
+      "entry_ids": [
+        "h2o-discovery",
+        "tio-discovery",
+        "feh-discovery",
+        "cah-discovery",
+        "mgh-discovery",
+        "sio-discovery"
+      ],
+      "source_ids": [
+        "stars"
+      ],
+      "issues": [
+        "RYA-970"
+      ],
+      "next_gate": "Independent benchmark-star selection and verified parameters; this atlas does not adopt a star."
+    },
+    {
+      "id": "node-and-identity-domain",
+      "priority": "high",
+      "question": "Which exact line/multiplet and stellar/abundance nodes are supported without interpolation or chemistry/atmosphere mismatch?",
+      "entry_ids": [
+        "o-i-amarsi2019-3n",
+        "o-i-amarsi2019-1n",
+        "c-i-amarsi2019-3n",
+        "c-i-amarsi2019-1n",
+        "fe-i-amarsi2022-surrogate",
+        "fe-ii-amarsi2022-surrogate",
+        "fe-ii-amarsi2019-table4"
+      ],
+      "source_ids": [
+        "cno-readme",
+        "model-domain",
+        "fe-ml-audit"
+      ],
+      "issues": [
+        "RYA-1368",
+        "RYA-1373"
+      ],
+      "next_gate": "Review exact nodes, component versus multiplet identity and full hull; broad envelopes are insufficient."
+    },
+    {
+      "id": "source-reuse-and-completeness",
+      "priority": "normal",
+      "question": "What are the exact version, upstream reuse terms, collision/broadening and thermochemistry provenance for each pending resource?",
+      "entry_ids": [
+        "o-i-amarsi2019-3n",
+        "o-i-amarsi2019-1n",
+        "c-i-amarsi2019-3n",
+        "c-i-amarsi2019-1n",
+        "fe-i-gerber-atom",
+        "fe-ii-gerber-atom",
+        "fe-ii-amarsi2019-table4",
+        "fe-mpia-1d",
+        "co-held-line-list",
+        "oh-held-line-list",
+        "cn-held-line-list",
+        "nh-held-line-list",
+        "ch-held-line-list",
+        "c2-held-line-list",
+        "oh-mythos-midir",
+        "nh-knight-midir",
+        "ch-mollist-midir",
+        "h2o-discovery",
+        "tio-discovery",
+        "feh-discovery",
+        "cah-discovery",
+        "mgh-discovery",
+        "sio-discovery",
+        "n-i-1d-grid",
+        "turbospectrum",
+        "marcs",
+        "stagger-mean",
+        "coupled-3d"
+      ],
+      "source_ids": [
+        "molecular-schema",
+        "gerber",
+        "atomic-census"
+      ],
+      "issues": [
+        "RYA-1356",
+        "RYA-1314",
+        "RYA-1373"
+      ],
+      "next_gate": "Primary release and license audit plus component-specific completeness review before reuse or adoption."
+    }
+  ],
+  "roadmap_integration": {
+    "issue": "RYA-1370",
+    "track_ids": [
+      "atomic-laboratory",
+      "cross-engine"
+    ],
+    "roadmap_pr_url": "https://github.com/damienabraxas/exoplanetcodex-site/pull/87",
+    "public_page_gate": "Roadmap review/approval and independent atlas scientific review precede public HTML integration."
+  },
+  "release_status": "DRAFT_SCIENTIFIC_REVIEW_REQUIRED",
+  "public_html_status": "DEFERRED_UNTIL_RYA_1370_APPROVED",
+  "citations": {
+    "amarsi2019": {
+      "authors": "Amarsi, A. M.; Nissen, P. E.; Skuladottir, A.",
+      "year": "2019",
+      "title": "Carbon, oxygen, and iron abundances in disk and halo stars",
+      "doi": "10.1051/0004-6361/201936265",
+      "url": "https://doi.org/10.1051/0004-6361/201936265"
+    },
+    "amarsi2022": {
+      "authors": "Amarsi, A. M.; Liljegren, S.; Nissen, P. E.",
+      "year": "2022",
+      "title": "3D non-LTE iron abundances in FG-type dwarfs",
+      "doi": "10.1051/0004-6361/202244542",
+      "url": "https://doi.org/10.1051/0004-6361/202244542"
+    },
+    "gerber2023": {
+      "authors": "Gerber, J. M.; Magg, E.; Plez, B.; Bergemann, M.; Heiter, U.; Olander, T.; Hoppe, R.",
+      "year": "2023",
+      "title": "Non-LTE radiative transfer with Turbospectrum",
+      "doi": "10.1051/0004-6361/202243673",
+      "url": "https://doi.org/10.1051/0004-6361/202243673"
+    },
+    "amarsi2021_molecular_cno": {
+      "authors": "Amarsi, A. M.; Grevesse, N.; Asplund, M.; Collet, R.",
+      "year": "2021",
+      "title": "The solar carbon, nitrogen, and oxygen abundances from a 3D LTE analysis of molecular lines",
+      "doi": "10.1051/0004-6361/202141384",
+      "url": "https://doi.org/10.1051/0004-6361/202141384"
+    },
+    "tennyson2016": {
+      "authors": "Tennyson, J.; Yurchenko, S. N.; Al-Refaie, A. F.; Barton, E. J.; Chubb, K. L.; Coles, P. A.",
+      "year": "2016",
+      "title": "The ExoMol database: molecular line lists for exoplanet and other hot atmospheres",
+      "doi": "10.1016/j.jms.2016.05.002",
+      "url": "https://doi.org/10.1016/j.jms.2016.05.002"
+    }
+  }
+}

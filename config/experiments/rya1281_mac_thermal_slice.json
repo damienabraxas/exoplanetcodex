@@ -1,0 +1,174 @@
+{
+  "schema": "codex.bride_mac_parameter_plan/1",
+  "purpose": "Six predeclared source-covered solar Teff/logg cases, fresh producer/certificates and coupled O. Fixed xi/composition/O8.70, no fit/adoption. Hotter refused candidates remain in domain plan.",
+  "compute_host": "Darwin arm64; serial one-thread Ryan-authorized exception to Sirius compute",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5,
+    "ng": true,
+    "reject_invalid_ng": true,
+    "converge_cap_radiation": true,
+    "cap_radiation_rtol": 1e-08,
+    "cap_radiation_maxiter": 100
+  },
+  "window_air_A": [
+    7768.0,
+    7780.0
+  ],
+  "step_A": 0.005,
+  "cases": [
+    {
+      "name": "thermal_T5572",
+      "teff": 5572,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5500,
+        5750
+      ],
+      "bracket_logg": [
+        4,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "thermal_T5572"
+    },
+    {
+      "name": "thermal_T5672",
+      "teff": 5672,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5500,
+        5750
+      ],
+      "bracket_logg": [
+        4,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "thermal_T5672"
+    },
+    {
+      "name": "thermal_nominal",
+      "teff": 5772,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "thermal_nominal"
+    },
+    {
+      "name": "thermal_T5822",
+      "teff": 5822,
+      "logg": 4.438,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "thermal_T5822"
+    },
+    {
+      "name": "thermal_g4338",
+      "teff": 5772,
+      "logg": 4.338,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4,
+        4.5
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "thermal_g4338"
+    },
+    {
+      "name": "thermal_g4538",
+      "teff": 5772,
+      "logg": 4.538,
+      "xi": 1.0,
+      "abundance": 8.7,
+      "drop_bottom": 0,
+      "interpolate": true,
+      "bracket_teff": [
+        5750,
+        6000
+      ],
+      "bracket_logg": [
+        4.5,
+        5.0
+      ],
+      "thermodynamic_scale": "log_positive_layers",
+      "experimental_collision_convention": "barklem2018_MN_LTE_pair",
+      "experimental_column_contract": "density_integral_log_native_top",
+      "bound_point_coefficients": "thermal_g4538"
+    }
+  ],
+  "source_grid": {
+    "teff_K": [
+      5500,
+      5750,
+      6000
+    ],
+    "logg_cgs": [
+      4.0,
+      4.5,
+      5.0
+    ]
+  },
+  "sweep": {
+    "axis": "solar_Teff_logg",
+    "case_axes": {
+      "thermal_T5572": "temperature",
+      "thermal_T5672": "temperature",
+      "thermal_nominal": "nominal",
+      "thermal_T5822": "temperature",
+      "thermal_g4338": "gravity",
+      "thermal_g4538": "gravity"
+    }
+  }
+}

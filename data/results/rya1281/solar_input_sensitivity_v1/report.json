@@ -1,0 +1,4175 @@
+{
+  "schema": "codex.bride_solar_input_sensitivity/1",
+  "scientific_admission": "HOLD",
+  "production_column_admission": false,
+  "code_commit": "c8f75032bb3e330d7029fb40b864478b771a6e29",
+  "plan": {
+    "name": "rya1281_mac_fine_temperature.json",
+    "bytes": 1577,
+    "sha256": "59e9e6e9f89dd0a0e62515c27e6a0b3e09016acdeba11957b666cffb483ad964"
+  },
+  "solar_parameters": {
+    "teff": 5772.0,
+    "e_teff": 1.0,
+    "logg": 4.438,
+    "e_logg": 0.0,
+    "feh_ref": 0.0,
+    "e_feh": 0.03,
+    "xi": 1.0,
+    "vmac": 3.8,
+    "vsini": 1.8,
+    "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+    "logg_basis": "IAU nominal solar mass + radius (logg fixed to ~0.001 dex)",
+    "pin": [
+      "teff",
+      "logg",
+      "xi"
+    ],
+    "solve": [
+      "feh"
+    ]
+  },
+  "stars_config": {
+    "name": "stars.yaml",
+    "bytes": 7842,
+    "sha256": "3156c6501a1e5405c4302d044302c10020627e9849648c67e3528e2599d1d7ee"
+  },
+  "sources": [
+    {
+      "teff": 5500,
+      "logg": 4.0,
+      "source": {
+        "name": "p5500_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "ad88e8232600f6adb1358581eb1753e6c430b03cf0ae5c7a0cb9b1298310191e"
+      }
+    },
+    {
+      "teff": 5500,
+      "logg": 4.5,
+      "source": {
+        "name": "p5500_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "4198b9af5d5a3e0872a13f1ab432f0ca79519a48bc5b50f86f0482329baba990"
+      }
+    },
+    {
+      "teff": 5500,
+      "logg": 5.0,
+      "source": {
+        "name": "p5500_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "567be42d5a52a88092519e0ccfda939daa920eaa8be0eb05d3e7c1e145921536"
+      }
+    },
+    {
+      "teff": 5750,
+      "logg": 4.0,
+      "source": {
+        "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+      }
+    },
+    {
+      "teff": 5750,
+      "logg": 4.5,
+      "source": {
+        "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.0,
+      "source": {
+        "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 4.5,
+      "source": {
+        "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+      }
+    },
+    {
+      "teff": 6000,
+      "logg": 5.0,
+      "source": {
+        "name": "p6000_g+5.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+        "bytes": 24227,
+        "sha256": "01ac6bf714e9fd94fdb1dfe80150ca94b71b6d5bc803a36bfc042f3c0fdfa2d4"
+      }
+    }
+  ],
+  "code": [
+    {
+      "name": "audit_bride_solar_input_sensitivity.py",
+      "bytes": 7956,
+      "sha256": "ed0191673c3ec74124e3c560c4c20fa93780836441ed788e6fdc41a9d3ff1c34"
+    },
+    {
+      "name": "bride_input_sensitivity.py",
+      "bytes": 2113,
+      "sha256": "70ffbd090cda803a00002caecdcd5226b13ed7a4c410a816032e3162cdfffd6f"
+    },
+    {
+      "name": "bride_rectangular_checks.py",
+      "bytes": 3847,
+      "sha256": "c1fa34ca4c8dbeba56e973c3f3dd9ec89b8412936926286b8306a777db492fb1"
+    },
+    {
+      "name": "bride_column_checks.py",
+      "bytes": 1388,
+      "sha256": "a50e457140595358cf099006e80b4da42d473e7d673c18bd33da2b233e90ff10"
+    },
+    {
+      "name": "bride_parameter_checks.py",
+      "bytes": 6354,
+      "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+    },
+    {
+      "name": "bride_reference.py",
+      "bytes": 10053,
+      "sha256": "313797a33d608131c71f49682500520c68eda0bbd6634eee2aae7798e4351f70"
+    }
+  ],
+  "depth_scopes": [
+    {
+      "name": "all_depths",
+      "source_rows_1based": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56
+      ]
+    },
+    {
+      "name": "logtau_-3_0",
+      "source_rows_1based": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ]
+    }
+  ],
+  "interpretation": "90 input field candidates, full native depth extent (previous solves dropped one bottom row). Method/cell spread and internal column closure are NOT independent accuracy, EOS/equilibrium validation, line contribution or abundance uncertainty. No native reference at solar targets. logtau[-3,0] uses fixed native source rows, not rounded interpolated tau, and is a declared diagnostic subset only. All three field conventions retained. No RT/SE or new opacity packet.",
+  "receipts": [
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.008,
+          0.8679999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.048,
+          0.8279999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.128,
+          0.7479999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.168,
+          0.7079999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.008,
+          0.8679999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.048,
+          0.8279999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.128,
+          0.7479999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.168,
+          0.7079999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.008,
+          0.8679999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.048,
+          0.8279999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.088,
+          0.7879999999999995,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.128,
+          0.7479999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.168,
+          0.7079999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.12300800000000055,
+          0.8689919999999994,
+          0.0009920000000000044,
+          0.007007999999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.11804800000000053,
+          0.8339519999999995,
+          0.005952000000000027,
+          0.042047999999999974
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.11308800000000051,
+          0.7989119999999995,
+          0.010912000000000048,
+          0.07708799999999995
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.10812800000000049,
+          0.7638719999999996,
+          0.01587200000000007,
+          0.11212799999999994
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.10316800000000045,
+          0.7288319999999995,
+          0.020832000000000093,
+          0.1471679999999999
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.12300800000000055,
+          0.8689919999999994,
+          0.0009920000000000044,
+          0.007007999999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.11804800000000053,
+          0.8339519999999995,
+          0.005952000000000027,
+          0.042047999999999974
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.11308800000000051,
+          0.7989119999999995,
+          0.010912000000000048,
+          0.07708799999999995
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.10812800000000049,
+          0.7638719999999996,
+          0.01587200000000007,
+          0.11212799999999994
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.10316800000000045,
+          0.7288319999999995,
+          0.020832000000000093,
+          0.1471679999999999
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.12300800000000055,
+          0.8689919999999994,
+          0.0009920000000000044,
+          0.007007999999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.11804800000000053,
+          0.8339519999999995,
+          0.005952000000000027,
+          0.042047999999999974
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.11308800000000051,
+          0.7989119999999995,
+          0.010912000000000048,
+          0.07708799999999995
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.10812800000000049,
+          0.7638719999999996,
+          0.01587200000000007,
+          0.11212799999999994
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "nearest",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.10316800000000045,
+          0.7288319999999995,
+          0.020832000000000093,
+          0.1471679999999999
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5750,
+          4.0
+        ],
+        [
+          5750,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.504,
+          0.37199999999999944,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.524,
+          0.3519999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.544,
+          0.3319999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.5640000000000001,
+          0.3119999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.584,
+          0.2919999999999995,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.504,
+          0.37199999999999944,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.524,
+          0.3519999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.544,
+          0.3319999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.5640000000000001,
+          0.3119999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.584,
+          0.2919999999999995,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.504,
+          0.37199999999999944,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.524,
+          0.3519999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.544,
+          0.3319999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.5640000000000001,
+          0.3119999999999994,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          3,
+          1,
+          0
+        ],
+        "weights": [
+          0.584,
+          0.2919999999999995,
+          0.12400000000000055
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.061504000000000274,
+          0.4344959999999997,
+          0.06249600000000028,
+          0.44150399999999973
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.059024000000000264,
+          0.41697599999999974,
+          0.0649760000000003,
+          0.4590239999999997
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.05654400000000025,
+          0.3994559999999997,
+          0.06745600000000031,
+          0.47654399999999975
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.05406400000000025,
+          0.38193599999999983,
+          0.0699360000000003,
+          0.4940639999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.051584000000000234,
+          0.3644159999999998,
+          0.07241600000000031,
+          0.5115839999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.061504000000000274,
+          0.4344959999999997,
+          0.06249600000000028,
+          0.44150399999999973
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.059024000000000264,
+          0.41697599999999974,
+          0.0649760000000003,
+          0.4590239999999997
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.05654400000000025,
+          0.3994559999999997,
+          0.06745600000000031,
+          0.47654399999999975
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.05406400000000025,
+          0.38193599999999983,
+          0.0699360000000003,
+          0.4940639999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.051584000000000234,
+          0.3644159999999998,
+          0.07241600000000031,
+          0.5115839999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.061504000000000274,
+          0.4344959999999997,
+          0.06249600000000028,
+          0.44150399999999973
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.059024000000000264,
+          0.41697599999999974,
+          0.0649760000000003,
+          0.4590239999999997
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.05654400000000025,
+          0.3994559999999997,
+          0.06745600000000031,
+          0.47654399999999975
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.05406400000000025,
+          0.38193599999999983,
+          0.0699360000000003,
+          0.4940639999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_temperature",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.051584000000000234,
+          0.3644159999999998,
+          0.07241600000000031,
+          0.5115839999999996
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          4.5
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          4.5
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.06600000000000028,
+          0.4379999999999997,
+          0.496
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.0860000000000003,
+          0.4379999999999997,
+          0.476
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.10600000000000032,
+          0.4379999999999997,
+          0.45599999999999996
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.12600000000000033,
+          0.4379999999999997,
+          0.43599999999999994
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "linear",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "linear",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.14600000000000024,
+          0.4379999999999997,
+          0.41600000000000004
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.06600000000000028,
+          0.4379999999999997,
+          0.496
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.0860000000000003,
+          0.4379999999999997,
+          0.476
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.10600000000000032,
+          0.4379999999999997,
+          0.45599999999999996
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.12600000000000033,
+          0.4379999999999997,
+          0.43599999999999994
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.14600000000000024,
+          0.4379999999999997,
+          0.41600000000000004
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5752.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.06600000000000028,
+          0.4379999999999997,
+          0.496
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5762.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.0860000000000003,
+          0.4379999999999997,
+          0.476
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5772.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.10600000000000032,
+          0.4379999999999997,
+          0.45599999999999996
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5782.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.12600000000000033,
+          0.4379999999999997,
+          0.43599999999999994
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "simplex",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "SciPy LinearNDInterpolator, common native logtauRoss rows; density retained; no EOS re-solve",
+        "thermodynamic_scale": "log_positive_layers",
+        "target": [
+          5792.0,
+          4.438
+        ],
+        "simplex_source_indices": [
+          2,
+          3,
+          0
+        ],
+        "weights": [
+          0.14600000000000024,
+          0.4379999999999997,
+          0.41600000000000004
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.2787520000000001,
+          0.21724799999999986,
+          0.28324800000000017,
+          0.22075199999999986
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.26751200000000014,
+          0.20848799999999987,
+          0.29448800000000014,
+          0.22951199999999986
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.2562720000000001,
+          0.19972799999999985,
+          0.30572800000000017,
+          0.23827199999999987
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.24503200000000014,
+          0.19096799999999992,
+          0.31696800000000014,
+          0.2470319999999998
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "linear",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.23379200000000014,
+          0.1822079999999999,
+          0.32820800000000017,
+          0.2557919999999998
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.2787520000000001,
+          0.21724799999999986,
+          0.28324800000000017,
+          0.22075199999999986
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.26751200000000014,
+          0.20848799999999987,
+          0.29448800000000014,
+          0.22951199999999986
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.2562720000000001,
+          0.19972799999999985,
+          0.30572800000000017,
+          0.23827199999999987
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.24503200000000014,
+          0.19096799999999992,
+          0.31696800000000014,
+          0.2470319999999998
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.23379200000000014,
+          0.1822079999999999,
+          0.32820800000000017,
+          0.2557919999999998
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5752,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.2787520000000001,
+          0.21724799999999986,
+          0.28324800000000017,
+          0.22075199999999986
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5752,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5762,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.26751200000000014,
+          0.20848799999999987,
+          0.29448800000000014,
+          0.22951199999999986
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5762,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5772,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.2562720000000001,
+          0.19972799999999985,
+          0.30572800000000017,
+          0.23827199999999987
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5772,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5782,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.24503200000000014,
+          0.19096799999999992,
+          0.31696800000000014,
+          0.2470319999999998
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5782,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    },
+    {
+      "cell": "wider_both",
+      "method": "bilinear",
+      "thermodynamic_scale": "log_positive_layers",
+      "teff": 5792,
+      "logg": 4.438,
+      "receipt": {
+        "method": "bilinear diagnostic, common native tauRoss; no EOS re-solve",
+        "weights": [
+          0.23379200000000014,
+          0.1822079999999999,
+          0.32820800000000017,
+          0.2557919999999998
+        ],
+        "source_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "target": [
+          5792,
+          4.438
+        ]
+      },
+      "source_nodes": [
+        [
+          5500,
+          4.0
+        ],
+        [
+          5500,
+          5.0
+        ],
+        [
+          6000,
+          4.0
+        ],
+        [
+          6000,
+          5.0
+        ]
+      ]
+    }
+  ],
+  "profiles.csv": {
+    "name": "profiles.csv",
+    "bytes": 635145,
+    "sha256": "1ce1643b028f958c5234f3ff00b328fe6b7befbeb408d65ccd224fb83c0d2d15"
+  },
+  "column_checks.csv": {
+    "name": "column_checks.csv",
+    "bytes": 45447,
+    "sha256": "71fa55715f82b0259a8993bc1eb5f14c3716af057f707ccff358158741c94166"
+  },
+  "comparisons.csv": {
+    "name": "comparisons.csv",
+    "bytes": 60261,
+    "sha256": "ccc1781d133ee06c036fa01171c3af4ff740a048c8b9d94444629ee4db759a55"
+  }
+}

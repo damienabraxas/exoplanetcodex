@@ -1,0 +1,74 @@
+{
+  "disabled_identity": true,
+  "zero_population_identity": true,
+  "scattering_identity": true,
+  "outside_support_identity": true,
+  "repeat_identity": true,
+  "deepcopy_identity": true,
+  "additive_error_over_rounding_bound": {
+    "chi": 0.015061661486903844,
+    "eta": 0.012820823343072722
+  },
+  "kirchhoff_max_relative_difference": 1.3322676295501878e-15,
+  "mutation_refusals": [
+    "height",
+    "temperature",
+    "ne",
+    "nHTot",
+    "vturb",
+    "vlos",
+    "wavelength",
+    "runtime_abundance",
+    "abundance_binding"
+  ],
+  "base_lookup_inventory": [
+    "CH",
+    "H",
+    "H-",
+    "H2",
+    "OH"
+  ],
+  "shape": [
+    692,
+    3
+  ],
+  "support_rows": 41,
+  "schema": "codex.bride_cn_provider_arrays/1",
+  "scientific_admission": "HOLD",
+  "scope": "Actual LW background-array integration on disposable H-only three-depth synthetic state, not native CN populations or a solar column. Require disabled/zero parity, additive extinction/emissivity, unchanged scattering/outside support, LTE Kirchhoff, deepcopy/repeat identity, runtime base lookup inventory, and fail-before-write on state/abundance/mapping changes. No Context formal solution, RT/SE, abundance or model/chemistry admission.",
+  "generator": {
+    "name": "check_bride_cn_provider.py",
+    "bytes": 9424,
+    "sha256": "4e7243a8b072de7f6d2da35378593d31826b6e5d911f3cf09718e7d0e1c4762f"
+  },
+  "provider": {
+    "name": "bride_cn_provider.py",
+    "bytes": 5966,
+    "sha256": "ab37bc1cffeaf6d21c641512b3a529c5be47f3a39988ebe65935954f9580b524"
+  },
+  "kernel": {
+    "name": "bride_cn_diagnostic.py",
+    "bytes": 3974,
+    "sha256": "8f4a6487a8ae8c9269599fd24db8254a14b05c1ab9805a92a737578f6e22f985"
+  },
+  "plan": {
+    "name": "rya1281_cn_provider_arrays.json",
+    "bytes": 925,
+    "sha256": "3fa8a2ddd77b33926a08732fd71c7fe1bd7fd826a15dd8e9f43564c5fa66db00"
+  },
+  "backend_version": "0.16.1",
+  "backend_binary": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "python": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 17.0.0 (clang-1700.6.4.2)]",
+  "numpy_version": "2.5.2",
+  "seconds_including_array_checks": 1.8096741661429405,
+  "process_peak_rss_bytes": 210518016,
+  "limitations": [
+    "H-only disposable synthetic state and synthetic CN populations, not native56depth/solar chemistry or a new oxygen result.",
+    "Runtime lookup inventory plus separately inspected LW source supports this baseline path; no independent source-to-binary rebuild attestation.",
+    "No formal solution, RT/SE, abundance, production/default model or primary provenance admission."
+  ]
+}

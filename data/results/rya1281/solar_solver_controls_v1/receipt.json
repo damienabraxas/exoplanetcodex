@@ -1,0 +1,258 @@
+{
+  "scientific_admission": "HOLD",
+  "note": "All failed runs remain incomplete; failure seeds are initialization only. Original full rates remain external and receipted; no solver or science admission.",
+  "files": [
+    {
+      "path": "rya1281-solar-matched-v2/baseline/flux.csv",
+      "bytes": 400167,
+      "sha256": "9ab2bdcb67d3e28912c17b19510841aebf3b25de29ff07aa0dac43396731a3e6",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/baseline/history.jsonl",
+      "bytes": 1436,
+      "sha256": "4e0a992e6247fb1389d4e96cca48added0604d9018007e44e59b823f1b8ed6de",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/baseline/independent_rates.npz",
+      "bytes": 887594,
+      "sha256": "122964a1ac663621acaff22b6a15249cd068b2ee6b39758c472b7d1134ef5f98",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/baseline/input.json",
+      "bytes": 15551,
+      "sha256": "e026e5920588d04205f2485a5d3b0c4c27d043ddf23804391ff2601003b17372",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/baseline/populations.npz",
+      "bytes": 54275,
+      "sha256": "801f32bf07c7ad2068eea7edf11466edea9551121ac07ffa39d6e4dc7489c65c",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/baseline/rates.npz",
+      "bytes": 4239857,
+      "sha256": "10dfc3b15e982090c559c3a593018cbcc15dd144bb7828f9ad89bbb354304e5a",
+      "archived": false
+    },
+    {
+      "path": "rya1281-solar-matched-v2/baseline/report.json",
+      "bytes": 21630,
+      "sha256": "6f460c4630e86ef63056f5081867874eabe66c9b832f87341ce6be158f57d872",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/gravity/history.jsonl",
+      "bytes": 226284,
+      "sha256": "f8202011e9f502f915e43e53d7d43c57ed018db36876adbd8befd481608f32df",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/gravity/input.json",
+      "bytes": 16770,
+      "sha256": "6e5255bdd3a9741d1a6e403165d599d46e0ba06aee5b2797d6a9a57673e5fd72",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/solar/history.jsonl",
+      "bytes": 176981,
+      "sha256": "e86ef8c6a6d808bd8caf941113fc6dc6994b8484b452b33c5e85e105c6e2fb9e",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/solar/input.json",
+      "bytes": 16827,
+      "sha256": "3d6328d6aefc8c9a8b3a921bc0fc62a79030df825a28a4d87881f96d3aa3750e",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/temperature/history.jsonl",
+      "bytes": 177904,
+      "sha256": "9b0715f06c4b2aa25c6eb2495b0695db19dbbdf0365f537e0d7372c107577116",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-v2/temperature/input.json",
+      "bytes": 16835,
+      "sha256": "3ad0ac7e0c65ba66b150cf77f0597d5a5876ff116da9d5b52c0201c8a14fe50d",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/baseline/input.json",
+      "bytes": 15551,
+      "sha256": "e026e5920588d04205f2485a5d3b0c4c27d043ddf23804391ff2601003b17372",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/baseline/report.json",
+      "bytes": 16932,
+      "sha256": "ea5f9130513f532bbe0269e717c2caff29ca30c78ff2e5f50588bfa70b353534",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/gravity/input.json",
+      "bytes": 16770,
+      "sha256": "6e5255bdd3a9741d1a6e403165d599d46e0ba06aee5b2797d6a9a57673e5fd72",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/gravity/report.json",
+      "bytes": 18150,
+      "sha256": "d2ee9535ac8ed8cc911882591e764386a9849274b47629544e032738fda8256b",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/solar/input.json",
+      "bytes": 16827,
+      "sha256": "3d6328d6aefc8c9a8b3a921bc0fc62a79030df825a28a4d87881f96d3aa3750e",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/solar/report.json",
+      "bytes": 18207,
+      "sha256": "c9607c8431947bcbf072b3e2ab770310599575d0949fc17b7dad8193f68462ea",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/temperature/input.json",
+      "bytes": 16835,
+      "sha256": "3ad0ac7e0c65ba66b150cf77f0597d5a5876ff116da9d5b52c0201c8a14fe50d",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-matched-dry-v2/temperature/report.json",
+      "bytes": 18215,
+      "sha256": "416e5b9ce24e64fff56e42e3b587712ce25b453e02f94eec45e70c187869a87c",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/baseline/failure.json",
+      "bytes": 17599,
+      "sha256": "9d045dbbfe0303fa3802f51d5d63781918daf1d9e4f733f8c960140acc4b6046",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/baseline/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "8d8703c3f0b0b854cc6e7ccb7e4cdc488416b33e513eac3c0e35e2a7d862fde7",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/baseline/history.jsonl",
+      "bytes": 168816,
+      "sha256": "9c52e5a943710a937d670b30e625b130277b0651a377d4cf50bf1c62ad878283",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/baseline/input.json",
+      "bytes": 15918,
+      "sha256": "dbd0e441eea026bda60d751c2bdc27262ccee72943db55a87e3d71c0888ab37d",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/gravity/failure.json",
+      "bytes": 18817,
+      "sha256": "ab4be8c01e734d182f1beddfbfc0c46e8b85ab04abbe5fb6e88243966073f670",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/gravity/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "b3107be0fd8c04e1cdac186f181eab6c42ae679f822a40463d6486d75e4dc2ad",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/gravity/history.jsonl",
+      "bytes": 171315,
+      "sha256": "6d15b1e242a97b87701486b9de9ed76563ca656f90f0a2ea865e01a7020421b7",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/gravity/input.json",
+      "bytes": 17137,
+      "sha256": "6ae266b3dd67f4242863f381634fea508d0f532a266db1815d8d790ade9df7db",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/solar/failure.json",
+      "bytes": 18875,
+      "sha256": "682742066867d8c79e78af3d651873118416d2f8d1b6d292c4c2e4e051e422f5",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/solar/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "008062cd27397dfd777914ec4b73415b7581ed96de16d5153ed78e414ae93c8b",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/solar/history.jsonl",
+      "bytes": 154608,
+      "sha256": "ab2a23b2d29579ce781b68a73e1a93302d23750be7f624669470686e808de256",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/solar/input.json",
+      "bytes": 17194,
+      "sha256": "d7907b0b277f3df0118db56a330866ed8d32e20c9cb13847aeaa003177abc314",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/temperature/failure.json",
+      "bytes": 18883,
+      "sha256": "88a4eed715a4d4114ddb4d3f735e6ceed006bc02176c75b41a4b3ae23ca602a8",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/temperature/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "7d1fcac964ff1b232fcfc1aafe685a5e0900fc5a6fdcbbb7418622fad4814077",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/temperature/history.jsonl",
+      "bytes": 164697,
+      "sha256": "ccc849aa8a043323a333febbae9e67952f807b680cc7cb00fb186d76d9259b7c",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-mali-v1/temperature/input.json",
+      "bytes": 17202,
+      "sha256": "10e2dd1ec451b293b985d689b6cc50286ec900836e134963a04a6d15bbf5abb4",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v1/failure.json",
+      "bytes": 17616,
+      "sha256": "226e1df33834a61e1f8cee771c945472a7d818fa6397922a58e461261d4af9e2",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v1/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "3c3ca92c4f446f4c100a1aa62608b00ffb81b8aaf8c57424e4de64777fb856a2",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v1/input.json",
+      "bytes": 15918,
+      "sha256": "dbd0e441eea026bda60d751c2bdc27262ccee72943db55a87e3d71c0888ab37d",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v1/operator_audit.json",
+      "bytes": 658,
+      "sha256": "07a1de28bb84065829b90dfe9ac58389db44d0fb9447d03f4fbef9a902f52871",
+      "archived": true
+    },
+    {
+      "path": "rya1281-mali-operator-audit-v1/operator_audit.npz",
+      "bytes": 3995929,
+      "sha256": "b5595cea96cc00ac41eac53f2e9afc5d9aceed0ba8fdbee343169f97bc095395",
+      "archived": true
+    }
+  ]
+}

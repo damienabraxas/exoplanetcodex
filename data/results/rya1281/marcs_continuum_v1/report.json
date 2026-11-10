@@ -1,0 +1,456 @@
+{
+  "schema": "codex.bride_marcs_continuum_audit/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_marcs_continuum.py",
+    "bytes": 10066,
+    "sha256": "68a74c012f793bce22f4c09abffc1e7f78b9000f160ebe4ba2e63727646a900a"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 10001,
+    "sha256": "e2c6eff0f983cdc4c09cc3bfe4bd96ee7794797e7de0cd464b88463614a2d053"
+  },
+  "parser": {
+    "name": "bride_marcs_opacity.py",
+    "bytes": 2387,
+    "sha256": "576357e17a077d82c64cecb348a83c376510266c64ed56f9ef0eca1e9bd5162b"
+  },
+  "intake": {
+    "name": "manifest.json",
+    "bytes": 2700,
+    "sha256": "02c103731715ffe23479a692a570e3632a7897cac3ab4b7e6e2c2b7b295b650b"
+  },
+  "source": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.opa.gz",
+    "bytes": 391918,
+    "sha256": "a2a2a7fdb77cec7a143e9c792ec4b25db5a055b4757d39dd06a5526f8bce4b1a"
+  },
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "passive_atom_factories": {
+    "name": "rh_atoms.py",
+    "bytes": 4432071,
+    "sha256": "99982a90746acaf293bcdb48ddab6e46c5fe30407e177735c0f255829379731f"
+  },
+  "backend_library": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "lightweaver_version": "0.16.1",
+  "threads": 1,
+  "SE_updates": false,
+  "wavelength_medium": "UNVERIFIED; two conditional hypotheses, neither adopted",
+  "wavelength_source_range_A": [
+    1018.31,
+    24841.76
+  ],
+  "ndepth": 56,
+  "nwave": 822,
+  "cases": [
+    {
+      "name": "source_is_vacuum_matched_MARCS",
+      "oxygen_abundance_dex": 8.66,
+      "array": {
+        "name": "source_is_vacuum_matched_MARCS.npz",
+        "bytes": 4861755,
+        "sha256": "2857b5fd2b9206069be765df8576487d5da091628a90f734d336b7ceba0ca9a9"
+      },
+      "elapsed_seconds": 0.6391890407539904,
+      "absorption_ratio_range": [
+        0.044248389907265206,
+        2.4250799301937853
+      ],
+      "scattering_ratio_range": [
+        0.999502028945227,
+        136736.29354372885
+      ]
+    },
+    {
+      "name": "source_is_vacuum_benchmark_O870",
+      "oxygen_abundance_dex": 8.7,
+      "array": {
+        "name": "source_is_vacuum_benchmark_O870.npz",
+        "bytes": 4861776,
+        "sha256": "8494c759c3541adfb7333a789ea7be8543d3a6fda68bcc61ab57a93827af8f76"
+      },
+      "elapsed_seconds": 0.25575154228135943,
+      "absorption_ratio_range": [
+        0.044248389907265206,
+        2.425089182764545
+      ],
+      "scattering_ratio_range": [
+        0.999502028945227,
+        136736.29354372885
+      ]
+    },
+    {
+      "name": "source_is_air_matched_MARCS",
+      "oxygen_abundance_dex": 8.66,
+      "array": {
+        "name": "source_is_air_matched_MARCS.npz",
+        "bytes": 4863750,
+        "sha256": "6f90a3a50801a958d2aaa9cb2505c68f336c9d05322b3f6ad89b2bfdb7c8b9f5"
+      },
+      "elapsed_seconds": 0.2596386247314513,
+      "absorption_ratio_range": [
+        0.044248389907265206,
+        2.4250799301937853
+      ],
+      "scattering_ratio_range": [
+        0.9995019145882693,
+        136736.29354372885
+      ]
+    },
+    {
+      "name": "source_is_air_benchmark_O870",
+      "oxygen_abundance_dex": 8.7,
+      "array": {
+        "name": "source_is_air_benchmark_O870.npz",
+        "bytes": 4863773,
+        "sha256": "a538926da92a4447c319cd48a890a1953443a15efc73ec3f8d2d2ea869c37955"
+      },
+      "elapsed_seconds": 0.24305562488734722,
+      "absorption_ratio_range": [
+        0.044248389907265206,
+        2.425089182764545
+      ],
+      "scattering_ratio_range": [
+        0.9995019145882693,
+        136736.29354372885
+      ]
+    }
+  ],
+  "limitations": "Independent MARCS LTE continuum, not producer ABSDAT. O bound-free explicitly included. Distinct EOS/partition functions/passive atom data remain. No fitting, abundance adoption, opacity substitution or observed-spectrum change.",
+  "passive_inventory": [
+    {
+      "element": "H(Z=1)",
+      "nlevels": 6,
+      "ncontinua": 5,
+      "nlines": 10,
+      "continuum_edges_vac_nm": [
+        91.17630628316805,
+        364.70520185594086,
+        820.5870184118384,
+        1458.8209138316786,
+        2279.405412539331
+      ]
+    },
+    {
+      "element": "He(Z=2)",
+      "nlevels": 9,
+      "ncontinua": 8,
+      "nlines": 7,
+      "continuum_edges_vac_nm": [
+        50.39799930022377,
+        259.279993976407,
+        311.07041757035205,
+        340.86048730233324,
+        366.4413052639291,
+        22.783773430282938,
+        91.13350717049829,
+        91.1363626276498
+      ]
+    },
+    {
+      "element": "C(Z=6)",
+      "nlevels": 15,
+      "ncontinua": 14,
+      "nlines": 16,
+      "continuum_edges_vac_nm": [
+        110.09198713967058,
+        123.96170451062551,
+        144.47799608788262,
+        175.04689068584247,
+        327.9800107990697,
+        346.2494416294942,
+        373.49429044880594,
+        454.41315835094355,
+        473.02152479718376,
+        497.04724115916974,
+        513.1410549328274,
+        547.8863639850184,
+        592.1778400064571,
+        640.7038516232391
+      ]
+    },
+    {
+      "element": "N(Z=7)",
+      "nlevels": 16,
+      "ncontinua": 6,
+      "nlines": 4,
+      "continuum_edges_vac_nm": [
+        85.21919651370312,
+        101.91785970863927,
+        112.98865488825471,
+        294.0535260928691,
+        321.0085317647573,
+        342.35217926162653
+      ]
+    },
+    {
+      "element": "Na(Z=11)",
+      "nlevels": 16,
+      "ncontinua": 8,
+      "nlines": 12,
+      "continuum_edges_vac_nm": [
+        241.25688661751428,
+        408.4635443631643,
+        636.5499603238411,
+        814.5464971649711,
+        894.537995725003,
+        1212.2899040981702,
+        1449.0989502727207,
+        1457.512632261984
+      ]
+    },
+    {
+      "element": "Mg(Z=12)",
+      "nlevels": 66,
+      "ncontinua": 65,
+      "nlines": 315,
+      "continuum_edges_vac_nm": [
+        162.15052063127015,
+        251.38108769580074,
+        375.6598277043715,
+        488.4316907766319,
+        550.4255284718064,
+        654.9634307718065,
+        723.4164179500741,
+        729.1791462639306,
+        811.4008966304475,
+        1020.5578103646433,
+        1097.1063053222724,
+        1171.44618663223,
+        1337.1105815856083,
+        1347.7655664227407,
+        1429.7051847829619,
+        1435.8410920203282,
+        1730.315455541017,
+        1823.4123594171863,
+        1864.728492734367,
+        2126.365658344072,
+        2149.2827306207273,
+        2238.7170897394217,
+        2244.1117872869263,
+        2268.5016727931365,
+        2620.62816981356,
+        2730.983886102684,
+        2741.3392867912403,
+        3097.661203837876,
+        3131.1684017514517,
+        3230.4061331198704,
+        3235.3413155674343,
+        3267.648159252104,
+        3276.4347671667233,
+        3692.2822439623806,
+        3802.174387488712,
+        3820.331344978216,
+        4251.120489082926,
+        4294.459031290294,
+        4404.634380109388,
+        4409.330496076142,
+        4449.178370230371,
+        4459.875614069124,
+        4463.126098486923,
+        4945.7231611677635,
+        5047.695676446763,
+        5091.688582142939,
+        5586.873083004198,
+        5639.423177239735,
+        5761.287947443252,
+        5765.46658479707,
+        5813.054492735443,
+        5825.567366569751,
+        5829.442180677723,
+        5830.862991046137,
+        6381.238138873612,
+        6477.288037226294,
+        6545.085164648176,
+        7104.735163892049,
+        7300.266532731169,
+        7305.706560451427,
+        7359.19649349007,
+        7373.549162032984,
+        7377.988361961209,
+        7379.648994375264,
+        7380.3297974173865
+      ]
+    },
+    {
+      "element": "Al(Z=13)",
+      "nlevels": 18,
+      "ncontinua": 17,
+      "nlines": 19,
+      "continuum_edges_vac_nm": [
+        207.44990359699256,
+        436.08336954642306,
+        521.319191959423,
+        631.2018341715376,
+        652.7974197268069,
+        944.3075723079917,
+        1069.8623311850858,
+        1249.507537841648,
+        1436.7161725536353,
+        65.85004749665151,
+        87.45572051278647,
+        108.6832847249154,
+        150.6451256991968,
+        165.04641971816184,
+        173.45123183590516,
+        176.95376465329804,
+        177.57997420686397
+      ]
+    },
+    {
+      "element": "Si(Z=14)",
+      "nlevels": 24,
+      "ncontinua": 23,
+      "nlines": 29,
+      "continuum_edges_vac_nm": [
+        152.01148513655258,
+        167.685433931,
+        197.86272640195142,
+        306.6710647386298,
+        383.51871285597304,
+        400.92194406569564,
+        484.7092176085552,
+        538.1323546212572,
+        536.191361978606,
+        562.6571642123936,
+        626.5296329407228,
+        604.7904727598742,
+        595.0207709850735,
+        649.296639675622,
+        635.1274646835786,
+        75.97259720080334,
+        114.20930499754795,
+        130.71169248767228,
+        150.77792968151604,
+        181.3110252115883,
+        190.57476663548113,
+        197.66080690003847,
+        208.55145643265197
+      ]
+    },
+    {
+      "element": "S(Z=16)",
+      "nlevels": 18,
+      "ncontinua": 7,
+      "nlines": 3,
+      "continuum_edges_vac_nm": [
+        119.95692394843779,
+        134.55282686608757,
+        162.92533879550308,
+        323.25395186037497,
+        354.2570036786756,
+        497.61678879426705,
+        535.6826230449593
+      ]
+    },
+    {
+      "element": "Ca(Z=20)",
+      "nlevels": 6,
+      "ncontinua": 5,
+      "nlines": 5,
+      "continuum_edges_vac_nm": [
+        104.39996797008983,
+        121.75036111157107,
+        121.8403893336537,
+        141.65517843169584,
+        142.10385034645628
+      ]
+    },
+    {
+      "element": "Fe(Z=26)",
+      "nlevels": 32,
+      "ncontinua": 15,
+      "nlines": 12,
+      "continuum_edges_vac_nm": [
+        157.52996046565102,
+        176.82873090585682,
+        194.15947711920847,
+        217.72140786674473,
+        221.71833527931827,
+        226.60535390499035,
+        226.80720548347247,
+        233.42998424020806,
+        248.67118820514753,
+        251.9083823320328,
+        266.0943863397786,
+        273.185864871617,
+        290.49164490835835,
+        335.7344952522274,
+        349.547037723431
+      ]
+    }
+  ],
+  "selected_coefficients": {
+    "name": "selected_coefficients.csv",
+    "bytes": 19489,
+    "sha256": "41026ee573cd7140ac2c1858e8af94976c7628c092bd6451513c39ff21ca4140"
+  },
+  "selected_budgets": {
+    "name": "selected_budgets.csv",
+    "bytes": 189042,
+    "sha256": "c72c6a85c9df0182565f8a83c2e00280f6fd6664965ee1229f8b38c83b9c7f95"
+  },
+  "budget_reconstruction": {
+    "name": "bride_continuum_budget.py",
+    "bytes": 1754,
+    "sha256": "d20b7c3ce3b80733da6a439fec4b10709e1455a3b61732484aa406e880504cc7"
+  },
+  "inspected_backend_sources": [
+    {
+      "name": "FastBackground.cpp",
+      "bytes": 6470,
+      "sha256": "0a9ca1862f6d1d0b4609772d3c6fd6f78da84277e297dfae4c426d17592a6b8d"
+    },
+    {
+      "name": "Background.cpp",
+      "bytes": 73266,
+      "sha256": "d4d0f92e28ebf0dc5f82f4ffa7e6798acee9363023e2727689ca6e875031f048"
+    },
+    {
+      "name": "LwMiddleLayer.pyx",
+      "bytes": 149674,
+      "sha256": "13428eab7aa0e0e2374015895cef73f60482aa30200cf87c09fae3942c5ab57a"
+    }
+  ],
+  "inspected_independent_TS_sources": [
+    {
+      "name": "babsma.f",
+      "bytes": 42949,
+      "sha256": "dc7014789733f42f116aad13ecb65fcf96715074f31dfd201e0b331a38c0a8aa"
+    },
+    {
+      "name": "detabs.f",
+      "bytes": 19687,
+      "sha256": "eed281d970617d3dc103ee88329126bfa9b6c8f8b2e13bfcbc336e73570e18a9"
+    },
+    {
+      "name": "hbop.f",
+      "bytes": 60145,
+      "sha256": "f75f658252f3b9a8ee7c02c367237622ffef6abb9bbb5b20ff7db282a5d22e19"
+    },
+    {
+      "name": "inabs.f",
+      "bytes": 19372,
+      "sha256": "fe7b1715581aa5a636cc716cf90467662dcae75af4fa05f51215669213810971"
+    },
+    {
+      "name": "readmo.f",
+      "bytes": 3742,
+      "sha256": "5bf5f590d8fbf2730f9d0bae18eaa4e922b0698e6c18fe3d1435149fab978090"
+    }
+  ]
+}

@@ -1,0 +1,540 @@
+{
+  "schema": "codex.bride_ts_point_run/1",
+  "scientific_admission": "HOLD",
+  "status": "DIAGNOSTIC_COMPLETE",
+  "generator": {
+    "name": "run_bride_ts_points.py",
+    "bytes": 9970,
+    "sha256": "e6cf4db7ef877ccf96f7469865036e542ef3223ff37069e72930b5b1ccb53868"
+  },
+  "adapter": {
+    "name": "bride_ts_points.py",
+    "bytes": 2454,
+    "sha256": "e418753f2d9afe36ccfd32de8717aba70d2374d328424f5c05bb450cfafae0c0"
+  },
+  "interpolator": {
+    "name": "bride_parameter_checks.py",
+    "bytes": 6354,
+    "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+  },
+  "plan": {
+    "name": "rya1281_mac_fine_temperature.json",
+    "bytes": 1577,
+    "sha256": "59e9e6e9f89dd0a0e62515c27e6a0b3e09016acdeba11957b666cffb483ad964"
+  },
+  "stars_config": {
+    "name": "stars.yaml",
+    "bytes": 7842,
+    "sha256": "3156c6501a1e5405c4302d044302c10020627e9849648c67e3528e2599d1d7ee"
+  },
+  "source_models": [
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    },
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    },
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    },
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    },
+    {
+      "name": "p5750_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "00ee7adfe5312572eaddb422fd7b1c6e5ab4e45d6a14f98000174090d919a48c"
+    },
+    {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    {
+      "name": "p6000_g+4.0_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "86fab8421da7ede99a177f351d0e72440db56b19fa86812463d127cfe1d67fe5"
+    },
+    {
+      "name": "p6000_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "c8dc74df99e70bc637893973baeb88d16759049f47c0c329d24de1a62bfc326a"
+    }
+  ],
+  "build": {
+    "name": "manifest.json",
+    "bytes": 4034,
+    "sha256": "d20d1ef4363a0d54f2c66bdd96e1cc35dc24d28e4eee6d4b247470b1364e9c83"
+  },
+  "reference": {
+    "name": "report.json",
+    "bytes": 10024,
+    "sha256": "ca6f777e72e0db52192b4963481b705f1b4d6a403324b3cb920ec0fa3c1722f3"
+  },
+  "interpretation": "Pointwise native TS opacity/EOS only. Native geometry/tau are driver placeholders, not changed-input equilibrium fields. No RT/SE, spectrum, O abundance or production packet. Full56 rows, unlike prior55-row solves. Native REAL quantization retained. Changed-input raw per-mass opacity uses TS EOS density; per-neutral coefficient avoids silently applying that density to local atmosphere.",
+  "cases": [
+    {
+      "name": "native_identity",
+      "atmosphere_identity": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00",
+      "runs": [
+        {
+          "kind": "baseline",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "179ed79e2dca3a72b6e44210d5dad6a8a28c8ee694af82ddd8063998636d6380"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "7f9ffc91e859741d1cab8515a959640932bccd296c397bb6b82a5344fe1ba1da"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 1591401,
+            "sha256": "0cc4f87f2138afa0a5f42b651ead56eec330c06fb77547998218766b1bf6b33d"
+          }
+        },
+        {
+          "kind": "reporting",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "179ed79e2dca3a72b6e44210d5dad6a8a28c8ee694af82ddd8063998636d6380"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "7f9ffc91e859741d1cab8515a959640932bccd296c397bb6b82a5344fe1ba1da"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 124467165,
+            "sha256": "fe10c361b3208fc51fa6715fc658e3393d2c6b8ddee9c88934f8fa3d6dc0886a"
+          }
+        }
+      ],
+      "array": {
+        "name": "native_identity_coefficients.npz",
+        "bytes": 2639488,
+        "sha256": "c0f57f61ea9d31251e4f6e625fbfe1ffc9e8fec3d720a95df14a3d422a59722b"
+      },
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": true,
+      "max_abs_T_quantization_K": 0.0004000000008090865,
+      "max_fractional_Pe_quantization": 8.06256552632334e-08,
+      "max_fractional_producer_local_rho_difference": 0.0006660030309334486,
+      "elapsed_seconds": 7.308655832894146
+    },
+    {
+      "name": "fine_T5752",
+      "atmosphere_identity": "EXPERIMENTAL_INTERPOLATED_MARCS_T5752.0_g4.438",
+      "runs": [
+        {
+          "kind": "baseline",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "efe5bd36320da6afeb5ec342ae60132d55c2a81287e60b393566d506aadf32ec"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "466c8adfa3a40ecb942cfdd17e816fdaf9b01c3a23341b6ceecff942a1f079b1"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 1591401,
+            "sha256": "ef4d9aa7d07d34122a08383c72130bf38c006a0b6d1f064c27d344a552be19fc"
+          }
+        },
+        {
+          "kind": "reporting",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "efe5bd36320da6afeb5ec342ae60132d55c2a81287e60b393566d506aadf32ec"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "466c8adfa3a40ecb942cfdd17e816fdaf9b01c3a23341b6ceecff942a1f079b1"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 124467165,
+            "sha256": "d855c2ddcc7e90b11df62dfc0940702a1456a09ae25d41f52eaeffddaed37d78"
+          }
+        }
+      ],
+      "array": {
+        "name": "fine_T5752_coefficients.npz",
+        "bytes": 2639622,
+        "sha256": "5962b6a08a5e4e72d00eac6f886e209008c63dae1b55304d88925b0656a8e467"
+      },
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.00030000000151630957,
+      "max_fractional_Pe_quantization": 5.753633081084786e-08,
+      "max_fractional_producer_local_rho_difference": 0.001882184014941335,
+      "elapsed_seconds": 4.670860250014812
+    },
+    {
+      "name": "fine_T5762",
+      "atmosphere_identity": "EXPERIMENTAL_INTERPOLATED_MARCS_T5762.0_g4.438",
+      "runs": [
+        {
+          "kind": "baseline",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "2d8df895ba45c5a0e19e9d486e7f85374f61e7e8fcfb77d37cc0faf767c902f2"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "2f7667929435aee54e152332205a3ed7758042f48b68ccb5ddc41dc1e82c7c3a"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 1591401,
+            "sha256": "c51891afa5805b20b9c3f00249dd217d933b26303f7675191898e07d0500af01"
+          }
+        },
+        {
+          "kind": "reporting",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "2d8df895ba45c5a0e19e9d486e7f85374f61e7e8fcfb77d37cc0faf767c902f2"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "2f7667929435aee54e152332205a3ed7758042f48b68ccb5ddc41dc1e82c7c3a"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 124467165,
+            "sha256": "f0dc50e9c7089b32f62d30d6b9f36d999749c267dd8f8c238eaa4c929a4f2962"
+          }
+        }
+      ],
+      "array": {
+        "name": "fine_T5762_coefficients.npz",
+        "bytes": 2639677,
+        "sha256": "78aef382ea7703b2e93746d9228f4d1efbc52abd6992566dc381b831335d0b0d"
+      },
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0004000000008090865,
+      "max_fractional_Pe_quantization": 7.072259911033996e-08,
+      "max_fractional_producer_local_rho_difference": 0.003897865904924691,
+      "elapsed_seconds": 5.073417000006884
+    },
+    {
+      "name": "fine_T5772",
+      "atmosphere_identity": "EXPERIMENTAL_INTERPOLATED_MARCS_T5772.0_g4.438",
+      "runs": [
+        {
+          "kind": "baseline",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "c70d8f9a2fca3d6a8c4690de497d7690b11b964aab0138cc4d0745ed36d61cf1"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "89f3c0abda895fa7859a33d53e4662430a7f38643648dcccf00921681a61e491"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 1591401,
+            "sha256": "770641a11e000dbae8a68c56c515f2a7df28179a37d66ce95c24859089fd2a47"
+          }
+        },
+        {
+          "kind": "reporting",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "c70d8f9a2fca3d6a8c4690de497d7690b11b964aab0138cc4d0745ed36d61cf1"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "89f3c0abda895fa7859a33d53e4662430a7f38643648dcccf00921681a61e491"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 124467165,
+            "sha256": "b3c18c47ee16bd26de8828040163a0a87c5cab64ab342fbe39c1eb0da3b6ec32"
+          }
+        }
+      ],
+      "array": {
+        "name": "fine_T5772_coefficients.npz",
+        "bytes": 2639847,
+        "sha256": "da767f8125299fda415669aba91ac9f112b77f6a36def10c142bf029e694bd05"
+      },
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0004000000026280759,
+      "max_fractional_Pe_quantization": 6.115614947788117e-08,
+      "max_fractional_producer_local_rho_difference": 0.0058124257432417,
+      "elapsed_seconds": 4.868677666876465
+    },
+    {
+      "name": "fine_T5782",
+      "atmosphere_identity": "EXPERIMENTAL_INTERPOLATED_MARCS_T5782.0_g4.438",
+      "runs": [
+        {
+          "kind": "baseline",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "a273831a9b33939b07e6f5e38b51dec78f35bc80f91b10c6910166736f7c4a62"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "8f4a8ff91f3e493a97d6df5550bd56767d137c4f6293fd9980556752cd87fef8"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 1591401,
+            "sha256": "249a3412dc7ee5c4f2282893fda68f3f0cb9f98b1111af23ec4afa2ad3fe757a"
+          }
+        },
+        {
+          "kind": "reporting",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "a273831a9b33939b07e6f5e38b51dec78f35bc80f91b10c6910166736f7c4a62"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "8f4a8ff91f3e493a97d6df5550bd56767d137c4f6293fd9980556752cd87fef8"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 124467165,
+            "sha256": "b1e7000219c208a8ad472346ea427e59bbff063cd8efa22dc5a103a75fee17df"
+          }
+        }
+      ],
+      "array": {
+        "name": "fine_T5782_coefficients.npz",
+        "bytes": 2640069,
+        "sha256": "2d3d105ed89f3c55e0ea384d8d85705371bc09bb8c9e982138ca66b9fdec0fda"
+      },
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0004000000008090865,
+      "max_fractional_Pe_quantization": 4.9755356501535175e-08,
+      "max_fractional_producer_local_rho_difference": 0.007517672144850662,
+      "elapsed_seconds": 4.820057000033557
+    },
+    {
+      "name": "fine_T5792",
+      "atmosphere_identity": "EXPERIMENTAL_INTERPOLATED_MARCS_T5792.0_g4.438",
+      "runs": [
+        {
+          "kind": "baseline",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "edaccdd835c4d944cffe12fa8c7f056a880233777d4e92953e2462011137c9bf"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "fdaf6a4a5194008978d5120ae6dcd25434f724af1bd7cc95f82ac57df4ba8e4a"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 1591401,
+            "sha256": "631a04a149f6bdbb483a738587e8f9b79f55e3aa927c8f8bb01877bf78e313b4"
+          }
+        },
+        {
+          "kind": "reporting",
+          "input": {
+            "name": "input.txt",
+            "bytes": 1263,
+            "sha256": "d79b5af694b48a247c988778d9d4562450d11e2b5059a5010080963b09a4427c"
+          },
+          "points": {
+            "name": "point_state.txt",
+            "bytes": 2691,
+            "sha256": "edaccdd835c4d944cffe12fa8c7f056a880233777d4e92953e2462011137c9bf"
+          },
+          "output": {
+            "name": "continuum.opa",
+            "bytes": 2056587,
+            "sha256": "fdaf6a4a5194008978d5120ae6dcd25434f724af1bd7cc95f82ac57df4ba8e4a"
+          },
+          "detail": {
+            "name": "detail.txt",
+            "bytes": 124467165,
+            "sha256": "67188203ad02e89900a95573a47165adadc2508ff8bd9d5b3cf7c6b1b7c2b11a"
+          }
+        }
+      ],
+      "array": {
+        "name": "fine_T5792_coefficients.npz",
+        "bytes": 2639854,
+        "sha256": "cd5b6960ed285e9348e9166c59352b53bc8497398ab5e58dea8c6e4793a22d67"
+      },
+      "ndep": 56,
+      "nwave": 1601,
+      "baseline_reporting_byte_identity": true,
+      "native_reference_byte_identity": false,
+      "max_abs_T_quantization_K": 0.0005000000001018634,
+      "max_fractional_Pe_quantization": 7.321440476104613e-08,
+      "max_fractional_producer_local_rho_difference": 0.009011394326708722,
+      "elapsed_seconds": 4.823667082935572
+    }
+  ]
+}

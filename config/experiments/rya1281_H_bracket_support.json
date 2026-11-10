@@ -1,0 +1,56 @@
+{
+  "schema": "codex.bride_H_bracket_support_plan/1",
+  "source_archive": "data/results/rya1281/H_kitt_orch_v1",
+  "source_files": {
+    "summary.csv": {
+      "name": "summary.csv",
+      "bytes": 27075,
+      "sha256": "8d295ccf40bfbc1c4615f1d67dd7416da329155dc8a8afcfc34b3d7b9441c3fc"
+    },
+    "profiles_and_continua.npz": {
+      "name": "profiles_and_continua.npz",
+      "bytes": 2807662,
+      "sha256": "d7711a829c513af00b4d088277c7cb79cef55a3e7d610c20c2d458c82f52bddc"
+    },
+    "report.json": {
+      "name": "report.json",
+      "bytes": 46275,
+      "sha256": "efca8bd70a106852511e42f127f1a70f43eeb1be11661c2e61dba6449cc9237d"
+    },
+    "support.json": {
+      "name": "support.json",
+      "bytes": 498875,
+      "sha256": "371ca7aee5aa20cac527235f8de99f87dc85c1f64ca5be514d7d8fb300bab3c7"
+    }
+  },
+  "baseline": "coupled_model_mass_H",
+  "supports": [
+    "native_selected_synthesis",
+    "native_coeff_synthesis",
+    "native_coeff_iag",
+    "shared_top_decile_intersection",
+    "balanced_iag_per_side"
+  ],
+  "references": [
+    "synthesis",
+    "iag"
+  ],
+  "RVs": [
+    "no_gravity",
+    "plus_gravity"
+  ],
+  "centres_air_A": [
+    7771.944,
+    7774.166,
+    7775.388
+  ],
+  "half_width_A": 0.5,
+  "continuum_half_width_A": 5.0,
+  "selector_percentile": 90.0,
+  "minimum_each_side": 8,
+  "shared_masks_require_bracketing": true,
+  "clip": false,
+  "plot_rv": "plus_gravity",
+  "plot_support": "balanced_iag_per_side",
+  "scope": "Fixed-support synthesis/IAG denominator controls on archived six-spectrum Kitt Peak replay. Retain native initial/exact coefficient supports as extrapolation controls. Shared intersection and separately IAG-per-side upper-decile masks predeclared without using observed residuals; refuse deficient bracketing/support, no clipping or geometry relaxation. Native bound remains pinned0.15. No continuum/model/RV/abundance adoption, RT/EOS/provider change or significance claim."
+}

@@ -1,0 +1,1377 @@
+{
+  "schema": "codex.bride_H_kitt_orch_analysis/1",
+  "scientific_admission": "HOLD",
+  "scope": "Pinned RYA1315 ORCH local-continuum replay on corrected prenormalized Kitt Peak AIR holding and six bare-background O diagnostic spectra. Fixed existing broadening and both existing RV controls, no optimization. Record shipped observation, common baseline continuum and per-model estimator separately. No new RT, abundance, continuum/default/product adoption, full ORCH execution or missing Fe/CN opacity substitution.",
+  "generator": {
+    "name": "analyze_bride_H_kitt_orch.py",
+    "bytes": 15660,
+    "sha256": "a21fff05aa381334c241fdae8e7aa0965b7ecba0fc40f5b99bd41a6a62301587"
+  },
+  "plan": {
+    "name": "rya1281_H_kitt_orch.json",
+    "bytes": 2168,
+    "sha256": "7adf5f5b8a43f20b6882a0ef5f39e68896d0a0226b48ac272c8fcf51695fb8bc"
+  },
+  "orch_plan": {
+    "name": "rya1281_current_orch.json",
+    "bytes": 909,
+    "sha256": "353672be46feb8bc11f78edd89539616dccf33d2c0ef472ad598938b36edf805"
+  },
+  "orch_commit": "de96ae51fd8c52f79e5457fc0205e4baaa4596fd",
+  "current_native": {
+    "name": "local_continuum.py",
+    "bytes": 22974,
+    "sha256": "72ea567d378c7995c4372a9c277a0c8fe60ad20596b83dc8f5c5f30628eec6fc"
+  },
+  "comparison": {
+    "name": "report.json",
+    "bytes": 31834,
+    "sha256": "e30ee9d666e1102ddd0d441cb44aad4959f26c49bc0474cb9754b1da9f0c1511"
+  },
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "holding": "solar_kpno_kurucz2005_corrected",
+  "policy_reason": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+  "frame": "Delivered observed vacuum nm -> canonical AIR Angstrom once by established reader; model AIR sampled output is already AIR. No further observation wavelength/telluric correction.",
+  "iag": {
+    "name": "iag_telfree_solaratlas.fits",
+    "bytes": 11658240,
+    "sha256": "2ddd21b78582a7cb2efaf32ff41c98696c941cacf1a8de4cae5a4cd9d0794546"
+  },
+  "iag_reader": {
+    "name": "measure_band_ew.py",
+    "bytes": 100317,
+    "sha256": "8bc345a172cf88c428de3546836251079972ba32ea052d756f831d1ca915aac5"
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "RV_km_s": {
+    "no_gravity": 0.0,
+    "plus_gravity": 0.633
+  },
+  "sources": [
+    {
+      "label": "coupled_model_mass_H",
+      "kind": "coupled",
+      "case": "model_mass_H",
+      "path": "data/results/rya1281/H_nlte_pair_v2/model_mass_H",
+      "report": {
+        "name": "report.json",
+        "bytes": 17385,
+        "sha256": "c990e4d8347b10f2992f8564cd3c9d1425b8558316823fe3cb76912eec7b23d3"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "e7341fcebe74d957878f175fc3e3eaac6bce622ba45ae13d8a27e69198ea6e95"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "kind": "coupled",
+      "case": "native_network_H",
+      "path": "data/results/rya1281/H_nlte_pair_v2/native_network_H",
+      "report": {
+        "name": "report.json",
+        "bytes": 17389,
+        "sha256": "b2822fd5fcc8d5336b5792d2f9645fe59be2396f9e04373e8e49d6cdbe464dec"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "7ccbb75d3ee091ddfb3b9bb6dc6199f0eb8ef2b228c22b84932197c3ffdd1afc"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "kind": "fixed",
+      "case": "model_mass_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/model_anchor/model_mass_H",
+      "report": {
+        "name": "report.json",
+        "bytes": 11369,
+        "sha256": "a15fe7420885f100d1cb38e1fa7287748bcbe2957ed07244c7f048651d4a7250"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "8e059072ff914153f4cde91c6696dbfe402c03ecd1dd12c7183fa3c919bb2185"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "kind": "fixed",
+      "case": "native_network_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/model_anchor/native_network_H",
+      "report": {
+        "name": "report.json",
+        "bytes": 11378,
+        "sha256": "1e0f3c0df105701d8ef2bc8561fd21f4e2646fcc236669f2a6247b481a3734e0"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "60871152cd6a58086127add9e7c994cf5c5b3896a1d2892e5241c0419c2ac8a0"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "kind": "fixed",
+      "case": "model_mass_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/native_anchor/model_mass_H",
+      "report": {
+        "name": "report.json",
+        "bytes": 11373,
+        "sha256": "a35288a612ed1a48ef7349dfa62cf99e9a1e814b2fb0abec017edaafd74d3acf"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "605a190625e307ebfd0ab4e34176fb8372a39fe1af0c76d1a6873400aeed3be3"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "kind": "fixed",
+      "case": "native_network_H",
+      "path": "data/results/rya1281/H_fixed_transfer_v1/native_anchor/native_network_H",
+      "report": {
+        "name": "report.json",
+        "bytes": 11379,
+        "sha256": "dd34042657e8807f603c0ced78991d07d09df875b686d724af0f06e65cbd1be7"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 400167,
+        "sha256": "a0e81215afe2153fe6e905f161f75e765017280b637203f739bdb327d443032d"
+      }
+    }
+  ],
+  "continuum_records": [
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967703609648855,
+        "slope_per_A": 2.6663142684803506e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967705126480311,
+        "slope_per_A": 2.68765753612445e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967703609648855,
+        "slope_per_A": 2.6663142684803506e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967704514737908,
+        "slope_per_A": 2.6790424233562556e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967704225315895,
+        "slope_per_A": 2.674984671908342e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967705126480311,
+        "slope_per_A": 2.68765753612445e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344705377702967,
+        "slope_per_A": -0.00887781861896519,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.034470770900982,
+        "slope_per_A": -0.008877853882768426,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344705377702967,
+        "slope_per_A": -0.00887781861896515,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344706757457196,
+        "slope_per_A": -0.008877839494031255,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.034470633529038,
+        "slope_per_A": -0.008877833098887879,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.034470770900982,
+        "slope_per_A": -0.008877853882768426,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.131853407398317,
+        "slope_per_A": -0.03214148924835803,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.131853529568673,
+        "slope_per_A": -0.03214150654683808,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.131853407398317,
+        "slope_per_A": -0.03214148924835803,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318534796689126,
+        "slope_per_A": -0.03214149948384339,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318534576150878,
+        "slope_per_A": -0.032141496356197875,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318535295686736,
+        "slope_per_A": -0.03214150654683819,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "no_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967692619635046,
+        "slope_per_A": 2.4888969609440042e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967694123296342,
+        "slope_per_A": 2.5100276948025086e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967692619635043,
+        "slope_per_A": 2.4888969608738547e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967693516875678,
+        "slope_per_A": 2.501498494895371e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967693229946134,
+        "slope_per_A": 2.4974808985444797e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 0.9967694123296342,
+        "slope_per_A": 2.5100276948025086e-06,
+        "n_bins": 69,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7771.944,
+      "continuum": {
+        "level_at_centre": 1.0045515524639725,
+        "slope_per_A": 0.00022078342664825514,
+        "n_bins": 88,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344727086220402,
+        "slope_per_A": -0.008878189625753402,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344729443507719,
+        "slope_per_A": -0.00887822533363893,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344727086220402,
+        "slope_per_A": -0.008878189625753402,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344728481351924,
+        "slope_per_A": -0.008878210763650592,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344728054478056,
+        "slope_per_A": -0.008878204288073156,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0344729443507719,
+        "slope_per_A": -0.00887822533363893,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7774.166,
+      "continuum": {
+        "level_at_centre": 1.0038923551953478,
+        "slope_per_A": -7.955685554720213e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318542169638721,
+        "slope_per_A": -0.03214162008869975,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318543401009198,
+        "slope_per_A": -0.032141637543370356,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318542169638721,
+        "slope_per_A": -0.03214162008869975,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318542898059007,
+        "slope_per_A": -0.03214163041647298,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318542675784085,
+        "slope_per_A": -0.03214162726084755,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "synthesis",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.1318543401009198,
+        "slope_per_A": -0.032141637543370356,
+        "n_bins": 80,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/synthesis on the synthesis's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "coupled_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "model_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_model_mass_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    },
+    {
+      "label": "native_anchor_native_network_H",
+      "rv": "plus_gravity",
+      "reference": "iag",
+      "centre_air_A": 7775.388,
+      "continuum": {
+        "level_at_centre": 1.0041484651560857,
+        "slope_per_A": 1.1644689475737177e-05,
+        "n_bins": 90,
+        "applied": true,
+        "reason": "applied",
+        "method": "RYA-1230 model-guided: obs/iag on the iag's top 10% pixels within +/-5 A (line window +/-0.5 A excluded), degree 1, 3-MAD clipped"
+      }
+    }
+  ],
+  "rows": 72,
+  "contrasts": 36,
+  "applied": 72,
+  "refused": 0,
+  "common_continuum_baseline": "coupled_model_mass_H",
+  "model_dependent_continuum_is_diagnostic": true,
+  "statistic": "Unweighted sampled residuals/finite AIR areas; no noise model, chi-square, abundance fit or significance claim.",
+  "limitations": [
+    "Bare-background O column has no added Fe/CN opacity; not a replacement product or direct blanketed-baseline comparison.",
+    "Only VIS triplet output/continuum windows, not all-band validation; frozen populations are not SE solutions.",
+    "Pinned native local-continuum replay and existing broadening only, not a full ORCH pipeline execution.",
+    "Both RV controls retained, no optimization; no preferred H/EOS/abundance or observed normalization adoption.",
+    "Common and per-model continuum paths retained separately; input observation stays byte-protected."
+  ],
+  "preserved_ispec_zero_padding_outside_comparison_support": [
+    {
+      "rv": "no_gravity",
+      "label": "coupled_model_mass_H",
+      "zero_indices": [
+        0,
+        4000
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7783.0
+      ]
+    },
+    {
+      "rv": "no_gravity",
+      "label": "coupled_native_network_H",
+      "zero_indices": [
+        0,
+        4000
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7783.0
+      ]
+    },
+    {
+      "rv": "no_gravity",
+      "label": "model_anchor_model_mass_H",
+      "zero_indices": [
+        0,
+        4000
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7783.0
+      ]
+    },
+    {
+      "rv": "no_gravity",
+      "label": "model_anchor_native_network_H",
+      "zero_indices": [
+        0,
+        4000
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7783.0
+      ]
+    },
+    {
+      "rv": "no_gravity",
+      "label": "native_anchor_model_mass_H",
+      "zero_indices": [
+        0,
+        4000
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7783.0
+      ]
+    },
+    {
+      "rv": "no_gravity",
+      "label": "native_anchor_native_network_H",
+      "zero_indices": [
+        0,
+        4000
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7783.0
+      ]
+    },
+    {
+      "rv": "plus_gravity",
+      "label": "coupled_model_mass_H",
+      "zero_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7763.005,
+        7763.01,
+        7763.015,
+        7763.02
+      ]
+    },
+    {
+      "rv": "plus_gravity",
+      "label": "coupled_native_network_H",
+      "zero_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7763.005,
+        7763.01,
+        7763.015,
+        7763.02
+      ]
+    },
+    {
+      "rv": "plus_gravity",
+      "label": "model_anchor_model_mass_H",
+      "zero_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7763.005,
+        7763.01,
+        7763.015,
+        7763.02
+      ]
+    },
+    {
+      "rv": "plus_gravity",
+      "label": "model_anchor_native_network_H",
+      "zero_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7763.005,
+        7763.01,
+        7763.015,
+        7763.02
+      ]
+    },
+    {
+      "rv": "plus_gravity",
+      "label": "native_anchor_model_mass_H",
+      "zero_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7763.005,
+        7763.01,
+        7763.015,
+        7763.02
+      ]
+    },
+    {
+      "rv": "plus_gravity",
+      "label": "native_anchor_native_network_H",
+      "zero_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "zero_wavelengths_air_A": [
+        7763.0,
+        7763.005,
+        7763.01,
+        7763.015,
+        7763.02
+      ]
+    }
+  ],
+  "support_trace_helper": {
+    "name": "bride_continuum_audit.py",
+    "bytes": 4841,
+    "sha256": "8b7d29294f61d1fabd04614a6e47a2258123409e9da10fb6c71f6b36a881fd3b"
+  }
+}

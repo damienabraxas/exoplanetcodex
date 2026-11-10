@@ -1,0 +1,29 @@
+{
+ "element": "Mg",
+ "n_rows": 561,
+ "held_reason": {
+  "UNGRADED_GF": 479,
+  "GRADED_NOT_LAB": 74,
+  "REGISTRY_EXCLUDED": 8
+ },
+ "flags": {
+  "UNRATED_GF": 560,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 130,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 65,
+  "3": 160,
+  "4": 336
+ },
+ "no_graded_route": [
+  "Mg I near-UV",
+  "Mg II VIS",
+  "Mg II near-UV"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

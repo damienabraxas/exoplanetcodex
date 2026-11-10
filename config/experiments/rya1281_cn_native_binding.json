@@ -1,0 +1,8 @@
+{
+  "schema": "codex.bride_cn_native_binding_plan/1",
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "cases": ["off", "CN", "all"],
+  "compile_seconds": 90,
+  "seconds_per_program": 180,
+  "scope": "Private reporting-only bsyn/eqmol build: export atmosphere/EOS density, electron/gas/H-nuclei pressures, implemented elemental composition and all implemented species pressure/mass/H-stoichiometry. Require original/reporting spectra byte-identical to accepted baseline for off,CN,all before interpreting. Independently aggregate H nuclei and reproduce native EOS density arithmetic; compare existing MARCS/LW normalization without selecting/adopting one. No matched-provider admission, new EOS, RT/SE or abundance."
+}

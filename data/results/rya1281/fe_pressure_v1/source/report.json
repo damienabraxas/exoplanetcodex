@@ -1,0 +1,419 @@
+{
+  "schema": "codex.bride_fe_pressure_source/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "prepare_bride_fe_pressure.py",
+    "bytes": 7107,
+    "sha256": "30e6b0ea1d3016d30235c343969776afa7e04729dee35d63bb148c5e6aea67cb"
+  },
+  "pressure_kernel": {
+    "name": "bride_fe_pressure.py",
+    "bytes": 3324,
+    "sha256": "4554015c6372c7d86c99562459e43f1aeae91ef8091f1e620b43e8eedc82ac07"
+  },
+  "lines": {
+    "name": "lines.json",
+    "bytes": 110825,
+    "sha256": "cf84901b4e1e50012ce987788a68f1af975b5b35ac146619581ab26342f63ee0"
+  },
+  "source_commit": "21269948750e2177fe32c5df38e1d9bb81363374",
+  "sources": {
+    "synthesizer/turbospectrum/source/anstee.f": {
+      "name": "anstee.f",
+      "bytes": 15261,
+      "sha256": "64dd54dc1710ab24f6d6ee217d243feace425bec3b8516181ed79a25a7cb23b0"
+    },
+    "synthesizer/turbospectrum/source/depth.f": {
+      "name": "depth.f",
+      "bytes": 11007,
+      "sha256": "d8b87b9f2d58ea1ab515e7b78771284a06629eb9606e0c3cc61e418b2b9a057b"
+    },
+    "synthesizer/turbospectrum/source/bsyn.f": {
+      "name": "bsyn.f",
+      "bytes": 60388,
+      "sha256": "9a0b404a508e3c1443dcda45e8e490c403a0ff02cfbdc8040cb7419db434155d"
+    },
+    "synthesizer/turbospectrum/DATA/Anstee-1802-2014.dat": {
+      "name": "Anstee-1802-2014.dat",
+      "bytes": 4766137,
+      "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+    },
+    "synthesizer/turbospectrum/DATA/IRWIN_atoms_v07.3.dat": {
+      "name": "IRWIN_atoms_v07.3.dat",
+      "bytes": 44716,
+      "sha256": "cbc4c2172603c2a068304ab49c788ffc56cf09c172eb1f770877a3221d95b0e2"
+    }
+  },
+  "driver": {
+    "name": "driver.f",
+    "bytes": 2597,
+    "sha256": "656a46680d8a59297cb74cbf10c37e288b2c414dbce8724ea5623270831e04f8"
+  },
+  "binary": {
+    "name": "pressure_oracle",
+    "bytes": 69664,
+    "sha256": "3cca4a77c568dcba8518be24c62429ec7b654c2b95a30218adaeb44e9a9f1d08"
+  },
+  "compiler": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "command": [
+    "/opt/homebrew/bin/gfortran",
+    "-O2",
+    "-fno-automatic",
+    "-std=legacy",
+    "-ffixed-line-length-none",
+    "-fcheck=bounds",
+    "-o",
+    "pressure_oracle",
+    "driver.f",
+    "anstee.f"
+  ],
+  "input": {
+    "name": "input.txt",
+    "bytes": 1419,
+    "sha256": "8ab79338f59945817ab170b33b627f43c1c7c1c01f68d5417999f2bd6a80ee9b"
+  },
+  "native_stdout": {
+    "name": "stdout.txt",
+    "bytes": 4264,
+    "sha256": "262b6a0e6f2da3e6f07c2806a3ea5b0633f0675002f97428010377ed4aa2cc60"
+  },
+  "ionization_eV": 7.902,
+  "constants_cgs": {
+    "k": 1.380658e-16,
+    "mH": 1.6737830080950003e-24,
+    "mFe": 9.2732867469e-23
+  },
+  "recipes": [
+    {
+      "line_id": "gf_064783",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.56,
+      "native_reference_gamma_s_inv": 2434126590.0
+    },
+    {
+      "line_id": "gf_064784",
+      "recipe": "C",
+      "sigma_au": 2724.57031,
+      "alpha": 0.362574697,
+      "log_gamma6_10000": -7.42,
+      "native_reference_gamma_s_inv": 16638691300.0
+    },
+    {
+      "line_id": "gf_064785",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.55,
+      "native_reference_gamma_s_inv": 2490823420.0
+    },
+    {
+      "line_id": "gf_064786",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.78,
+      "native_reference_gamma_s_inv": 1466705410.0
+    },
+    {
+      "line_id": "gf_064787",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.31,
+      "native_reference_gamma_s_inv": 4328557570.0
+    },
+    {
+      "line_id": "gf_064788",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.54,
+      "native_reference_gamma_s_inv": 2548843520.0
+    },
+    {
+      "line_id": "gf_064789",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.01,
+      "native_reference_gamma_s_inv": 8636601340.0
+    },
+    {
+      "line_id": "gf_064790",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.33,
+      "native_reference_gamma_s_inv": 4133740290.0
+    },
+    {
+      "line_id": "gf_064791",
+      "recipe": "A",
+      "sigma_au": 782.745667,
+      "alpha": 0.239120349,
+      "log_gamma6_10000": -7.54,
+      "native_reference_gamma_s_inv": 4866421250.0
+    },
+    {
+      "line_id": "gf_064792",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.01,
+      "native_reference_gamma_s_inv": 8636601340.0
+    },
+    {
+      "line_id": "gf_064793",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.1,
+      "native_reference_gamma_s_inv": 7020099070.0
+    },
+    {
+      "line_id": "gf_064794",
+      "recipe": "A",
+      "sigma_au": 330.50351,
+      "alpha": 0.248164386,
+      "log_gamma6_10000": -7.79,
+      "native_reference_gamma_s_inv": 2051900540.0
+    },
+    {
+      "line_id": "gf_064795",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.28,
+      "native_reference_gamma_s_inv": 4638130180.0
+    },
+    {
+      "line_id": "gf_064796",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.49,
+      "native_reference_gamma_s_inv": 2859850750.0
+    },
+    {
+      "line_id": "gf_064797",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.18,
+      "native_reference_gamma_s_inv": 5839064580.0
+    },
+    {
+      "line_id": "gf_064798",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.32,
+      "native_reference_gamma_s_inv": 4230024960.0
+    },
+    {
+      "line_id": "gf_064799",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.56,
+      "native_reference_gamma_s_inv": 2434126590.0
+    },
+    {
+      "line_id": "gf_064800",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.15,
+      "native_reference_gamma_s_inv": 6256666620.0
+    },
+    {
+      "line_id": "gf_064801",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.1,
+      "native_reference_gamma_s_inv": 7020099070.0
+    },
+    {
+      "line_id": "gf_064802",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.29,
+      "native_reference_gamma_s_inv": 4532555780.0
+    },
+    {
+      "line_id": "gf_064805",
+      "recipe": "B",
+      "sigma_au": 818.130798,
+      "alpha": 0.271904737,
+      "log_gamma6_10000": -7.54,
+      "native_reference_gamma_s_inv": 5060978690.0
+    },
+    {
+      "line_id": "gf_064806",
+      "recipe": "A",
+      "sigma_au": 451.965546,
+      "alpha": 0.2350429,
+      "log_gamma6_10000": -7.71,
+      "native_reference_gamma_s_inv": 2811712260.0
+    },
+    {
+      "line_id": "gf_064807",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.12,
+      "native_reference_gamma_s_inv": 6704143360.0
+    },
+    {
+      "line_id": "gf_064808",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.29,
+      "native_reference_gamma_s_inv": 4532555780.0
+    },
+    {
+      "line_id": "gf_064810",
+      "recipe": "C",
+      "sigma_au": 2768.97437,
+      "alpha": 0.364435405,
+      "log_gamma6_10000": -7.4,
+      "native_reference_gamma_s_inv": 16905657300.0
+    },
+    {
+      "line_id": "gf_064811",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.51,
+      "native_reference_gamma_s_inv": 2731133180.0
+    },
+    {
+      "line_id": "gf_064812",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.13,
+      "native_reference_gamma_s_inv": 6551533570.0
+    },
+    {
+      "line_id": "gf_064814",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.11,
+      "native_reference_gamma_s_inv": 6860298750.0
+    },
+    {
+      "line_id": "gf_064815",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.46,
+      "native_reference_gamma_s_inv": 3064383230.0
+    },
+    {
+      "line_id": "gf_064816",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.33,
+      "native_reference_gamma_s_inv": 4133740290.0
+    },
+    {
+      "line_id": "gf_064817",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.51,
+      "native_reference_gamma_s_inv": 2731133180.0
+    },
+    {
+      "line_id": "gf_064818",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.81,
+      "native_reference_gamma_s_inv": 1368810110.0
+    },
+    {
+      "line_id": "gf_064819",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.31,
+      "native_reference_gamma_s_inv": 4328557570.0
+    },
+    {
+      "line_id": "gf_064820",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.8,
+      "native_reference_gamma_s_inv": 1400693120.0
+    },
+    {
+      "line_id": "gf_064821",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.29,
+      "native_reference_gamma_s_inv": 4532555780.0
+    },
+    {
+      "line_id": "gf_064822",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.36,
+      "native_reference_gamma_s_inv": 3857829380.0
+    },
+    {
+      "line_id": "gf_064823",
+      "recipe": "A",
+      "sigma_au": 1188.90747,
+      "alpha": 0.225624129,
+      "log_gamma6_10000": -7.54,
+      "native_reference_gamma_s_inv": 7407251970.0
+    },
+    {
+      "line_id": "gf_064825",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.32,
+      "native_reference_gamma_s_inv": 4230024960.0
+    },
+    {
+      "line_id": "gf_064826",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.41,
+      "native_reference_gamma_s_inv": 3438296060.0
+    },
+    {
+      "line_id": "gf_064827",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.29,
+      "native_reference_gamma_s_inv": 4532555780.0
+    },
+    {
+      "line_id": "gf_064828",
+      "recipe": "W",
+      "sigma_au": 0.0,
+      "alpha": 0.0,
+      "log_gamma6_10000": -7.1,
+      "native_reference_gamma_s_inv": 7020099070.0
+    }
+  ],
+  "native_width_max_relative_error": 5.947177155185557e-07,
+  "native_real_guard": 1.52587890625e-05,
+  "caveats": "Native anstee selection/pressure fragments only, not full TS spectrum/EOS. Supplied negative fdamp is secondary to anstee branch. Pressure recipe includes H/He/H2; actual HHe-only control explicitly omits H2/Stark."
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "codex.bride_lte_screen_analysis/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_lte_screen.py",
+    "bytes": 2817,
+    "sha256": "a09afc1bacfda39150d537d10d8049e97e80f45aad8b09cb049e19037ea7b181"
+  },
+  "source": {
+    "name": "report.json",
+    "bytes": 217880,
+    "sha256": "471f5eb19fee9e02e5d56a1ffb6db542778cacbd3dcf625895b32e17f32fcd97"
+  },
+  "depths": {
+    "name": "species_depths.csv",
+    "bytes": 2350328,
+    "sha256": "8c2db02e9c7acb19656423e02f9d1b4d4827b22af7a193951b4783f8f4094abf"
+  },
+  "scope": "Absolute-weight footprint averages of local natural-only opacity, no flux/EW or formation-depth inference.",
+  "summary": [
+    {
+      "case": "canonical_refined",
+      "footprint": "7771.944_synthesis",
+      "reference_depth_index": 41,
+      "logtau500": -0.009912799999999998,
+      "ratios": {
+        "other_candidates": 2.1764164215141562e-07,
+        "modeled_FeI": 8.469815387745566e-07,
+        "Fe_II": 1.6364704917953682e-08
+      }
+    },
+    {
+      "case": "canonical_refined",
+      "footprint": "7774.166_synthesis",
+      "reference_depth_index": 41,
+      "logtau500": -0.009912799999999998,
+      "ratios": {
+        "other_candidates": 1.8677154903160095e-07,
+        "modeled_FeI": 1.225817708000299e-06,
+        "Fe_II": 8.065700347926897e-09
+      }
+    },
+    {
+      "case": "canonical_refined",
+      "footprint": "7775.388_synthesis",
+      "reference_depth_index": 41,
+      "logtau500": -0.009912799999999998,
+      "ratios": {
+        "other_candidates": 0.002250492716979062,
+        "modeled_FeI": 8.517253527564944e-06,
+        "Fe_II": 0.0022476554268621015
+      }
+    },
+    {
+      "case": "lower_gravity_refined",
+      "footprint": "7771.944_synthesis",
+      "reference_depth_index": 41,
+      "logtau500": -0.008952800000000002,
+      "ratios": {
+        "other_candidates": 2.2520129327402136e-07,
+        "modeled_FeI": 8.473169989359634e-07,
+        "Fe_II": 1.7601778484009985e-08
+      }
+    },
+    {
+      "case": "lower_gravity_refined",
+      "footprint": "7774.166_synthesis",
+      "reference_depth_index": 41,
+      "logtau500": -0.008952800000000002,
+      "ratios": {
+        "other_candidates": 1.8736992584884246e-07,
+        "modeled_FeI": 1.226372114961718e-06,
+        "Fe_II": 8.680473199153529e-09
+      }
+    },
+    {
+      "case": "lower_gravity_refined",
+      "footprint": "7775.388_synthesis",
+      "reference_depth_index": 41,
+      "logtau500": -0.008952800000000002,
+      "ratios": {
+        "other_candidates": 0.0023755567637772815,
+        "modeled_FeI": 8.56016134788212e-06,
+        "Fe_II": 0.002372575482920073
+      }
+    }
+  ]
+}

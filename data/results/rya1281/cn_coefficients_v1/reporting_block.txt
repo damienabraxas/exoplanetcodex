@@ -1,0 +1,22 @@
+* BRIDE reporting only: no assignment to native physical variables.
+      if (lele.eq.'C N'.and.(
+     &    (isotope(1).eq.12.and.isotope(2).eq.14
+     &    .and.abs(xlb-7771.957).lt.0.0001)
+     &    .or.
+     &    (isotope(1).eq.13.and.isotope(2).eq.14
+     &    .and.abs(xlb-7771.980).lt.0.0001)
+     &    .or.
+     &    (isotope(1).eq.12.and.isotope(2).eq.15
+     &    .and.abs(xlb-7772.751).lt.0.0001)
+     &    )) then
+        do k=1,ntau
+          write(*,'(A,4I7,1P,32E25.16)') 'BRIDE_CN_STATE ',
+     &      isotope(1),isotope(2),iline,k,
+     &      xlb,t(k),pg(k),pe(k),ro(k),partryck(k,molindex),
+     &      fpartition(k),ntt(k),ntot(k),n(k),stim(k),dnud(k),
+     &      ross(k),plez(k),ma,boltz,h,c,e,m,chie,gfelog,f,
+     &      calf,constant,isotopfrac(atom(1),isotope(1)),
+     &      isotopfrac(atom(2),isotope(2)),g,symmfactor,xl,a(k),
+     &      calf*plez(k)
+        enddo
+      endif

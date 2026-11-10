@@ -1,0 +1,446 @@
+{
+  "schema": "codex.bride_xi_review/1",
+  "plan": {
+    "name": "rya1281_mac_xi_wide.json",
+    "bytes": 3800,
+    "sha256": "bc5898a0e3664e24a02b53c344bbc72b2c5e84afb05a18c83fb5d969903d0e50"
+  },
+  "independent_rate_checks": [
+    {
+      "case": "solar5772_wide_xi050",
+      "residual": 2.466418417176147e-07,
+      "stored_residual": 2.466418417176147e-07
+    },
+    {
+      "case": "solar5772_wide_xi075",
+      "residual": 3.6479036783864476e-07,
+      "stored_residual": 3.6479036783864476e-07
+    },
+    {
+      "case": "solar5772_wide_xi100",
+      "residual": 4.13701425665348e-07,
+      "stored_residual": 4.13701425665348e-07
+    },
+    {
+      "case": "solar5772_wide_xi125",
+      "residual": 3.46319724132231e-07,
+      "stored_residual": 3.46319724132231e-07
+    },
+    {
+      "case": "solar5772_wide_xi150",
+      "residual": 3.2231932126218736e-07,
+      "stored_residual": 3.2231932126218736e-07
+    }
+  ],
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_xi_sweep.py",
+    "bytes": 8879,
+    "sha256": "10ea9ceaecb8c85fd3c069ec41d0a1ea939e8f30dc89ae1b339a4b368e47bf26"
+  },
+  "controls": [
+    {
+      "name": "report.json",
+      "bytes": 29467,
+      "sha256": "7806828a823723613bb19eb1ee4686f0c4ee203fda11fef1f3c130af780cd36f"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29476,
+      "sha256": "bec9f9ff0a2f7c3afcaddb5cc4514a3c21b4c6e87bf1d8b7d63eb19a344a0d7e"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29473,
+      "sha256": "6fe0759b56c3cb961fb1c32f6f2c08ec505ddda357c864b6ba8e6d061b352391"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29467,
+      "sha256": "9f1ff4ab1f9ed34d617bf3888275cd5a16c017740e15b8ca41b58cb85e87cfd9"
+    },
+    {
+      "name": "report.json",
+      "bytes": 29474,
+      "sha256": "30fd2bd62261bdec40d7f807cd905f7e2713c334158e6dbbc4bbdbad3094778c"
+    }
+  ],
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "policy": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "cases": [
+    {
+      "mode": "solar5772_wide_xi050",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 70.38364042967815
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 60.962487515406785
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 47.86601364405423
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 70.36097502629055,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 60.94188056138433,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 47.85784564573806,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 70.36323171202633,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 60.934442514844406,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 47.867028248098656,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "solar5772_wide_xi075",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 71.12707220600595
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 61.5803183398949
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.321557523291425
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.10343209108918,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 61.55963920524843,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.313407638271435,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.10557985551651,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 61.552187740913,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.3225761161607,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "solar5772_wide_xi100",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.12825766895114
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.411752946195406
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.93310834296173
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.10349891422283,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.390972210126066,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.924972413448145,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.105502801255,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.38350198428724,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.93412241720815,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "solar5772_wide_xi125",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 73.35446017138763
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 63.42895936027755
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 49.678941345778796
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 73.32855375017414,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 63.408047007847124,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 49.670801607134344,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 73.33038598833797,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 63.40055268621742,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 49.67993003397578,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "solar5772_wide_xi150",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 74.77040153493965
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 64.60198848926416
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 50.5358929453496
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 74.7433841209543,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 64.58091341781405,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 50.527715262702074,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 74.74502447699044,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 64.57338958113479,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 50.53682059675474,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "area_changes_vs_nominal_mA": {
+    "solar5772_wide_xi050": [
+      -1.7446172392729835,
+      -1.4492654307886212,
+      -1.0670946989075034
+    ],
+    "solar5772_wide_xi075": [
+      -1.0011854629451875,
+      -0.8314346063005047,
+      -0.6115508196703061
+    ],
+    "solar5772_wide_xi100": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "solar5772_wide_xi125": [
+      1.226202502436493,
+      1.0172064140821462,
+      0.745833002817065
+    ],
+    "solar5772_wide_xi150": [
+      2.6421438659885155,
+      2.190235543068752,
+      1.602784602387871
+    ]
+  },
+  "max_profile_change_vs_nominal": {
+    "solar5772_wide_xi050": 0.0501909797275788,
+    "solar5772_wide_xi075": 0.02847379685992757,
+    "solar5772_wide_xi100": 0.0,
+    "solar5772_wide_xi125": 0.03252333648004502,
+    "solar5772_wide_xi150": 0.06623389925794354
+  },
+  "response_figure": {
+    "name": "xi_response.png",
+    "bytes": 95405,
+    "sha256": "6dbdef925fc1e282266bd5d099a56dbac59da08184a7ceac00db9397e664c47b"
+  },
+  "profiles": {
+    "name": "profiles.csv",
+    "bytes": 1200772,
+    "sha256": "b61801b6035f5d2245807369b96d0205276c400ac0a279a4eec58579e903699d"
+  },
+  "figure": {
+    "name": "xi_control.png",
+    "bytes": 252996,
+    "sha256": "09b99c8d24ad7812f22c7683cd16ef183662cfdbdf5505f4eef586871c36ecb5"
+  },
+  "caveats": "Declared xi slice within broader program, not full parameter sweep. Fresh coupled O, fixed solar thermal structure; no self-consistent atmosphere response, H2 EOS, abundance or full3D admission. Both RV variants retained, no optimization."
+}

@@ -1,0 +1,121 @@
+{
+  "schema": "codex.bride_solver_acceleration_archive/1",
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/baseline/input.json",
+      "bytes": 17049,
+      "sha256": "7e29511cbbde60b379879d53ca06d4d1b01f55a126a2f19b173cf7b27b047e01",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/baseline/report.json",
+      "bytes": 18429,
+      "sha256": "a3aeaf63ce06c500d6373dfec3b161eb6a4d36df3ed3f66aa9307639147e343a",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/gravity/input.json",
+      "bytes": 18268,
+      "sha256": "7393148dbd099d059aac3e737362002f6ad94ff9473d8df97f008f6eb119a820",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/gravity/report.json",
+      "bytes": 19649,
+      "sha256": "a242d36dfc0938d696c8e192b829173d27f30c0259c8db0a5c8cdf71b411bbc7",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/solar/input.json",
+      "bytes": 18325,
+      "sha256": "eb0beb3fd655eb2778106829e50858af99bd02fffbe41c300f8e22f9a62b2f21",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/solar/report.json",
+      "bytes": 19705,
+      "sha256": "d6d82a51405aa04b0a1106198a6a0650c05d84a6fee4ddc46f361e71edb30fd8",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/temperature/input.json",
+      "bytes": 18333,
+      "sha256": "fe5f084a89c5efba942f5413770e5c9e071a112fda58e2c6b44b4705c034c01f",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-dry-v1/temperature/report.json",
+      "bytes": 19714,
+      "sha256": "5fd40767b97fc75ae80fba92ee128126df7f432ee06677a9a40c31a1db6ff4c2",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/baseline/flux.csv",
+      "bytes": 400167,
+      "sha256": "864a93badb9d57f6ecb13b0b4c34121ae6b4c3af993a2f1994fddf3dc30ea518",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/baseline/history.jsonl",
+      "bytes": 207509,
+      "sha256": "b3202b9c5e75f97d26e32692e94d2b01f59b8981e1fb8710e7e334dd17fecbbd",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/baseline/independent_rates.npz",
+      "bytes": 884684,
+      "sha256": "11e6292c66810cef77132baa6621eeda9540238a2faa5c2aa2aeb37c09f75a53",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/baseline/input.json",
+      "bytes": 17049,
+      "sha256": "7e29511cbbde60b379879d53ca06d4d1b01f55a126a2f19b173cf7b27b047e01",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/baseline/populations.npz",
+      "bytes": 54268,
+      "sha256": "0e7fc20bc2c42981ea7b40ab205bca5ce0aeb8f1fdd94e8c127a470a278b7232",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/baseline/rates.npz",
+      "bytes": 4239805,
+      "sha256": "9a29e345b2c22aafc9e01ac259867d091187590f7f1cdd31353f1d59daa2707d",
+      "archived": false
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/baseline/report.json",
+      "bytes": 23541,
+      "sha256": "b2628b8437658e3089dea109845cffa63962da02e2ebbbbfeedd24d2b14579a2",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/temperature/failure.json",
+      "bytes": 20014,
+      "sha256": "a408dee30ec2877b22c0b0369879b8de5cc1d04728b90018682907b16b7c97ec",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/temperature/failure_seed.npz",
+      "bytes": 37254,
+      "sha256": "2b18e30e4c8059b89b86509ba0d23c8d71d09e2b2713e0d292c50850f91dac69",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/temperature/history.jsonl",
+      "bytes": 145879,
+      "sha256": "05c45c9d860aaf62a5cfda7529b91f375a5a4f914cbe71684ef253a62b3a828b",
+      "archived": true
+    },
+    {
+      "path": "rya1281-solar-transition-no-ng-v1/temperature/input.json",
+      "bytes": 18333,
+      "sha256": "fe5f084a89c5efba942f5413770e5c9e071a112fda58e2c6b44b4705c034c01f",
+      "archived": true
+    }
+  ],
+  "note": "Exact compact archival copies. Installed backend untouched; compiled plugins and full J/rate arrays remain externally receipted. Failure seeds are initialization only."
+}

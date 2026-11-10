@@ -1,0 +1,649 @@
+{
+  "schema": "codex.bride_solar_control_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_solar_control.py",
+    "bytes": 9576,
+    "sha256": "3856d14dd475da42c0f28c4ed9c3ac2757efdf76749e33073c745b8d24625678"
+  },
+  "source_solar_summaries": [
+    {
+      "source_run": "rya1281-solar-bound-v1",
+      "receipt": {
+        "name": "summary.json",
+        "bytes": 1237,
+        "sha256": "fa0ac33982cd171779dcc2d3a2ccd7c3efeafcf46c5021f75b8aa0c9fd145524"
+      }
+    },
+    {
+      "source_run": "rya1281-solar-bound-temperature-v1",
+      "receipt": {
+        "name": "summary.json",
+        "bytes": 2048,
+        "sha256": "317a32d488bc4efdf8c8ca17297710cfe183c43184f9e15461b2b5766f934c4a"
+      }
+    }
+  ],
+  "native_receipt": {
+    "name": "summary.json",
+    "bytes": 28039,
+    "sha256": "e8372f1e91c23fa8f2c18bb439d5a5b87bef271e1bfc0c10fd5d9e93ffa59487"
+  },
+  "cases": [
+    {
+      "name": "author_MN_cap_Fe_neutral_sampled",
+      "display_label": "Native T5750 g4.5",
+      "source_run": "rya1281-fe-sampled-v1",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 4489,
+        "sha256": "1d4778aad98d2fee69963cad2337ee7b5c8e8c5b802ca07d38b9f858558c9d97"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "920ef27c5d7765beef16e9ba6a380075603d92aed573b8fabee76ea66e932e0c"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36591,
+        "sha256": "1868d0b9ba2e8b48dc488e932ff2cee9ee52d4fc637706a0f8adf42463a6bea7"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 182867,
+        "sha256": "1950921728faf15cc9822224c5fa6b6362553fc98fcaa15d367ca9bf30d5f487"
+      },
+      "departures": {
+        "name": "author_MN_cap_Fe_neutral_sampled_departures.csv",
+        "bytes": 5697,
+        "sha256": "e05586cd484691aa83eb76a6e64be4a9398aa520bec93a7d9fee2cda7337b7f9"
+      },
+      "parameters": {
+        "teff": 5750,
+        "logg": 4.5,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "iterations": 362,
+      "elapsed_seconds": 239.96090116724372,
+      "final_diagnostics": {
+        "iteration": 362,
+        "population_change": 9.703239479606175e-07,
+        "J_change": 9.709982125927433e-07,
+        "physical_rate_residual": 2.6069111982794504e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 5.167971021680912e-07,
+        "fixed_population_radiation": {
+          "iterations": 4,
+          "final_J_change": 8.139997897949058e-09,
+          "final_boundary_change": 9.91559088912803e-10,
+          "outer_J_change": 9.709982125927433e-07,
+          "outer_boundary_change": 5.167971021680912e-07
+        }
+      },
+      "top_departures": {
+        "lower_triplet": 1.0030132107424377,
+        "upper_triplet": 1.3131429769899226,
+        "OII_ground": 9.964510987083774
+      },
+      "effective_cap_length_m": 84362.76027271051,
+      "metrics": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_window_area_mA": 68.92509744788956
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_window_area_mA": 59.35749562921214
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_window_area_mA": 46.378512741441
+        }
+      ],
+      "experimental_bound_input": null
+    },
+    {
+      "name": "solar5772_bound_Fe_sampled",
+      "display_label": "Experimental T5772 g4.438",
+      "source_run": "rya1281-solar-bound-v1",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7118,
+        "sha256": "82c06f7ef8cf8608d439493f447b11ceba6cf8610b6fe960cf3ee21e71bf6720"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "33b1a565df4ac1d1e68b530c3839182151397e38bad8d6ed84dac81c6c99dc24"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36823,
+        "sha256": "e754d9df4823bb9c044da898751b022553bb4efbeeb67ff5839db37571cdd14c"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 129082,
+        "sha256": "a36b3a1d599978b3d3b0e6f27cd88a30af5fa269f4f12a717fe6df01dd27611a"
+      },
+      "departures": {
+        "name": "solar5772_bound_Fe_sampled_departures.csv",
+        "bytes": 5697,
+        "sha256": "ef2aa748f75f4c5fa31236b44e8051229c94f56c20b82c5261c8ead0d3839f96"
+      },
+      "parameters": {
+        "teff": 5772,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "iterations": 256,
+      "elapsed_seconds": 179.95171566680074,
+      "final_diagnostics": {
+        "iteration": 256,
+        "population_change": 8.617258935637209e-07,
+        "J_change": 8.622907369948135e-07,
+        "physical_rate_residual": 2.1548655538433842e-15,
+        "particle_conservation_error": 1.3322676295501878e-15,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 3.542728589865088e-07,
+        "fixed_population_radiation": {
+          "iterations": 4,
+          "final_J_change": 5.4194118082051546e-09,
+          "final_boundary_change": 1.0630754014377286e-09,
+          "outer_J_change": 8.622907369948135e-07,
+          "outer_boundary_change": 3.542728589865088e-07
+        }
+      },
+      "top_departures": {
+        "lower_triplet": 1.0018486792410777,
+        "upper_triplet": 1.2786576622761996,
+        "OII_ground": 9.932199540201067
+      },
+      "effective_cap_length_m": 97762.93901851328,
+      "metrics": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_window_area_mA": 72.00381805150208
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_window_area_mA": 62.17441670604168
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_window_area_mA": 48.78411690604265
+        }
+      ],
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17148,
+          "sha256": "09008f9a39c3f17fc7a86366d93e02715b35afbd334d526489422d4a3a56387d"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16146,
+          "sha256": "5fd666bb48c62abb616ca395968c37275a83be22d118cb4aa2da551e2178acda"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      }
+    },
+    {
+      "name": "solar5752_bound_Fe_sampled",
+      "display_label": "Experimental T5752 g4.438",
+      "source_run": "rya1281-solar-bound-temperature-v1",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7118,
+        "sha256": "c52bcafd047c5c1f4f44c9f3ff389a817d2a192905b272368c72cccddd6769cc"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "2432e9f4021dd642ebe4511cd6948268f2db73e3bf7f25ebe216caf91980a4a4"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36827,
+        "sha256": "0442e7b2190e75c3888aa1e8592a8c5a977e2f7a7cf36053ed5e477657500f66"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 164548,
+        "sha256": "4b1c41ab41f449f48b445247590b1e0f876a88eb767b7f41c7024d1e5acdef03"
+      },
+      "departures": {
+        "name": "solar5752_bound_Fe_sampled_departures.csv",
+        "bytes": 5697,
+        "sha256": "560393112ae4554e61b92aae1bd8e21a4c4aa9f7702917ba553901c92e5c52ed"
+      },
+      "parameters": {
+        "teff": 5752,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "iterations": 326,
+      "elapsed_seconds": 227.83552804216743,
+      "final_diagnostics": {
+        "iteration": 326,
+        "population_change": 9.721170737388482e-07,
+        "J_change": 9.727722558282607e-07,
+        "physical_rate_residual": 2.3711284088653524e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 4.1486915051439056e-07,
+        "fixed_population_radiation": {
+          "iterations": 4,
+          "final_J_change": 6.644250372112026e-09,
+          "final_boundary_change": 8.091500105122952e-10,
+          "outer_J_change": 9.727722558282607e-07,
+          "outer_boundary_change": 4.1486915051439056e-07
+        }
+      },
+      "top_departures": {
+        "lower_triplet": 1.0010182113156822,
+        "upper_triplet": 1.2950616051724357,
+        "OII_ground": 10.026307972059806
+      },
+      "effective_cap_length_m": 97393.39175599508,
+      "metrics": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_window_area_mA": 70.51549019238837
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_window_area_mA": 60.83489170202196
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_window_area_mA": 47.66795792716378
+        }
+      ],
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17169,
+          "sha256": "d4da32f9a5ee7efda08bc32a3a44e13b6ad3aae0dfed1d7710f532729391f5c2"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16161,
+          "sha256": "0510485a6c8a19ad0df216ef3c69a11c01fcf2da4d92933497a6771c2db0ae84"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      }
+    },
+    {
+      "name": "solar5762_bound_Fe_sampled",
+      "display_label": "Experimental T5762 g4.438",
+      "source_run": "rya1281-solar-bound-temperature-v1",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7116,
+        "sha256": "4ebff798b7a53fafce8f28ca4f70e84d9df3f8fe25790f464e5153c3d04326a4"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "e5b49010c96995a934bbf7fbf90abc97eb8a6b57e0760568c64e74980419f71e"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36821,
+        "sha256": "bda330c699ade2c9835dc6bd8707cb70481dd0a41fb7ccf83175ca2534205eaf"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 203226,
+        "sha256": "27265b3cb62aa29dac2a3acbf51a8db6dbf1e2e33861473e4d4a13be63af0a51"
+      },
+      "departures": {
+        "name": "solar5762_bound_Fe_sampled_departures.csv",
+        "bytes": 5697,
+        "sha256": "08f168814c49f155dd443e36c67f2f3573c2ef296d1b7a6794d0be79bc9cbd1c"
+      },
+      "parameters": {
+        "teff": 5762,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "iterations": 402,
+      "elapsed_seconds": 258.33863579202443,
+      "final_diagnostics": {
+        "iteration": 402,
+        "population_change": 6.001922268967102e-07,
+        "J_change": 7.317068539395069e-07,
+        "physical_rate_residual": 3.4779546969801454e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 1.3643947549843879e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 5.339247710622885e-09,
+          "final_boundary_change": 3.8444749692832e-09,
+          "outer_J_change": 7.317068539395069e-07,
+          "outer_boundary_change": 1.3643947549843879e-07
+        }
+      },
+      "top_departures": {
+        "lower_triplet": 1.001579048452977,
+        "upper_triplet": 1.2870376419830662,
+        "OII_ground": 9.980701631927467
+      },
+      "effective_cap_length_m": 97577.99044378554,
+      "metrics": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_window_area_mA": 71.25836850049244
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_window_area_mA": 61.50326141554189
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_window_area_mA": 48.22461122032487
+        }
+      ],
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17339,
+          "sha256": "048dd60705e50c4f755e7818a29430c4daa309746e03b249a1143e56e8eded14"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16328,
+          "sha256": "eb1e6eb3a63b4d4f6479d932d4e444c74902db1c103ad522e397a68e0d14e6a0"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      }
+    },
+    {
+      "name": "solar5782_bound_Fe_sampled",
+      "display_label": "Experimental T5782 g4.438",
+      "source_run": "rya1281-solar-bound-temperature-v1",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7124,
+        "sha256": "0e4fec064df56a41f5475b9ee7b852907073e844fbab7ca2c8b3ed28e2b0bce9"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "19405789a2293439652ebb8e46a454a463261f913813b14d7e8aefd4ce370813"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36834,
+        "sha256": "626a6c0ba1bf6b8769b98836ddbd49db324e42b99292beade0de161184072d3e"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 134154,
+        "sha256": "42dae5607e2115c153563a9303e267a7dafbcf4f29f22081ccf5aca92adb0055"
+      },
+      "departures": {
+        "name": "solar5782_bound_Fe_sampled_departures.csv",
+        "bytes": 5697,
+        "sha256": "eb62f2db777817e8ecb5e25c5aef089256d1077a2b815e512ddec430b9436ace"
+      },
+      "parameters": {
+        "teff": 5782,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "iterations": 266,
+      "elapsed_seconds": 190.3134132917039,
+      "final_diagnostics": {
+        "iteration": 266,
+        "population_change": 4.108998738255218e-07,
+        "J_change": 4.3908874330863365e-07,
+        "physical_rate_residual": 4.067874088221296e-15,
+        "particle_conservation_error": 8.881784197001252e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 1.7168755607173006e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 5.064209274152631e-09,
+          "final_boundary_change": 5.139445752725487e-09,
+          "outer_J_change": 4.3908874330863365e-07,
+          "outer_boundary_change": 1.7168755607173006e-07
+        }
+      },
+      "top_departures": {
+        "lower_triplet": 1.0023669835053126,
+        "upper_triplet": 1.2706137234792878,
+        "OII_ground": 9.886084201066243
+      },
+      "effective_cap_length_m": 97948.23814335091,
+      "metrics": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_window_area_mA": 72.75187546252373
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_window_area_mA": 62.84839060693133
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_window_area_mA": 49.346504688429995
+        }
+      ],
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 16973,
+          "sha256": "3e60b71e7bd53a005c3b4e533c38682669a1a98a030c95f1ed869d999ce2e620"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 15963,
+          "sha256": "906635351a868de10702b197fc2b967cc43727ed33be2f092a2fbf167e274882"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      }
+    },
+    {
+      "name": "solar5792_bound_Fe_sampled",
+      "display_label": "Experimental T5792 g4.438",
+      "source_run": "rya1281-solar-bound-temperature-v1",
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 7115,
+        "sha256": "389cf65103063ff38f3bdc9944c636c97423308bf993d279cdc01ecd521f2f95"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "c58acc45ec12c6b1af4b8202ea17f7446a975f7213beba524030eecba49099ae"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36813,
+        "sha256": "4f678c256c26a219f50a6f4701606e4a1be0c2614477a28313a4889669d6ec32"
+      },
+      "history": {
+        "name": "history.jsonl",
+        "bytes": 171983,
+        "sha256": "0c731af20997b8daa514fc3cb6945bd64604096e23c7737aa51540dca439f058"
+      },
+      "departures": {
+        "name": "solar5792_bound_Fe_sampled_departures.csv",
+        "bytes": 5697,
+        "sha256": "3d90b96c83e407e68c7245c96fc8e0c540f3d49ad21952a877f987b9210d83b7"
+      },
+      "parameters": {
+        "teff": 5792,
+        "logg": 4.438,
+        "xi": 1.0,
+        "abundance": 8.7,
+        "drop_bottom": 0
+      },
+      "iterations": 341,
+      "elapsed_seconds": 217.76528483396396,
+      "final_diagnostics": {
+        "iteration": 341,
+        "population_change": 9.880794881255985e-07,
+        "J_change": 9.88710484844419e-07,
+        "physical_rate_residual": 2.300036581442962e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false,
+        "cap_boundary_change": 1.9038371507708555e-07,
+        "fixed_population_radiation": {
+          "iterations": 3,
+          "final_J_change": 5.137912095776187e-09,
+          "final_boundary_change": 5.3237933421519756e-09,
+          "outer_J_change": 9.88710484844419e-07,
+          "outer_boundary_change": 1.9038371507708555e-07
+        }
+      },
+      "top_departures": {
+        "lower_triplet": 1.0025368525071305,
+        "upper_triplet": 1.262147292973818,
+        "OII_ground": 9.836480978028488
+      },
+      "effective_cap_length_m": 98133.88848272865,
+      "metrics": [
+        {
+          "centre_air_A": 7771.944,
+          "intrinsic_window_area_mA": 73.50249239765883
+        },
+        {
+          "centre_air_A": 7774.166,
+          "intrinsic_window_area_mA": 63.52514827817907
+        },
+        {
+          "centre_air_A": 7775.388,
+          "intrinsic_window_area_mA": 49.911757244835876
+        }
+      ],
+      "experimental_bound_input": {
+        "receipt": {
+          "name": "experimental_input.json",
+          "bytes": 17355,
+          "sha256": "3f637c0f071b496ca14e41ba0bfc02415a564e9b556c58a010607ecbe837a201"
+        },
+        "adapter": {
+          "name": "bride_solar_control.py",
+          "bytes": 5698,
+          "sha256": "b2efba58e662f633962ba4d14ec7c2c7ae6d994045b57b184cf3f57eaf503df2"
+        },
+        "source_certificate": {
+          "name": "manifest.json",
+          "bytes": 16351,
+          "sha256": "33f8af5d0361e7f539062c0434ea74d8aee804d481264bcb73570c8c706751a3"
+        },
+        "normalization": "local_neutral",
+        "packet_sampling": true,
+        "support_vac_nm": [
+          200.06481832193217,
+          360.1027162074426
+        ]
+      }
+    }
+  ],
+  "scope": "Native5750/4.5 vs experimental solar-temperature inputs at4.438, fixed O8.70. Native-to-solar changes T/gravity/structure/cap/coefficients together. Within solar series only declared Teff and its constructed fields/coefficients vary. Not external-reference population errors or an atmosphere-equilibrium certification. Each b uses its own local nstar.",
+  "temperature_steps": [
+    {
+      "low_teff": 5752,
+      "high_teff": 5762,
+      "window_area_changes_mA": [
+        0.7428783081040677,
+        0.6683697135199296,
+        0.5566532931610837
+      ]
+    },
+    {
+      "low_teff": 5762,
+      "high_teff": 5772,
+      "window_area_changes_mA": [
+        0.7454495510096422,
+        0.6711552904997902,
+        0.5595056857177809
+      ]
+    },
+    {
+      "low_teff": 5772,
+      "high_teff": 5782,
+      "window_area_changes_mA": [
+        0.748057411021648,
+        0.6739739008896493,
+        0.5623877823873471
+      ]
+    },
+    {
+      "low_teff": 5782,
+      "high_teff": 5792,
+      "window_area_changes_mA": [
+        0.7506169351350991,
+        0.676757671247735,
+        0.5652525564058806
+      ]
+    }
+  ],
+  "departure_figure": {
+    "name": "departures.png",
+    "bytes": 158394,
+    "sha256": "d61a4590468ce3460b193582dcfccddcbdf35c551cc2f3fe6bf0e53f74b77378"
+  },
+  "intrinsic_figure": {
+    "name": "intrinsic_profiles.png",
+    "bytes": 90010,
+    "sha256": "29b98da20c2b922a202f09a11d7e83f880d3eabe585338ec0c9f470618497fff"
+  }
+}

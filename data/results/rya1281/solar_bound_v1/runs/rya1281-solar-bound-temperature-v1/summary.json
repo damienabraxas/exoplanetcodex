@@ -1,0 +1,68 @@
+{
+  "schema": "codex.bride_mac_parameter_results/1",
+  "status": "EXPERIMENTS_FINISHED",
+  "scientific_admission": "HOLD: diagnostic input responses, not a solar fit or uncertainty budget",
+  "host": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "code_commit": "eb481a7c68b35c2fc904c1c808bd3e153c7846a1",
+  "generator": {
+    "name": "run_bride_mac_checks.py",
+    "bytes": 18710,
+    "sha256": "78fc4a6c4f17b6dfd9ef5d94c5cf9a7e76882e93f21daf57857f62af9eb74c2e"
+  },
+  "context_builder": {
+    "name": "bride_reference.py",
+    "bytes": 10407,
+    "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+  },
+  "plan": {
+    "name": "rya1281_mac_solar_bound_temperature_controls.json",
+    "bytes": 2977,
+    "sha256": "92db44875e5f805027080c12288cfa8254bb796e8890e322b9f5b665705795be"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "cases": [
+    {
+      "name": "solar5752_bound_Fe_sampled",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 7118,
+        "sha256": "c52bcafd047c5c1f4f44c9f3ff389a817d2a192905b272368c72cccddd6769cc"
+      }
+    },
+    {
+      "name": "solar5762_bound_Fe_sampled",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 7116,
+        "sha256": "4ebff798b7a53fafce8f28ca4f70e84d9df3f8fe25790f464e5153c3d04326a4"
+      }
+    },
+    {
+      "name": "solar5782_bound_Fe_sampled",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 7124,
+        "sha256": "0e4fec064df56a41f5475b9ee7b852907073e844fbab7ca2c8b3ed28e2b0bce9"
+      }
+    },
+    {
+      "name": "solar5792_bound_Fe_sampled",
+      "status": "CONVERGED_EXPERIMENT",
+      "manifest": {
+        "name": "manifest.json",
+        "bytes": 7115,
+        "sha256": "389cf65103063ff38f3bdc9944c636c97423308bf993d279cdc01ecd521f2f95"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+ "element": "Sr",
+ "n_rows": 121,
+ "held_reason": {
+  "UNGRADED_GF": 66,
+  "GRADED_NOT_LAB": 55
+ },
+ "flags": {
+  "UNRATED_GF": 121,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 15,
+  "GF_DISCREPANCY": 2,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 14,
+  "2": 2,
+  "3": 93,
+  "4": 12
+ },
+ "no_graded_route": [
+  "Sr I near-UV",
+  "Sr II near-UV",
+  "Sr II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

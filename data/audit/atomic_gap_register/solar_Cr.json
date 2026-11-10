@@ -1,0 +1,31 @@
+{
+ "element": "Cr",
+ "n_rows": 17817,
+ "held_reason": {
+  "UNGRADED_GF": 17765,
+  "GRADED_NOT_LAB": 50,
+  "NOT_IN_CANONICAL": 2
+ },
+ "flags": {
+  "UNRATED_GF": 17815,
+  "MISSING_GF": 2,
+  "PROVENANCE_GAP": 3947,
+  "GF_DISCREPANCY": 5,
+  "SOLAR_DISCREPANCY": 2
+ },
+ "priority": {
+  "1": 2939,
+  "2": 5,
+  "3": 10997,
+  "4": 3876
+ },
+ "no_graded_route": [
+  "Cr I H",
+  "Cr I K",
+  "Cr II NIR",
+  "Cr II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

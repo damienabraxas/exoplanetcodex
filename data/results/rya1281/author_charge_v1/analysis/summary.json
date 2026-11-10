@@ -1,0 +1,228 @@
+{
+  "schema": "codex.bride_author_charge_comparison/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_author_charge.py",
+    "bytes": 6877,
+    "sha256": "792a7ac53ef891a0322e86bad743842f06bf53aeb7f229b7f1d6b285720ebeb0"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "cases": [
+    {
+      "name": "barklem2018_MN_LTE_pair",
+      "source_run": "rya1281-author-charge-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1234,
+        "sha256": "61ff879565d18b3c4b082d06ac469d0d66b111e054eb373ec82863107a549530"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 2776,
+        "sha256": "b6d7119b7633b07f8ab952a005878af4c0f3fd8d707fcd1ff9dbfb06f25c7dd0"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36613,
+        "sha256": "08af49886633d99d4d9430803635f72bf9505ecbb4668b3d8dd281ee0f80e14b"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "2ec667ad9eb9d2719b6ba31a4e715001aa8ca251cf223e5a7418efc6f1265a92"
+      },
+      "departure_curve": {
+        "name": "barklem2018_MN_LTE_pair_departures.csv",
+        "bytes": 9926,
+        "sha256": "f38833b9c63437065b63e61abf8220a3643cd80523775f5a4a85eaafc7f4736a"
+      },
+      "iterations": 568,
+      "elapsed_seconds": 43.044471540953964,
+      "final_diagnostics": {
+        "iteration": 568,
+        "population_change": 9.979467985145898e-07,
+        "J_change": 9.986627973468387e-07,
+        "physical_rate_residual": 2.542430180239391e-15,
+        "particle_conservation_error": 6.661338147750939e-16,
+        "rejected_invalid_ng": false
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.005522975204848457,
+      "upper_max_abs_b_difference_all_depths": 1.2494755567700027,
+      "upper_max_abs_b_difference_excluding_top_point": 0.06343985322452128,
+      "lower_max_abs_b_difference_excluding_top_point": 0.06336622326610564,
+      "all_levels_depths_max_abs_b_difference": 7.774907519224586,
+      "top_lower_upper_ion_b": [
+        0.025152269352368185,
+        0.031915825447404615,
+        0.39314992248683955
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.027096379738932,
+        0.8492854149237846,
+        0.9104020876507605
+      ],
+      "triplet_fixed_window_mA": [
+        68.77757304951118,
+        59.230425081485514,
+        46.280367308104196
+      ],
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "lte_uv_background_lines": null
+    },
+    {
+      "name": "author_MN_with_native_LTE_UV_background",
+      "source_run": "rya1281-uv-background-v1",
+      "source_summary": {
+        "name": "summary.json",
+        "bytes": 1250,
+        "sha256": "e5ef71abece1f20fd6ff4933a7b7d35cdd4cfb4b6ba573d650cf618fd4d20095"
+      },
+      "source_manifest": {
+        "name": "manifest.json",
+        "bytes": 3942,
+        "sha256": "3038f90e7fd8facc4f03e2df82d854d392d3105d775e8967d0d971ba9ddc014c"
+      },
+      "populations": {
+        "name": "populations.npz",
+        "bytes": 36592,
+        "sha256": "02a36994c83ebe058b4ae56482c4311a44c40c2d7f89a923576683aa8737c0fb"
+      },
+      "flux": {
+        "name": "flux.csv",
+        "bytes": 240167,
+        "sha256": "712660ec83fbc0826eea0b54a46182c4bcfb7451b3b5f9ab280627fa85c11c1c"
+      },
+      "departure_curve": {
+        "name": "author_MN_with_native_LTE_UV_background_departures.csv",
+        "bytes": 9926,
+        "sha256": "45325189d18a71ba0583a30177482444bf74902daf0d55835a7c2579477af20d"
+      },
+      "iterations": 396,
+      "elapsed_seconds": 250.2854005000554,
+      "final_diagnostics": {
+        "iteration": 396,
+        "population_change": 9.054089705010617e-07,
+        "J_change": 9.076024880538824e-07,
+        "physical_rate_residual": 3.757599033003426e-15,
+        "particle_conservation_error": 7.771561172376096e-16,
+        "rejected_invalid_ng": false
+      },
+      "upper_max_abs_b_difference_photospheric_subset": 0.05594800409999823,
+      "upper_max_abs_b_difference_all_depths": 1.2153576539543687,
+      "upper_max_abs_b_difference_excluding_top_point": 0.1982662912025832,
+      "lower_max_abs_b_difference_excluding_top_point": 0.16494991109143775,
+      "all_levels_depths_max_abs_b_difference": 7.4727778517616725,
+      "top_lower_upper_ion_b": [
+        0.04909958976427911,
+        0.06603372826303862,
+        0.6952795899497531
+      ],
+      "sample_logtau500": -1.2621,
+      "sample_lower_upper_ion_b": [
+        1.0710923353723059,
+        0.8887637768852993,
+        0.9567387180411062
+      ],
+      "triplet_fixed_window_mA": [
+        69.14605674033015,
+        59.546826495308345,
+        46.52465662921298
+      ],
+      "author_charge_control": {
+        "author_data": {
+          "name": "receipt.json",
+          "bytes": 2847,
+          "sha256": "bcf3d889a969309a9c083aceaee4b129b1892de73cd9375db1b56b1969f1bdc0"
+        },
+        "adapter": {
+          "name": "bride_charge_contract.py",
+          "bytes": 5734,
+          "sha256": "d76a56b7dbdf12c26d076b0a9fd578f7106a04342ebac1beba0cd5d744147517"
+        },
+        "CH0_replaced": 24,
+        "branching": "MN term to final J: g_J / sum_g_term (assumed statistical branching)",
+        "reservoir": "LTE ground-H Saha H-minus using local engine constants",
+        "inverse": "Local O LTE detailed balance; not an independent forward-table reproduction",
+        "scientific_admission": "HOLD; author MN control, not original producer reconstruction"
+      },
+      "lte_uv_background_lines": {
+        "source": {
+          "name": "rh_atoms.py",
+          "bytes": 4432071,
+          "sha256": "99982a90746acaf293bcdb48ddab6e46c5fe30407e177735c0f255829379731f"
+        },
+        "species": [
+          {
+            "element": "H(Z=1)",
+            "lines": 2,
+            "continua": 5
+          },
+          {
+            "element": "C(Z=6)",
+            "lines": 5,
+            "continua": 14
+          },
+          {
+            "element": "N(Z=7)",
+            "lines": 4,
+            "continua": 6
+          },
+          {
+            "element": "Mg(Z=12)",
+            "lines": 16,
+            "continua": 65
+          },
+          {
+            "element": "Al(Z=13)",
+            "lines": 7,
+            "continua": 17
+          },
+          {
+            "element": "Si(Z=14)",
+            "lines": 10,
+            "continua": 23
+          },
+          {
+            "element": "S(Z=16)",
+            "lines": 1,
+            "continua": 7
+          },
+          {
+            "element": "Fe(Z=26)",
+            "lines": 2,
+            "continua": 15
+          }
+        ],
+        "interpretation": "Native passive atoms with 100-300 nm line centers moved to fixed LTE/CRD; native continua and spectral sampling also change; incomplete line blanketing"
+      }
+    }
+  ],
+  "scope": "logtau[-3,0] is a declared diagnostic subset, not a contribution function; no abundance fit",
+  "prior_receipt": {
+    "name": "summary.json",
+    "bytes": 15407,
+    "sha256": "b47a36f3e9401569d28aa4524cdb301d3e00220856c31bb8d6e7a0ff4db74ca0"
+  },
+  "status": "DIAGNOSTIC_COMPLETE"
+}

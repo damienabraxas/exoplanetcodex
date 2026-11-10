@@ -1,0 +1,183 @@
+{
+  "schema": "codex.bride_trace_fe_control_review/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "analyze_bride_trace_fe_control.py",
+    "bytes": 5870,
+    "sha256": "021d5651e3d4b955f73e40419b1e2a65d6b671d499ae61dc75bc8eb7abd07967"
+  },
+  "controls": [
+    {
+      "name": "report.json",
+      "bytes": 3258,
+      "sha256": "16a9bf8db2f1e892b727f7a3ff050e3f99e85e0c3f67d387f689414060f6d75f"
+    },
+    {
+      "name": "report.json",
+      "bytes": 3252,
+      "sha256": "19fe53eb5acc40c86d0894c6de176fd68bd79d38f633d0c28a3f538cc0f5f4be"
+    }
+  ],
+  "observation": {
+    "name": "irradrelwl.dat",
+    "bytes": 11934143,
+    "sha256": "75dd93479b5d3fe63c2e7828f5dbb3ce29f4c672f4f1147e0d30ce41bc8f5adb"
+  },
+  "policy": "solar_kpno_kurucz2005_corrected: kpno_solar_atlas is registered telluric_required=no on basis 'line_selection', so tellurics are handled by per-line clean-line selection over 9 enumerated bands (RYA-460/786), not by a correction stage. telluric_applied=applied. No telluric_corrected declaration is made.",
+  "broadening": {
+    "vmac_km_s": 3.8,
+    "vsini_km_s": 1.8,
+    "R": 500000.0,
+    "limb_darkening": 0.6,
+    "variants": [
+      "canonical_solar_broadening",
+      "plus_canonical_solar_gravitational_shift"
+    ]
+  },
+  "ispec_effects": {
+    "name": "effects.py",
+    "bytes": 15124,
+    "sha256": "68a8ddbc42ed174e5d1f6fbd14dad99b21461fb1357ef2132d76cc5b28775930"
+  },
+  "cases": [
+    {
+      "mode": "none",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.00381722577906
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.174416744286596
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.78411768187305
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.97199079525137,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.15361182917466,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.77347103857388,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 71.96734000400049,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.14670301524886,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.784876161045275,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "natural",
+      "intrinsic": [
+        {
+          "centre_air_A": 7771.944,
+          "area_mA": 72.08368515924917
+        },
+        {
+          "centre_air_A": 7774.166,
+          "area_mA": 62.325921021327
+        },
+        {
+          "centre_air_A": 7775.388,
+          "area_mA": 48.79203368911927
+        }
+      ],
+      "variants": [
+        {
+          "name": "canonical_broadened",
+          "rv_km_s": 0.0,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.05963545939616,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.30511644709401,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.7839341101714,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        },
+        {
+          "name": "plus_gravitational_shift",
+          "rv_km_s": 0.633,
+          "metrics": [
+            {
+              "centre_air_A": 7771.944,
+              "model_area_mA": 72.06198343868722,
+              "observed_area_mA": 77.55650815358007
+            },
+            {
+              "centre_air_A": 7774.166,
+              "model_area_mA": 62.298191951197914,
+              "observed_area_mA": 67.20039135548947
+            },
+            {
+              "centre_air_A": 7775.388,
+              "model_area_mA": 48.79427551034503,
+              "observed_area_mA": 53.794303530145754
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "added_intrinsic_areas_mA": [
+    0.07986793347011201,
+    0.15150427704040226,
+    0.007916007246222989
+  ],
+  "max_intrinsic_profile_difference": 0.6062781209002126,
+  "profiles": {
+    "name": "profiles.csv",
+    "bytes": 600303,
+    "sha256": "580a8d11332dec3f4f80b1a479d5dcc20b9b3f94a9d7f73e4ac5a87c778f4533"
+  },
+  "figure": {
+    "name": "trace_fe_control.png",
+    "bytes": 199277,
+    "sha256": "b38bd6dc55717c4a61adea3710e309fdb1db8466032d5775516853a713305c2f"
+  },
+  "caveats": "FeI subset, natural Voigt only; distinct Kurucz LTE neutral reservoir reported. No complete blend/continuum/abundance admission. Both RV variants retained; no optimization."
+}

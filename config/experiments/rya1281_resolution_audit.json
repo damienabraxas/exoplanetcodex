@@ -1,0 +1,11 @@
+{
+  "schema": "codex.bride_resolution_plan/1",
+  "target_R": 500000.0,
+  "variants": [
+    {"name": "shipped_gaussian", "native_R": null, "no_extra": false},
+    {"name": "finite_native_catalog", "native_R": 700000.0, "no_extra": false},
+    {"name": "finite_native_baker_approx", "native_R": 1000000.0, "no_extra": false},
+    {"name": "no_extra_smoothing", "native_R": null, "no_extra": true}
+  ],
+  "scope": "Frozen canonical/lower-g spectra and unchanged Kitt AIR holding. Same q90/3MAD/linear rule. Cross baseline/variant selectors and denominators, freeze actual baseline-IAG and synthesis supports without further clipping. Preserve all refusals and synthesis baseline. Gaussian sensitivity only, no preferred or fitted R, calibrated FTS claim or continuum adoption."
+}

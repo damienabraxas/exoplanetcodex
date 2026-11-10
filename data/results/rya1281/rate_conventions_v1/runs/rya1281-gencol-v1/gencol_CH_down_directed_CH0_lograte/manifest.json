@@ -1,0 +1,38 @@
+{
+  "case": {
+    "name": "gencol_CH_down_directed_CH0_lograte",
+    "teff": 5750,
+    "logg": 4.5,
+    "xi": 1.0,
+    "abundance": 8.7,
+    "drop_bottom": 0,
+    "experimental_collision_convention": "gencol_CH_down_directed_CH0_lograte"
+  },
+  "status": "FAILED",
+  "controls": {
+    "rays": 3,
+    "qscale": 1,
+    "rtol": 1e-06,
+    "maxiter": 1500,
+    "seconds_per_case": 600,
+    "flux_rays": 5
+  },
+  "threads": 1,
+  "interpretation": "xi changes formal-transfer/SE microturbulence at fixed MARCS t01 structure; Teff/logg use actual independent atmosphere files; non-adopted GENCOL convention experiment, exact reference-build parity unproven",
+  "diagnostic_collision_scales": {},
+  "atmosphere": {
+    "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "bytes": 24227,
+    "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+  },
+  "original_depths": 56,
+  "retained_depths": 56,
+  "temperature_range_K": [
+    4045.9,
+    9909.1
+  ],
+  "bottom_logtau500": 1.7744,
+  "experimental_collision_convention": "gencol_CH_down_directed_CH0_lograte",
+  "error": "ValueError: Invalid populations",
+  "elapsed_seconds": 1.4214095412753522
+}
