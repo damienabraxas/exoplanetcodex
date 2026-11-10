@@ -1,0 +1,28 @@
+{
+ "element": "Si",
+ "n_rows": 2453,
+ "held_reason": {
+  "UNGRADED_GF": 2022,
+  "GRADED_NOT_LAB": 372,
+  "REGISTRY_EXCLUDED": 59
+ },
+ "flags": {
+  "UNRATED_GF": 2440,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 78,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 24,
+  "3": 1395,
+  "4": 1034
+ },
+ "no_graded_route": [
+  "Si I near-UV",
+  "Si II near-UV"
+ ],
+ "with_codex_fit_evidence": 208,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}
