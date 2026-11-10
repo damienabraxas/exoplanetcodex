@@ -2941,8 +2941,8 @@ gf_047147,pk_ecf154af90b8,Cr II,9199.469,13.003,NIR,True,UNGRADED_GF,True,UNRATE
 ,,Cr I,4026.21,,VIS,False,NOT_IN_CANONICAL,False,MISSING_GF;GF_DISCREPANCY,2,Sobeck -1.92 vs list; not adopted; not yet tested [RYA-728] | no row in canonical_gf,,candidate
 gf_164375,pk_acd574b9cf76,Cr II,3665.984,4.9274,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;GF_DISCREPANCY,2,gf via VALD3: source paper not attached | Gurell vs list >0.5 dex; no fit row returned [RYA-728],,candidate
 ,,Cr II,4627.654,,VIS,False,NOT_IN_CANONICAL,False,MISSING_GF;GF_DISCREPANCY,2,Gurell gf 3.4 dex above both theories; unresolved [RYA-728] | no row in canonical_gf,,candidate
-gf_041240,pk_ce24b06faf88,Cr II,4891.485,3.887,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY;SOLAR_DISCREPANCY,2,lab vs list >0.5 dex; fit non-physical with either gf (KP 7.32-7.33 HARPS 7.42); pre-gate run c11be6f0 [RYA-728],,candidate
-gf_043533,pk_47049cf11e07,Cr II,6421.699,4.476,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY;SOLAR_DISCREPANCY,2,list gf non-physical (7.99 / 8.11); Lawler gf gives 2.64 KP 4.40 HARPS; pre-gate run c11be6f0 [RYA-728],,candidate
+gf_041240,pk_ce24b06faf88,Cr II,4891.485,3.887,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY;SOLAR_DISCREPANCY,2,lab vs list >0.5 dex; fit non-physical with either gf (KP 7.32-7.33 HARPS 7.42); pre-gate run c11be6f0 [RYA-728] | held lab gf -2.79 (lawler2017_cr2) moves canonical -3.705 by 0.915 dex [RYA-1268],,candidate
+gf_043533,pk_47049cf11e07,Cr II,6421.699,4.476,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY;SOLAR_DISCREPANCY,2,list gf non-physical (7.99 / 8.11); Lawler gf gives 2.64 KP 4.40 HARPS; pre-gate run c11be6f0 [RYA-728] | held lab gf -1.72 (lawler2017_cr2) moves canonical -4.987 by 3.267 dex [RYA-1268],,candidate
 gf_032621,pk_0d663ebfa004,Cr I,4200.101,3.079,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_032622,pk_6ff09c8fb3e9,Cr I,4200.169,3.845,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_032623,pk_ee765e38fa6f,Cr I,4201.439,3.648,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate

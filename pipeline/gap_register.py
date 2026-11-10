@@ -21,7 +21,8 @@ Flags (RYA-1378 vocabulary; may coexist):
   UNRATED_GF         no primary laboratory gf attached
   MISSING_GF         no canonical_gf row at all
   PROVENANCE_GAP     gf from a compilation (MFW, CSE, PhFl) or an opaque VALD3 tag
-  GF_DISCREPANCY     curated: a lab gf and the list gf disagree (data/reference/atomic_gap_known.csv)
+  GF_DISCREPANCY     a lab gf and the list gf disagree: curated (data/reference/atomic_gap_known.csv)
+                     or a held RYA-1268 lab move > 0.5 dex (held_large_gf_moves.csv, by line_id)
   SOLAR_DISCREPANCY  curated, or a band diagnostic fit > SOLAR_DEX from the litscan solar
                      value / non-physical. Fit evidence is only valid from runs on or after
                      01f51846 (RYA-1350 continuum gate); regenerate after a rerun.
@@ -46,6 +47,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 CANON = ROOT / "data/linelists/canonical_gf.csv"
 KNOWN = ROOT / "data/reference/atomic_gap_known.csv"
+#: RYA-1268: lab gf candidates held because they move the canonical gf by > 0.5 dex
+HELD_MOVES = ROOT / "data/audit/rya1268_line_coverage/held_large_gf_moves.csv"
 PROBLEMS = ROOT / "data/results/orchestrator/{star}_problem_lines.csv"
 DIAG = ROOT / "data/audit/orchestrator_prepare/{star}_{el}_band_diagnostics.csv"
 OUT_DIR = ROOT / "data/audit/atomic_gap_register"
@@ -131,6 +134,19 @@ def build(symbol: str, star: str = "solar") -> pd.DataFrame:
                                "in_synth": False, "held_reason": "NOT_IN_CANONICAL",
                                "flags": ";".join(["MISSING_GF"] + fl),
                                "evidence": f"{r.evidence} [{r.source}] | no row in canonical_gf"})
+
+    if HELD_MOVES.exists():
+        hm = pd.read_csv(HELD_MOVES)
+        hm = hm[hm.species.astype(str).str.split().str[0] == symbol]
+        by_id = dict(zip(c.line_id.astype(str), c.index))
+        for r in hm.itertuples():
+            i = by_id.get(str(r.line_id))
+            if i is None:
+                continue
+            if "GF_DISCREPANCY" not in flags[i]:
+                flags[i].append("GF_DISCREPANCY")
+            evidence[i].append(f"held lab gf {r.candidate_loggf} ({r.candidate_source}) moves "
+                               f"canonical {r.canonical_loggf} by {r.d_dex} dex [RYA-1268]")
 
     diag = Path(str(DIAG).format(star=star, el=symbol))
     solar = _solar_value(symbol)

@@ -2,6 +2,13 @@ line_id,physical_id,species,wavelength_air_A,excitation_potential_eV,band,in_syn
 gf_172794,pk_d5e533965bb2,Ba I,14999.917,1.4128,NIR,False,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_171178,pk_82127929577d,Ba II,13058.015,5.2514,NIR,False,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_172089,pk_b1eedff59bfe,Ba II,14211.023,5.2514,NIR,False,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
+gf_001400,pk_f2f8becfda13,Ba I,4619.922,1.521,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.585026652029182 (NIST C+) moves canonical -1.05 by -0.535 dex [RYA-1268],,candidate
+gf_001404,pk_8eb95ad1ecd7,Ba I,4700.422,1.567,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.2218487496163564 (NIST C+) moves canonical -0.63 by -0.592 dex [RYA-1268],,candidate
+gf_001439,pk_d501f91a3f6a,Ba I,7195.232,1.521,red-optical,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.8827287043442357 (NIST C+) moves canonical -0.25 by -0.633 dex [RYA-1268],,candidate
+gf_001443,pk_468e19cd12b6,Ba I,7417.53,1.19,red-optical,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.5016894462103996 (NIST C) moves canonical -0.98 by -0.522 dex [RYA-1268],,candidate
+gf_001447,pk_b0fdfdb31077,Ba I,7610.483,1.413,red-optical,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.3187587626244128 (NIST C) moves canonical 0.08 by -1.399 dex [RYA-1268],,candidate
+gf_001468,pk_2dd31568c49c,Ba II,5428.785,5.983,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -2.473660722610156 (NIST C) moves canonical -1.4 by -1.074 dex [RYA-1268],,candidate
+gf_001469,pk_b222b5e59fd4,Ba II,5480.296,6.011,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -2.3115801779972895 (NIST C) moves canonical -1.31 by -1.002 dex [RYA-1268],,candidate
 gf_001379,pk_83eeaed372e9,Ba I,4239.553,1.676,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001380,pk_89ce0a5a2988,Ba I,4242.602,1.567,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001381,pk_b56bc4808ad3,Ba I,4264.413,1.521,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -23,11 +30,9 @@ gf_001396,pk_106d0a2d1688,Ba I,4579.635,1.676,VIS,True,GRADED_NOT_LAB,False,UNRA
 gf_001397,pk_c72db965a285,Ba I,4591.82,1.143,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001398,pk_2e4516f861a7,Ba I,4599.762,1.567,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001399,pk_3193e41e41ea,Ba I,4604.978,1.12,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_001400,pk_f2f8becfda13,Ba I,4619.922,1.521,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001401,pk_776256c5a70d,Ba I,4628.324,1.143,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001402,pk_38501633b7b0,Ba I,4673.615,1.19,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001403,pk_44acaa9cc3a3,Ba I,4691.61,1.676,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_001404,pk_8eb95ad1ecd7,Ba I,4700.422,1.567,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001405,pk_9fbd4d1bdd00,Ba I,4726.432,1.413,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001406,pk_fbbf07a080d8,Ba I,4902.849,1.676,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001407,pk_02346f46b6da,Ba I,4947.32,2.239,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -62,15 +67,12 @@ gf_001435,pk_b0c3bc1efd7a,Ba I,6867.85,2.845,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_001436,pk_65321ec2d014,Ba I,7059.938,1.19,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001437,pk_9df370addd57,Ba I,7120.326,1.12,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001438,pk_af183887c0a1,Ba I,7153.585,2.946,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_001439,pk_d501f91a3f6a,Ba I,7195.232,1.521,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001440,pk_091060b08abf,Ba I,7228.865,2.736,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001441,pk_eb2ec48800d9,Ba I,7280.297,1.143,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001442,pk_fa2f1cd8fffd,Ba I,7392.407,1.567,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
-gf_001443,pk_468e19cd12b6,Ba I,7417.53,1.19,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001444,pk_160b942a00f1,Ba I,7459.773,2.845,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001445,pk_f9604451d349,Ba I,7488.077,1.19,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001446,pk_422246266464,Ba I,7609.204,2.859,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_001447,pk_b0fdfdb31077,Ba I,7610.483,1.413,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001448,pk_d9d22566f3d4,Ba I,7642.909,2.946,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001449,pk_6deb64eda5a9,Ba I,7672.087,1.12,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001450,pk_c5810128a2d3,Ba I,7780.479,1.143,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
@@ -87,8 +89,6 @@ gf_001464,pk_2294d23809b6,Ba II,4899.929,2.722,VIS,True,GRADED_NOT_LAB,False,UNR
 gf_001465,pk_24f578fbfd4b,Ba II,4934.0742,0.0,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001466,pk_70c0f75bfe02,Ba II,5361.355,5.697,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001467,pk_4ed5acfb7e37,Ba II,5421.069,5.723,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
-gf_001468,pk_2dd31568c49c,Ba II,5428.785,5.983,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_001469,pk_b222b5e59fd4,Ba II,5480.296,6.011,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001470,pk_58fb66dd312a,Ba II,5853.668,0.604,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_001471,pk_ba5d4c2fb6bb,Ba II,5981.283,6.201,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_001472,pk_ce156beffb54,Ba II,5999.81,6.201,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate

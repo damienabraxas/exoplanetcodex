@@ -37,6 +37,12 @@ def reg(tmp_path, monkeypatch):
     ).to_csv(known, index=False)
     monkeypatch.setattr(g, "CANON", canon)
     monkeypatch.setattr(g, "KNOWN", known)
+    moves = tmp_path / "moves.csv"
+    pd.DataFrame([("b", "Xx I", 5100.0, 2.0, -1.5, "KURUCZ", -0.9, "lab2099", 0.6)],
+                 columns=["line_id", "species", "wavelength_air_A", "ep_eV", "canonical_loggf",
+                          "canonical_tier", "candidate_loggf", "candidate_source", "d_dex"]
+                 ).to_csv(moves, index=False)
+    monkeypatch.setattr(g, "HELD_MOVES", moves)
     monkeypatch.setattr(g, "PROBLEMS", tmp_path / "{star}_problem_lines.csv")
     monkeypatch.setattr(g, "DIAG", tmp_path / "{star}_{el}_diag.csv")
     monkeypatch.setattr(g, "_excluded_by_registry",
@@ -87,3 +93,9 @@ def test_the_register_is_deterministic(reg, monkeypatch):
 
 def test_band_of_takes_the_narrowest_band():
     assert g.band_of(16000.0) == "H" and g.band_of(10000.0) == "NIR"
+
+
+def test_a_held_large_lab_gf_move_is_a_gf_discrepancy(reg):
+    r = row(reg, 5100.0)
+    assert r["flags"].count("GF_DISCREPANCY") == 1          # curated + held move: one flag
+    assert "lab2099" in r.evidence and "theory vs list" in r.evidence and r.priority == 2
