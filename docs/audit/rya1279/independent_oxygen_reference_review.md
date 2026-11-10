@@ -418,3 +418,55 @@ receipts/8 exact compact copies in hop_profile_source_v1. Path register147 prese
 then qualified collider/rate/EOS integration and fresh native balance, before the
 observed solar intensity/flux and broader parameter/element validation. All
 physical-model, abundance, production and3D gates remain HOLD.
+
+### Source-determined optical table controls and kernel probe (v261)
+
+Three fresh paired fixed-population transfers separately use native consumed table
+centres, strengths, and both. Native table receipt is checked before/after; canonical
+AIR-to-vacuum conversion once. Support is ten transitions in the predeclared windows,
+including two neighbouring6156 lines. Original levels, atom file, continua/collisions,
+all other transitions and fixed n/nStar remain unchanged. Transfer-only wavelength
+properties decouple photon and level energies exactly as this diagnostic intends;
+this object is explicitly NOT qualified for coupled SE. No fitted shift/strength.
+
+The three pairs finish5.650/7.794/5.977s. An independent audit proves populations,
+nStar, emergent continuum and output wavelength arrays bit-identical to the original
+He-off baseline in every case. Centre-only versus prior maximum NLTE normalized
+profile differences:7771 .000273 vs.000528;7774 .000250 vs.001299;
+7775 .000266 vs.001256. Combined centre+strength differences are.000269/.000253/
+.000260. Thus known table rounding explains most triplet pointwise mismatch.
+Strength-only effects are small and do not uniformly improve agreement.
+
+| AIR centre | centre-only area difference mA | centres+strengths area difference mA |
+|---|---:|---:|
+|6158.170|-.000319|+.002155|
+|6300.304|+.000124|+.000060|
+|7771.944|+.031403|+.029012|
+|7774.166|+.021298|+.023027|
+|7775.388|+.012191|+.015370|
+|8446.400|-.079535|-.085083|
+
+These are finite +/-0.5A vertical intensity areas (LW/HOP minus native), not flux or
+an abundance. Combined plot inspected; remaining small shape differences visible
+only on a residual scale.6363 still absent. Constructor preflights expecting eight
+immediate contributors refused the ten-window support; source table inspection
+corrected that explicit identity before successful runs. Failed manifests preserved.
+
+Pinned native SRC/rt_patch_mod::bound_bound path directly calls qlg_bot_profile,
+which calls QLG-bot fp32; this is independent of standalone line-list Voigt options.
+A fresh isolated GPL driver compiles the exact pinned qlg_mod source and compares
+its QLG-bot and fp64 reference with independent SciPy wofz.61 damping values1e-5..10
+and801 offsets-20..20 yield48,861 samples. QLG-bot max absolute H error.00335024;
+max relative error.00641260 where H>1e-8. Native fp64 reference itself has max absolute
+error1.82053e-6. These are kernel-grid errors, NOT an Oxygen emergent-intensity bound
+or proof of the remaining spectral discrepancy. Probe v2 completes.966s; original
+checkout/binaries untouched. v1's ambiguous threshold key is retained external with
+receipts; v2 explicitly records the1e-8 floor. No profile default selected or changed.
+
+47 focused compiled/reference/state tests pass2.45s.41 raw receipts/30 exact compact
+copies verified in hop_table_profile_v1. Reference library remains212documents,
+129indexed/83unindexed,17non-documents; known global debt not claimed green. Next:
+measure the kernel on actual matched atmospheric damping support, then an isolated
+native accurate-profile transfer control with explicit population response, before
+qualified collider/EOS/SE and fresh-field validation. Physical1D/3D/solar/all-band
+admission remains HOLD; no production or source atom changes.

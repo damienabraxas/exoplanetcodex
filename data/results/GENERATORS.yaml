@@ -31617,3 +31617,127 @@ artifacts:
     generator: scripts/audit_oxygen_native_table.py
     ticket: RYA-1371
     note: Exact compact runtime guard and pinned source audit. Table-audit-v1 frame labels superseded by v2; scientific HOLD.
+  - artifact: rya1371/hop_table_profile_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-audit-v1/report.json
+    generator: scripts/audit_hop_table_controls.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-comparison-v2/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-comparison-v2/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-comparison-v2/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-dry-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-dry-v2/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-dry-v2/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-v2/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-v2/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-v2/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-centres-v2/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-combined-comparison-v1/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-combined-comparison-v1/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-combined-comparison-v1/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-combined-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-combined-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-combined-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-combined-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-strengths-comparison-v1/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-strengths-comparison-v1/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-strengths-comparison-v1/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-strengths-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-strengths-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-strengths-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-hop-table-strengths-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-qlg-profile-probe-v2/build.log
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-qlg-profile-probe-v2/manifest.json
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-qlg-profile-probe-v2/profiles.npz
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.
+  - artifact: rya1371/hop_table_profile_v1/rya1371-qlg-profile-probe-v2/report.json
+    generator: scripts/probe_native_qlg_profiles.py
+    ticket: RYA-1371
+    note: Exact compact source-determined table/profile diagnostic. Failed support-count preflights retained; no physical/default adoption.

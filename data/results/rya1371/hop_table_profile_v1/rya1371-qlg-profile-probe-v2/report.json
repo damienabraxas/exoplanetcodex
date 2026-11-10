@@ -1,0 +1,79 @@
+{
+  "generator": {
+    "name": "probe_native_qlg_profiles.py",
+    "bytes": 3802,
+    "sha256": "d2575bb8be559bf000e52052d63d68f6b6a70e31c0227ac9a7f3d800510af020"
+  },
+  "reference": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/qlg_mod.f90": {
+      "name": "qlg_mod.f90",
+      "bytes": 34977,
+      "sha256": "b9332dca475018b8efae038b4ac69c05e52f77a27c2d7c116eb11053f84e7ea1"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/qlg_profile_probe/probe.f90": {
+      "name": "probe.f90",
+      "bytes": 585,
+      "sha256": "b0bbaa28c50215a57bb19f27595b15993e65f684275cd59fac147bc7a657b428"
+    },
+    "/opt/homebrew/bin/gfortran": {
+      "name": "gfortran",
+      "bytes": 3039240,
+      "sha256": "f86a6dc75b07aa490e3789208b2f17f869883af975eb21897d4693d24cc44b73"
+    }
+  },
+  "compiler": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "seconds_limit": 600,
+  "threads": 1,
+  "scientific_admission": "HOLD",
+  "relative_error_floor_H": 1e-08,
+  "seconds": 0.9659489998593926,
+  "executable": {
+    "name": "profile_probe",
+    "bytes": 52224,
+    "sha256": "b010283655a10b7e324f296e86023dea8317d0a685dabef0c8bcf2df7f735f87"
+  },
+  "profiles": {
+    "name": "profiles.txt",
+    "bytes": 5081544,
+    "sha256": "ca051e0796ad94faaed99a284eb3c5b67f1f6d41c562c0fe0b14c3af0513477f"
+  },
+  "shape": [
+    61,
+    801
+  ],
+  "a_range": [
+    1e-05,
+    10.0
+  ],
+  "v_range": [
+    -20,
+    20
+  ],
+  "bot_max_abs_error": 0.003350238620429824,
+  "bot_max_relative_above_floor": 0.0064125971534038095,
+  "native_fp64_ref_max_abs_error": 1.8205312487390435e-06,
+  "native_fp64_ref_max_relative_above_floor": 8.386234791701863e-05,
+  "limitations": [
+    "Kernel-only generic diagnostic grid; not measured Oxygen atmosphere damping support or an emergent-intensity error bound.",
+    "Actual upstream QLG-bot fp32 and upstream fp64 reference compared with independent SciPy wofz. RT frequency Jacobians, profile normalization and broadening inputs require separate accounting.",
+    "No source, native binary, profile default, atom, population or production change."
+  ]
+}

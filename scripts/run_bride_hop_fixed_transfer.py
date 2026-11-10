@@ -20,7 +20,7 @@ def main():
     options_file=ROOT/'config/experiments/rya1371_hop_native_options.json'
     if fingerprint(options_file)!=plan['native_options']:raise ValueError('Changed predeclared native module options')
     checks[str(options_file)]=plan['native_options']
-    for relative in ['pipeline/bride_hop_transfer.py','pipeline/hop_packet.py','pipeline/hop_abi.py','pipeline/bride_top_cap.py','pipeline/multi_atom.py','pipeline/bride_reference.py']:
+    for relative in ['pipeline/bride_hop_transfer.py','pipeline/bride_native_table_control.py','pipeline/hop_packet.py','pipeline/hop_abi.py','pipeline/bride_top_cap.py','pipeline/multi_atom.py','pipeline/bride_reference.py']:
         path=ROOT/relative;checks[str(path)]=fingerprint(path)
     if os.environ.get('OMP_NUM_THREADS')!='1'or not 0<plan['seconds']<=600 or plan['purpose']!='fixed-native-oxygen-transfer':raise ValueError('Require explicit bounded one-thread fixed-transfer plan')
     native=Path(require_codex_path(plan['native_analysis_resource']));arrays=native/'arrays.npz';spectra=native/'spectra.npz';report_file=native/'report.json';r=json.loads(report_file.read_text());_,_,_,reference=load_engine('openmulti3d')
@@ -36,12 +36,17 @@ def main():
     if r['reference']!=fingerprint(ref_file):raise ValueError('Changed declared native/held reference relation')
     if fingerprint(atom_file)!=held['atom']or fingerprint(model_file)!=held['atmosphere_file']:raise ValueError('Changed physical input')
     for path in [atom_file,ref_file,model_file,Path(compiled.__file__)]:checks[str(path)]=fingerprint(path)
+    table_control=None
+    if 'table_control'in plan:
+        item=plan['table_control'];table=require_codex_path(item['resource'])/'native/atoms/O.txt'
+        if fingerprint(table)!=item['receipt']:raise ValueError('Changed consumed native table')
+        checks[str(table)]=item['receipt'];table_control=(table,item['mode'])
     structure=read_marcs_structure(model_file);extra=np.unique([vac[0]/10,vac[-1]/10]);a.output.mkdir(parents=True,exist_ok=False);start=time.perf_counter();records=[]
     manifest=dict(generator=fingerprint(__file__),plan=fingerprint(a.plan),scientific_admission='HOLD',inputs=checks,scope=plan['scope'],dry_run=a.dry_run)
     (a.output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     for name,pop in [('native_NLTE',n),('native_LTE',s)]:
-        ctx,audit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,formal_solver=plan.get('formal_solver','piecewise_besser_1d'),helium_broadening=plan.get('helium_broadening',True))
-        continuum,caudit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,continuum_only=True,formal_solver=plan.get('formal_solver','piecewise_besser_1d'),helium_broadening=plan.get('helium_broadening',True))
+        ctx,audit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,formal_solver=plan.get('formal_solver','piecewise_besser_1d'),helium_broadening=plan.get('helium_broadening',True),table_control=table_control)
+        continuum,caudit=make_context(state,structure,read_multi_atom(atom_file),pop,s,extra_vac_nm=extra,continuum_only=True,formal_solver=plan.get('formal_solver','piecewise_besser_1d'),helium_broadening=plan.get('helium_broadening',True),table_control=table_control)
         if a.dry_run:
             records.append(dict(case=name,audit=audit,continuum_audit=caudit,constructed_only=True));continue
         rad=converge_cap_radiation(ctx,rtol=1e-8,maxiter=1000,deadline=start+plan['seconds']);crad=converge_cap_radiation(continuum,rtol=1e-8,maxiter=1000,deadline=start+plan['seconds'])

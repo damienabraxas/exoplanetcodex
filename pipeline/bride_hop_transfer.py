@@ -92,7 +92,7 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     import lightweaver as lw
@@ -111,6 +111,10 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lw.ThermalisedRadiation(),upperBc=FiniteColumnCap(0.))
     mu,weight,angles=native_lobatto5();atmos.quadrature(Nrays=5,mu=mu,wmu=weight)
     model=to_lightweaver(atom);perturbers=Perturbers(seed,helium=helium_broadening)
+    table_audit=None
+    if table_control is not None:
+        from pipeline.bride_native_table_control import apply_table_control
+        table_audit=apply_table_control(model,*table_control)
     for line in model.lines:
         line.quadrature.Nlambda=2*(line.quadrature.Nlambda-1)+1
         line.broadening.elastic=[NativePerturberBroadener(x,perturbers)for x in line.broadening.elastic]
@@ -122,4 +126,4 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records)
     ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory);ctx.depthData.fill=True
     if not continuum_only:verify_helium_reads(perturbers.reads,helium_broadening)
-    return ctx,dict(helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
+    return ctx,dict(table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; original LW atomic/broadening formulas. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

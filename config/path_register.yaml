@@ -1141,3 +1141,9 @@ entries:
     rel: bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1
     kind: dir
     desc: Explicit native Stark-off diagnostic consumed state, scientific HOLD.
+
+  experiments.openmulti3d_oxygen_linear_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-linear-output-v1
+    kind: dir
+    desc: Pinned native linear output control, consumed atom table retained; scientific HOLD.
