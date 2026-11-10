@@ -1,3 +1,9 @@
+## 2026-11-10 — RYA-1378 landed; RYA-1350 branch reconciled
+
+> **Current as of `main` 45901e76** (PR #621).
+
+- **RYA-1378** — `45901e76` PR #621: Atomic Data Gap Register (`pipeline/gap_register.py`, `run_pipeline --gap-register`, run at the end of every element run); 27 solar registers in data/audit/atomic_gap_register/.
+
 ## 2026-11-09 — RYA-1278 merge reconciled; RYA-1350 continuum-gate sweep
 
 > **Current as of `main` d1728c92** (PR #619).
