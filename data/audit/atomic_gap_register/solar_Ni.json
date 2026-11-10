@@ -1,0 +1,32 @@
+{
+ "element": "Ni",
+ "n_rows": 8743,
+ "held_reason": {
+  "UNGRADED_GF": 8729,
+  "GRADED_NOT_LAB": 14
+ },
+ "flags": {
+  "UNRATED_GF": 8743,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 956,
+  "GF_DISCREPANCY": 1,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 6295,
+  "2": 1,
+  "3": 1591,
+  "4": 856
+ },
+ "no_graded_route": [
+  "Ni I H",
+  "Ni I K",
+  "Ni I NIR",
+  "Ni II VIS",
+  "Ni II near-UV",
+  "Ni II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

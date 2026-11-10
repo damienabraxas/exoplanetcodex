@@ -359,6 +359,28 @@ the weak lines but quarantines every strong one, so it cannot settle them.
 - A pool is `set:<NAME>`. `SET-<NAME>` is only the display form, and passing it silently
   selects lines "by theoretical depth" instead.
 
+### 7c. Atomic Data Gap Register: held lines go on a future-study list (RYA-1378, 2026-11-09)
+
+Ryan: "all lines that are held or whatever due to grading should be added to a list for future study".
+
+**Where it comes from.** Every element run ends by writing `data/audit/atomic_gap_register/solar_<El>.csv`, plus a `.json` summary. To write one element's register on its own, run `run_pipeline.py --element El --gap-register`.
+
+**What goes in.** The register holds every line of the element that is not a reference (LAB-tier) line:
+
+- it uses the orchestrator's own pool definitions;
+- it covers ions I and II, within the band edges;
+- each line records why it is held and which flags apply (RYA-1378 vocabulary);
+- each line has a priority, where 1 means the band has no graded line at all.
+
+**What it never does.**
+
+- It never copies gf values; it joins to `canonical_gf.csv` by `line_id`.
+- It never changes a pool or a product.
+
+**Curated discrepancies** (lab vs list, non-physical fits) live in `data/reference/atomic_gap_known.csv`, one row per line with the ticket that found it. Add a row there; never hard-code one in a script.
+
+**Fit evidence and the continuum gate.** Fit evidence is only valid from runs on or after the RYA-1350 continuum gate (01f51846). Regenerate an element's register after it is rerun.
+
 ## 8. Check before pushing (local evidence and actual CI status)
 
 ```bash

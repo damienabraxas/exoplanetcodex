@@ -317,6 +317,11 @@ def main() -> None:
     m.add_argument('--asplund-mu1', action='store_true',
                    help='RYA-1350: measure the element\'s Asplund line set the way Asplund does '
                         '(disk-centre intensity, mu=1, Liege atlas) and record it for --coverage.')
+    m.add_argument('--gap-register', action='store_true',
+                   help='RYA-1378: write the element\'s Atomic Data Gap Register (every line the '
+                        'grading keeps out of the reference pool, for future lab/theory study) '
+                        'to data/audit/atomic_gap_register/ and exit. Also runs at the end of '
+                        'every element run.')
     m.add_argument('--jobs', type=int, default=1, metavar='N',
                    help='RYA-1233: run up to N matrix cells in parallel (planning stays '
                         'serial; only execution fans out). Default 1.')
@@ -403,6 +408,12 @@ def main() -> None:
         cov = coverage_report.coverage(star_id, args.element)
         print(coverage_report.render(cov))
         sys.exit(0 if cov["done"] else 3)
+
+    if args.element and args.gap_register:
+        from pipeline import gap_register
+        symbol = args.element.split()[0]
+        print(gap_register.render(gap_register.write(symbol, star_id)))
+        sys.exit(0)
 
     if args.element and args.options:
         from pipeline import run_request
