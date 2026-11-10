@@ -1,0 +1,35 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "4588be2dff133232d495793a73f7ee2b79cc7db28302faa5b4f44f0cb72fa968",
+      "bytes": 6395
+    }
+  },
+  "files": {
+    "evidence/staged_nsic0_log_snapshot_v10/capture.json": {
+      "sha256": "7f53890c9cd95c816392aad4f6b6ab51fe76b6317130e3f54362e11e8d93828f",
+      "bytes": 5851
+    },
+    "evidence/staged_nsic0_log_snapshot_v10/driver.py": {
+      "sha256": "96cdc6e87b6f52e62e0745be68950564ddb093de1054daf80d6462d50796a1c9",
+      "bytes": 5411
+    },
+    "evidence/staged_nsic0_log_snapshot_v10/rmcdhf.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/staged_nsic0_log_snapshot_v10/rmcdhf.stdin": {
+      "sha256": "15779ce003f7a956f1d5cf23f4db797d7f0cbda11bd03cb9ddc94d50bab4cd93",
+      "bytes": 140
+    },
+    "evidence/staged_nsic0_log_snapshot_v10/rmcdhf.stdout": {
+      "sha256": "00a1b529d5fcb2830c87527622c3764a552673bcb5694ef3e6c77fd8ab5c2bd3",
+      "bytes": 12325
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 5,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

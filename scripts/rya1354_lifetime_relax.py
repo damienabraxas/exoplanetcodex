@@ -37,11 +37,13 @@ def validate_core_layer(core, n):
     return sha(core / 'receipt.json')
 
 
-def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iteration_floor=None,both_2p_spectroscopic=False,freeze_2s=False):
+def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iteration_floor=None,both_2p_spectroscopic=False,freeze_2s=False,optimization_nsic=20,all_fixed=False):
     """Try method3 for2s optimization; fresh restart restores node-checked defaults."""
     spectroscopic=('2s,2p-,2p' if both_2p_spectroscopic else '2s,2p')+(',3s' if state!='ground' else '')
     grid=f'n\nn\ny\nn\ny\n{math.exp(-65/16)/8:.17g}\n0.03125\n0\n439\ny\n{.0625**6:.17g}\n'
-    nsic='n\n' if verify else 'y\n20\n'
+    if optimization_nsic<0:
+        raise ValueError('Additional orbital updates must be nonnegative')
+    nsic='n\n' if verify else f'y\n{optimization_nsic}\n'
     methods='y\n\n\n2s\n\n' if two_s_method3 and not verify else 'n\n'
     if radial_iteration_floor is not None and radial_iteration_floor<1:
         raise ValueError('Native radial iteration floor must be positive')
@@ -50,6 +52,8 @@ def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iter
     varied=variational_orbitals(n)
     if freeze_2s:
         varied=varied.replace('2*','2p*',1)
+    if all_fixed:
+        varied=''
     return (f'{grid}{STATES[state]["roots"]}{varied}\n{spectroscopic}\n{cycles}\n'
             f'y\nn\n{methods}n\ny\nn\n{-damping}\nn\n{nsic}{radial}n\n1\n')
 

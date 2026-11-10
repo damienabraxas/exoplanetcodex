@@ -16,13 +16,31 @@ from rya1354_wave_probe import decode
 
 
 def require_frozen(source,target,freeze_2s):
-    """Fixed functions must retain their native records, not just their labels."""
+    """Compare against native fixed-load output, including load normalization."""
     a,b=decode(source.read_bytes()),decode(target.read_bytes())
     if set(a)!=set(b):
         raise ValueError('Orbital inventory changed within matched staged model')
     for key in ((1,-1),(2,-1)) if freeze_2s else ((1,-1),):
         if a[key]!=b[key]:
             raise ValueError('Declared fixed radial function changed: '+str(key))
+
+
+def load_baseline(args,out,state,receipt):
+    """Same input/grid, all orbitals fixed: reproduce native load normalization."""
+    baseline=out/'fixed_load';baseline.mkdir()
+    for name in ('isodata','rcsf.inp','rwfn.inp'):
+        shutil.copyfile(out/name,baseline/name)
+    receipt['steps'].append(run(args.grasp_bin/'rangular','y\n',baseline,1800))
+    controls=scf_controls(state,4,1,args.damping,True,radial_iteration_floor=24,
+                          both_2p_spectroscopic=True,all_fixed=True)
+    receipt['steps'].append(run(args.strict_bin/'rmcdhf',controls,baseline,43200))
+    text=(baseline/'rmcdhf.stdout').read_text()+(baseline/'rmcdhf.stderr').read_text()
+    if ('All subshell radial wavefunctions are fixed' not in text or
+            any(s['semantic_errors'] for s in receipt['steps']) or not (baseline/'rwfn.out').is_file()):
+        raise ValueError('Native all-fixed loading control failed')
+    if set(decode((baseline/'rwfn.out').read_bytes()))!=set(decode((out/'rwfn.inp').read_bytes())):
+        raise ValueError('Native loading control changed orbital inventory')
+    return baseline/'rwfn.out'
 
 
 def optimize(args,phase,state,seed,receipt):
@@ -34,15 +52,16 @@ def optimize(args,phase,state,seed,receipt):
             shutil.copyfile(source/name,out/name)
         shutil.copyfile(out/'state.c',out/'rcsf.inp');shutil.copyfile(out/'state.w',out/'rwfn.inp')
         receipt['steps'].append(run(args.grasp_bin/'rangular','y\n',out,1800))
+        baseline=load_baseline(args,out,state,receipt)
         controls=scf_controls(state,4,args.cycles,args.damping,verify,radial_iteration_floor=24,
-                              both_2p_spectroscopic=True,freeze_2s=freeze)
+                              both_2p_spectroscopic=True,freeze_2s=freeze,optimization_nsic=args.optimization_nsic)
         receipt['steps'].append(run(args.strict_bin/'rmcdhf',controls,out,43200))
         if any(step['semantic_errors'] for step in receipt['steps']):
             raise ValueError('Native refusal; no staged-state promotion')
         diagnostics=scf_diagnostics((out/'rmcdhf.stdout').read_text(),(out/'rmcdhf.stderr').read_text())
         if diagnostics['iteration_limit_hit'] or not diagnostics['all_reported_functions_below_ACC']:
             raise ValueError('Staged orbital criterion unmet')
-        require_frozen(out/'rwfn.inp',out/'rwfn.out',freeze)
+        require_frozen(baseline,out/'rwfn.out',freeze)
         if (out/'rcsf.inp').read_bytes()!=(seed/'state.c').read_bytes() or (out/'isodata').read_bytes()!=(seed/'isodata').read_bytes():
             raise ValueError('Staged CSF/nucleus identity changed')
         for native,extension in (('rwfn.out','w'),('rmix.out','m')):
@@ -74,10 +93,11 @@ def main():
     ap.add_argument('--out',type=Path,required=True)
     ap.add_argument('--cycles',type=int,default=1500)
     ap.add_argument('--damping',type=float,default=.5)
+    ap.add_argument('--optimization-nsic',type=int,default=20,help='Extra least-self-consistent orbital updates after every outer cycle; verification remains NSIC0')
     args=ap.parse_args()
     if platform.node().lower().split('.')[0]!='sirius':
         raise RuntimeError('Atomic solvers belong on Sirius')
-    if args.cycles<1 or not 0<args.damping<1:
+    if args.cycles<1 or not 0<args.damping<1 or args.optimization_nsic<0:
         raise ValueError('Invalid staged numerical controls')
     for attr in ('grasp_bin','strict_bin','core','out'):
         setattr(args,attr,getattr(args,attr).resolve())
@@ -87,9 +107,10 @@ def main():
     for name in ('rya1354_lifetime_relax','rya1354_lifetime_ladder','rya1354_solver_smoke',
                  'rya1354_two_method_summary','rya1354_triplet_correlation','rya1354_wave_probe'):
         shutil.copyfile(sys.modules[name].__file__,drivers/(name+'.py'))
-    receipt=dict(schema='rya1354.staged-core-relaxation.v9',status='RUNNING',n=4,
+    receipt=dict(schema='rya1354.staged-core-relaxation.v10',status='RUNNING',n=4,
         scientific_admission='HOLD',adoption_allowed=False,started_utc=datetime.now(timezone.utc).isoformat(),
         core_receipt_sha256=initializer,steps=[],diagnostics={},cycles=args.cycles,damping=args.damping,
+        optimization_nsic=args.optimization_nsic,frozen_record_baseline='NATIVE_ALL_FIXED_SAME_INPUT_GRID_LOADING_CONTROL',
         phases=['fixed_2s','released_2s'],accepted_lifetime=None,
         model='Same n4 full2s-SD/DC CSFs. All3states first vary2p*/3*/4* with1s/2s fixed, strict/fresh verification; then vary2*/3*/4* with1s fixed, strict/fresh verification. Explicit2p-/2p spectroscopic, NSOLV24, original439grid/ACCY. No observed/failed-wave inputs; no lifetime from preconditioner.')
     try:

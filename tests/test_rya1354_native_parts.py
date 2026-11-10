@@ -285,3 +285,57 @@ def test_native_preconditioner_snapshot_uses_intended_fixed_core_scope():
         assert row['orbitals']['2p-']['method']==row['orbitals']['2p']['method']==1
     for name,record in capture['files'].items():
         assert hashlib.sha256(files[prefix+name]).hexdigest()==record['sha256']
+
+
+def test_native_load_baseline_reproduces_frozen_records_without_tolerance(tmp_path):
+    from rya1354_lifetime_staged import require_frozen
+    files,_=load_parts(ROOT/'data/audit/rya1354/fixed_load_control_v10')
+    prefix='validation/fixed_load_control_v10/'
+    paths={}
+    for tag,name in [('raw','rwfn.inp'),('baseline','fixed_load/rwfn.out'),('failed','failed_rwfn.out')]:
+        path=tmp_path/(tag+'.w');path.write_bytes(files[prefix+name]);paths[tag]=path
+    with pytest.raises(ValueError,match='fixed radial'):
+        require_frozen(paths['raw'],paths['failed'],True)
+    require_frozen(paths['baseline'],paths['failed'],True)
+    receipt=json.loads(files[prefix+'receipt.json'])
+    assert receipt['status']=='NATIVE_LOADING_NORMALIZATION_VERIFIED_NO_STATE_ADMISSION'
+    assert all(not r['raw_record_identical'] and r['normalized_record_identical_to_failed_output'] for r in receipt['fixed_records'])
+
+
+def test_optimization_nsic_control_changes_only_extra_update_count():
+    from rya1354_lifetime_relax import scf_controls
+    for state in ('ground','quintet','triplet'):
+        for freeze in (False,True):
+            for verify in (False,True):
+                kw=dict(radial_iteration_floor=24,both_2p_spectroscopic=True,freeze_2s=freeze)
+                old=scf_controls(state,4,1500,.5,verify,**kw)
+                new=scf_controls(state,4,1500,.5,verify,optimization_nsic=0,**kw)
+                assert new==(old if verify else old.replace('\ny\n20\n','\ny\n0\n',1))
+    with pytest.raises(ValueError,match='nonnegative'):
+        scf_controls('ground',4,1500,.5,False,optimization_nsic=-1)
+
+
+def test_staged_failure_audit_preserves_rejection_and_actual_extra_update_counts():
+    from rya1354_staged_failure import summarize
+    report=summarize(ROOT/'data/audit/rya1354')
+    assert report==json.loads((ROOT/'data/audit/rya1354/source_curation_v2/staged_failure_v10.json').read_text())
+    assert report['last_printed_cycle']==319 and report['accepted_lifetime'] is None
+    assert report['first_three_cycle_update_counts']=={'1':34,'2':23,'3':23}
+    assert report['failed_attempts'][-1]['orbital']=='2p-'
+
+
+def test_native_nsic0_snapshot_has_only_regular_orbital_passes():
+    from rya1354_lifetime_relax import scf_controls
+    from rya1354_staged_failure import update_counts
+    from rya1354_scf_history import history
+    files,_=load_parts(ROOT/'data/audit/rya1354/staged_nsic0_logs_v10')
+    prefix='evidence/staged_nsic0_log_snapshot_v10/'
+    stdout=files[prefix+'rmcdhf.stdout'].decode()
+    assert files[prefix+'rmcdhf.stdin'].decode()==scf_controls('ground',4,1500,.5,False,
+        radial_iteration_floor=24,both_2p_spectroscopic=True,freeze_2s=True,optimization_nsic=0)
+    complete=[r for r in history(stdout) if r['complete_printed_cycle']]
+    assert complete
+    counts=update_counts(stdout)
+    assert all(counts[r['iteration']]==14 for r in complete)
+    capture=json.loads(files[prefix+'capture.json'])
+    assert capture['accepted_lifetime'] is None and not capture['adoption_allowed']
