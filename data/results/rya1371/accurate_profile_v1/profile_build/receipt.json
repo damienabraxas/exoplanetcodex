@@ -1,0 +1,51 @@
+{
+  "generator": {
+    "name": "build_native_profile_reference.py",
+    "bytes": 3249,
+    "sha256": "8d8f97c71fe4edb11a89c9bb41a82a9574ab9abe3ddf3db934cdd3ec9c993306"
+  },
+  "source_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+  "original_reference": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "patch": {
+    "name": "active_profile.patch",
+    "bytes": 3144,
+    "sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446"
+  },
+  "source": "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3",
+  "completed": true,
+  "threads": 1,
+  "seconds_limit": 600,
+  "scientific_admission": "HOLD",
+  "tracked_diff_sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446",
+  "executable": {
+    "name": "dispatch.x",
+    "bytes": 3614120,
+    "sha256": "a1f9441bf21003113bc59d3c0c91a16f5b1e68cdcf2574e7ccd411e70341dbc1"
+  },
+  "libraries": {
+    "hop": {
+      "name": "libhop.so",
+      "bytes": 1164104,
+      "sha256": "b95bd76312cbeb8815c1d2caf5e57e900d35b4c1683129c0190d87eebbba8236"
+    }
+  },
+  "compiler": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "seconds": 98.88151066703722
+}

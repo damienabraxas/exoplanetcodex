@@ -513,3 +513,50 @@ retain both independent bug-ledger additions. Artifact-guard comparison continue
 to name the clean d1728c92 tree baseline rather than claiming a full test of newer
 main code. Next: isolated accurate-kernel native transfer, fresh-field balance and
 qualified collider/EOS/SE, then observed solar validation.
+
+### Isolated accurate-kernel native control (v263)
+
+A fresh private pinned worktree/build changes only three active non-H profile call
+sites and adds a helper invoking the existing fp64 reference. Input/offset arithmetic,
+final fp32 conversion, normalization and native frequency Jacobian are retained.
+Original source, executable, HOP provider and default reference registry unchanged.
+Opt-in variant uses a separate experiment spec, exact patch/HEAD diff, executable/
+library receipts and original-reference identity. Default dispatch is unchanged;
+unknown variants and unexpected including staged source changes refuse.
+
+Build v3 passes98.882s within one-thread600s budget. Two earlier compiled prototypes
+remain unqualified: v1 canonical Git header/receipt mismatch; v2 started during the
+packaging correction and correctly refused changed patch identity. Both logs/receipts
+remain external and receipted, not numerical evidence. Canonical patch provenance
+proved by exact reverse-application/two-file scope and final full Git diff equality.
+No original mutation, cached-failure adoption or hook bypass.
+
+Native accurate-profile solve completes6.275s, all eight slabs iteration13, reconstructed
+stored-rate residual3.53223e-8, conservation2.22e-16. Thermodynamics, mesh, LTE populations,
+consumed atom table and all collision matrices are bit-identical to original-profile
+native control; n changes at most0.0103702percent. Paired transfer consumes its own
+complete new n/nStar, not the old state. No fresh-native-field certification.
+
+| AIR centre | own-state area difference mA | max NLTE normalized-profile difference |
+|---|---:|---:|
+|6158.170|+.002496|.0001644|
+|6300.304|+.000024|.00001774|
+|7771.944|+.003511|.00008342|
+|7774.166|+.003542|.00007834|
+|7775.388|+.003396|.00006991|
+|8446.400|-.092746|.00038599|
+
+Differences remain finite +/-0.5A vertical intensity windows, LW/HOP minus native.
+Triplet pointwise residuals decrease substantially from table-matched QLG-bot;
+8446 persists, so the kernel is not its full explanation. Source broadening conventions
+and constants remain distinct. Next isolate van der Waals contribution, with its
+own native population response and matched-state pair; never select no-broadening
+as a physical default. Then qualify original-source widths, collider/EOS/SE and
+fresh-field balance before observed solar fitting.
+
+Actual default native replay finishes2.488s and every exported population, atmospheric
+and spectrum array is bit-identical to the original pre-variant result.49 focused tests
+pass; original/default preservation is an actual execution check as well as a unit
+regression.392 raw receipts/34 compact copies verified in accurate_profile_v1.
+Original nine-model registry and production/source atom unchanged; physical1D/3D,
+observational and all-band gates HOLD. Explicit profile variant is diagnostic only.

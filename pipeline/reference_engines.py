@@ -37,9 +37,29 @@ def load_engine(name,*,registry=ROOT/'config/reference_engines.yaml',resolver=No
     return spec,app,exe,dict(registry=fingerprint(registry),build_receipt=fingerprint(build),executable=fingerprint(exe),source_commit=actual)
 
 
+def load_plan_engine(plan,*,resolver=None):
+    """Original engine by default; opt-in isolated profile derivative has its own spec."""
+    spec,app,exe,original=load_engine(plan['engine'],resolver=resolver)
+    variant=plan.get('profile_variant','original')
+    if variant=='original':return spec,app,exe,original
+    if variant!='accurate-kernel-control':raise ValueError('Unsupported reference profile variant')
+    if resolver is None:
+        from config.constants import require_codex_path
+        resolver=require_codex_path
+    registry=ROOT/'config/experiments/openmulti3d_profile_variant.yaml';derived=yaml.safe_load(registry.read_text())
+    if derived['schema']!='codex.reference_profile_variant/1'or derived['variant']!=variant or derived['status']!='experimental-reference'or derived['production_admission']!='HOLD'or derived['source_commit']!=spec['source_commit']:raise ValueError('Invalid profile variant spec')
+    checkout=resolver(derived['checkout_resource']);app=inside(checkout,spec['application_rel']);exe=inside(app,spec['executable_rel']);receipt_file=resolver(derived['build_resource'])/'receipt.json';receipt=json.loads(receipt_file.read_text());patch=inside(ROOT,derived['patch']);diff=subprocess.check_output(['git','diff','--binary','HEAD'],cwd=checkout)
+    actual=subprocess.check_output(['git','rev-parse','HEAD'],cwd=checkout,text=True).strip()
+    if actual!=spec['source_commit']or diff!=patch.read_bytes():raise ValueError('Changed profile derivative source')
+    if not receipt['completed']or receipt['source_commit']!=actual or receipt['original_reference']!=original or receipt['patch']!=fingerprint(patch)or receipt['tracked_diff_sha256']!=hashlib.sha256(diff).hexdigest():raise ValueError('Unqualified profile derivative build')
+    if fingerprint(exe)!=receipt['executable']or fingerprint(app/'HOP/standalone/build/libhop.so')!=receipt['libraries']['hop']:raise ValueError('Changed profile derivative executable/library')
+    return spec,app,exe,dict(variant=variant,variant_spec=fingerprint(registry),build_receipt=fingerprint(receipt_file),executable=fingerprint(exe),source_commit=actual,patch=fingerprint(patch),original_reference=original)
+
+
 def validate_plan(plan):
     if plan['schema']!='codex.reference_engine_run/1'or plan['engine']!='openmulti3d':raise ValueError('Unsupported run schema/engine')
     if plan['mode']not in ['1D-LTE','1D-NLTE']:raise ValueError('Only explicit1D reference runs are implemented')
+    if plan.get('profile_variant','original')not in ['original','accurate-kernel-control']:raise ValueError('Unsupported reference profile variant')
     c=plan['controls']
     if c['threads']!=1 or not 0<c['seconds']<=600 or not 0<c['maxiter']<=1500:raise ValueError('Reference run exceeds authorized resource bounds')
     if not 0<c['rtol']<=1e-6:raise ValueError('Invalid reference convergence threshold')

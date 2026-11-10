@@ -8,11 +8,11 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
     from config.constants import require_codex_path
-    from pipeline.reference_engines import load_engine,fingerprint
+    from pipeline.reference_engines import load_plan_engine,fingerprint
     from pipeline.openmulti3d_output import read_rate_pair,read_patch_set,interpolate_positive,per_angstrom_to_per_hz
     from pipeline.bride_rate_audit import process_flow
     from pipeline.wavelength_util import vac_to_air
-    _,app,_,engine=load_engine('openmulti3d');run=json.loads((a.source/'report.json').read_text());checks=[]
+    run=json.loads((a.source/'report.json').read_text());_,app,_,engine=load_plan_engine(dict(engine=run['engine'],profile_variant=run.get('profile_variant','original')));checks=[]
     if not run['computational_completed']or run['engine_receipt']!=engine:raise ValueError('Unqualified execution/pin')
     for entry in run['output_files']:
         p=a.source/entry['path']
@@ -69,7 +69,7 @@ def main():
     fig.suptitle('Same source atom/atmosphere; consumed grid/EOS/opacity/collision differences remain');fig.tight_layout();fig.savefig(a.output/'departures.png',dpi=150);plt.close(fig)
     for p,fp in checks:
         if fingerprint(p)!=fp:raise ValueError('Native output changed during analysis')
-    doc=dict(schema='codex.openmulti3d_oxygen_audit/1',scientific_admission='HOLD',generator=fingerprint(__file__),native_report=fingerprint(a.source/'report.json'),engine_receipt=engine,rates=rates,stored_rate_max_residual=max(x['rate_residual']for x in rates),max_conservation=max(x['conservation']for x in rates),distinct_final_iterations=sorted(set(x['iteration']for x in rates)),reference=fingerprint(reference_path),bride=fingerprint(bride_dir/'report.json'),height_interpolation=interp,bride_height_interpolation=bi,triplet_diagnostic_native_vs_multi_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-external[[5,7,8,9]][:,diagnostic]))),triplet_diagnostic_native_vs_bride_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-bride[[5,7,8,9]][:,diagnostic]))),spectra=spectra,limitations=['Stored physical-rate balance is independently reconstructed, not a fresh fixed-population radiation replay.','Native grid is pressure-graded and PCHIP/log interpolated; reference b uses declared positive linear height interpolation. No row-index identity claimed.','Native EOS/background opacity, collider populations, collision interpolation and top boundary differ; no identical-physics certification.','Diagnostic source logtau interval is not a contribution function; no abundance/production/model admission.'])
+    doc=dict(schema='codex.openmulti3d_oxygen_audit/1',scientific_admission='HOLD',profile_variant=run.get('profile_variant','original'),generator=fingerprint(__file__),native_report=fingerprint(a.source/'report.json'),engine_receipt=engine,rates=rates,stored_rate_max_residual=max(x['rate_residual']for x in rates),max_conservation=max(x['conservation']for x in rates),distinct_final_iterations=sorted(set(x['iteration']for x in rates)),reference=fingerprint(reference_path),bride=fingerprint(bride_dir/'report.json'),height_interpolation=interp,bride_height_interpolation=bi,triplet_diagnostic_native_vs_multi_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-external[[5,7,8,9]][:,diagnostic]))),triplet_diagnostic_native_vs_bride_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-bride[[5,7,8,9]][:,diagnostic]))),spectra=spectra,limitations=['Stored physical-rate balance is independently reconstructed, not a fresh fixed-population radiation replay.','Native grid is pressure-graded and PCHIP/log interpolated; reference b uses declared positive linear height interpolation. No row-index identity claimed.','Native EOS/background opacity, collider populations, collision interpolation and top boundary differ; no identical-physics certification.','Diagnostic source logtau interval is not a contribution function; no abundance/production/model admission.'])
     (a.output/'report.json').write_text(json.dumps(doc,indent=2,allow_nan=False)+'\n');print(json.dumps(doc))
 
 if __name__=='__main__':main()

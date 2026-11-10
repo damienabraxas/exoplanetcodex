@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 def main():
     from config.constants import require_codex_path
-    from pipeline.reference_engines import fingerprint,load_engine
+    from pipeline.reference_engines import fingerprint,load_plan_engine
     from pipeline.bride_reference import read_marcs_structure
     from pipeline.multi_atom import read_multi_atom
     from pipeline.bride_hop_transfer import make_context
@@ -23,7 +23,7 @@ def main():
     for relative in ['pipeline/bride_hop_transfer.py','pipeline/bride_native_table_control.py','pipeline/hop_packet.py','pipeline/hop_abi.py','pipeline/bride_top_cap.py','pipeline/multi_atom.py','pipeline/bride_reference.py']:
         path=ROOT/relative;checks[str(path)]=fingerprint(path)
     if os.environ.get('OMP_NUM_THREADS')!='1'or not 0<plan['seconds']<=600 or plan['purpose']!='fixed-native-oxygen-transfer':raise ValueError('Require explicit bounded one-thread fixed-transfer plan')
-    native=Path(require_codex_path(plan['native_analysis_resource']));arrays=native/'arrays.npz';spectra=native/'spectra.npz';report_file=native/'report.json';r=json.loads(report_file.read_text());_,_,_,reference=load_engine('openmulti3d')
+    native=Path(require_codex_path(plan['native_analysis_resource']));arrays=native/'arrays.npz';spectra=native/'spectra.npz';report_file=native/'report.json';r=json.loads(report_file.read_text());_,_,_,reference=load_plan_engine(dict(engine='openmulti3d',profile_variant=r.get('profile_variant','original')))
     if r['engine_receipt']!=reference or r['stored_rate_max_residual']>1e-6:raise ValueError('Invalid native reference state')
     for path,expected in [(arrays,plan['native_arrays']),(spectra,plan['native_spectra']),(report_file,plan['native_report'])]:
         if fingerprint(path)!=expected:raise ValueError('Changed native state identity')

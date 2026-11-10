@@ -6,11 +6,11 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 def main():
     from config.constants import require_codex_path
-    from pipeline.reference_engines import load_engine,prepare_run,fingerprint,validate_plan
+    from pipeline.reference_engines import load_plan_engine,prepare_run,fingerprint,validate_plan
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--plan',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--execute',action='store_true');a=p.parse_args()
     if platform.system()!='Darwin':raise RuntimeError('This initial reference integration is authorized on the Mac')
-    plan=json.loads(a.plan.read_text());validate_plan(plan);spec,app,exe,engine=load_engine(plan['engine']);inputs=prepare_run(plan,a.output,app,resolver=require_codex_path)
-    report=dict(schema='codex.reference_engine_result/1',scientific_admission='HOLD',engine=plan['engine'],mode=plan['mode'],scope=plan['scope'],generator=fingerprint(__file__),adapter=fingerprint(ROOT/'pipeline/reference_engines.py'),plan=fingerprint(a.plan),engine_receipt=engine,inputs=inputs,dry_run=not a.execute,computational_completed=False)
+    plan=json.loads(a.plan.read_text());validate_plan(plan);spec,app,exe,engine=load_plan_engine(plan);inputs=prepare_run(plan,a.output,app,resolver=require_codex_path)
+    report=dict(schema='codex.reference_engine_result/1',scientific_admission='HOLD',engine=plan['engine'],mode=plan['mode'],profile_variant=plan.get('profile_variant','original'),scope=plan['scope'],generator=fingerprint(__file__),adapter=fingerprint(ROOT/'pipeline/reference_engines.py'),plan=fingerprint(a.plan),engine_receipt=engine,inputs=inputs,dry_run=not a.execute,computational_completed=False)
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
     if not a.execute:
         (a.output/'report.json').write_text(json.dumps(report,indent=2)+'\n');print('Dry preparation complete; no native solve');return
@@ -22,9 +22,9 @@ def main():
     except subprocess.TimeoutExpired as e:error='TimeoutExpired';report.update(error=error,computational_completed=False)
     report['seconds']=time.perf_counter()-start
     try:
-        _,_,_,after=load_engine(plan['engine'])
+        _,_,_,after=load_plan_engine(plan)
         if after!=engine or fingerprint(a.plan)!=report['plan']:raise ValueError('Engine/plan changed during run')
-        _,app2,_,_=load_engine(plan['engine'])
+        _,app2,_,_=load_plan_engine(plan)
         for key,expected in [('atom',inputs['atom']),('atmosphere',inputs['atmosphere'])]:
             item=plan[key];path=require_codex_path(item['resource'])if key=='atom'and'resource'in item else app2/'input/atoms'/item['supplied_file']if key=='atom'else require_codex_path(item['resource'])/item['filename']
             if fingerprint(path)!=expected:raise ValueError('Physical input changed during reference solve')

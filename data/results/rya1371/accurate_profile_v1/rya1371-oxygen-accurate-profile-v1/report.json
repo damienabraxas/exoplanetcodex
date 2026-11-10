@@ -1,0 +1,1550 @@
+{
+  "schema": "codex.reference_engine_result/1",
+  "scientific_admission": "HOLD",
+  "engine": "openmulti3d",
+  "mode": "1D-NLTE",
+  "profile_variant": "accurate-kernel-control",
+  "scope": "Prospective independent OpenMULTI3D1D O41 solve on the exact5750/4.5/A8.70 source atom/atmosphere of the held MULTI reference. Native EOS/background/rate interpolation and boundary differences must be measured. No background line blanketing in this first continuum-only control; no solar fit, physical parity/admission or replacement of Bride/source/production. Second prospective control requests actual disk-centre output and disables per-depth early freezing (convmax0) so all saved depth rates belong to the same final global iteration. The first run was a departure-only calculation with no output spectrum. The native pressure-graded/interpolated depth grid must be registered explicitly before comparing source-node populations. Prospective dense output-only control: canonical AIR-to-vacuum conversion once before native synthesis; no change to the SE frequency grid or physical inputs. Prospective output-only formal-solver linear control. SE controls/physics unchanged; require bit-identical saved O n/nStar to dense quadratic baseline before attributing differences to output transfer. Prospective Stark-off native control: pinned HOP interprets input gstk=0 as automatic Cowley estimate; current Bride interprets held gStark0 as no Stark broadening. This switch diagnoses that semantic difference, not an adopted physical model. Native populations may change; compare emergent output at original fixed populations only after measuring that change, no attribution of all effects solely to transfer. Prospective isolated accurate-kernel native control: original atom/state/EOS/boundaries/linear formal solver retained; only active non-H profile kernel switches from QLG-bot to existing fp64 reference with native fp32 inputs/output and frequency Jacobian. New native SE populations/rates and output are measured independently, not assumed equal. Original executable/default stays unchanged.",
+  "generator": {
+    "name": "run_reference_engine.py",
+    "bytes": 3565,
+    "sha256": "9d0a01c5f32e00900d1eded95f3415d27c7c85998cdeb24407c846275e815f61"
+  },
+  "adapter": {
+    "name": "reference_engines.py",
+    "bytes": 11575,
+    "sha256": "ca3ca1da6152e6a2c6413b6a381f20d4462c89ec0489015c66785bc3cd5250aa"
+  },
+  "plan": {
+    "name": "rya1371_openmulti3d_oxygen_accurate_profile.json",
+    "bytes": 3348,
+    "sha256": "31404ca26e6076f48e42ded7d6cc02a8c78fe56fed83e7c3e24238b4c6b59325"
+  },
+  "engine_receipt": {
+    "variant": "accurate-kernel-control",
+    "variant_spec": {
+      "name": "openmulti3d_profile_variant.yaml",
+      "bytes": 363,
+      "sha256": "48cbc06b11dd827ad9e7e94668ffb99c3efb6562179f42c66d9fbae20f0d0303"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1679,
+      "sha256": "5c55b23c8d071887f25f96dae2996f4124ed9db5a75db402b84c9501875b96ec"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614120,
+      "sha256": "a1f9441bf21003113bc59d3c0c91a16f5b1e68cdcf2574e7ccd411e70341dbc1"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+    "patch": {
+      "name": "active_profile.patch",
+      "bytes": 3144,
+      "sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446"
+    },
+    "original_reference": {
+      "registry": {
+        "name": "reference_engines.yaml",
+        "bytes": 877,
+        "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+      },
+      "build_receipt": {
+        "name": "receipt.json",
+        "bytes": 1552,
+        "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+      },
+      "executable": {
+        "name": "dispatch.x",
+        "bytes": 3614040,
+        "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+      },
+      "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+    }
+  },
+  "inputs": {
+    "atmosphere": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "atom": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "element": "O",
+    "atom_header": {
+      "abundance": 8.7,
+      "mass": 15.999,
+      "levels": 41,
+      "lines": 256,
+      "continua": 22,
+      "fixed": 0
+    },
+    "namelist": {
+      "name": "input.nml",
+      "bytes": 1139,
+      "sha256": "096a7252b645f648d806607dc5a2c55d7d4a7c4a47ce5bd9e6c6ec544d6948e5"
+    },
+    "controls": {
+      "threads": 1,
+      "seconds": 600,
+      "maxiter": 1500,
+      "rtol": 1e-06,
+      "ntheta": 5,
+      "nphi": 1,
+      "angle_quad": "lobatto",
+      "qnorm": 10.0,
+      "nq_fac": 2.0,
+      "output_angle_quad": "disk_center",
+      "freeze_depths": false,
+      "output_solver": "linear",
+      "disable_stark_control": true
+    },
+    "physical_limitations": [
+      "Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.",
+      "Line blanketing and background bound-bound opacity explicitly off in this first reference plan.",
+      "Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.",
+      "Source atom is not silently replaced by the supplied variant; source paths and hashes are checked."
+    ]
+  },
+  "dry_run": false,
+  "computational_completed": true,
+  "returncode": 0,
+  "seconds": 6.274803624954075,
+  "output_files": [
+    {
+      "path": "input.nml",
+      "receipt": {
+        "name": "input.nml",
+        "bytes": 1139,
+        "sha256": "096a7252b645f648d806607dc5a2c55d7d4a7c4a47ce5bd9e6c6ec544d6948e5"
+      }
+    },
+    {
+      "path": "native/abund.txt",
+      "receipt": {
+        "name": "abund.txt",
+        "bytes": 1104,
+        "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+      }
+    },
+    {
+      "path": "native/angle_quadrature.txt",
+      "receipt": {
+        "name": "angle_quadrature.txt",
+        "bytes": 104,
+        "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+      }
+    },
+    {
+      "path": "native/atmos_mesh.txt",
+      "receipt": {
+        "name": "atmos_mesh.txt",
+        "bytes": 928,
+        "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+      }
+    },
+    {
+      "path": "native/atoms/O.txt",
+      "receipt": {
+        "name": "O.txt",
+        "bytes": 246913,
+        "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+      }
+    },
+    {
+      "path": "native/convergence_report_000.txt",
+      "receipt": {
+        "name": "convergence_report_000.txt",
+        "bytes": 798,
+        "sha256": "8354fa9f5255028c0a0f54a2f7b6001d7482e26222a0648dd3bb6d3c9d7e5f09"
+      }
+    },
+    {
+      "path": "native/hash.log",
+      "receipt": {
+        "name": "hash.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "path": "native/job.nml",
+      "receipt": {
+        "name": "job.nml",
+        "bytes": 8760,
+        "sha256": "0931758b311139acfb32c11a49754d9768ec23829345af8121274b0a702953b7"
+      }
+    },
+    {
+      "path": "native/linelist_out.txt",
+      "receipt": {
+        "name": "linelist_out.txt",
+        "bytes": 27406,
+        "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+      }
+    },
+    {
+      "path": "native/params.nml",
+      "receipt": {
+        "name": "params.nml",
+        "bytes": 81451,
+        "sha256": "0d2126ca40a56a7e1a1886570ecd7d309cd79c66e70bddd783efdfcb2a88d00f"
+      }
+    },
+    {
+      "path": "native/rank_00000.dbg",
+      "receipt": {
+        "name": "rank_00000.dbg",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "path": "native/rank_00000.disp",
+      "receipt": {
+        "name": "rank_00000.disp",
+        "bytes": 179416,
+        "sha256": "f7d15ced2c38b2d4072249b2d5a474ef7874fc292f8d988df29bf4661b9847f5"
+      }
+    },
+    {
+      "path": "native/rank_00000.dump",
+      "receipt": {
+        "name": "rank_00000.dump",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "path": "native/rank_00000.log",
+      "receipt": {
+        "name": "rank_00000.log",
+        "bytes": 57807,
+        "sha256": "f9ac70ff9d1ca1009cb9e1a5f70b81d15226e5836b6caad1c51c4d024ea07ac1"
+      }
+    },
+    {
+      "path": "native/rank_00000.pdat",
+      "receipt": {
+        "name": "rank_00000.pdat",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "path": "native/rank_00000.pinf",
+      "receipt": {
+        "name": "rank_00000.pinf",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "path": "native/rank_00000.que",
+      "receipt": {
+        "name": "rank_00000.que",
+        "bytes": 1920,
+        "sha256": "a6c2073b68883a1fdb9db4cbca415bbb4a5d5a34a388e4477678e12d119342a8"
+      }
+    },
+    {
+      "path": "native/rank_00000.val",
+      "receipt": {
+        "name": "rank_00000.val",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001001001.bin",
+      "receipt": {
+        "name": "Jnu_001001001.bin",
+        "bytes": 85008,
+        "sha256": "4c190b700826f062b9de7cde1751d29a22ac5f134bc7dcfffebcc8d2b53411b5"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001001002.bin",
+      "receipt": {
+        "name": "Jnu_001001002.bin",
+        "bytes": 85008,
+        "sha256": "4c190b700826f062b9de7cde1751d29a22ac5f134bc7dcfffebcc8d2b53411b5"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001002001.bin",
+      "receipt": {
+        "name": "Jnu_001002001.bin",
+        "bytes": 85008,
+        "sha256": "60b5c456ed35054b616138d514ea665c98cb9b0a5884b7b5d8cd8ddf801b8b7f"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001002002.bin",
+      "receipt": {
+        "name": "Jnu_001002002.bin",
+        "bytes": 85008,
+        "sha256": "60b5c456ed35054b616138d514ea665c98cb9b0a5884b7b5d8cd8ddf801b8b7f"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001003001.bin",
+      "receipt": {
+        "name": "Jnu_001003001.bin",
+        "bytes": 7084,
+        "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001003002.bin",
+      "receipt": {
+        "name": "Jnu_001003002.bin",
+        "bytes": 7084,
+        "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001004001.bin",
+      "receipt": {
+        "name": "Jnu_001004001.bin",
+        "bytes": 7056,
+        "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+      }
+    },
+    {
+      "path": "native/save/Jnu_001004002.bin",
+      "receipt": {
+        "name": "Jnu_001004002.bin",
+        "bytes": 7056,
+        "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002001001.bin",
+      "receipt": {
+        "name": "Jnu_002001001.bin",
+        "bytes": 85008,
+        "sha256": "27bf469525a7c1c2901104670f5d80ff0548fb91832a8f1bbd2f0be944ae60ee"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002001002.bin",
+      "receipt": {
+        "name": "Jnu_002001002.bin",
+        "bytes": 85008,
+        "sha256": "27bf469525a7c1c2901104670f5d80ff0548fb91832a8f1bbd2f0be944ae60ee"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002002001.bin",
+      "receipt": {
+        "name": "Jnu_002002001.bin",
+        "bytes": 85008,
+        "sha256": "5d827810d95a1e1fcdda076e2eff0d4f879bcef5dd54de00184aa84d85b8d2cc"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002002002.bin",
+      "receipt": {
+        "name": "Jnu_002002002.bin",
+        "bytes": 85008,
+        "sha256": "5d827810d95a1e1fcdda076e2eff0d4f879bcef5dd54de00184aa84d85b8d2cc"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002003001.bin",
+      "receipt": {
+        "name": "Jnu_002003001.bin",
+        "bytes": 7084,
+        "sha256": "01e6b938cc3db1af37631339e814715b03cb2f9a4805bc7a53391bb63b2e09d2"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002003002.bin",
+      "receipt": {
+        "name": "Jnu_002003002.bin",
+        "bytes": 7084,
+        "sha256": "01e6b938cc3db1af37631339e814715b03cb2f9a4805bc7a53391bb63b2e09d2"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002004001.bin",
+      "receipt": {
+        "name": "Jnu_002004001.bin",
+        "bytes": 7056,
+        "sha256": "937dcb692a6b69a173c6cbc050e77897d0d32a4962d25e579a28ddc8e707d896"
+      }
+    },
+    {
+      "path": "native/save/Jnu_002004002.bin",
+      "receipt": {
+        "name": "Jnu_002004002.bin",
+        "bytes": 7056,
+        "sha256": "937dcb692a6b69a173c6cbc050e77897d0d32a4962d25e579a28ddc8e707d896"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003001001.bin",
+      "receipt": {
+        "name": "Jnu_003001001.bin",
+        "bytes": 85008,
+        "sha256": "cd0266f4b1e1bf4542fd766a49e2c1b3eddb586ed9fff2fefa9ff4d241b31b19"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003001002.bin",
+      "receipt": {
+        "name": "Jnu_003001002.bin",
+        "bytes": 85008,
+        "sha256": "cd0266f4b1e1bf4542fd766a49e2c1b3eddb586ed9fff2fefa9ff4d241b31b19"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003002001.bin",
+      "receipt": {
+        "name": "Jnu_003002001.bin",
+        "bytes": 85008,
+        "sha256": "6c9a1e13cefc413f7246fd6e5e51214cbeba45b53e64453f273a3a1b6a5e2d75"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003002002.bin",
+      "receipt": {
+        "name": "Jnu_003002002.bin",
+        "bytes": 85008,
+        "sha256": "6c9a1e13cefc413f7246fd6e5e51214cbeba45b53e64453f273a3a1b6a5e2d75"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003003001.bin",
+      "receipt": {
+        "name": "Jnu_003003001.bin",
+        "bytes": 7084,
+        "sha256": "2ddd2ea04741f477f45f03a9f49322ddd1db5b78ef9ecd5cc91d827d211ec39e"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003003002.bin",
+      "receipt": {
+        "name": "Jnu_003003002.bin",
+        "bytes": 7084,
+        "sha256": "2ddd2ea04741f477f45f03a9f49322ddd1db5b78ef9ecd5cc91d827d211ec39e"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003004001.bin",
+      "receipt": {
+        "name": "Jnu_003004001.bin",
+        "bytes": 7056,
+        "sha256": "38f128f4d0fb2fdf98a5690e46f4608e7794588ddb12f981cf61f999eafaeda0"
+      }
+    },
+    {
+      "path": "native/save/Jnu_003004002.bin",
+      "receipt": {
+        "name": "Jnu_003004002.bin",
+        "bytes": 7056,
+        "sha256": "38f128f4d0fb2fdf98a5690e46f4608e7794588ddb12f981cf61f999eafaeda0"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004001001.bin",
+      "receipt": {
+        "name": "Jnu_004001001.bin",
+        "bytes": 85008,
+        "sha256": "f0f157cff964a83702c12c970cd14be7ad324b0e73480877404da744b5767deb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004001002.bin",
+      "receipt": {
+        "name": "Jnu_004001002.bin",
+        "bytes": 85008,
+        "sha256": "f0f157cff964a83702c12c970cd14be7ad324b0e73480877404da744b5767deb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004002001.bin",
+      "receipt": {
+        "name": "Jnu_004002001.bin",
+        "bytes": 85008,
+        "sha256": "f4554f84f99c22faa6c3d5f68cee844ef9c8fd136a5ed82f66daac9d59abe5cc"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004002002.bin",
+      "receipt": {
+        "name": "Jnu_004002002.bin",
+        "bytes": 85008,
+        "sha256": "f4554f84f99c22faa6c3d5f68cee844ef9c8fd136a5ed82f66daac9d59abe5cc"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004003001.bin",
+      "receipt": {
+        "name": "Jnu_004003001.bin",
+        "bytes": 7084,
+        "sha256": "59dd8ee355e08b4f2af0529b05f2deb755d9b064711fba22541ef42793ea0f95"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004003002.bin",
+      "receipt": {
+        "name": "Jnu_004003002.bin",
+        "bytes": 7084,
+        "sha256": "59dd8ee355e08b4f2af0529b05f2deb755d9b064711fba22541ef42793ea0f95"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004004001.bin",
+      "receipt": {
+        "name": "Jnu_004004001.bin",
+        "bytes": 7056,
+        "sha256": "4c38cf1f10af288ef9da1b67c0bc4fe43f8151930d1d5fedfea18624d2a8c1da"
+      }
+    },
+    {
+      "path": "native/save/Jnu_004004002.bin",
+      "receipt": {
+        "name": "Jnu_004004002.bin",
+        "bytes": 7056,
+        "sha256": "4c38cf1f10af288ef9da1b67c0bc4fe43f8151930d1d5fedfea18624d2a8c1da"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005001001.bin",
+      "receipt": {
+        "name": "Jnu_005001001.bin",
+        "bytes": 85008,
+        "sha256": "fccf2ce469b260b62479458535783b6283a7dab9b80534a0a91436a7095160f9"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005001002.bin",
+      "receipt": {
+        "name": "Jnu_005001002.bin",
+        "bytes": 85008,
+        "sha256": "fccf2ce469b260b62479458535783b6283a7dab9b80534a0a91436a7095160f9"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005002001.bin",
+      "receipt": {
+        "name": "Jnu_005002001.bin",
+        "bytes": 85008,
+        "sha256": "e981fbce6e4283480a402c8ca168ff0b2cf22131e4b9acdb96abb4c5dc281fdb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005002002.bin",
+      "receipt": {
+        "name": "Jnu_005002002.bin",
+        "bytes": 85008,
+        "sha256": "e981fbce6e4283480a402c8ca168ff0b2cf22131e4b9acdb96abb4c5dc281fdb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005003001.bin",
+      "receipt": {
+        "name": "Jnu_005003001.bin",
+        "bytes": 7084,
+        "sha256": "0978e06d3260b8efb1552d935c44dd296c4c7267f4c9dd71b1081decc3ee34db"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005003002.bin",
+      "receipt": {
+        "name": "Jnu_005003002.bin",
+        "bytes": 7084,
+        "sha256": "0978e06d3260b8efb1552d935c44dd296c4c7267f4c9dd71b1081decc3ee34db"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005004001.bin",
+      "receipt": {
+        "name": "Jnu_005004001.bin",
+        "bytes": 7056,
+        "sha256": "c4c0cfb102548d1c914cd77f087cb62867d2cbc1eb2a49a3c5c77b9d17df67cb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_005004002.bin",
+      "receipt": {
+        "name": "Jnu_005004002.bin",
+        "bytes": 7056,
+        "sha256": "c4c0cfb102548d1c914cd77f087cb62867d2cbc1eb2a49a3c5c77b9d17df67cb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006001001.bin",
+      "receipt": {
+        "name": "Jnu_006001001.bin",
+        "bytes": 85008,
+        "sha256": "d00d786a9376a1474470e6af6b934f1c40bedabc29a2cfd866738187c718ff92"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006001002.bin",
+      "receipt": {
+        "name": "Jnu_006001002.bin",
+        "bytes": 85008,
+        "sha256": "d00d786a9376a1474470e6af6b934f1c40bedabc29a2cfd866738187c718ff92"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006002001.bin",
+      "receipt": {
+        "name": "Jnu_006002001.bin",
+        "bytes": 85008,
+        "sha256": "e8d12cc42b108e302c733caa7ecbe76f0ee6d66a30d9eac79e20af4047abdfd9"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006002002.bin",
+      "receipt": {
+        "name": "Jnu_006002002.bin",
+        "bytes": 85008,
+        "sha256": "e8d12cc42b108e302c733caa7ecbe76f0ee6d66a30d9eac79e20af4047abdfd9"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006003001.bin",
+      "receipt": {
+        "name": "Jnu_006003001.bin",
+        "bytes": 7084,
+        "sha256": "c097efb7fbbd23e1d772dd7f3020abc34621f015da34f1f57088e77f1e41c74e"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006003002.bin",
+      "receipt": {
+        "name": "Jnu_006003002.bin",
+        "bytes": 7084,
+        "sha256": "c097efb7fbbd23e1d772dd7f3020abc34621f015da34f1f57088e77f1e41c74e"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006004001.bin",
+      "receipt": {
+        "name": "Jnu_006004001.bin",
+        "bytes": 7056,
+        "sha256": "42a565401642f3b7f56b3fa4aceb17cc26188fead2f5efe99c65c1a10b128074"
+      }
+    },
+    {
+      "path": "native/save/Jnu_006004002.bin",
+      "receipt": {
+        "name": "Jnu_006004002.bin",
+        "bytes": 7056,
+        "sha256": "42a565401642f3b7f56b3fa4aceb17cc26188fead2f5efe99c65c1a10b128074"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007001001.bin",
+      "receipt": {
+        "name": "Jnu_007001001.bin",
+        "bytes": 85008,
+        "sha256": "edb773b8a0ae33fca8ea223f6fc6323c486ef6232a4c941e865e0d0f110636c0"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007001002.bin",
+      "receipt": {
+        "name": "Jnu_007001002.bin",
+        "bytes": 85008,
+        "sha256": "edb773b8a0ae33fca8ea223f6fc6323c486ef6232a4c941e865e0d0f110636c0"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007002001.bin",
+      "receipt": {
+        "name": "Jnu_007002001.bin",
+        "bytes": 85008,
+        "sha256": "a623b35cab5f0bad59bab4a08b0292ab316ee7ec9382f27e2b6bdde1de8ec233"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007002002.bin",
+      "receipt": {
+        "name": "Jnu_007002002.bin",
+        "bytes": 85008,
+        "sha256": "a623b35cab5f0bad59bab4a08b0292ab316ee7ec9382f27e2b6bdde1de8ec233"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007003001.bin",
+      "receipt": {
+        "name": "Jnu_007003001.bin",
+        "bytes": 7084,
+        "sha256": "ff5a7f18792305ca5c402c0270cf03e1b634e477da777c37bbdee0579bc5cb57"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007003002.bin",
+      "receipt": {
+        "name": "Jnu_007003002.bin",
+        "bytes": 7084,
+        "sha256": "ff5a7f18792305ca5c402c0270cf03e1b634e477da777c37bbdee0579bc5cb57"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007004001.bin",
+      "receipt": {
+        "name": "Jnu_007004001.bin",
+        "bytes": 7056,
+        "sha256": "1800bb6e949fbefb6aa165cfa6b2d49cd8e44aac5ef9ccbd1f943c8e73e1e8fb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_007004002.bin",
+      "receipt": {
+        "name": "Jnu_007004002.bin",
+        "bytes": 7056,
+        "sha256": "1800bb6e949fbefb6aa165cfa6b2d49cd8e44aac5ef9ccbd1f943c8e73e1e8fb"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008001001.bin",
+      "receipt": {
+        "name": "Jnu_008001001.bin",
+        "bytes": 85008,
+        "sha256": "85b1d7e0650fdec60fb43edc9797b5578a15d25c6e48e9be987de11152d77457"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008001002.bin",
+      "receipt": {
+        "name": "Jnu_008001002.bin",
+        "bytes": 85008,
+        "sha256": "85b1d7e0650fdec60fb43edc9797b5578a15d25c6e48e9be987de11152d77457"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008002001.bin",
+      "receipt": {
+        "name": "Jnu_008002001.bin",
+        "bytes": 85008,
+        "sha256": "dd051da01a2d4843dc7718af44c7429527b47b8fb545f9829d2c963baf2f31d1"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008002002.bin",
+      "receipt": {
+        "name": "Jnu_008002002.bin",
+        "bytes": 85008,
+        "sha256": "dd051da01a2d4843dc7718af44c7429527b47b8fb545f9829d2c963baf2f31d1"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008003001.bin",
+      "receipt": {
+        "name": "Jnu_008003001.bin",
+        "bytes": 7084,
+        "sha256": "db80729df467088ac9f16b0dbf6480a5ecb5ddb804a5208ba54c7d4b3238b41c"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008003002.bin",
+      "receipt": {
+        "name": "Jnu_008003002.bin",
+        "bytes": 7084,
+        "sha256": "db80729df467088ac9f16b0dbf6480a5ecb5ddb804a5208ba54c7d4b3238b41c"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008004001.bin",
+      "receipt": {
+        "name": "Jnu_008004001.bin",
+        "bytes": 7056,
+        "sha256": "944c5deeeefebe1dccc5e8ab7e125c9387873b9b52ebeabe270c774266acc739"
+      }
+    },
+    {
+      "path": "native/save/Jnu_008004002.bin",
+      "receipt": {
+        "name": "Jnu_008004002.bin",
+        "bytes": 7056,
+        "sha256": "944c5deeeefebe1dccc5e8ab7e125c9387873b9b52ebeabe270c774266acc739"
+      }
+    },
+    {
+      "path": "native/save/Jnu_meta.txt",
+      "receipt": {
+        "name": "Jnu_meta.txt",
+        "bytes": 72421,
+        "sha256": "9f0fa5a35c17523b242aa211ac3db5407dadd01db2eceb47087cbd925044bb37"
+      }
+    },
+    {
+      "path": "native/save/O_c_008000.bin",
+      "receipt": {
+        "name": "O_c_008000.bin",
+        "bytes": 6724,
+        "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+      }
+    },
+    {
+      "path": "native/save/O_c_meta.txt",
+      "receipt": {
+        "name": "O_c_meta.txt",
+        "bytes": 94,
+        "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+      }
+    },
+    {
+      "path": "native/save/O_w_008000.bin",
+      "receipt": {
+        "name": "O_w_008000.bin",
+        "bytes": 6724,
+        "sha256": "ba3d5520aa1fed336f9491fe7774fdcd74ef7f0ad6e310a3c2fe4d554f7b987e"
+      }
+    },
+    {
+      "path": "native/save/O_w_meta.txt",
+      "receipt": {
+        "name": "O_w_meta.txt",
+        "bytes": 94,
+        "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+      }
+    },
+    {
+      "path": "native/save/atmos_001000.bin",
+      "receipt": {
+        "name": "atmos_001000.bin",
+        "bytes": 392,
+        "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+      }
+    },
+    {
+      "path": "native/save/atmos_002000.bin",
+      "receipt": {
+        "name": "atmos_002000.bin",
+        "bytes": 392,
+        "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+      }
+    },
+    {
+      "path": "native/save/atmos_003000.bin",
+      "receipt": {
+        "name": "atmos_003000.bin",
+        "bytes": 392,
+        "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+      }
+    },
+    {
+      "path": "native/save/atmos_004000.bin",
+      "receipt": {
+        "name": "atmos_004000.bin",
+        "bytes": 392,
+        "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+      }
+    },
+    {
+      "path": "native/save/atmos_005000.bin",
+      "receipt": {
+        "name": "atmos_005000.bin",
+        "bytes": 392,
+        "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+      }
+    },
+    {
+      "path": "native/save/atmos_006000.bin",
+      "receipt": {
+        "name": "atmos_006000.bin",
+        "bytes": 392,
+        "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+      }
+    },
+    {
+      "path": "native/save/atmos_007000.bin",
+      "receipt": {
+        "name": "atmos_007000.bin",
+        "bytes": 392,
+        "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+      }
+    },
+    {
+      "path": "native/save/atmos_008000.bin",
+      "receipt": {
+        "name": "atmos_008000.bin",
+        "bytes": 392,
+        "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+      }
+    },
+    {
+      "path": "native/save/atmos_meta.txt",
+      "receipt": {
+        "name": "atmos_meta.txt",
+        "bytes": 733,
+        "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+      }
+    },
+    {
+      "path": "native/save/bb_lam.bin",
+      "receipt": {
+        "name": "bb_lam.bin",
+        "bytes": 48576,
+        "sha256": "126f028d2fecd2918171dedbab20101859e66fe9f6117e6e8cbf1c4b2920024e"
+      }
+    },
+    {
+      "path": "native/save/bf_lam.bin",
+      "receipt": {
+        "name": "bf_lam.bin",
+        "bytes": 4040,
+        "sha256": "89e6e52ba53252a92f43c8c86302d0b61b92236252dc7fab79bcfa6778d9c3d4"
+      }
+    },
+    {
+      "path": "native/save/cij_001000.bin",
+      "receipt": {
+        "name": "cij_001000.bin",
+        "bytes": 28,
+        "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+      }
+    },
+    {
+      "path": "native/save/cij_002000.bin",
+      "receipt": {
+        "name": "cij_002000.bin",
+        "bytes": 28,
+        "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+      }
+    },
+    {
+      "path": "native/save/cij_003000.bin",
+      "receipt": {
+        "name": "cij_003000.bin",
+        "bytes": 28,
+        "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+      }
+    },
+    {
+      "path": "native/save/cij_004000.bin",
+      "receipt": {
+        "name": "cij_004000.bin",
+        "bytes": 28,
+        "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+      }
+    },
+    {
+      "path": "native/save/cij_005000.bin",
+      "receipt": {
+        "name": "cij_005000.bin",
+        "bytes": 28,
+        "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+      }
+    },
+    {
+      "path": "native/save/cij_006000.bin",
+      "receipt": {
+        "name": "cij_006000.bin",
+        "bytes": 28,
+        "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+      }
+    },
+    {
+      "path": "native/save/cij_007000.bin",
+      "receipt": {
+        "name": "cij_007000.bin",
+        "bytes": 28,
+        "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+      }
+    },
+    {
+      "path": "native/save/cij_008000.bin",
+      "receipt": {
+        "name": "cij_008000.bin",
+        "bytes": 28,
+        "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+      }
+    },
+    {
+      "path": "native/save/cij_meta.txt",
+      "receipt": {
+        "name": "cij_meta.txt",
+        "bytes": 7005,
+        "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+      }
+    },
+    {
+      "path": "native/save/cji_001000.bin",
+      "receipt": {
+        "name": "cji_001000.bin",
+        "bytes": 28,
+        "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+      }
+    },
+    {
+      "path": "native/save/cji_002000.bin",
+      "receipt": {
+        "name": "cji_002000.bin",
+        "bytes": 28,
+        "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+      }
+    },
+    {
+      "path": "native/save/cji_003000.bin",
+      "receipt": {
+        "name": "cji_003000.bin",
+        "bytes": 28,
+        "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+      }
+    },
+    {
+      "path": "native/save/cji_004000.bin",
+      "receipt": {
+        "name": "cji_004000.bin",
+        "bytes": 28,
+        "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+      }
+    },
+    {
+      "path": "native/save/cji_005000.bin",
+      "receipt": {
+        "name": "cji_005000.bin",
+        "bytes": 28,
+        "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+      }
+    },
+    {
+      "path": "native/save/cji_006000.bin",
+      "receipt": {
+        "name": "cji_006000.bin",
+        "bytes": 28,
+        "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+      }
+    },
+    {
+      "path": "native/save/cji_007000.bin",
+      "receipt": {
+        "name": "cji_007000.bin",
+        "bytes": 28,
+        "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+      }
+    },
+    {
+      "path": "native/save/cji_008000.bin",
+      "receipt": {
+        "name": "cji_008000.bin",
+        "bytes": 28,
+        "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+      }
+    },
+    {
+      "path": "native/save/cji_meta.txt",
+      "receipt": {
+        "name": "cji_meta.txt",
+        "bytes": 7005,
+        "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00001.bin",
+      "receipt": {
+        "name": "colrates_O_00001.bin",
+        "bytes": 22976,
+        "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00008.bin",
+      "receipt": {
+        "name": "colrates_O_00008.bin",
+        "bytes": 22976,
+        "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00015.bin",
+      "receipt": {
+        "name": "colrates_O_00015.bin",
+        "bytes": 22976,
+        "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00022.bin",
+      "receipt": {
+        "name": "colrates_O_00022.bin",
+        "bytes": 22976,
+        "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00029.bin",
+      "receipt": {
+        "name": "colrates_O_00029.bin",
+        "bytes": 22976,
+        "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00036.bin",
+      "receipt": {
+        "name": "colrates_O_00036.bin",
+        "bytes": 22976,
+        "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00043.bin",
+      "receipt": {
+        "name": "colrates_O_00043.bin",
+        "bytes": 22976,
+        "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+      }
+    },
+    {
+      "path": "native/save/colrates_O_00050.bin",
+      "receipt": {
+        "name": "colrates_O_00050.bin",
+        "bytes": 22976,
+        "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+      }
+    },
+    {
+      "path": "native/save/eos_001000.bin",
+      "receipt": {
+        "name": "eos_001000.bin",
+        "bytes": 56,
+        "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+      }
+    },
+    {
+      "path": "native/save/eos_002000.bin",
+      "receipt": {
+        "name": "eos_002000.bin",
+        "bytes": 56,
+        "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+      }
+    },
+    {
+      "path": "native/save/eos_003000.bin",
+      "receipt": {
+        "name": "eos_003000.bin",
+        "bytes": 56,
+        "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+      }
+    },
+    {
+      "path": "native/save/eos_004000.bin",
+      "receipt": {
+        "name": "eos_004000.bin",
+        "bytes": 56,
+        "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+      }
+    },
+    {
+      "path": "native/save/eos_005000.bin",
+      "receipt": {
+        "name": "eos_005000.bin",
+        "bytes": 56,
+        "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+      }
+    },
+    {
+      "path": "native/save/eos_006000.bin",
+      "receipt": {
+        "name": "eos_006000.bin",
+        "bytes": 56,
+        "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+      }
+    },
+    {
+      "path": "native/save/eos_007000.bin",
+      "receipt": {
+        "name": "eos_007000.bin",
+        "bytes": 56,
+        "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+      }
+    },
+    {
+      "path": "native/save/eos_008000.bin",
+      "receipt": {
+        "name": "eos_008000.bin",
+        "bytes": 56,
+        "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+      }
+    },
+    {
+      "path": "native/save/eos_meta.txt",
+      "receipt": {
+        "name": "eos_meta.txt",
+        "bytes": 653,
+        "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+      }
+    },
+    {
+      "path": "native/save/flux_008001.bin",
+      "receipt": {
+        "name": "flux_008001.bin",
+        "bytes": 37236,
+        "sha256": "3f7e997c32b4d9f03bd1defd8096d5818bee376184ae2bcb3a66e732e67a2c62"
+      }
+    },
+    {
+      "path": "native/save/flux_008002.bin",
+      "receipt": {
+        "name": "flux_008002.bin",
+        "bytes": 37224,
+        "sha256": "91269a4deda39c8d3757098e8aba70ef160e54a41392f4a6262a7f198f7ff8e0"
+      }
+    },
+    {
+      "path": "native/save/flux_meta.txt",
+      "receipt": {
+        "name": "flux_meta.txt",
+        "bytes": 211,
+        "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+      }
+    },
+    {
+      "path": "native/save/ie_008001.bin",
+      "receipt": {
+        "name": "ie_008001.bin",
+        "bytes": 37236,
+        "sha256": "9a3167fb52f5e6067df52f7896dda7e54a8472c6fc8f079f0a5c97a5e330bd5b"
+      }
+    },
+    {
+      "path": "native/save/ie_008002.bin",
+      "receipt": {
+        "name": "ie_008002.bin",
+        "bytes": 37224,
+        "sha256": "c057a667a1c0c84b67b1ca7e1e56c034866f190a660bdeb10055e2f615f387ea"
+      }
+    },
+    {
+      "path": "native/save/ie_meta.txt",
+      "receipt": {
+        "name": "ie_meta.txt",
+        "bytes": 211,
+        "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+      }
+    },
+    {
+      "path": "native/save/out_lam.bin",
+      "receipt": {
+        "name": "out_lam.bin",
+        "bytes": 49640,
+        "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+      }
+    },
+    {
+      "path": "native/save/pop_O_001000.bin",
+      "receipt": {
+        "name": "pop_O_001000.bin",
+        "bytes": 2296,
+        "sha256": "918c4ebe5c25847128d3c88170f8eefc04b54fe3e752e67ec1aa2fc1f9fe3f81"
+      }
+    },
+    {
+      "path": "native/save/pop_O_002000.bin",
+      "receipt": {
+        "name": "pop_O_002000.bin",
+        "bytes": 2296,
+        "sha256": "4214c1ad3a3cdfe2d58ffc97d2d112dddae573012832df978fcea5a2594b0fc6"
+      }
+    },
+    {
+      "path": "native/save/pop_O_003000.bin",
+      "receipt": {
+        "name": "pop_O_003000.bin",
+        "bytes": 2296,
+        "sha256": "1773518f90c0fb55b370d489f00b9aceb3705b2b1dd66084d0b5670efb00bc14"
+      }
+    },
+    {
+      "path": "native/save/pop_O_004000.bin",
+      "receipt": {
+        "name": "pop_O_004000.bin",
+        "bytes": 2296,
+        "sha256": "e6d39ca4a4d1fd862089bfe55dff3e9c7b2e8a0627188fd36058985730c59571"
+      }
+    },
+    {
+      "path": "native/save/pop_O_005000.bin",
+      "receipt": {
+        "name": "pop_O_005000.bin",
+        "bytes": 2296,
+        "sha256": "7971bcb88ddcfca65703f22d2253f05fd99a15af564a78630f0365ac6a00fa70"
+      }
+    },
+    {
+      "path": "native/save/pop_O_006000.bin",
+      "receipt": {
+        "name": "pop_O_006000.bin",
+        "bytes": 2296,
+        "sha256": "3a520488d47762a572e2c9ac5805cd9de0e0d6d31ead867c493e00edbf270b04"
+      }
+    },
+    {
+      "path": "native/save/pop_O_007000.bin",
+      "receipt": {
+        "name": "pop_O_007000.bin",
+        "bytes": 2296,
+        "sha256": "2d41427fb258a6cf23cdb0b7e4581cf19ad42ca7f543c958fff81c025e1c14f5"
+      }
+    },
+    {
+      "path": "native/save/pop_O_008000.bin",
+      "receipt": {
+        "name": "pop_O_008000.bin",
+        "bytes": 2296,
+        "sha256": "cbfa7a7cddf547fff098334f9aa633fc34c75063da9a52acb98f5be5dcfaddeb"
+      }
+    },
+    {
+      "path": "native/save/pop_O_meta.txt",
+      "receipt": {
+        "name": "pop_O_meta.txt",
+        "bytes": 813,
+        "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00001.bin",
+      "receipt": {
+        "name": "rates_O_00001.bin",
+        "bytes": 23624,
+        "sha256": "c7e5526eb9ad47095b54dda694e57d8f507ac603c5d1e4eaedaffb9b25d43d51"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00008.bin",
+      "receipt": {
+        "name": "rates_O_00008.bin",
+        "bytes": 23624,
+        "sha256": "57152befcdf331f6d8e24c36387d1e3eb4e21e70ae9ebf25f1e0f5d4529ff3fe"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00015.bin",
+      "receipt": {
+        "name": "rates_O_00015.bin",
+        "bytes": 23624,
+        "sha256": "1de1641fb7e1aa8904cc951a45c59ea386284289165ab7eeb7aa287c418d951e"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00022.bin",
+      "receipt": {
+        "name": "rates_O_00022.bin",
+        "bytes": 23624,
+        "sha256": "24e4b3b85e4c18256a7c60766b353bc93251a695af298333648fa1e094835562"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00029.bin",
+      "receipt": {
+        "name": "rates_O_00029.bin",
+        "bytes": 23624,
+        "sha256": "b3681b8e191a15a3c71ed98dea9c7e04b3ec01c6b8b79752e1b1c8fff2eed79f"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00036.bin",
+      "receipt": {
+        "name": "rates_O_00036.bin",
+        "bytes": 23624,
+        "sha256": "530e6350389e7a697e813495e1f4e5c86fa7fc90ef3118f98badb19f2cf319c4"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00043.bin",
+      "receipt": {
+        "name": "rates_O_00043.bin",
+        "bytes": 23624,
+        "sha256": "8cd2dfd26cbf8517c3649d1be707a2a57ae23e621927ad490987c257dfb30ddf"
+      }
+    },
+    {
+      "path": "native/save/rates_O_00050.bin",
+      "receipt": {
+        "name": "rates_O_00050.bin",
+        "bytes": 23624,
+        "sha256": "735724bed849f8ad89037e91140e4184f32acc2712a41f7def92569a226c781b"
+      }
+    },
+    {
+      "path": "native/save/rij_001000.bin",
+      "receipt": {
+        "name": "rij_001000.bin",
+        "bytes": 28,
+        "sha256": "57397891b701aa35957b1a760eac8e911f3142d5ed46a4863e95b1af1a64c3a3"
+      }
+    },
+    {
+      "path": "native/save/rij_002000.bin",
+      "receipt": {
+        "name": "rij_002000.bin",
+        "bytes": 28,
+        "sha256": "a8bc2d0138919f9bd2cceff4c78c81e98943a0e2b6eb98282801e0e06f82438b"
+      }
+    },
+    {
+      "path": "native/save/rij_003000.bin",
+      "receipt": {
+        "name": "rij_003000.bin",
+        "bytes": 28,
+        "sha256": "ffce135920270feeb18852f57076385828a2ab0999f52adcc65b3eac0af622dd"
+      }
+    },
+    {
+      "path": "native/save/rij_004000.bin",
+      "receipt": {
+        "name": "rij_004000.bin",
+        "bytes": 28,
+        "sha256": "115dff18b94a56febfd16cc86d124b08a1ee5ff6951b83277fd94fb4d54a378f"
+      }
+    },
+    {
+      "path": "native/save/rij_005000.bin",
+      "receipt": {
+        "name": "rij_005000.bin",
+        "bytes": 28,
+        "sha256": "bfc36ca008c55ffc5ed10a4ba1246fb08b9d8c0355c395d5083c8a588d458fba"
+      }
+    },
+    {
+      "path": "native/save/rij_006000.bin",
+      "receipt": {
+        "name": "rij_006000.bin",
+        "bytes": 28,
+        "sha256": "06d860a2d68c1b8bb46be4a3e98b993c4a8a5d604c3b5c13828e1126f6b37345"
+      }
+    },
+    {
+      "path": "native/save/rij_007000.bin",
+      "receipt": {
+        "name": "rij_007000.bin",
+        "bytes": 28,
+        "sha256": "efb50bd99384e1a7832780bb1b1e0d696e9b9b8e8fefa3870dd4b629be82564b"
+      }
+    },
+    {
+      "path": "native/save/rij_008000.bin",
+      "receipt": {
+        "name": "rij_008000.bin",
+        "bytes": 28,
+        "sha256": "3973b2e24d11e41e5619d183f60a7e124a396b97011763d077675bf9709d1daf"
+      }
+    },
+    {
+      "path": "native/save/rij_meta.txt",
+      "receipt": {
+        "name": "rij_meta.txt",
+        "bytes": 7005,
+        "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+      }
+    },
+    {
+      "path": "native/save/rji_001000.bin",
+      "receipt": {
+        "name": "rji_001000.bin",
+        "bytes": 28,
+        "sha256": "ddcc301bf1b99df55e46406205874e433c9818d6289619e8749174901c309584"
+      }
+    },
+    {
+      "path": "native/save/rji_002000.bin",
+      "receipt": {
+        "name": "rji_002000.bin",
+        "bytes": 28,
+        "sha256": "813bf5112aaee3bf65393f5050dc71feb9fd18b4945b0da12da5585dadffaefd"
+      }
+    },
+    {
+      "path": "native/save/rji_003000.bin",
+      "receipt": {
+        "name": "rji_003000.bin",
+        "bytes": 28,
+        "sha256": "d6b036c8fe1a0f8f78bb8e56fb09290441800adbd03722de1966b480bf845d87"
+      }
+    },
+    {
+      "path": "native/save/rji_004000.bin",
+      "receipt": {
+        "name": "rji_004000.bin",
+        "bytes": 28,
+        "sha256": "aaef647c744d14add50550cd9841406138f8dbd857ef1a5caebb272891cb4e62"
+      }
+    },
+    {
+      "path": "native/save/rji_005000.bin",
+      "receipt": {
+        "name": "rji_005000.bin",
+        "bytes": 28,
+        "sha256": "44fac0260d68fc7fb16cd432e3b8bcdd29717b9d69f07418735b171958913303"
+      }
+    },
+    {
+      "path": "native/save/rji_006000.bin",
+      "receipt": {
+        "name": "rji_006000.bin",
+        "bytes": 28,
+        "sha256": "9a941835a5850a6842e8b730f962de05c8e059250b3a48fb31067338c38db9b3"
+      }
+    },
+    {
+      "path": "native/save/rji_007000.bin",
+      "receipt": {
+        "name": "rji_007000.bin",
+        "bytes": 28,
+        "sha256": "5d37610fa164dbae7045f30907a9131ed9074c4b0b642c69b803a7c76e73f261"
+      }
+    },
+    {
+      "path": "native/save/rji_008000.bin",
+      "receipt": {
+        "name": "rji_008000.bin",
+        "bytes": 28,
+        "sha256": "effd31364e0877a313224fd511f834f4f02b17b974436284a5adaea8765b4ae0"
+      }
+    },
+    {
+      "path": "native/save/rji_meta.txt",
+      "receipt": {
+        "name": "rji_meta.txt",
+        "bytes": 7005,
+        "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+      }
+    },
+    {
+      "path": "native/sets.txt",
+      "receipt": {
+        "name": "sets.txt",
+        "bytes": 135,
+        "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+      }
+    },
+    {
+      "path": "native.log",
+      "receipt": {
+        "name": "native.log",
+        "bytes": 3301,
+        "sha256": "a8cc5c9bf19f7526708f4d71661b62636e81436610e4c6f752a34c0585401ea5"
+      }
+    },
+    {
+      "path": "output_wavelengths_vac_A.txt",
+      "receipt": {
+        "name": "output_wavelengths_vac_A.txt",
+        "bytes": 111690,
+        "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+      }
+    },
+    {
+      "path": "rank.lock",
+      "receipt": {
+        "name": "rank.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ]
+}

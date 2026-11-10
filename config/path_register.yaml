@@ -1147,3 +1147,20 @@ entries:
     rel: bride_mac_checks/rya1371-oxygen-linear-output-v1
     kind: dir
     desc: Pinned native linear output control, consumed atom table retained; scientific HOLD.
+
+  engines.openmulti3d_profile_reference:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-profile-reference-v3
+    kind: dir
+    desc: Isolated pinned active-line accurate-kernel derivative, explicit diagnostic only.
+  engines.openmulti3d_profile_reference_build:
+    root: work
+    rel: bride_inputs/rya1371/profile-reference-build-v3
+    kind: dir
+    desc: Fresh one-thread bounded derivative build receipts, original reference untouched.
+
+  experiments.openmulti3d_oxygen_accurate_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1
+    kind: dir
+    desc: Isolated accurate-kernel native Oxygen control state and spectrum, not model admission.

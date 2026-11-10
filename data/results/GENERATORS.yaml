@@ -31769,3 +31769,143 @@ artifacts:
     generator: scripts/probe_native_qlg_profiles.py
     ticket: RYA-1371
     note: Exact compact matched LW damping support and pinned native kernel probe; no emergent-intensity or physical admission.
+  - artifact: rya1371/accurate_profile_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/profile_build/build.log
+    generator: scripts/build_native_profile_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/profile_build/manifest.json
+    generator: scripts/build_native_profile_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/profile_build/receipt.json
+    generator: scripts/build_native_profile_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-accurate-profile-audit-v1/report.json
+    generator: scripts/audit_accurate_profile_control.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-hop-accurate-profile-comparison-v1/comparison.png
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-hop-accurate-profile-comparison-v1/report.json
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-hop-accurate-profile-comparison-v1/windows.csv
+    generator: scripts/analyze_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-hop-accurate-profile-transfer-v1/manifest.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-hop-accurate-profile-transfer-v1/native_LTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-hop-accurate-profile-transfer-v1/native_NLTE.npz
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-hop-accurate-profile-transfer-v1/report.json
+    generator: scripts/run_bride_hop_fixed_transfer.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-dispatch-audit-v1/report.json
+    generator: scripts/check_original_reference_replay.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-original-profile-replay-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.
+  - artifact: rya1371/accurate_profile_v1/rya1371-oxygen-accurate-profile-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Exact compact opt-in native kernel derivative and original-dispatch replay; original reference unchanged, scientific HOLD.

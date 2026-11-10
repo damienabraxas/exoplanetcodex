@@ -32,7 +32,7 @@ def test_preparation_is_fresh_and_preserves_source_and_explicit_input_identity(t
 
 def test_unknown_dimensions_and_over_budget_runs_cannot_execute(tmp_path):
     p,_,_=fixture_plan(tmp_path)
-    for key,value in [('mode','3D-NLTE'),('engine','unknown')]:
+    for key,value in [('mode','3D-NLTE'),('engine','unknown'),('profile_variant','unreviewed')]:
         bad=copy.deepcopy(p);bad[key]=value
         with pytest.raises(ValueError):validate_plan(bad)
     for key,value in [('threads',2),('seconds',601),('rtol',1e-3),('maxiter',1501),('ntheta',7),('molecular_equilibrium','disabled-control'),('output_solver','unsupported'),('disable_stark_control',1)]:
@@ -78,3 +78,29 @@ def test_engine_pin_and_native_build_mutations_are_refused(tmp_path,monkeypatch)
     with pytest.raises(ValueError,match='executable'):load_engine('openmulti3d',registry=registry,resolver=resolve)
     exe.write_bytes(b'native executable');lib.write_bytes(b'mutated')
     with pytest.raises(ValueError,match='HOP'):load_engine('openmulti3d',registry=registry,resolver=resolve)
+
+
+def test_profile_control_is_explicit_and_original_dispatch_stays_identical(monkeypatch):
+    import pipeline.reference_engines as module
+    original=(object(),object(),object(),{'original':'sentinel'})
+    monkeypatch.setattr(module,'load_engine',lambda *args,**kwargs:original)
+    assert module.load_plan_engine({'engine':'openmulti3d'})==original
+    with pytest.raises(ValueError,match='profile variant'):
+        module.load_plan_engine({'engine':'openmulti3d','profile_variant':'unreviewed'})
+
+
+def test_derived_profile_refuses_any_unexpected_source_diff_including_staged_changes(tmp_path,monkeypatch):
+    import pipeline.reference_engines as module
+    pin='32085d26c46e9919a986397b5514a9728abe2074'
+    spec=dict(source_commit=pin,application_rel='application',executable_rel='dispatch.x')
+    monkeypatch.setattr(module,'load_engine',lambda *args,**kwargs:(spec,None,None,{'original':'sentinel'}))
+    source=tmp_path/'source';source.mkdir();build=tmp_path/'build';build.mkdir();(build/'receipt.json').write_text('{}')
+    calls=[]
+    def output(args,**kwargs):
+        calls.append(args)
+        return pin+'\n'if args[1]=='rev-parse'else b'unexpected source diff'
+    monkeypatch.setattr(module.subprocess,'check_output',output)
+    resolve=lambda key:source if key.endswith('profile_reference')else build
+    with pytest.raises(ValueError,match='derivative source'):
+        module.load_plan_engine(dict(engine='openmulti3d',profile_variant='accurate-kernel-control'),resolver=resolve)
+    assert ['git','diff','--binary','HEAD']in calls

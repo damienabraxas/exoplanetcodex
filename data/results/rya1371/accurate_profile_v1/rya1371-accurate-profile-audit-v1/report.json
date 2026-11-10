@@ -1,0 +1,267 @@
+{
+  "generator": {
+    "name": "audit_accurate_profile_control.py",
+    "bytes": 3703,
+    "sha256": "08606257d59d4f48413bc48d8574dc28fe8a616b2c8edaf7e5cdd7eb9d7bdcc1"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85405,
+      "sha256": "434ee0ddcc074db866e8b80bdcf54006861315c2fc237aa65a8b87dc062928a8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85404,
+      "sha256": "a76996b75c92ab40f0cff7b10f048ca3777f5fc4cfd8bd4bbe38b0ec84548acf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "1a58f5eb1d140ac61e6897417244caf541ac7a3aa2dac27c4f2d065ceff04291"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "c7e5526eb9ad47095b54dda694e57d8f507ac603c5d1e4eaedaffb9b25d43d51"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "af818d7f5b337387a05bd0745fee3a3722cbe5ac74dc8ddb7c56eadfb25965f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "57152befcdf331f6d8e24c36387d1e3eb4e21e70ae9ebf25f1e0f5d4529ff3fe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "73e38d166b7323e61ae4caf4eccd58b6b009ea3fb317a4ae738c17b284f78b52"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "1de1641fb7e1aa8904cc951a45c59ea386284289165ab7eeb7aa287c418d951e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "5918285b6374edce8ce145fcdda9b6d6c98fcb3ec74e52c1eecbe5cb7a749177"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "24e4b3b85e4c18256a7c60766b353bc93251a695af298333648fa1e094835562"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "fcc988b37d999714813bc84e6dce566d0c90d3b93d45e7361082a3f1c4fe4025"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "b3681b8e191a15a3c71ed98dea9c7e04b3ec01c6b8b79752e1b1c8fff2eed79f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "542ce107170e1e0e9c7eb30503f1f25e5c711b5596d1900b622839aa86c58541"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "530e6350389e7a697e813495e1f4e5c86fa7fc90ef3118f98badb19f2cf319c4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "f55659bb0a0b9f84d0b53f74fb55b29ebbcf4b1ee734e74d8b940ec9469b6dd5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "8cd2dfd26cbf8517c3649d1be707a2a57ae23e621927ad490987c257dfb30ddf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "e9dfe669da476c7f047fad911fab5fadc953467dba16f5eaf1f7069fb18a88e1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "735724bed849f8ad89037e91140e4184f32acc2712a41f7def92569a226c781b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 4887,
+      "sha256": "f8ab625d0f77f84420f0b52404c33a17f00411f9d540692d20f1c04e950238f4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-accurate-profile-transfer-v1/report.json": {
+      "name": "report.json",
+      "bytes": 221070,
+      "sha256": "9fe7a9361fe4ef09fc0f7688aa144e8ee5d563efce3730c194f1b6eae2569730"
+    }
+  },
+  "original": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "variant": {
+    "variant": "accurate-kernel-control",
+    "variant_spec": {
+      "name": "openmulti3d_profile_variant.yaml",
+      "bytes": 363,
+      "sha256": "48cbc06b11dd827ad9e7e94668ffb99c3efb6562179f42c66d9fbae20f0d0303"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1679,
+      "sha256": "5c55b23c8d071887f25f96dae2996f4124ed9db5a75db402b84c9501875b96ec"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614120,
+      "sha256": "a1f9441bf21003113bc59d3c0c91a16f5b1e68cdcf2574e7ccd411e70341dbc1"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+    "patch": {
+      "name": "active_profile.patch",
+      "bytes": 3144,
+      "sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446"
+    },
+    "original_reference": {
+      "registry": {
+        "name": "reference_engines.yaml",
+        "bytes": 877,
+        "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+      },
+      "build_receipt": {
+        "name": "receipt.json",
+        "bytes": 1552,
+        "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+      },
+      "executable": {
+        "name": "dispatch.x",
+        "bytes": 3614040,
+        "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+      },
+      "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "mesh_thermodynamics_nstar_atom_table_collision_rates_bit_identical": true,
+  "native_max_relative_n_response": 0.00010370164445194785,
+  "limitations": [
+    "Native stored physical-rate balance independently reconstructed, not a fresh fixed-field replay.",
+    "Accurate native kernel is the existing fp64 reference retaining fp32 input/output and frequency Jacobian; no production/default adoption.",
+    "Own-state fixed pair consumes complete new n/nStar; small triplet transfer residuals do not qualify collider/EOS/SE or observed solar physics."
+  ]
+}
