@@ -32193,3 +32193,35 @@ artifacts:
     generator: scripts/audit_hop_collider_packet.py
     ticket: RYA-1371
     note: Read-only native H collider field export and state preservation; no SE or physical model admission.
+  - artifact: rya1371/native_collisions_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/native_collisions_v1/collision_oracle_build/compiler.log
+    generator: scripts/build_hop_collision_oracle.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/native_collisions_v1/collision_oracle_build/manifest.json
+    generator: scripts/build_hop_collision_oracle.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/native_collisions_v1/collision_oracle_build/receipt.json
+    generator: scripts/build_hop_collision_oracle.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/native_collisions_v1/rya1371-native-collision-matrix-v3/manifest.json
+    generator: scripts/audit_native_oxygen_collisions.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/native_collisions_v1/rya1371-native-collision-matrix-v3/matrices.npz
+    generator: scripts/audit_native_oxygen_collisions.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/native_collisions_v1/rya1371-native-collision-matrix-v3/oracle.log
+    generator: scripts/audit_native_oxygen_collisions.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/native_collisions_v1/rya1371-native-collision-matrix-v3/report.json
+    generator: scripts/audit_native_oxygen_collisions.py
+    ticket: RYA-1371
+    note: Native collision matrix and labelled convention controls; no independent physical or SE admission.

@@ -1,5 +1,7 @@
 ## 2026-11-10 — restored source-width component
 
+- **RYA-1371** — All stored native Oxygen upward collision cells reproduce bit-for-bit; backend adapter/coupled SE next (v271).
+
 - **RYA-1371** — Native ground-H/occupation packet preserves EOS/opacity exactly; collision-matrix and coupled-SE qualification next (v270).
 
 - **RYA-1371** — Current ORCH gap-register main integrated; collider roles and source-direction hypotheses retained for SE qualification (v269).

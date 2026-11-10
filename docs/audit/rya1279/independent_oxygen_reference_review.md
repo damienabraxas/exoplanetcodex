@@ -874,3 +874,70 @@ broken. Register pointer v270 passes. Exact canonical patch retains blank contex
 lines reported by whitespace check; no stripping of source-diff bytes. All other
 staged whitespace passes. No new adopted pipeline defect; source storage convention
 and failed experimental assumptions are explicit above, not invented bug-ledger rows.
+
+
+### Native collision-matrix numerical milestone (v271)
+
+Read actual native O.txt/params and all eight final depth-rate slabs. All1106
+records supported explicitly:741CE,39CI,302CH,24CH0,14 common temperature nodes.
+Native classical electron/H fill recipes blank, all five rate scale factors1,
+CH0_HMIP false. These checked prerequisites forbid silently adding other recipes.
+Native nStar all41x56 is identical to the pinned analysis; T/ne collider state
+identical to the qualified occupation-aware HOP packet. H raw ground and totalHI
+remain distinct. No generic H-population array or density inference.
+
+New GPL read-only driver calls actual compiled HOP hermite_derivative and
+hermite_interpolation (log coefficients) and exports its native e_k. Qualified
+existing collider-provider objects/modules/sources are all receipted; native
+source/object files unchanged. Fresh standalone executable builds.609s using
+one-thread600s cap; no C ABI guessing or reimplementation of interpolation.
+Numeric Maxwellian table warnings are source checks, not coefficient corrections.
+
+Reusable explicit collision_matrix computes C[destination,source,depth] from
+source-native interpolated q, T/ne, raw ground-H, O nStar/energies/g and e_k.
+CE downward, CI upward, CH downward, CH0 upward with O LTE inverse follow the
+specified OpenMULTI3D contract. This is a named experiment, not adoption over
+original directed-only CH0 or independent author MN source hypotheses.
+
+All45,920 stored upward cells (including zeros) become BIT-IDENTICAL after the
+same float32 output quantization; no tolerance-selected adjustment. Full double
+reconstruction versus stored upward/inferred downward matrix max relative
+5.95564208e-8, zero extra nonzero cells. Native largest rate1.28354353e11/s;
+absolute discrepancy4016/s is output quantization at large rates, not a physical
+uncertainty. Downward reference rates are reconstructed from saved upward rates
+and nStar, NOT independently exported reverse rates. No fresh radiation or
+nonlinear solve, physical collision-data or stellar model validation follows.
+
+Labelled controls use the SAME native q/state, altering one convention only:
+
+| control | max relative difference vs stored native nonzero matrix |
+|---|---:|
+| totalHI replaces raw collision ground-H |5.60315483e-5|
+| directed-only CH0, omit effective LTE inverse |.999995572|
+| upward instead of downward CH convention |9150.59662|
+
+These maxima describe individual rate entries, not spectra/abundance effects or
+whole-engine disagreements; alternate controls do not recreate the other engine's
+interpolation/EOS. They discriminate conventions without empirical scales.
+
+v1 standalone audit, v2 shared calculation and finalv3 quantized-output proof
+all retained; finalv3 is qualified evidence. Native interpolation/rate inputs,
+matrices and receipts live in native_collisions_v1 (22raw/7compact). Three meaningful
+synthetic tests discriminate CH/CH0 orientation and reverse channel, Htotal versus
+raw ground, electron-only roles, CE/CI Boltzmann and LTE ratios, and invalid states/
+unsupported controls.45 focused Oxygen tests pass. No new production bug or silent
+fallback discovered; previously documented source direction hypotheses remain.
+
+Next implement an explicitly opt-in fixed-background collision adapter from this
+verified calculation, bind immutable T/ne/H/nStar and atom/table identities, prove
+actual backend consumes it before permitting the HOP provider's active-O guard to
+change. Then run a bounded coupled O solve and fresh physical R+C/conservation/
+restart checks. Table-rounded transfer-only line controls are NOT a self-consistent
+SE atom; reconcile full atom/UV/BF support before interpreting SE differences.
+Independent lifetime/collision evidence and observed solar intensity/flux validation
+remain required; physical Oxygen1D,3D and1374/all-band gates stay open.
+
+All19 archive groups verify2903 raw receipts/341 exact compact copies; plain
+artifact diagnostics exactly match existing baseline5120.159 paths present/18
+existing broken; staged whitespace and v271 version pointer pass. No hosted CI,
+Sirius work, source/default/abundance/product/gold change, or physical gate sign-off.
