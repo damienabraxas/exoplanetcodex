@@ -61,3 +61,6 @@ dill>=0.3.8
 h5py>=3.10
 hdf5plugin>=4.4
 statsmodels>=0.14
+
+# Versioned scientific catalog/schema validation (RYA-1373).
+jsonschema>=4.18,<5
