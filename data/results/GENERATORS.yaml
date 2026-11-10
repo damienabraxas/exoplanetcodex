@@ -32169,3 +32169,27 @@ artifacts:
     generator: scripts/audit_source_width_backend.py
     ticket: RYA-1371
     note: Exact source-width fixed-population evidence; no physical model or default adoption.
+  - artifact: rya1371/hop_collider_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only native H collider field export and state preservation; no SE or physical model admission.
+  - artifact: rya1371/hop_collider_v1/collider_build/build.log
+    generator: scripts/build_hop_trace_provider.py
+    ticket: RYA-1371
+    note: Read-only native H collider field export and state preservation; no SE or physical model admission.
+  - artifact: rya1371/hop_collider_v1/collider_build/manifest.json
+    generator: scripts/build_hop_trace_provider.py
+    ticket: RYA-1371
+    note: Read-only native H collider field export and state preservation; no SE or physical model admission.
+  - artifact: rya1371/hop_collider_v1/collider_build/receipt.json
+    generator: scripts/build_hop_trace_provider.py
+    ticket: RYA-1371
+    note: Read-only native H collider field export and state preservation; no SE or physical model admission.
+  - artifact: rya1371/hop_collider_v1/rya1371-hop-collider-packet-v4/packet.npz
+    generator: scripts/audit_hop_collider_packet.py
+    ticket: RYA-1371
+    note: Read-only native H collider field export and state preservation; no SE or physical model admission.
+  - artifact: rya1371/hop_collider_v1/rya1371-hop-collider-packet-v4/report.json
+    generator: scripts/audit_hop_collider_packet.py
+    ticket: RYA-1371
+    note: Read-only native H collider field export and state preservation; no SE or physical model admission.

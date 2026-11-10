@@ -768,6 +768,16 @@ entries:
     rel: bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules
     kind: dir
     desc: Installed RH molecular fit definitions for explicit LTE chemistry preflight; receipts and temperature validity required, no molecular NLTE admission.
+  engines.hop_collider_provider_source:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-collider-provider-v4
+    kind: dir
+    desc: Experimental separate native ground-H export; no active-SE admission.
+  engines.hop_collider_provider_build:
+    root: work
+    rel: bride_inputs/rya1371/collider-provider-build-v4
+    kind: dir
+    desc: Pinned one-thread build receipt for read-only collider export.
   engines.hop_trace_provider_source:
     root: work
     rel: bride_inputs/rya1371/openmulti3d-hop-provider-v2

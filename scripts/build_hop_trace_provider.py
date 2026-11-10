@@ -6,9 +6,9 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 def main():
     from pipeline.reference_engines import load_engine,fingerprint
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--patch',type=Path,default=ROOT/'native/hop_trace_provider/trace_continua.patch');a=p.parse_args()
     if platform.system()!='Darwin':raise ValueError('Authorized Mac-only build')
-    spec,app,_,reference=load_engine('openmulti3d');checkout=app.parents[1];patch=ROOT/'native/hop_trace_provider/trace_continua.patch';patch_receipt=fingerprint(patch)
+    spec,app,_,reference=load_engine('openmulti3d');checkout=app.parents[1];patch=a.patch.resolve();patch_receipt=fingerprint(patch)
     if a.source.exists()or a.source.resolve().is_relative_to(checkout.resolve())or a.output.resolve().is_relative_to(checkout.resolve()):raise ValueError('Require fresh source and output outside reference checkout')
     a.output.mkdir(parents=True,exist_ok=False);started=time.perf_counter();env=dict(os.environ,OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1');report=dict(generator=fingerprint(__file__),upstream_commit=spec['source_commit'],patch=patch_receipt,reference=reference,source=str(a.source.resolve()),completed=False,seconds_limit=600,threads=1)
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')

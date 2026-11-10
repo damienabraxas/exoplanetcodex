@@ -25,3 +25,10 @@ def test_invalid_thermodynamics_and_wavelengths_refuse_before_native_access(monk
     with pytest.raises(ValueError,match='thermodynamic'):compute_packet(*bad,vmic_m_s=1000.)
     bad=list(args);bad[3]=np.array([600.,500.])
     with pytest.raises(ValueError,match='vacuum-nm'):compute_packet(*bad,vmic_m_s=1000.)
+
+
+def test_unknown_collider_variant_refuses_without_native_or_environment(monkeypatch):
+    def forbidden(*args):raise AssertionError('Unknown provider must not reach native API')
+    monkeypatch.setattr('pipeline.hop_packet.checked_runtime',forbidden)
+    with pytest.raises(ValueError,match='provider variant'):
+        compute_packet(None,None,None,None,None,None,vmic_m_s=1000.,provider_variant='nearest-collider')

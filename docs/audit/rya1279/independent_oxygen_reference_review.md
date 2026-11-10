@@ -820,3 +820,57 @@ rate direction, density substitution, reverse channel or producer identity adopt
 Raw inspected source hashes: /private/tmp/rya1371-collider-next-audit.txt (local
 resume aid); authoritative source pins/build receipts remain registered. Physical
 1D/solar and1374 gates stay open.
+
+
+### Occupation-aware native Hydrogen collider packet (v270)
+
+Separate GPL-derived HOP interface exports exact native collision nh1=
+comp%elements(1)%ions(1)%levels(1)%n and its occupation probability separately.
+Existing species exporter supplies total HI, HII and H-minus. No synthetic H level
+array, rate-direction change, coefficient adjustment or active-SE admission.
+Original provider/source/executable unchanged. New build is opt-in by explicit
+provider_variant='collider', default remains trace; unknown variants refuse.
+
+Important source semantics: composition_mod::init_H_levels2694--2759 explicitly
+leaves occupation probabilities OUTSIDE stored level%n; its partition includes
+weights and opacity later multiplies them. Thus raw collision ground/HItotal can
+exceed1 without violating the source's chosen storage convention. Current56-state
+range0.999943958573--1.000003871441; occupation-weighted ground/HItotal lies
+0.999939903668--0.999999999999179. Never clamp or renormalize the raw collision
+field, nor substitute it for total neutral-H pressure broadening. This is source
+convention qualification, not independent physical endorsement of collision use.
+
+Fresh source/build v4 succeeds28.625s,1thread,600s unchanged cap; exact canonical
+patch equals tracked diff; library12591629257b87eb5e7c637fd6cc4756f08d8f958f3d6ad312df89b27296e38a.
+Raw packet audit v4 compares ALL original state/species/opacity/emissivity/scattering
+arrays bit-for-bit with the separate exporter. All match exactly. Three unloaded/
+invalid-size calls(-1,0,56) refuse status3 and leave both output sentinels intact.
+A subsequent fresh packet reproduces every collider array bit-for-bit. This does
+not test wrong-size calls while a valid state is live; no such claim is made.
+Native/exported fields finite/positive; occupation weights within[0,1], weighted
+ground bounded by total. Unweighted raw values preserved even above total.
+
+Failures preserved: buildv1 canonical-diff gate refused generated-header changes;
+v2 original raw-only interface built but remains superseded/unadmitted. v3 adds
+explicit occupation export but canonical header whitespace gate refused. Freshv4
+includes actual generated header, passes without guard bypass. Packetattemptv1
+refused missing OMP_NUM_THREADS=1 before native load. v2 and diagnosticv3 refused
+an incorrectly assumed raw-ground<=total invariant; inspected actual init_H_levels,
+corrected the semantic guard to occupation*raw<=total, not an empirical tolerance.
+No source physics altered. Diagnostic v3 log retained /private/tmp/rya1371-collider-v3.log;
+v4 raw packet/report under bride_mac_checks/rya1371-hop-collider-packet-v4.
+14 raw receipts/5 compact files in hop_collider_v1 preserve build/prototype evidence.
+
+42 focused Oxygen tests pass, including unknown-variant refusal before native
+access. Next compare native collision matrix using exact native nStar, ground-H,
+electron fields and source interpolation/directions; then qualify active O HOP
+coupling and fresh R+C balance, followed by solar observations. Native CH0 effective
+LTE inverse and original directed-only/author MN hypotheses remain distinct.
+Scientific Oxygen1D/3D/all-band/RYA1374 gates remain open.
+
+Final checks:18 archive groups verify2881 raw receipts/334 compact copies. Artifact
+diagnostic set remains exactly clean-baseline5120;158 paths present/18 existing
+broken. Register pointer v270 passes. Exact canonical patch retains blank context
+lines reported by whitespace check; no stripping of source-diff bytes. All other
+staged whitespace passes. No new adopted pipeline defect; source storage convention
+and failed experimental assumptions are explicit above, not invented bug-ledger rows.
