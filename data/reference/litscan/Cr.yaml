@@ -37,28 +37,29 @@ range:
   is_statistical_spread: false
 verification_owed:
   - Huber & Sandeman 1977, Cooper+1997 and Hannaford & Lowe 1981 are paywalled and owed on RYA-1283.
+  - Tian+2021 (JQSRT 274, 107880; Cr I lab, 67 lines 213-541 nm) is paywalled and owed on RYA-1283.
 literature_sweep:
   bands:
     - ion: I
       band: near-UV
-      searched: [Sobeck+2007, Blackwell-Whitehead+1984 and 1986, NIST ASD, VALD gf references]
-      result: 38 Sobeck lab lines in the lab table; Blackwell tables add no line and agree with NIST within 0.002 dex.
+      searched: [Sobeck+2007, Blackwell-Whitehead+1984 and 1986, Tozzi+1985, Tian+2021 (owed, RYA-1283), NIST ASD, VALD gf references]
+      result: 38 Sobeck lab lines in the lab table; Blackwell tables add no line and agree with NIST within 0.002 dex. Tozzi+1985 transcribed 2026-11-09 (54 lines); it adds lab gf to 3160.611 and 3169.575.
     - ion: I
       band: VIS
-      searched: [Scott+2015, AGSS21, AG26, Lodders+2025, Sobeck+2007, Blackwell-Whitehead+1984 and 1986, Heiter+2021, NIST ASD, VALD gf references]
+      searched: [Scott+2015, AGSS21, AG26, Lodders+2025, Sobeck+2007, Blackwell-Whitehead+1984 and 1986, Tozzi+1985, Tian+2021 (owed, RYA-1283), Heiter+2021, NIST ASD, VALD gf references]
       result: 29 Scott set lines plus 178 Sobeck lab lines; 10 Sobeck gf adopted. 4026.21 stays on list gf.
     - ion: I
       band: red-optical
-      searched: [Sobeck+2007, Heiter+2021, NIST ASD, VALD gf references]
-      result: 1 Sobeck lab line.
+      searched: [Sobeck+2007, Tozzi+1985, Heiter+2021, NIST ASD, VALD gf references]
+      result: 1 Sobeck lab line. Tozzi+1985 (lab, 290-900 nm) adds 8916.24 (-1.41 +/- 0.12), 8939.19 (-2.08 +/- 0.15) and 8955.75 (-1.92 +/- 0.15), found 2026-11-09; the list already carries these values via the MFW compilation, untagged, now graded from Tozzi (scripts/rya728_transcribe_tozzi1985.py).
     - ion: I
       band: NIR
       searched: [Sobeck+2007, Gaia FGK benchmarks 2026 Table B.2, NIST ASD, VALD gf references]
-      result: 9 Sobeck lab lines, 4 of them added to the list. NIST has no Cr log gf beyond 9200 A. Gaia solar lines are all in the list on VALD gf.
+      result: 9 Sobeck lab lines, 4 of them added to the list. NIST has no Cr log gf beyond 9200 A. Tozzi+1985 stops at 900 nm; a 2026-11-09 web search found no Cr I lab gf beyond it. Gaia solar lines are all in the list on VALD gf.
     - ion: I
       band: H
       searched: [Smith+2021, Gaia FGK benchmarks 2026 Table B.2, NIST ASD, VALD gf references]
-      result: No lab gf; Smith+2021 uses Kurucz 2017. Ungraded diagnostic on 5 lines gives 5.62-5.73 on three, 6.46 on one, one unphysical.
+      result: No lab gf; Smith+2021 uses Kurucz 2017. A 2026-11-09 web search found no Cr I lab gf in the H or K band. Ungraded diagnostic on 5 lines gives 5.62-5.73 on three, 6.46 on one, one unphysical.
       diagnostic: data/audit/orchestrator_prepare/solar_Cr_band_diagnostics.csv
     - ion: I
       band: K
@@ -67,20 +68,20 @@ literature_sweep:
       diagnostic: data/audit/orchestrator_prepare/solar_Cr_band_diagnostics.csv
     - ion: II
       band: near-UV
-      searched: [Lawler+2017, Gurell+2010, Nilsson+2006, NIST ASD, VALD gf references]
-      result: 155 lab lines in the lab table. Gurell gf adopted on 32 rows and Nilsson on 3 across near-UV and VIS; 3179.45, 3183.33 and 3665.98 held for moves over 0.5 dex.
+      searched: [Lawler+2017, Gurell+2010, Nilsson+2006, Ward+2023, Engstrom+2014, Tayal & Zatsarinny 2019 (theory), NIST ASD, VALD gf references]
+      result: Ward+2023 (NIST lab, 268 lines 208-414 nm, 10-26%) adopted 2026-11-09 on 78 rows, and it outranks Gurell+2010 on the 24 lines both measured. Ward re-measured Gurell's levels with Gurell's lifetimes and reports a calibration problem, a misidentified line and three likely-incorrect A-values in Gurell; Ward agrees with the VALD gf to about 0.1 dex. Held by the 0.5 dex rule are 3077.589 and 3421.616; Engstrom+2014 lines are 282-299 nm, below this band; Tayal & Zatsarinny is theory (held, RYA-1351). 155 lab lines in the lab table. Gurell gf adopted on 32 rows and Nilsson on 3 across near-UV and VIS; 3665.98 held for a move over 0.5 dex. 3179.45 now takes Ward -1.263. 3183.33 now takes Ward -0.214, within 0.11 dex of the line-list gf -0.325 that Ryan kept over Gurell -0.965 on 2026-11-09; Gurell vs Sun conflict recorded. On Kitt Peak, 1D LTE, the list gf gives A(Cr) 5.555 and Gurell gf -0.965 gives 6.192, about 0.57 dex above the solar 5.62. The cause is not established; the line may be blended.
     - ion: II
       band: VIS
-      searched: [Scott+2015, AGSS21, AG26, Lawler+2017, Gurell+2010, Nilsson+2006, Heiter+2021, NIST ASD]
+      searched: [Scott+2015, AGSS21, AG26, Lawler+2017, Gurell+2010, Nilsson+2006, Ward+2023 (to 414 nm), Heiter+2021, NIST ASD]
       result: 10 Scott set lines plus 75 lab lines. 4891.49 and 6421.71 held for moves over 0.5 dex. 4627.654 unresolved and recorded, Gurell gf 3.4 dex above both theories.
     - ion: II
       band: red-optical
-      searched: [Lawler+2017, Gurell+2010, Nilsson+2006, NIST ASD, VALD gf references]
-      result: No lab gf; none of the lab tables reach this band. Ungraded diagnostic gives 5.52 from 7311.61, the only line that came back.
+      searched: [Lawler+2017, Gurell+2010, Nilsson+2006, Ward+2023, Engstrom+2014, Tayal & Zatsarinny 2019 (theory), NIST ASD, VALD gf references, web search 2026-11-09]
+      result: No lab gf; none of the lab tables reach this band. The list gf is Raassen & Uylings theory, a theoretical-grade candidate (data/audit/orchestrator_prepare/solar_Cr_atomic_gap_candidates.csv). Ungraded diagnostic gives 5.52 from 7311.61, the only line that came back.
       diagnostic: data/audit/orchestrator_prepare/solar_Cr_band_diagnostics.csv
     - ion: II
       band: NIR
-      searched: [Lawler+2017, Gurell+2010, Nilsson+2006, NIST ASD, VALD gf references]
+      searched: [Lawler+2017, Gurell+2010, Nilsson+2006, Ward+2023, Engstrom+2014, Tayal & Zatsarinny 2019 (theory), NIST ASD, VALD gf references, web search 2026-11-09]
       result: No lab gf. The only two rows are Kurucz lines at 13 eV on the band edge and are not in the synthesis list, so nothing can be fitted.
       diagnostic: data/audit/orchestrator_prepare/solar_Cr_band_diagnostics.csv
     - ion: II

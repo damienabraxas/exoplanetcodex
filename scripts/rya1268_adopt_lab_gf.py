@@ -67,7 +67,10 @@ CITE = {"wood2013_ti2": "Wood et al. 2013 (ApJS 208, 27)", "lawler2014_v1": "Law
         "denhartog2021_ca1": "Den Hartog et al. 2021 (ApJS 255, 27)",
         "lawler2018_co2": "Lawler et al. 2018 (ApJS 238, 7)",
         "gurell2010_cr2": "Gurell et al. 2010 (A&A 511, A68)",
-        "nilsson2006_cr2": "Nilsson et al. 2006 (A&A 445, 1165)"}
+        "nilsson2006_cr2": "Nilsson et al. 2006 (A&A 445, 1165)",
+        # RYA-728: journal machine-readable table / hand transcription of a scanned table
+        "ward2023_cr2": "Ward et al. 2023 (ApJ 959, 8)",
+        "tozzi1985_cr1": "Tozzi, Brunner & Huber 1985 (MNRAS 217, 423)"}
 
 
 def nist() -> pd.DataFrame:
@@ -203,6 +206,12 @@ def main(only_element: str | None = None) -> None:
     # by 0.27 dex and AGSS21 adopted Lawler's.
     vr = pd.read_csv(AUD / "vald_solar_gf_refs.csv")
     outranked = {"bw2006_ti1": vr[(vr.species == "Ti I") & vr.gf_ref_code.isin({"LGWSC", "NWL"})]}
+    # RYA-728: Ward+2023 (NIST) re-measured Gurell+2010's Cr II levels with Gurell's own lifetimes
+    # "to confirm the work of Gurell", and found a radiometric-calibration problem (BRs off by ~2x
+    # for the redder decays of y4F9/2), a misidentified line and three likely-incorrect A-values.
+    # Gurell yields wherever Ward measured the same line.
+    _lab = pd.read_csv(LAB)
+    outranked["gurell2010_cr2"] = _lab[_lab.paper == "ward2023_cr2"]
     for r in pd.read_csv(LAB).itertuples():
         if r.paper in outranked and (
                 (outranked[r.paper].wavelength_air_A - r.wavelength_air_A).abs() <= 0.06).any():
