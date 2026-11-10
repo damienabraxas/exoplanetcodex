@@ -50,6 +50,8 @@ KNOWN = [
      "lab vs list >0.5 dex; fit non-physical with either gf (KP 7.32-7.33, HARPS 7.42)"),
     ("Cr II", 6421.7063, "GF_DISCREPANCY;SOLAR_DISCREPANCY",
      "list gf non-physical (7.99 / 8.11); Lawler gf gives 2.64 KP, 4.40 HARPS"),
+    ("Cr II", 3179.449, "GF_DISCREPANCY", "Gurell -2.119 vs Ward -1.263 (0.86 dex); held"),
+    ("Cr II", 3183.33, "GF_DISCREPANCY", "Gurell -0.965 vs Ward -0.214 (0.75 dex); held"),
     ("Cr I", 4026.21, "GF_DISCREPANCY", "Sobeck -1.92 vs list; not adopted, not yet tested"),
 ]
 # Lab values found but not yet attached (none after the 11-09 Tozzi / Ward adoption)

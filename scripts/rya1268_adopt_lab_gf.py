@@ -156,8 +156,16 @@ def main(only_element: str | None = None) -> None:
                  & ((g.ep_eV - cg.at[i, "excitation_potential_eV"]).abs() <= 0.02)]
 
     held = []
+    # RYA-728: a line already held for a >HOLD_MOVE_DEX lab disagreement stays held. Lab sources
+    # that disagree that much make the line a discrepancy (RYA-1378 register), and a later source
+    # landing near the list value does not settle it (Cr II 3179.449, 3183.33: Gurell vs Ward).
+    held_before = set(pd.read_csv(AUD / "held_large_gf_moves.csv").line_id)
+    refused["already_held"] = 0
 
     def ok(i, gf, e_up, a_hz=None, w=None, src=""):
+        if cg.at[i, "line_id"] in held_before:
+            refused["already_held"] += 1
+            return False
         if abs(gf - float(cg.at[i, "log_gf"])) > HOLD_MOVE_DEX:
             held.append({"line_id": cg.at[i, "line_id"], "species": cg.at[i, "species"],
                          "wavelength_air_A": cg.at[i, "wavelength_air_A"],
