@@ -1,4 +1,5 @@
-Latest continuation: [terminal MR audit and numerical continuation](terminal_continuation_v6.md).
+Latest continuation: [Cr candidate intake and oxygen node control](candidate_intake_and_node_control_v7.md).
+Previous: [terminal MR audit and numerical continuation](terminal_continuation_v6.md).
 Previous: [n4 multireference and orbital-relaxation work](mr_continuation_v5.md).
 
 # RYA-1354 — O I atomic-structure pilot checkpoint

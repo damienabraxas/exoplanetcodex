@@ -37,14 +37,18 @@ def validate_core_layer(core, n):
     return sha(core / 'receipt.json')
 
 
-def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False):
+def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iteration_floor=None):
     """Try method3 for2s optimization; fresh restart restores node-checked defaults."""
     spectroscopic='2s,2p'+(',3s' if state!='ground' else '')
     grid=f'n\nn\ny\nn\ny\n{math.exp(-65/16)/8:.17g}\n0.03125\n0\n439\ny\n{.0625**6:.17g}\n'
     nsic='n\n' if verify else 'y\n20\n'
     methods='y\n\n\n2s\n\n' if two_s_method3 and not verify else 'n\n'
+    if radial_iteration_floor is not None and radial_iteration_floor<1:
+        raise ValueError('Native radial iteration floor must be positive')
+    # Pinned SOLVE uses MAX(NSOLV,3*n), despite GETSCD calling NSOLV a factor.
+    radial=f'y\n{radial_iteration_floor}\n' if radial_iteration_floor is not None else 'n\n'
     return (f'{grid}{STATES[state]["roots"]}{variational_orbitals(n)}\n{spectroscopic}\n{cycles}\n'
-            f'y\nn\n{methods}n\ny\nn\n{-damping}\nn\n{nsic}n\nn\n1\n')
+            f'y\nn\n{methods}n\ny\nn\n{-damping}\nn\n{nsic}{radial}n\n1\n')
 
 
 def main():
@@ -60,9 +64,12 @@ def main():
     ap.add_argument('--resume-triplet',type=Path,help='Explicit same-CSF triplet continuation initializer')
     ap.add_argument('--cycles',type=int,default=500)
     ap.add_argument('--two-s-method3',action='store_true',help='Method3 for2s optimization only; mandatory fresh default-method node-checked restart before promotion')
+    ap.add_argument('--radial-iteration-floor',type=int,help='Explicit NSOLV: pinned SOLVE permits MAX(NSOLV,3*n) inner iterations; node and bracket criteria unchanged')
     args=ap.parse_args()
     if not 0<args.damping<1 or args.cycles<1:
         raise ValueError('Damping must lie strictly between zero and one')
+    if args.radial_iteration_floor is not None and args.radial_iteration_floor<1:
+        raise ValueError('Native radial iteration floor must be positive')
     if platform.node().lower().split('.')[0]!='sirius':
         raise RuntimeError('Atomic solvers belong on Sirius')
     args.grasp_bin=args.grasp_bin.resolve();args.strict_bin=args.strict_bin.resolve()
@@ -74,6 +81,7 @@ def main():
                  started_utc=datetime.now(timezone.utc).isoformat(),steps=[],diagnostics={},
                  n=args.n,varied_orbitals=varied,core_receipt_sha256=core_receipt_sha256,
                  two_s_method3=args.two_s_method3,
+                 radial_iteration_floor=args.radial_iteration_floor,
                  resume_triplet=str(args.resume_triplet) if args.resume_triplet else None,
                  damping=args.damping,resume_ground=str(args.resume_ground) if args.resume_ground else None,
                  cycles=args.cycles,resume_quintet=str(args.resume_quintet) if args.resume_quintet else None,
@@ -97,7 +105,8 @@ def main():
                 shutil.copyfile(out/'state.c',out/'rcsf.inp');shutil.copyfile(out/'state.w',out/'rwfn.inp')
                 receipt['steps'].append(run(args.grasp_bin/'rangular','y\n',out,1800))
                 controls=scf_controls(state,args.n,args.cycles,args.damping,verify,
-                                      two_s_method3=args.two_s_method3)
+                                      two_s_method3=args.two_s_method3,
+                                      radial_iteration_floor=args.radial_iteration_floor)
                 receipt['steps'].append(run(args.strict_bin/'rmcdhf',controls,out,43200))
                 if any(s['semantic_errors'] for s in receipt['steps']):
                     raise ValueError('Native numerical refusal; no state promotion')

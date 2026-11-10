@@ -1,0 +1,98 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "7d96ae5db60576f804e544333ff098462b912217cb51b1a7c92b6ad9714b7110",
+      "bytes": 404421
+    }
+  },
+  "files": {
+    "runs/lifetime_relax_n4_method3_v2/driver.py": {
+      "sha256": "2d6cdafced52985055c35d69ad07716351c5accb3a0b7c21e0a10e1b333b8428",
+      "bytes": 7738
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rangular.stdout": {
+      "sha256": "52462469eacd15be770cb549126eeafa561ad5faeeec610e3c968360f235617d",
+      "bytes": 4878
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rmcdhf.log": {
+      "sha256": "1742ed9972682001a69c6a7b1504ca330158a1e67edd74a46417d586a6da5ac7",
+      "bytes": 31
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rmcdhf.stderr": {
+      "sha256": "f2bdad80fa0a7836aced42c3b1d6b60adca5f3e4f29b334d669e0c1d316b5a28",
+      "bytes": 3624
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rmcdhf.stdin": {
+      "sha256": "bedb5e0db57b6795f4bc178cb7d5a1cb020fdd139450aba38ae3060f4ff38e5f",
+      "bytes": 139
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rmcdhf.stdout": {
+      "sha256": "9ede437e6f4e5d269df1ee6c56079ef7b7d741e05aa92449f60167b0f35db903",
+      "bytes": 1162944
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rmcdhf.sum": {
+      "sha256": "63e1a92e84f783f38b732f77560d52c38298d623f1d42915660cd2970118e91a",
+      "bytes": 638
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rmix.out": {
+      "sha256": "bbce29e9278cc2515d0a50411de07b6e7a28c15f69fb1a3fd870997cd3dfc37a",
+      "bytes": 45494
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/rwfn.out": {
+      "sha256": "038caea3cee2046746fbf0865d112c7b83eb37c122be35242d85d197ec166450",
+      "bytes": 127134
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/state.c": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_method3_v2/ground/state.w": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_method3_v2/receipt.json": {
+      "sha256": "238e16bfbd8c31c32524179744a1e0b3462b76d330beed9cd0f1fd1375dea5d1",
+      "bytes": 4758
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 18,
+  "omitted_angular_caches": [
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.30",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.31",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.32",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.33",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.34",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.35",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.36",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.37",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.38",
+    "runs/lifetime_relax_n4_method3_v2/ground/mcp.39"
+  ],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

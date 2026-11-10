@@ -1,0 +1,34 @@
+{
+  "schema": "rya1354.method3-failure.v7",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "generator_sha256": "a78d3af1858bb9c4d67cdf765ee929055de3b4635d0f0ea5b8299b63ba6a2b04",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "7d96ae5db60576f804e544333ff098462b912217cb51b1a7c92b6ad9714b7110",
+      "bytes": 404421
+    }
+  },
+  "native_receipt_sha256": "238e16bfbd8c31c32524179744a1e0b3462b76d330beed9cd0f1fd1375dea5d1",
+  "native_status": "FAILED_RETAINED",
+  "native_error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/lifetime_relax_n4_method3_v2/ground",
+  "diagnostics": {
+    "iterations": 307,
+    "iteration_limit_hit": false,
+    "reported_orbital_self_consistency": {
+      "2s": 8.23,
+      "2p-": 0.57,
+      "2p": 47.8
+    },
+    "max_reported_self_consistency": 47.8,
+    "native_function_ACC": 5.960464477539063e-08,
+    "all_reported_functions_below_ACC": false,
+    "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY."
+  },
+  "disposition": "Native IN refuses radial extent beyond439 and warns of possible continuum state. Optimization diverged; no ground/fresh restart/lifetime promoted. Method3 is not a successful remedy or a precision result."
+}
