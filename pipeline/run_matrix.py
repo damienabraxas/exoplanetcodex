@@ -2006,6 +2006,16 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
               f"{type(exc).__name__}: {exc}", file=sys.stderr)
         report["verdict"] = {"element_verdict": "ERROR",
                              "error": f"{type(exc).__name__}: {exc}"}
+    # RYA-1378 (Ryan 2026-11-09): every line the grading holds out goes on the element's
+    # future-study list. Loud on failure; it never undoes the run above.
+    try:
+        from pipeline import gap_register
+        symbol, _ = split_symbol(element)
+        report["gap_register"] = gap_register.write(symbol, star)
+        print(gap_register.render(report["gap_register"]))
+    except Exception as exc:                                   # noqa: BLE001
+        print(f"WARNING: gap register for {star} {element} failed: "
+              f"{type(exc).__name__}: {exc}", file=sys.stderr)
     if echo:
         print(render(report))
         v = report.get("verdict") or {}

@@ -1,0 +1,28 @@
+{
+ "element": "Ca",
+ "n_rows": 7105,
+ "held_reason": {
+  "UNGRADED_GF": 7035,
+  "GRADED_NOT_LAB": 65,
+  "REGISTRY_EXCLUDED": 5
+ },
+ "flags": {
+  "UNRATED_GF": 7100,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 483,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 15,
+  "3": 6277,
+  "4": 813
+ },
+ "no_graded_route": [
+  "Ca II H",
+  "Ca II K"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

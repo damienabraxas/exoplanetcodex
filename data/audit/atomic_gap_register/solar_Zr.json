@@ -1,0 +1,28 @@
+{
+ "element": "Zr",
+ "n_rows": 1038,
+ "held_reason": {
+  "UNGRADED_GF": 1038
+ },
+ "flags": {
+  "UNRATED_GF": 1038,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 499,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 658,
+  "3": 83,
+  "4": 297
+ },
+ "no_graded_route": [
+  "Zr I VIS",
+  "Zr I near-UV",
+  "Zr I red-optical",
+  "Zr II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}

@@ -1,0 +1,31 @@
+{
+ "element": "Cu",
+ "n_rows": 3030,
+ "held_reason": {
+  "UNGRADED_GF": 3013,
+  "GRADED_NOT_LAB": 17
+ },
+ "flags": {
+  "UNRATED_GF": 3030,
+  "MISSING_GF": 0,
+  "PROVENANCE_GAP": 208,
+  "GF_DISCREPANCY": 0,
+  "SOLAR_DISCREPANCY": 0
+ },
+ "priority": {
+  "1": 2061,
+  "3": 760,
+  "4": 209
+ },
+ "no_graded_route": [
+  "Cu I H",
+  "Cu I K",
+  "Cu I NIR",
+  "Cu I red-optical",
+  "Cu II VIS",
+  "Cu II red-optical"
+ ],
+ "with_codex_fit_evidence": 0,
+ "candidate_for": "theoretical grade (RYA-1351) or laboratory measurement",
+ "gf_source": "data/linelists/canonical_gf.csv, joined by line_id"
+}
