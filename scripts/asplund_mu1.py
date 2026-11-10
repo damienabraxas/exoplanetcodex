@@ -63,6 +63,22 @@ def plan(symbol: str) -> list[tuple[str, str, float, float]]:
     return out
 
 
+def liege_rest(lo_A: float = LIEGE_SPAN_A[0], hi_A: float = LIEGE_SPAN_A[1]):
+    """The Liege atlas over [lo, hi] A in the REST frame -> (wave_A, flux, rv_kms).
+
+    The atlas is observed-frame (disk-centre gravitational redshift less convective
+    blueshift, ~+0.4 km/s on strong Fe I cores) and neither fit has a shift term; the
+    production loaders refuse raw frames (measure_band_ew rest-frame gate, RYA-478)."""
+    import pandas as pd
+    from pipeline.abundances_derive import _measure_rv_kms
+    with gzip.open(LIEGE, "rt") as fh:
+        L = pd.read_csv(fh).to_numpy(float)
+    m = (L[:, 0] >= lo_A) & (L[:, 0] <= hi_A)
+    rv = _measure_rv_kms(L[m, 0] / 10.0, L[m, 1])
+    print(f"[asplund-mu1] Liege {lo_A:.0f}-{hi_A:.0f} A frame {rv:+.3f} km/s -> rest", flush=True)
+    return L[m, 0] / (1.0 + rv / 299792.458), L[m, 1], rv
+
+
 def run_cell(symbol: str, ion: str, band: str, out: Path) -> None:
     import numpy as np
     import pandas as pd
@@ -96,9 +112,7 @@ def run_cell(symbol: str, ion: str, band: str, out: Path) -> None:
 
     import derive_band_products as dbp
     import measure_band_ew as mbe
-    with gzip.open(LIEGE, "rt") as fh:
-        L = pd.read_csv(fh).to_numpy(float)
-    LW, LF = L[:, 0], L[:, 1]
+    LW, LF, _rv = liege_rest()
     spec = mbe.HoldingSpec(holding_id="solar_delbouille_liege", reader="liege_mu1",
                            pre_normalised=True, span_A=LIEGE_SPAN_A)
 
@@ -151,19 +165,10 @@ def run_cno_cell(out: Path) -> None:
                               notes="RYA-1350 Asplund geometry: Liege disk centre, mu=1")
     cs.REGIONS[reg.name] = reg
     cs.REGION_DIAGNOSTICS[reg.name] = cs.REGION_DIAGNOSTICS["vis"]
-    with gzip.open(LIEGE, "rt") as fh:
-        import pandas as pd
-        L = pd.read_csv(fh).to_numpy(float)
-    m = (L[:, 0] >= reg.wave_min_A) & (L[:, 0] <= reg.wave_max_A)
-    # the atlas is observed-frame (disk-centre gravitational redshift less convective
-    # blueshift, ~+0.26 km/s on Fe I cores) and the CNO fit has no shift term: to rest first
-    # (the RYA-478 rule the UVES arm follows)
-    from pipeline.abundances_derive import _measure_rv_kms
-    rv = _measure_rv_kms(L[m, 0] / 10.0, L[m, 1])
-    print(f"[asplund-mu1] Liege VIS frame {rv:+.3f} km/s -> rest", flush=True)
-    w_nm = L[m, 0] / 10.0 / (1.0 + rv / 299792.458)
+    w_A, flux, _rv = liege_rest(reg.wave_min_A, reg.wave_max_A)
+    w_nm = w_A / 10.0
     _load = cs._load_region_spectrum
-    cs._load_region_spectrum = (lambda star, region: (w_nm, L[m, 1])
+    cs._load_region_spectrum = (lambda star, region: (w_nm, flux)
                                 if region.name == reg.name else _load(star, region))
     _rb = cs._resolve_broadening
 
