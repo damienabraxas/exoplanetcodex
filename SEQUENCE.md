@@ -1,3 +1,11 @@
+## 2026-11-09 — RYA-1378 Atomic Data Gap Register; #618/#619 reconciled
+
+> **Current as of `main` 10f0dc95** (PR #618).
+
+- **RYA-1373** — `10f0dc95` PR #618: Spectroscopic Frontier atomic/molecular coverage product merged.
+- **RYA-1278** — `d1728c92` PR #619: Bride foundation and oxygen research checkpoint integrated; physical model gates remain HOLD.
+- **RYA-1378** (this branch) — `run_pipeline --gap-register` and every element run write data/audit/atomic_gap_register/solar_<El>.csv: every line the grading holds out of the reference pool (27 elements), for future lab/theory study; gf joined from canonical_gf by line_id, never copied.
+
 ## 2026-11-09
 
 - **RYA-1278 / RYA-1281** — integrate the completed Bride foundation and oxygen research checkpoint; physical model gates remain HOLD.
