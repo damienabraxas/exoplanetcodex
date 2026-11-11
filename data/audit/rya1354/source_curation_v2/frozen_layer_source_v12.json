@@ -1,0 +1,155 @@
+{
+  "schema": "rya1354.frozen-layer-source-audit.v12",
+  "states": {
+    "outer_n4_ground": {
+      "diagnostics": {
+        "iterations": 32,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 1.67e-08,
+          "4p-": 1.74e-08,
+          "4p": 5.11e-08,
+          "4d-": 7.11e-09,
+          "4d": 7.84e-09,
+          "4f-": 1.56e-09,
+          "4f": 2.06e-09
+        },
+        "max_reported_self_consistency": 5.11e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9
+    },
+    "outer_n4_ground_verify": {
+      "diagnostics": {
+        "iterations": 1,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 9.25e-09,
+          "4p-": 8.7e-09,
+          "4p": 1.77e-08,
+          "4d-": 4.41e-09,
+          "4d": 6.13e-09,
+          "4f-": 9.4e-10,
+          "4f": 1.17e-09
+        },
+        "max_reported_self_consistency": 1.77e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9
+    },
+    "outer_n4_quintet": {
+      "diagnostics": {
+        "iterations": 33,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 3.12e-09,
+          "4p-": 1.76e-08,
+          "4p": 5.45e-08,
+          "4d-": 5.3e-09,
+          "4d": 5.25e-09,
+          "4f-": 1.5e-09,
+          "4f": 1.01e-09
+        },
+        "max_reported_self_consistency": 5.45e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9
+    },
+    "outer_n4_quintet_verify": {
+      "diagnostics": {
+        "iterations": 1,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 3.01e-09,
+          "4p-": 8.03e-09,
+          "4p": 2.21e-08,
+          "4d-": 2.21e-09,
+          "4d": 1.55e-09,
+          "4f-": 5.36e-10,
+          "4f": 4.17e-10
+        },
+        "max_reported_self_consistency": 2.21e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9
+    },
+    "outer_n4_triplet": {
+      "diagnostics": {
+        "iterations": 35,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 8.88e-10,
+          "4p-": 1.02e-08,
+          "4p": 4.3e-08,
+          "4d-": 1.89e-09,
+          "4d": 1.59e-09,
+          "4f-": 6.57e-10,
+          "4f": 7.11e-10
+        },
+        "max_reported_self_consistency": 4.3e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9
+    },
+    "outer_n4_triplet_verify": {
+      "diagnostics": {
+        "iterations": 1,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 9.13e-10,
+          "4p-": 4.84e-09,
+          "4p": 1.79e-08,
+          "4d-": 5.42e-10,
+          "4d": 1.12e-09,
+          "4f-": 2.42e-10,
+          "4f": 2.73e-10
+        },
+        "max_reported_self_consistency": 1.79e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9
+    }
+  },
+  "parent_receipt_sha256": "4ebdf6362049d42c3a2bc1f2a0fabb0bcb7d4b02e8b8e49922936fab80341c0e",
+  "parent_status": "FAILED_RETAINED",
+  "parent_error": "RuntimeError: rmcdhf: exit 1; retained logs in /mnt/codex-data/codex/rya1354/runs/lifetime_relax_n4_from_relaxed_n3_v7/released_2s_ground",
+  "fully_released_qualified": false,
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "exposure": "EXPOSED_NONBLIND",
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "generator_sha256": "78f93685cefe92a5cddf8fbe973d32afe4096b8404d494a6a1aeb5f7697f8d8f"
+}

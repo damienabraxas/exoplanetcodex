@@ -1,4 +1,5 @@
-Latest continuation: [NSIC0 outcome and core-adapted n4 path](core_adapted_n4_v11.md).
+Latest continuation: [terminal full-release failure and frozen-layer sensitivity](frozen_layer_v12.md).
+Previous: [NSIC0 outcome and core-adapted n4 path](core_adapted_n4_v11.md).
 Previous: [adaptive extra updates and native loading controls](nsic_and_load_control_v10.md).
 Previous: [terminal node failures and staged relaxation](staged_relaxation_v9.md).
 Previous: [explicit relativistic component constraints](component_constraint_v8.md).
