@@ -1007,3 +1007,103 @@ plain generator diagnostic set remains baseline5120 exactly, no added/removed.
 160 registered paths present/18 existing broken. Staged whitespace/version272
 checks pass. Existing N refinement debt697 and missing engine-B atom remain open;
 O/C tracker debt cells empty mean no known path, not physical completion.
+
+
+### Full-source coupled numerical and restart milestone (v273)
+
+First genuinely evolving full-source O/HOP diagnostic at the held5750K/logg4.5,
+A8.70 reference node (not canonical solar parameters).41levels/256BB/22BF,
+6795SE wavelengths90.0064--6876.574nm. This wavelength extent is internal atom
+support, NOT validated dense full-spectrum/all-band/observational coverage.
+All source E/g/stages/f values preserved; source photon/level identity exact.
+All22 BF grids retain sorted wavelength A->nm and alpha cm2->m2 units, at least
+3/4/26 usable source nodes apiece, none redward of source edge. No optical table
+or photon-centre overrides, fitted wavelength/continuum/abundance or omitted widths.
+One active O atom only; fixed native T/ne/rho/O LTE/total and trace HOP molecular
+reservoir/EOS. No charge/HSE/EOS/chemistry feedback update or molecular NLTE.
+
+Default active guard remains; explicitly labelled coupled_diagnostic path requires
+qualified immutable collision binding, full source widths and no transfer-only or
+continuum-only atom. Actual collision C matches source calculation before solve.
+Original5rays/qscale2/Ng settings, rtol1e-6,1500outer,600s caps inherited from the
+reviewed full-cap baseline. Top incoming zero (cap length0), LW thermalized lower
+boundary; native ghost/boundary and constants remain distinct.
+
+Thermodynamic qualification: imported nStar vs source/LW Boltzmann BB ratios
+max relative.000450847471 (~.045%). Native table energies and native e_k reduce
+residual to1.44250e-6. This exposes historical-constant/energy conventions; the
+source atom is internally photon/energy consistent, but imported LTE plus HOP
+historical-constant background is NOT a complete self-consistent LTE claim.
+No artificial energy/temperature shift or fitted scale is applied.
+
+The initial new harness omitted the previously required iteration plugin, treating
+it as optional while inheriting scalar controls. Default runv1 reaches tiny n/J
+changes (~1e-13) yet physical residual.00393860444;1500iterations exhausted in
+419.30s. No computational/scientific pass. Exact old driver source hash preserved
+under raw driver_source.py and compact archive; history/final populations retained.
+This is a harness routing omission, not a new upstream-method discovery. New
+validate_operator_contract requires the exact inherited plugin receipt before any
+solve; missing/wrong receipt or resource refuses. Canonical bug-ledger row added.
+No threshold/budget relaxation, clipping or reuse of a failed seed.
+
+Full-coupling-cap process-local plugin is the existing pinned reviewed build;
+zero-cap derivative explicit. Operator action identity is independently checked
+against physical R+C at EACH SE step (256float64eps bound). Complete source/helper/
+Python-constant/backend/plugin fingerprints retained. Final native-seedv3 passes:
+11outer iterations,7.133s, max fresh physical residual4.89214990e-10. Final operator
+action discrepancy2.88928e-14, conservation6.66e-16. Subsequent fresh-process
+restartv2 passes3steps/2.902s, fresh residual4.28118e-11, maximum population change
+7.23447e-9. Previous successful precursor versions and exact driver snapshots are
+retained, finalv3/restartv2 are qualified source-closure evidence.
+
+Independent check rebuilds R from278 saved per-transition up/down arrays plus C,
+using separate incoming/outgoing sums. Physical residuals4.89214879e-10 and
+4.28119096e-11; saved-net disagreement normalized below5.63e-16. This does not use
+MALI Gamma as physical rates, and proves numerical closure/restart, not source-data
+accuracy. All layers remain in SE. Native population differences remain large in
+outer layers: minimum own/native.00182799 at level7/logtau500=-4.9177, maximum
+1.00405121. Triplet-level max relative difference in the PREDECLARED diagnostic
+logtau[-3,0] interval.00117150; interval is not a contribution-function measurement.
+UV/BF/background/radiative-rate and outer-layer qualification remains owed.
+
+Forward own converged populations through the full SOURCE atom and exact native
+dense optical grid, with separate intrinsic continuum and no SE updates in the
+postprocess. Finite +/-0.5A vertical intensity areas (mA; own minus native):
+
+| AIR A | native | independently coupled | difference |
+|---|---:|---:|---:|
+|6158.170|5.103614|5.106943|+.003328|
+|6300.304|3.184512|3.184579|+.0000676|
+|7771.944|83.441868|83.461379|+.019511|
+|7774.166|72.604638|72.617630|+.012993|
+|7775.388|57.665659|57.672769|+.007111|
+|8446.400|100.876253|100.894958|+.018705|
+
+Max pointwise normalized difference.00126295; residual plots inspected, including
+antisymmetric6300/triplet structure. Earlier source-table precision controls make
+rounding a plausible contributor, but this own-state result alone is not a unique
+attribution.6158 has small sampling/support steps retained.6363 absent-transition
+control remains unqualified (3.72e-6mA only tails). Finite areas are not complete EW,
+flux or abundance corrections. No observed Kitt/IAG/HARPS/CRIRES fit performed here.
+
+49focused tests pass; new guards distinguish operator receipt/routing and explicitly
+reject unqualified active binding/optical overrides. hop_coupled_v1 captures51raw
+receipts/22compact copies, including exact exploratory generator snapshots. Standing
+library audit still has83existing unindexed documents/12absent local_file pointers;
+no new bibliography adoption or dependency install. Physical Oxygen1D/3D/all-band/
+1374 and element dispositions/gold/defaults unchanged. Numerical coupling is now
+working under the declared fixed-background conventions.
+
+Next: matched-population UV/BF radiative-rate replay against native exports to
+isolate large outer-layer differences, reconcile LTE/constant conventions without
+source tuning, quantify effect on optical intensity and flux; then canonical-solar
+parameter/control and ORCH continuum/telluric observation benchmarks with independent
+O literature/atomic lifetime evidence. CNO then Fe/reference-star remains the order;
+N697/missing engine-B atom debt remains open, not cleared by this O milestone.
+
+Final verification:22archive groups verify2968raw receipts/369exact compact copies.
+Plain artifact diagnostics remain exactly baseline5120;161paths present/18existing
+broken. v273pointer and staged whitespace pass. Historical default-operator plan
+is retained as failure evidence; current driver refuses it without the required
+pinned plugin. Only the explicitly pinned MALI plan/restart are executable current
+coupled controls. No full-suite green claim or source/default/gold/product adoption.

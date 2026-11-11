@@ -22,6 +22,17 @@ def test_background_purpose_refuses_coupled_se_before_any_native_call(monkeypatc
         NativeHopBackground(None,NS(activeAtoms=[object()],detailedAtoms=[]),np.array([500.]),state={},atom=None,abundances=[],records=[])
 
 
+def test_coupled_diagnostic_refuses_unqualified_binding_and_transfer_overrides(monkeypatch):
+    from pipeline.bride_hop_transfer import make_context
+    def forbidden(*args,**kwargs):raise AssertionError('Unqualified diagnostic must not load native state')
+    monkeypatch.setattr('pipeline.bride_hop_transfer.compute_packet',forbidden)
+    with pytest.raises(ValueError,match='active-O collision contract'):
+        NativeHopBackground(None,NS(activeAtoms=[object()],detailedAtoms=[]),np.array([500.]),state={},atom=None,abundances=[],records=[],coupled_binding=object())
+    for extra in [dict(),dict(collision_binding=object(),original_width_law=object(),helium_broadening=False,table_control=object()),dict(collision_binding=object(),original_width_law=object(),helium_broadening=False,continuum_only=True)]:
+        with pytest.raises(ValueError,match='full source atom'):
+            make_context({},None,None,None,None,extra_vac_nm=np.array([500.]),coupled_diagnostic=True,**extra)
+
+
 def test_nonsquare_packet_copy_and_changed_thermodynamic_state_refusal(monkeypatch):
     state=dict(temperature_K=np.array([5000.,6000.]),ne_m3=np.array([1e16,2e16]),rho_kg_m3=np.array([1e-6,2e-6]),nHTot_m3=np.array([1e20,2e20]),vturb_m_s=np.array([1000.,1000.]),height_m=np.array([100.,0.]))
     atm=NS(**{name:state[key].copy()for name,key in [('temperature','temperature_K'),('ne','ne_m3'),('nHTot','nHTot_m3'),('vturb','vturb_m_s'),('height','height_m')]})

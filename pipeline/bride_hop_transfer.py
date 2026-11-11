@@ -70,10 +70,14 @@ class NativePerturberBroadener(StandardLineBroadener):
 
 
 class NativeHopBackground(BackgroundProvider):
-    def __init__(self,eqPops,radSet,wavelength,*,state,atom,abundances,records):
+    def __init__(self,eqPops,radSet,wavelength,*,state,atom,abundances,records,coupled_binding=None):
         from lightweaver.atomic_table import PeriodicTable
         super().__init__(eqPops,radSet,wavelength)
-        if radSet.activeAtoms or len(radSet.detailedAtoms)!=1 or radSet.detailedAtoms[0].element!=PeriodicTable['O']:raise ValueError('HOP background qualified for fixed native-O transfer only; no coupled SE')
+        if coupled_binding is None:
+            if radSet.activeAtoms or len(radSet.detailedAtoms)!=1 or radSet.detailedAtoms[0].element!=PeriodicTable['O']:raise ValueError('HOP background qualified for fixed native-O transfer only; no coupled SE')
+        else:
+            from pipeline.bride_collision_binding import FixedNativeCollisionBinding
+            if not isinstance(coupled_binding,FixedNativeCollisionBinding)or not coupled_binding.receipt or len(radSet.activeAtoms)!=1 or radSet.detailedAtoms or radSet.activeAtoms[0]is not coupled_binding.atom or (len(coupled_binding.atom.collisions)!=1 or coupled_binding.atom.collisions[0]is not coupled_binding):raise ValueError('Unqualified explicit active-O collision contract')
         self.state={k:np.array(v,copy=True)for k,v in state.items()};self.wave=np.asarray(wavelength).copy();self.original_wave=wavelength
         for value in self.state.values():value.flags.writeable=False
         self.packet,self.meta=compute_packet(self.state['temperature_K'],self.state['ne_m3'],self.state['rho_kg_m3'],self.wave,abundances,atom,vmic_m_s=float(self.state['vturb_m_s'][0]))
@@ -92,11 +96,13 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     if not isinstance(vdw_broadening,bool):raise ValueError('Require explicit VDW diagnostic boolean')
     if original_width_law is not None and (helium_broadening or not vdw_broadening):raise ValueError('Original source law owns full VDW/He prescription; no added He factor or VDW omission')
+    if not isinstance(coupled_diagnostic,bool):raise ValueError('Require explicit coupled diagnostic boolean')
+    if coupled_diagnostic and (collision_binding is None or original_width_law is None or table_control is not None or continuum_only):raise ValueError('Coupled diagnostic requires full source atom/width/collision contract; no transfer overrides')
     import lightweaver as lw
     from lightweaver import rh_atoms
     from lightweaver.atomic_table import PeriodicTable
@@ -128,14 +134,18 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
             width=OriginalMultiVdwLaw(original_width_law.records[index],seed['H_I_m3'],original_width_law.temperature_interval);line.broadening.elastic=[width];line.setup(model);source_width_reads.append(width.audit)
     if continuum_only:model.lines=[]
     abundance={PeriodicTable[z+1]:value for z,value in enumerate(structure['abundances_dex'])};abundance[PeriodicTable['O']]=atom.abundance
-    rad=lw.RadiativeSet([getattr(rh_atoms,name)()for name in PASSIVE_ATOM_FACTORIES]+[model],abundance=lw.AtomicAbundance(abundance));rad.set_detailed_static('O');eq=rad.compute_eq_pops(atmos,mols=lw.MolecularTable([]));oxygen=eq.atomicPops[PeriodicTable['O']]
+    rad=lw.RadiativeSet([getattr(rh_atoms,name)()for name in PASSIVE_ATOM_FACTORIES]+[model],abundance=lw.AtomicAbundance(abundance))
+    if coupled_diagnostic:rad.set_active('O')
+    else:rad.set_detailed_static('O')
+    eq=rad.compute_eq_pops(atmos,mols=lw.MolecularTable([]));oxygen=eq.atomicPops[PeriodicTable['O']]
     oxygen.nStar[:]=nstar;oxygen.nTotal[:]=nstar.sum(axis=0);oxygen.n[:]=populations
     if collision_binding is not None:
         collision_binding.setup(model);model.collisions=[collision_binding]
     spect=rad.compute_wavelength_grid(extraWavelengths=np.asarray(extra_vac_nm));records=[]
-    def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records)
-    ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory);ctx.depthData.fill=True
+    def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records,coupled_binding=collision_binding if coupled_diagnostic else None)
+    ng=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.)if coupled_diagnostic else None
+    ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory,ngOptions=ng);ctx.depthData.fill=True
     if not continuum_only and vdw_broadening and original_width_law is None:verify_helium_reads(perturbers.reads,helium_broadening)
     if not vdw_broadening and (perturbers.reads or any(line.broadening.elastic for line in model.lines)):raise ValueError('VDW-off diagnostic retained elastic broadening reads/terms')
     if original_width_law is not None and not continuum_only and (len(source_width_reads)!=256 or any(x['calls']==0 for x in source_width_reads)or perturbers.reads):raise ValueError('Original full-width law did not reach actual model without extra perturbation')
-    return ctx,dict(original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
+    return ctx,dict(coupled_native_contract_diagnostic=coupled_diagnostic,original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

@@ -32257,3 +32257,95 @@ artifacts:
     generator: scripts/audit_collision_binding_backend.py
     ticket: RYA-1371
     note: Dedicated collision-audit plan closure; no general transfer dispatch or SE admission.
+  - artifact: rya1371/hop_coupled_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-independent-v2/report.json
+    generator: scripts/check_hop_coupled_restart.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-restart-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-restart-v2/history.jsonl
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-restart-v2/manifest.json
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-restart-v2/populations.npz
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-restart-v2/rates.npz
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-restart-v2/report.json
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-mali-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-mali-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-mali-v3/history.jsonl
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-mali-v3/manifest.json
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-mali-v3/populations.npz
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-mali-v3/rates.npz
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-mali-v3/report.json
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-v1/manifest.json
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-source-v1/report.json
+    generator: scripts/run_hop_oxygen_coupled_diagnostic.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-spectra-v2/comparison.png
+    generator: scripts/analyze_hop_coupled_spectra.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-spectra-v2/report.json
+    generator: scripts/analyze_hop_coupled_spectra.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-spectra-v2/residuals.png
+    generator: scripts/analyze_hop_coupled_spectra.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-spectra-v2/spectra.npz
+    generator: scripts/analyze_hop_coupled_spectra.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/hop_coupled_v1/rya1371-hop-coupled-spectra-v2/windows.csv
+    generator: scripts/analyze_hop_coupled_spectra.py
+    ticket: RYA-1371
+    note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
