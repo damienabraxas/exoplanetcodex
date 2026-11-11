@@ -1,0 +1,188 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "f87a784f33a666f0d6da8bb616b03aef4fe730380701d8aeb8f2f45a33b8ea46",
+      "bytes": 565338
+    }
+  },
+  "files": {
+    "runs/lifetime_relax_n4_staged_nsic0_v6/drivers/driver.py": {
+      "sha256": "49c4e44daefac93efb3566608bec61909a29339d201f412370f773918f83bcd0",
+      "bytes": 7911
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/drivers/rya1354_lifetime_ladder.py": {
+      "sha256": "46b4c2f9f91171c0bd1a44ebc7dd3d555c0558933187a92a44d43f5a4696fc34",
+      "bytes": 7897
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/drivers/rya1354_lifetime_relax.py": {
+      "sha256": "122be5bae38172c8d42d0d513fba046b513e102ff808d3cb32debf372f23b67c",
+      "bytes": 9265
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/drivers/rya1354_solver_smoke.py": {
+      "sha256": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+      "bytes": 10570
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/drivers/rya1354_triplet_correlation.py": {
+      "sha256": "6e80963f035078318313b787fb62a0d4d40e3b8f9156bcad483e60c5d0fc0373",
+      "bytes": 5535
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/drivers/rya1354_two_method_summary.py": {
+      "sha256": "2bf8ab4dc1315265dcb2bc520fea53d874af67cdb73bbd8538913af4ae1815e1",
+      "bytes": 8353
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/drivers/rya1354_wave_probe.py": {
+      "sha256": "ba6e5e9bfec50e729e6c19f70c438b7c22e6a8de6f5d9837eabb28291d9ca770",
+      "bytes": 4341
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rangular.stdout": {
+      "sha256": "e0d245e022582304a7005c462e4e304f2475892c42c09de339262953b1a17ed7",
+      "bytes": 4878
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rmcdhf.log": {
+      "sha256": "e2338ff074cdb4d1c9158206a0724fef7758606f279e79ddffbb9850d5f6ceed",
+      "bytes": 21
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rmcdhf.stderr": {
+      "sha256": "a381a094adec2ba1f3f0d4754177fb3b576333130914366229a691f5e3da0cff",
+      "bytes": 2827
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rmcdhf.stdin": {
+      "sha256": "a83a029864ff85bc71fdf5594552800c5fc22b011249ef00153bf53205034014",
+      "bytes": 126
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rmcdhf.stdout": {
+      "sha256": "41293be1adf93d9fa1316d093d002768fa2bab66991edc2159563211071b8d17",
+      "bytes": 4167
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rmcdhf.sum": {
+      "sha256": "07473442e7854cb259c8f7123fc63f3d17e3fc8e7d5b1065e1bfe8025ebc50fa",
+      "bytes": 5151
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rmix.out": {
+      "sha256": "bb754270f25c3ffb22919d0a9cbb1860898ae50fd9f46de1c7bbe32147c629c3",
+      "bytes": 45494
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/rwfn.out": {
+      "sha256": "ffee47a60e3ea16714a693918ab1065fe2a50b3cfc160c1a062d20d556eea8c0",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rangular.stdout": {
+      "sha256": "2f22f28461816481114fe59f59e5e1e4de287807dd8062b08f1210a6f4710a7c",
+      "bytes": 4878
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rmcdhf.log": {
+      "sha256": "9e65cbdd0947efdef38ab639e67c5803b41b59b585cfda364d37a7d79d3343e6",
+      "bytes": 30
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rmcdhf.stderr": {
+      "sha256": "13645c18b27d1f82c2c1b38440a9b5afd73828318bec177fa8d1a765b62b5f24",
+      "bytes": 3535
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rmcdhf.stdin": {
+      "sha256": "15779ce003f7a956f1d5cf23f4db797d7f0cbda11bd03cb9ddc94d50bab4cd93",
+      "bytes": 140
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rmcdhf.stdout": {
+      "sha256": "dad4e608798bbe62006288c0f6638f3dc7551999cda5a39fd2373247f83ddd5a",
+      "bytes": 1252691
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rmcdhf.sum": {
+      "sha256": "63e1a92e84f783f38b732f77560d52c38298d623f1d42915660cd2970118e91a",
+      "bytes": 638
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rmix.out": {
+      "sha256": "37eb81b733cdaeec218d77853ac027bdd247693a27566a471d6d5a6e53f76a2a",
+      "bytes": 45494
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/rwfn.out": {
+      "sha256": "17799afa7f03a36a696799219bc370e0fc51ca60965bff7040ba814099642c81",
+      "bytes": 141294
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/state.c": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/state.w": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_staged_nsic0_v6/receipt.json": {
+      "sha256": "2d07e4062e760808050424b2d7ab103aa5592788679fed5e7756771d0279ee13",
+      "bytes": 10397
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 38,
+  "omitted_angular_caches": [
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.30",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.31",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.32",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.33",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.34",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.35",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.36",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.37",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.38",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/fixed_load/mcp.39",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.30",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.31",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.32",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.33",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.34",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.35",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.36",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.37",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.38",
+    "runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground/mcp.39"
+  ],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

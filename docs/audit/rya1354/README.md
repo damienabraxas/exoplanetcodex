@@ -1,4 +1,5 @@
-Latest continuation: [adaptive extra updates and native loading controls](nsic_and_load_control_v10.md).
+Latest continuation: [NSIC0 outcome and core-adapted n4 path](core_adapted_n4_v11.md).
+Previous: [adaptive extra updates and native loading controls](nsic_and_load_control_v10.md).
 Previous: [terminal node failures and staged relaxation](staged_relaxation_v9.md).
 Previous: [explicit relativistic component constraints](component_constraint_v8.md).
 Previous: [Cr candidate intake and oxygen node control](candidate_intake_and_node_control_v7.md).

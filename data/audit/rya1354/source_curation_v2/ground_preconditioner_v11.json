@@ -1,0 +1,71 @@
+{
+  "schema": "rya1354.closed-ground-preconditioner-audit.v11",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "generator_sha256": "e13789f43016fd9245ad1c46978cc231e47f633fa08f713065f948c37f745223",
+  "captured_utc": "2026-11-11T04:13:33.755416+00:00",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "113eebd0b0102673b487b1fd67be5839a041a6e95465f516998eb756ae040020",
+      "bytes": 610872
+    }
+  },
+  "states": {
+    "outer_n4_ground": {
+      "diagnostics": {
+        "iterations": 32,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 1.67e-08,
+          "4p-": 1.74e-08,
+          "4p": 5.11e-08,
+          "4d-": 7.11e-09,
+          "4d": 7.84e-09,
+          "4f-": 1.56e-09,
+          "4f": 2.06e-09
+        },
+        "max_reported_self_consistency": 5.11e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9,
+      "physical_labels_verified": true,
+      "source_wave_preserved": true
+    },
+    "outer_n4_ground_verify": {
+      "diagnostics": {
+        "iterations": 1,
+        "iteration_limit_hit": false,
+        "reported_orbital_self_consistency": {
+          "4s": 9.25e-09,
+          "4p-": 8.7e-09,
+          "4p": 1.77e-08,
+          "4d-": 4.41e-09,
+          "4d": 6.13e-09,
+          "4f-": 9.4e-10,
+          "4f": 1.17e-09
+        },
+        "max_reported_self_consistency": 1.77e-08,
+        "native_function_ACC": 5.960464477539063e-08,
+        "all_reported_functions_below_ACC": true,
+        "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY.",
+        "native_H": 0.03125,
+        "native_N": 439,
+        "effective_stop": "Declared strict native orbital criterion; no energy-only stop"
+      },
+      "exact_frozen_n_le_3_records": 9,
+      "physical_labels_verified": true,
+      "source_wave_preserved": true
+    }
+  },
+  "scope": "Only restricted outer4* ground optimization and fresh restart numerically qualified, with n<=3 fixed. Odd states/full release/campaign/lifetime remain pending. No final relaxed-state/accuracy/grade admission."
+}

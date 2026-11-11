@@ -234,6 +234,8 @@ def test_staged_preconditioning_changes_only_varied_scope_and_preserves_frozen_r
     with pytest.raises(ValueError,match='fixed radial'):
         require_frozen(a,b,True)
     require_frozen(a,b,False)  #2s is explicitly released;1s remains fixed.
+    with pytest.raises(ValueError,match='fixed radial'):
+        require_frozen(a,b,False,fixed_max_n=3)
 
 
 def test_failed_preconditioner_cannot_release_core_or_complete_phase(tmp_path,monkeypatch):
@@ -339,3 +341,89 @@ def test_native_nsic0_snapshot_has_only_regular_orbital_passes():
     assert all(counts[r['iteration']]==14 for r in complete)
     capture=json.loads(files[prefix+'capture.json'])
     assert capture['accepted_lifetime'] is None and not capture['adoption_allowed']
+
+
+def test_nsic0_terminal_failure_replays_without_extra_updates_or_admission():
+    from rya1354_nsic0_failure import summarize
+    report=summarize(ROOT/'data/audit/rya1354')
+    assert report==json.loads((ROOT/'data/audit/rya1354/source_curation_v2/nsic0_failure_v11.json').read_text())
+    assert report['last_printed_cycle']==352 and report['accepted_lifetime'] is None
+    assert report['all_completed_cycles_have_14_regular_updates']
+    assert not report['native_loading_baseline_exact_for_fixed1s2s']
+    assert report['fixed_records'][0]['exact_native_baseline_match']
+    assert report['fixed_records'][1]['max_P_change']==2.220446049250313e-16
+    assert report['failed_attempts'][-1]['iteration_limit_reached']
+
+
+def test_qualified_n3_native_source_and_tamper_refusal(tmp_path):
+    from rya1354_lifetime_staged import validate_relaxed_n3
+    files,_=load_parts(ROOT/'data/audit/rya1354/lifetime_relax_v4')
+    root='runs/lifetime_relax_n3_v3/'
+    (tmp_path/'receipt.json').write_bytes(files[root+'receipt.json'])
+    for state in ('ground','quintet','triplet'):
+        for suffix in ('','_verify'):
+            out=tmp_path/(state+suffix);out.mkdir()
+            for name in ('state.c','state.w','isodata','state.lsj.lbl','rmcdhf.stdout','rmcdhf.stderr','rmcdhf.sum','rwfn.inp'):
+                (out/name).write_bytes(files[root+out.name+'/'+name])
+    assert validate_relaxed_n3(tmp_path)==hashlib.sha256((tmp_path/'receipt.json').read_bytes()).hexdigest()
+    (tmp_path/'quintet_verify/state.w').write_bytes(b'tampered source')
+    with pytest.raises(ValueError,match='source artifact differs'):
+        validate_relaxed_n3(tmp_path)
+
+
+def test_outer_layer_scope_preserves_prior_n3_records(tmp_path):
+    from rya1354_lifetime_relax import scf_controls
+    from rya1354_lifetime_staged import require_frozen
+    from rya1354_wave_probe import decode
+    files,_=load_parts(ROOT/'data/audit/rya1354/lifetime_aux_v4b')
+    raw=files['runs/lifetime_core_n4_v1/CV_2s_DC_ground/state.w']
+    a=tmp_path/'a.w';b=tmp_path/'b.w';a.write_bytes(raw);b.write_bytes(raw)
+    require_frozen(a,b,False,fixed_max_n=3)
+    assert len([k for k in decode(raw) if k[0]<=3])==9
+    for state in ('ground','quintet','triplet'):
+        for verify in (False,True):
+            kw=dict(radial_iteration_floor=24,both_2p_spectroscopic=True,optimization_nsic=0)
+            full=scf_controls(state,4,1500,.5,verify,**kw)
+            outer=scf_controls(state,4,1500,.5,verify,outer_layer_only=True,**kw)
+            assert outer==full.replace('\n2*,3*,4*\n','\n4*\n',1)
+
+
+def test_native_n3_to_n4_initializers_and_outer_layer_snapshot():
+    from rya1354_radial_controls import initialization_input
+    from rya1354_wave_probe import decode
+    from rya1354_scf_history import history
+    from rya1354_staged_failure import update_counts
+    files,_=load_parts(ROOT/'data/audit/rya1354/from_n3_checkpoint_v11')
+    prior,_=load_parts(ROOT/'data/audit/rya1354/lifetime_relax_v4')
+    target,_=load_parts(ROOT/'data/audit/rya1354/lifetime_aux_v4b')
+    capture=json.loads(files['evidence/from_n3_initializers_v11.json'])
+    assert capture['accepted_lifetime'] is None and not capture['adoption_allowed']
+    assert capture['source_n3_receipt_sha256']==hashlib.sha256(prior['runs/lifetime_relax_n3_v3/receipt.json']).hexdigest()
+    assert capture['target_n4_receipt_sha256']==hashlib.sha256(target['runs/lifetime_core_n4_v1/receipt.json']).hexdigest()
+    for name,record in capture['files'].items():
+        assert hashlib.sha256(files[name]).hexdigest()==record['sha256']
+    for state in ('ground','quintet','triplet'):
+        prefix='runs/lifetime_relax_n4_from_relaxed_n3_v7/initial_'+state+'/'
+        assert files[prefix+'previous.w']==prior[f'runs/lifetime_relax_n3_v3/{state}_verify/state.w']
+        assert files[prefix+'state.c']==target[f'runs/lifetime_core_n4_v1/CV_2s_DC_{state}/state.c']
+        assert files[prefix+'rwfnestimate.stdin'].decode()==initialization_input(3,439,.03125)
+        assert len(decode(files[prefix+'rwfn.inp']))==16
+        assert files[prefix+'state.w']==files[prefix+'rwfn.inp']
+    log='evidence/from_n3_log_snapshot_v11/'
+    stdout=files[log+'rmcdhf.stdout'].decode()
+    complete=[r for r in history(stdout) if r['complete_printed_cycle']]
+    counts=update_counts(stdout)
+    assert complete and all(len(r['orbitals'])==7 and all(name.startswith('4') for name in r['orbitals'])
+                            and counts[r['iteration']]==7 for r in complete)
+
+
+def test_closed_ground_preconditioner_meets_strict_fresh_and_frozen_checks():
+    from rya1354_ground_preconditioner import summarize
+    report=summarize(ROOT/'data/audit/rya1354')
+    assert report==json.loads((ROOT/'data/audit/rya1354/source_curation_v2/ground_preconditioner_v11.json').read_text())
+    a=report['states']['outer_n4_ground'];b=report['states']['outer_n4_ground_verify']
+    assert a['diagnostics']['iterations']==32 and b['diagnostics']['iterations']==1
+    assert a['exact_frozen_n_le_3_records']==b['exact_frozen_n_le_3_records']==9
+    assert a['diagnostics']['max_reported_self_consistency']==5.11e-8
+    assert b['diagnostics']['max_reported_self_consistency']==1.77e-8
+    assert report['accepted_lifetime'] is None and not report['adoption_allowed']

@@ -37,7 +37,7 @@ def validate_core_layer(core, n):
     return sha(core / 'receipt.json')
 
 
-def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iteration_floor=None,both_2p_spectroscopic=False,freeze_2s=False,optimization_nsic=20,all_fixed=False):
+def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iteration_floor=None,both_2p_spectroscopic=False,freeze_2s=False,optimization_nsic=20,all_fixed=False,outer_layer_only=False):
     """Try method3 for2s optimization; fresh restart restores node-checked defaults."""
     spectroscopic=('2s,2p-,2p' if both_2p_spectroscopic else '2s,2p')+(',3s' if state!='ground' else '')
     grid=f'n\nn\ny\nn\ny\n{math.exp(-65/16)/8:.17g}\n0.03125\n0\n439\ny\n{.0625**6:.17g}\n'
@@ -52,6 +52,8 @@ def scf_controls(state,n,cycles,damping,verify,*,two_s_method3=False,radial_iter
     varied=variational_orbitals(n)
     if freeze_2s:
         varied=varied.replace('2*','2p*',1)
+    if outer_layer_only:
+        varied=f'{n}*'
     if all_fixed:
         varied=''
     return (f'{grid}{STATES[state]["roots"]}{varied}\n{spectroscopic}\n{cycles}\n'
