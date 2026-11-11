@@ -941,3 +941,69 @@ All19 archive groups verify2903 raw receipts/341 exact compact copies; plain
 artifact diagnostics exactly match existing baseline5120.159 paths present/18
 existing broken; staged whitespace and v271 version pointer pass. No hosted CI,
 Sirius work, source/default/abundance/product/gold change, or physical gate sign-off.
+
+
+### Actual compiled collision binding milestone (v272)
+
+Opt-in FixedNativeCollisionBinding loads pinned matrix/report/atom identities,
+checks source provenance, recomputes rates from native interpolation coefficients
+and explicit native H/T/ne/nStar fields, and requires original source matrix parity
+within256float64eps for SI/CGS round-trip arithmetic. No stored-reference C array
+is copied blindly into the calculation. Source recipe remains explicit, no
+empirical adjustment or new rate direction adopted. Every cached input is copied
+read-only. Runtime checks T/ne/nHTot/height/vturb, O model identity/nStar/total,
+level E/g/stage identities and whole-matrix non-stacking. NLTE populations may
+change; collision parameters remain fixed. No fake H-level population lookup.
+
+make_context adds a default-None collision_binding keyword; original branch is
+unchanged. HOP Context remains detailed-static, with ZERO active atoms; the active
+provider guard is intact. Backend proof uses the actual compiled LwAtom constructor
+with detailed=False solely to allocate a detached computational atom's C storage.
+It is never registered in Context or run through RT/SE. This directly exercises
+the same compiled compute_collisions path used for active atoms without pretending
+a detailed-static object owns C or enabling a premature coupled solve.
+
+Final auditv3 proves compiled C exactly equals the source-recomputed matrix.
+Six actual compiled calls with changed T/ne/nHTot/vturb/height/O nStar all refuse;
+restore/replay gives exactly the original C, native n/nStar preserved. Compiled
+fillDiagonal conservation normalized column residual5.02142e-16. Source-contract
+LTE flow residual6.67876e-16; CH0 inverse closure is by construction, not independent
+physical reverse-rate validation. Three successful callback calls including the
+diagonal check. All256x56 source widths remain positive, compiled gamma agrees
+5.55e-16 and independent aDamp7.78e-16; no broadening regression.
+
+Failures recorded: first actual-backend probe correctly encountered unallocated
+C storage on a detailed-static atom (Memoryview is not initialized). Failed log
+and INVALID metadata are retained; exploratory source snapshot unavailable, so
+never claim this is qualified reproducible numeric evidence. Source inspection
+identified active-only allocation. v2 detached-storage proof passes and is
+superseded by finalv3 conservation/closure proof. Initial synthetic mutation test
+added1 to1e16/1e20 densities, which rounds away; test now uses an actual1% mutation
+so the negative canary discriminates. This was a test-fixture mistake, not a guard
+relaxation or source physics change. No production bug/silent fallback discovered.
+
+47 focused Oxygen tests pass; new tests cover input immutability, stale fields,
+O nStar/total/level identity, rate stacking and allowed NLTE population variation.
+collision_binding_v1 archives6raw receipts/2compact copies; finalv3 is evidence,
+v1invalid/v2superseded remain receipt-only. Explicit plan
+config/experiments/rya1371_hop_collision_binding.json is backend-audit-only.
+
+Next reconcile a full self-consistent SE atom with full source line/BF/UV support:
+transfer-only optical table overrides are not suitable as a silent SE atom. Then
+permit explicitly guarded active-O HOP binding, run a bounded coupled solve, fresh
+R+C/conservation/restart and intensity/flux checks. This checkpoint validates actual
+collision plumbing, not fresh radiation, statistical equilibrium, observed solar,
+physical1D or3D/all-band completion. RYA1374 and CNO/Fe expansion remain gated.
+
+Review hardening: plan purpose is now fixed-native-oxygen-collision-backend-audit,
+explicitly checked by the audit and refused by the generic fixed-transfer runner.
+This prevents the generic runner from ignoring a collision-binding field. Freshv4
+replays identical rate/conservation/refusal results under that dedicated purpose;
+v3 remains a numerical precursor, finalv4 is the executable plan closure. Archive
+collision_binding_v2 adds8raw/4compact, preserving both versions without raw overwrite.
+
+Final verification:21 archive groups/2917 raw receipts/347 exact compact copies;
+plain generator diagnostic set remains baseline5120 exactly, no added/removed.
+160 registered paths present/18 existing broken. Staged whitespace/version272
+checks pass. Existing N refinement debt697 and missing engine-B atom remain open;
+O/C tracker debt cells empty mean no known path, not physical completion.

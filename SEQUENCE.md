@@ -1,5 +1,7 @@
 ## 2026-11-10 — restored source-width component
 
+- **RYA-1371** — Compiled collision binding and stale-state guards pass; full atom/UV/BF reconciliation precedes coupled SE (v272).
+
 - **RYA-1371** — All stored native Oxygen upward collision cells reproduce bit-for-bit; backend adapter/coupled SE next (v271).
 
 - **RYA-1371** — Native ground-H/occupation packet preserves EOS/opacity exactly; collision-matrix and coupled-SE qualification next (v270).

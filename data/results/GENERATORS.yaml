@@ -32225,3 +32225,35 @@ artifacts:
     generator: scripts/audit_native_oxygen_collisions.py
     ticket: RYA-1371
     note: Native collision matrix and labelled convention controls; no independent physical or SE admission.
+  - artifact: rya1371/collision_binding_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Actual compiled collision binding and stale-state refusals; no coupled SE or physical model admission.
+  - artifact: rya1371/collision_binding_v1/rya1371-collision-binding-backend-v3/backend.npz
+    generator: scripts/audit_collision_binding_backend.py
+    ticket: RYA-1371
+    note: Actual compiled collision binding and stale-state refusals; no coupled SE or physical model admission.
+  - artifact: rya1371/collision_binding_v1/rya1371-collision-binding-backend-v3/report.json
+    generator: scripts/audit_collision_binding_backend.py
+    ticket: RYA-1371
+    note: Actual compiled collision binding and stale-state refusals; no coupled SE or physical model admission.
+  - artifact: rya1371/collision_binding_v2/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Dedicated collision-audit plan closure; no general transfer dispatch or SE admission.
+  - artifact: rya1371/collision_binding_v2/rya1371-collision-binding-backend-v3/backend.npz
+    generator: scripts/audit_collision_binding_backend.py
+    ticket: RYA-1371
+    note: Dedicated collision-audit plan closure; no general transfer dispatch or SE admission.
+  - artifact: rya1371/collision_binding_v2/rya1371-collision-binding-backend-v3/report.json
+    generator: scripts/audit_collision_binding_backend.py
+    ticket: RYA-1371
+    note: Dedicated collision-audit plan closure; no general transfer dispatch or SE admission.
+  - artifact: rya1371/collision_binding_v2/rya1371-collision-binding-backend-v4/backend.npz
+    generator: scripts/audit_collision_binding_backend.py
+    ticket: RYA-1371
+    note: Dedicated collision-audit plan closure; no general transfer dispatch or SE admission.
+  - artifact: rya1371/collision_binding_v2/rya1371-collision-binding-backend-v4/report.json
+    generator: scripts/audit_collision_binding_backend.py
+    ticket: RYA-1371
+    note: Dedicated collision-audit plan closure; no general transfer dispatch or SE admission.

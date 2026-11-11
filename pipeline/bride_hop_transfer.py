@@ -92,7 +92,7 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     if not isinstance(vdw_broadening,bool):raise ValueError('Require explicit VDW diagnostic boolean')
@@ -130,6 +130,8 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     abundance={PeriodicTable[z+1]:value for z,value in enumerate(structure['abundances_dex'])};abundance[PeriodicTable['O']]=atom.abundance
     rad=lw.RadiativeSet([getattr(rh_atoms,name)()for name in PASSIVE_ATOM_FACTORIES]+[model],abundance=lw.AtomicAbundance(abundance));rad.set_detailed_static('O');eq=rad.compute_eq_pops(atmos,mols=lw.MolecularTable([]));oxygen=eq.atomicPops[PeriodicTable['O']]
     oxygen.nStar[:]=nstar;oxygen.nTotal[:]=nstar.sum(axis=0);oxygen.n[:]=populations
+    if collision_binding is not None:
+        collision_binding.setup(model);model.collisions=[collision_binding]
     spect=rad.compute_wavelength_grid(extraWavelengths=np.asarray(extra_vac_nm));records=[]
     def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records)
     ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory);ctx.depthData.fill=True
