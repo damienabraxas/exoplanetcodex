@@ -1,0 +1,28 @@
+{
+  "schema": "rya1354.frozen-layer-plan.v12",
+  "starting_commit": "cd6d4211c3754e286c82444e4e5a34e679c916d5",
+  "declaration_comment": "12ea7ea9-0416-4d5d-a53e-5002fcd711a9",
+  "source": "runs/lifetime_relax_n4_from_relaxed_n3_v7",
+  "source_receipt_sha256": "4ebdf6362049d42c3a2bc1f2a0fabb0bcb7d4b02e8b8e49922936fab80341c0e",
+  "output": "runs/lifetime_frozen_prior_n4_v1",
+  "model": "Separate full2s-SD/DC n4 model sensitivity: core-adapted n<=3 frozen, only n4 optimized. All six outer stages independently revalidated. Full-release campaign remains FAILED_RETAINED; no failed-wave initializer.",
+  "operators": {
+    "to_ground": "E1,M2,E3",
+    "to_5S": "M1,E2,M3"
+  },
+  "required_channels": 13,
+  "source_grid_H": 0.03125,
+  "source_grid_N": 439,
+  "source_ACCY": 5.960464477539063e-08,
+  "source_NSIC": 0,
+  "exposure": "EXPOSED_NONBLIND",
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "caveat": "Earlier n3 spectroscopic-component constraint limitation retained; no observed energy replacement, fitting, gauge selection, full-relaxation or accuracy claim.",
+  "failure_policy": "Stop on native refusal or incomplete channel inventory. Preserve outputs. No automatic fallback.",
+  "execution": "Sirius only; single thread; nice19; immutable source copies and bounded lossless archive."
+}
