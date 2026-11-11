@@ -1,0 +1,40 @@
+{
+  "schema": "rya1354.lifetime-plan.v11",
+  "starting_commit": "004e3c20f08e9e0094d2e4f9f362557a4ed0de67",
+  "main_at_start": "45901e7678ab6c8624fe659e552fba3f2681457d",
+  "exposure": "EXPOSED_NONBLIND",
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "uncertainty": null,
+  "experiment": "Different initialization/active-layer path after failures: verify prior successful core-relaxed n3 campaign (strict original grid/criterion, physical states, fresh wave inputs, full2s-hole CSFs and nine-orbital inventory). Native rwfnestimate loads those n<=3 functions and initializes only missingn4 hydrogenically on439grid. Target n4 full2s-SD/DC CSFs/nucleus unchanged. All3states optimize4* only withn<=3 fixed and strict/native-loaded fixed-record/fresh verification; only after all3pass release2*/3*/4* with1s fixed for all3, then13channels foroffline review. No intermediate lifetime/observed/failed-wave inputs.",
+  "numerics": {
+    "grid_H": 0.03125,
+    "grid_N": 439,
+    "ACCY": 5.960464477539063e-08,
+    "damping": 0.5,
+    "cycles": 1500,
+    "NSIC_optimization": 0,
+    "NSIC_fresh_restart": 0,
+    "promotion": "Strict native orbital criterion, native parent/term/J/parity and fresh restart for every state before full13-channel lifetime.",
+    "radial_iteration_floor": 24,
+    "method3": false,
+    "both_2p_spectroscopic": true,
+    "NSIC_semantics": "Initial extra-update allowance, adaptive in native IMPROV, loop inside every outercycle. Previous20 produced20then9extra updates in first cycles; new explicit0 means noextra updates. Freshverification remains0."
+  },
+  "failure_policy": "Any failed optimization, semantic refusal, unmet strict residual, changed fixed radial record/CSF/nucleus, identity or freshrestart stops entire campaign. Retain all outputs. No automatic parameter fallback or failed-wave resume.",
+  "source_controls": "Verify core campaign status/n against native receipt and source CSF/wave/nucleus SHA256 and bytes before output creation. Record initializer receipt SHA256 and explicit varied radial shells.",
+  "future": "Larger Rydberg-targeted MR/AS, balanced core and explicit orbital strategy; independently implemented relativistic checks; separately curated physical experimental groups for other elements. No gauge or grade selected because closer to experiment.",
+  "MR_inventory": "Native generation-only n4, all eight parity/VV-CV/SR-MR combinations. Four-reference even and odd families restricted to n<=4 from Li2023 Table1. Verify native electron count,1s inactivity,2s constraints,parity and duplicateCSFs; allpassed. FullCV MR even29185 (largestJblock14432), odd25382 (largestJblock14490). No energies/wavefunctions/rates from inventory.",
+  "MR_fixed_orbital_control": "After measured inventory, n4 fixed qualified VV orbitals: identicalSR/DC reproduction, VV-MR/DC, full2s-MR/DC, samefull2s-MR+staticBreit. All3 matchedstates and13channels, unchangednativeRCIgrid. No MR orbital optimization or published-protocol reproduction. Preserve wave/nucleus inputs and coreMR DC/Breit CSF identity. n4 relaxation continues as a separate experiment. Single-thread/nice19; measure resources, do not change otherworkers.",
+  "native_method_caveat": "Explicit2s,2p-,2p (+3s odd); GETOLD skips fixed2s during preconditioning and constrains it when released. Other correlation orbitals retain native defaults. NSOLV24 floor, native node/bracket guards, grid/ACCY/damping unchanged; no criterion waiver or observed inputs.",
+  "output": "runs/lifetime_relax_n4_from_relaxed_n3_v7",
+  "evidence_collection": "Lossless v2 archive fragments with original SHA/bytes and contiguous offsets; all parts <=5MiB. Previous partial collection preserved. Reassemble original native bytes before receipt/scientific replay. Explicit hashed rci.res matrix caches retained on Sirius; mcp.* caches retained there.",
+  "qualification_correction": "Older relaxation2s,2p selections did not constrain2p-. Preserve historical records and explicit method qualification. Observed2p- node0 alone does not establish missing-constraint impact or a wrong orbital.",
+  "stages": [
+    "outer_n4",
+    "released_2s"
+  ],
+  "fixed_record_control": "Exact equality to same-input native loading baseline retained for allfrozen n<=3 duringouterstage, then1s duringfullrelease. New failedNSIC0run shows2s roundoff change after upstream failure-recovery ORTHSC, which operates globally; no epsilon/tolerance waiver. Any fixed-record mismatch stillstops promotion.",
+  "n3_source": "runs/lifetime_relax_n3_v3",
+  "source_qualification": "Old n3receipt predates explicit nfield; infer no metadata shortcut. Verify actual nine-orbital n<=3 inventory, full2s-hole CSFs/electron/parity, nativeH/N/ACCY/physical labels and fresh input hashes. Prior2p- spectroscopic limitation remains until final new requalification; oldsource does not establish calibrated accuracy."
+}

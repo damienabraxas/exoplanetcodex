@@ -1,0 +1,154 @@
+{
+  "schema": "rya1354.nsic0-failure.v11",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "generator_sha256": "6f6c1c3c588fa8c3993f41355f6a67966fc3ac9b851e374dc367b4d3d0fb5699",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "f87a784f33a666f0d6da8bb616b03aef4fe730380701d8aeb8f2f45a33b8ea46",
+      "bytes": 565338
+    }
+  },
+  "native_receipt_sha256": "2d07e4062e760808050424b2d7ab103aa5592788679fed5e7756771d0279ee13",
+  "native_status": "FAILED_RETAINED",
+  "native_error": "RuntimeError: rmcdhf: exit 1; retained logs in /mnt/codex-data/codex/rya1354/runs/lifetime_relax_n4_staged_nsic0_v6/fixed_2s_ground",
+  "last_printed_cycle": 352,
+  "last_complete_cycle": {
+    "iteration": 351,
+    "complete_printed_cycle": true,
+    "orbitals": {
+      "2p-": {
+        "residual": 0.105,
+        "method": 2,
+        "nodes": 0
+      },
+      "2p": {
+        "residual": 1.97,
+        "method": 1,
+        "nodes": 0
+      },
+      "3s": {
+        "residual": 0.0331,
+        "method": 3,
+        "nodes": 4
+      },
+      "3p-": {
+        "residual": 0.0295,
+        "method": 3,
+        "nodes": 1
+      },
+      "3p": {
+        "residual": 0.255,
+        "method": 3,
+        "nodes": 2
+      },
+      "3d-": {
+        "residual": 0.000672,
+        "method": 3,
+        "nodes": 3
+      },
+      "3d": {
+        "residual": 0.0071,
+        "method": 3,
+        "nodes": 0
+      },
+      "4s": {
+        "residual": 0.0127,
+        "method": 3,
+        "nodes": 2
+      },
+      "4p-": {
+        "residual": 0.463,
+        "method": 3,
+        "nodes": 0
+      },
+      "4p": {
+        "residual": 32.7,
+        "method": 3,
+        "nodes": 0
+      },
+      "4d-": {
+        "residual": 0.00291,
+        "method": 3,
+        "nodes": 2
+      },
+      "4d": {
+        "residual": 0.00638,
+        "method": 3,
+        "nodes": 1
+      },
+      "4f-": {
+        "residual": 0.00109,
+        "method": 3,
+        "nodes": 0
+      },
+      "4f": {
+        "residual": 0.00384,
+        "method": 3,
+        "nodes": 0
+      }
+    },
+    "max_reported_residual": 32.7,
+    "weighted_energy_hartree": -74.900863347
+  },
+  "failed_attempts": [
+    {
+      "method": 1,
+      "orbital": "2p-",
+      "iterations": 11,
+      "limit": 24,
+      "counted_nodes": 2,
+      "required_nodes": 0,
+      "native_energy_bracket_width": 0.07864775358799925,
+      "native_width_floor": 0.125,
+      "iteration_limit_reached": false,
+      "width_guard_triggered": true
+    },
+    {
+      "method": 1,
+      "orbital": "2p",
+      "iterations": 11,
+      "limit": 24,
+      "counted_nodes": 2,
+      "required_nodes": 0,
+      "native_energy_bracket_width": 0.0767309187430012,
+      "native_width_floor": 0.125,
+      "iteration_limit_reached": false,
+      "width_guard_triggered": true
+    },
+    {
+      "method": 2,
+      "orbital": "2p",
+      "iterations": 24,
+      "limit": 24,
+      "counted_nodes": 1,
+      "required_nodes": 0,
+      "native_energy_bracket_width": 13.64281012944153,
+      "native_width_floor": 0.125,
+      "iteration_limit_reached": true,
+      "width_guard_triggered": false
+    }
+  ],
+  "all_completed_cycles_have_14_regular_updates": true,
+  "fixed_records": [
+    {
+      "n": 1,
+      "kappa": -1,
+      "exact_native_baseline_match": true,
+      "max_P_change": 0.0
+    },
+    {
+      "n": 2,
+      "kappa": -1,
+      "exact_native_baseline_match": false,
+      "max_P_change": 2.220446049250313e-16
+    }
+  ],
+  "native_loading_baseline_exact_for_fixed1s2s": false,
+  "conclusion": "NSIC0 still fails2p node selection before any stage qualifies; removing extra updates is insufficient. Fixed1s matches native loading baseline; fixed2s differs by roundoff. Upstream failure recovery calls global ORTHSC, which can renormalize fixed functions; the exact bit-change timing is not established. Exact frozen-record guard remains unchanged; no preconditioner/restart/release/lifetime accepted. Physical instability unresolved."
+}
