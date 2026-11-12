@@ -1,0 +1,79 @@
+{
+  "schema": "rya1354.n5-running-checkpoint.v14",
+  "captured_utc": "2026-11-12T03:58:08.753720+00:00",
+  "last_complete_cycle": {
+    "iteration": 24,
+    "complete_printed_cycle": true,
+    "orbitals": {
+      "5s": {
+        "residual": 6.03e-06,
+        "method": 3,
+        "nodes": 4
+      },
+      "5p-": {
+        "residual": 5.51e-06,
+        "method": 3,
+        "nodes": 3
+      },
+      "5p": {
+        "residual": 7.58e-06,
+        "method": 3,
+        "nodes": 3
+      },
+      "5d-": {
+        "residual": 4.24e-06,
+        "method": 3,
+        "nodes": 2
+      },
+      "5d": {
+        "residual": 5.08e-06,
+        "method": 3,
+        "nodes": 2
+      },
+      "5f-": {
+        "residual": 1.98e-06,
+        "method": 3,
+        "nodes": 1
+      },
+      "5f": {
+        "residual": 2.25e-06,
+        "method": 3,
+        "nodes": 1
+      },
+      "5g-": {
+        "residual": 2.07e-07,
+        "method": 3,
+        "nodes": 0
+      },
+      "5g": {
+        "residual": 1.91e-07,
+        "method": 3,
+        "nodes": 0
+      }
+    },
+    "max_reported_residual": 7.58e-06,
+    "weighted_energy_hartree": -75.011667857
+  },
+  "completed_cycle_count": 24,
+  "original_ACC": 5.960464477539063e-08,
+  "baseline_orbitals": 25,
+  "declared_frozen_records": 16,
+  "loading_control_verified": true,
+  "source_initializer_and_target_verified": true,
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "optimization_qualified": false,
+  "exposure": "EXPOSED_NONBLIND",
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "16e073fe45de43837c3d33eb765b8dfd239ab5ac0be01740e6cfecfa4e35e5eb",
+      "bytes": 424774
+    }
+  },
+  "scope": "ASYNCHRONOUS_LOG_PREFIX_AND_COMPLETED_NATIVE_LOADING_CONTROL_ONLY",
+  "generator_sha256": "d72a60d9a28ad4fb7e4080a42cf3cd777154e3eeb3c185241f98d60975093f04"
+}

@@ -1,0 +1,116 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "16e073fe45de43837c3d33eb765b8dfd239ab5ac0be01740e6cfecfa4e35e5eb",
+      "bytes": 424774
+    }
+  },
+  "files": {
+    "evidence/n5_ground_logs_v14/capture.json": {
+      "sha256": "320d791bfd8ceb19d72ab2e60d7c436e535f627d795d85fff36d7b6e07d7d551",
+      "bytes": 27972
+    },
+    "evidence/n5_ground_logs_v14/driver.py": {
+      "sha256": "96cdc6e87b6f52e62e0745be68950564ddb093de1054daf80d6462d50796a1c9",
+      "bytes": 5411
+    },
+    "evidence/n5_ground_logs_v14/rmcdhf.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/n5_ground_logs_v14/rmcdhf.stdin": {
+      "sha256": "0b65c64693376a279462a049ee052ea86c53f2cde2bd42bda9a6ffc32e03a10b",
+      "bytes": 133
+    },
+    "evidence/n5_ground_logs_v14/rmcdhf.stdout": {
+      "sha256": "b0bec7ec157999bd7bd596238a626958c4a0fb4fe4d8b7057a468d7e3943fc6c",
+      "bytes": 86588
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rangular.stdout": {
+      "sha256": "5e729f9a420a29726014129263614f70b012a13a0ba2194c7093a2e0c6b6926b",
+      "bytes": 9422
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rcsf.inp": {
+      "sha256": "0d42f267096af1c48f52c823a0850bd9c07aeccd4eae4519b135d3e1d334b453",
+      "bytes": 1506587
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rmcdhf.log": {
+      "sha256": "e2338ff074cdb4d1c9158206a0724fef7758606f279e79ddffbb9850d5f6ceed",
+      "bytes": 21
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rmcdhf.stderr": {
+      "sha256": "0e9b808777469d581a82da4cb079609c92cfcf42b7c22ed15eb85803b1777f4d",
+      "bytes": 2859
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rmcdhf.stdin": {
+      "sha256": "a83a029864ff85bc71fdf5594552800c5fc22b011249ef00153bf53205034014",
+      "bytes": 126
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rmcdhf.stdout": {
+      "sha256": "d1027e2f6a07ed5f738f771ebfd5754859898eb9705d6e23bf8f74c515218ec8",
+      "bytes": 4551
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rmcdhf.sum": {
+      "sha256": "369f7d2a52241da657727df469ea0fc0d732ee52e2e9f25aa141e9458a4194c0",
+      "bytes": 6735
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rmix.out": {
+      "sha256": "dcc8d9c2020b474522c1c44b1787bcfb97789afb0d76e811b00d39c71adc90af",
+      "bytes": 130022
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rwfn.inp": {
+      "sha256": "c8d1366df6485e3628d5eabba163aefb8a65a9a5a87c76f38193d26294a840e1",
+      "bytes": 178002
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/rwfn.out": {
+      "sha256": "c0137a37c59378c880f0e26d618657d6599a187854092f548338609cfde1d928",
+      "bytes": 177690
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/rwfn.inp": {
+      "sha256": "c8d1366df6485e3628d5eabba163aefb8a65a9a5a87c76f38193d26294a840e1",
+      "bytes": 178002
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/rcsf.inp": {
+      "sha256": "0d42f267096af1c48f52c823a0850bd9c07aeccd4eae4519b135d3e1d334b453",
+      "bytes": 1506587
+    },
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 22,
+  "omitted_angular_caches": [
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.30",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.31",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.32",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.33",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.34",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.35",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.36",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.37",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.38",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.39",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.40",
+    "runs/lifetime_frozen_prior_n5_v1/outer_n5_ground/fixed_load/mcp.41"
+  ],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}
