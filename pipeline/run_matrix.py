@@ -675,6 +675,13 @@ EMPTY_POOL_MARKERS = (
     "Where the population is mostly saturated the deep pool IS this band's graded pool",
     "Refusing to emit a 'graded' product with no graded line in it",
 )
+# RYA-728: derive refuses an NLTE product when NOT ONE pooled line carries an NLTE label (it
+# would be LTE under an NLTE name, RYA-764/RYA-1050). Same fact as _nlte_label_hold, reached
+# inside derive for the iSpec GES list, which that pre-dispatch check leaves to derive: a HOLD
+# with its reason, not a failure (8 Cr cells FAILED this way in the RYA-728 run).
+NLTE_UNLABELLED_POOL_MARKERS = (
+    "pooled lines carries an NLTE label",
+)
 
 
 def is_raw(h: dict) -> bool:
@@ -1869,6 +1876,11 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
                 cell.status = HELD
                 cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+                with _lock:
+                    record_empty_pool(lkey, want, detail or "")
+            elif any(k in (detail or "") for k in NLTE_UNLABELLED_POOL_MARKERS):
+                cell.status = HELD
+                cell.reason = f"NLTE: no pooled line carries an NLTE label -- {detail}"
                 with _lock:
                     record_empty_pool(lkey, want, detail or "")
             else:
