@@ -63,8 +63,10 @@ def rescope(entry: dict, versions: dict[str, str], now: str) -> tuple[str | None
         return None, "recorded registry digest matches no committed version"
     if rm.model_registry_fingerprint(text=text) != now:
         return None, "emitting rows differ from today's (genuinely stale)"
-    new = [r for r in rows if r is not reg[0]] + [
-        {"kind": "ledger_scoped", "name": SCOPED_NAME, "digest": now}]
+    # In place: inputs_hash hashes the LIST in order, and input_fingerprints emits the scoped
+    # row exactly where the whole-file row stood (appending it gave a different hash).
+    new = [{"kind": "ledger_scoped", "name": SCOPED_NAME, "digest": now} if r is reg[0] else r
+           for r in rows]
     entry["inputs"] = new
     return hashlib.sha256(json.dumps(new, sort_keys=True).encode()).hexdigest(), ""
 

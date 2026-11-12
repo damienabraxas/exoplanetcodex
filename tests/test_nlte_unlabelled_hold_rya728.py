@@ -67,14 +67,17 @@ def test_migration_restamps_only_a_record_whose_emitting_rows_match():
 
     def entry(digest):
         rows = [{"kind": "spectrum", "name": "x", "digest": "s"},
-                {"kind": "ledger", "name": m.REG, "digest": digest}]
+                {"kind": "ledger", "name": m.REG, "digest": digest},
+                {"kind": "ledger", "name": "data/catalog/instrument_catalog.csv", "digest": "i"}]
         return {"inputs": rows,
                 "inputs_hash": hashlib.sha256(json.dumps(rows, sort_keys=True).encode()).hexdigest()}
 
     e = entry(d_old)
     new, why = m.rescope(e, versions, now)
     assert why == "" and new == hashlib.sha256(json.dumps(e["inputs"], sort_keys=True).encode()).hexdigest()
-    assert {"kind": "ledger_scoped", "name": m.SCOPED_NAME, "digest": now} in e["inputs"]
+    # same position as the whole-file row: inputs_hash is order-sensitive
+    assert e["inputs"][1] == {"kind": "ledger_scoped", "name": m.SCOPED_NAME, "digest": now}
+    assert [r["name"] for r in e["inputs"]][2] == "data/catalog/instrument_catalog.csv"
     # an emitting-row difference stays stale; an unknown digest stays stale
     live_old = text.replace("stagger-mean3d,", "stagger-x,", 1)
     d_live = hashlib.sha256(live_old.encode()).hexdigest()
