@@ -71,6 +71,11 @@ def summarize(base,bundle):
     source,_=load_parts(base/'frozen_complete_v12')
     target,_=load_parts(base/'lifetime_core_n5_v4')
     files,manifest=load_parts(bundle)
+    return audit_files(files,target,source,prior,manifest['parts'])
+
+
+def audit_files(files,target,source,prior,parts):
+    """Same independent checks for archived bytes or validated native source files."""
     receipt=json.loads(files[RUN+'receipt.json'])
     if receipt['status']!=STATUS or receipt['n']!=5:
         raise ValueError('N5 extension has no qualified terminal model')
@@ -101,7 +106,7 @@ def summarize(base,bundle):
             raise ValueError('N5 transition controls differ')
     result=decay(files,RUN)
     return dict(schema='rya1354.independent-n5-extension-audit.v14',states=states,decay=result,
-        previous_n4=prior['decay']['model'],parts=manifest['parts'],scientific_admission='HOLD',
+        previous_n4=prior['decay']['model'],parts=parts,scientific_admission='HOLD',
         exposure='EXPOSED_NONBLIND',adoption_allowed=False,accepted_lifetime=None,
         uncertainty=None,covariance=None,calibrated_sigma=None,fully_released_qualified=False,
         generator_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

@@ -1,4 +1,5 @@
-Latest continuation: [n5 loading-control replay and prepared independent validator](n5_validation_v14.md).
+Latest continuation: [verified n5 completion and joint outer-layer continuation](n5_terminal_v15.md).
+Previous: [n5 loading-control replay and prepared independent validator](n5_validation_v14.md).
 Previous: [active n5 extension and rate decomposition](frozen_extension_v13.md).
 Previous: [terminal full-release failure and frozen-layer sensitivity](frozen_layer_v12.md).
 Previous: [NSIC0 outcome and core-adapted n4 path](core_adapted_n4_v11.md).
