@@ -1407,3 +1407,185 @@ no new violations. Handwritten code/config/docs staged whitespace check passes;
 full check reports only standard CRLF endings in the two verbatim generated CSVs,
 which are preserved byte-identically. No guard/whitespace setting changed and no
 repository-wide green claim. Final66focused tests pass in.91s, three upstream warnings.
+
+## v277 — native refinement and explicit all-instrument UV/VIS/IR target (2026-11-11)
+
+Base9e4f2d7e; same worktree/branch. Ryan explicitly confirmed the target must cover
+all possible Exoplanet Codex instruments, not just VIS. The current canonical catalog
+has27instruments/reference atlases and11modes, nominal90--5500nm. Target every catalog
+row and regenerate the coverage matrix as it grows; unknown/new physical applicability
+must remain explicit. Catalog statuses/dates are inherited metadata, not newly verified
+manufacturer capabilities. Rejected catalog entries remain rejected. No element or
+production/instrument-disposition change. Scientific1D/3D/all-band gate remains HOLD.
+
+### Coverage is now recorded at distinct evidence levels
+
+Internal O41 SE support reaches90.0064--6876.574194nm,41levels/256BB/22BF. That is
+sparse atomic integration support, not continuous complete spectra. Existing detailed
+emergent comparisons cover five narrow AIR output windows (including absent6363
+control), six actual theoretical O-only line areas around6158--8446A. Prior work is not
+full UV/VIS/IR observed validation. Internal vacuum coordinates are correct for atomic
+radiation; AIR-observed products such as Kitt Peak require canonical conversion ONCE
+at the observation comparison boundary, not an artificial change of atomic radiation
+physics to an Earth refractive medium.
+
+New dynamic audit maps ALL27catalog entries and11modes, preserving actual catalog
+frames (AIR, vacuum, raw-product vacuum-wavenumber convention). IAG catalog bounds are
+already wavelength-nm metadata; they must NOT be inverted as if they were raw
+wavenumbers. Mode/setting/order gaps remain product-specific: a nominal CRIRES+ envelope
+is not a continuously observed spectrum. The matrix distinguishes source atomic line
+centres, internal SE envelope, intersecting diagnostic windows, numerical smoke output,
+and independently validated full-band spectra. ALL full-band validation cells remain
+NOT_ESTABLISHED. Current O41 has0atomic O centres in APOGEE1510--1700nm: catalog OH/CO/CN
+features require molecular line formation; EOS molecule reservoirs do not supply those
+lines. Background line completeness, chemistry feedback, stellar-parameter coverage,
+LSF/R/rotation, flux/intensity, continuum/tellurics and UV/chromospheric applicability
+must qualify separately. Existing admitted Codex products are not re-dispositioned by
+this experimental O-only matrix.
+
+### Coordinate and real forward-output implementation
+
+Reference adapter previously accepted only AIR-A windows above200nm. Added explicit
+`frame: vacuum_nm`/`step_nm`, scaling10 to native vacuum-A with NO AIR conversion.
+AIR behavior remains unchanged and conversion is canonical once; source default
+input namelists remain unchanged when new controls are omitted. Unknown/ambiguous
+frame/unit keys, nonfinite/overlapping/nonpositive grids and over-budget output refuse
+before allocation. Original fine sampling limits and20000-output-point bound retained.
+Spectral analysis keeps vacuum primary; AIR coordinates at/below200nm are explicitly
+unsupported (NaN with air_frame_supported=false, not missing intensity). New coordinate
+helper lives outside the frozen native collision-reader module.
+
+Actual output-only runs, preserving the same NQFAC4 SE model:
+
+- UV/NIR/IR samples:130.15--130.25,1128.8--1129.3,3098.2--3099.0nm;10.061s.
+- Full-BF/BB catalog-edge samples:90--90.02,130.15--130.25,1128.8--1129.3,
+  3098.2--3099.0,5499.8--5500nm;3246points,10.186s. Bound-free output explicitly ON.
+
+Each probe preserves140 original internal native binary files EXACTLY, including n,
+nStar, all saved SE rates and internal radiation. Only output-axis/intensity/moment
+files differ. Actual source save_intensity writes flux-labelled output-window moments
+as well as intensity; under disk-centre-only quadrature they are NOT a certified
+angularly integrated stellar flux. The paired audit excludes precisely those output
+labels (out_lam/ie/flux/Jnu_out) and verifies all remaining binary identities. The first
+preparation of this proof incorrectly treated output flux files as internal; refusal
+was corrected after source/meta inspection, no physical discrepancy hidden.
+
+UV/NIR/IR plot inspected. O-only absorption appears near130.2nm,1.129um and3.099um;
+90nm/5.5um endpoints are line-free coordinate/continuum smoke checks. These are NOT
+observed benchmarks, dense full-band products, molecular spectra or solar/chromospheric
+validation. The90nm endpoint is below the current internal SE grid minimum90.0064nm;
+that lack of internal-grid exercise remains explicit, not silently called qualified.
+Complete human table and figure: native_refinement_coverage_v1/
+rya1371-multiband-coverage-view-v1/{coverage.md,uv_ir_numerical_probes.png}.
+
+### Genuine native frequency and radiation-field controls
+
+Changed only native NQFAC2->4 on the exact held O41/MARCS5750/logg4.5/A8.70 reference,
+then separately DECOUPLE_CONTINUUM=T->F at NQFAC4. All source atomic data, EOS, molecular/
+background/width/collision conventions,5rays/rtol1e-6/Ng/maxiter1500/600s/one-thread Mac
+limits retained. These are explicitly labelled numerical/radiation controls, no fitted
+abundance/T/energy/continuum or automatic preferred-physics adoption. Native source
+allocates separate BB/BF atom-transition views when decoupling is enabled; the shared
+control removes that approximation. Its physical impact is measured, not assumed.
+
+| Native case | Solve seconds | Observer seconds | All original binary outputs preserved | Independent PRE-update physical residual |
+|---|---:|---:|---:|---:|
+| NQFAC2 separated (previous) |6.275|9.276|145|7.58260e-8|
+| NQFAC4 separated |10.079|15.065|145|6.85759e-8|
+| NQFAC4 shared BB/BF field |10.088|15.123|112|6.85618e-8|
+
+Observers all export192integration contributions/final8slabs at radiation sweep12 /
+population update13, with exact n/nStar identity required. Native stored default rates
+remain PRECONDITIONED SE coefficients; physical observer is a separate certificate at
+the actual PRE-update field population, not a new post-update formal solve. New replay
+qualification derives the expected binary count from the exact selected native producer
+instead of hardcoding145; it still requires identity of EVERY original binary file.
+
+NQFAC4 versus2 changes some populations by1.76923% (level35/top), while six theoretical
+finite optical areas change by at most.00287880mA. Visible appearance is therefore not
+sufficient evidence of full-model convergence. Shared versus separated NQFAC4 changes
+populations at most.186477% (level41/second outer cell); six optical area shifts at most
+.0000218013mA. Heights/T/ne/rho/source-logtau/nStar/C remain bit-identical across cases.
+Native refinement is not yet an asymptotic convergence certificate.
+
+Bride source-grid fixed-population physical replays at each EXACT PRE-update state:
+NQFAC4-separated residual.000755275863 /2.245s; shared4 residual.000582205815 /1.969s,
+versus.003179595408 at old separated NQFAC2. No SE update in these replays. Native
+physical residuals remain below6.86e-8, source/native radiative graph unchanged. The
+previous independently closed own coupled population solution differs from these native
+post-update populations by at most.9144%/.9163%, respectively (old native2 max1.2374%);
+this is a reference diagnostic, not a new own coupled solve or physical abundance error.
+Shared4 worst fixed-state imbalance returns to level13/top. Constants/LTE conventions,
+source table rounding, numerical grids, atomic lifetimes and observation handling remain
+open; closer agreement alone does not choose a physics/default change.
+
+### Failures and provenance, retained explicitly
+
+- Legacy analysis v1 inherited misleading "stored physical-rate balance" wording;
+  numerical arrays remain useful but report semantics withdrawn. Final v3 reads actual
+  PRECONDITIONING and explicitly labels effective coefficients. Canonical existing
+  matched-rates semantics bug row amended to include this analysis exporter.
+- New v2 analysis used wrong report variable (`report` instead of `doc`) at finalization:
+  NameError after arrays/plots, no complete report. Exact driver/partial output and manual
+  failure record preserved; fixed v3 and all real multiband analyses complete. New ledger row.
+- Coordinate helper initially added to source-pinned openmulti3d_output.py caused existing
+  collision-binding fingerprint guard to refuse before RT/output allocation. Qualified
+  reader restored BYTE-IDENTICALLY, helper moved to spectral_frames.py; actual frequency4/
+  shared4 replays then pass. Refused reader and manual exception record retained. Guard
+  never suppressed/relaxed; new provenance ledger row. No failed seed used.
+- Initial new coordinate test compared decimal53000.02 by exact float equality; corrected
+  to FP64 precision, without changing conversion, sampling or scientific tolerances.
+
+85focused tests pass in1.36s, three existing LW configuration/deprecation warnings. Real
+native output probes validate final report emission and explicit frame masks. New archive
+supplement1494raw receipts/78compact copies, including failures; all originals remain.
+No new dependency/download, upstream-source/gold/observational overwrite, Sirius/hosted-CI
+workload, merge/publication or element-disposition change.
+
+### Reproduction and exact next step
+
+Environment: source config/hosts/mac.env; OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1.
+PROJECT=/Users/ryanschmitt/codex/venv/bin/python;
+LW=/Users/ryanschmitt/bride_rya1118/.venv/bin/python. Fresh output paths required.
+Run native solves and observers serially. Full commands/input/output identities are in
+per-run manifests/receipts and the following executable map:
+
+```text
+PROJECT scripts/run_reference_engine.py --plan config/experiments/PLAN.json --output /Users/ryanschmitt/codex/bride_mac_checks/RUN --execute
+PROJECT scripts/run_native_gross_rates.py --source /Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-gross-rates-v1 --build /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-build-v1 --plan config/experiments/PLAN.json --output /Users/ryanschmitt/codex/bride_mac_checks/OBSERVER --execute
+LW scripts/analyze_native_gross_rates.py --source /Users/ryanschmitt/codex/bride_mac_checks/OBSERVER --baseline /Users/ryanschmitt/codex/bride_mac_checks/RUN --output /Users/ryanschmitt/codex/bride_mac_checks/PHYSICAL_ANALYSIS
+PROJECT scripts/analyze_openmulti3d_oxygen_reference.py --source /Users/ryanschmitt/codex/bride_mac_checks/RUN --output /Users/ryanschmitt/codex/bride_mac_checks/ANALYSIS
+LW scripts/replay_hop_oxygen_radiative_rates.py --plan config/experiments/rya1371_hop_physical_CASE.json --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-CASE-v1
+LW scripts/audit_native_oxygen_refinement.py --raw-root /Users/ryanschmitt/codex/bride_mac_checks --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-refinement-audit-v1
+PROJECT scripts/audit_oxygen_instrument_coverage.py --probe-analysis /Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-analysis-v1 --probe-run /Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1 --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-instrument-coverage-v1
+PROJECT scripts/plot_oxygen_multiband_coverage.py --coverage /Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-instrument-coverage-v1 --analysis /Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-analysis-v1 --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-multiband-coverage-view-v1
+PROJECT scripts/archive_oxygen_reference_checks.py --native-refinement-coverage-supplement --raw-root /Users/ryanschmitt/codex/bride_mac_checks --output data/results/rya1371/native_refinement_coverage_v1
+```
+
+PLAN prefix rya1371_openmulti3d_oxygen_: frequency4_accurate ->RUN
+rya1371-oxygen-frequency4-accurate-v1 /OBSERVER rya1371-native-gross-frequency4-v1 /
+PHYSICAL_ANALYSIS rya1371-native-gross-frequency4-analysis-v1 /ANALYSIS
+rya1371-oxygen-frequency4-accurate-analysis-v3. Shared4 uses PLAN shared4 /RUN
+rya1371-oxygen-shared4-v1 /OBSERVER rya1371-native-gross-shared4-v1 /
+PHYSICAL_ANALYSIS rya1371-native-gross-shared4-analysis-v1 /ANALYSIS
+rya1371-oxygen-shared4-analysis-v1. CASE for own replay:frequency4 or shared4.
+Output-only PLAN uv_ir_output and catalog_edges ->RUN rya1371-oxygen-uv-ir-output-v1
+and rya1371-oxygen-catalog-edges-v1; ANALYSIS names append-analysis before-v1.
+
+NEXT: predeclare a genuine native NQFAC8 convergence control (within original runtime/
+thread/tolerance budgets) for shared-field case; compare populations, physical R+C and
+all radiative groups before broad T/xi/g/abundance drift sweeps. Resolve remaining
+thermodynamic/LTE/source-constant and lifetime evidence without tuning. Add true angularly
+integrated flux and independent UV/IR diagnostics to the catalog evidence ladder, then
+canonical-solar observed comparisons using ORCH continuum/tellurics and explicit AIR/
+vacuum/velocity/LSF handling. O41 cannot stand in for OH/CO/CN or complete other-element
+blanketing; CNO then Fe/reference star and adaptive3D expansion remain the order. RYA-1374
+stays gated; N697/missing engine-B atom debt remains open.
+
+Final v277 verification:26archive groups/5003raw receipts/527compact copies verify
+SHA256/byte counts and exact compact identity.181registered paths present/18existing
+broken. Register pointer passes. Generator diagnostic set EXACTLY matches baseline5120.
+Handwritten code/config/docs/ledger whitespace passes; full check flags only verbatim
+native-log trailing spaces and generated coverage.md final blank line, retained exactly.
+No guard setting changed, no repository-wide green claim. Complete file inventory is
+the v277 commit; experimental output samples are not production or science admission.

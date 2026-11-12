@@ -32681,3 +32681,319 @@ artifacts:
     generator: scripts/archive_oxygen_reference_checks.py
     ticket: RYA-1371
     note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/native_refinement_coverage_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-frame-helper-preflight-v1/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-frame-helper-preflight-v1/refused_reader_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-hop-physical-frequency4-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-hop-physical-frequency4-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-hop-physical-frequency4-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-hop-physical-shared4-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-hop-physical-shared4-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-hop-physical-shared4-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-multiband-coverage-view-v1/coverage.md
+    generator: scripts/plot_oxygen_multiband_coverage.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-multiband-coverage-view-v1/report.json
+    generator: scripts/plot_oxygen_multiband_coverage.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-multiband-coverage-view-v1/uv_ir_numerical_probes.png
+    generator: scripts/plot_oxygen_multiband_coverage.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-frequency4-analysis-v1/rates.npz
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-frequency4-analysis-v1/report.json
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-frequency4-v1/input.nml
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-frequency4-v1/manifest.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-frequency4-v1/native.log
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-frequency4-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-frequency4-v1/report.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-shared4-analysis-v1/rates.npz
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-shared4-analysis-v1/report.json
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-shared4-v1/input.nml
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-shared4-v1/manifest.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-shared4-v1/native.log
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-shared4-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-gross-shared4-v1/report.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-refinement-audit-v1/optical_areas.csv
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-refinement-audit-v1/population_changes.csv
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-native-refinement-audit-v1/report.json
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-catalog-edges-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v2/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v3/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v3/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v3/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v3/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v3/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-analysis-v3/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-frequency4-accurate-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-instrument-coverage-v1/instrument_mode_coverage.csv
+    generator: scripts/audit_oxygen_instrument_coverage.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-instrument-coverage-v1/report.json
+    generator: scripts/audit_oxygen_instrument_coverage.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-shared4-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/native_refinement_coverage_v1/rya1371-oxygen-uv-ir-output-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.

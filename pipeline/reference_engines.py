@@ -56,6 +56,38 @@ def load_plan_engine(plan,*,resolver=None):
     return spec,app,exe,dict(variant=variant,variant_spec=fingerprint(registry),build_receipt=fingerprint(receipt_file),executable=fingerprint(exe),source_commit=actual,patch=fingerprint(patch),original_reference=original)
 
 
+MAX_REFERENCE_OUTPUT_POINTS=20000
+
+
+def output_grid_vacuum_A(grid):
+    """Build explicit fine AIR-A or vacuum-nm windows; return native vacuum A.
+
+    This is a coordinate/point-budget contract, not a physical coverage claim.
+    """
+    import numpy as np
+    frame=grid.get('frame')
+    key='step_A'if frame=='air_A'else'step_nm'if frame=='vacuum_nm'else None
+    if key is None or set(grid)!={'frame',key,'windows'}:raise ValueError('Require unambiguous AIR-A or vacuum-nm output grid')
+    step=grid[key];maximum=.01 if frame=='air_A'else .001
+    if isinstance(step,bool)or not isinstance(step,(int,float))or not np.isfinite(step)or not 0<step<=maximum:raise ValueError('Require explicit fine positive output sampling')
+    windows=grid['windows']
+    if not isinstance(windows,list)or not windows:raise ValueError('Require nonempty output windows')
+    previous=0.;count_bound=0.
+    for pair in windows:
+        if not isinstance(pair,(list,tuple))or len(pair)!=2:raise ValueError('Invalid output window')
+        lo,hi=pair
+        if any(isinstance(v,bool)or not isinstance(v,(int,float))or not np.isfinite(v)for v in pair)or not(2000. if frame=='air_A'else 0.)<lo<hi or lo<=previous:raise ValueError('Invalid/overlapping output windows or AIR below200nm')
+        previous=hi;count_bound+=(hi-lo)/step+2
+    if count_bound>MAX_REFERENCE_OUTPUT_POINTS:raise ValueError('Output grid exceeds bounded reference scope')
+    wave=np.concatenate([np.linspace(lo,hi,int(np.ceil((hi-lo)/step))+1)for lo,hi in windows])
+    if frame=='air_A':
+        from pipeline.wavelength_util import air_to_vac
+        wave=air_to_vac(wave)
+    else:wave=wave*10.
+    if not np.isfinite(wave).all()or np.any(np.diff(wave)<=0)or len(wave)>MAX_REFERENCE_OUTPUT_POINTS:raise ValueError('Invalid native vacuum output axis')
+    return wave,dict(requested_frame=frame,native_frame='vacuum_A',points=len(wave),windows=windows,conversion='canonical AIR->vacuum once'if frame=='air_A'else'nm->A scale10 only; NO air conversion',scientific_coverage='Numerical requested samples only; no full-band/model/instrument admission')
+
+
 def validate_plan(plan):
     if plan['schema']!='codex.reference_engine_run/1'or plan['engine']!='openmulti3d':raise ValueError('Unsupported run schema/engine')
     if plan['mode']not in ['1D-LTE','1D-NLTE']:raise ValueError('Only explicit1D reference runs are implemented')
@@ -76,14 +108,8 @@ def validate_plan(plan):
     if c.get('output_solver','quadratic')not in ['linear','quadratic']:raise ValueError('Unsupported reference output formal solver')
     if not isinstance(c.get('disable_stark_control',False),bool):raise ValueError('Require explicit Stark diagnostic boolean')
     if not isinstance(c.get('disable_vdw_control',False),bool):raise ValueError('Require explicit VDW diagnostic boolean')
-    if 'output_grid' in plan:
-        g=plan['output_grid']
-        if g['frame']!='air_A' or not 0<g['step_A']<=0.01:raise ValueError('Require explicit fine AIR output grid')
-        previous=0
-        for lo,hi in g['windows']:
-            if not 2000<lo<hi or lo<=previous:raise ValueError('Invalid/overlapping optical output windows')
-            previous=hi
-        if sum((hi-lo)/g['step_A']+2 for lo,hi in g['windows'])>20000:raise ValueError('Output grid exceeds bounded reference scope')
+    if 'decouple_continuum'in c and not isinstance(c['decouple_continuum'],bool):raise ValueError('Require explicit radiation-decoupling boolean')
+    if 'output_grid' in plan:output_grid_vacuum_A(plan['output_grid'])
     if not isinstance(plan['expected_element'],str)or not plan['expected_element'].isalpha():raise ValueError('Explicit element required')
 
 
@@ -106,11 +132,12 @@ def prepare_run(plan,output,app,*,resolver):
     if abundance!=plan['abundance']:raise ValueError('Declared/source atom abundance mismatch')
     c=plan['controls'];rtol=c['rtol']if plan['mode']=='1D-NLTE'else 0.;maxiter=c['maxiter']if rtol else 0
     local_limit=rtol/10 if c.get('freeze_depths',True)else 0.
+    radiation_control=(', decouple_continuum='+('T'if c['decouple_continuum']else'F'))if 'decouple_continuum'in c else''
     nml=f'''&io_params datadir='native', gb_step=6., do_trace=F /
 &timer_params sec_per_report=1d8, verbose=1 /
 &atmos_params atmos_format='Marcs', atmos_file={quote_nml(atmos)}, use_abnd=T, use_ne=T, use_rho=T, prune_top=F, save_atmos=T, save_eos=T /
 &atom_params atom_file={quote_nml(atom)}, use_atom_abnd=T, qnorm={c['qnorm']}, nq_fac={c['nq_fac']} /
-&nlte_params convlim={rtol:.12e}, convmax={local_limit:.12e}, premature_finish=F /
+&nlte_params convlim={rtol:.12e}, convmax={local_limit:.12e}, premature_finish=F{radiation_control} /
 &rt_iteration_params angle_quad={quote_nml(c['angle_quad'])}, ntheta={c['ntheta']}, nphi={c['nphi']}, maxiter={maxiter}, include_absmet=F, include_linelist=F /
 &rt_output_params solver={quote_nml(c.get('output_solver','quadratic'))}, angle_quad={quote_nml(c.get('output_angle_quad','none'))}, include_absmet=F, include_linelist=F /
 &output_params save_populations=T, save_rates=1, save_rate_matrix=T, save_net_rates=T, save_Jnu=T, bound_free_in_output={'T'if c.get('bound_free_in_output',False)else'F'} /
@@ -127,11 +154,11 @@ def prepare_run(plan,output,app,*,resolver):
     output=Path(output)
     if output.resolve().is_relative_to(app.resolve()):raise ValueError('Run output must be outside engine source')
     output.mkdir(parents=True,exist_ok=False);(output/'input').symlink_to(app/'input',target_is_directory=True);(output/'input.nml').write_text(nml)
+    output_grid_audit=None
     if 'output_grid' in plan:
         import numpy as np
-        from pipeline.wavelength_util import air_to_vac
-        g=plan['output_grid'];air=np.concatenate([np.linspace(lo,hi,int(np.ceil((hi-lo)/g['step_A']))+1)for lo,hi in g['windows']])
-        np.savetxt(output/'output_wavelengths_vac_A.txt',air_to_vac(air),fmt='%.12f')
+        wave,output_grid_audit=output_grid_vacuum_A(plan['output_grid'])
+        np.savetxt(output/'output_wavelengths_vac_A.txt',wave,fmt='%.12f')
         nml+="&spectrum_params lam_file='output_wavelengths_vac_A.txt', in_air=F /\n"
         (output/'input.nml').write_text(nml)
-    return dict(atmosphere=fingerprint(atmos),atom=fingerprint(atom),element=entries[0],atom_header=dict(abundance=abundance,mass=mass,levels=levels,lines=lines,continua=continua,fixed=fixed),namelist=fingerprint(output/'input.nml'),controls=c,physical_limitations=['Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.','Line blanketing and background bound-bound opacity explicitly off in this first reference plan.','Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.','Source atom is not silently replaced by the supplied variant; source paths and hashes are checked.'])
+    return dict(output_grid=output_grid_audit,atmosphere=fingerprint(atmos),atom=fingerprint(atom),element=entries[0],atom_header=dict(abundance=abundance,mass=mass,levels=levels,lines=lines,continua=continua,fixed=fixed),namelist=fingerprint(output/'input.nml'),controls=c,physical_limitations=['Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.','Line blanketing and background bound-bound opacity explicitly off in this first reference plan.','Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.','Source atom is not silently replaced by the supplied variant; source paths and hashes are checked.'])

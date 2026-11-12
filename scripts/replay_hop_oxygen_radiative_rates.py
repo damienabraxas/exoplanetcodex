@@ -87,7 +87,8 @@ def main():
             if fingerprint(path)!=physical_control[name]:raise ValueError('Changed native physical-rate control')
             checks[str(path)]=physical_control[name]
         physical_report=json.loads((directory/'report.json').read_text())
-        if not physical_report['computational_completed']or physical_report['original_binary_files_bit_identical']!=145:raise ValueError('Unqualified native observer')
+        expected_binaries=sum(Path(row['path']).parent==Path('native/save')and Path(row['path']).suffix=='.bin'for row in native_doc['output_files'])
+        if not physical_report['computational_completed']or expected_binaries<=0 or physical_report['original_binary_files_bit_identical']!=expected_binaries:raise ValueError('Unqualified native observer')
         if physical_report['inputs'].get(str(native_report))!=fingerprint(native_report):raise ValueError('Observer has wrong native baseline')
         with np.load(directory/'rates.npz')as d:
             np.testing.assert_array_equal(d['post'][:,::-1]*1e6,pop)

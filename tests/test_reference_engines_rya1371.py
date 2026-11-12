@@ -112,3 +112,26 @@ def test_composition_controls_share_one_native_namelist_group(tmp_path):
     out=tmp_path/'combined';prepare_run(p,out,app,resolver=resolve)
     text=(out/'input.nml').read_text();assert text.count('&composition_params')==1
     assert 'disable_stk=T, disable_vdw=T'in text and "save_species='O I,O II,CO,OH,H2O,H I,H II'"in text
+
+
+def test_vacuum_uv_ir_grid_never_calls_air_conversion_and_preserves_gaps(monkeypatch):
+    import numpy as np
+    from pipeline.reference_engines import output_grid_vacuum_A
+    def forbidden(*args,**kwargs):raise AssertionError('vacuum was converted as air')
+    monkeypatch.setattr('pipeline.wavelength_util.air_to_vac',forbidden)
+    wave,audit=output_grid_vacuum_A(dict(frame='vacuum_nm',step_nm=.001,windows=[[130.2,130.202],[5300.,5300.002]]))
+    np.testing.assert_allclose(wave[[0,-1]],[1302.,53000.02],rtol=1e-15,atol=0)
+    assert np.max(np.diff(wave))>50000.
+    assert audit['native_frame']=='vacuum_A'and audit['requested_frame']=='vacuum_nm'
+
+
+@pytest.mark.parametrize('grid',[
+ dict(frame='vacuum_nm',step_A=.001,windows=[[130.,131.]]),
+ dict(frame='vacuum_nm',step_nm=.001,windows=[[130.,float('nan')]]),
+ dict(frame='vacuum_nm',step_nm=.001,windows=[[130.,131.],[130.5,132.]]),
+ dict(frame='air_A',step_A=.01,windows=[[1300.,1301.]]),
+ dict(frame='vacuum_nm',step_nm=.001,windows=[[90.,5500.]]),
+])
+def test_ambiguous_or_invalid_multiband_grids_refuse(grid):
+    from pipeline.reference_engines import output_grid_vacuum_A
+    with pytest.raises(ValueError):output_grid_vacuum_A(grid)

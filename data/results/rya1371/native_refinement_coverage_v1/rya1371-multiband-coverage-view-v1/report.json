@@ -1,0 +1,31 @@
+{
+  "generator": {
+    "name": "plot_oxygen_multiband_coverage.py",
+    "bytes": 4093,
+    "sha256": "161ec5db22388a352fca8ebe76e6f214110320aa434c550c183d48a6d01903c2"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-instrument-coverage-v1/report.json": {
+      "name": "report.json",
+      "bytes": 49501,
+      "sha256": "1450aa5c29a2d09511f42d21ec7c65bb83d46140247230aa1b63e5220bfcc3c6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-instrument-coverage-v1/instrument_mode_coverage.csv": {
+      "name": "instrument_mode_coverage.csv",
+      "bytes": 20434,
+      "sha256": "98575182e070414c5a08b2f8c6ed8a27764bc01e9facd8a8d99a3b0eebb934f8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 107249,
+      "sha256": "8a793630b112c0351b23162cde6ae53555659a37a6b2dad43ebdd3d72dac64fd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5127,
+      "sha256": "b9cd97cf1c76fdf213c9b9c6b4cb0ea1a1dea1b8cac077598bd27dec74bfd40a"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "computational_completed": true
+}

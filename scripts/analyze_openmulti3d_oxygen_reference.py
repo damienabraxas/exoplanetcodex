@@ -1,5 +1,5 @@
 """Audit native O rates/consumed mesh and compare independent departures by height."""
-import argparse,csv,importlib.util,json,sys
+import argparse,csv,importlib.util,json,sys,re
 from pathlib import Path
 import numpy as np
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
@@ -19,6 +19,9 @@ def main():
         if fingerprint(p)!=entry['receipt']:raise ValueError('Changed native output')
         checks.append((p,entry['receipt']))
     native=a.source/'native';save=native/'save';parts=[];rates=[]
+    flag=re.search(r'\bPRECONDITIONING\s*=\s*([TF])\b',(native/'params.nml').read_text())
+    if flag is None:raise ValueError('Missing native rate-semantics declaration')
+    rate_semantics='native-preconditioned-effective'if flag[1]=='T'else'unpreconditioned-pre-update'
     for path in sorted(save.glob('rates_O_*.bin')):
         data=read_rate_pair(path,save/path.name.replace('rates_','colrates_'));n=data['populations_cm3'];s=data['nstar_cm3'];net,gross=process_flow(data['collision_rates_s_inv']+data['radiative_rates_s_inv'],n);res=float(np.max(abs(net)/np.maximum(gross,np.finfo(float).tiny)));cons=float(np.max(abs(n.sum(axis=0)/s.sum(axis=0)-1)));parts.append(data);rates.append(dict(file=path.name,iteration=data['iteration'],rate_residual=res,conservation=cons))
     if len(parts)!=8:raise ValueError('Expected all eight declared1D depth slabs')
@@ -55,11 +58,13 @@ def main():
         ie=read_patch_set(save,'ie');positive=sorted(k for k in ie if k[1]>0);combined=np.concatenate([ie[k]for k in positive],axis=0)
         if combined.ndim!=5 or combined.shape[1:4]!=(1,1,1)or combined.shape[4]!=3:raise ValueError('Not the declared disk-centre intensity layout')
         I=combined[:,0,0,0,labels['nlte']];Ilte=combined[:,0,0,0,labels['lte']];Icont=combined[:,0,0,0,labels['continuum']]
-        vac=np.fromfile(save/'out_lam.bin',dtype='<f8');air=vac_to_air(vac)
+        vac=np.fromfile(save/'out_lam.bin',dtype='<f8')
+        from pipeline.spectral_frames import supported_air_axis
+        air,air_supported=supported_air_axis(vac)
         if len(air)!=len(I)or np.any(Icont<=0):raise ValueError('Output wavelength/intensity layout mismatch')
         # rt_patch_mod.f90::save_intensity writes per vacuum Angstrom,
         # not per Hz. Preserve its native values and apply the Jacobian.
-        np.savez_compressed(a.output/'spectra.npz',wave_vac_A=vac,wave_air_A=air,Ilambda_cgs_per_A=np.asarray(I).squeeze(),LTE_Ilambda_cgs_per_A=np.asarray(Ilte).squeeze(),continuum_Ilambda_cgs_per_A=np.asarray(Icont).squeeze(),Inu_cgs=per_angstrom_to_per_hz(vac,np.asarray(I).squeeze()),LTE_Inu_cgs=per_angstrom_to_per_hz(vac,np.asarray(Ilte).squeeze()),continuum_Inu_cgs=per_angstrom_to_per_hz(vac,np.asarray(Icont).squeeze()));spectra=True
+        np.savez_compressed(a.output/'spectra.npz',wave_vac_A=vac,wave_air_A=air,air_frame_supported=air_supported,Ilambda_cgs_per_A=np.asarray(I).squeeze(),LTE_Ilambda_cgs_per_A=np.asarray(Ilte).squeeze(),continuum_Ilambda_cgs_per_A=np.asarray(Icont).squeeze(),Inu_cgs=per_angstrom_to_per_hz(vac,np.asarray(I).squeeze()),LTE_Inu_cgs=per_angstrom_to_per_hz(vac,np.asarray(Ilte).squeeze()),continuum_Inu_cgs=per_angstrom_to_per_hz(vac,np.asarray(Icont).squeeze()));spectra=True
     import matplotlib
     matplotlib.use('Agg');import matplotlib.pyplot as plt
     fig,axes=plt.subplots(2,2,figsize=(11,8))
@@ -69,7 +74,8 @@ def main():
     fig.suptitle('Same source atom/atmosphere; consumed grid/EOS/opacity/collision differences remain');fig.tight_layout();fig.savefig(a.output/'departures.png',dpi=150);plt.close(fig)
     for p,fp in checks:
         if fingerprint(p)!=fp:raise ValueError('Native output changed during analysis')
-    doc=dict(schema='codex.openmulti3d_oxygen_audit/1',scientific_admission='HOLD',profile_variant=run.get('profile_variant','original'),generator=fingerprint(__file__),native_report=fingerprint(a.source/'report.json'),engine_receipt=engine,rates=rates,stored_rate_max_residual=max(x['rate_residual']for x in rates),max_conservation=max(x['conservation']for x in rates),distinct_final_iterations=sorted(set(x['iteration']for x in rates)),reference=fingerprint(reference_path),bride=fingerprint(bride_dir/'report.json'),height_interpolation=interp,bride_height_interpolation=bi,triplet_diagnostic_native_vs_multi_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-external[[5,7,8,9]][:,diagnostic]))),triplet_diagnostic_native_vs_bride_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-bride[[5,7,8,9]][:,diagnostic]))),spectra=spectra,limitations=['Stored physical-rate balance is independently reconstructed, not a fresh fixed-population radiation replay.','Native grid is pressure-graded and PCHIP/log interpolated; reference b uses declared positive linear height interpolation. No row-index identity claimed.','Native EOS/background opacity, collider populations, collision interpolation and top boundary differ; no identical-physics certification.','Diagnostic source logtau interval is not a contribution function; no abundance/production/model admission.'])
+    doc=dict(schema='codex.openmulti3d_oxygen_audit/1',scientific_admission='HOLD',profile_variant=run.get('profile_variant','original'),native_rate_semantics=rate_semantics,generator=fingerprint(__file__),native_report=fingerprint(a.source/'report.json'),engine_receipt=engine,rates=rates,stored_rate_max_residual=max(x['rate_residual']for x in rates),max_conservation=max(x['conservation']for x in rates),distinct_final_iterations=sorted(set(x['iteration']for x in rates)),reference=fingerprint(reference_path),bride=fingerprint(bride_dir/'report.json'),height_interpolation=interp,bride_height_interpolation=bi,triplet_diagnostic_native_vs_multi_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-external[[5,7,8,9]][:,diagnostic]))),triplet_diagnostic_native_vs_bride_max_abs=float(np.max(abs(b[[5,7,8,9]][:,diagnostic]-bride[[5,7,8,9]][:,diagnostic]))),spectra=spectra,limitations=['Stored coefficient balance uses '+rate_semantics+' rates, NOT an independently fresh physical-field certificate. Physical-rate observer is separate.','Native grid is pressure-graded and PCHIP/log interpolated; reference b uses declared positive linear height interpolation. No row-index identity claimed.','Native EOS/background opacity, collider populations, collision interpolation and top boundary differ; no identical-physics certification.','Diagnostic source logtau interval is not a contribution function; no abundance/production/model admission.'])
+    doc['spectral_frame_policy']='Vacuum output axis primary; AIR convention supported only above200nm, explicit mask elsewhere'
     (a.output/'report.json').write_text(json.dumps(doc,indent=2,allow_nan=False)+'\n');print(json.dumps(doc))
 
 if __name__=='__main__':main()

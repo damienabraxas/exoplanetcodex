@@ -1,5 +1,7 @@
 ## 2026-11-11 — native ghost-boundary qualification
 
+- **RYA-1371** — Native refinement/shared-field checks improve rate comparison; all27instrument/11mode UV-IR targets mapped, full validation open (v277).
+
 - **RYA-1371** — Seven physical-rate grid controls expose coarse-grid agreement bias; dominant8446 pumping isolated, native refinement next (v276).
 
 - **RYA-1371** — Native physical-rate export preserves145 binaries; exact-stage closure measured, remaining transfer differences isolated (v275).

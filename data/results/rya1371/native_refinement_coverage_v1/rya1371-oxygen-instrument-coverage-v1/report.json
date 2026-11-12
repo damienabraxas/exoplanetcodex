@@ -1,0 +1,1017 @@
+{
+  "generator": {
+    "name": "audit_oxygen_instrument_coverage.py",
+    "bytes": 7008,
+    "sha256": "277b00690d9b07d45890f2b6b7b1dacfd4a6a063944d7ccd58885a1be7f3efef"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/data/catalog/instrument_catalog.csv": {
+      "name": "instrument_catalog.csv",
+      "bytes": 17270,
+      "sha256": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00"
+    },
+    "/Users/ryanschmitt/codex/rya1371/data/catalog/instrument_modes.csv": {
+      "name": "instrument_modes.csv",
+      "bytes": 1689,
+      "sha256": "31470ba1dbbcaa683b40361d7668215542785c18d3fbeb3f85a6e635758d5cf1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-physical-rates-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335912,
+      "sha256": "0c50733ea5abc9b4b6c9578b6e5e978d5a84b9fcbefc9d9e8a25a5376876226f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5127,
+      "sha256": "b9cd97cf1c76fdf213c9b9c6b4cb0ea1a1dea1b8cac077598bd27dec74bfd40a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/report.json": {
+      "name": "report.json",
+      "bytes": 45886,
+      "sha256": "115babb62242b67838d50ef2960ba2074aef87a50523bb66b869f9c7e2228200"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/input.nml": {
+      "name": "input.nml",
+      "bytes": 1139,
+      "sha256": "b698513cdba758b5883ad86e2dc1c87d97a07058ffa0ffa31d0f7d82b9a4b3f1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/abund.txt": {
+      "name": "abund.txt",
+      "bytes": 1104,
+      "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/angle_quadrature.txt": {
+      "name": "angle_quadrature.txt",
+      "bytes": 104,
+      "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/atmos_mesh.txt": {
+      "name": "atmos_mesh.txt",
+      "bytes": 928,
+      "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/convergence_report_000.txt": {
+      "name": "convergence_report_000.txt",
+      "bytes": 798,
+      "sha256": "95dbe946178a8464ec5761e0ecd20e07725a9502a5b466de4a63bc6cc6ad183e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/hash.log": {
+      "name": "hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/job.nml": {
+      "name": "job.nml",
+      "bytes": 8760,
+      "sha256": "f646fa7e9738d664620539218744e1780a3e5bfe728e04cc1b37634a0466d53d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/linelist_out.txt": {
+      "name": "linelist_out.txt",
+      "bytes": 27406,
+      "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "5b386342ae942531091c07fb08070ef55a8d4ef9ae4a0ef2acfded2d0bff3964"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.dbg": {
+      "name": "rank_00000.dbg",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.disp": {
+      "name": "rank_00000.disp",
+      "bytes": 179416,
+      "sha256": "81545c6eb00e2bec70d477255a7244c49fe84133b692b2ccf045e7e5932d5ac9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.dump": {
+      "name": "rank_00000.dump",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.log": {
+      "name": "rank_00000.log",
+      "bytes": 58991,
+      "sha256": "3f47be67e910e8188ce01b083acf81ee4381ee93d9419c2112f122c52a061a2c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.pdat": {
+      "name": "rank_00000.pdat",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.pinf": {
+      "name": "rank_00000.pinf",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.que": {
+      "name": "rank_00000.que",
+      "bytes": 1920,
+      "sha256": "a6c2073b68883a1fdb9db4cbca415bbb4a5d5a34a388e4477678e12d119342a8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/rank_00000.val": {
+      "name": "rank_00000.val",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001001001.bin": {
+      "name": "Jnu_001001001.bin",
+      "bytes": 163072,
+      "sha256": "4dfb83e006b2159e99e1d6480cb9761a997a22d23a2cc8d744881927e343abbf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001001002.bin": {
+      "name": "Jnu_001001002.bin",
+      "bytes": 163072,
+      "sha256": "4dfb83e006b2159e99e1d6480cb9761a997a22d23a2cc8d744881927e343abbf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001002001.bin": {
+      "name": "Jnu_001002001.bin",
+      "bytes": 163044,
+      "sha256": "79b51ce6f8094335643a026debf5ac28ebc5b55e915a409f024fb4687354b4db"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001002002.bin": {
+      "name": "Jnu_001002002.bin",
+      "bytes": 163044,
+      "sha256": "79b51ce6f8094335643a026debf5ac28ebc5b55e915a409f024fb4687354b4db"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001003001.bin": {
+      "name": "Jnu_001003001.bin",
+      "bytes": 7084,
+      "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001003002.bin": {
+      "name": "Jnu_001003002.bin",
+      "bytes": 7084,
+      "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001004001.bin": {
+      "name": "Jnu_001004001.bin",
+      "bytes": 7056,
+      "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_001004002.bin": {
+      "name": "Jnu_001004002.bin",
+      "bytes": 7056,
+      "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002001001.bin": {
+      "name": "Jnu_002001001.bin",
+      "bytes": 163072,
+      "sha256": "fa16ac9be096d493e9b3652ab4602d91bfd2253dd996f5808d9c24ea84d8db6b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002001002.bin": {
+      "name": "Jnu_002001002.bin",
+      "bytes": 163072,
+      "sha256": "fa16ac9be096d493e9b3652ab4602d91bfd2253dd996f5808d9c24ea84d8db6b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002002001.bin": {
+      "name": "Jnu_002002001.bin",
+      "bytes": 163044,
+      "sha256": "641e7cb55afe1a363fd743bc2fb55ca7a3cf06920e79a7120ce602c847aea76b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002002002.bin": {
+      "name": "Jnu_002002002.bin",
+      "bytes": 163044,
+      "sha256": "641e7cb55afe1a363fd743bc2fb55ca7a3cf06920e79a7120ce602c847aea76b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002003001.bin": {
+      "name": "Jnu_002003001.bin",
+      "bytes": 7084,
+      "sha256": "28c5e8037aa37d3e311b3823a368ca3a5fee3dee957af94fd7fede3f2836c83b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002003002.bin": {
+      "name": "Jnu_002003002.bin",
+      "bytes": 7084,
+      "sha256": "28c5e8037aa37d3e311b3823a368ca3a5fee3dee957af94fd7fede3f2836c83b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002004001.bin": {
+      "name": "Jnu_002004001.bin",
+      "bytes": 7056,
+      "sha256": "72a1a7e5a69875931e9e2ee6a43df4f47039018b93c8e207ff917474f7b58b2c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_002004002.bin": {
+      "name": "Jnu_002004002.bin",
+      "bytes": 7056,
+      "sha256": "72a1a7e5a69875931e9e2ee6a43df4f47039018b93c8e207ff917474f7b58b2c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003001001.bin": {
+      "name": "Jnu_003001001.bin",
+      "bytes": 163072,
+      "sha256": "1ef1e828cc6e8b38ead671fefd3befe14fa3b095328ff8c94416fa7fe0a34a30"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003001002.bin": {
+      "name": "Jnu_003001002.bin",
+      "bytes": 163072,
+      "sha256": "1ef1e828cc6e8b38ead671fefd3befe14fa3b095328ff8c94416fa7fe0a34a30"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003002001.bin": {
+      "name": "Jnu_003002001.bin",
+      "bytes": 163044,
+      "sha256": "5c2c34eb38f3d593c73e8c7221cc630e971be923dcc5ac143f4c799bee9405e5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003002002.bin": {
+      "name": "Jnu_003002002.bin",
+      "bytes": 163044,
+      "sha256": "5c2c34eb38f3d593c73e8c7221cc630e971be923dcc5ac143f4c799bee9405e5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003003001.bin": {
+      "name": "Jnu_003003001.bin",
+      "bytes": 7084,
+      "sha256": "5818ac6646513032c200ebf46917de963b0ac014d2c02b5bdb0c2b10eb3790f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003003002.bin": {
+      "name": "Jnu_003003002.bin",
+      "bytes": 7084,
+      "sha256": "5818ac6646513032c200ebf46917de963b0ac014d2c02b5bdb0c2b10eb3790f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003004001.bin": {
+      "name": "Jnu_003004001.bin",
+      "bytes": 7056,
+      "sha256": "f63ae10df5f322e496187fdf13a0ee8c6f3e6a8bc2f01a0d698076a06d730cb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_003004002.bin": {
+      "name": "Jnu_003004002.bin",
+      "bytes": 7056,
+      "sha256": "f63ae10df5f322e496187fdf13a0ee8c6f3e6a8bc2f01a0d698076a06d730cb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004001001.bin": {
+      "name": "Jnu_004001001.bin",
+      "bytes": 163072,
+      "sha256": "c083681f10e9d5ffb7eac503575e15bd5d0f417e5ed300c71ae8512aff5c0aca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004001002.bin": {
+      "name": "Jnu_004001002.bin",
+      "bytes": 163072,
+      "sha256": "c083681f10e9d5ffb7eac503575e15bd5d0f417e5ed300c71ae8512aff5c0aca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004002001.bin": {
+      "name": "Jnu_004002001.bin",
+      "bytes": 163044,
+      "sha256": "78dbfc02148d8faeae4b9e05dcb4c57a6d25af1c272cd75aecc2ceab3c7c8c56"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004002002.bin": {
+      "name": "Jnu_004002002.bin",
+      "bytes": 163044,
+      "sha256": "78dbfc02148d8faeae4b9e05dcb4c57a6d25af1c272cd75aecc2ceab3c7c8c56"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004003001.bin": {
+      "name": "Jnu_004003001.bin",
+      "bytes": 7084,
+      "sha256": "6c26051f07678494be6bee499306459612316e03fbc673ac19f7a4e071d8331c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004003002.bin": {
+      "name": "Jnu_004003002.bin",
+      "bytes": 7084,
+      "sha256": "6c26051f07678494be6bee499306459612316e03fbc673ac19f7a4e071d8331c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004004001.bin": {
+      "name": "Jnu_004004001.bin",
+      "bytes": 7056,
+      "sha256": "3461d863e9a26833be8f8b9d7a92b10f1b680bbcfd9353e184f34aaf122f2732"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_004004002.bin": {
+      "name": "Jnu_004004002.bin",
+      "bytes": 7056,
+      "sha256": "3461d863e9a26833be8f8b9d7a92b10f1b680bbcfd9353e184f34aaf122f2732"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005001001.bin": {
+      "name": "Jnu_005001001.bin",
+      "bytes": 163072,
+      "sha256": "76c023918d1ad2b2f989d22acb3088b0d4156fc78e158575876e30caeab03764"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005001002.bin": {
+      "name": "Jnu_005001002.bin",
+      "bytes": 163072,
+      "sha256": "76c023918d1ad2b2f989d22acb3088b0d4156fc78e158575876e30caeab03764"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005002001.bin": {
+      "name": "Jnu_005002001.bin",
+      "bytes": 163044,
+      "sha256": "d99a1f6b6d89f7e26d6670b10b6812df265323db86bb3d4cac4feb107b70d12e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005002002.bin": {
+      "name": "Jnu_005002002.bin",
+      "bytes": 163044,
+      "sha256": "d99a1f6b6d89f7e26d6670b10b6812df265323db86bb3d4cac4feb107b70d12e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005003001.bin": {
+      "name": "Jnu_005003001.bin",
+      "bytes": 7084,
+      "sha256": "2abf044d7716a3f0b2dda737397b14049a4b446491a271b7d904a8cf7a242640"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005003002.bin": {
+      "name": "Jnu_005003002.bin",
+      "bytes": 7084,
+      "sha256": "2abf044d7716a3f0b2dda737397b14049a4b446491a271b7d904a8cf7a242640"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005004001.bin": {
+      "name": "Jnu_005004001.bin",
+      "bytes": 7056,
+      "sha256": "9a878ec8c56a552ecbb3d3e050a0135ed0221e694cc01317fc6d79ecf594a5f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_005004002.bin": {
+      "name": "Jnu_005004002.bin",
+      "bytes": 7056,
+      "sha256": "9a878ec8c56a552ecbb3d3e050a0135ed0221e694cc01317fc6d79ecf594a5f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006001001.bin": {
+      "name": "Jnu_006001001.bin",
+      "bytes": 163072,
+      "sha256": "a5495ed610da3e2a0d529b4bd827eee2111ee141791b52e9497075a04071c500"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006001002.bin": {
+      "name": "Jnu_006001002.bin",
+      "bytes": 163072,
+      "sha256": "a5495ed610da3e2a0d529b4bd827eee2111ee141791b52e9497075a04071c500"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006002001.bin": {
+      "name": "Jnu_006002001.bin",
+      "bytes": 163044,
+      "sha256": "28b692083eaa1092838877e7e45e551492e193e7c5df8731ee92bda74f8aec4f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006002002.bin": {
+      "name": "Jnu_006002002.bin",
+      "bytes": 163044,
+      "sha256": "28b692083eaa1092838877e7e45e551492e193e7c5df8731ee92bda74f8aec4f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006003001.bin": {
+      "name": "Jnu_006003001.bin",
+      "bytes": 7084,
+      "sha256": "e197b8fb5d541849aac242d3e0ced04df57f18aebd9e28207c882eb6db311d68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006003002.bin": {
+      "name": "Jnu_006003002.bin",
+      "bytes": 7084,
+      "sha256": "e197b8fb5d541849aac242d3e0ced04df57f18aebd9e28207c882eb6db311d68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006004001.bin": {
+      "name": "Jnu_006004001.bin",
+      "bytes": 7056,
+      "sha256": "0895e38a5f795f296356a2c4490132fe5021e875ff3d4528cb2330ec7826ff96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_006004002.bin": {
+      "name": "Jnu_006004002.bin",
+      "bytes": 7056,
+      "sha256": "0895e38a5f795f296356a2c4490132fe5021e875ff3d4528cb2330ec7826ff96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007001001.bin": {
+      "name": "Jnu_007001001.bin",
+      "bytes": 163072,
+      "sha256": "0bfaa887ca2812e134ee54828fc3c9bf79f3718eabef43296b1bfc9f54df642e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007001002.bin": {
+      "name": "Jnu_007001002.bin",
+      "bytes": 163072,
+      "sha256": "0bfaa887ca2812e134ee54828fc3c9bf79f3718eabef43296b1bfc9f54df642e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007002001.bin": {
+      "name": "Jnu_007002001.bin",
+      "bytes": 163044,
+      "sha256": "67e3f27063e386b7a9eae80ffed5f3d9c2af71efbada2864a02002d9de98f556"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007002002.bin": {
+      "name": "Jnu_007002002.bin",
+      "bytes": 163044,
+      "sha256": "67e3f27063e386b7a9eae80ffed5f3d9c2af71efbada2864a02002d9de98f556"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007003001.bin": {
+      "name": "Jnu_007003001.bin",
+      "bytes": 7084,
+      "sha256": "79618e707f1e35f25d03f40c7402a09d469c0610aa130f3b1d83b7162df206dc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007003002.bin": {
+      "name": "Jnu_007003002.bin",
+      "bytes": 7084,
+      "sha256": "79618e707f1e35f25d03f40c7402a09d469c0610aa130f3b1d83b7162df206dc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007004001.bin": {
+      "name": "Jnu_007004001.bin",
+      "bytes": 7056,
+      "sha256": "991b8dfb335036d489ec40b7595eb0cec9f8c76743f4c7be55af0d9fe7a168c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_007004002.bin": {
+      "name": "Jnu_007004002.bin",
+      "bytes": 7056,
+      "sha256": "991b8dfb335036d489ec40b7595eb0cec9f8c76743f4c7be55af0d9fe7a168c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008001001.bin": {
+      "name": "Jnu_008001001.bin",
+      "bytes": 163072,
+      "sha256": "f95823addbddf6c4d7b243d093e8261fd3ec272fec64b31b279e5a6f0f3b2c4d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008001002.bin": {
+      "name": "Jnu_008001002.bin",
+      "bytes": 163072,
+      "sha256": "f95823addbddf6c4d7b243d093e8261fd3ec272fec64b31b279e5a6f0f3b2c4d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008002001.bin": {
+      "name": "Jnu_008002001.bin",
+      "bytes": 163044,
+      "sha256": "1208d11b1a7280c9fb3f2a088462c1224dc4f1dc70020a845a7b0a41816d7ac0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008002002.bin": {
+      "name": "Jnu_008002002.bin",
+      "bytes": 163044,
+      "sha256": "1208d11b1a7280c9fb3f2a088462c1224dc4f1dc70020a845a7b0a41816d7ac0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008003001.bin": {
+      "name": "Jnu_008003001.bin",
+      "bytes": 7084,
+      "sha256": "db9bcb10c1aaec33db7b4273098784f5a97ca72b12f8f5b9a7c88eae3d92d591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008003002.bin": {
+      "name": "Jnu_008003002.bin",
+      "bytes": 7084,
+      "sha256": "db9bcb10c1aaec33db7b4273098784f5a97ca72b12f8f5b9a7c88eae3d92d591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008004001.bin": {
+      "name": "Jnu_008004001.bin",
+      "bytes": 7056,
+      "sha256": "5dec95d8bef52f200f65ce26baf953e4e0283e0b960243c9c2918cf8fda3ce86"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_008004002.bin": {
+      "name": "Jnu_008004002.bin",
+      "bytes": 7056,
+      "sha256": "5dec95d8bef52f200f65ce26baf953e4e0283e0b960243c9c2918cf8fda3ce86"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/Jnu_meta.txt": {
+      "name": "Jnu_meta.txt",
+      "bytes": 72421,
+      "sha256": "e5788f50b4dcc5cc1e73de845849125e8bea0452a2a03f315787aae30047d627"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/O_c_008000.bin": {
+      "name": "O_c_008000.bin",
+      "bytes": 6724,
+      "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/O_c_meta.txt": {
+      "name": "O_c_meta.txt",
+      "bytes": 94,
+      "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/O_w_008000.bin": {
+      "name": "O_w_008000.bin",
+      "bytes": 6724,
+      "sha256": "d9b0527bbb086c4ceee3090019a8b2091d6781dca46ecfbeeee2e49f0793e449"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/O_w_meta.txt": {
+      "name": "O_w_meta.txt",
+      "bytes": 94,
+      "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_001000.bin": {
+      "name": "atmos_001000.bin",
+      "bytes": 392,
+      "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_002000.bin": {
+      "name": "atmos_002000.bin",
+      "bytes": 392,
+      "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_003000.bin": {
+      "name": "atmos_003000.bin",
+      "bytes": 392,
+      "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_004000.bin": {
+      "name": "atmos_004000.bin",
+      "bytes": 392,
+      "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_005000.bin": {
+      "name": "atmos_005000.bin",
+      "bytes": 392,
+      "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_006000.bin": {
+      "name": "atmos_006000.bin",
+      "bytes": 392,
+      "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_007000.bin": {
+      "name": "atmos_007000.bin",
+      "bytes": 392,
+      "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_008000.bin": {
+      "name": "atmos_008000.bin",
+      "bytes": 392,
+      "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/atmos_meta.txt": {
+      "name": "atmos_meta.txt",
+      "bytes": 733,
+      "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/bb_lam.bin": {
+      "name": "bb_lam.bin",
+      "bytes": 93176,
+      "sha256": "94b1f781800b60245a44450763b70e533f6d6a8536d37837819932b2f50c046e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/bf_lam.bin": {
+      "name": "bf_lam.bin",
+      "bytes": 4040,
+      "sha256": "89e6e52ba53252a92f43c8c86302d0b61b92236252dc7fab79bcfa6778d9c3d4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_001000.bin": {
+      "name": "cij_001000.bin",
+      "bytes": 28,
+      "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_002000.bin": {
+      "name": "cij_002000.bin",
+      "bytes": 28,
+      "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_003000.bin": {
+      "name": "cij_003000.bin",
+      "bytes": 28,
+      "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_004000.bin": {
+      "name": "cij_004000.bin",
+      "bytes": 28,
+      "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_005000.bin": {
+      "name": "cij_005000.bin",
+      "bytes": 28,
+      "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_006000.bin": {
+      "name": "cij_006000.bin",
+      "bytes": 28,
+      "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_007000.bin": {
+      "name": "cij_007000.bin",
+      "bytes": 28,
+      "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_008000.bin": {
+      "name": "cij_008000.bin",
+      "bytes": 28,
+      "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cij_meta.txt": {
+      "name": "cij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_001000.bin": {
+      "name": "cji_001000.bin",
+      "bytes": 28,
+      "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_002000.bin": {
+      "name": "cji_002000.bin",
+      "bytes": 28,
+      "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_003000.bin": {
+      "name": "cji_003000.bin",
+      "bytes": 28,
+      "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_004000.bin": {
+      "name": "cji_004000.bin",
+      "bytes": 28,
+      "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_005000.bin": {
+      "name": "cji_005000.bin",
+      "bytes": 28,
+      "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_006000.bin": {
+      "name": "cji_006000.bin",
+      "bytes": 28,
+      "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_007000.bin": {
+      "name": "cji_007000.bin",
+      "bytes": 28,
+      "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_008000.bin": {
+      "name": "cji_008000.bin",
+      "bytes": 28,
+      "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/cji_meta.txt": {
+      "name": "cji_meta.txt",
+      "bytes": 7005,
+      "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_001000.bin": {
+      "name": "eos_001000.bin",
+      "bytes": 56,
+      "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_002000.bin": {
+      "name": "eos_002000.bin",
+      "bytes": 56,
+      "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_003000.bin": {
+      "name": "eos_003000.bin",
+      "bytes": 56,
+      "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_004000.bin": {
+      "name": "eos_004000.bin",
+      "bytes": 56,
+      "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_005000.bin": {
+      "name": "eos_005000.bin",
+      "bytes": 56,
+      "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_006000.bin": {
+      "name": "eos_006000.bin",
+      "bytes": 56,
+      "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_007000.bin": {
+      "name": "eos_007000.bin",
+      "bytes": 56,
+      "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_008000.bin": {
+      "name": "eos_008000.bin",
+      "bytes": 56,
+      "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/eos_meta.txt": {
+      "name": "eos_meta.txt",
+      "bytes": 653,
+      "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/flux_008001.bin": {
+      "name": "flux_008001.bin",
+      "bytes": 19476,
+      "sha256": "a43e190a5fbb84c80449ff115bc5aa18b3e4628df3ced6a13d347243a390b41e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/flux_008002.bin": {
+      "name": "flux_008002.bin",
+      "bytes": 19476,
+      "sha256": "5808d1b9d22937a15ad584c51dfc23566e5580b413d6536568294403c05faeb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/flux_meta.txt": {
+      "name": "flux_meta.txt",
+      "bytes": 211,
+      "sha256": "a51bfbaffb444882977db7d43c398dde8678475ee1c741116f921ca74bacce78"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/ie_008001.bin": {
+      "name": "ie_008001.bin",
+      "bytes": 19476,
+      "sha256": "fbb0b77b7bb1bbe4811e101d9538dbeb3ec971035f3d08c143f374ed7a98356d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/ie_008002.bin": {
+      "name": "ie_008002.bin",
+      "bytes": 19476,
+      "sha256": "c5336671ecf3e6ecd04e6b2453ec0d2c8b00669aea3777c3c7b30a5bbbcfdef2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/ie_meta.txt": {
+      "name": "ie_meta.txt",
+      "bytes": 211,
+      "sha256": "c6088b19507dec0c646c0afdb4e012f56c8062ce7a8617e373464b7feb0defa6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/out_lam.bin": {
+      "name": "out_lam.bin",
+      "bytes": 25968,
+      "sha256": "0be17eac31a82b66c7dad2eda074c31db2a8c9c497c9fcd5a16958183d73711c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_001000.bin": {
+      "name": "pop_O_001000.bin",
+      "bytes": 2296,
+      "sha256": "1bc444314fcdd9b538c85e866fb51efc409ead30d78d9f74e676e42d5e20da92"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_002000.bin": {
+      "name": "pop_O_002000.bin",
+      "bytes": 2296,
+      "sha256": "f0be4d423c94cca0c2458bdf5ea30d554bc0625fca42d4e64a100e2e2563a908"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_003000.bin": {
+      "name": "pop_O_003000.bin",
+      "bytes": 2296,
+      "sha256": "437c83fa331eec8c31853c97806f466a9c39ee002189909573f6e22e9d1d75de"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_004000.bin": {
+      "name": "pop_O_004000.bin",
+      "bytes": 2296,
+      "sha256": "69a04d56b6c59fdf1fbc5431b088c5a9f3511f44cb2d9cd4525a4930de16ff1e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_005000.bin": {
+      "name": "pop_O_005000.bin",
+      "bytes": 2296,
+      "sha256": "309fad5af5003e4f3b6447b15c23354c3192b6c0cbfbff25724689f2f3b32f51"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_006000.bin": {
+      "name": "pop_O_006000.bin",
+      "bytes": 2296,
+      "sha256": "bca8715e00f632974a4a790ac3149430c2777bb3e5da25fda361325fdab9d8de"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_007000.bin": {
+      "name": "pop_O_007000.bin",
+      "bytes": 2296,
+      "sha256": "1d365ab2cdc26e2dd667e23f59de93bf37bd3d344e60c47eb88d31e4d9211310"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_008000.bin": {
+      "name": "pop_O_008000.bin",
+      "bytes": 2296,
+      "sha256": "6c129d625f89998c089694cee189f81ec2ae2205f7812d94c38d69bd1d002fbe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/pop_O_meta.txt": {
+      "name": "pop_O_meta.txt",
+      "bytes": 813,
+      "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "86da083cb04b7b311748394e86e32038efe575e062da219be93496b3aa960220"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "9c5820f35cdfa08f8e3c5fda210ea5be9a69a0ef86f1f5f33b8eef5102092006"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "5fcc08670440047018bf19e3e936c131f8481f3ffa770509fe4a9c16e8b44591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "53550e3cf9c97e0fe5c504b21bb0229c2b20c21217a5b016562aeed9843acdcc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "f962ad4238a7ca3dddd95aae2d2b0477d9bdc58f8a3460c21895489f00025232"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "db0b7f466bc15d85e5d709d98c609b1ed595a35b693dfe5049421175312e0dd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "5515d6bb54f90a79bc33f933cf33ea8f39ec050fdb6b58a2756ebbc58b8fa364"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "0c97f75c82ddce4293cf5f255e3356418bf38ef6c5fdb37785c90e5f89d55c00"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_001000.bin": {
+      "name": "rij_001000.bin",
+      "bytes": 28,
+      "sha256": "eb59f276e802db45df5d3b07390364ca020078d4ffa953fd5bf9748d64852200"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_002000.bin": {
+      "name": "rij_002000.bin",
+      "bytes": 28,
+      "sha256": "5ddddf3638a4608235f8b8fd92c6fec259e503f65593277bb6049de4357c5f9d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_003000.bin": {
+      "name": "rij_003000.bin",
+      "bytes": 28,
+      "sha256": "177c1c4760bf8b7f6f9bc0671c64b06a01ba9e318112325008f3b9a731de37d8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_004000.bin": {
+      "name": "rij_004000.bin",
+      "bytes": 28,
+      "sha256": "8053688b8ba730e46aba0645ee009b107097250636a0f69b271e424a73ac70c0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_005000.bin": {
+      "name": "rij_005000.bin",
+      "bytes": 28,
+      "sha256": "1503f5da5808d7df9e2bb67b656c5020141fa51c80f2ea877c199dbdcca04bfe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_006000.bin": {
+      "name": "rij_006000.bin",
+      "bytes": 28,
+      "sha256": "898b42a4a14cbb10d2a830c2bcb829b525aeff40c14c5c692e5ef35de1c84f9e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_007000.bin": {
+      "name": "rij_007000.bin",
+      "bytes": 28,
+      "sha256": "31647bf7ae9c82724401855261d6850ecedabd9b5e89a8b8f7cf4709bad969c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_008000.bin": {
+      "name": "rij_008000.bin",
+      "bytes": 28,
+      "sha256": "f6f1d3ba3a2debac2874aca0dba8ba518300540505ff2ccf97a92540931642d4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rij_meta.txt": {
+      "name": "rij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_001000.bin": {
+      "name": "rji_001000.bin",
+      "bytes": 28,
+      "sha256": "31204794ace98e1fb8cceef331952adec816390fd2cd0b8be7d12e6ee7768d4c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_002000.bin": {
+      "name": "rji_002000.bin",
+      "bytes": 28,
+      "sha256": "a8c8f10cefb62edfd4654ee435c3d56e776628c8e8185e8348ebfcce2b1f0ce0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_003000.bin": {
+      "name": "rji_003000.bin",
+      "bytes": 28,
+      "sha256": "838a02707889e59251a1ed51103a4cb8605a83332f119d1a9c8c047b2cfdedfb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_004000.bin": {
+      "name": "rji_004000.bin",
+      "bytes": 28,
+      "sha256": "7213f2d6e6669fb129f5bdba68b9024a7412ac6142dde70593b85d124e2b3f7a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_005000.bin": {
+      "name": "rji_005000.bin",
+      "bytes": 28,
+      "sha256": "be9d3960d6690411c38d2fe8aca03aec8b13ed50c537fa6ca51072f0a406f7ae"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_006000.bin": {
+      "name": "rji_006000.bin",
+      "bytes": 28,
+      "sha256": "c5acf070c645af7212110c631c945c18c7f9246d47af35bd02fed9f9441c970b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_007000.bin": {
+      "name": "rji_007000.bin",
+      "bytes": 28,
+      "sha256": "3b91ece9bfda3effadf72366674f7b9ed8814ed7220c401eee63f5404807cbb8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_008000.bin": {
+      "name": "rji_008000.bin",
+      "bytes": 28,
+      "sha256": "d4503e86f8013cdba1bb828a5fdde56a69e8187a7e36df2c28d069962becc16a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/save/rji_meta.txt": {
+      "name": "rji_meta.txt",
+      "bytes": 7005,
+      "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native/sets.txt": {
+      "name": "sets.txt",
+      "bytes": 135,
+      "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/native.log": {
+      "name": "native.log",
+      "bytes": 3302,
+      "sha256": "1ee1be20dadd2e4746f4dae6893b460ced15b4da6cfd9ee5ba86827db6a57b22"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/output_wavelengths_vac_A.txt": {
+      "name": "output_wavelengths_vac_A.txt",
+      "bytes": 61391,
+      "sha256": "2375d98acb1de2672f8320f73b2bc0b41e990b783935d56230becd165e844313"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-v1/rank.lock": {
+      "name": "rank.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_openmulti3d_oxygen_accurate_profile.json": {
+      "name": "rya1371_openmulti3d_oxygen_accurate_profile.json",
+      "bytes": 3348,
+      "sha256": "31404ca26e6076f48e42ded7d6cc02a8c78fe56fed83e7c3e24238b4c6b59325"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_openmulti3d_oxygen_catalog_edges.json": {
+      "name": "rya1371_openmulti3d_oxygen_catalog_edges.json",
+      "bytes": 2107,
+      "sha256": "62d421361b75f4279f8f5ad76e0bcb67c24702d6ff160420964363eb0ecd6129"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-catalog-edges-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 107249,
+      "sha256": "8a793630b112c0351b23162cde6ae53555659a37a6b2dad43ebdd3d72dac64fd"
+    }
+  },
+  "instruments": 27,
+  "modes": 11,
+  "rows": 38,
+  "catalog_target_nm": [
+    90.0,
+    5500.0
+  ],
+  "internal_SE_grid_nm": [
+    90.0064,
+    6876.574194445666
+  ],
+  "old_diagnostic_windows_air_A": [
+    [
+      6154,
+      6162
+    ],
+    [
+      6298,
+      6303
+    ],
+    [
+      6361,
+      6366
+    ],
+    [
+      7770,
+      7777
+    ],
+    [
+      8443,
+      8449
+    ]
+  ],
+  "new_numerical_probe_windows_vac_nm": [
+    [
+      90.0,
+      90.02
+    ],
+    [
+      130.15,
+      130.25
+    ],
+    [
+      1128.8,
+      1129.3
+    ],
+    [
+      3098.2,
+      3099.0
+    ],
+    [
+      5499.8,
+      5500.0
+    ]
+  ],
+  "probe_points": 3246,
+  "probe_air_unsupported_samples": 242,
+  "source_BB_lines": 256,
+  "source_BF_continua": 22,
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "requirements": [
+    "Target all registered instruments and modes; regenerate as catalog expands.",
+    "Keep sparse SE support, numerical forward output, full-band synthesis and independent validation distinct.",
+    "Per-product gaps, wavelength/velocity frame, intensity/flux, LSF/R, continuum/tellurics and model/atom/molecular applicability must qualify separately.",
+    "Catalog metadata dates/statuses remain inherited, not freshly verified manufacturer capabilities. Rejected entries are not re-enabled.",
+    "Current O41 photospheric diagnostic is not universal UV/chromosphere/molecular/3D physics; no silent fallback or production admission."
+  ]
+}

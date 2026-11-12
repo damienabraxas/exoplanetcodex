@@ -27,7 +27,11 @@ def main():
     p.add_argument('--execute',action='store_true');a=p.parse_args()
     if platform.system()!='Darwin'or os.environ.get('OMP_NUM_THREADS')!='1':raise ValueError('Mac-only one-thread observer')
     plan=json.loads(a.plan.read_text());app,exe,engine=verify(a.source,a.build)
-    if plan!=json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_accurate_profile.json').read_text()):raise ValueError('Observer requires unchanged qualified reference plan')
+    from pipeline.native_reference_controls import validate_observer_plan
+    if plan['controls'].get('decouple_continuum')is False:
+        from pipeline.native_reference_controls import validate_shared_radiation_plan
+        validate_shared_radiation_plan(plan,json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_frequency4_accurate.json').read_text()))
+    else:validate_observer_plan(plan,json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_accurate_profile.json').read_text()))
     inputs=prepare_run(plan,a.output,app,resolver=require_codex_path)
     report=dict(generator=fingerprint(__file__),plan=fingerprint(a.plan),engine=engine,inputs=inputs,purpose='stage-matched-physical-rate-observer',scientific_admission='HOLD',computational_completed=False,dry_run=not a.execute)
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
