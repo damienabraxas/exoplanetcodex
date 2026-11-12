@@ -1051,8 +1051,11 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     for _n in _nlte:
         rows.append({"kind": "nlte_scoped", "name": f"{_n.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_n, "wave_A", lo, hi)})
-    for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
-                   ROOT / "data" / "catalog" / "instrument_catalog.csv"):
+    # RYA-728: the model registry SCOPED to the rows that can emit a product (a stored token).
+    # Hashed whole, a note on the in-dev Bride row (RYA-1278) re-ran every cell of every element.
+    rows.append({"kind": "ledger_scoped", "name": f"{MODEL_REGISTRY.relative_to(ROOT)}[emitting]",
+                 "digest": model_registry_fingerprint()})
+    for ledger in (HOLDINGS_REGISTRY, ROOT / "data" / "catalog" / "instrument_catalog.csv"):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     # RYA-1250: the cull registry, SCOPED like canonical_gf. Hashed whole, culling one Mg K
@@ -1063,6 +1066,24 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
 
 
 PROBLEM_CHILDREN = ROOT / "data" / "registry" / "problem_children.csv"
+
+
+def model_registry_fingerprint(path: Path | None = None, text: str | None = None) -> str:
+    """sha256 over every column of the model-registry rows that carry a stored_token.
+
+    A row with no token (in-dev, not-emitted) can produce no product, so editing it cannot
+    change any cell; a row gaining a token enters the hash and re-runs what it touches.
+    `text` lets a record be re-derived from the registry as it stood at its own commit."""
+    import csv as _csv
+    import io as _io
+    if text is None:
+        path = path or MODEL_REGISTRY
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError as exc:
+            return f"ABSENT:{type(exc).__name__}"
+    rows = [r for r in _csv.DictReader(_io.StringIO(text)) if (r.get("stored_token") or "").strip()]
+    return hashlib.sha256(json.dumps(rows, sort_keys=True).encode()).hexdigest()
 
 
 def registry_fingerprint(lo: float, hi: float, path: Path = PROBLEM_CHILDREN) -> str:
