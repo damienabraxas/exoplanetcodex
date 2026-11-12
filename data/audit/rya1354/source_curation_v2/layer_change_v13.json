@@ -1,0 +1,67 @@
+{
+  "schema": "rya1354.layer-change-diagnostic.v13",
+  "components": [
+    {
+      "lower_J": 0,
+      "native_energy_cubed_ratio": 0.9563830839168027,
+      "gauges": {
+        "B": {
+          "A_ratio": 0.9905842687389499,
+          "native_strength_ratio": 1.0357621360764517
+        },
+        "C": {
+          "A_ratio": 0.9059403549113274,
+          "native_strength_ratio": 0.9472577940854858
+        }
+      }
+    },
+    {
+      "lower_J": 1,
+      "native_energy_cubed_ratio": 0.9564836867889273,
+      "gauges": {
+        "B": {
+          "A_ratio": 0.9908180480275673,
+          "native_strength_ratio": 1.0358952033357072
+        },
+        "C": {
+          "A_ratio": 0.9062534394834354,
+          "native_strength_ratio": 0.9474858721214363
+        }
+      }
+    },
+    {
+      "lower_J": 2,
+      "native_energy_cubed_ratio": 0.9566905248742028,
+      "gauges": {
+        "B": {
+          "A_ratio": 0.9912921480078977,
+          "native_strength_ratio": 1.036166760597552
+        },
+        "C": {
+          "A_ratio": 0.906909631508182,
+          "native_strength_ratio": 0.947962133665892
+        }
+      }
+    }
+  ],
+  "previous_model": "Core-adapted n3 full2s-SD/DC",
+  "current_model": "Frozen-prior-layer n4 full2s-SD/DC",
+  "lifetimes_ns": {
+    "B": {
+      "n3": 2.3809110417775106,
+      "frozen_n4": 2.402393349410827
+    },
+    "C": {
+      "n3": 1.5233781747964377,
+      "frozen_n4": 1.6803476177190935
+    }
+  },
+  "scope": "THEORY_TO_THEORY_E1_DECOMPOSITION_ONLY_NO_OBSERVED_ENERGY_SUBSTITUTION",
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "caveat": "Changes include enlarged CSF space and optimized outer-layer functions; not a single-cause attribution or calibrated convergence error.",
+  "generator_sha256": "ca45c22f61e7b24f06f5cfa4dbc78558401c929f1d389ed9214278daf358b392"
+}
