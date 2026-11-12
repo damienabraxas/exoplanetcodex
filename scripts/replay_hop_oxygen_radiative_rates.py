@@ -79,7 +79,24 @@ def main():
     native_n=np.concatenate([x['populations_cm3']for x in parts],axis=1)[:,::-1]*1e6;native_s=np.concatenate([x['nstar_cm3']for x in parts],axis=1)[:,::-1]*1e6
     np.testing.assert_array_equal(native_n,pop);np.testing.assert_array_equal(native_s,star)
     foreign_R=np.concatenate([x['radiative_rates_s_inv']for x in parts],axis=2)[:,:,::-1];foreign_C=np.concatenate([x['collision_rates_s_inv']for x in parts],axis=2)[:,:,::-1]
+    physical_control=plan.get('native_physical_control')
+    if physical_control is not None:
+        directory=require_codex_path(physical_control['resource'])
+        for name in ['report.json','rates.npz']:
+            path=directory/name
+            if fingerprint(path)!=physical_control[name]:raise ValueError('Changed native physical-rate control')
+            checks[str(path)]=physical_control[name]
+        physical_report=json.loads((directory/'report.json').read_text())
+        if not physical_report['computational_completed']or physical_report['original_binary_files_bit_identical']!=145:raise ValueError('Unqualified native observer')
+        if physical_report['inputs'].get(str(native_report))!=fingerprint(native_report):raise ValueError('Observer has wrong native baseline')
+        with np.load(directory/'rates.npz')as d:
+            np.testing.assert_array_equal(d['post'][:,::-1]*1e6,pop)
+            np.testing.assert_array_equal(d['star'][:,::-1]*1e6,star)
+            pop=d['n'][:,::-1].copy()*1e6
+            foreign_R=d['R'][:,:,::-1].copy();foreign_C=d['C'][:,:,::-1].copy()
+        native_seed=pop.copy()
     report=dict(generator=fingerprint(__file__),inputs=checks,scientific_admission='HOLD',computational_completed=False,scope=plan['scope'],source_atom=preflight,boundary_control=boundary_mode,native_rate_semantics='Saved native coefficients contain SE preconditioning; individual up/down values are not gross Einstein rates. Net-flow interpretation additionally requires the native linearization population. Fresh unpreconditioned native-field replay remains owed.')
+    if physical_control is not None:report['native_rate_semantics']='Unpreconditioned physical rate integrals at exact PRE-update radiation populations; source FP32 contributions summed in FP64, normalized with source profile/LTE factors. Not a post-update fresh native formal solve.'
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n');ctx=None
     try:
         ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=np.array([500.,845.]),formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary)
@@ -106,10 +123,18 @@ def main():
             ranking.append(dict(partner_1based=int(partner+1),kind='BB'if atom.level(lo+1).stage==atom.level(hi+1).stage else'BF',energy_gap_vac_A=1e8/gap,net_flow_difference_m3_s=float(contributions[partner]),native_effective_up_s_inv=float(foreign_R[hi,lo,depth]),replay_physical_up_s_inv=float(own_R[hi,lo,depth]),native_effective_down_s_inv=float(foreign_R[lo,hi,depth]),replay_physical_down_s_inv=float(own_R[lo,hi,depth])))
         from pipeline.rate_semantics import gross_rate_relative_difference
         checks[str(ROOT/'pipeline/rate_semantics.py')]=fingerprint(ROOT/'pipeline/rate_semantics.py')
-        try:gross_rate_relative_difference(foreign_R,own_R,reference_semantics='native-preconditioned-effective',replay_semantics='physical-gross')
-        except ValueError as error:comparison_refusal=str(error)
-        else:raise ValueError('Mixed rate semantics were incorrectly accepted')
+        if physical_control is not None:
+            comparison=gross_rate_relative_difference(foreign_R,own_R,reference_semantics='physical-gross',replay_semantics='physical-gross')
+            comparison_refusal=None
+            for row in ranking:
+                for direction in ['up','down']:row['native_physical_'+direction+'_s_inv']=row.pop('native_effective_'+direction+'_s_inv')
+        else:
+            comparison=None
+            try:gross_rate_relative_difference(foreign_R,own_R,reference_semantics='native-preconditioned-effective',replay_semantics='physical-gross')
+            except ValueError as error:comparison_refusal=str(error)
+            else:raise ValueError('Mixed rate semantics were incorrectly accepted')
         report.update(computational_completed=True,radiation=radiation,context_audit=audit,native_saved_effective_rate_residual=native_res,matched_population_replay_physical_residual=own_res,positive_directional_pairs=int(native_pairs.sum()),gross_coefficient_comparison_refused=comparison_refusal,focus=dict(level_1based=focus+1,depth=depth,temperature_K=float(state['temperature_K'][depth]),native_net_m3_s=float(native_net[focus,depth]),replay_net_m3_s=float(own_net[focus,depth]),ranked_partner_flow_changes=ranking))
+        if physical_control is not None:report['native_physical_rate_residual']=report.pop('native_saved_effective_rate_residual');report['gross_rate_relative_difference']=comparison
         np.savez_compressed(a.output/'rates.npz',native_R_s_inv=foreign_R,replay_R_s_inv=own_R,native_C_s_inv=foreign_C,replay_C_s_inv=active.C.copy(),populations=pop,nstar=star,wave_vac_nm=np.array(ctx.spect.wavelength),Jnu=np.array(ctx.spect.J))
     except (ValueError,RuntimeError,TimeoutError)as error:report['error']=str(error)
     finally:

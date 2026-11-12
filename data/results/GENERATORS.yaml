@@ -32501,3 +32501,59 @@ artifacts:
     generator: scripts/replay_hop_oxygen_radiative_rates.py
     ticket: RYA-1371
     note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_gross_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-hop-native-physical-rates-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-hop-native-physical-rates-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-hop-native-physical-rates-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-analysis-v1/rates.npz
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-analysis-v1/report.json
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-build-v1/build.log
+    generator: scripts/build_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-build-v1/manifest.json
+    generator: scripts/build_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-build-v1/receipt.json
+    generator: scripts/build_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-observer-v1/input.nml
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-observer-v1/manifest.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-observer-v1/native.log
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-observer-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/native_gross_v1/rya1371-native-gross-observer-v1/report.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.

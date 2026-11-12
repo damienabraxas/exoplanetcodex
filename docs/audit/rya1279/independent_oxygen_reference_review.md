@@ -1205,3 +1205,88 @@ Final v274 archive verification:23 groups/3077 raw receipts/406 compact copies;
 all SHA256/byte counts and compact identities pass. Register pointer passes;
 path register164 present/18 pre-existing broken. Result-generator diagnostic set
 is identical to baseline5120 violations; no global green claim. Staged diff check passes.
+
+
+## v275 — stage-matched physical native rate observer (2026-11-11)
+
+Worktree codex/rya1371, branch ryandamienschmitt/rya-1371-oxygen-reference-provider,
+base fb5a7f85; fetched origin/main remains45901e76. No other worker changes present.
+Mac-only one-thread source-derived numerical observer, no source/default/gold/product
+or scientific admission change. Scientific HOLD remains; N697/missing engine-B atom
+debt unchanged. Empty C/O debt cells do not imply scientific completion.
+
+New isolated source patch repeats ONLY BB/BF rate integration against the existing
+formal radiation field, using an optional LOCAL no-preconditioning argument. Solver
+rate accumulators are saved/restored exactly. Original radiation/populations/opacities,
+global preconditioning, maxiter1500/rtol1e-6/600s controls and Ng are untouched.
+Additional sidecars capture the exact radiation-population stage, source normalization,
+thermal/deviation BB integrals and BF integrals before the SE population step.
+Pinned source32085d26c46e9919a986397b5514a9728abe2074 plus existing accurate-profile
+patch. GPL notices preserved, original installed/reference tree unchanged.
+
+Private build93.761s; source/input/executable/HOP/diff and patch receipts preserved.
+Native run9.276s, every one of145 ORIGINAL saved binary outputs byte-identical to
+qualified accurate-profile baseline (including final n/nStar/rates/spectra).104 gross
+and104 population-state sidecars retained raw. Final8 slabs cover all41levels/56depths;
+192 rate-integration contributions reconstructed at the final radiation sweep.
+Native RT sweep12 feeds SE population update13, not sweep13. Initial new analysis
+requested the nonexistent sweep13 sidecar and failed FileNotFoundError BEFORE any
+measurement/output; corrected to explicit source-stage mapping, additionally requiring
+exact bit identity of n/nStar in every contribution. No nearest-stage substitution.
+No failed-state/source snapshot is claimed for that initial exploratory reader.
+
+Independent reader sums native FP32 contributions in FP64 (not an exact native
+accumulator-rounding-order replay), applies actual profile normalization and BB
+statistical-weight/nStar thermal/deviation conversion. BF downward factors use actual
+nStar ratio. Inactive sentinels, negative/nonfinite physical rates, invalid axes/maps,
+truncation, trailing state bytes and mismatched population stages refuse.
+
+Native physical R+C residual at the EXACT PRE-update radiation population:
+7.58259721e-8. Following native population update changes populations by at most
+5.60163388e-7. This is now genuine unpreconditioned physical-rate evidence, distinct
+from the historical effective SE coefficients. It is NOT a fresh additional native
+formal solution at the POST-update population. Native physical atomic data, boundary
+and LTE conventions are still not independently validated by numerical closure.
+
+Exact-state Bride replay with source ghost geometry:2.232s, fixed native PRE-update
+n/nStar, no SE step; own physical residual.003179595408. Native physical residual in
+the same replay7.582597216e-8. Gross physical directional rate graph/support agrees.
+Largest relative individual rate contrast.04242321193 (4.2423percent), upward level2
+→19 at second outer depth: native1.36935577584e-13/s, replay1.31126330556e-13/s.
+This is an extremely weak pair, not the largest population/abundance effect.
+Largest normalized difference in net flow is at level13/outermost depth (~.003180).
+At inherited level7/top focus, net-flow contrasts are driven by1302/1304/1306A links
+and the8448.568A vacuum component. Those now have physically comparable coefficients;
+we no longer attribute meaning to mixed effective/gross individual ratios.
+No fitted wavelength, continuum, abundance, energy or atmosphere adjustment.
+
+55focused tests pass (previous52 plus thermal/BF normalization, truncated export and
+stage/population canaries). Archive native_gross_v1:397raw receipts/13compact copies.
+Standing bibliography audit remains83 pre-existing unindexed documents; no new
+literature adoption/download. Initial stage reader refusal disclosed above; no new
+production bug or silent scientific fallback discovered, no new bug-ledger row.
+
+Exact reproduction, after `source config/hosts/mac.env`, with OMP_NUM_THREADS=1 and
+OPENBLAS_NUM_THREADS=1. Project Python=/Users/ryanschmitt/codex/venv/bin/python;
+LW Python=/Users/ryanschmitt/bride_rya1118/.venv/bin/python. Fresh output paths required:
+
+```text
+PROJECT scripts/build_native_gross_rates.py --source /Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-gross-rates-v1 --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-build-v1
+PROJECT scripts/run_native_gross_rates.py --source /Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-gross-rates-v1 --build /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-build-v1 --plan config/experiments/rya1371_openmulti3d_oxygen_accurate_profile.json --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1 --execute
+LW scripts/analyze_native_gross_rates.py --source /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1 --baseline /Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1 --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-analysis-v1
+LW scripts/replay_hop_oxygen_radiative_rates.py --plan config/experiments/rya1371_hop_native_physical_rates.json --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-physical-rates-v1
+PROJECT scripts/archive_oxygen_reference_checks.py --native-gross-supplement --raw-root /Users/ryanschmitt/codex/bride_mac_checks --output data/results/rya1371/native_gross_v1
+```
+
+Next: partition the actual physical-rate/net-flow discrepancies by transition/depth
+and isolate profile/LTE constants, cell-interface transfer and UV/BF contributions.
+Then canonical-Sun intensity/flux and independently sourced observed Oxygen benchmarks
+with ORCH continuum/telluric handling. Prior coupled/restart milestone stands, no
+new coupled solve here. CNO→Fe/reference star/3D/all-band and1374 remain gated.
+
+Final v275 verification:24 archive groups/3474 raw receipts/419 compact byte-identical
+copies pass hash/size verification. Register pointer passes;165 registered paths
+present/18 pre-existing broken. Generator diagnostics exactly equal baseline5120.
+Full staged whitespace check reports only verbatim native.log trailing spaces and
+unified-patch blank context/EOF; source/log/patch bytes preserved, no guard changed.
+Handwritten code/config/docs whitespace check passes. No global-green claim.

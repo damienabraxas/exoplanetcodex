@@ -1,0 +1,3985 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 14545,
+    "sha256": "11b25b69c0a1a9a5b7e5c5455a7ab039cf776efaef33dbce61ab5702aa0188b4"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-build-v1/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 3482,
+        "sha256": "7d98034880a53ceea956143eaf534db1bc9c96aa84129f693733318db64c4e21"
+      },
+      "archived": "rya1371-native-gross-build-v1/build.log",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-build-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 1317,
+        "sha256": "76d0bc82c5ee3667fb30f10da117549ac250260799fb9c442f31147aeb492fd3"
+      },
+      "archived": "rya1371-native-gross-build-v1/manifest.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-build-v1/receipt.json",
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 2448,
+        "sha256": "d5d38fb846bb54da573c6878035e287522121766a98a2acd25ba2a41b5e79b21"
+      },
+      "archived": "rya1371-native-gross-build-v1/receipt.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/input.nml",
+      "receipt": {
+        "name": "input.nml",
+        "bytes": 1139,
+        "sha256": "096a7252b645f648d806607dc5a2c55d7d4a7c4a47ce5bd9e6c6ec544d6948e5"
+      },
+      "archived": "rya1371-native-gross-observer-v1/input.nml",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 3955,
+        "sha256": "0d9dc7bb216322506e8bb71d317a1a46d7b4bc09c039bf1b1a99368e23c3f2cb"
+      },
+      "archived": "rya1371-native-gross-observer-v1/manifest.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/abund.txt",
+      "receipt": {
+        "name": "abund.txt",
+        "bytes": 1104,
+        "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/angle_quadrature.txt",
+      "receipt": {
+        "name": "angle_quadrature.txt",
+        "bytes": 104,
+        "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/atmos_mesh.txt",
+      "receipt": {
+        "name": "atmos_mesh.txt",
+        "bytes": 928,
+        "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/atoms/O.txt",
+      "receipt": {
+        "name": "O.txt",
+        "bytes": 246913,
+        "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/convergence_report_000.txt",
+      "receipt": {
+        "name": "convergence_report_000.txt",
+        "bytes": 798,
+        "sha256": "8354fa9f5255028c0a0f54a2f7b6001d7482e26222a0648dd3bb6d3c9d7e5f09"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/hash.log",
+      "receipt": {
+        "name": "hash.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/job.nml",
+      "receipt": {
+        "name": "job.nml",
+        "bytes": 8760,
+        "sha256": "8b7ec2fe929c45b1cddc234a1ce2aa8cd7567a05ee8517c5460ff787965d5db3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/linelist_out.txt",
+      "receipt": {
+        "name": "linelist_out.txt",
+        "bytes": 27406,
+        "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/params.nml",
+      "receipt": {
+        "name": "params.nml",
+        "bytes": 81451,
+        "sha256": "0d2126ca40a56a7e1a1886570ecd7d309cd79c66e70bddd783efdfcb2a88d00f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.dbg",
+      "receipt": {
+        "name": "rank_00000.dbg",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.disp",
+      "receipt": {
+        "name": "rank_00000.disp",
+        "bytes": 179416,
+        "sha256": "44b2e7e4629b60c84a5039475ba1776e754bbe24575644832f384d53b66e6f27"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.dump",
+      "receipt": {
+        "name": "rank_00000.dump",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.log",
+      "receipt": {
+        "name": "rank_00000.log",
+        "bytes": 57807,
+        "sha256": "3002e07b4d68dca127f5f4b6de819f5ac094e30b159eb05c5a8dd315dd89aa21"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.pdat",
+      "receipt": {
+        "name": "rank_00000.pdat",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.pinf",
+      "receipt": {
+        "name": "rank_00000.pinf",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.que",
+      "receipt": {
+        "name": "rank_00000.que",
+        "bytes": 1920,
+        "sha256": "a6c2073b68883a1fdb9db4cbca415bbb4a5d5a34a388e4477678e12d119342a8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/rank_00000.val",
+      "receipt": {
+        "name": "rank_00000.val",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001001001.bin",
+      "receipt": {
+        "name": "Jnu_001001001.bin",
+        "bytes": 85008,
+        "sha256": "4c190b700826f062b9de7cde1751d29a22ac5f134bc7dcfffebcc8d2b53411b5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001001002.bin",
+      "receipt": {
+        "name": "Jnu_001001002.bin",
+        "bytes": 85008,
+        "sha256": "4c190b700826f062b9de7cde1751d29a22ac5f134bc7dcfffebcc8d2b53411b5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001002001.bin",
+      "receipt": {
+        "name": "Jnu_001002001.bin",
+        "bytes": 85008,
+        "sha256": "60b5c456ed35054b616138d514ea665c98cb9b0a5884b7b5d8cd8ddf801b8b7f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001002002.bin",
+      "receipt": {
+        "name": "Jnu_001002002.bin",
+        "bytes": 85008,
+        "sha256": "60b5c456ed35054b616138d514ea665c98cb9b0a5884b7b5d8cd8ddf801b8b7f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001003001.bin",
+      "receipt": {
+        "name": "Jnu_001003001.bin",
+        "bytes": 7084,
+        "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001003002.bin",
+      "receipt": {
+        "name": "Jnu_001003002.bin",
+        "bytes": 7084,
+        "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001004001.bin",
+      "receipt": {
+        "name": "Jnu_001004001.bin",
+        "bytes": 7056,
+        "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_001004002.bin",
+      "receipt": {
+        "name": "Jnu_001004002.bin",
+        "bytes": 7056,
+        "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002001001.bin",
+      "receipt": {
+        "name": "Jnu_002001001.bin",
+        "bytes": 85008,
+        "sha256": "27bf469525a7c1c2901104670f5d80ff0548fb91832a8f1bbd2f0be944ae60ee"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002001002.bin",
+      "receipt": {
+        "name": "Jnu_002001002.bin",
+        "bytes": 85008,
+        "sha256": "27bf469525a7c1c2901104670f5d80ff0548fb91832a8f1bbd2f0be944ae60ee"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002002001.bin",
+      "receipt": {
+        "name": "Jnu_002002001.bin",
+        "bytes": 85008,
+        "sha256": "5d827810d95a1e1fcdda076e2eff0d4f879bcef5dd54de00184aa84d85b8d2cc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002002002.bin",
+      "receipt": {
+        "name": "Jnu_002002002.bin",
+        "bytes": 85008,
+        "sha256": "5d827810d95a1e1fcdda076e2eff0d4f879bcef5dd54de00184aa84d85b8d2cc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002003001.bin",
+      "receipt": {
+        "name": "Jnu_002003001.bin",
+        "bytes": 7084,
+        "sha256": "01e6b938cc3db1af37631339e814715b03cb2f9a4805bc7a53391bb63b2e09d2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002003002.bin",
+      "receipt": {
+        "name": "Jnu_002003002.bin",
+        "bytes": 7084,
+        "sha256": "01e6b938cc3db1af37631339e814715b03cb2f9a4805bc7a53391bb63b2e09d2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002004001.bin",
+      "receipt": {
+        "name": "Jnu_002004001.bin",
+        "bytes": 7056,
+        "sha256": "937dcb692a6b69a173c6cbc050e77897d0d32a4962d25e579a28ddc8e707d896"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_002004002.bin",
+      "receipt": {
+        "name": "Jnu_002004002.bin",
+        "bytes": 7056,
+        "sha256": "937dcb692a6b69a173c6cbc050e77897d0d32a4962d25e579a28ddc8e707d896"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003001001.bin",
+      "receipt": {
+        "name": "Jnu_003001001.bin",
+        "bytes": 85008,
+        "sha256": "cd0266f4b1e1bf4542fd766a49e2c1b3eddb586ed9fff2fefa9ff4d241b31b19"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003001002.bin",
+      "receipt": {
+        "name": "Jnu_003001002.bin",
+        "bytes": 85008,
+        "sha256": "cd0266f4b1e1bf4542fd766a49e2c1b3eddb586ed9fff2fefa9ff4d241b31b19"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003002001.bin",
+      "receipt": {
+        "name": "Jnu_003002001.bin",
+        "bytes": 85008,
+        "sha256": "6c9a1e13cefc413f7246fd6e5e51214cbeba45b53e64453f273a3a1b6a5e2d75"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003002002.bin",
+      "receipt": {
+        "name": "Jnu_003002002.bin",
+        "bytes": 85008,
+        "sha256": "6c9a1e13cefc413f7246fd6e5e51214cbeba45b53e64453f273a3a1b6a5e2d75"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003003001.bin",
+      "receipt": {
+        "name": "Jnu_003003001.bin",
+        "bytes": 7084,
+        "sha256": "2ddd2ea04741f477f45f03a9f49322ddd1db5b78ef9ecd5cc91d827d211ec39e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003003002.bin",
+      "receipt": {
+        "name": "Jnu_003003002.bin",
+        "bytes": 7084,
+        "sha256": "2ddd2ea04741f477f45f03a9f49322ddd1db5b78ef9ecd5cc91d827d211ec39e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003004001.bin",
+      "receipt": {
+        "name": "Jnu_003004001.bin",
+        "bytes": 7056,
+        "sha256": "38f128f4d0fb2fdf98a5690e46f4608e7794588ddb12f981cf61f999eafaeda0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_003004002.bin",
+      "receipt": {
+        "name": "Jnu_003004002.bin",
+        "bytes": 7056,
+        "sha256": "38f128f4d0fb2fdf98a5690e46f4608e7794588ddb12f981cf61f999eafaeda0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004001001.bin",
+      "receipt": {
+        "name": "Jnu_004001001.bin",
+        "bytes": 85008,
+        "sha256": "f0f157cff964a83702c12c970cd14be7ad324b0e73480877404da744b5767deb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004001002.bin",
+      "receipt": {
+        "name": "Jnu_004001002.bin",
+        "bytes": 85008,
+        "sha256": "f0f157cff964a83702c12c970cd14be7ad324b0e73480877404da744b5767deb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004002001.bin",
+      "receipt": {
+        "name": "Jnu_004002001.bin",
+        "bytes": 85008,
+        "sha256": "f4554f84f99c22faa6c3d5f68cee844ef9c8fd136a5ed82f66daac9d59abe5cc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004002002.bin",
+      "receipt": {
+        "name": "Jnu_004002002.bin",
+        "bytes": 85008,
+        "sha256": "f4554f84f99c22faa6c3d5f68cee844ef9c8fd136a5ed82f66daac9d59abe5cc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004003001.bin",
+      "receipt": {
+        "name": "Jnu_004003001.bin",
+        "bytes": 7084,
+        "sha256": "59dd8ee355e08b4f2af0529b05f2deb755d9b064711fba22541ef42793ea0f95"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004003002.bin",
+      "receipt": {
+        "name": "Jnu_004003002.bin",
+        "bytes": 7084,
+        "sha256": "59dd8ee355e08b4f2af0529b05f2deb755d9b064711fba22541ef42793ea0f95"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004004001.bin",
+      "receipt": {
+        "name": "Jnu_004004001.bin",
+        "bytes": 7056,
+        "sha256": "4c38cf1f10af288ef9da1b67c0bc4fe43f8151930d1d5fedfea18624d2a8c1da"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_004004002.bin",
+      "receipt": {
+        "name": "Jnu_004004002.bin",
+        "bytes": 7056,
+        "sha256": "4c38cf1f10af288ef9da1b67c0bc4fe43f8151930d1d5fedfea18624d2a8c1da"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005001001.bin",
+      "receipt": {
+        "name": "Jnu_005001001.bin",
+        "bytes": 85008,
+        "sha256": "fccf2ce469b260b62479458535783b6283a7dab9b80534a0a91436a7095160f9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005001002.bin",
+      "receipt": {
+        "name": "Jnu_005001002.bin",
+        "bytes": 85008,
+        "sha256": "fccf2ce469b260b62479458535783b6283a7dab9b80534a0a91436a7095160f9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005002001.bin",
+      "receipt": {
+        "name": "Jnu_005002001.bin",
+        "bytes": 85008,
+        "sha256": "e981fbce6e4283480a402c8ca168ff0b2cf22131e4b9acdb96abb4c5dc281fdb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005002002.bin",
+      "receipt": {
+        "name": "Jnu_005002002.bin",
+        "bytes": 85008,
+        "sha256": "e981fbce6e4283480a402c8ca168ff0b2cf22131e4b9acdb96abb4c5dc281fdb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005003001.bin",
+      "receipt": {
+        "name": "Jnu_005003001.bin",
+        "bytes": 7084,
+        "sha256": "0978e06d3260b8efb1552d935c44dd296c4c7267f4c9dd71b1081decc3ee34db"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005003002.bin",
+      "receipt": {
+        "name": "Jnu_005003002.bin",
+        "bytes": 7084,
+        "sha256": "0978e06d3260b8efb1552d935c44dd296c4c7267f4c9dd71b1081decc3ee34db"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005004001.bin",
+      "receipt": {
+        "name": "Jnu_005004001.bin",
+        "bytes": 7056,
+        "sha256": "c4c0cfb102548d1c914cd77f087cb62867d2cbc1eb2a49a3c5c77b9d17df67cb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_005004002.bin",
+      "receipt": {
+        "name": "Jnu_005004002.bin",
+        "bytes": 7056,
+        "sha256": "c4c0cfb102548d1c914cd77f087cb62867d2cbc1eb2a49a3c5c77b9d17df67cb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006001001.bin",
+      "receipt": {
+        "name": "Jnu_006001001.bin",
+        "bytes": 85008,
+        "sha256": "d00d786a9376a1474470e6af6b934f1c40bedabc29a2cfd866738187c718ff92"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006001002.bin",
+      "receipt": {
+        "name": "Jnu_006001002.bin",
+        "bytes": 85008,
+        "sha256": "d00d786a9376a1474470e6af6b934f1c40bedabc29a2cfd866738187c718ff92"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006002001.bin",
+      "receipt": {
+        "name": "Jnu_006002001.bin",
+        "bytes": 85008,
+        "sha256": "e8d12cc42b108e302c733caa7ecbe76f0ee6d66a30d9eac79e20af4047abdfd9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006002002.bin",
+      "receipt": {
+        "name": "Jnu_006002002.bin",
+        "bytes": 85008,
+        "sha256": "e8d12cc42b108e302c733caa7ecbe76f0ee6d66a30d9eac79e20af4047abdfd9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006003001.bin",
+      "receipt": {
+        "name": "Jnu_006003001.bin",
+        "bytes": 7084,
+        "sha256": "c097efb7fbbd23e1d772dd7f3020abc34621f015da34f1f57088e77f1e41c74e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006003002.bin",
+      "receipt": {
+        "name": "Jnu_006003002.bin",
+        "bytes": 7084,
+        "sha256": "c097efb7fbbd23e1d772dd7f3020abc34621f015da34f1f57088e77f1e41c74e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006004001.bin",
+      "receipt": {
+        "name": "Jnu_006004001.bin",
+        "bytes": 7056,
+        "sha256": "42a565401642f3b7f56b3fa4aceb17cc26188fead2f5efe99c65c1a10b128074"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_006004002.bin",
+      "receipt": {
+        "name": "Jnu_006004002.bin",
+        "bytes": 7056,
+        "sha256": "42a565401642f3b7f56b3fa4aceb17cc26188fead2f5efe99c65c1a10b128074"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007001001.bin",
+      "receipt": {
+        "name": "Jnu_007001001.bin",
+        "bytes": 85008,
+        "sha256": "edb773b8a0ae33fca8ea223f6fc6323c486ef6232a4c941e865e0d0f110636c0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007001002.bin",
+      "receipt": {
+        "name": "Jnu_007001002.bin",
+        "bytes": 85008,
+        "sha256": "edb773b8a0ae33fca8ea223f6fc6323c486ef6232a4c941e865e0d0f110636c0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007002001.bin",
+      "receipt": {
+        "name": "Jnu_007002001.bin",
+        "bytes": 85008,
+        "sha256": "a623b35cab5f0bad59bab4a08b0292ab316ee7ec9382f27e2b6bdde1de8ec233"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007002002.bin",
+      "receipt": {
+        "name": "Jnu_007002002.bin",
+        "bytes": 85008,
+        "sha256": "a623b35cab5f0bad59bab4a08b0292ab316ee7ec9382f27e2b6bdde1de8ec233"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007003001.bin",
+      "receipt": {
+        "name": "Jnu_007003001.bin",
+        "bytes": 7084,
+        "sha256": "ff5a7f18792305ca5c402c0270cf03e1b634e477da777c37bbdee0579bc5cb57"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007003002.bin",
+      "receipt": {
+        "name": "Jnu_007003002.bin",
+        "bytes": 7084,
+        "sha256": "ff5a7f18792305ca5c402c0270cf03e1b634e477da777c37bbdee0579bc5cb57"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007004001.bin",
+      "receipt": {
+        "name": "Jnu_007004001.bin",
+        "bytes": 7056,
+        "sha256": "1800bb6e949fbefb6aa165cfa6b2d49cd8e44aac5ef9ccbd1f943c8e73e1e8fb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_007004002.bin",
+      "receipt": {
+        "name": "Jnu_007004002.bin",
+        "bytes": 7056,
+        "sha256": "1800bb6e949fbefb6aa165cfa6b2d49cd8e44aac5ef9ccbd1f943c8e73e1e8fb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008001001.bin",
+      "receipt": {
+        "name": "Jnu_008001001.bin",
+        "bytes": 85008,
+        "sha256": "85b1d7e0650fdec60fb43edc9797b5578a15d25c6e48e9be987de11152d77457"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008001002.bin",
+      "receipt": {
+        "name": "Jnu_008001002.bin",
+        "bytes": 85008,
+        "sha256": "85b1d7e0650fdec60fb43edc9797b5578a15d25c6e48e9be987de11152d77457"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008002001.bin",
+      "receipt": {
+        "name": "Jnu_008002001.bin",
+        "bytes": 85008,
+        "sha256": "dd051da01a2d4843dc7718af44c7429527b47b8fb545f9829d2c963baf2f31d1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008002002.bin",
+      "receipt": {
+        "name": "Jnu_008002002.bin",
+        "bytes": 85008,
+        "sha256": "dd051da01a2d4843dc7718af44c7429527b47b8fb545f9829d2c963baf2f31d1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008003001.bin",
+      "receipt": {
+        "name": "Jnu_008003001.bin",
+        "bytes": 7084,
+        "sha256": "db80729df467088ac9f16b0dbf6480a5ecb5ddb804a5208ba54c7d4b3238b41c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008003002.bin",
+      "receipt": {
+        "name": "Jnu_008003002.bin",
+        "bytes": 7084,
+        "sha256": "db80729df467088ac9f16b0dbf6480a5ecb5ddb804a5208ba54c7d4b3238b41c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008004001.bin",
+      "receipt": {
+        "name": "Jnu_008004001.bin",
+        "bytes": 7056,
+        "sha256": "944c5deeeefebe1dccc5e8ab7e125c9387873b9b52ebeabe270c774266acc739"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_008004002.bin",
+      "receipt": {
+        "name": "Jnu_008004002.bin",
+        "bytes": 7056,
+        "sha256": "944c5deeeefebe1dccc5e8ab7e125c9387873b9b52ebeabe270c774266acc739"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/Jnu_meta.txt",
+      "receipt": {
+        "name": "Jnu_meta.txt",
+        "bytes": 72421,
+        "sha256": "9f0fa5a35c17523b242aa211ac3db5407dadd01db2eceb47087cbd925044bb37"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/O_c_008000.bin",
+      "receipt": {
+        "name": "O_c_008000.bin",
+        "bytes": 6724,
+        "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/O_c_meta.txt",
+      "receipt": {
+        "name": "O_c_meta.txt",
+        "bytes": 94,
+        "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/O_w_008000.bin",
+      "receipt": {
+        "name": "O_w_008000.bin",
+        "bytes": 6724,
+        "sha256": "ba3d5520aa1fed336f9491fe7774fdcd74ef7f0ad6e310a3c2fe4d554f7b987e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/O_w_meta.txt",
+      "receipt": {
+        "name": "O_w_meta.txt",
+        "bytes": 94,
+        "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_001000.bin",
+      "receipt": {
+        "name": "atmos_001000.bin",
+        "bytes": 392,
+        "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_002000.bin",
+      "receipt": {
+        "name": "atmos_002000.bin",
+        "bytes": 392,
+        "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_003000.bin",
+      "receipt": {
+        "name": "atmos_003000.bin",
+        "bytes": 392,
+        "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_004000.bin",
+      "receipt": {
+        "name": "atmos_004000.bin",
+        "bytes": 392,
+        "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_005000.bin",
+      "receipt": {
+        "name": "atmos_005000.bin",
+        "bytes": 392,
+        "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_006000.bin",
+      "receipt": {
+        "name": "atmos_006000.bin",
+        "bytes": 392,
+        "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_007000.bin",
+      "receipt": {
+        "name": "atmos_007000.bin",
+        "bytes": 392,
+        "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_008000.bin",
+      "receipt": {
+        "name": "atmos_008000.bin",
+        "bytes": 392,
+        "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/atmos_meta.txt",
+      "receipt": {
+        "name": "atmos_meta.txt",
+        "bytes": 733,
+        "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00001.bin",
+        "bytes": 270600,
+        "sha256": "1307cfa8b356c1cc4af99bce47dc5d4b9e9d751ed487580244ce92486f712dd0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00008.bin",
+        "bytes": 270600,
+        "sha256": "512b2997acb9944e43fe60ce1390f46ace319c125fe02a9c446f361ae8edabf8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00015.bin",
+        "bytes": 270600,
+        "sha256": "71b2605e53d34bc9ffea536cbb107545f948995f1d19107564ae55d4fcb21cdb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00022.bin",
+        "bytes": 270600,
+        "sha256": "a2b5c9c518e1c5ce43f678a0fe2e27f546e7289a27873ff0dce782611b0a3429"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00029.bin",
+        "bytes": 270600,
+        "sha256": "a00ce88baf1d0fe650d6b39a58ce6e736e4c61d7ee842047f6f0f0108404e4ef"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00036.bin",
+        "bytes": 270600,
+        "sha256": "634cc2134790d59c39c46d1d9ef807ed6acee492afe3cd98766e23dd1b36d5d7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00043.bin",
+        "bytes": 270600,
+        "sha256": "5d072bec04823b1fd400df5438fe34397a93fa3ff147a471def8e5489f12431a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00000_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00000_00050.bin",
+        "bytes": 270600,
+        "sha256": "d9817b952830d521d80b18e44a6e8982bc8546eeeeb84eacfa544402a10068d0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00001.bin",
+        "bytes": 270600,
+        "sha256": "5de28d45a3ff9df08e210f302e9f006ceb366cc4fa3f2a247dc3e64755bd4c14"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00008.bin",
+        "bytes": 270600,
+        "sha256": "48c74d8f573bd875608cbaf7b292409d6c2789287cb161ef87ffaaf4eaa3d573"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00015.bin",
+        "bytes": 270600,
+        "sha256": "ff1a3bee96d1c25d902c174e538f18f40b5e0140a54096a20eb932a8efeeb70f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00022.bin",
+        "bytes": 270600,
+        "sha256": "c881502fcdf551c3f09d3f6a81cf03356cef0aeca881411cbf6f11fa794cefcc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00029.bin",
+        "bytes": 270600,
+        "sha256": "633de825c1496f91a60c824af3275b9efffe174c400ca50f5f0f3aa4e8e123e2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00036.bin",
+        "bytes": 270600,
+        "sha256": "aa6fc003ababac6b04c9fdbdb3003985f341ac3ff1fdb44f5288471efd76282c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00043.bin",
+        "bytes": 270600,
+        "sha256": "67a2b60c0fc38b24471a190b23d3af494f7a224be2c570865e2bddde81502d3d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00001_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00001_00050.bin",
+        "bytes": 270600,
+        "sha256": "52b99572c3e6cd25e4dcca9fbbaddcfd52f3e725692fc1ceb8862cb156a27ed0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00001.bin",
+        "bytes": 270600,
+        "sha256": "16b0a7651b7ff99d3ce9c8f15a72d2496b05eb3dbb0397fd09bf57e9a64b9353"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00008.bin",
+        "bytes": 270600,
+        "sha256": "19dc3fb92cae5b691b742cec8d77391d69b82a866c951bc8bc900ceee1f9407f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00015.bin",
+        "bytes": 270600,
+        "sha256": "45e3ea94c7ea9ba59d523a33b3f20207cd00542f7a453027757be87267677c67"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00022.bin",
+        "bytes": 270600,
+        "sha256": "0b0d6c2c9b7dc48b883935d4c74076663d48a0452a0cdb275f5b88f7fb21a747"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00029.bin",
+        "bytes": 270600,
+        "sha256": "f84d45ee7b6f1a8138f546172d540f378ddb2a11a4c863453d07e7c16e2db763"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00036.bin",
+        "bytes": 270600,
+        "sha256": "d2ad13fb811b6776bccaa1edde6e4ae02dd2c7dd724340582e52951670058abf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00043.bin",
+        "bytes": 270600,
+        "sha256": "6929cee69f406b4dfa0c382e1e95b5ba16c9d71b33102bdd539a9d0a35ff7b7c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00002_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00002_00050.bin",
+        "bytes": 270600,
+        "sha256": "8bd06838b063594ad485f4f7438adeae2ac54570a06a90dcb8e1c7f16f86b60e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00001.bin",
+        "bytes": 270600,
+        "sha256": "24486f9b29634cd1c9781b2dea003b0084f5934dadd0846daf208c522688ef77"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00008.bin",
+        "bytes": 270600,
+        "sha256": "24bcaef45278824b51dc4bdb48e6b555f356df5a1d6d8031aecab6a31091c352"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00015.bin",
+        "bytes": 270600,
+        "sha256": "cd561097dd30f87c957c4935b5295c267be150011f390037ad9671819701be2b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00022.bin",
+        "bytes": 270600,
+        "sha256": "a67dd3f2b7be1218db8bb3a13c1205d38397f95c7eb3aef1bad6f2730c048de3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00029.bin",
+        "bytes": 270600,
+        "sha256": "e4f0957eaa7bfc387022d06a29f2486ad37ad54043246e2ce4d621c7141cda12"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00036.bin",
+        "bytes": 270600,
+        "sha256": "4f449533586d70a3be7a6cb31defb677deca481f45fdc523adf7b65c71cc7e59"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00043.bin",
+        "bytes": 270600,
+        "sha256": "22620da6cb1d3fc4001ae4239a7ef309e505693c5b2c094eb8932e69c5603034"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00003_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00003_00050.bin",
+        "bytes": 270600,
+        "sha256": "3931488a188a58030617ddc315f1cdee22d2982019a0199346396ce5d3e52cd8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00001.bin",
+        "bytes": 270600,
+        "sha256": "ea98e460475c67707352c865d910e97a753a0ac41e4e060ec74954f399d58576"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00008.bin",
+        "bytes": 270600,
+        "sha256": "ba2c4221ac64f6af7892fe9084656856ce86a5f171507bb0d4f187643b5a3592"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00015.bin",
+        "bytes": 270600,
+        "sha256": "4c9e03a40649ccb7f0e2f546787e10f0e3680c2ec57b7462ddbd0994d4d70ae0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00022.bin",
+        "bytes": 270600,
+        "sha256": "51ee25b3ffbd22824f47b11f6932344ef78fbcafe701cd4f706336b029a3fdad"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00029.bin",
+        "bytes": 270600,
+        "sha256": "0f30a9e717d02ef387c88b834bb65c2c75a5677b95ddd5110aa5e3dce73bb7ad"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00036.bin",
+        "bytes": 270600,
+        "sha256": "8a53c3bdd4296480b659030e8ad7daa41739bb9ef4f7bc077f337ca3a920bbc9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00043.bin",
+        "bytes": 270600,
+        "sha256": "ce54040464d19a03bb36c7511fdb574a78ac6b7d488ab71b26075523ec05fc01"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00004_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00004_00050.bin",
+        "bytes": 270600,
+        "sha256": "4070612875eb0c4e2ed8d325e608e490023a844283c2df434d0ed0220dbb0318"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00001.bin",
+        "bytes": 270600,
+        "sha256": "ae45cb6485d4a6767beb42c8cbb51f5e90814aceb02974617bc6ddd506b92381"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00008.bin",
+        "bytes": 270600,
+        "sha256": "fa76095316de3ae681dfe332160879abe5f9534f1f2666cca4d393c570ca82a3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00015.bin",
+        "bytes": 270600,
+        "sha256": "8273b036c8ce138d67556c59dfa97aa5354d1836ff56b0bbb77fbd189876a61d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00022.bin",
+        "bytes": 270600,
+        "sha256": "c93716e348d45683c9de189616da1e1f2bb69433e11b1917f714de500db8ec1b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00029.bin",
+        "bytes": 270600,
+        "sha256": "cf6fba2c821d84e8795a328c4e37b6210a275bc682890a72fda6726dd326fdff"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00036.bin",
+        "bytes": 270600,
+        "sha256": "88d3901bb541e325033845d35e906ed0ef2f49433cd3a11231ea8fcf5f4a699e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00043.bin",
+        "bytes": 270600,
+        "sha256": "be51c64c20cd3920943e6dcd218c881f161472ab5d924dc566c5bdfd4f569db0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00005_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00005_00050.bin",
+        "bytes": 270600,
+        "sha256": "5e483b1644bd6fbfee61768d77a92a2a679b9aa76334f225020d841a73c03e98"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00001.bin",
+        "bytes": 270600,
+        "sha256": "76b44ebcd7aadd4c29ef53a80cd1e02f1d32e2530c9a2654b823bdb07fbb09be"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00008.bin",
+        "bytes": 270600,
+        "sha256": "13db21295a4f92d76dbadd2678925c7fb7d990aab152aaafb407c4edf6e9e44e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00015.bin",
+        "bytes": 270600,
+        "sha256": "39c5a19ee26fc8afbea19d7d6fa470de2bc49b83095eb931bbb8f1deb17ebdaf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00022.bin",
+        "bytes": 270600,
+        "sha256": "f51c3fb0325aab9c215a78995ebb0f4a105d6c4c1b05c02a766a7dc5c2a80aab"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00029.bin",
+        "bytes": 270600,
+        "sha256": "766f9a2e1d28f74f845c564af8fb0d536e9920c99aa4a18331e6e289f439f549"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00036.bin",
+        "bytes": 270600,
+        "sha256": "ba3add31f1d9486eb6db7060bbda21375fb0134462a7a41c67bf1a43551cf04c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00043.bin",
+        "bytes": 270600,
+        "sha256": "0b050da64e45cf87ee959a90c6d44fdf57c6c3a945459276aa955febf124207e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00006_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00006_00050.bin",
+        "bytes": 270600,
+        "sha256": "81883dbceced4e15f0a9b2f7806da25849d1113ecaada32ac2aaf2dc1f28424d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00001.bin",
+        "bytes": 270600,
+        "sha256": "6350f47bb172a3c3424c0b5560769986900da68046cf35052b649cd5dc07ebc2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00008.bin",
+        "bytes": 270600,
+        "sha256": "3e1c8a80db9a6b8cfa66eb184004ba24b2aac282afac1cc7ec7325a5bb6eea05"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00015.bin",
+        "bytes": 270600,
+        "sha256": "27b12e1d505e4f2c9aaf5ea4b8045c90909da1a4ede142f6cc05553804ae0724"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00022.bin",
+        "bytes": 270600,
+        "sha256": "a30ef1ad19c2e452444a21a23d9f294f40ddb3e2692492b12167156cf347a236"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00029.bin",
+        "bytes": 270600,
+        "sha256": "e52119b7984c1671e47432cf4fa4d4a9e2af302391c0b479e66ef3f23b5bd263"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00036.bin",
+        "bytes": 270600,
+        "sha256": "7e4c687f6ed454c0d29b881632c3bbfc411d33aa4cef73ffe43372733d3abdb9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00043.bin",
+        "bytes": 270600,
+        "sha256": "3f65326ef3e2966dfa389ad64177611c269a05fe0a6064e53d636c653ab72a17"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00007_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00007_00050.bin",
+        "bytes": 270600,
+        "sha256": "00ffda486ae62907da224b067ec466ceba21338d7d444d4f5e4165d680f37ff1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00001.bin",
+        "bytes": 270600,
+        "sha256": "d4318fe8899e97857a475f56f00c03f48905b47ef0db9e9a1e7b4e7b7b2998c7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00008.bin",
+        "bytes": 270600,
+        "sha256": "30d3144f3084ad22e0e79aed54a860646d42b72d0a39157dc321578703f5acaf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00015.bin",
+        "bytes": 270600,
+        "sha256": "1031cabbe63db6298948db33306cb2084b15f5b6d85cc21b41e795b6a69717d9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00022.bin",
+        "bytes": 270600,
+        "sha256": "9a874d6e7109db482c25f7a7dd2722c1d297df2fc6e566585fa7b1c213ab9fab"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00029.bin",
+        "bytes": 270600,
+        "sha256": "7ca2c2bb8e27faf5c73fb3bac22288b90d3a5b260e9ea5e54eb0b2b29520b484"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00036.bin",
+        "bytes": 270600,
+        "sha256": "ea1c43c6b7b6f77f6e8c0bb2d2fe21a8f6552bfc7bc52752e9e2139b17fba05e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00043.bin",
+        "bytes": 270600,
+        "sha256": "97b5b9603c9b240a8909206e02a47abf4439e4aa22282ad0090ef1e85b1bc6b7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00008_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00008_00050.bin",
+        "bytes": 270600,
+        "sha256": "67d521b80a39d06c30f66c178496425bf4a70fcc936f4c770bd4afab7afadd10"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00001.bin",
+        "bytes": 270600,
+        "sha256": "116e2d9f5dbdd59fed7f1480e74243fdc4340fb173d47a4708cf8f7e156fbe93"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00008.bin",
+        "bytes": 270600,
+        "sha256": "b6beff6bb98c044bb1748d1aa3625b41ea1747a93c199380286d0c64c82531ba"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00015.bin",
+        "bytes": 270600,
+        "sha256": "bf9e3ca9ea1d2199cd2c714399369b90530c816fa777790a581fbd4b2fb19d1d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00022.bin",
+        "bytes": 270600,
+        "sha256": "2d418929edef67a16dacc60d1971f3660876c38c3fb84bf048b1843978df68cc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00029.bin",
+        "bytes": 270600,
+        "sha256": "6da3d0307d34d829c6cd86f48fcc954ea503afcbd92a9a49c6ae9d450f35b8cf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00036.bin",
+        "bytes": 270600,
+        "sha256": "377dff30efd8ba17adaef86f0e0c8b0048c4df3343197b90848673ec547e475a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00043.bin",
+        "bytes": 270600,
+        "sha256": "93649269bbed38d0933943ffdbb5d2403f00e3b6b06eb2e9fe8ff5002167d8b0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00009_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00009_00050.bin",
+        "bytes": 270600,
+        "sha256": "153fea82e983b26443c949f2768d4508b94e9a818cd094c74ffc327a23ba524c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00001.bin",
+        "bytes": 270600,
+        "sha256": "e899024518cb5e24a902788fade1aaaa836a58e39413f15ec755b0f0f6550c8b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00008.bin",
+        "bytes": 270600,
+        "sha256": "8d2d36f317534c1dcf3beea5edda95f161f5434af76c5c26f764281a060fcd4b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00015.bin",
+        "bytes": 270600,
+        "sha256": "d081e2a7e9eb37ffba21df94672f7e425fc8c390562f7f64f0d6ea2271923a3f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00022.bin",
+        "bytes": 270600,
+        "sha256": "8fdb380d9e61cdaa89cda60f0bbc0617e13e1712154ce14659e8c0f4593f1173"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00029.bin",
+        "bytes": 270600,
+        "sha256": "baf8f9e92078c81eaa1f3516b12835056f7a735224dc92843e1392fa24a51df5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00036.bin",
+        "bytes": 270600,
+        "sha256": "353dd2f1416594fc4036fb2b61a346c6aa22e2476f7f047bba6c8de68f9b19b4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00043.bin",
+        "bytes": 270600,
+        "sha256": "c4e9b0a7c8b00b8d233c537456766f2b86e9f527ac6fe2733ebc83aec4939b2b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00010_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00010_00050.bin",
+        "bytes": 270600,
+        "sha256": "c689fd131f1f286fb8677d10b721dd55f6f1a287da207283bb93d100632bd792"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00001.bin",
+        "bytes": 270600,
+        "sha256": "c4e0c8d319b1b27479b73547d6d50ae529596ec0da438db3df703cd2b2e8bf3b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00008.bin",
+        "bytes": 270600,
+        "sha256": "d045e05a81cd5ae52b612b9bdab0df53c8e1e4d66b4a1dc53a13220a90e6606b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00015.bin",
+        "bytes": 270600,
+        "sha256": "bd4173ba3bc63e0a9b3761767b46f2d199f26d17292b900bc36bd4375a5bcb58"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00022.bin",
+        "bytes": 270600,
+        "sha256": "6fb30ada482bade41a44a771917a248c89b16d05a1c7e51c7eedde24654cba06"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00029.bin",
+        "bytes": 270600,
+        "sha256": "3e793fa454780659e405acbbb8a70a404e210abfdfdb6291ba3a2bb480ef7023"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00036.bin",
+        "bytes": 270600,
+        "sha256": "649ec3ed26a4261dc325e068d59b88a164562850a8106952fbebf680ef40d695"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00043.bin",
+        "bytes": 270600,
+        "sha256": "1bc470005d752c2c5fff9ff3f751b5a60ef2817754a235aded0fef32f7f4231a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00011_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00011_00050.bin",
+        "bytes": 270600,
+        "sha256": "673487015788973e148fcb7af5a3feb5ae8f8d0def985a01afbf1518f4ce036d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00001.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00001.bin",
+        "bytes": 270600,
+        "sha256": "e4bf040a1e4f80264bccd3cf70192331de1e8b66bc903d6fb0bc096a18b5c309"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00008.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00008.bin",
+        "bytes": 270600,
+        "sha256": "dc9bb58ad1598f07374333741811f59102c8c57fa541a791ef6c40394d6cb219"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00015.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00015.bin",
+        "bytes": 270600,
+        "sha256": "3f06cd96ed8920dc16569cb87d07ff041f71950eed908590988988c825ac1be5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00022.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00022.bin",
+        "bytes": 270600,
+        "sha256": "85c370a2a67fc0dc74a4e114dfe348984ff0fc5cf14ee4d6b7b22cc661f5b017"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00029.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00029.bin",
+        "bytes": 270600,
+        "sha256": "94269e9f2b3fc7a3d26305ef8670c8581e74bbe69f2727b6880164486a27d769"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00036.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00036.bin",
+        "bytes": 270600,
+        "sha256": "609a672770992d6d0784076f10fea786f7a6e0479ac60b3b77efe11aaa9cab93"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00043.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00043.bin",
+        "bytes": 270600,
+        "sha256": "d1ac29b725ea3e5b4078c68cec4cef7ce339feb643cfcf5ecaeaeb8c8c1d614c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_gross_00012_00050.bin",
+      "receipt": {
+        "name": "audit_gross_00012_00050.bin",
+        "bytes": 270600,
+        "sha256": "858da8406bad99341480a42162c91ea223120358172dee9d4f108c26bfac4a81"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00001.bin",
+      "receipt": {
+        "name": "audit_state_00001_00001.bin",
+        "bytes": 15324,
+        "sha256": "f6d179fdd64d9811e0d7cf95752f1f5742ee95be1b7250b0f7ef537757869a41"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00008.bin",
+      "receipt": {
+        "name": "audit_state_00001_00008.bin",
+        "bytes": 15324,
+        "sha256": "be8e68f8dc6466acbea7eaffe49c0828a1d72605f64870276c3a9eccbd27fd4d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00015.bin",
+      "receipt": {
+        "name": "audit_state_00001_00015.bin",
+        "bytes": 15324,
+        "sha256": "f26e319d6f5139de764b443a1b3612f6cac67ecf254edc7cb882e5ba1eac650d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00022.bin",
+      "receipt": {
+        "name": "audit_state_00001_00022.bin",
+        "bytes": 15324,
+        "sha256": "5d3d6116c7531e899734d8e3713c4b549d17d34c916c8f8e78455b368f6f633f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00029.bin",
+      "receipt": {
+        "name": "audit_state_00001_00029.bin",
+        "bytes": 15324,
+        "sha256": "bc755b17e7718f2428a7b8883b14e1d3d52a0801785ba558adb1849467e1c078"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00036.bin",
+      "receipt": {
+        "name": "audit_state_00001_00036.bin",
+        "bytes": 15324,
+        "sha256": "3abacac9317794d9421921953e23d279386b50b3b41d15b3b06006a13bc9bcbb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00043.bin",
+      "receipt": {
+        "name": "audit_state_00001_00043.bin",
+        "bytes": 15324,
+        "sha256": "c23fa5fff1facbdd536ac6e954c216574692e9f4e44359b79aa1729c73bd6841"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00001_00050.bin",
+      "receipt": {
+        "name": "audit_state_00001_00050.bin",
+        "bytes": 15324,
+        "sha256": "59d3e0d8d556025159e33a70f9c1edaf351f0986b234d60da887008d9b030b39"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00001.bin",
+      "receipt": {
+        "name": "audit_state_00002_00001.bin",
+        "bytes": 15324,
+        "sha256": "ac23eef0e5ff3b3799e4581ea5e91c93fb134382d99a3b515d94f21183a05c6c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00008.bin",
+      "receipt": {
+        "name": "audit_state_00002_00008.bin",
+        "bytes": 15324,
+        "sha256": "ca9196381a1abd267275243d4d9619601c51545e142eae95774b59163bf58959"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00015.bin",
+      "receipt": {
+        "name": "audit_state_00002_00015.bin",
+        "bytes": 15324,
+        "sha256": "667511c6fc041cf674e5467e51cabca54c8c8bdce8f537572cbd55afd37bd10d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00022.bin",
+      "receipt": {
+        "name": "audit_state_00002_00022.bin",
+        "bytes": 15324,
+        "sha256": "753062788525b1cfd8abb5f8ed40c7b512c1b6d8b609d0dc1bc09b8a7e19593e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00029.bin",
+      "receipt": {
+        "name": "audit_state_00002_00029.bin",
+        "bytes": 15324,
+        "sha256": "3db0d902f81d288194a00047704e6a16b4912e324f59013fa3f1dbfb330ba1b9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00036.bin",
+      "receipt": {
+        "name": "audit_state_00002_00036.bin",
+        "bytes": 15324,
+        "sha256": "dc7555915b624bc9177f8e9451fc5a6b791cb61e50e6ed592a37d752af9490e8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00043.bin",
+      "receipt": {
+        "name": "audit_state_00002_00043.bin",
+        "bytes": 15324,
+        "sha256": "789435cdafc97110e614acc1919d38a1eb165fe72c07949f3e10b83f779c6bb2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00002_00050.bin",
+      "receipt": {
+        "name": "audit_state_00002_00050.bin",
+        "bytes": 15324,
+        "sha256": "20a8d034676ce4df4322e40eb8e1aeb585f71c7c7e46f44efc97e34193740580"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00001.bin",
+      "receipt": {
+        "name": "audit_state_00003_00001.bin",
+        "bytes": 15324,
+        "sha256": "ddf15409554ac0c247c2882d8d0292bf88984f93252fbf108ffa901de147737a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00008.bin",
+      "receipt": {
+        "name": "audit_state_00003_00008.bin",
+        "bytes": 15324,
+        "sha256": "411cdf66a4c4393124d4477c664d1d621462fed7add7422a0e69eee309910fdc"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00015.bin",
+      "receipt": {
+        "name": "audit_state_00003_00015.bin",
+        "bytes": 15324,
+        "sha256": "24202fcd57e792e9715eb3e9bacae58a5f3afca48430228d4d8f6e3407b7bc0f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00022.bin",
+      "receipt": {
+        "name": "audit_state_00003_00022.bin",
+        "bytes": 15324,
+        "sha256": "946ab074edb604ca355b2e99cda6d4b5609145e89fb319d50ee7e51af39f54b3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00029.bin",
+      "receipt": {
+        "name": "audit_state_00003_00029.bin",
+        "bytes": 15324,
+        "sha256": "e985b3dbdd9d5e55650ebbcbf43275df9e0d877fdb9a13faae828cfbab10451d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00036.bin",
+      "receipt": {
+        "name": "audit_state_00003_00036.bin",
+        "bytes": 15324,
+        "sha256": "360ce8239a0365ea840190cb572dd40f0b955da64a04b9a7569afeb5a08faf2e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00043.bin",
+      "receipt": {
+        "name": "audit_state_00003_00043.bin",
+        "bytes": 15324,
+        "sha256": "b8ec6b0ba3afb73aae5b586ea5a04cf8eee7354edb0c6b50430ac0b8a8ee018e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00003_00050.bin",
+      "receipt": {
+        "name": "audit_state_00003_00050.bin",
+        "bytes": 15324,
+        "sha256": "3c1c05f07f706e3636a618b3065764396267bc6dd093ad4b681232ca857a4024"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00001.bin",
+      "receipt": {
+        "name": "audit_state_00004_00001.bin",
+        "bytes": 15324,
+        "sha256": "e05bdec06187d1216afcf0539a67e78064baa2b31580ac4692a11c2be3804f62"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00008.bin",
+      "receipt": {
+        "name": "audit_state_00004_00008.bin",
+        "bytes": 15324,
+        "sha256": "9d9881f3f36fffcc852078ae9be03b9b13cfc5b6667165d72a1da9668b1e75f3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00015.bin",
+      "receipt": {
+        "name": "audit_state_00004_00015.bin",
+        "bytes": 15324,
+        "sha256": "d0086795f0f9a18168fbf739c84b4b45f0e1c77d4b55090d673a94bd288b5760"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00022.bin",
+      "receipt": {
+        "name": "audit_state_00004_00022.bin",
+        "bytes": 15324,
+        "sha256": "2f6569e3417c6823c00488cac28730fba110b06377efbbf0703a7e31f255344b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00029.bin",
+      "receipt": {
+        "name": "audit_state_00004_00029.bin",
+        "bytes": 15324,
+        "sha256": "8147edff588e649adee8f941082572670445146a3e2f69dbbc9dd25c7b167791"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00036.bin",
+      "receipt": {
+        "name": "audit_state_00004_00036.bin",
+        "bytes": 15324,
+        "sha256": "ab773bca9db74f1077b6ee9b97b20c4de12f93c375e34eff3151155ffaf9c7f5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00043.bin",
+      "receipt": {
+        "name": "audit_state_00004_00043.bin",
+        "bytes": 15324,
+        "sha256": "16e35d4d43282cffb5038bb68f58ff02c62d7cf6c8bfd6a00d60a37c9f3bbfeb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00004_00050.bin",
+      "receipt": {
+        "name": "audit_state_00004_00050.bin",
+        "bytes": 15324,
+        "sha256": "16e8c1b8c23ae08668cfa850202d085f419cdc73145dd038525f9d82d4cd4b94"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00001.bin",
+      "receipt": {
+        "name": "audit_state_00005_00001.bin",
+        "bytes": 15324,
+        "sha256": "73fca5d298026dd5a2472273f6388be4fabc011ade77f6b3693bb0fdc07a4e58"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00008.bin",
+      "receipt": {
+        "name": "audit_state_00005_00008.bin",
+        "bytes": 15324,
+        "sha256": "7e3c9e235dba619eeb609ac5b42d9f68dd859cc665c0624387b7cb7f161ab351"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00015.bin",
+      "receipt": {
+        "name": "audit_state_00005_00015.bin",
+        "bytes": 15324,
+        "sha256": "5743912a67fefae0a47aa938ed39a241fa27a6e31bbc4e65ef8fe3fbf714ad11"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00022.bin",
+      "receipt": {
+        "name": "audit_state_00005_00022.bin",
+        "bytes": 15324,
+        "sha256": "01c24e409905088146209dc4b0e3c30ef694ca9af0f626d853e497f1a3e4979a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00029.bin",
+      "receipt": {
+        "name": "audit_state_00005_00029.bin",
+        "bytes": 15324,
+        "sha256": "ce233d98c97cbefc8c1daff283afdc726db197669e80992a5646aaae69224a32"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00036.bin",
+      "receipt": {
+        "name": "audit_state_00005_00036.bin",
+        "bytes": 15324,
+        "sha256": "e0a5f7120bae09751ac57732060bd0795a0a3522999c12e8b7f4a9bd43468849"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00043.bin",
+      "receipt": {
+        "name": "audit_state_00005_00043.bin",
+        "bytes": 15324,
+        "sha256": "fc795bc3e5714539e3aa7a9f091f7e8d73ddfe9fb5c52a82ee31f6a9b9a8e11a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00005_00050.bin",
+      "receipt": {
+        "name": "audit_state_00005_00050.bin",
+        "bytes": 15324,
+        "sha256": "f5fa43c3d80bfca72fc81c050722d23a8c0107a0075384bea3a415c98b3f192d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00001.bin",
+      "receipt": {
+        "name": "audit_state_00006_00001.bin",
+        "bytes": 15324,
+        "sha256": "9b60a1bf228883e65cf8e196ceaadbeaa7d1089d1f0a4ec8ca8e7fc51cac123b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00008.bin",
+      "receipt": {
+        "name": "audit_state_00006_00008.bin",
+        "bytes": 15324,
+        "sha256": "15734eb97fb3f90529597ecf0bb8e65f94117f9fde159d43e99a1a8cc6918b4f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00015.bin",
+      "receipt": {
+        "name": "audit_state_00006_00015.bin",
+        "bytes": 15324,
+        "sha256": "f6bc3b7f9b06ed8ce14b7a5e634b2659e5260cf5461ae724a7da7bec56733c49"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00022.bin",
+      "receipt": {
+        "name": "audit_state_00006_00022.bin",
+        "bytes": 15324,
+        "sha256": "edacf14055044e5683ac2209486dc2734f693f0d84c165a3d72aa9b76966c683"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00029.bin",
+      "receipt": {
+        "name": "audit_state_00006_00029.bin",
+        "bytes": 15324,
+        "sha256": "9282058b558ec2db7ae0e75f08b5373ded6060c558b4de8f65e6a0088dd673fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00036.bin",
+      "receipt": {
+        "name": "audit_state_00006_00036.bin",
+        "bytes": 15324,
+        "sha256": "3aa2269ccbf98a2478382c17f654c35cc572246cfc13a10530a837b3be5b58ba"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00043.bin",
+      "receipt": {
+        "name": "audit_state_00006_00043.bin",
+        "bytes": 15324,
+        "sha256": "a6bcb37acd128b636776d68bb0531977375a69c352dfad00dab7d0dcdcc1e611"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00006_00050.bin",
+      "receipt": {
+        "name": "audit_state_00006_00050.bin",
+        "bytes": 15324,
+        "sha256": "1d67e90a58b5d8958c0bb8a71bce4489de3c3d962427d7aff6016308931910c6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00001.bin",
+      "receipt": {
+        "name": "audit_state_00007_00001.bin",
+        "bytes": 15324,
+        "sha256": "a332cd47835c58448959c7f91908e9581fea20496db63ee1c4b89016532b7714"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00008.bin",
+      "receipt": {
+        "name": "audit_state_00007_00008.bin",
+        "bytes": 15324,
+        "sha256": "96c06489007f5afd177b4ac64ba3524b96c9a81e8ebd2c09999b5966d9a97f59"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00015.bin",
+      "receipt": {
+        "name": "audit_state_00007_00015.bin",
+        "bytes": 15324,
+        "sha256": "276163b6a4c3ef19b23f6f3bd6d28ec39d6bdd9c9c8e27104750dffb632e638a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00022.bin",
+      "receipt": {
+        "name": "audit_state_00007_00022.bin",
+        "bytes": 15324,
+        "sha256": "60518f0868992b9e366bc98f658e55517d547d03d06f7ae32baec9684c5f7511"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00029.bin",
+      "receipt": {
+        "name": "audit_state_00007_00029.bin",
+        "bytes": 15324,
+        "sha256": "28a813990398a316be55dda64c471a15b0924868d3ef44e7e3eb71341d06be09"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00036.bin",
+      "receipt": {
+        "name": "audit_state_00007_00036.bin",
+        "bytes": 15324,
+        "sha256": "41611827e4d8f928cf5df1a28f40ff9589e87c726372232b7b215904dc8f8353"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00043.bin",
+      "receipt": {
+        "name": "audit_state_00007_00043.bin",
+        "bytes": 15324,
+        "sha256": "164c363579305f165eea2bd19799f20ecf38173aa8f9357022cb2911e6c0753c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00007_00050.bin",
+      "receipt": {
+        "name": "audit_state_00007_00050.bin",
+        "bytes": 15324,
+        "sha256": "628e711b1e3c5175907ee129201427832a7cc3b1ed7af3a2c0b31cf1a2dc4a70"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00001.bin",
+      "receipt": {
+        "name": "audit_state_00008_00001.bin",
+        "bytes": 15324,
+        "sha256": "708daa10d015666adb47c3c6d2da31d5f598e8e3898dded0bf0eb26facbe419f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00008.bin",
+      "receipt": {
+        "name": "audit_state_00008_00008.bin",
+        "bytes": 15324,
+        "sha256": "cdecb385c8c8ebb10941274772204b3e8d4cde34f3a6cb65010ab975bd42dc6e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00015.bin",
+      "receipt": {
+        "name": "audit_state_00008_00015.bin",
+        "bytes": 15324,
+        "sha256": "31c733128a478b759ec480a3bb5c551a638ddfafebd43290d04502c455a0bb2e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00022.bin",
+      "receipt": {
+        "name": "audit_state_00008_00022.bin",
+        "bytes": 15324,
+        "sha256": "b12c320887e111ad3f202b4c2dc77a26e5cbbcd07a33dd908facc63d8545bcae"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00029.bin",
+      "receipt": {
+        "name": "audit_state_00008_00029.bin",
+        "bytes": 15324,
+        "sha256": "657b0a26637cc55c1cb020376dbd1fa80fb9613202c1beb61c84a480aba484dd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00036.bin",
+      "receipt": {
+        "name": "audit_state_00008_00036.bin",
+        "bytes": 15324,
+        "sha256": "9ef9e6c5de1d2279221048024247f41e1416c9d425fc211c63be8ee22dd57a71"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00043.bin",
+      "receipt": {
+        "name": "audit_state_00008_00043.bin",
+        "bytes": 15324,
+        "sha256": "9da4473c5e1586193f42cf4d3fb2d6dade2b17c6815559f715d6f79e8578f68d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00008_00050.bin",
+      "receipt": {
+        "name": "audit_state_00008_00050.bin",
+        "bytes": 15324,
+        "sha256": "b077f11792001c7ec20997a57d4c6af92e786efdf76ed7a9e470605a8c52bfba"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00001.bin",
+      "receipt": {
+        "name": "audit_state_00009_00001.bin",
+        "bytes": 15324,
+        "sha256": "4e81b12b692071ba8eb8c0b3a8a6009c97582863cfb1bc9311e8b087cd256282"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00008.bin",
+      "receipt": {
+        "name": "audit_state_00009_00008.bin",
+        "bytes": 15324,
+        "sha256": "4174ccbc8867c7cd227a4f843d8e222efea67889ff1c6746ed2b2c35781fbf34"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00015.bin",
+      "receipt": {
+        "name": "audit_state_00009_00015.bin",
+        "bytes": 15324,
+        "sha256": "b7857a9187effc938e729a29022cbb5584dfd9798998eef1919fb1d7e868bd2b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00022.bin",
+      "receipt": {
+        "name": "audit_state_00009_00022.bin",
+        "bytes": 15324,
+        "sha256": "da8ca841e8463b2e954b9709708117d69872a69ab98884163aa17d8c74346914"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00029.bin",
+      "receipt": {
+        "name": "audit_state_00009_00029.bin",
+        "bytes": 15324,
+        "sha256": "dffbe148743abb45d3eca91ced95e94eb5b7136e76ed8bd5fc964a0d73d86243"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00036.bin",
+      "receipt": {
+        "name": "audit_state_00009_00036.bin",
+        "bytes": 15324,
+        "sha256": "2eac9c4efd0bc40c11b6d2eb2c4c1775b6c199e5256fcc31ecf50dc78459c937"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00043.bin",
+      "receipt": {
+        "name": "audit_state_00009_00043.bin",
+        "bytes": 15324,
+        "sha256": "b147aa4b421784505bf691751b6464f779ce2e7633b1d9ca0e3776d80c3f6707"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00009_00050.bin",
+      "receipt": {
+        "name": "audit_state_00009_00050.bin",
+        "bytes": 15324,
+        "sha256": "6671a200019ef8024e1911ee4b91c524a7a3f1d2378291c8e9303ee04d6f73a2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00001.bin",
+      "receipt": {
+        "name": "audit_state_00010_00001.bin",
+        "bytes": 15324,
+        "sha256": "56b01fe7d6a6423de289dc9f80b86f9fcf02a9dce4824a62735fda7c208deda1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00008.bin",
+      "receipt": {
+        "name": "audit_state_00010_00008.bin",
+        "bytes": 15324,
+        "sha256": "8cfb8054a5461eb1a7a89ceff320127c434c6e3b15e0af3e7dd1ec05f9dcdbbb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00015.bin",
+      "receipt": {
+        "name": "audit_state_00010_00015.bin",
+        "bytes": 15324,
+        "sha256": "3d990ee3a17ea7efab18244cab61761ea283f35ea835266594efb31e07d4d992"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00022.bin",
+      "receipt": {
+        "name": "audit_state_00010_00022.bin",
+        "bytes": 15324,
+        "sha256": "04f075394b56965cee23f46e5dbbcf318cf2120313cec4e81d0e047a4e026485"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00029.bin",
+      "receipt": {
+        "name": "audit_state_00010_00029.bin",
+        "bytes": 15324,
+        "sha256": "23d79619ae13ddfd7067e4a0012c6548f5f1109e1a85a4dd13468d9edbf672ed"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00036.bin",
+      "receipt": {
+        "name": "audit_state_00010_00036.bin",
+        "bytes": 15324,
+        "sha256": "af6b6a62cbdc1c373766b255aab34b098060652de66028253223567c633bf06f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00043.bin",
+      "receipt": {
+        "name": "audit_state_00010_00043.bin",
+        "bytes": 15324,
+        "sha256": "e5ffd2fe1b1e9e8029f1069982313a26d44b981842c982ca7cb42c34b1b7dcdf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00010_00050.bin",
+      "receipt": {
+        "name": "audit_state_00010_00050.bin",
+        "bytes": 15324,
+        "sha256": "fc3f491ed5ec2ef2c71035a269912d0457ca3ca9730be23fa2a5d501add6c1e7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00001.bin",
+      "receipt": {
+        "name": "audit_state_00011_00001.bin",
+        "bytes": 15324,
+        "sha256": "150fc924bd2f32f137f736f2bfcba283d6d85cae35132f92bbd39fb552b69020"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00008.bin",
+      "receipt": {
+        "name": "audit_state_00011_00008.bin",
+        "bytes": 15324,
+        "sha256": "06103cc64fe9989922dcd643a307bdb1c4b619b3e2e6690b1ee42724997aed55"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00015.bin",
+      "receipt": {
+        "name": "audit_state_00011_00015.bin",
+        "bytes": 15324,
+        "sha256": "a4d46da76740ae4068001f74b40c5c22a32435a188d20564cb24d075fd4094bb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00022.bin",
+      "receipt": {
+        "name": "audit_state_00011_00022.bin",
+        "bytes": 15324,
+        "sha256": "d5e3766151ff6e3249fcf78a42e4c275da0b296df7dddcbb82877640b3a0937c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00029.bin",
+      "receipt": {
+        "name": "audit_state_00011_00029.bin",
+        "bytes": 15324,
+        "sha256": "c4bb4913028db1cf8c8e9d77652b0fffefc4c0c3a6939e72de02a5328fad595b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00036.bin",
+      "receipt": {
+        "name": "audit_state_00011_00036.bin",
+        "bytes": 15324,
+        "sha256": "963dee214945e45762dcbf44de1fcc79b5f0dde7943b97879510a2e63ec205df"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00043.bin",
+      "receipt": {
+        "name": "audit_state_00011_00043.bin",
+        "bytes": 15324,
+        "sha256": "f407b0df8e24b7a14e372ca5efc020aef5b7abb251583bde50f375ffbc63c64f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00011_00050.bin",
+      "receipt": {
+        "name": "audit_state_00011_00050.bin",
+        "bytes": 15324,
+        "sha256": "3f5d8a6c53ff420acca6b231bd5fa22d52377eb3ce073129a27243e9894ed3fa"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00001.bin",
+      "receipt": {
+        "name": "audit_state_00012_00001.bin",
+        "bytes": 15324,
+        "sha256": "a39891a7a03538ea7ab18bd24df5ffb2721ca0c10b7cb45174f969fcd017243b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00008.bin",
+      "receipt": {
+        "name": "audit_state_00012_00008.bin",
+        "bytes": 15324,
+        "sha256": "4d9f8c36206bcb62f7172747070a48be3b4e6673309c545f7a2d18a368fab3b2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00015.bin",
+      "receipt": {
+        "name": "audit_state_00012_00015.bin",
+        "bytes": 15324,
+        "sha256": "ed86cd19ccea4c98c8ca1d245e3f099285c4e86e0d4fcae3dda27f0944014ce5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00022.bin",
+      "receipt": {
+        "name": "audit_state_00012_00022.bin",
+        "bytes": 15324,
+        "sha256": "d92907bfbb9eeaac567523af4091818251839f5f9244f028edb40908689c4221"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00029.bin",
+      "receipt": {
+        "name": "audit_state_00012_00029.bin",
+        "bytes": 15324,
+        "sha256": "541bf2fd3ac1280a0cbf74c8ba6bfab8d7f55b202692930ebc9cb19d0eefacd2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00036.bin",
+      "receipt": {
+        "name": "audit_state_00012_00036.bin",
+        "bytes": 15324,
+        "sha256": "0aecbe2b8ed9e7df35b07ae5dcc460cfb311b0bacd39a1317f3764e09f49d9b5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00043.bin",
+      "receipt": {
+        "name": "audit_state_00012_00043.bin",
+        "bytes": 15324,
+        "sha256": "e7ef2caa8fe2917c1a739991864e3d065be75b732fe6ddc188f14a56c5641515"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00012_00050.bin",
+      "receipt": {
+        "name": "audit_state_00012_00050.bin",
+        "bytes": 15324,
+        "sha256": "bdd4f361d8e638a9cc225637cf5d1c0909775ed3bfe30acc43ca72eeb49ec2e9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00001.bin",
+      "receipt": {
+        "name": "audit_state_00013_00001.bin",
+        "bytes": 15324,
+        "sha256": "af850f8c62a85d253d3d0d250cfe380f51d519d02c9c4c6cd70ba6bd9004aab7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00008.bin",
+      "receipt": {
+        "name": "audit_state_00013_00008.bin",
+        "bytes": 15324,
+        "sha256": "b005ed5dd88ba6bb762773b60079d85b898ec4e874d6bbe3671212ab1296837d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00015.bin",
+      "receipt": {
+        "name": "audit_state_00013_00015.bin",
+        "bytes": 15324,
+        "sha256": "ea32f89719a050ac5f13e231e3c55a515785f055b495c56e82c3a4e9303ba127"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00022.bin",
+      "receipt": {
+        "name": "audit_state_00013_00022.bin",
+        "bytes": 15324,
+        "sha256": "deca8536884a0a0286eb694a239b2beccff0a218c005852afcbe26f53a3bd922"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00029.bin",
+      "receipt": {
+        "name": "audit_state_00013_00029.bin",
+        "bytes": 15324,
+        "sha256": "493f624ca07c1a264d34bf9288f3e9874bc44d29e5f5d66ec63c4ae4f57c2005"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00036.bin",
+      "receipt": {
+        "name": "audit_state_00013_00036.bin",
+        "bytes": 15324,
+        "sha256": "4672730fdc0136fc16bda0733371cdbf0f08f0f8f37159caa047ed33052128e4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00043.bin",
+      "receipt": {
+        "name": "audit_state_00013_00043.bin",
+        "bytes": 15324,
+        "sha256": "251387bd45200266958b3ee9bfd29a0f00c2921fe0154d5f65956d6eef57dfd6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/audit_state_00013_00050.bin",
+      "receipt": {
+        "name": "audit_state_00013_00050.bin",
+        "bytes": 15324,
+        "sha256": "567f8e7f99e145503c19e8b67a01564762f8532a8db464a427c74b7fa94b8230"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/bb_lam.bin",
+      "receipt": {
+        "name": "bb_lam.bin",
+        "bytes": 48576,
+        "sha256": "126f028d2fecd2918171dedbab20101859e66fe9f6117e6e8cbf1c4b2920024e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/bf_lam.bin",
+      "receipt": {
+        "name": "bf_lam.bin",
+        "bytes": 4040,
+        "sha256": "89e6e52ba53252a92f43c8c86302d0b61b92236252dc7fab79bcfa6778d9c3d4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_001000.bin",
+      "receipt": {
+        "name": "cij_001000.bin",
+        "bytes": 28,
+        "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_002000.bin",
+      "receipt": {
+        "name": "cij_002000.bin",
+        "bytes": 28,
+        "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_003000.bin",
+      "receipt": {
+        "name": "cij_003000.bin",
+        "bytes": 28,
+        "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_004000.bin",
+      "receipt": {
+        "name": "cij_004000.bin",
+        "bytes": 28,
+        "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_005000.bin",
+      "receipt": {
+        "name": "cij_005000.bin",
+        "bytes": 28,
+        "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_006000.bin",
+      "receipt": {
+        "name": "cij_006000.bin",
+        "bytes": 28,
+        "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_007000.bin",
+      "receipt": {
+        "name": "cij_007000.bin",
+        "bytes": 28,
+        "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_008000.bin",
+      "receipt": {
+        "name": "cij_008000.bin",
+        "bytes": 28,
+        "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cij_meta.txt",
+      "receipt": {
+        "name": "cij_meta.txt",
+        "bytes": 7005,
+        "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_001000.bin",
+      "receipt": {
+        "name": "cji_001000.bin",
+        "bytes": 28,
+        "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_002000.bin",
+      "receipt": {
+        "name": "cji_002000.bin",
+        "bytes": 28,
+        "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_003000.bin",
+      "receipt": {
+        "name": "cji_003000.bin",
+        "bytes": 28,
+        "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_004000.bin",
+      "receipt": {
+        "name": "cji_004000.bin",
+        "bytes": 28,
+        "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_005000.bin",
+      "receipt": {
+        "name": "cji_005000.bin",
+        "bytes": 28,
+        "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_006000.bin",
+      "receipt": {
+        "name": "cji_006000.bin",
+        "bytes": 28,
+        "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_007000.bin",
+      "receipt": {
+        "name": "cji_007000.bin",
+        "bytes": 28,
+        "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_008000.bin",
+      "receipt": {
+        "name": "cji_008000.bin",
+        "bytes": 28,
+        "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/cji_meta.txt",
+      "receipt": {
+        "name": "cji_meta.txt",
+        "bytes": 7005,
+        "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00001.bin",
+      "receipt": {
+        "name": "colrates_O_00001.bin",
+        "bytes": 22976,
+        "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00008.bin",
+      "receipt": {
+        "name": "colrates_O_00008.bin",
+        "bytes": 22976,
+        "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00015.bin",
+      "receipt": {
+        "name": "colrates_O_00015.bin",
+        "bytes": 22976,
+        "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00022.bin",
+      "receipt": {
+        "name": "colrates_O_00022.bin",
+        "bytes": 22976,
+        "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00029.bin",
+      "receipt": {
+        "name": "colrates_O_00029.bin",
+        "bytes": 22976,
+        "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00036.bin",
+      "receipt": {
+        "name": "colrates_O_00036.bin",
+        "bytes": 22976,
+        "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00043.bin",
+      "receipt": {
+        "name": "colrates_O_00043.bin",
+        "bytes": 22976,
+        "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/colrates_O_00050.bin",
+      "receipt": {
+        "name": "colrates_O_00050.bin",
+        "bytes": 22976,
+        "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_001000.bin",
+      "receipt": {
+        "name": "eos_001000.bin",
+        "bytes": 56,
+        "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_002000.bin",
+      "receipt": {
+        "name": "eos_002000.bin",
+        "bytes": 56,
+        "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_003000.bin",
+      "receipt": {
+        "name": "eos_003000.bin",
+        "bytes": 56,
+        "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_004000.bin",
+      "receipt": {
+        "name": "eos_004000.bin",
+        "bytes": 56,
+        "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_005000.bin",
+      "receipt": {
+        "name": "eos_005000.bin",
+        "bytes": 56,
+        "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_006000.bin",
+      "receipt": {
+        "name": "eos_006000.bin",
+        "bytes": 56,
+        "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_007000.bin",
+      "receipt": {
+        "name": "eos_007000.bin",
+        "bytes": 56,
+        "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_008000.bin",
+      "receipt": {
+        "name": "eos_008000.bin",
+        "bytes": 56,
+        "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/eos_meta.txt",
+      "receipt": {
+        "name": "eos_meta.txt",
+        "bytes": 653,
+        "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/flux_008001.bin",
+      "receipt": {
+        "name": "flux_008001.bin",
+        "bytes": 37236,
+        "sha256": "3f7e997c32b4d9f03bd1defd8096d5818bee376184ae2bcb3a66e732e67a2c62"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/flux_008002.bin",
+      "receipt": {
+        "name": "flux_008002.bin",
+        "bytes": 37224,
+        "sha256": "91269a4deda39c8d3757098e8aba70ef160e54a41392f4a6262a7f198f7ff8e0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/flux_meta.txt",
+      "receipt": {
+        "name": "flux_meta.txt",
+        "bytes": 211,
+        "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/ie_008001.bin",
+      "receipt": {
+        "name": "ie_008001.bin",
+        "bytes": 37236,
+        "sha256": "9a3167fb52f5e6067df52f7896dda7e54a8472c6fc8f079f0a5c97a5e330bd5b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/ie_008002.bin",
+      "receipt": {
+        "name": "ie_008002.bin",
+        "bytes": 37224,
+        "sha256": "c057a667a1c0c84b67b1ca7e1e56c034866f190a660bdeb10055e2f615f387ea"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/ie_meta.txt",
+      "receipt": {
+        "name": "ie_meta.txt",
+        "bytes": 211,
+        "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/out_lam.bin",
+      "receipt": {
+        "name": "out_lam.bin",
+        "bytes": 49640,
+        "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_001000.bin",
+      "receipt": {
+        "name": "pop_O_001000.bin",
+        "bytes": 2296,
+        "sha256": "918c4ebe5c25847128d3c88170f8eefc04b54fe3e752e67ec1aa2fc1f9fe3f81"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_002000.bin",
+      "receipt": {
+        "name": "pop_O_002000.bin",
+        "bytes": 2296,
+        "sha256": "4214c1ad3a3cdfe2d58ffc97d2d112dddae573012832df978fcea5a2594b0fc6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_003000.bin",
+      "receipt": {
+        "name": "pop_O_003000.bin",
+        "bytes": 2296,
+        "sha256": "1773518f90c0fb55b370d489f00b9aceb3705b2b1dd66084d0b5670efb00bc14"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_004000.bin",
+      "receipt": {
+        "name": "pop_O_004000.bin",
+        "bytes": 2296,
+        "sha256": "e6d39ca4a4d1fd862089bfe55dff3e9c7b2e8a0627188fd36058985730c59571"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_005000.bin",
+      "receipt": {
+        "name": "pop_O_005000.bin",
+        "bytes": 2296,
+        "sha256": "7971bcb88ddcfca65703f22d2253f05fd99a15af564a78630f0365ac6a00fa70"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_006000.bin",
+      "receipt": {
+        "name": "pop_O_006000.bin",
+        "bytes": 2296,
+        "sha256": "3a520488d47762a572e2c9ac5805cd9de0e0d6d31ead867c493e00edbf270b04"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_007000.bin",
+      "receipt": {
+        "name": "pop_O_007000.bin",
+        "bytes": 2296,
+        "sha256": "2d41427fb258a6cf23cdb0b7e4581cf19ad42ca7f543c958fff81c025e1c14f5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_008000.bin",
+      "receipt": {
+        "name": "pop_O_008000.bin",
+        "bytes": 2296,
+        "sha256": "cbfa7a7cddf547fff098334f9aa633fc34c75063da9a52acb98f5be5dcfaddeb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/pop_O_meta.txt",
+      "receipt": {
+        "name": "pop_O_meta.txt",
+        "bytes": 813,
+        "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00001.bin",
+      "receipt": {
+        "name": "rates_O_00001.bin",
+        "bytes": 23624,
+        "sha256": "c7e5526eb9ad47095b54dda694e57d8f507ac603c5d1e4eaedaffb9b25d43d51"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00008.bin",
+      "receipt": {
+        "name": "rates_O_00008.bin",
+        "bytes": 23624,
+        "sha256": "57152befcdf331f6d8e24c36387d1e3eb4e21e70ae9ebf25f1e0f5d4529ff3fe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00015.bin",
+      "receipt": {
+        "name": "rates_O_00015.bin",
+        "bytes": 23624,
+        "sha256": "1de1641fb7e1aa8904cc951a45c59ea386284289165ab7eeb7aa287c418d951e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00022.bin",
+      "receipt": {
+        "name": "rates_O_00022.bin",
+        "bytes": 23624,
+        "sha256": "24e4b3b85e4c18256a7c60766b353bc93251a695af298333648fa1e094835562"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00029.bin",
+      "receipt": {
+        "name": "rates_O_00029.bin",
+        "bytes": 23624,
+        "sha256": "b3681b8e191a15a3c71ed98dea9c7e04b3ec01c6b8b79752e1b1c8fff2eed79f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00036.bin",
+      "receipt": {
+        "name": "rates_O_00036.bin",
+        "bytes": 23624,
+        "sha256": "530e6350389e7a697e813495e1f4e5c86fa7fc90ef3118f98badb19f2cf319c4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00043.bin",
+      "receipt": {
+        "name": "rates_O_00043.bin",
+        "bytes": 23624,
+        "sha256": "8cd2dfd26cbf8517c3649d1be707a2a57ae23e621927ad490987c257dfb30ddf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rates_O_00050.bin",
+      "receipt": {
+        "name": "rates_O_00050.bin",
+        "bytes": 23624,
+        "sha256": "735724bed849f8ad89037e91140e4184f32acc2712a41f7def92569a226c781b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_001000.bin",
+      "receipt": {
+        "name": "rij_001000.bin",
+        "bytes": 28,
+        "sha256": "57397891b701aa35957b1a760eac8e911f3142d5ed46a4863e95b1af1a64c3a3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_002000.bin",
+      "receipt": {
+        "name": "rij_002000.bin",
+        "bytes": 28,
+        "sha256": "a8bc2d0138919f9bd2cceff4c78c81e98943a0e2b6eb98282801e0e06f82438b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_003000.bin",
+      "receipt": {
+        "name": "rij_003000.bin",
+        "bytes": 28,
+        "sha256": "ffce135920270feeb18852f57076385828a2ab0999f52adcc65b3eac0af622dd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_004000.bin",
+      "receipt": {
+        "name": "rij_004000.bin",
+        "bytes": 28,
+        "sha256": "115dff18b94a56febfd16cc86d124b08a1ee5ff6951b83277fd94fb4d54a378f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_005000.bin",
+      "receipt": {
+        "name": "rij_005000.bin",
+        "bytes": 28,
+        "sha256": "bfc36ca008c55ffc5ed10a4ba1246fb08b9d8c0355c395d5083c8a588d458fba"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_006000.bin",
+      "receipt": {
+        "name": "rij_006000.bin",
+        "bytes": 28,
+        "sha256": "06d860a2d68c1b8bb46be4a3e98b993c4a8a5d604c3b5c13828e1126f6b37345"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_007000.bin",
+      "receipt": {
+        "name": "rij_007000.bin",
+        "bytes": 28,
+        "sha256": "efb50bd99384e1a7832780bb1b1e0d696e9b9b8e8fefa3870dd4b629be82564b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_008000.bin",
+      "receipt": {
+        "name": "rij_008000.bin",
+        "bytes": 28,
+        "sha256": "3973b2e24d11e41e5619d183f60a7e124a396b97011763d077675bf9709d1daf"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rij_meta.txt",
+      "receipt": {
+        "name": "rij_meta.txt",
+        "bytes": 7005,
+        "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_001000.bin",
+      "receipt": {
+        "name": "rji_001000.bin",
+        "bytes": 28,
+        "sha256": "ddcc301bf1b99df55e46406205874e433c9818d6289619e8749174901c309584"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_002000.bin",
+      "receipt": {
+        "name": "rji_002000.bin",
+        "bytes": 28,
+        "sha256": "813bf5112aaee3bf65393f5050dc71feb9fd18b4945b0da12da5585dadffaefd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_003000.bin",
+      "receipt": {
+        "name": "rji_003000.bin",
+        "bytes": 28,
+        "sha256": "d6b036c8fe1a0f8f78bb8e56fb09290441800adbd03722de1966b480bf845d87"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_004000.bin",
+      "receipt": {
+        "name": "rji_004000.bin",
+        "bytes": 28,
+        "sha256": "aaef647c744d14add50550cd9841406138f8dbd857ef1a5caebb272891cb4e62"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_005000.bin",
+      "receipt": {
+        "name": "rji_005000.bin",
+        "bytes": 28,
+        "sha256": "44fac0260d68fc7fb16cd432e3b8bcdd29717b9d69f07418735b171958913303"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_006000.bin",
+      "receipt": {
+        "name": "rji_006000.bin",
+        "bytes": 28,
+        "sha256": "9a941835a5850a6842e8b730f962de05c8e059250b3a48fb31067338c38db9b3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_007000.bin",
+      "receipt": {
+        "name": "rji_007000.bin",
+        "bytes": 28,
+        "sha256": "5d37610fa164dbae7045f30907a9131ed9074c4b0b642c69b803a7c76e73f261"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_008000.bin",
+      "receipt": {
+        "name": "rji_008000.bin",
+        "bytes": 28,
+        "sha256": "effd31364e0877a313224fd511f834f4f02b17b974436284a5adaea8765b4ae0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/save/rji_meta.txt",
+      "receipt": {
+        "name": "rji_meta.txt",
+        "bytes": 7005,
+        "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native/sets.txt",
+      "receipt": {
+        "name": "sets.txt",
+        "bytes": 135,
+        "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/native.log",
+      "receipt": {
+        "name": "native.log",
+        "bytes": 3301,
+        "sha256": "d6d8b47449bc9d96d51d5506b2448a6a525d54e32d1ed92895f0370e7ea084d5"
+      },
+      "archived": "rya1371-native-gross-observer-v1/native.log",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/output_wavelengths_vac_A.txt",
+      "receipt": {
+        "name": "output_wavelengths_vac_A.txt",
+        "bytes": 111690,
+        "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+      },
+      "archived": "rya1371-native-gross-observer-v1/output_wavelengths_vac_A.txt",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/rank.lock",
+      "receipt": {
+        "name": "rank.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-observer-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 97525,
+        "sha256": "9216423f46050e653876a080c6bf5fb09797d4d20b37d8c7b482ef67684f5921"
+      },
+      "archived": "rya1371-native-gross-observer-v1/report.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-analysis-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 855122,
+        "sha256": "94e072719ef4f5fa2f9e3beb46c1785cb4a76996a696a53a67946fdabde330b1"
+      },
+      "archived": "rya1371-native-gross-analysis-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-analysis-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 168635,
+        "sha256": "5cbe92436b180c21ee2097d4d0b0adbe05ccee6b3a12745423e901b1f22722e8"
+      },
+      "archived": "rya1371-native-gross-analysis-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-physical-rates-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 90676,
+        "sha256": "d9c47ee709f5419616099d290747516b647db35567d14f59f4c8d8c730922e05"
+      },
+      "archived": "rya1371-hop-native-physical-rates-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-physical-rates-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4335912,
+        "sha256": "0c50733ea5abc9b4b6c9578b6e5e978d5a84b9fcbefc9d9e8a25a5376876226f"
+      },
+      "archived": "rya1371-hop-native-physical-rates-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-physical-rates-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 179125,
+        "sha256": "7039970c8a843c298ca88a607da87620a53f52c3e3be4be319a7268c307de7ec"
+      },
+      "archived": "rya1371-hop-native-physical-rates-v1/report.json",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

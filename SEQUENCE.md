@@ -1,5 +1,7 @@
 ## 2026-11-11 — native ghost-boundary qualification
 
+- **RYA-1371** — Native physical-rate export preserves145 binaries; exact-stage closure measured, remaining transfer differences isolated (v275).
+
 - **RYA-1371** — Source ghost geometry brings all O populations within1.24% of native; fresh coupled/restart passes, physical gates open (v274).
 
 ## 2026-11-10 — restored source-width component

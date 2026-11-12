@@ -1,0 +1,186 @@
+diff --git a/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90 b/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90
+--- a/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90
++++ b/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90
+@@ -1706,6 +1706,7 @@
+         endif
+         if (self%get_rates(i) .and. self%bound_bound) then
+           call self%bound_bound_rates(comp, atom, trans, adata, wmu, vproj, i)
++          call audit_gross_rates(self, atom, trans, adata, 1, comp, wmu, vproj, i)
+         endif
+       end associate
+     end do
+@@ -1723,7 +1724,10 @@
+     do i=1, self%natom
+       associate(atom=>self%atoms(i), trans=>self%trans(i))
+         if (self%get_rates(i)) then
+-          if (self%bound_free) call self%bound_free_rates(atom, trans, atom%data)
++          if (self%bound_free) then
++            call self%bound_free_rates(atom, trans, atom%data)
++            call audit_gross_rates(self, atom, trans, atom%data, 2)
++          endif
+           call self%integrate_rates(atom, trans, atom%data)
+         endif
+       end associate
+@@ -2803,7 +2807,7 @@
+   !> trans%gamma_ij and gamma_ji, which hold a thermal part and the deviation from
+   !> it per line and cell (see below); line_rate_coefficients forms the rates.
+   !===============================================================================
+-  SUBROUTINE bound_bound_rates (self, comp, atom, trans, adata, wmu, vproj, iatom)
++  SUBROUTINE bound_bound_rates (self, comp, atom, trans, adata, wmu, vproj, iatom, audit_physical)
+     class(rt_patch_t), target :: self
+     class(composition_type) :: comp                !< composition of the slab
+     class(atom_type) :: atom                       !< model atom
+@@ -2832,7 +2836,11 @@
+     real(4) :: sum_w, wtot
+     integer, save :: itimer=0
+     integer :: x, y, z, f, k
+-    !-----------------------------------------------------------------------------
++    logical, optional, intent(in) :: audit_physical
++    logical :: use_preconditioning
++    !-----------------------------------------------------------------------------
++    use_preconditioning = preconditioning
++    if (present(audit_physical)) use_preconditioning = preconditioning .and. .not. audit_physical
+     call trace%begin (trim(self%kind)//'%bound_bound_rates', itimer=itimer)
+     ! Each line stores two integrals per cell instead of the rates themselves:
+     !
+@@ -2912,7 +2920,7 @@
+               ni = ni * exp(-lower_off*ekt)
+               nj = nj * exp(-lower_off*ekt)
+             endif
+-            if (preconditioning) then
++            if (use_preconditioning) then
+               ! Same arithmetic, in the same order, as add_bound_bound_opacities:
+               ! the split tracking can only take this line's emissivity back out
+               ! of the local source term if it is the identical float.
+@@ -2997,7 +3005,7 @@
+             ! tracked contributions carry no beta, and the line-scattering
+             ! emissivity is not among them: it emits into the source term but
+             ! adds no extinction of its own.
+-            if (split_rates .and. preconditioning) then
++            if (split_rates .and. use_preconditioning) then
+               index = self%split_offset(iatom) + i
+               do f=fs, fe
+                 psi = self%Psi(f,x,y,z)
+@@ -3039,7 +3047,7 @@
+               ! difference.
+               g_th = sum_A
+               g_dev = sum_I
+-              if (preconditioning) then
++              if (use_preconditioning) then
+                 g_th = g_th - sum_P * eta_coef * (g_ratio - 1.0)
+                 g_dev = g_dev - sum_P * eta_coef
+               endif
+@@ -3112,7 +3120,7 @@
+   !> Adds the atom's bound-free rates from the angle-averaged Jnu of the main set,
+   !> preconditioned with PsiJ when preconditioning is set.
+   !===============================================================================
+-  SUBROUTINE bound_free_rates (self, atom, trans, adata)
++  SUBROUTINE bound_free_rates (self, atom, trans, adata, audit_physical)
+     class(rt_patch_t), target :: self
+     class(atom_type) :: atom            !< model atom
+     class(atom_trans_t) :: trans        !< the atom's transitions in the window
+@@ -3125,7 +3133,11 @@
+     integer :: i, j, fs, fe
+     integer, save :: itimer=0
+     integer :: x, y, z, f
+-    !-----------------------------------------------------------------------------
++    logical, optional, intent(in) :: audit_physical
++    logical :: use_preconditioning
++    !-----------------------------------------------------------------------------
++    use_preconditioning = preconditioning
++    if (present(audit_physical)) use_preconditioning = preconditioning .and. .not. audit_physical
+     call trace%begin (trim(self%kind)//'%bound_free_rates', itimer=itimer)
+     allocate(wmunu(self%fs:self%fe))
+     allocate(w_alpha(self%fs:self%fe))
+@@ -3166,7 +3178,7 @@
+             g_ij = sum_abs
+             g_ji = sum_ems
+ 
+-            if (preconditioning) then
++            if (use_preconditioning) then
+               g_ij = g_ij - sum_pre * adata%nstar(x,y,z,cont%i) * adata%b(x,y,z,cont%j)
+               g_ji = g_ji - sum_pre * adata%nstar(x,y,z,cont%i) * adata%b(x,y,z,cont%i)
+             endif
+@@ -3303,6 +3315,49 @@
+   !> Adds the slab's rates to the atom's rates on the composition patch, under its
+   !> lock.
+   !===============================================================================
++  !> Isolated serial diagnostic: replay rate integrals only, restore ALL solver sums.
++  !> No population, opacity, radiation or global preconditioning change.
++  SUBROUTINE audit_gross_rates(self, atom, trans, adata, kind, comp, wmu, vproj, iatom)
++    class(rt_patch_t) :: self
++    class(atom_type) :: atom
++    class(atom_trans_t) :: trans
++    class(atom_data_t) :: adata
++    integer, intent(in) :: kind
++    class(composition_type), optional :: comp
++    real(4), optional :: wmu
++    real(4), optional, contiguous :: vproj(:,:,:)
++    integer, optional :: iatom
++    real(4), allocatable :: saved_up(:,:,:,:), saved_down(:,:,:,:)
++    integer, allocatable :: indices(:)
++    integer :: unit, k, nr
++    character(len=256) :: filename
++    allocate(saved_up, source=trans%gamma_ij)
++    allocate(saved_down, source=trans%gamma_ji)
++    trans%gamma_ij = 0.
++    trans%gamma_ji = 0.
++    if (kind == 1) then
++      call self%bound_bound_rates(comp, atom, trans, adata, wmu, vproj, iatom, audit_physical=.true.)
++    else
++      call self%bound_free_rates(atom, trans, adata, audit_physical=.true.)
++    endif
++    nr = size(trans%gamma_ij,4)
++    allocate(indices(nr))
++    do k=1,size(trans%line)
++      indices(k) = trans%line(k)%ntrans
++    enddo
++    do k=1,size(trans%cont)
++      indices(k+size(trans%line)) = trans%cont(k)%ntrans
++    enddo
++    write(filename,'(a,"audit_gross_",i5.5,"_",i5.5,".bin")') trim(io%run_dir)//'save/', self%iter, self%zs
++    open(newunit=unit,file=trim(filename),access='stream',form='unformatted',status='unknown',position='append')
++    write(unit) int([1371,1,kind,self%iter,self%zs,self%nx,self%ny,self%nz,nr,atom%nlevel,self%fs,self%dir],4)
++    write(unit) int(indices,4), trans%gamma_ij, trans%gamma_ji
++    write(unit) adata%b * adata%nstar, adata%nstar
++    close(unit)
++    trans%gamma_ij = saved_up
++    trans%gamma_ji = saved_down
++  END SUBROUTINE audit_gross_rates
++
+   SUBROUTINE integrate_rates (self, atom, trans, adata)
+     class(rt_patch_t) :: self
+     class(atom_type) :: atom     !< model atom
+diff --git a/experiments/OpenMULTI3D/SRC/nlte_patch_mod.f90 b/experiments/OpenMULTI3D/SRC/nlte_patch_mod.f90
+--- a/experiments/OpenMULTI3D/SRC/nlte_patch_mod.f90
++++ b/experiments/OpenMULTI3D/SRC/nlte_patch_mod.f90
+@@ -557,6 +557,9 @@
+     real(8) :: r_up, r_down
+     integer :: i, j, k, p(3), m(3), ng_epos(4), count, lunit
+     character(len=32) :: rates_tag
++    real(4), allocatable :: audit_norm(:,:,:,:)
++    integer :: audit_unit, audit_k
++    character(len=256) :: audit_file
+     real(8) :: ng_emax
+     logical :: do_ng, locally_converged, found, last
+     integer, save :: itimer=0
+@@ -590,6 +593,19 @@
+         endif
+ 
+         call atom%normalize_profiles(self%iter)
++        !> Exact PRE-update state and source normalization for same-stage gross sums.
++        allocate(audit_norm(m(1),m(2),m(3),atom%nrad), source=1.)
++        do audit_k=1,atom%nline
++          if (allocated(adata%wphi(audit_k)%w)) audit_norm(:,:,:,audit_k) = adata%wphi(audit_k)%w
++        enddo
++        write(audit_file,'(a,"audit_state_",i5.5,"_",i5.5,".bin")') trim(io%run_dir)//'save/', self%iter, self%zs
++        open(newunit=audit_unit,file=trim(audit_file),access='stream',form='unformatted',status='new')
++        write(audit_unit) int([1371,1,self%iter,self%zs,m,atom%nlevel,atom%nrad,atom%nline],4)
++        write(audit_unit) int(atom%irad,4), int(atom%jrad,4)
++        write(audit_unit) adata%b * adata%nstar, adata%nstar, audit_norm
++        close(audit_unit)
++        deallocate(audit_norm)
++
+         diag_zs = self%zs
+         call atom%update_populations(comp, self%local, self%pcheck, cij, cji, w, c)
+ 
