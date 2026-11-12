@@ -1,0 +1,560 @@
+{
+  "generator": {
+    "name": "build_hop_line_grid_oracle.py",
+    "bytes": 2347,
+    "sha256": "d86330ffd13048d3771c8b5402bdf71e1491f05ec9c2786d466bb0330f3faf54"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+      "name": "libhop.so",
+      "bytes": 1164376,
+      "sha256": "12591629257b87eb5e7c637fd6cc4756f08d8f958f3d6ad312df89b27296e38a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+      "name": "libhop.h",
+      "bytes": 2165,
+      "sha256": "93881604affa797a1bfd1d7899696fc92c2ac97b1c98a3e724f24075f95ce118"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/collider-provider-build-v4/receipt.json": {
+      "name": "receipt.json",
+      "bytes": 1599,
+      "sha256": "4ef7f090589bcade0d7fa0349ae43f1e5a51ec1feb1421cc8ea29b13c61459d8"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/hop_collider_provider/trace_and_ground.patch": {
+      "name": "trace_and_ground.patch",
+      "bytes": 6941,
+      "sha256": "8d9f637bdabf4fcb588c09507fbecdeec5d0d12448a909fc8978e22ed70105e6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+      "name": "const_mod.f90",
+      "bytes": 5473,
+      "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+      "name": "hop_abi.py",
+      "bytes": 959,
+      "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+      "name": "rya1371_hop_native_options.json",
+      "bytes": 1512,
+      "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+      "name": "TS_absdat.txt",
+      "bytes": 397207,
+      "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+      "name": "abund_magg22.txt",
+      "bytes": 912,
+      "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+      "name": "isotopes_blp.txt",
+      "bytes": 8960,
+      "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+      "name": "molec_data_BC.txt",
+      "bytes": 5993,
+      "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+      "name": "Anstee-1802-2014.txt",
+      "bytes": 4766137,
+      "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+      "name": "stehle_paschen.txt",
+      "bytes": 374761,
+      "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+      "name": "vcs_balmer.txt",
+      "bytes": 1373161,
+      "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+      "name": "vcs_paschen.txt",
+      "bytes": 312313,
+      "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+      "name": "vcs_bracket.txt",
+      "bytes": 331828,
+      "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+      "name": "stehle_balmer.txt",
+      "bytes": 374761,
+      "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/hop_line_grid_oracle/driver.f90": {
+      "name": "driver.f90",
+      "bytes": 843,
+      "sha256": "e1d8f7693d8ce4641199ad58eb37a5b7a4f84ab5d713985c8a7e48035e147400"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/Makefile": {
+      "name": "Makefile",
+      "bytes": 5760,
+      "sha256": "5482916e27650c406d7b915c1eab2789c147763f36ad13c89f463043eeba6df5"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/anstee_mod.f90": {
+      "name": "anstee_mod.f90",
+      "bytes": 13311,
+      "sha256": "b9772a41aca3cf797bd0b9987981fcdbbd44639caacdef6fe2cfd85d5b0adeb8"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/atmos_reader_mod.f90": {
+      "name": "atmos_reader_mod.f90",
+      "bytes": 33775,
+      "sha256": "77c51fead6b6a257562d744429964a5257c719462427a29c3673d755d87c5d53"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/atom_convert_mod.f90": {
+      "name": "atom_convert_mod.f90",
+      "bytes": 27796,
+      "sha256": "cd8e382f486721fdd79c7531bdc6a32b500fb22d7a0bd20473d2ddbe1f77ace0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/bbtrans_mod.f90": {
+      "name": "bbtrans_mod.f90",
+      "bytes": 17983,
+      "sha256": "e79519d7518ab6e0d7e96cb17d2f695524eca47e66a6e27a2dc2515677cc1199"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/bftrans_mod.f90": {
+      "name": "bftrans_mod.f90",
+      "bytes": 26092,
+      "sha256": "b9149eda9e18c773c818935917128ed80a95a04c119c7fd702ff36c777040ffb"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/composition_mod.f90": {
+      "name": "composition_mod.f90",
+      "bytes": 183334,
+      "sha256": "fdedde65cfb0ff665677e2e060495d42c4016013bbf744fb1a1440ade991a46e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/console_mod.f90": {
+      "name": "console_mod.f90",
+      "bytes": 4954,
+      "sha256": "7657c0c54459190addebed929f9e309bc9103b23fa6c13bcc3ea1355878fa91b"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/element_mod.f90": {
+      "name": "element_mod.f90",
+      "bytes": 4098,
+      "sha256": "3518434ca771aa0e66c397d442fa1dffaaad735e25e09f90ad487bea92c44b5e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/handyfuncs_mod.f90": {
+      "name": "handyfuncs_mod.f90",
+      "bytes": 39086,
+      "sha256": "e4002d0ccf494c013d4f9c7946f9750b13150aa845ec2433cd48e2bb528f4c40"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hop_env_mod.f90": {
+      "name": "hop_env_mod.f90",
+      "bytes": 3662,
+      "sha256": "e3b4dc61eb397848fbda57f4535e2ec658b1fe89eecb781d075a11c1e9e385fd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hprofl_mod.f90": {
+      "name": "hprofl_mod.f90",
+      "bytes": 56117,
+      "sha256": "e4d3a42b501c3e14383fd4802309b005d2bde692a537f21dfa78ea159c2e0cb7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hvcs_mod.f90": {
+      "name": "hvcs_mod.f90",
+      "bytes": 26213,
+      "sha256": "154e528b8b3e790a54b6bf09a148020b91e66e1f10dd635992b9f25666c949f1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/interpol_mod.f90": {
+      "name": "interpol_mod.f90",
+      "bytes": 38049,
+      "sha256": "1e16897adeb4fa16d023215a7054135d0dccb7a115b61fce6174c0197bc3f16f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/ion_mod.f90": {
+      "name": "ion_mod.f90",
+      "bytes": 10135,
+      "sha256": "a577743a27a92035ece7567ad01efa4632f4d6c4b9ffaf7301380b2731fb2937"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/level_mod.f90": {
+      "name": "level_mod.f90",
+      "bytes": 12172,
+      "sha256": "3991e6b99615fec15678543c7c178d4d6b615bfe3411319d71de3969c8800476"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/line_types_mod.f90": {
+      "name": "line_types_mod.f90",
+      "bytes": 4833,
+      "sha256": "c2af561203d4142c66fcde8db4a8ce1b7cf03ab363dd33d645609e898fbac1af"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/linelist_mod.f90": {
+      "name": "linelist_mod.f90",
+      "bytes": 87770,
+      "sha256": "5cef8450f4185381c84528790212902aa980f8454b5ee696491a678adee9c62a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/linelist_reader_mod.f90": {
+      "name": "linelist_reader_mod.f90",
+      "bytes": 27236,
+      "sha256": "2259fe631ebd9b68f6af2ce0cc5a4e81d20b2d5ff3b9f51467452b66cdda5203"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/molecule_mod.f90": {
+      "name": "molecule_mod.f90",
+      "bytes": 56749,
+      "sha256": "3b74ad922d9dfda25e51ab178b4695586abaa4b45946371cf77b761a9dea6fdc"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/namelist_check_mod.f90": {
+      "name": "namelist_check_mod.f90",
+      "bytes": 12899,
+      "sha256": "336eb88f43d8ff67f5406284f3868b36ef6d5e3dc1c733b7446aa4d60c84af14"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/op_math_mod.f90": {
+      "name": "op_math_mod.f90",
+      "bytes": 23200,
+      "sha256": "b080255a656b324e752a3075536d2013e4f05763552a076607c6eb6bd74a8610"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/optab_mod.f90": {
+      "name": "optab_mod.f90",
+      "bytes": 28243,
+      "sha256": "871eaca8ebde748ae7c9898d031726783bc2f1e1dd8a0f615871615dd335f626"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/osmet_mod.f90": {
+      "name": "osmet_mod.f90",
+      "bytes": 14694,
+      "sha256": "d46f456c7e8a90f4c4cc685f32eb612afc442ba903a83e7263d3d72cd5634d2e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/qlg_mod.f90": {
+      "name": "qlg_mod.f90",
+      "bytes": 34977,
+      "sha256": "b9332dca475018b8efae038b4ac69c05e52f77a27c2d7c116eb11053f84e7ea1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/spectrum_mod.f90": {
+      "name": "spectrum_mod.f90",
+      "bytes": 27962,
+      "sha256": "73992dbd6d8c1b5a1b24a44d5fac1681d4999dab06c130b3b3e7d243a43a9cf1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/trans_mod.f90": {
+      "name": "trans_mod.f90",
+      "bytes": 8921,
+      "sha256": "991f51482fa8cd1243bbf66213b3ed06ed809d11372b0482415ffb60a9da51e4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/anstee_mod.o": {
+      "name": "anstee_mod.o",
+      "bytes": 21072,
+      "sha256": "8ab3075dd9cf44388ab2464b900eefd2b70f4192423478901ade798ccd8bc1ac"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atmos_reader_mod.o": {
+      "name": "atmos_reader_mod.o",
+      "bytes": 74272,
+      "sha256": "b04a219a2bbbf40d8493a7cd68d2ffc025325851bbce3dba3ce3b98e33e8aea0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atom_convert_mod.o": {
+      "name": "atom_convert_mod.o",
+      "bytes": 67064,
+      "sha256": "16ba579d7ef48fedaf2e6bf3a4bcf487b431a48ba3bb71c5742485e5c810793d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bbtrans_mod.o": {
+      "name": "bbtrans_mod.o",
+      "bytes": 8056,
+      "sha256": "2c1b60569713193e90c34daae3a4e4089a1d86d1096a9cec6f626acc98caa94f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bftrans_mod.o": {
+      "name": "bftrans_mod.o",
+      "bytes": 44168,
+      "sha256": "e06608c6984b986a8fe186922f3bd8651e519d38f6cb13963b0cda4eceb015b8"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/composition_mod.o": {
+      "name": "composition_mod.o",
+      "bytes": 423800,
+      "sha256": "5efc950934e1f37520f48e6054c69e4b08a0df82f31496f374ba078280ace04f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/console_mod.o": {
+      "name": "console_mod.o",
+      "bytes": 3320,
+      "sha256": "3a5153d21545b10a3af459b1a936d15a967a11affa9ccca521a0cff947a8aac4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/const_mod.o": {
+      "name": "const_mod.o",
+      "bytes": 992,
+      "sha256": "9c94bdb9f2eaf3caf81d6674fb1715f76bfed10c5d84505545478df4f95916ff"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/element_mod.o": {
+      "name": "element_mod.o",
+      "bytes": 22736,
+      "sha256": "c6c2d174f5da73d8a237053c139b50641b27d366228050b6a251255cb473ca53"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.o": {
+      "name": "handyfuncs_mod.o",
+      "bytes": 45120,
+      "sha256": "6c1944a5f56e37cf3280f31377a5f36106fa4b5a84b5c56814e803fdfb745da6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_c_api.o": {
+      "name": "hop_c_api.o",
+      "bytes": 171408,
+      "sha256": "bcd46f27ad810293a492cc412742749f84c343ca98653b7c1cb4187e7939961e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_env_mod.o": {
+      "name": "hop_env_mod.o",
+      "bytes": 12888,
+      "sha256": "cf090c9cfe956e609c8e3745943b08606b6864486e6d67275a22060d54c84713"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hprofl_mod.o": {
+      "name": "hprofl_mod.o",
+      "bytes": 34568,
+      "sha256": "a79557b016fd2958a6f894c133be5c4388b431f143a217615b9687e849db1891"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hvcs_mod.o": {
+      "name": "hvcs_mod.o",
+      "bytes": 22888,
+      "sha256": "a335d093b7f064996c34630399cdd2fde9ac4532ab783e33cca1364a343da863"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/interpol_mod.o": {
+      "name": "interpol_mod.o",
+      "bytes": 54080,
+      "sha256": "20359984fc7636f14d935c938684fdf45c0a378679c39c08aaf2fd5e268c9d12"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/ion_mod.o": {
+      "name": "ion_mod.o",
+      "bytes": 29792,
+      "sha256": "74a8b8eb086a5f7f379f631c62e511d7d95694efc32a3ed99aee3bf055ca5f17"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/level_mod.o": {
+      "name": "level_mod.o",
+      "bytes": 13560,
+      "sha256": "df6d9731b7b7ee3b2fd936c961fc5f436dbcc901542ce8d28b5a901fa5277675"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/line_types_mod.o": {
+      "name": "line_types_mod.o",
+      "bytes": 8144,
+      "sha256": "029b5da6f08821cebcbea1d2b312f4f208a891f711b5937172fced1bf732cbea"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_mod.o": {
+      "name": "linelist_mod.o",
+      "bytes": 70800,
+      "sha256": "b5c04f1e6c0220e166ec1517e7012b15071bc11aa5ffada82078e36fad01e9cf"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_reader_mod.o": {
+      "name": "linelist_reader_mod.o",
+      "bytes": 21512,
+      "sha256": "b425c5ec3aa687dd29a4cde1578f783674388ec8feffcfbb68d5483175da5880"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/molecule_mod.o": {
+      "name": "molecule_mod.o",
+      "bytes": 71520,
+      "sha256": "c62654f86708b893bde7022323c5add54b09c173247574a7dd27c7eed790ba59"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/namelist_check_mod.o": {
+      "name": "namelist_check_mod.o",
+      "bytes": 14904,
+      "sha256": "e9b45dfce23e1ee14960f809fb386e251641cf6454ab152438c280352296ff9b"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/op_math_mod.o": {
+      "name": "op_math_mod.o",
+      "bytes": 18136,
+      "sha256": "28508431adee9ff25a66f49455c6a9068e56d2d3079d8068857742e5236fdeea"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/optab_mod.o": {
+      "name": "optab_mod.o",
+      "bytes": 39424,
+      "sha256": "85b14877aaa4f40d9294117a2e9e831c3b03a20316d3df6cf5a82db1f2f90369"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/osmet_mod.o": {
+      "name": "osmet_mod.o",
+      "bytes": 31336,
+      "sha256": "223cd529004fe275b2311d2371a2dcda107ba5e60bf5221b0f27104937074a37"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/qlg_mod.o": {
+      "name": "qlg_mod.o",
+      "bytes": 13856,
+      "sha256": "4aaee0abdca0d895dbd7032fbf43ab0c481fe6f31881d2a57dbdbe569446ed5a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/spectrum_mod.o": {
+      "name": "spectrum_mod.o",
+      "bytes": 47312,
+      "sha256": "f96610deadc5958dbb58f275fef9541e4684041c2f309b92e9565a2d3fa68141"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/trans_mod.o": {
+      "name": "trans_mod.o",
+      "bytes": 11384,
+      "sha256": "2e73fba00f92733ff01ee040e44377ecb64ed0ddaaf48ba15d40122cead43fcd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/anstee_mod.mod": {
+      "name": "anstee_mod.mod",
+      "bytes": 1304,
+      "sha256": "9a93df4a63ec3be364dbe6fc324fa5227d58980cef580d69eb5bdf4d64ec2bde"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atmos_reader_mod.mod": {
+      "name": "atmos_reader_mod.mod",
+      "bytes": 4586,
+      "sha256": "4ea4b0ab1c311cff5321bbd1df8ec899cc812f95b5d12804ec03b6539b4025af"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atom_convert_mod.mod": {
+      "name": "atom_convert_mod.mod",
+      "bytes": 4314,
+      "sha256": "bc3f92ffc305c375772bb57ba8dee9832a5c23f91597a65746f6aa819215e8ac"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bbtrans_mod.mod": {
+      "name": "bbtrans_mod.mod",
+      "bytes": 4268,
+      "sha256": "cfbfed9a2c8ba3c12376ed25d2ed857c28d83d4472f1939e10ab224601350ba5"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bftrans_mod.mod": {
+      "name": "bftrans_mod.mod",
+      "bytes": 12569,
+      "sha256": "543b40b5d2bc10e6761cd540cb182b189a16870fb9bfc5de3801c6641f04229a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/composition_mod.mod": {
+      "name": "composition_mod.mod",
+      "bytes": 33112,
+      "sha256": "c4d06a2f0ea735c3d58a9bb9999e0f3db8eeffbba81e7e2a9786d69db8fc06cc"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/console_mod.mod": {
+      "name": "console_mod.mod",
+      "bytes": 741,
+      "sha256": "dc8d25e792e4517e63fb2fba378bebe0b4b7c7a75facc8c818a060987a319c00"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/const_mod.mod": {
+      "name": "const_mod.mod",
+      "bytes": 2183,
+      "sha256": "b618a928a42cbab9bdec741126919c9cec213bd4005b653ac957752403cf0feb"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/element_mod.mod": {
+      "name": "element_mod.mod",
+      "bytes": 13773,
+      "sha256": "c6b0a20f71fb94c6ddc860c586b8e9e91d050a5ba293dfa823cdf9cec24a20f6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.mod": {
+      "name": "handyfuncs_mod.mod",
+      "bytes": 10215,
+      "sha256": "88df2a98dac408345bdae83806457862250379f813783a6782f4ebe7ef177a8c"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_c_api.mod": {
+      "name": "hop_c_api.mod",
+      "bytes": 36098,
+      "sha256": "76df99b6c4386a3306422cf540629413e432685062e38b83054fd7f5bc0c38b2"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_env_mod.mod": {
+      "name": "hop_env_mod.mod",
+      "bytes": 2595,
+      "sha256": "435ed8eeb09ad0f3ef2cc3f71581a8e03ffcb0db96759083c02f49e53f3675dd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hprofl_mod.mod": {
+      "name": "hprofl_mod.mod",
+      "bytes": 5209,
+      "sha256": "7f624ecd889e75b88f3ca0f20c6204f4105dc2b75d7b67bfb5221cac002718fb"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hvcs_mod.mod": {
+      "name": "hvcs_mod.mod",
+      "bytes": 1815,
+      "sha256": "4efb80fb84928b4f42892c8196f5af51b414eaeae1c742256a8ff80f0790a126"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/interpol_mod.mod": {
+      "name": "interpol_mod.mod",
+      "bytes": 2708,
+      "sha256": "ccf9e0293f03a99bcd216cbee377f433b53b66d1ffb2abbcd38a1396a0d7d352"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/ion_mod.mod": {
+      "name": "ion_mod.mod",
+      "bytes": 10844,
+      "sha256": "2050d774c86feefd84c7b73e2f42fb15d00f5ca77b04db238e4ce0863a1bbcac"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/level_mod.mod": {
+      "name": "level_mod.mod",
+      "bytes": 4126,
+      "sha256": "760ef8e170067cd6621243b52e2adca1d4f4689ea8619989e96abae2228b5a77"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/line_types_mod.mod": {
+      "name": "line_types_mod.mod",
+      "bytes": 1462,
+      "sha256": "ae2ae24249e61477582b86be7f4378a6009f3b752d7daf7480c7f26129b9caca"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_mod.mod": {
+      "name": "linelist_mod.mod",
+      "bytes": 12902,
+      "sha256": "b636bfbb73e5fe5fa09d164e6015833d1968c9ed451e52ccaf369ff18051e7b7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_reader_mod.mod": {
+      "name": "linelist_reader_mod.mod",
+      "bytes": 4286,
+      "sha256": "8a3d787818b068eabf083693f5ebe59190287fe625dbe2aee61c1369946dcf73"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/molecule_mod.mod": {
+      "name": "molecule_mod.mod",
+      "bytes": 18680,
+      "sha256": "3a4e37b20e1bf5f2f235d29ddd25d050a48c92186c06e982bc310f14dfb9a26c"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/namelist_check_mod.mod": {
+      "name": "namelist_check_mod.mod",
+      "bytes": 317,
+      "sha256": "51a386f9daefa05a8ad6a459ea76b8faf333574711f066b54ecf940d2982de67"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/op_math_mod.mod": {
+      "name": "op_math_mod.mod",
+      "bytes": 4296,
+      "sha256": "061ab9cdfc59f41b46423d58a11dde43a702f1c793211e18c89a83b4b30e71d5"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/optab_mod.mod": {
+      "name": "optab_mod.mod",
+      "bytes": 13210,
+      "sha256": "b30fc75d2a876ee4ced0f70705a94220e0170a14a72fb7daddfd5f123fa1b295"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/osmet_mod.mod": {
+      "name": "osmet_mod.mod",
+      "bytes": 8594,
+      "sha256": "61ec6cad3a97a252b8295ac3e61f172618b84ffa04f7fa7e9f7eb3668fb5faab"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/qlg.mod": {
+      "name": "qlg.mod",
+      "bytes": 2232,
+      "sha256": "0e3570c22762cbc1b4cc31293c637454aa427ceb80894b8d5da215c37098cae6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/spectrum_mod.mod": {
+      "name": "spectrum_mod.mod",
+      "bytes": 7591,
+      "sha256": "8ae23d95af06be8943a248bc8f0ecfd36b0658cb4bcfb41d1c8c6e5a9dc2a2de"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/trans_mod.mod": {
+      "name": "trans_mod.mod",
+      "bytes": 9693,
+      "sha256": "a0d52db2d3b02f91034886f5184491a766edf38f8cb9e306df264a3b5ab5a18e"
+    }
+  },
+  "command": [
+    "gfortran",
+    "-O3",
+    "-fopenmp",
+    "-I/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build",
+    "/Users/ryanschmitt/codex/rya1371/native/hop_line_grid_oracle/driver.f90",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/anstee_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atmos_reader_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atom_convert_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bbtrans_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bftrans_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/composition_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/console_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/const_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/element_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_c_api.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_env_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hprofl_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hvcs_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/interpol_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/ion_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/level_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/line_types_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_reader_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/molecule_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/namelist_check_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/op_math_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/optab_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/osmet_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/qlg_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/spectrum_mod.o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/trans_mod.o",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-line-grid-build-v1/line_grid_probe"
+  ],
+  "threads": 1,
+  "seconds_limit": 600,
+  "completed": true,
+  "seconds": 0.4282894590869546,
+  "executable": {
+    "name": "line_grid_probe",
+    "bytes": 1164864,
+    "sha256": "c8d1dd07288bebac295e076b4643faafd6186c5ff4e2d105b3864ef4668485dc"
+  }
+}

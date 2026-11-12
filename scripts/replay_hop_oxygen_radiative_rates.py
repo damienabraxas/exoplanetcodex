@@ -95,12 +95,36 @@ def main():
             pop=d['n'][:,::-1].copy()*1e6
             foreign_R=d['R'][:,:,::-1].copy();foreign_C=d['C'][:,:,::-1].copy()
         native_seed=pop.copy()
-    report=dict(generator=fingerprint(__file__),inputs=checks,scientific_admission='HOLD',computational_completed=False,scope=plan['scope'],source_atom=preflight,boundary_control=boundary_mode,native_rate_semantics='Saved native coefficients contain SE preconditioning; individual up/down values are not gross Einstein rates. Net-flow interpretation additionally requires the native linearization population. Fresh unpreconditioned native-field replay remains owed.')
+    line_grid_control=None
+    if 'native_line_grid_control'in plan:
+        if physical_control is None:raise ValueError('Native grid diagnostic requires exact physical state')
+        from pipeline.native_line_grid import load_line_grid_control
+        line_grid_control,more=load_line_grid_control(plan['native_line_grid_control'],atom_file,resolver=require_codex_path);checks.update(more)
+        checks[str(ROOT/'pipeline/native_line_grid.py')]=fingerprint(ROOT/'pipeline/native_line_grid.py')
+    extra_wave=np.array([500.,845.]);grid_audit=None
+    if 'wavelength_grid_control'in plan:
+        from pipeline.rate_grid_control import midpoint_grid
+        control=plan['wavelength_grid_control']
+        if physical_control is None or set(control)not in [{'resource','packet','passes','method'},{'resource','packet','passes','method','interval_vac_nm'}]or control['method']!='vacuum-nm-midpoint-insertion':raise ValueError('Require explicit physical-rate midpoint diagnostic')
+        path=require_codex_path(control['resource'])/'rates.npz'
+        if fingerprint(path)!=control['packet']:raise ValueError('Changed original frequency grid')
+        checks[str(path)]=control['packet'];checks[str(ROOT/'pipeline/rate_grid_control.py')]=fingerprint(ROOT/'pipeline/rate_grid_control.py')
+        if line_grid_control is not None:
+            producer=path.parent/'report.json';doc=json.loads(producer.read_text());prior=doc.get('context_audit',{}).get('line_grid_control')
+            if not doc['computational_completed']or prior is None or prior['receipt']!=line_grid_control.receipt or prior.get('mode','native-spacing-and-support')!=line_grid_control.mode:raise ValueError('Midpoint reference has wrong native line grid')
+            checks[str(producer)]=fingerprint(producer)
+        with np.load(path)as d:
+            np.testing.assert_array_equal(d['populations'],pop);np.testing.assert_array_equal(d['nstar'],star)
+            coarse=d['wave_vac_nm'].copy()
+        extra_wave=midpoint_grid(coarse,control['passes'],interval_vac_nm=control.get('interval_vac_nm'))
+        grid_audit=dict(interval_vac_nm=control.get('interval_vac_nm'),method=control['method'],passes=control['passes'],coarse_points=len(coarse),refined_points=len(extra_wave),endpoints_vac_nm=[float(extra_wave[0]),float(extra_wave[-1])],scope='Insert integration nodes only; original transition endpoints, source atom and frozen native populations unchanged. Numerical refinement, not physical adoption.')
+    report=dict(generator=fingerprint(__file__),inputs=checks,scientific_admission='HOLD',computational_completed=False,scope=plan['scope'],source_atom=preflight,boundary_control=boundary_mode,wavelength_grid_control=grid_audit,native_rate_semantics='Saved native coefficients contain SE preconditioning; individual up/down values are not gross Einstein rates. Net-flow interpretation additionally requires the native linearization population. Fresh unpreconditioned native-field replay remains owed.')
     if physical_control is not None:report['native_rate_semantics']='Unpreconditioned physical rate integrals at exact PRE-update radiation populations; source FP32 contributions summed in FP64, normalized with source profile/LTE factors. Not a post-update fresh native formal solve.'
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n');ctx=None
     try:
-        ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=np.array([500.,845.]),formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary)
+        ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=extra_wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary,line_grid_control=line_grid_control)
         ctx.set_fs_iter_scheme(scheme);ctx.kwargs['fsIterScheme']=scheme;active=ctx.activeAtoms[0];active.compute_collisions(fillDiagonal=False);np.testing.assert_array_equal(active.C,binding.matrix)
+        if grid_audit is not None:np.testing.assert_array_equal(np.array(ctx.spect.wavelength),extra_wave)
         if top_boundary is None:radiation=converge_cap_radiation(ctx,rtol=controls['cap_radiation_rtol'],maxiter=controls['cap_radiation_maxiter'],deadline=deadline)
         else:
             from pipeline.native_ghost_boundary import converge_ghost_radiation

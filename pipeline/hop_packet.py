@@ -12,6 +12,7 @@ from pipeline.hop_abi import bind_header
 from pipeline.reference_engines import load_engine,fingerprint
 ROOT=Path(__file__).resolve().parents[1]
 _LOCK=threading.Lock()
+MAX_PACKET_WAVELENGTHS=20000 # Existing packet scope; also owns refinement preflight bound.
 
 
 def checked_runtime(provider_variant='trace'):
@@ -57,7 +58,7 @@ def compute_packet(T_K,ne_m3,rho_kg_m3,wave_vac_nm,abundances_dex,atom,*,vmic_m_
     if os.environ.get('OMP_NUM_THREADS')!='1':raise ValueError('Require explicit one-thread HOP environment')
     T=np.array(T_K,dtype=float,copy=True,order='C');ne=np.array(ne_m3,dtype=float,copy=True,order='C')*1e-6;rho=np.array(rho_kg_m3,dtype=float,copy=True,order='C')*1e-3;wave=np.array(wave_vac_nm,dtype=float,copy=True)
     if T.ndim!=1 or not 1<=len(T)<=256 or ne.shape!=T.shape or rho.shape!=T.shape or any(not np.isfinite(v).all()or np.any(v<=0)for v in [T,ne,rho]):raise ValueError('Invalid complete thermodynamic binding')
-    if wave.ndim!=1 or not 1<=len(wave)<=20000 or not np.isfinite(wave).all()or np.any(wave<=0)or np.any(np.diff(wave)<=0):raise ValueError('Invalid bounded vacuum-nm packet grid')
+    if wave.ndim!=1 or not 1<=len(wave)<=MAX_PACKET_WAVELENGTHS or not np.isfinite(wave).all()or np.any(wave<=0)or np.any(np.diff(wave)<=0):raise ValueError('Invalid bounded vacuum-nm packet grid')
     abundance=np.ascontiguousarray(np.asarray(abundances_dex,np.float32).astype(float))
     if abundance.shape!=(92,)or abundance[0]!=12 or not np.isfinite(abundance).all():raise ValueError('Require explicit full MARCS abundance set')
     if atom.symbol!='O'or not np.isfinite(vmic_m_s)or vmic_m_s<0:raise ValueError('Only explicitly qualified Oxygen packet implemented')

@@ -1290,3 +1290,120 @@ present/18 pre-existing broken. Generator diagnostics exactly equal baseline5120
 Full staged whitespace check reports only verbatim native.log trailing spaces and
 unified-patch blank context/EOF; source/log/patch bytes preserved, no guard changed.
 Handwritten code/config/docs whitespace check passes. No global-green claim.
+
+## v276 — physical-rate decomposition and frequency-grid controls (2026-11-11)
+
+Base d0253a61; same codex/rya1371 worktree/branch, fetched main remains45901e76.
+Scientific HOLD unchanged. Mac-only, serial one-thread fixed-population RT; original
+600s/rtol/rays/Ng controls retained. No new SE/population solve, adopted parameters,
+source/default/gold/product changes, or observed solar/3D/all-band qualification.
+
+Full physical-flow audit covers41levels x56depths across SEVEN controls (16072
+level-depth rows;1946 distinct pair summaries=278pairs/case). All n/nStar/native R/C
+and replay C arrays remain BIT-IDENTICAL across cases. Separate incoming/outgoing
+reconstruction verifies delta-R plus delta-C plus native net equals replay net within
+256fp64 eps on the gross-flow scale. Collision-output quantization contributes at
+most1.164e-9 on this normalized scale, far below the remaining discrepancy.
+
+Worst default residual is level13/outermost depth. The level7->13 component at
+8448.568284A vacuum (near8446A AIR) contributes +.00318551 to that cell's gross-normalized
+net difference, partly cancelled by other partners. Its upward rate differs.820515%.
+This is distinct from the previously largest4.24% coefficient ratio on an extremely
+weak transition. BF contributions become the worst cells in some alternative grids;
+no element or layer is omitted or reweighted to manufacture agreement.
+
+| Numerical control | Points | RT seconds | Max physical residual at exact native state | Top7->13 upward rate contrast |
+|---|---:|---:|---:|---:|
+| Default LW/source grid |6795|2.232|.0031795954|+.820515%|
+| Default plus all-grid midpoint insertion |13589|3.758|.0029892427|+.772389%|
+| Then local8446-window midpoint insertion |13691|3.523|.0029390292|+.759632%|
+| Native wing endpoints only, LW node shape |6795|2.155|.0032284679|+.833126%|
+| Native fractional support AND spacing |6795|2.136|.0007287804|+.018720%|
+| Native-style grid plus all-grid midpoints |13589|3.569|.0025799191|+.613471%|
+| Then same local8446-window midpoints |13691|3.592|.0028102399|+.726628%|
+
+The apparently closer COARSE native-style result is NOT numerical convergence or
+physical validation. Refining it moves back toward the independently refined default
+grid family. Do not adopt.000729 as a scientifically preferred result. These tests
+measure Bride frequency-grid sensitivity with fixed native populations; they do not
+establish that the native RT engine itself is under-resolved, nor uniquely attribute
+remaining differences. A native-side refinement and BF-radiation audit are next.
+
+The grid oracle links read-only qualified HOP objects, verifies linked trans_mod bytes
+against pinned source32085d26, and calls ACTUAL get_lam for256source transitions
+(6288line nodes). Build.428s. Actual native QNORM10km/s, NQFAC2, legacyF confirmed.
+Fractional offsets are applied around ORIGINAL source photon centres; no native-table
+centre/f-strength replacement, E/g/C/width change, or empirical grid fit. This is a
+native-STYLE fractional grid, not a claim of bit-identical native global axes or BF
+radiation handling. Optional explicit numerical control only; defaults remain unchanged.
+Support-only stretches the original doubled LW node shape to exact source blue/red
+endpoints; full mode replaces spacing too. Tests enforce centroid/f/endpoints/support.
+
+Both local refinements use the SAME inherited8443--8449A AIR diagnostic window,
+converted ONCE to vacuum nm [844.5320129375,845.1321751772]. Global wavelengths remain
+90.0064--6876.574194nm; this is internal SE integration support, not dense observed
+all-band validation. Adding nodes preserves original line endpoints and frozen state.
+
+Failed control: prospective full two-pass midpoint grid27177 exceeded the EXISTING
+HOP packet cap20000 and refused before formal RT/SE (.482s). Failure/manifest preserved.
+New helper had initially allowed30000, an authoring bound inconsistency; fixed helper
+now imports the original20000 bound from its canonical packet owner, with discriminating test. Local refinement remains below
+cap; no size/tolerance/budget guard bypass. Canonical bug-ledger row appended for this
+new harness defect. Exact first failed helper source was not captured; no complete
+failed-driver reproducibility claim. Two other exploratory prep attempts failed before
+outputs (namelist whitespace regex, an unused incorrect path key); both corrected,
+without substituted data or scientific results.
+
+The simple cell-interface hypothesis was checked against ACTUAL params: AMR='P', and
+long_char_linear already uses upstream ds for the first downward cell when AMR is
+nonblank. Thus the guessed missing-upstream-spacing mechanism does not apply. Broader
+interface/precision/lower-boundary effects remain open, not uniquely ruled out.
+
+66focused tests pass (three existing upstream LW configuration/deprecation
+warnings). New tests cover midpoint support/node retention, invalid/bounded grids,
+native fractional offsets, full model line identity, and photon-centre/f invariance.
+Heatmap residual_maps.png inspected; CSV retains every level/depth and every pair.
+Raw archive supplement35files/30compact copies; five over5MiB NPZ files remain raw-only
+with receipts, preserving the existing compact-artifact guard. Old native-grid module
+and replay driver snapshots captured before later extensions where available; no
+invented historical snapshots. No literature/source acquisition or science admission.
+
+Reproduction: source config/hosts/mac.env; OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1;
+PROJECT=/Users/ryanschmitt/codex/venv/bin/python;
+LW=/Users/ryanschmitt/bride_rya1118/.venv/bin/python. Fresh owned output paths required.
+
+```text
+PROJECT scripts/build_hop_line_grid_oracle.py --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-line-grid-build-v1
+PROJECT scripts/audit_native_line_grid.py --build /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-line-grid-build-v1 --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-line-grid-v1
+LW scripts/replay_hop_oxygen_radiative_rates.py --plan config/experiments/PLAN.json --output /Users/ryanschmitt/codex/bride_mac_checks/RAW
+LW scripts/audit_oxygen_physical_rate_controls.py --raw-root /Users/ryanschmitt/codex/bride_mac_checks --output /Users/ryanschmitt/codex/bride_mac_checks/rya1371-physical-rate-control-audit-v1
+PROJECT scripts/archive_oxygen_reference_checks.py --physical-rate-controls-supplement --raw-root /Users/ryanschmitt/codex/bride_mac_checks --output data/results/rya1371/physical_rate_controls_v1
+```
+
+PLAN/RAW in dependency order (prefix PLAN with rya1371_hop_physical_):
+midpoint1 /rya1371-hop-physical-midpoint1-v1;
+midpoint2 /rya1371-hop-physical-midpoint2-v1 (EXPECTED refusal, no rerun needed);
+midpoint8446 /rya1371-hop-physical-midpoint8446-v1;
+native_grid /rya1371-hop-physical-native-grid-v1;
+native_support /rya1371-hop-physical-native-support-v1;
+native_midpoint /rya1371-hop-physical-native-midpoint-v1;
+native_midpoint8446 /rya1371-hop-physical-native-midpoint8446-v1.
+Plans contain prerequisite packet hashes and registered paths. Independent audit uses
+all successful cases plus original v275 baseline; no failed control is used as a seed.
+
+Next: predeclare a native NQFAC4 accurate-profile reference solve with the same held
+O41/MARCS node, unchanged physics/rtol/budgets and serial Mac execution. Measure full
+population/optical sensitivity; obtain independently stage-qualified physical native
+rate exports for that refinement. Trace native separate BB/BF radiation/continuum
+frequency handling before attributing cross-engine mismatches to atom constants or
+stellar parameters. Then revisit source constants/lifetimes and canonical-Sun observed
+intensity/flux with ORCH continuum/tellurics. CNO->Fe/reference star/1374 expansion
+remain gated; existing N697/missing engine-B atom debt stays open.
+
+Final v276 verification:25archive groups/3509raw receipts/449compact copies verify
+SHA256/byte counts and exact compact identity.170registered paths present/18existing
+broken; register pointer passes. Generator diagnostics exactly match baseline5120,
+no new violations. Handwritten code/config/docs staged whitespace check passes;
+full check reports only standard CRLF endings in the two verbatim generated CSVs,
+which are preserved byte-identically. No guard/whitespace setting changed and no
+repository-wide green claim. Final66focused tests pass in.91s, three upstream warnings.

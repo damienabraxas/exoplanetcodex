@@ -32557,3 +32557,127 @@ artifacts:
     generator: scripts/run_native_gross_rates.py
     ticket: RYA-1371
     note: Stage-matched native physical-rate observer; original binaries unchanged; scientific HOLD.
+  - artifact: rya1371/physical_rate_controls_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-midpoint1-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-midpoint1-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-midpoint2-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-midpoint2-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-midpoint8446-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-midpoint8446-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-grid-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-grid-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-grid-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-midpoint-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-midpoint-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-midpoint8446-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-midpoint8446-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-support-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-support-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-hop-physical-native-support-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-build-v1/compiler.log
+    generator: scripts/build_hop_line_grid_oracle.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-build-v1/manifest.json
+    generator: scripts/build_hop_line_grid_oracle.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-build-v1/receipt.json
+    generator: scripts/build_hop_line_grid_oracle.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-v1/grids.json
+    generator: scripts/audit_native_line_grid.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-v1/input.txt
+    generator: scripts/audit_native_line_grid.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-v1/oracle.log
+    generator: scripts/audit_native_line_grid.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-v1/output.txt
+    generator: scripts/audit_native_line_grid.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-native-line-grid-v1/report.json
+    generator: scripts/audit_native_line_grid.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-physical-rate-control-audit-v1/level_depth.csv
+    generator: scripts/audit_oxygen_physical_rate_controls.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-physical-rate-control-audit-v1/pairs.csv
+    generator: scripts/audit_oxygen_physical_rate_controls.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-physical-rate-control-audit-v1/report.json
+    generator: scripts/audit_oxygen_physical_rate_controls.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-physical-rate-control-audit-v1/residual_maps.png
+    generator: scripts/audit_oxygen_physical_rate_controls.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-rate-grid-snapshots-v1/native_line_grid.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.
+  - artifact: rya1371/physical_rate_controls_v1/rya1371-rate-grid-snapshots-v1/replay_hop_oxygen_radiative_rates.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Physical-rate grid controls and full-depth decomposition; no coarse-grid or physical adoption.

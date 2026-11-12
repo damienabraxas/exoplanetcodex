@@ -1179,6 +1179,31 @@ entries:
     kind: dir
     desc: Fresh one-thread bounded derivative build receipts, original reference untouched.
 
+  experiments.hop_physical_native_midpoint:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-physical-native-midpoint-v1
+    kind: dir
+    desc: One-pass refinement of native frequency grid with frozen physical populations; diagnostic only.
+  experiments.hop_physical_native_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-physical-native-grid-v1
+    kind: dir
+    desc: Exact frozen-state native fractional frequency-grid rate control; not physical admission.
+  experiments.native_oxygen_line_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-native-line-grid-v1
+    kind: dir
+    desc: Original pinned HOP get_lam fractional offsets; numerical grid control, not photon/atom adoption.
+  experiments.hop_physical_midpoint1:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-physical-midpoint1-v1
+    kind: dir
+    desc: First explicit physical-rate frequency midpoint refinement; numerical control only.
+  experiments.hop_native_physical_replay:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-native-physical-rates-v1
+    kind: dir
+    desc: Qualified exact-native-stage frozen-population physical-rate replay; experimental HOLD.
   experiments.native_oxygen_physical_rates:
     root: work
     rel: bride_mac_checks/rya1371-native-gross-analysis-v1

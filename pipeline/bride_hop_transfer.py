@@ -96,7 +96,7 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False,top_boundary=None):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False,top_boundary=None,line_grid_control=None):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     if not isinstance(vdw_broadening,bool):raise ValueError('Require explicit VDW diagnostic boolean')
@@ -123,9 +123,14 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     if table_control is not None:
         from pipeline.bride_native_table_control import apply_table_control
         table_audit=apply_table_control(model,*table_control)
+    line_grid_audit=None
+    if line_grid_control is not None:
+        from pipeline.native_line_grid import NativeLineGridControl
+        if not isinstance(line_grid_control,NativeLineGridControl)or table_control is not None or continuum_only:raise ValueError('Require explicit full-source numerical grid control without optical overrides')
+        line_grid_audit=line_grid_control.apply(model)
     source_width_reads=[]
     for index,line in enumerate(model.lines):
-        line.quadrature.Nlambda=2*(line.quadrature.Nlambda-1)+1
+        if line_grid_control is None:line.quadrature.Nlambda=2*(line.quadrature.Nlambda-1)+1
         if original_width_law is None:
             if not vdw_broadening:line.broadening.elastic=[]
             line.broadening.elastic=[NativePerturberBroadener(x,perturbers)for x in line.broadening.elastic]
@@ -148,4 +153,4 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     if not continuum_only and vdw_broadening and original_width_law is None:verify_helium_reads(perturbers.reads,helium_broadening)
     if not vdw_broadening and (perturbers.reads or any(line.broadening.elastic for line in model.lines)):raise ValueError('VDW-off diagnostic retained elastic broadening reads/terms')
     if original_width_law is not None and not continuum_only and (len(source_width_reads)!=256 or any(x['calls']==0 for x in source_width_reads)or perturbers.reads):raise ValueError('Original full-width law did not reach actual model without extra perturbation')
-    return ctx,dict(coupled_native_contract_diagnostic=coupled_diagnostic,original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
+    return ctx,dict(line_grid_control=line_grid_audit,coupled_native_contract_diagnostic=coupled_diagnostic,original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
