@@ -1,3 +1,7 @@
+## 2026-11-12 — Oxygen shared-grid convergence
+
+- **RYA-1371** — Shared4/8/16 numerical convergence and analytic thermal convention canary archived; physical qualification remains HOLD (v278).
+
 ## 2026-11-11 — native ghost-boundary qualification
 
 - **RYA-1371** — Native refinement/shared-field checks improve rate comparison; all27instrument/11mode UV-IR targets mapped, full validation open (v277).

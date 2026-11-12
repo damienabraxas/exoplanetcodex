@@ -1179,6 +1179,46 @@ entries:
     kind: dir
     desc: Fresh one-thread bounded derivative build receipts, original reference untouched.
 
+  experiments.bride_shared_convergence:
+    root: work
+    rel: bride_mac_checks/rya1371-shared-convergence-audit-v4
+    kind: dir
+    desc: O41 shared-field convergence/analytic thermodynamic evidence; no physical admission.
+  experiments.bride_thermal_conventions:
+    root: work
+    rel: bride_mac_checks/rya1371-thermodynamic-canary-v2
+    kind: dir
+    desc: O41 shared-field convergence/analytic thermodynamic evidence; no physical admission.
+  experiments.openmulti3d_oxygen_shared8_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared8-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared8 run; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared8_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared8-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared8 analysis; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared8_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-gross-shared8-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared8 physical_rates; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared16_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared16-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared16 run; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared16_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared16-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared16 analysis; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared16_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-gross-shared16-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared16 physical_rates; experimental diagnostic HOLD.
   experiments.bride_instrument_coverage:
     root: work
     rel: bride_mac_checks/rya1371-oxygen-instrument-coverage-v1

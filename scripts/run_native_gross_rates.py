@@ -30,7 +30,11 @@ def main():
     from pipeline.native_reference_controls import validate_observer_plan
     if plan['controls'].get('decouple_continuum')is False:
         from pipeline.native_reference_controls import validate_shared_radiation_plan
-        validate_shared_radiation_plan(plan,json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_frequency4_accurate.json').read_text()))
+        if plan['controls']['nq_fac']in [8.,16.]:
+            from pipeline.native_reference_controls import validate_shared_refinement_plan
+            target=plan['controls']['nq_fac'];base_name='rya1371_openmulti3d_oxygen_shared4.json'if target==8. else'rya1371_openmulti3d_oxygen_shared8.json'
+            validate_shared_refinement_plan(plan,json.loads((ROOT/'config/experiments'/base_name).read_text()),target_factor=target)
+        else:validate_shared_radiation_plan(plan,json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_frequency4_accurate.json').read_text()))
     else:validate_observer_plan(plan,json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_accurate_profile.json').read_text()))
     inputs=prepare_run(plan,a.output,app,resolver=require_codex_path)
     report=dict(generator=fingerprint(__file__),plan=fingerprint(a.plan),engine=engine,inputs=inputs,purpose='stage-matched-physical-rate-observer',scientific_admission='HOLD',computational_completed=False,dry_run=not a.execute)

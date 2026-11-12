@@ -29,3 +29,25 @@ def test_shared_radiation_is_an_explicit_separate_one_factor_control():
     validate_shared_radiation_plan(p,qualified)
     p['controls']['rtol']=1e-5
     with pytest.raises(ValueError):validate_shared_radiation_plan(p,qualified)
+
+
+def test_shared_frequency8_preserves_every_other_physical_axis():
+    from pipeline.native_reference_controls import validate_shared_refinement_plan
+    qualified=base();qualified['controls'].update(nq_fac=4.,decouple_continuum=False)
+    p=copy.deepcopy(qualified);p['controls']['nq_fac']=8.;p['scope']='predeclared refinement'
+    validate_shared_refinement_plan(p,qualified)
+    p['controls']['decouple_continuum']=True
+    with pytest.raises(ValueError):validate_shared_refinement_plan(p,qualified)
+    p['controls']['decouple_continuum']=False;p['controls']['threads']=2
+    with pytest.raises(ValueError):validate_shared_refinement_plan(p,qualified)
+
+
+def test_shared16_requires_the_actual_preceding_shared8_case():
+    from pipeline.native_reference_controls import validate_shared_refinement_plan
+    qualified=base();qualified['controls'].update(nq_fac=8.,decouple_continuum=False)
+    plan=copy.deepcopy(qualified);plan['controls']['nq_fac']=16.
+    validate_shared_refinement_plan(plan,qualified,target_factor=16.)
+    bad=copy.deepcopy(qualified);bad['controls']['nq_fac']=4.
+    with pytest.raises(ValueError):validate_shared_refinement_plan(plan,bad,target_factor=16.)
+    plan['atom']['sha256']='other'
+    with pytest.raises(ValueError):validate_shared_refinement_plan(plan,qualified,target_factor=16.)

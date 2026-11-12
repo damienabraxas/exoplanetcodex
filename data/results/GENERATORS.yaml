@@ -32997,3 +32997,315 @@ artifacts:
     generator: scripts/run_reference_engine.py
     ticket: RYA-1371
     note: Byte-preserved native refinement and sparse UV-IR instrument-range evidence; failures not admitted; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-hop-physical-shared16-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-hop-physical-shared16-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-hop-physical-shared16-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-hop-physical-shared8-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-hop-physical-shared8-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-hop-physical-shared8-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared16-analysis-v1/rates.npz
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared16-analysis-v1/report.json
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared16-v1/input.nml
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared16-v1/manifest.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared16-v1/native.log
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared16-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared16-v1/report.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared8-analysis-v1/rates.npz
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared8-analysis-v1/report.json
+    generator: scripts/analyze_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared8-v1/input.nml
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared8-v1/manifest.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared8-v1/native.log
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared8-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-native-gross-shared8-v1/report.json
+    generator: scripts/run_native_gross_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-uv-ir-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared16-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-analysis-v1/arrays.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-analysis-v1/departures.png
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-analysis-v1/populations.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-analysis-v1/rates.csv
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-analysis-v1/report.json
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-analysis-v1/spectra.npz
+    generator: scripts/analyze_openmulti3d_oxygen_reference.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-uv-ir-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-v1/input.nml
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-v1/manifest.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-v1/native.log
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-v1/output_wavelengths_vac_A.txt
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-oxygen-shared8-v1/report.json
+    generator: scripts/run_reference_engine.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-shared-convergence-audit-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-shared-convergence-audit-v2/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-shared-convergence-audit-v4/multiband_changes.csv
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-shared-convergence-audit-v4/multiband_refinement.png
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-shared-convergence-audit-v4/optical_areas.csv
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-shared-convergence-audit-v4/population_changes.csv
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-shared-convergence-audit-v4/report.json
+    generator: scripts/audit_native_oxygen_refinement.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-thermodynamic-canary-preflight-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-thermodynamic-canary-preflight-v1/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-thermodynamic-canary-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-thermodynamic-canary-v2/bb_line_depth.csv
+    generator: scripts/audit_oxygen_thermodynamic_conventions.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-thermodynamic-canary-v2/canaries.npz
+    generator: scripts/audit_oxygen_thermodynamic_conventions.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/shared_convergence_v1/rya1371-thermodynamic-canary-v2/report.json
+    generator: scripts/audit_oxygen_thermodynamic_conventions.py
+    ticket: RYA-1371
+    note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
