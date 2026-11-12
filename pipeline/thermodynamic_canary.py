@@ -26,3 +26,24 @@ def bf_thermal_defect(intensity,einstein_prefactor,beta):
     J=np.asarray(intensity,dtype=float);bare=np.asarray(einstein_prefactor,dtype=float);b=np.asarray(beta,dtype=float)
     if J.shape!=bare.shape or b.shape!=J.shape or not np.isfinite(b).all()or np.any(b<=0)or np.any(b>=1):raise ValueError('Invalid BF thermal fields')
     return balanced_defect(J,b*(bare+J))
+
+
+def collision_balance(matrix, populations):
+    """Audit C[destination,source,depth] without altering coefficients or states.
+
+    Return signed pair defects only where a rate exists. Disconnected pairs are
+    absent, not successful zero-defect measurements. One-way edges are reported
+    at +/-1 rather than hidden by a logarithm or positive-only mask.
+    """
+    C=np.asarray(matrix,dtype=float);n=np.asarray(populations,dtype=float)
+    if n.ndim!=2 or C.shape!=(n.shape[0],n.shape[0],n.shape[1]):
+        raise ValueError('Collision matrix/state dimensions differ')
+    if not np.isfinite(C).all()or np.any(C<0)or not np.isfinite(n).all()or np.any(n<=0):
+        raise ValueError('Invalid collision matrix/state')
+    if np.any(C[np.arange(len(n)),np.arange(len(n))]!=0):
+        raise ValueError('Expected off-diagonal collision coefficients')
+    flow=C*n[None,:,:];reverse=flow.transpose(1,0,2);gross=flow+reverse
+    present=gross>0
+    defect=np.full_like(gross,np.nan)
+    np.divide(flow-reverse,gross,out=defect,where=present)
+    return defect,present

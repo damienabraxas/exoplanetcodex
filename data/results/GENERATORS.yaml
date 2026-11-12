@@ -33309,3 +33309,39 @@ artifacts:
     generator: scripts/audit_oxygen_thermodynamic_conventions.py
     ticket: RYA-1371
     note: Byte-preserved shared-grid convergence and analytic thermal-convention diagnostics; scientific HOLD.
+  - artifact: rya1371/lte_reconstruction_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-preflight-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-preflight-v1/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-preflight-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-preflight-v2/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-preflight-v3/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-preflight-v3/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-v1/collision_canaries.npz
+    generator: scripts/audit_oxygen_lte_reconstruction.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/lte_reconstruction_v1/rya1371-lte-reconstruction-v1/report.json
+    generator: scripts/audit_oxygen_lte_reconstruction.py
+    ticket: RYA-1371
+    note: Exact LTE/collision convention diagnostic; no physical admission.

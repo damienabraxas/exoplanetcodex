@@ -1,0 +1,97 @@
+{
+  "generator": {
+    "name": "audit_oxygen_lte_reconstruction.py",
+    "bytes": 8579,
+    "sha256": "341e78a02b8224102c9d2be92d5459f481f620b8b20779061b50e0c502e6a979"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+      "name": "const_mod.f90",
+      "bytes": 5473,
+      "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/SRC/atom_mod.f90": {
+      "name": "atom_mod.f90",
+      "bytes": 114257,
+      "sha256": "3074db53793c8683e9770d20392316174ad7abb94d109752d27226a858a0be7a"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/constants.py": {
+      "name": "constants.py",
+      "bytes": 941,
+      "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+    },
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_lte_reconstruction.py": {
+      "name": "audit_oxygen_lte_reconstruction.py",
+      "bytes": 8579,
+      "sha256": "341e78a02b8224102c9d2be92d5459f481f620b8b20779061b50e0c502e6a979"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/thermodynamic_canary.py": {
+      "name": "thermodynamic_canary.py",
+      "bytes": 2471,
+      "sha256": "d62d10f7389b0cd86baaad56f12699dd94fc0830fdafaf0f64045372db38d73f"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5108,
+      "sha256": "afeeb5e68652923dddabbc842676cbb4a16a8d0ca1df8004efa56cd7b1ce4411"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85429,
+      "sha256": "f096a1ccacb9c3f4ca9640e1cdfaf98780b49794768b26233ab75ac9c6b0dc84"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 38043,
+      "sha256": "c1386004fbed6596e90d5d37800ddec4f62208cf994e956620a2d4dbeecf7a8d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 216428,
+      "sha256": "76236747b9043f05bc01fd98af57c8c1c9724acebca4f161dd54b63eb019e59e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335463,
+      "sha256": "66c57b0db2a10de2aae3a4a3efed4947a85bab308cb0a2735f2d96e1b37f3450"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    }
+  },
+  "native_constants_cgs": {
+    "hh": 6.626176e-27,
+    "bk": 1.380662e-16,
+    "cc": 29979245800.0,
+    "ee": 1.602189e-12
+  },
+  "same_stage_level_pairs": 742,
+  "depths": 56,
+  "max_relative_LTE_ratio_errors": {
+    "native_fp32": 9.325873406851315e-15,
+    "native_fp64": 1.4433419750492504e-06,
+    "unrounded_HOP": 3.7450925234328025e-06,
+    "source_LW": 0.00045084747118884216
+  },
+  "collision_pairs_at_any_depth": 780,
+  "collision_pair_depths": 43680,
+  "max_native_star_collision_pair_defect": 2.439858982897818e-16,
+  "max_stored_upward_FP32_reconstructed_inverse_collision_pair_defect": 2.2084505580730049e-16,
+  "max_LW_within_stage_counterfactual_collision_pair_defect": 0.00022547456291626571,
+  "source_precision": "Native e_k/T rounded to REAL(4), then REAL(8) level exponent and ratio; source table energies in eV at six decimals.",
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "scope": "Same-stage Boltzmann ratio reconstruction and exact fixed-C reciprocity. Counterfactual preserves each ion-stage total; no Saha, EOS, ionization-lowering or integrated radiative/SE validation. No solver inputs, constants, populations or coefficients changed. Collision inverse rates are constructed from native LTE; reciprocity is not independent validation of microscopic coefficients."
+}

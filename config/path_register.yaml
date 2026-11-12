@@ -1184,6 +1184,11 @@ entries:
     rel: bride_mac_checks/rya1371-shared-convergence-audit-v4
     kind: dir
     desc: O41 shared-field convergence/analytic thermodynamic evidence; no physical admission.
+  experiments.bride_lte_reconstruction:
+    root: work
+    rel: bride_mac_checks/rya1371-lte-reconstruction-v1
+    kind: dir
+    desc: Native same-stage LTE precision reconstruction and collision reciprocity; no solver or adopted physics changes.
   experiments.bride_thermal_conventions:
     root: work
     rel: bride_mac_checks/rya1371-thermodynamic-canary-v2
