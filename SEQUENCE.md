@@ -1,3 +1,7 @@
+## 2026-11-11 — native ghost-boundary qualification
+
+- **RYA-1371** — Source ghost geometry brings all O populations within1.24% of native; fresh coupled/restart passes, physical gates open (v274).
+
 ## 2026-11-10 — restored source-width component
 
 - **RYA-1371** — Full-source coupled O/restart passes fresh rates; VIS parity close, outer UV/LTE and solar qualification open (v273).

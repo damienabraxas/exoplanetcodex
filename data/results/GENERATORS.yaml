@@ -32349,3 +32349,155 @@ artifacts:
     generator: scripts/analyze_hop_coupled_spectra.py
     ticket: RYA-1371
     note: Full-source coupled diagnostic and fresh restart/rate/spectrum checks; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/ghost_operator_build/build.log
+    generator: scripts/build_bride_ghost_operator.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/ghost_operator_build/manifest.json
+    generator: scripts/build_bride_ghost_operator.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/ghost_operator_build/receipt.json
+    generator: scripts/build_bride_ghost_operator.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-coupled-dry-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-coupled-v1/manifest.json
+    generator: scripts/run_hop_oxygen_ghost_coupled.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-coupled-v1/report.json
+    generator: scripts/run_hop_oxygen_ghost_coupled.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-independent-v1/report.json
+    generator: scripts/check_hop_coupled_restart.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-dry-v1/manifest.json
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-dry-v1/populations.npz
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-dry-v1/report.json
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-dry-v1/response.npz
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-v1/history.jsonl
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-v1/manifest.json
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-v1/populations.npz
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-v1/rates.npz
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-mali-v1/report.json
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-restart-v1/history.jsonl
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-restart-v1/manifest.json
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-restart-v1/populations.npz
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-restart-v1/rates.npz
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-restart-v1/report.json
+    generator: scripts/run_hop_oxygen_ghost_mali.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-spectra-v1/comparison.png
+    generator: scripts/analyze_hop_ghost_spectra.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-spectra-v1/report.json
+    generator: scripts/analyze_hop_ghost_spectra.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-spectra-v1/residuals.png
+    generator: scripts/analyze_hop_ghost_spectra.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-spectra-v1/spectra.npz
+    generator: scripts/analyze_hop_ghost_spectra.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-ghost-spectra-v1/windows.csv
+    generator: scripts/analyze_hop_ghost_spectra.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-matched-rates-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-matched-rates-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-matched-rates-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-matched-rates-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-matched-rates-v3/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-matched-rates-v3/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-matched-rates-v3/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-native-ghost-rates-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-native-ghost-rates-v2/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-native-ghost-rates-v2/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.
+  - artifact: rya1371/native_ghost_v1/rya1371-hop-native-ghost-rates-v2/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Source-defined native ghost geometry and guarded numerical operator; physical model HOLD.

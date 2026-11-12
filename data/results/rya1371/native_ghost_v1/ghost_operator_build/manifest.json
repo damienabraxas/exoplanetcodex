@@ -1,0 +1,29 @@
+{
+  "generator": {
+    "name": "build_bride_ghost_operator.py",
+    "bytes": 11303,
+    "sha256": "d72e1451df6087abd187c32f520d4209db3cc10c140b030b050f29daf98e5f68"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "command": [
+    "clang++",
+    "-std=c++17",
+    "-O2",
+    "-dynamiclib",
+    "-undefined",
+    "dynamic_lookup",
+    "-I",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source",
+    "-I",
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/overlap_guard.cpp",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/bride_overlap_guard.dylib"
+  ],
+  "seconds_limit": 600,
+  "threads": 1
+}

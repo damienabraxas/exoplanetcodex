@@ -96,7 +96,7 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False,top_boundary=None):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     if not isinstance(vdw_broadening,bool):raise ValueError('Require explicit VDW diagnostic boolean')
@@ -116,7 +116,7 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     seed,seed_meta=compute_packet(state['temperature_K'],state['ne_m3'],state['rho_kg_m3'],np.array([500.,845.]),structure['abundances_dex'],atom,vmic_m_s=float(state['vturb_m_s'][0]))
     state={key:np.array(value,copy=True)for key,value in state.items()};state['nHTot_m3']=seed['nHTot_m3'].copy()
     for value in state.values():value.flags.writeable=False
-    atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lw.ThermalisedRadiation(),upperBc=FiniteColumnCap(0.))
+    atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lw.ThermalisedRadiation(),upperBc=FiniteColumnCap(0.)if top_boundary is None else top_boundary)
     mu,weight,angles=native_lobatto5();atmos.quadrature(Nrays=5,mu=mu,wmu=weight)
     model=to_lightweaver(atom);perturbers=Perturbers(seed,helium=helium_broadening)
     table_audit=None

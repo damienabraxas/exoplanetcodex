@@ -275,6 +275,11 @@ entries:
     rel: bride_mac_checks/rya1281-solar-sensitivity-v1
     kind: dir
     desc: Independent solar10K and extended RT microturbulence controls; scientific HOLD.
+  experiments.bride_native_ghost_plugin:
+    root: work
+    rel: bride_mac_checks/rya1371-ghost-operator-build-v1
+    kind: dir
+    desc: Private full-coupling native ghost emissivity derivative; numerical controls only.
   experiments.bride_full_cap_plugin:
     root: work
     rel: bride_mac_checks/rya1281-full-cap-plugin-v1
@@ -1174,6 +1179,11 @@ entries:
     kind: dir
     desc: Fresh one-thread bounded derivative build receipts, original reference untouched.
 
+  experiments.openmulti3d_oxygen_accurate_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-accurate-profile-v1
+    kind: dir
+    desc: Exact accurate-kernel native run and saved per-depth rates; experimental reference.
   experiments.openmulti3d_oxygen_accurate_analysis:
     root: work
     rel: bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1
@@ -1203,6 +1213,11 @@ entries:
     kind: dir
     desc: Pinned original MULTI source for narrow typed diagnostic oracles, no data redistribution rights inferred.
 
+  experiments.hop_ghost_coupled_oxygen:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-ghost-mali-v1
+    kind: dir
+    desc: Source-defined native ghost-boundary coupled diagnostic; physical model HOLD.
   experiments.hop_coupled_oxygen:
     root: work
     rel: bride_mac_checks/rya1371-hop-coupled-source-mali-v3

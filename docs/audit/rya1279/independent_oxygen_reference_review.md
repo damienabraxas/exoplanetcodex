@@ -1107,3 +1107,101 @@ broken. v273pointer and staged whitespace pass. Historical default-operator plan
 is retained as failure evidence; current driver refuses it without the required
 pinned plugin. Only the explicitly pinned MALI plan/restart are executable current
 coupled controls. No full-suite green claim or source/default/gold/product adoption.
+
+
+### Native zero-ghost boundary and numerical operator milestone (v274)
+
+Matched native n/nStar/T/ne/rho replay covers every278 radiative transition
+(556positive directional pairs), no populations updated. Source topology agrees;
+no missing BB/BF graph links. The direct LW physical imbalance at these native
+populations is.331134968 for a zero-incoming boundary placed AT the sampled top
+node. OI1302/1304/1306 resonance channels dominate level7/top-cell differences.
+
+Important representation correction: native PRECONDITIONING=T. Pinned
+atom_mod::line_rate_coefficients850--900 and rt_patch::bound_bound_rates2803--3058
+show saved coefficients reconstructed from thermal/deviation integrals containing
+preconditioning corrections. They are effective SE weights, not gross Einstein
+rates. Their small downward values are not evidence of a bad A coefficient.
+The initial generic coefficient ratio (~2019max) is inadmissible as a physical
+gross-rate comparison. Prototypes retained, canonical bug-ledger row added;
+rate_semantics guard now refuses that mixed comparison and final replay labels
+native-effective versus replay-physical quantities separately. Earlier stored
+native balance remains a stored-SE diagnostic only. Native fresh unpreconditioned
+radiation/rate export and the linearization population are still owed; no claim
+that its saved3.53e-8 residual is fresh physical certification.
+
+Source-defined geometry distinction: rt_patch::set_upstream_boundary3188--3215
+zeros chi,S,I in the upstream GHOST plane; long_char_linear184--275 integrates
+to the first sampled node using dtau=0.5*ds*(chi_ghost+chi_node)/abs(mu).
+With ghost chi,S,I=0:
+
+    tau = chi_node*ds/(2*abs(mu))
+    I_node = (eta_node/chi_node)*(1-(1-exp(-tau))/tau)
+
+Actual consumed mesh coordinates are verified, ds_top20656.773022242953m. No
+fitted height, opacity or source coefficient. Python fp64 implementation follows
+this discrete native formula, including thin-limit series; independent formal
+integral tests cover thin/thick limits. This is a numerical ghost-plane match,
+not a newly adopted physical atmospheric extension. Lower boundary stays LW
+thermalized versus native extrapolated ghost, and all other physics unchanged.
+
+At identical native populations, that source-defined ghost interval reduces own
+physical imbalance.331134968 -> .00317959534 (about104times), without changing
+rates/data/thermodynamic fields or excluding layers. Focus resonance-channel flow
+differences shrink by orders of magnitude; individual native/own coefficients
+remain semantically noncomparable. This establishes a major boundary-location
+contribution, not unique attribution of every remaining UV/BF difference.
+
+A coupled ghost control with boundary derivative held zero preserves operator
+action but oscillates and exhausts the original600s budget (600.278s including
+final atomic call). Failure/history/populations preserved and never used as seeds.
+A fresh private numerical plugin adds the analytic FIXED-EXTINCTION emissivity
+response F(tau)/chi, limit ds/(4*abs(mu)); physical boundary/rates are unchanged.
+Source-based compiled build2.464s at clean held LW d33058f, installed source/backend
+untouched, one thread and5MiB size guard preserved. Actual33975-entry compiled
+response matches independent Python source formula2.22e-16 relative; frozen-pop
+Gamma action agrees with physical R+C2.97e-14. No empirical preconditioner scale.
+
+With that operator and ORIGINAL native initial populations, full-source ghost
+coupled run passes8iterations/6.652s. Fresh physical residual1.36442330e-9;
+independent per-transition R+C/incoming-outgoing reconstruction1.36442321e-9,
+conservation6.66e-16. Fresh-process restart passes (fresh residual8.36701e-10),
+max population change7.07550e-8. Original rtol1e-6/rays/qscale/Ng/600s budgets
+unchanged; physical action checked at every step, no clipping or tolerance tuning.
+
+All-level/all-depth own/native population ratios now .99107826--1.01237371,
+maximum relative difference1.23737percent, versus99.8172percent in the zero-at-node
+case. Minimum ratio level11 at outer logtau=-4.9177. Triplet max relative in inherited
+diagnostic logtau[-3,0] band.00117136 (not a measured contribution function); all
+layers remain in SE. Imported source/native constant/LTE convention mismatch and
+remaining UV/BF/native gross-rate/lower-boundary checks remain open.
+
+Forward spectra use the ghost incoming boundary on the ACTUAL dense diagnostic
+wavelength grid, holding parent full-angle J for scattering. Actual coefficients
+recomputed before the final ray pass; no sharp-opacity interpolation, no one-ray
+angular-equilibrium replacement, no population update. I is evaluated at the
+sampled top node, matching the native output pivot, not propagated through an
+invented external atmosphere. No optical table/centre/strength overrides or fit.
+Finite±0.5A disk-centre area differences(mA), own-native:
+6158+.00332851;6300+.000067586;7771+.01953462;7774+.01301063;
+7775+.00712215;8446+.01871824. Pointwise precision/shape discrepancies retained;
+6363 absent-transition control still not validated. No observed-solar/flux/full-EW/
+abundance result. Physical1D/3D/all-band/1374 gate remains HOLD.
+
+52focused tests pass, including ghost formal-integral/invalid-input and explicit
+rate-semantics discrimination. Native_ghost_v1 receipts109raw/37compact files,
+including failure/prototype source snapshots and isolated operator build. Current
+replay plans deliberately separate zero-node, source-ghost fixed populations and
+coupled operator controls. Default make_context boundary remains zero-at-node.
+
+Next: obtain genuine fresh unpreconditioned native rates or matching stage-specific
+net-flow exports; inspect remaining interface/path, UV/BF and LTE/constant effects;
+then canonical-solar parameters and ORCH intensity/flux continuum/telluric benchmarks
+with independent Oxygen evidence. Reference node5750/4.5/A8.70 remains distinct
+from canonical Sun. CNO→Fe/reference star and broader parameter sweeps follow the
+Oxygen physical qualification; no stellar parameters chosen to hide boundary errors.
+
+Final v274 archive verification:23 groups/3077 raw receipts/406 compact copies;
+all SHA256/byte counts and compact identities pass. Register pointer passes;
+path register164 present/18 pre-existing broken. Result-generator diagnostic set
+is identical to baseline5120 violations; no global green claim. Staged diff check passes.
