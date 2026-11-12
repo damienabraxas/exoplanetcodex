@@ -1,0 +1,33 @@
+{
+  "schema": "rya1354.frozen-extension-plan.v13",
+  "starting_commit": "3432bfe002b7b90fa57e5bc1736053df56351590",
+  "declaration_comment": "9218e4a5-e9a1-4ac1-8201-93d434ef1f60",
+  "source": "runs/lifetime_frozen_prior_n4_v1",
+  "source_parent": "runs/lifetime_relax_n4_from_relaxed_n3_v7",
+  "source_core": "runs/lifetime_core_n4_v1",
+  "target_core": "runs/lifetime_core_n5_v1",
+  "output": "runs/lifetime_frozen_prior_n5_v1",
+  "model": "Layerwise full2s-SD/DC: freeze16 qualified n<=4 orbitals, native hydrogenic initialization of9 missingn5 orbitals, optimize5* only with strict and fresh verification of all3states. Full-release failure remains rejected. Historical n3 component constraint limitation retained.",
+  "grid_H": 0.03125,
+  "grid_N": 439,
+  "ACCY": 5.960464477539063e-08,
+  "NSIC": 0,
+  "NSOLV_floor": 24,
+  "damping": 0.5,
+  "cycle_ceiling": 1500,
+  "operators": {
+    "to_ground": "E1,M2,E3",
+    "to_5S": "M1,E2,M3"
+  },
+  "expected_channels": 13,
+  "frozen_guard": "Exact native radial records versus same-input all-fixed loading baseline; no tolerance waiver.",
+  "failure_policy": "Stop and retain every native output; no fallback/failed-wave reuse.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "execution": "Sirius only, single thread, nice19. No observed-energy replacement or gauge selection."
+}
