@@ -1363,7 +1363,7 @@ interface/precision/lower-boundary effects remain open, not uniquely ruled out.
 warnings). New tests cover midpoint support/node retention, invalid/bounded grids,
 native fractional offsets, full model line identity, and photon-centre/f invariance.
 Heatmap residual_maps.png inspected; CSV retains every level/depth and every pair.
-Raw archive supplement35files/30compact copies; five over5MiB NPZ files remain raw-only
+Raw archive supplement35files/30compact copies; four over5MiB NPZ files and the compiled oracle executable remain raw-only
 with receipts, preserving the existing compact-artifact guard. Old native-grid module
 and replay driver snapshots captured before later extensions where available; no
 invented historical snapshots. No literature/source acquisition or science admission.
