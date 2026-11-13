@@ -1,0 +1,167 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "604f4b8c55687224786f98d6f71a1fc0b00607458d990f06534f410b5586c5bc",
+      "bytes": 905629
+    }
+  },
+  "files": {
+    "runs/fac_numerical_controls_v18/cap_canary/input.sf": {
+      "sha256": "776cddacf7319b79f44929ca14e88f23be960bb79950e7b3181fe5805acbac55",
+      "bytes": 424
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/o.basis": {
+      "sha256": "0873201f13b634882e15e9b984ac70947800dbcb9793a9424cabd46a4412c5e1",
+      "bytes": 6836
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/o.lev": {
+      "sha256": "14eae9c60d2d6b223c9bc8452abe4120ce2abb65f191ef1568f14f2e443f0afc",
+      "bytes": 2458
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/o.lev.b": {
+      "sha256": "dc35815eec320322fdee2e909482d0ab899b259ed880e18a12871762f25f0708",
+      "bytes": 3480
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/o.pot": {
+      "sha256": "f1e7728f6b073c9986ed3342947f9fb35b9ea074d872af01ab5974672e24db51",
+      "bytes": 828348
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/o_export_000.c": {
+      "sha256": "44fa8216fb8b3ab082a3954026224ce29c6a429b1617a30b1188e17ef80de3f5",
+      "bytes": 1969
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/o_export_000.cm": {
+      "sha256": "06ad7477531285d110ee02f9df9640893b1225f3666a3aa3935231fdbd590e9a",
+      "bytes": 990
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/sfac.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/fac_numerical_controls_v18/cap_canary/sfac.stdout": {
+      "sha256": "467dc05cc77cc68a13e23c93aa0a8dc762627e241cd165c9069aa3720ed7ce92",
+      "bytes": 338
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/input.sf": {
+      "sha256": "4c40722b25c4997ae7fa55c60db292e4480d9d87b4dd43860839c366fe62a7bd",
+      "bytes": 426
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/o.basis": {
+      "sha256": "deff0b7637cf2b5a32890f23af5aeeaffc0df4aeeb23ec9be0ed53be461de262",
+      "bytes": 6836
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/o.lev": {
+      "sha256": "006333f7421b34342600ab0558c688121d6b544140d091f75dd82cea7a634863",
+      "bytes": 2458
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/o.lev.b": {
+      "sha256": "76bb009c4a35e8b2ae69e0d1a7b3b0469be0c460fafc87fe9c7b831a4cbb7c90",
+      "bytes": 3480
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/o.pot": {
+      "sha256": "97ddceef61e6ed986d717f03c21aa38764e2a54087ecd73b6f1c8922846918e8",
+      "bytes": 828348
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/o_export_000.c": {
+      "sha256": "44fa8216fb8b3ab082a3954026224ce29c6a429b1617a30b1188e17ef80de3f5",
+      "bytes": 1969
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/o_export_000.cm": {
+      "sha256": "b81dca112f4d27586592b22e49cad4f51a2b4ca7e1fc65729ae3ce664815f049",
+      "bytes": 990
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/sfac.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/fac_numerical_controls_v18/explicit_default/sfac.stdout": {
+      "sha256": "b49803b6332efbe8c39b9008308a5877012f7b1cdea316de90ab9cd55a3112ee",
+      "bytes": 3042
+    },
+    "runs/fac_numerical_controls_v18/progress.json": {
+      "sha256": "327e27af14c113ebeec56e28f20c0d8367e6c003a6e0bacaddebc149296da0ce",
+      "bytes": 7390
+    },
+    "runs/fac_numerical_controls_v18/receipt.json": {
+      "sha256": "6aa733150a3aab3f43dd46d19f0a31e9109a3ec3a97dfb1ea24f14db8a68f271",
+      "bytes": 12662
+    },
+    "runs/fac_numerical_controls_v18/rya1354_fac_bootstrap.py": {
+      "sha256": "43298f9a58b044168202f00e1e28234fda313e37c48fdbbd38dbe69f1e77e9c7",
+      "bytes": 5794
+    },
+    "runs/fac_numerical_controls_v18/rya1354_fac_controls.py": {
+      "sha256": "a6f6e79e79096732f87a04a28f6673eaf78d35e35ececa308dbf46bc3ab773c7",
+      "bytes": 6704
+    },
+    "runs/fac_numerical_controls_v18/rya1354_fac_oxygen_levels.py": {
+      "sha256": "9c2be700e0adfe7cad67261a996b4a50b5eeaa7cfb1be34bc9be094cb1e3c2b1",
+      "bytes": 4491
+    },
+    "runs/fac_numerical_controls_v18/source_documents/doc/manual.tex": {
+      "sha256": "ca884d6df7d38adb30d315c4a625b4583e6eaf66ceae8f666649f6ceda93322e",
+      "bytes": 227928
+    },
+    "runs/fac_numerical_controls_v18/source_documents/faclib/consts.h": {
+      "sha256": "d6af466489eda0616027a39301c76e13530f24633f9007f0a14b86adcc7bdb5d",
+      "bytes": 10325
+    },
+    "runs/fac_numerical_controls_v18/source_documents/faclib/radial.c": {
+      "sha256": "ae40543a9d09902811445138ceba4db7575a67ac45ae185fa7861d069d559d21",
+      "bytes": 351845
+    },
+    "runs/fac_numerical_controls_v18/source_documents/faclib/structure.c": {
+      "sha256": "b340dcb91fba7a17993455618b490e0782e3d0412ba5395134c98fb62561665b",
+      "bytes": 172795
+    },
+    "runs/fac_numerical_controls_v18/source_documents/sfac/sfac.c": {
+      "sha256": "6697dd2ba86c0c0c0f78c26fb7c22442953043bc327305abcdbbe13ef157d1ab",
+      "bytes": 129447
+    },
+    "runs/fac_numerical_controls_v18/tight10/input.sf": {
+      "sha256": "390be646739c2229525c0a2be9013ff99c78fb0e0bb150486c90c730d52a4f90",
+      "bytes": 426
+    },
+    "runs/fac_numerical_controls_v18/tight10/o.basis": {
+      "sha256": "964a257c2966dcb672af598a18de1d1e7873adc07e94e1576dd5aec6fcbd5105",
+      "bytes": 6836
+    },
+    "runs/fac_numerical_controls_v18/tight10/o.lev": {
+      "sha256": "ba555e33b84ea2ba3f92a509edc14b42089d3432545bcff4ebaf356c95ef2e7f",
+      "bytes": 2458
+    },
+    "runs/fac_numerical_controls_v18/tight10/o.lev.b": {
+      "sha256": "2bca0a53844992f2aa420ea57718c802b9d4ae80be6a521f9e97583d87f0333a",
+      "bytes": 3480
+    },
+    "runs/fac_numerical_controls_v18/tight10/o.pot": {
+      "sha256": "d80276e1d3d8ef84b20c97349d339c860595b0bfbcad9c5c8a299c1291c03fec",
+      "bytes": 828348
+    },
+    "runs/fac_numerical_controls_v18/tight10/o_export_000.c": {
+      "sha256": "44fa8216fb8b3ab082a3954026224ce29c6a429b1617a30b1188e17ef80de3f5",
+      "bytes": 1969
+    },
+    "runs/fac_numerical_controls_v18/tight10/o_export_000.cm": {
+      "sha256": "8ac39e9bdf5a600fcd37f27c513ad0c76fd0b6624f2196dd3c20097d0240ff33",
+      "bytes": 990
+    },
+    "runs/fac_numerical_controls_v18/tight10/sfac.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/fac_numerical_controls_v18/tight10/sfac.stdout": {
+      "sha256": "afe14636f48c742e7e2750b1ee2c7b9c6f3258f9234c3ec83f38846e5d688cd1",
+      "bytes": 43433
+    },
+    "evidence/fac_control_driver_v18/lifetime_plan.v18.json": {
+      "sha256": "1ec17b930c7ae2816fef8940bbf98912e3a5792db2a4bf13f8e2553a53f5c6d1",
+      "bytes": 1558
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 38,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

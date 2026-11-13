@@ -1,4 +1,5 @@
-Latest continuation: [matched CI results and independent FAC feasibility](ci_and_fac_v17.md).
+Latest continuation: [FAC stopping and basis-export controls](fac_controls_v18.md).
+Previous: [matched CI results and independent FAC feasibility](ci_and_fac_v17.md).
 Previous: [joint timeout and matched qualified-orbital CI](joint_failure_and_ci_v16.md).
 Previous: [verified n5 completion and joint outer-layer continuation](n5_terminal_v15.md).
 Previous: [n5 loading-control replay and prepared independent validator](n5_validation_v14.md).

@@ -1,0 +1,46 @@
+{
+  "schema": "rya1354.fac-numerical-controls-plan.v18",
+  "declaration_comment": "e7c5cf3c-f8c8-4311-a69d-f494decf1b09",
+  "pin": "9ab6defb6af62e1bc8251a35ff995809abef717c",
+  "output": "runs/fac_numerical_controls_v18",
+  "cold_start_cases": [
+    {
+      "name": "cap_canary",
+      "multiplier": 3.0,
+      "maxiter": 1,
+      "expected_rejection": true
+    },
+    {
+      "name": "explicit_default",
+      "multiplier": 3.0,
+      "maxiter": 256
+    },
+    {
+      "name": "tight10",
+      "multiplier": 0.3,
+      "maxiter": 256
+    },
+    {
+      "name": "tight100",
+      "multiplier": 0.03,
+      "maxiter": 256
+    }
+  ],
+  "stabilizer": "Native dynamic stabilizer retained",
+  "metric": "Pinned energy/potential criteria plus positive native miter; not GRASP orbital ACCY or calibrated accuracy.",
+  "exports": [
+    "BasisTable mode0",
+    "BasisTable mode10",
+    "SavePotential"
+  ],
+  "scope": "Same minimal neutral-O v17 configurations/nucleus/physics; levels/basis only, no rates, LS-term mapping or calibrated comparison.",
+  "default_discrepancy": "Pinned source OPTTOL3.0/OPTNITER2048 versus manual prose1e-6/100. Executable source governs defaults; explicit controls remove ambiguity.",
+  "failure_policy": "Stop/retain any positive case refusal or unmet guard. Deliberately capped canary must be rejected even if outputs/exit0 exist.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

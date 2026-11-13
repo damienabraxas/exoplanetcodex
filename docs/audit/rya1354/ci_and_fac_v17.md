@@ -68,7 +68,7 @@ The calculation produced15 levels,8 electrons and the exact declared even5/odd10
 parity/J multiplicities and configuration identities. Closed2s label omission
 is accounted for from pinned ConstructLevelName/IsClosedShellNR source semantics;
 it does not change the actual input occupation. Native optimization diagnostics
-contain17 printed loops; their stopping semantics are not equated with GRASP ACCY
+contain18 printed rows indexed0..17; their stopping semantics are not equated with GRASP ACCY
 or admitted as a converged oxygen model here.
 
 No FAC O transition, gf or lifetime was calculated. No LS/parent/term assignment
