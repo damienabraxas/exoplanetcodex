@@ -1,0 +1,51 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "e22b291d766e2fc5ff2da92e019ebc331d73370f57247e6189b32115560eb5cd",
+      "bytes": 6787
+    }
+  },
+  "files": {
+    "runs/fac_oxygen_levels_v17/driver.py": {
+      "sha256": "9c2be700e0adfe7cad67261a996b4a50b5eeaa7cfb1be34bc9be094cb1e3c2b1",
+      "bytes": 4491
+    },
+    "runs/fac_oxygen_levels_v17/input.sf": {
+      "sha256": "0ddffbcaf37b59c2a71a54e087ca5177be33898381ae45d79e02873f8fe800b0",
+      "bytes": 303
+    },
+    "runs/fac_oxygen_levels_v17/o.lev": {
+      "sha256": "3acb6160f2b62992bcc215798e777737f60ef9bf7c8ce2eb163d7658f97a5ebb",
+      "bytes": 2458
+    },
+    "runs/fac_oxygen_levels_v17/o.lev.b": {
+      "sha256": "0e8ca7e34a1fd633e2dc79cdd240943a5e118ca3074804a0812ce8d62755980f",
+      "bytes": 3480
+    },
+    "runs/fac_oxygen_levels_v17/receipt.json": {
+      "sha256": "4bb94469e47e509ccc3fb87c754954a05a94971335fa8a97413114ef12a54efc",
+      "bytes": 5477
+    },
+    "runs/fac_oxygen_levels_v17/rya1354_fac_bootstrap.py": {
+      "sha256": "43298f9a58b044168202f00e1e28234fda313e37c48fdbbd38dbe69f1e77e9c7",
+      "bytes": 5794
+    },
+    "runs/fac_oxygen_levels_v17/sfac.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/fac_oxygen_levels_v17/sfac.stdout": {
+      "sha256": "b49803b6332efbe8c39b9008308a5877012f7b1cdea316de90ab9cd55a3112ee",
+      "bytes": 3042
+    },
+    "evidence/fac_oxygen_driver_v17/fac_oxygen_plan.v17.json": {
+      "sha256": "666d3989c346899e1748af28639f73f41f7c38a5d98285ee57037af527f2b05b",
+      "bytes": 1118
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 9,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}
