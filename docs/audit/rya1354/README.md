@@ -1,4 +1,5 @@
-Latest continuation: [verified n5 completion and joint outer-layer continuation](n5_terminal_v15.md).
+Latest continuation: [joint timeout and matched qualified-orbital CI](joint_failure_and_ci_v16.md).
+Previous: [verified n5 completion and joint outer-layer continuation](n5_terminal_v15.md).
 Previous: [n5 loading-control replay and prepared independent validator](n5_validation_v14.md).
 Previous: [active n5 extension and rate decomposition](frozen_extension_v13.md).
 Previous: [terminal full-release failure and frozen-layer sensitivity](frozen_layer_v12.md).

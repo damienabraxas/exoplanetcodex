@@ -1,0 +1,290 @@
+{
+  "schema": "rya1354.joint-failure-audit.v16",
+  "status": "FAILED_RETAINED",
+  "error": "TimeoutExpired: Command '['/mnt/codex-data/codex/rya1354/toolchains/grasp-strict-scf-v1/rmcdhf']' timed out after 43200 seconds",
+  "native_receipt_sha256": "5c78b4cda419125225ad01246a43c8552d3f82fa0444c8e7427f38223116c456",
+  "completed_cycle_count": 459,
+  "last_complete_cycle": {
+    "iteration": 459,
+    "complete_printed_cycle": true,
+    "orbitals": {
+      "4s": {
+        "residual": 9.45e-05,
+        "method": 3,
+        "nodes": 3
+      },
+      "4p-": {
+        "residual": 3.28e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "4p": {
+        "residual": 0.000123,
+        "method": 3,
+        "nodes": 2
+      },
+      "4d-": {
+        "residual": 3.36e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "4d": {
+        "residual": 3.34e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "4f-": {
+        "residual": 7.07e-05,
+        "method": 3,
+        "nodes": 0
+      },
+      "4f": {
+        "residual": 0.000144,
+        "method": 3,
+        "nodes": 0
+      },
+      "5s": {
+        "residual": 9.74e-05,
+        "method": 3,
+        "nodes": 4
+      },
+      "5p-": {
+        "residual": 2.6e-05,
+        "method": 3,
+        "nodes": 3
+      },
+      "5p": {
+        "residual": 0.000187,
+        "method": 3,
+        "nodes": 3
+      },
+      "5d-": {
+        "residual": 3.05e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "5d": {
+        "residual": 2.65e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "5f-": {
+        "residual": 4.98e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "5f": {
+        "residual": 0.00013,
+        "method": 3,
+        "nodes": 1
+      },
+      "5g-": {
+        "residual": 1.33e-07,
+        "method": 3,
+        "nodes": 0
+      },
+      "5g": {
+        "residual": 1.45e-07,
+        "method": 3,
+        "nodes": 0
+      }
+    },
+    "max_reported_residual": 0.000187,
+    "weighted_energy_hartree": -75.011690753
+  },
+  "last_printed_cycle": {
+    "iteration": 460,
+    "complete_printed_cycle": false,
+    "orbitals": {
+      "4s": {
+        "residual": 0.000103,
+        "method": 3,
+        "nodes": 3
+      },
+      "4p-": {
+        "residual": 3.28e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "4p": {
+        "residual": 0.000125,
+        "method": 3,
+        "nodes": 2
+      },
+      "4d-": {
+        "residual": 3.37e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "4d": {
+        "residual": 3.34e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "4f-": {
+        "residual": 7.08e-05,
+        "method": 3,
+        "nodes": 0
+      },
+      "4f": {
+        "residual": 0.000144,
+        "method": 3,
+        "nodes": 0
+      },
+      "5s": {
+        "residual": 0.000106,
+        "method": 3,
+        "nodes": 4
+      },
+      "5p-": {
+        "residual": 2.6e-05,
+        "method": 3,
+        "nodes": 3
+      },
+      "5p": {
+        "residual": 0.00019,
+        "method": 3,
+        "nodes": 3
+      },
+      "5d-": {
+        "residual": 3.05e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "5d": {
+        "residual": 2.62e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "5f-": {
+        "residual": 5e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "5f": {
+        "residual": 0.000131,
+        "method": 3,
+        "nodes": 1
+      },
+      "5g-": {
+        "residual": 1.44e-07,
+        "method": 3,
+        "nodes": 0
+      },
+      "5g": {
+        "residual": 1.6e-07,
+        "method": 3,
+        "nodes": 0
+      }
+    },
+    "max_reported_residual": 0.00019,
+    "weighted_energy_hartree": null
+  },
+  "best_complete_cycle": {
+    "iteration": 49,
+    "complete_printed_cycle": true,
+    "orbitals": {
+      "4s": {
+        "residual": 2.63e-05,
+        "method": 3,
+        "nodes": 3
+      },
+      "4p-": {
+        "residual": 2.66e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "4p": {
+        "residual": 4.79e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "4d-": {
+        "residual": 3.29e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "4d": {
+        "residual": 5.95e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "4f-": {
+        "residual": 3.37e-05,
+        "method": 3,
+        "nodes": 0
+      },
+      "4f": {
+        "residual": 5.87e-05,
+        "method": 3,
+        "nodes": 0
+      },
+      "5s": {
+        "residual": 1.2e-05,
+        "method": 3,
+        "nodes": 4
+      },
+      "5p-": {
+        "residual": 1.2e-05,
+        "method": 3,
+        "nodes": 3
+      },
+      "5p": {
+        "residual": 2.19e-05,
+        "method": 3,
+        "nodes": 3
+      },
+      "5d-": {
+        "residual": 1.63e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "5d": {
+        "residual": 3.28e-05,
+        "method": 3,
+        "nodes": 2
+      },
+      "5f-": {
+        "residual": 9.59e-06,
+        "method": 3,
+        "nodes": 1
+      },
+      "5f": {
+        "residual": 1.97e-05,
+        "method": 3,
+        "nodes": 1
+      },
+      "5g-": {
+        "residual": 1.29e-07,
+        "method": 3,
+        "nodes": 0
+      },
+      "5g": {
+        "residual": 2.04e-07,
+        "method": 3,
+        "nodes": 0
+      }
+    },
+    "max_reported_residual": 5.95e-05,
+    "weighted_energy_hartree": -75.011691008
+  },
+  "original_ACC": 5.960464477539063e-08,
+  "exact_fixed_n_le_3_records_in_retained_wave": 9,
+  "retained_wave_timing": "Terminal ORBOUT file; exact cycle-to-file correspondence not asserted",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "qualified_states": 0,
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "423ab5dfdc0b840f8d76697c531c9aeee34fe6efd8c465c28ccc6d71123518e4",
+      "bytes": 1018658
+    }
+  },
+  "generator_sha256": "208a5c5e8415faf88febe0c28065f38efa1d13a53a3ada308c000a4693f5c4ab",
+  "disposition": "12-hour ground timeout with unresolved oscillatory orbital residuals. No state/rate qualification, no failed-wave initializer and no root-cause or accuracy claim."
+}
