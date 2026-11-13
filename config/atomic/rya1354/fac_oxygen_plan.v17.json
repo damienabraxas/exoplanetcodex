@@ -1,0 +1,35 @@
+{
+  "schema": "rya1354.fac-oxygen-level-plan.v17",
+  "declaration_comment": "e6a8e6eb-25db-4c01-9801-577dd3c306da",
+  "pin": "9ab6defb6af62e1bc8251a35ff995809abef717c",
+  "binary_sha256": "300b9559ef50e92ae3d1209df5576975e5b9afbf5dcbc0e96e9768f478249d51",
+  "output": "runs/fac_oxygen_levels_v17",
+  "scope": "Neutral-O level identity feasibility only, no transition/gf/lifetime or LS-term admission.",
+  "configurations": [
+    "1s2 2s2 2p4",
+    "1s2 2s2 2p3 3s1"
+  ],
+  "closed_shell": "1s",
+  "optimization": "Ground-only native-default local potential; print diagnostics; theory-only ConfigEnergy workflow.",
+  "disabled": [
+    "Breit",
+    "self_energy",
+    "vacuum_polarization",
+    "normal_mass_shift",
+    "specific_mass_shift"
+  ],
+  "nucleus": "Native FAC standard parameters, not matched to GRASP point nucleus.",
+  "inventory": {
+    "electrons": 8,
+    "levels": 15,
+    "even": 5,
+    "odd": 10
+  },
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

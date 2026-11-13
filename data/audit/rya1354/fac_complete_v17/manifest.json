@@ -1,0 +1,115 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "1fe9e1c1b91c8b4d09c618721d0b0ad54a37ae4072ac6b02a10840d9169342f9",
+      "bytes": 103284
+    }
+  },
+  "files": {
+    "evidence/fac_bootstrap_v17/configure.stderr": {
+      "sha256": "64267c2aaecd6623ffc61db6de77f1f0b13bb44183991065c77daacd71de1631",
+      "bytes": 46
+    },
+    "evidence/fac_bootstrap_v17/configure.stdout": {
+      "sha256": "d8b2f716ac71c983aadafd6bc35dcb1f73dcc3dd9b38ce2399c11aaca0fa28ff",
+      "bytes": 3315
+    },
+    "evidence/fac_bootstrap_v17/driver.py": {
+      "sha256": "43298f9a58b044168202f00e1e28234fda313e37c48fdbbd38dbe69f1e77e9c7",
+      "bytes": 5794
+    },
+    "evidence/fac_bootstrap_v17/gcc_version.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/fac_bootstrap_v17/gcc_version.stdout": {
+      "sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+      "bytes": 239
+    },
+    "evidence/fac_bootstrap_v17/gfortran_version.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/fac_bootstrap_v17/gfortran_version.stdout": {
+      "sha256": "aa9d85a77b73c5c95711ca1930f0479d1b7ae5670cec6be739d984531b2a012f",
+      "bytes": 247
+    },
+    "evidence/fac_bootstrap_v17/make.stderr": {
+      "sha256": "d555e15efad4dbced6b651930096fdccbf47874b25a5827ee6eee722aa67f177",
+      "bytes": 100838
+    },
+    "evidence/fac_bootstrap_v17/make.stdout": {
+      "sha256": "b6b7bbf597cb1ae3ea4ff3eaee884be3e5c71f7cd61bcca37d57fcf3f0f0213e",
+      "bytes": 26233
+    },
+    "evidence/fac_bootstrap_v17/receipt.json": {
+      "sha256": "0ddf13adc66842ebc1da09be6c015f96287fc4fa2253825edf39c0f8bf237577",
+      "bytes": 6004
+    },
+    "evidence/fac_bootstrap_v17/source_documents/LICENSE": {
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "bytes": 35147
+    },
+    "evidence/fac_bootstrap_v17/source_documents/README.md": {
+      "sha256": "bb9bc154fc2a63952a85f3a2b603482f419867a1f8944ad8806945e29bc98ed9",
+      "bytes": 6308
+    },
+    "evidence/fac_bootstrap_v17/source_documents/configure.ac": {
+      "sha256": "2a80bca919b9d3124ed7273257a23eb70bf8d79870c7980c07e122934c94fd67",
+      "bytes": 7556
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/README": {
+      "sha256": "2cb7a967f4438432590205577cbecc9a4a889776d948c6726d3c63c8d6a0bd5e",
+      "bytes": 1175
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/structure/fe17_structure.sf": {
+      "sha256": "94f2067bc653070afa8fbb470a3c7b72ef89746f21f109d4ef12c1b7a8c5ba98",
+      "bytes": 813
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/structure/ref/ne.lev": {
+      "sha256": "c92562c976a695d823372819a09ebf1301314a01fc9a2eab74bc4101f7a3f0d4",
+      "bytes": 5684
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/structure/ref/ne.tr": {
+      "sha256": "53969b3da214c61203201b5e88bd56cf12e872bd7350a9283cd14e38a6ce2020",
+      "bytes": 2899
+    },
+    "evidence/fac_bootstrap_v17/source_documents/doc/manual.tex": {
+      "sha256": "ca884d6df7d38adb30d315c4a625b4583e6eaf66ceae8f666649f6ceda93322e",
+      "bytes": 227928
+    },
+    "evidence/fac_bootstrap_v17/upstream_example.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/fac_bootstrap_v17/upstream_example.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/fac_bootstrap_v17/upstream_structure/input.sf": {
+      "sha256": "94f2067bc653070afa8fbb470a3c7b72ef89746f21f109d4ef12c1b7a8c5ba98",
+      "bytes": 813
+    },
+    "evidence/fac_bootstrap_v17/upstream_structure/ne.lev": {
+      "sha256": "5dc8d11ed77c03f4fc72693652f107181704cb1025b244e1173aba0c7907550b",
+      "bytes": 5684
+    },
+    "evidence/fac_bootstrap_v17/upstream_structure/ne.lev.b": {
+      "sha256": "f55b5753533ad450fce1031c69aa59c6fe69d6367f4fb41cfedac7f6c046bcaf",
+      "bytes": 8496
+    },
+    "evidence/fac_bootstrap_v17/upstream_structure/ne.tr": {
+      "sha256": "eda778e68c48951522beed912a6dd86ee909c30a499667d141380b64a696ef05",
+      "bytes": 2899
+    },
+    "evidence/fac_bootstrap_v17/upstream_structure/ne.tr.b": {
+      "sha256": "0e9236fa91e4dac082169317875cfca4a14111b84eb12deec857d3f366ee1fbe",
+      "bytes": 432
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 25,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

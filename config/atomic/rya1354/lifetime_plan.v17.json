@@ -1,0 +1,24 @@
+{
+  "schema": "rya1354.fac-bootstrap-plan.v17",
+  "starting_commit": "3bd927fc06c7170ca7576daf817ef0b2f06eff7f",
+  "declaration_comment": "2722f8ef-8e97-48e4-a2f3-bbc878635262",
+  "source_url": "https://github.com/flexible-atomic-code/fac",
+  "source_pin": "9ab6defb6af62e1bc8251a35ff995809abef717c",
+  "source_path": "toolchains/fac-9ab6def",
+  "output": "evidence/fac_bootstrap_v17",
+  "scope": "Task-local SFAC build and supplied upstream Fe example execution/exact level quantum inventory only. Report numerical differences without invented tolerances. No neutral-O calculation or code accuracy admission.",
+  "method_caveat": "Independent implementation of relativistic CI with local-central-potential basis; not the same GRASP MCDHF approximation. Neutral-O applicability, physical state identities and convergence must be separately demonstrated.",
+  "compiler_controls": {
+    "C": "gcc -O2 -std=gnu17",
+    "Fortran": "gfortran -O2 -fallow-argument-mismatch",
+    "jobs": 1
+  },
+  "failure_policy": "Stop and retain build/example failures, no silent source patch or fallback. No global install.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

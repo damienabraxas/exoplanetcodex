@@ -1,0 +1,71 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "146c0ea42a06554889e62d62a0495d6f800bf4fade92a87ef53b4b0e2462eff9",
+      "bytes": 84950
+    }
+  },
+  "files": {
+    "evidence/fac_bootstrap_v17/source_documents/LICENSE": {
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "bytes": 35147
+    },
+    "evidence/fac_bootstrap_v17/source_documents/README.md": {
+      "sha256": "bb9bc154fc2a63952a85f3a2b603482f419867a1f8944ad8806945e29bc98ed9",
+      "bytes": 6308
+    },
+    "evidence/fac_bootstrap_v17/source_documents/configure.ac": {
+      "sha256": "2a80bca919b9d3124ed7273257a23eb70bf8d79870c7980c07e122934c94fd67",
+      "bytes": 7556
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/README": {
+      "sha256": "2cb7a967f4438432590205577cbecc9a4a889776d948c6726d3c63c8d6a0bd5e",
+      "bytes": 1175
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/structure/fe17_structure.sf": {
+      "sha256": "94f2067bc653070afa8fbb470a3c7b72ef89746f21f109d4ef12c1b7a8c5ba98",
+      "bytes": 813
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/structure/ref/ne.lev": {
+      "sha256": "c92562c976a695d823372819a09ebf1301314a01fc9a2eab74bc4101f7a3f0d4",
+      "bytes": 5684
+    },
+    "evidence/fac_bootstrap_v17/source_documents/demo/structure/ref/ne.tr": {
+      "sha256": "53969b3da214c61203201b5e88bd56cf12e872bd7350a9283cd14e38a6ce2020",
+      "bytes": 2899
+    },
+    "evidence/fac_bootstrap_v17/source_documents/doc/manual.tex": {
+      "sha256": "ca884d6df7d38adb30d315c4a625b4583e6eaf66ceae8f666649f6ceda93322e",
+      "bytes": 227928
+    },
+    "evidence/fac_bootstrap_v17/driver.py": {
+      "sha256": "43298f9a58b044168202f00e1e28234fda313e37c48fdbbd38dbe69f1e77e9c7",
+      "bytes": 5794
+    },
+    "evidence/fac_bootstrap_v17/configure.stdout": {
+      "sha256": "d8b2f716ac71c983aadafd6bc35dcb1f73dcc3dd9b38ce2399c11aaca0fa28ff",
+      "bytes": 3315
+    },
+    "evidence/fac_bootstrap_v17/configure.stderr": {
+      "sha256": "64267c2aaecd6623ffc61db6de77f1f0b13bb44183991065c77daacd71de1631",
+      "bytes": 46
+    },
+    "evidence/fac_bootstrap_v17/gcc_version.stdout": {
+      "sha256": "6e876a25bb7fdb71ab2914e8f1eeaa00cc61d20a36a6c2981ab7d4d7ceab42f8",
+      "bytes": 239
+    },
+    "evidence/fac_bootstrap_v17/gfortran_version.stdout": {
+      "sha256": "aa9d85a77b73c5c95711ca1930f0479d1b7ae5670cec6be739d984531b2a012f",
+      "bytes": 247
+    },
+    "evidence/fac_driver_v17/lifetime_plan.v17.json": {
+      "sha256": "5453a0c234b261fb7eef43501845140eeedb3753b7cf5d4a0d48e19f98a27a5e",
+      "bytes": 1306
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 14,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}
