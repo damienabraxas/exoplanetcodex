@@ -1,0 +1,157 @@
+{
+  "generator": {
+    "name": "run_bride_hop_fixed_transfer.py",
+    "bytes": 7800,
+    "sha256": "75831dba13960a395ea1447c41e11e5d5491273efe3bea3ffb4e95d70ec91a79"
+  },
+  "plan": {
+    "name": "rya1371_hop_original_source_widths.json",
+    "bytes": 4565,
+    "sha256": "cc523327cc47e64459dbd532328d25333e2d95ed12f69bb7ee9c32fb5dc61653"
+  },
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_original_source_widths.json": {
+      "name": "rya1371_hop_original_source_widths.json",
+      "bytes": 4565,
+      "sha256": "cc523327cc47e64459dbd532328d25333e2d95ed12f69bb7ee9c32fb5dc61653"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+      "name": "rya1371_hop_native_options.json",
+      "bytes": 1512,
+      "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_hop_transfer.py": {
+      "name": "bride_hop_transfer.py",
+      "bytes": 11336,
+      "sha256": "ec71b6570e01a11c36e160a4304d3f396262d861c96b15ea661787435764e0a4"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_native_table_control.py": {
+      "name": "bride_native_table_control.py",
+      "bytes": 3077,
+      "sha256": "631591d5d136363971f9bdced37ac2c48abb7d7a411c42995caaedb2e858832e"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/native_vacuum_centres.py": {
+      "name": "native_vacuum_centres.py",
+      "bytes": 1807,
+      "sha256": "e982d7654792c8af2435d02b61b4ca31b692a47497c964c8b55f32f2fb08e677"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_width_law.py": {
+      "name": "multi_width_law.py",
+      "bytes": 4377,
+      "sha256": "4f86cb0822da097527cb15d28de527b43526cefbe983a6f5625ef4140c5f1faf"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_packet.py": {
+      "name": "hop_packet.py",
+      "bytes": 9256,
+      "sha256": "b1210b71e56c0d174692cc2674dd5019dbc48a6c051a463f140b3a36374614f0"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+      "name": "hop_abi.py",
+      "bytes": 959,
+      "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_top_cap.py": {
+      "name": "bride_top_cap.py",
+      "bytes": 8047,
+      "sha256": "b3151adb66bfd468aa1c651cf5435488d81a6f6c9a8a3c15372e0c3196438f29"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_reference.py": {
+      "name": "bride_reference.py",
+      "bytes": 10407,
+      "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85404,
+      "sha256": "a76996b75c92ab40f0cff7b10f048ca3777f5fc4cfd8bd4bbe38b0ec84548acf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 206878,
+      "sha256": "69e8a27a554df4c5d148795108d0a9fd3bb8ac982caf8570f78b56f8fdc51128"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 4887,
+      "sha256": "f8ab625d0f77f84420f0b52404c33a17f00411f9d540692d20f1c04e950238f4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json": {
+      "name": "reference-5750-4.5-A8.70-v1.json",
+      "bytes": 72076,
+      "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+    },
+    "/Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/LwCompiled.cpython-312-darwin.so": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/law.json": {
+      "name": "law.json",
+      "bytes": 73892,
+      "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/report.json": {
+      "name": "report.json",
+      "bytes": 1840,
+      "sha256": "334d66abe7f43ef563f29d55fc4576320b0a8c6692e49c88d0b625dd13eb3fa9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-output-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-wavelength-roundtrip-v2/output.txt": {
+      "name": "output.txt",
+      "bytes": 33280,
+      "sha256": "e0828d111a559405944db44ab0d2e20ef7da558d7d875f743335ea6e0faa861c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-wavelength-roundtrip-v2/report.json": {
+      "name": "report.json",
+      "bytes": 3896,
+      "sha256": "2945c786506aa1b7e84f88da5a0605c8125e4971c59d969b945d653ba59a74ef"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+      "name": "libhop.so",
+      "bytes": 1164024,
+      "sha256": "8b5c6d60f8d7a2257db50c752e1a809c9b6282e076ad264512dc3f3ecf624a3b"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.mod": {
+      "name": "handyfuncs_mod.mod",
+      "bytes": 10215,
+      "sha256": "88df2a98dac408345bdae83806457862250379f813783a6782f4ebe7ef177a8c"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/airvac_profile_probe/probe.f90": {
+      "name": "probe.f90",
+      "bytes": 516,
+      "sha256": "a6623852bcc88146cc27decacbe43449e9e446956675bad5e29d5b09837c3e1d"
+    },
+    "/opt/homebrew/bin/gfortran": {
+      "name": "gfortran",
+      "bytes": 3039240,
+      "sha256": "f86a6dc75b07aa490e3789208b2f17f869883af975eb21897d4693d24cc44b73"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/handyfuncs_mod.f90": {
+      "name": "handyfuncs_mod.f90",
+      "bytes": 39086,
+      "sha256": "e4002d0ccf494c013d4f9c7946f9750b13150aa845ec2433cd48e2bb528f4c40"
+    }
+  },
+  "scope": "Prospective pure transfer control with native56-node geometry/T/ne/rho and complete native41-level O n/nstar/totals. Native HOP LTE EOS/continuum and explicit native H/He perturber densities; unchanged LW atomic and broadening formulas, five native Lobatto angles and native-constant background source. No SE/collision/population update. Both nativeNLTE and nativeLTE cases, common native dense vacuum grid, no fitted shift/continuum. Top zero incoming; LW thermalized lower-boundary and native ghost/formal/profile/constants differences remain explicit. Report all six finite-window contrasts with no result-selected input or adopted model. Prospective LW linear formal solver at the same original native state; compared with native linear-output-only control. No agreement-selected production default. Explicit native Stark-off run populations consumed in full, including measured0.2103percent maximum population response. This isolates paired transfer at the new state; no original-state population equality claim. Prospective explicit He contribution disabled solely at LW elastic-broadening interface, to compare native HI-only damping. Native EOS/He density/continuum/atomic O populations and all remaining formulas retained. No helium abundance or production recipe change. Prospective consumed-table optical centres_and_strengths control: ten source transitions across predeclared six windows, no other transition or energy-level changes. Explicit native table rounding, not fitted offsets/strengths. Fixed populations only; wavelength overrides are not a self-consistent SE atom. Prospective paired transfer at isolated accurate-kernel native populations. Use its complete n/nStar/totals, not original-profile populations; native SE response measured separately. Original HOP background provider, optical source-determined centre/strength controls, He-off broadening diagnostic and linear formal solver retained. No physical/default adoption. Prospective restoration of full positive original-source VDW law derived algebraically from exact DAMP. No width suppression, extra He multiplication, empirical scale or global default change. Law verified on56 states and all five source controls; numerical T domain explicit. Native accurate-kernel full-VDW populations retained, already-vacuum optical centres explicit. Physical/collider/EOS/SE/solar admission remains open.",
+  "dry_run": true
+}

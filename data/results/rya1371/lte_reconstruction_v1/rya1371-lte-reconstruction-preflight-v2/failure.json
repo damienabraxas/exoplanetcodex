@@ -1,0 +1,6 @@
+{
+  "error": "AssertionError: full-matrix float32 cast is not native file semantics",
+  "stage": "preflight before allocation",
+  "cause": "Only upward triangular coefficients stored FP32; reader reconstructs downward entries in FP64 from native LTE ratios",
+  "admitted": false
+}

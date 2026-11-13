@@ -1,0 +1,79 @@
+{
+  "generator": {
+    "name": "audit_oxygen_thermodynamic_conventions.py",
+    "bytes": 6602,
+    "sha256": "32b4482c1c6acb7babbef30469c509080973aad45a318af87c197fdb5626b7d2"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+      "name": "const_mod.f90",
+      "bytes": 5473,
+      "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/constants.py": {
+      "name": "constants.py",
+      "bytes": 941,
+      "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5108,
+      "sha256": "afeeb5e68652923dddabbc842676cbb4a16a8d0ca1df8004efa56cd7b1ce4411"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85429,
+      "sha256": "f096a1ccacb9c3f4ca9640e1cdfaf98780b49794768b26233ab75ac9c6b0dc84"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 216428,
+      "sha256": "76236747b9043f05bc01fd98af57c8c1c9724acebca4f161dd54b63eb019e59e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335463,
+      "sha256": "66c57b0db2a10de2aae3a4a3efed4947a85bab308cb0a2735f2d96e1b37f3450"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/thermodynamic_canary.py": {
+      "name": "thermodynamic_canary.py",
+      "bytes": 1402,
+      "sha256": "2f50f2bddf01bcf167151a1c057893b6c6e54c0936fb597f05703a491e286286"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/Constants.hpp": {
+      "name": "Constants.hpp",
+      "bytes": 3039,
+      "sha256": "e627c2e1c652ce29309debebe32aa453b71f603f76195ef752f2db66145655e0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/receipt.json": {
+      "name": "receipt.json",
+      "bytes": 12133,
+      "sha256": "19cfafa575b0112bc166768cb9aa26965e000c40c476e88c12a41858bc205ae0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    }
+  },
+  "native_constants_SI": {
+    "hh": 6.626176e-34,
+    "bk": 1.3806620000000002e-23,
+    "cc": 299792458.0
+  },
+  "LW_constants_SI": {
+    "h": 6.6260755e-34,
+    "k": 1.380658e-23,
+    "c": 299792458.0
+  },
+  "relative_h_over_k_difference": 1.2270144189363563e-05,
+  "max_BB_consistent_defect": 2.135278884543749e-16,
+  "max_BB_foreign_star_LW_blackbody_defect": 0.00022547456291617413,
+  "max_BB_foreign_star_HOP_blackbody_defect": 9.347060433391017e-06,
+  "max_BF_consistent_defect": 2.1945066852747812e-16,
+  "max_BF_mixed_HOP_blackbody_LW_coefficients_defect": 0.0002348105761591132,
+  "max_relative_blackbody_difference": 0.0004695109061918501,
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "scope": "Analytic BB line-centre/BF per-frequency LTE identities at existing state. No RT, SE, field/constant/star/rate modification, no modern-constant substitution or fitted parameter. Separate installed constant sets; not full profile/frequency-integrated rates, microscopic collision validation, or unique attribution of the NLTE residual. Any coherent convention change requires joint LTE/background/collision/atomic requalification."
+}

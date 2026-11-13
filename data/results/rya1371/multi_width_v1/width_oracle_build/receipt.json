@@ -1,0 +1,127 @@
+{
+  "generator": {
+    "name": "build_multi_width_oracle.py",
+    "bytes": 3487,
+    "sha256": "512ef7779df0971674e5df6ea3d5ff8241de7d2d200338b93bea5f2a3fe2725d"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/mul23_sub.f": {
+      "name": "mul23_sub.f",
+      "bytes": 232334,
+      "sha256": "2cbfae6420d362ee4561d3c455a8d32f404b49f4b2b0f8f30ca797931eb9f3bd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/mul23_bconst.f": {
+      "name": "mul23_bconst.f",
+      "bytes": 1018,
+      "sha256": "c33bcb3655be323c3f95a9224cd130729bb0feaf2003dbf46671fc2ba623d546"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/make_mul23_dbl.csh": {
+      "name": "make_mul23_dbl.csh",
+      "bytes": 2157,
+      "sha256": "65a624ed17641ae1d6cd0ec51352077893b0d397993f2cfa730017249b71e64c"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/multi_width_oracle/driver.f": {
+      "name": "driver.f",
+      "bytes": 2182,
+      "sha256": "fd4c876aeeb50780aafeac98e5edc1b804a040b24641a237744c5d071b215c12"
+    },
+    "/opt/homebrew/bin/gfortran": {
+      "name": "gfortran",
+      "bytes": 3039240,
+      "sha256": "f86a6dc75b07aa490e3789208b2f17f869883af975eb21897d4693d24cc44b73"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CATOM": {
+      "name": "CATOM",
+      "bytes": 674,
+      "sha256": "e705cccab786433ac446842d9ec30957a3f787a2d90ef7e612b7274ed4c62034"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CATMOS": {
+      "name": "CATMOS",
+      "bytes": 270,
+      "sha256": "9971db7ad384e442b2892c72eb88a37d177ac5268da1d5d8199b112f1b10bfb2"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CATMO2": {
+      "name": "CATMO2",
+      "bytes": 83,
+      "sha256": "44ef581ddc174dd9f41f046b77ffe61b1199b0efedc34aa79c515d56264c76e7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CCONST": {
+      "name": "CCONST",
+      "bytes": 59,
+      "sha256": "b0ffcb577ca46311ddf8072edb0c356c104acc4358a99714e423c06ac381d4d2"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CINPUT": {
+      "name": "CINPUT",
+      "bytes": 397,
+      "sha256": "a24a98b36c5bf39021648799aa89a2cf812a3b5f44f516f0e2dc24ee97982e4d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CLU": {
+      "name": "CLU",
+      "bytes": 168,
+      "sha256": "1eb4f06b4db286a6b0511ba594d1ebc1be5cdfa1722d91a4ffcbbad54abe1d92"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CTERM": {
+      "name": "CTERM",
+      "bytes": 198,
+      "sha256": "e68ba2c7e8ac9451797568ec9cd82eafe794fe7570afbc2fcc71094e6c4056cf"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CTRAN": {
+      "name": "CTRAN",
+      "bytes": 134,
+      "sha256": "01db559147600152256b88869d9184c271a9238176c4cefef0fa67be22c03c8d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CSLINE": {
+      "name": "CSLINE",
+      "bytes": 475,
+      "sha256": "77165c427526914d1b301fb0ae5f723ec4c12603e61c3e0bd978fed5d4dd7373"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CBCNST": {
+      "name": "CBCNST",
+      "bytes": 88,
+      "sha256": "4b673d526aef1ae1504e2e12bfac698933f624a5d04e8404dfeef10f53ed2cb4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/C3D": {
+      "name": "C3D",
+      "bytes": 435,
+      "sha256": "c0e8e401d7fe178fabe0131e83d60c827ccbeeb104f0fce44aaac67e0a603038"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/PREC.dp": {
+      "name": "PREC.dp",
+      "bytes": 33,
+      "sha256": "dd292d38b942229483393353391790de98e975092f3fb656de2dd6e7b0b814f7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/PARAM": {
+      "name": "PARAM",
+      "bytes": 101,
+      "sha256": "5b9f501701bbeb0156dd1b8ff885dc9b9ee65e1c71637f204ad53c74695ffe6e"
+    }
+  },
+  "source_commit": "4d6aa3c39d634b38da772e469a5692435eba1354",
+  "routine_sha256": "bdd4d87462739c837025c5aa1a61d2e2f8df089861db19d94137a7bedf86c4ff",
+  "generated": {
+    "name": "multi_damp_dp.f",
+    "bytes": 12110,
+    "sha256": "df2dfd136348e68b976644d73970525ddea92ec38acd9cec3357d6fe0a38575c"
+  },
+  "command": [
+    "/opt/homebrew/bin/gfortran",
+    "-std=legacy",
+    "-O2",
+    "-fcheck=bounds",
+    "-ffixed-line-length-132",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/multi-width-oracle-v1/multi_damp_dp.f",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/multi-width-oracle-v1/multi_width_probe"
+  ],
+  "seconds_limit": 600,
+  "threads": 1,
+  "scientific_admission": "HOLD",
+  "completed": true,
+  "seconds": 0.944562915712595,
+  "returncode": 0,
+  "executable": {
+    "name": "multi_width_probe",
+    "bytes": 52240,
+    "sha256": "bf97fefeec2c4c937d276b74b553c463d73f1b6766b59cc3114192fdbdf1e126"
+  }
+}

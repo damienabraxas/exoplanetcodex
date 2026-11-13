@@ -1,0 +1,64 @@
+diff --git a/experiments/OpenMULTI3D/HOP/qlg_mod.f90 b/experiments/OpenMULTI3D/HOP/qlg_mod.f90
+index 125c068b7..d3709e3e4 100644
+--- a/experiments/OpenMULTI3D/HOP/qlg_mod.f90
++++ b/experiments/OpenMULTI3D/HOP/qlg_mod.f90
+@@ -67,6 +67,7 @@ MODULE qlg
+   public :: qlg_init
+   public :: qlg_toy_sweep, qlg_bot_sweep, qlg_mid_sweep, qlg_top_sweep
+   public :: qlg_ref_f64
++  public :: qlg_ref_profile
+   public :: qlg_bot_phi, qlg_bot_profile                                      !< local addition, see the bottom of this file
+   public :: qlg_bot_coef, qlg_bot_eval                                        !< local addition, as is qlg_bot_coef_t
+   public :: qlg_bot_cell, qlg_bot_line, qlg_bot_line_eval, qlg_bot_line_sweep !< local addition
+@@ -688,4 +689,15 @@ contains
+     h = K1(1) * ISQPI * idf * (q + 1.0)
+   END FUNCTION qlg_bot_profile
+ 
++!> Isolated control: same fp32 inputs, offset arithmetic and normalization as
++!> qlg_bot_profile; only the profile kernel is the existing fp64 reference.
++  ELEMENTAL FUNCTION qlg_ref_profile (a, q, vpr, idf) result (h)
++    real(4), intent(in) :: a, q, vpr, idf
++    real(4) :: h, v
++    real(8) :: K1(1)
++    v = abs(q - vpr) * idf
++    call qlg_ref_f64(real(a,8), real(v,8), 0.0d0, 1, K1)
++    h = real(K1(1),4) * ISQPI * idf * (q + 1.0)
++  END FUNCTION qlg_ref_profile
++
+ END MODULE qlg
+diff --git a/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90 b/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90
+index d12282449..64d18a4f5 100644
+--- a/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90
++++ b/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90
+@@ -31,7 +31,7 @@ MODULE rt_patch_mod
+                            save_linelist
+   USE ray_mod, only: one_dimensional, ray_type
+   USE trans_mod, only: line_type, cont_type
+-  USE qlg, only: qlg_bot_profile      ! the one Voigt kernel; see linelist_mod's kernel note
++  USE qlg, only: qlg_ref_profile      ! the one Voigt kernel; see linelist_mod's kernel note
+   USE bftrans_mod, only: H_occupation_probability
+   USE hprofl_mod, only: hprofile, hline_t, hydrogen_line, hcell_t, hcell_prepare
+   USE hvcs_mod, only: vcs_profile_t, vcs_supported
+@@ -2740,7 +2740,7 @@ contains
+               else
+                 vpr = vproj(x,y,z)
+                 a = trans%adamp(x,y,z,i)
+-                phi = qlg_bot_profile(a, line%q(fs:fe), vpr, idf)
++                phi = qlg_ref_profile(a, line%q(fs:fe), vpr, idf)
+               endif
+ 
+               Rij = ni * line%Bij
+@@ -2968,11 +2968,11 @@ contains
+               endif
+             else
+               if (split_rates) then
+-                vph(fs:fe) = qlg_bot_profile(a, line%q(fs:fe), vpr, idf)
++                vph(fs:fe) = qlg_ref_profile(a, line%q(fs:fe), vpr, idf)
+               else
+                 do f=fs, fe
+                   associate(Inu=>self%work(f,x,y,z,3), Psi=>self%Psi(f,x,y,z))
+-                    phi = qlg_bot_profile(a, line%q(f), vpr, idf)
++                    phi = qlg_ref_profile(a, line%q(f), vpr, idf)
+                     vvv = phi * wmunu(f)
+                     if (own_norm) sum_w = sum_w + phi * wqf(f)
+                     sum_A = sum_A + vvv * (self%Bnu(f,x,y,z)*inv_nref)

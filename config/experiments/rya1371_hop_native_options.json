@@ -1,0 +1,38 @@
+{
+  "schema": "codex.hop_fixed_reference_options/1",
+  "source_namelist": {
+    "name": "params.nml",
+    "bytes": 81451,
+    "sha256": "4e55f0936e46bbe336bdb5992ee4bde4712e5cc6732ec1858f36365b1d341a2b"
+  },
+  "line_reject_frac_source": "pinned HOP/bbtrans_mod.f90 real4 literal0.0; not printed in native namelist",
+  "options": {
+    "ref_lam": 5000.0,
+    "debug_opac": 0.0,
+    "tolerance": 9.99999975e-05,
+    "opac_table_vmic": 1.0,
+    "eosmet": 0.5,
+    "lam_tolerance": 0.0010000000474974513,
+    "mhd_eos": true,
+    "helium_scattering": true,
+    "relative_abundances": false,
+    "line_scattering": false,
+    "sample_linelist": false,
+    "h_occupation_probability": true,
+    "debye_shield": true,
+    "irwin_dis": true,
+    "disable_rad": false,
+    "disable_stk": false,
+    "disable_vdw": false,
+    "molecule_damping_estimates": true,
+    "hydrogen_bpo": true,
+    "hydrogen_profiles": "stehle",
+    "ll_profile": false,
+    "voigt_kernel": 0,
+    "line_reject_frac": 0.0,
+    "exclude_elements": "",
+    "only_elements": ""
+  },
+  "scope": "Reset all relevant native fixed-reference module options before every experimental packet. Abundance overrides and auxiliary input paths are separately source-bound. Not a production/default policy change.",
+  "disabled_features": "External metal table and line-list opacity are explicitly disabled in every packet call. Empty absmet_file cannot be set through the native API (it requires an existing file), so no file option is sent or substituted."
+}

@@ -1,0 +1,34 @@
+ This version was compiled with default real KIND = 4
+ MPI is not enabled!
+ C-binding call created directory native/00000/           1
+ ===============================================================================
+ DISPATCH code framework, branch:main, hash:32085d26c
+ SOLVER=None OPTS=hoppe
+ GCC version 16.1.0                                                                                                              
+ ================================ mpi_t%info ====================================
+ n_sockets =   1
+   n_cores =   0
+ n_threads =   1
+  n_places =   0
+   n_ranks =   1
+ Stacksize =   256MB
+ This version was compiled with default real KIND = 4
+ ================================= io_t%init ====================================
+ parameters from: input.nml
+ output directory: native/
+ ============================ read_external_t%ini ===============================
+ C-binding call created directory native/save           1
+ C-binding call created directory native/atoms           1
+
+Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
+
+Backtrace for this error:
+#0  0x105ac3323
+#1  0x105ac2063
+#2  0x180af9743
+#3  0x104dbf3fb
+#4  0x104dee4f3
+#5  0x104e313ab
+#6  0x104f513b3
+#7  0x104d6cc37
+#8  0x104fcf59f

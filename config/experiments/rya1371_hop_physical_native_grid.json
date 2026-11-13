@@ -1,0 +1,109 @@
+{
+  "purpose": "full-source-O41-HOP-fixed-population-rates",
+  "seconds": 600,
+  "native_analysis_resource": "experiments.openmulti3d_oxygen_accurate_analysis",
+  "native_arrays": {
+    "name": "arrays.npz",
+    "bytes": 85404,
+    "sha256": "a76996b75c92ab40f0cff7b10f048ca3777f5fc4cfd8bd4bbe38b0ec84548acf"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 206878,
+    "sha256": "69e8a27a554df4c5d148795108d0a9fd3bb8ac982caf8570f78b56f8fdc51128"
+  },
+  "native_report": {
+    "name": "report.json",
+    "bytes": 4887,
+    "sha256": "f8ab625d0f77f84420f0b52404c33a17f00411f9d540692d20f1c04e950238f4"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "scope": "Matched-population full-source UV/BF/radiative-rate replay at EXACT native n/nStar/T/ne/rho, source photon centres/f and source widths. Fixed populations throughout; no statistical-equilibrium update. Compare all source/native transition pairs and target level7/top cell identified in the prior outer-layer audit. No fitted parameters, omitted layers or physical model/solar admission. Source-defined native linear ghost spacing and zero chi/S/I upstream plane; length read from actual consumed native mesh, never fitted. No change to source T/ne/rho/populations or rate coefficients. This fixed-population control does not qualify a coupled boundary preconditioner. Exact pre-update population replay against isolated native physical-rate observer. Native baseline binaries unchanged; no physical adoption. Source-derived native get_lam fractional numerical grid replaces default LW quadrature for all256 lines; original photon centres/f/E/g/C and frozen native pre-update state preserved. Source support/spacing measured, not selected by reference agreement. No physical/coupled adoption.",
+  "native_options": {
+    "name": "rya1371_hop_native_options.json",
+    "bytes": 1512,
+    "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+  },
+  "formal_solver": "piecewise_linear_1d",
+  "helium_broadening": false,
+  "vdw_broadening": true,
+  "original_width_law": {
+    "resource": "experiments.original_multi_width_law",
+    "receipt": {
+      "name": "law.json",
+      "bytes": 73892,
+      "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+    },
+    "report_receipt": {
+      "name": "report.json",
+      "bytes": 1840,
+      "sha256": "334d66abe7f43ef563f29d55fc4576320b0a8c6692e49c88d0b625dd13eb3fa9"
+    }
+  },
+  "collision_binding": {
+    "resource": "experiments.native_oxygen_collision_matrix",
+    "report_receipt": {
+      "name": "report.json",
+      "bytes": 78523,
+      "sha256": "eef4490f24038f986f27c52d212168a34f319f66e21d86b3313b92d2197dfe7d"
+    },
+    "matrix_receipt": {
+      "name": "matrices.npz",
+      "bytes": 3227315,
+      "sha256": "987895552f40f5f0234e0aefd4725a755d662b2e42bbf543010a15551d8b56ba"
+    },
+    "atom": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    }
+  },
+  "controls_source": "data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/baseline/report.json",
+  "controls_receipt": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "iteration_plugin": {
+    "resource": "experiments.bride_full_cap_plugin",
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 12068,
+      "sha256": "6d1c11c2410f32dc62a36ebf9767c01a6adc9dd5cee4e1db29a7107f932c0eec"
+    }
+  },
+  "native_run_resource": "experiments.openmulti3d_oxygen_accurate_run",
+  "focus_level_1based": 7,
+  "focus_depth_index": 0,
+  "boundary_control": "native-zero-ghost-linear",
+  "native_physical_control": {
+    "resource": "experiments.native_oxygen_physical_rates",
+    "report.json": {
+      "name": "report.json",
+      "bytes": 168635,
+      "sha256": "5cbe92436b180c21ee2097d4d0b0adbe05ccee6b3a12745423e901b1f22722e8"
+    },
+    "rates.npz": {
+      "name": "rates.npz",
+      "bytes": 855122,
+      "sha256": "94e072719ef4f5fa2f9e3beb46c1785cb4a76996a696a53a67946fdabde330b1"
+    }
+  },
+  "native_line_grid_control": {
+    "resource": "experiments.native_oxygen_line_grid",
+    "grids.json": {
+      "name": "grids.json",
+      "bytes": 231812,
+      "sha256": "24b3e6757c0f7683865d72bfc2c5c8c94f3c48eaffa80d190608ac2df9635c1b"
+    },
+    "report.json": {
+      "name": "report.json",
+      "bytes": 30298,
+      "sha256": "0985a7b8846fed64bd1bae09e30981302b0ea917883c7c944a5f74280d9e32e9"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "generator": {
+    "name": "audit_native_vacuum_centres_control.py",
+    "bytes": 2281,
+    "sha256": "f6529a4fae1fc0aa95d29977a3cb23faf6ce81754b2903f0f70dc2347da694a5"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-wavelength-roundtrip-v2/output.txt": {
+      "name": "output.txt",
+      "bytes": 33280,
+      "sha256": "e0828d111a559405944db44ab0d2e20ef7da558d7d875f743335ea6e0faa861c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-vdw-transfer-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 198929,
+      "sha256": "94211949276f87a482de9b169b515b1102d3bfa98ef8a2e759f4f5bd52ea6d9d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 198932,
+      "sha256": "76383c35e75d2f0cddb27117782339381c3f8dfbcd07fa69749a88def31adaee"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-vdw-transfer-v1/native_LTE.npz": {
+      "name": "native_LTE.npz",
+      "bytes": 198792,
+      "sha256": "056d50704799710fd5c6b7bfd35ae48f9f29ca5a9f2ed5d7d5cce9e1cc99ad01"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/native_LTE.npz": {
+      "name": "native_LTE.npz",
+      "bytes": 198835,
+      "sha256": "80664a5b0c3e9be67b7f90832765f27c55d4c5b9663a8c66952dc77c31a7a08a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/report.json": {
+      "name": "report.json",
+      "bytes": 145581,
+      "sha256": "792be3a5ff5f0dc27048d4cfe4e8ecfb2f3a27ca073a57fba1614486e66be419"
+    }
+  },
+  "native_state_continuum_axes_bit_identical": true,
+  "actual_transfer_centres_match_native_packet": true,
+  "scientific_admission": "HOLD",
+  "limitations": [
+    "Fixed-population diagnostic only. No global converter, source atom, observation axis, physical widths or production default changed."
+  ]
+}

@@ -1,3 +1,45 @@
+## 2026-11-12 — Oxygen shared-grid convergence
+
+- **RYA-1371** — Absolute rates verified; fixed-J thermal terms explain only2.8% of residual,8446 field-feedback test next (v281).
+
+- **RYA-1371** — Integrated BB/BF thermal checks isolate rate-formulation difference; fixed-J absolute replay next (v280).
+
+- **RYA-1371** — Native LTE and collision reciprocity reconstructed; joint thermal qualification next, scientific HOLD (v279).
+
+- **RYA-1371** — Shared4/8/16 numerical convergence and analytic thermal convention canary archived; physical qualification remains HOLD (v278).
+
+## 2026-11-11 — native ghost-boundary qualification
+
+- **RYA-1371** — Native refinement/shared-field checks improve rate comparison; all27instrument/11mode UV-IR targets mapped, full validation open (v277).
+
+- **RYA-1371** — Seven physical-rate grid controls expose coarse-grid agreement bias; dominant8446 pumping isolated, native refinement next (v276).
+
+- **RYA-1371** — Native physical-rate export preserves145 binaries; exact-stage closure measured, remaining transfer differences isolated (v275).
+
+- **RYA-1371** — Source ghost geometry brings all O populations within1.24% of native; fresh coupled/restart passes, physical gates open (v274).
+
+## 2026-11-10 — restored source-width component
+
+- **RYA-1371** — Full-source coupled O/restart passes fresh rates; VIS parity close, outer UV/LTE and solar qualification open (v273).
+
+- **RYA-1371** — Compiled collision binding and stale-state guards pass; full atom/UV/BF reconciliation precedes coupled SE (v272).
+
+- **RYA-1371** — All stored native Oxygen upward collision cells reproduce bit-for-bit; backend adapter/coupled SE next (v271).
+
+- **RYA-1371** — Native ground-H/occupation packet preserves EOS/opacity exactly; collision-matrix and coupled-SE qualification next (v270).
+
+- **RYA-1371** — Current ORCH gap-register main integrated; collider roles and source-direction hypotheses retained for SE qualification (v269).
+
+- **RYA-1371** — Full positive widths restore six-window parity; radiative inputs audited, collider/EOS/SE/solar HOLD (v268).
+
+## 2026-11-09 — reviewed foundation and reference-provider continuation
+
+> **Current as of `main` 10f0dc95** (PR #618 RYA-1373; merged diff and ticket comments8990d0ae/a1c68001 verified; current continuation integrates this main after its pinned d1728c92 experiments, v266).
+
+- **RYA-1373** — `10f0dc95` PR #618 lands the Spectroscopic Frontier inventory/schema/coverage matrix; no scientific adoption or public HTML. Publication remains1377 after1370.
+- **RYA-1278** — `d1728c92` PR #619 integrates the completed foundation; Done records software/roadmap integration, not science admission.
+- **RYA-1281** — same landing closes the reviewed checkpoint; scientific HOLD remains and newer1371 work is excluded.
+- **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v267 exact original DAMP oracle and density/T10K/xi.25-4 width laws measured; source full-width component next, physical collider/EOS/SE/solar gates HOLD.
 ## 2026-11-09 — RYA-1378 Atomic Data Gap Register; #618/#619 reconciled
 
 > **Current as of `main` 10f0dc95** (PR #618).

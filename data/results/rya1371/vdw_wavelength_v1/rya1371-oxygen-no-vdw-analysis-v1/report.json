@@ -1,0 +1,141 @@
+{
+  "schema": "codex.openmulti3d_oxygen_audit/1",
+  "scientific_admission": "HOLD",
+  "profile_variant": "accurate-kernel-control",
+  "generator": {
+    "name": "analyze_openmulti3d_oxygen_reference.py",
+    "bytes": 8522,
+    "sha256": "67288d3b174611f42618aee346e17339da646b30d52315ddc5cdbd0b0b43c6cf"
+  },
+  "native_report": {
+    "name": "report.json",
+    "bytes": 46761,
+    "sha256": "edecafc1202dea19867b34839b2266cf796f3d8aefcba3521b3ecd6534d59345"
+  },
+  "engine_receipt": {
+    "variant": "accurate-kernel-control",
+    "variant_spec": {
+      "name": "openmulti3d_profile_variant.yaml",
+      "bytes": 363,
+      "sha256": "48cbc06b11dd827ad9e7e94668ffb99c3efb6562179f42c66d9fbae20f0d0303"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1679,
+      "sha256": "5c55b23c8d071887f25f96dae2996f4124ed9db5a75db402b84c9501875b96ec"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614120,
+      "sha256": "a1f9441bf21003113bc59d3c0c91a16f5b1e68cdcf2574e7ccd411e70341dbc1"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+    "patch": {
+      "name": "active_profile.patch",
+      "bytes": 3144,
+      "sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446"
+    },
+    "original_reference": {
+      "registry": {
+        "name": "reference_engines.yaml",
+        "bytes": 877,
+        "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+      },
+      "build_receipt": {
+        "name": "receipt.json",
+        "bytes": 1552,
+        "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+      },
+      "executable": {
+        "name": "dispatch.x",
+        "bytes": 3614040,
+        "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+      },
+      "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+    }
+  },
+  "rates": [
+    {
+      "file": "rates_O_00001.bin",
+      "iteration": 13,
+      "rate_residual": 6.500154799498852e-11,
+      "conservation": 0.0
+    },
+    {
+      "file": "rates_O_00008.bin",
+      "iteration": 13,
+      "rate_residual": 2.0132517352472043e-10,
+      "conservation": 0.0
+    },
+    {
+      "file": "rates_O_00015.bin",
+      "iteration": 13,
+      "rate_residual": 1.1218596528155621e-09,
+      "conservation": 0.0
+    },
+    {
+      "file": "rates_O_00022.bin",
+      "iteration": 13,
+      "rate_residual": 2.926780186066032e-09,
+      "conservation": 2.220446049250313e-16
+    },
+    {
+      "file": "rates_O_00029.bin",
+      "iteration": 13,
+      "rate_residual": 6.452101894507834e-09,
+      "conservation": 3.3306690738754696e-16
+    },
+    {
+      "file": "rates_O_00036.bin",
+      "iteration": 13,
+      "rate_residual": 1.3497012673867322e-08,
+      "conservation": 2.220446049250313e-16
+    },
+    {
+      "file": "rates_O_00043.bin",
+      "iteration": 13,
+      "rate_residual": 2.7007119604726513e-08,
+      "conservation": 2.220446049250313e-16
+    },
+    {
+      "file": "rates_O_00050.bin",
+      "iteration": 13,
+      "rate_residual": 3.95879711643238e-08,
+      "conservation": 2.220446049250313e-16
+    }
+  ],
+  "stored_rate_max_residual": 3.95879711643238e-08,
+  "max_conservation": 3.3306690738754696e-16,
+  "distinct_final_iterations": [
+    13
+  ],
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "bride": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "height_interpolation": {
+    "method": "log-positive linear height interpolation; not an independent interpolation-accuracy bound",
+    "max_endpoint_rounding_clamp_m": 0.016117096063680947,
+    "endpoint_roundoff_bound_m": 4.760456085205078
+  },
+  "bride_height_interpolation": {
+    "method": "log-positive linear height interpolation; not an independent interpolation-accuracy bound",
+    "max_endpoint_rounding_clamp_m": 0.016117096063680947,
+    "endpoint_roundoff_bound_m": 4.760456085205078
+  },
+  "triplet_diagnostic_native_vs_multi_max_abs": 0.010963810077201375,
+  "triplet_diagnostic_native_vs_bride_max_abs": 0.016013339290608553,
+  "spectra": true,
+  "limitations": [
+    "Stored physical-rate balance is independently reconstructed, not a fresh fixed-population radiation replay.",
+    "Native grid is pressure-graded and PCHIP/log interpolated; reference b uses declared positive linear height interpolation. No row-index identity claimed.",
+    "Native EOS/background opacity, collider populations, collision interpolation and top boundary differ; no identical-physics certification.",
+    "Diagnostic source logtau interval is not a contribution function; no abundance/production/model admission."
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 12464,
+    "sha256": "33ba7b90caaf6200df63ff98f80c8040bd0351ba4eec3b6bef39b6845a2c70fa"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-collision-binding-backend-v1-failed/failure.json",
+      "receipt": {
+        "name": "failure.json",
+        "bytes": 426,
+        "sha256": "3f8f8a700aca6e38f4ec8ea50bfbf2e234c809b44f145fe2e6c879e7fd45844a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-collision-binding-backend-v1-failed/run.log",
+      "receipt": {
+        "name": "run.log",
+        "bytes": 1169,
+        "sha256": "cbc91153a43f284f45bce97f4a6d8bb2f32999b30cb0434fd1dc6d86082152db"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-collision-binding-backend-v2/backend.npz",
+      "receipt": {
+        "name": "backend.npz",
+        "bytes": 1663759,
+        "sha256": "6294d37387b524396aef9cb6770d83a0c4f0371d713dafe21ec9148ab9103cf9"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-collision-binding-backend-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 246343,
+        "sha256": "e268e79d776e4d877cc5369e6852fa42307091761711ad72e54292e44bf125b0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-collision-binding-backend-v3/backend.npz",
+      "receipt": {
+        "name": "backend.npz",
+        "bytes": 1663759,
+        "sha256": "6294d37387b524396aef9cb6770d83a0c4f0371d713dafe21ec9148ab9103cf9"
+      },
+      "archived": "rya1371-collision-binding-backend-v3/backend.npz",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-collision-binding-backend-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 246628,
+        "sha256": "89a00aeaa6afa4d95daf9db38147aaac3a86ade3f00210ea79276d6b7f4306fa"
+      },
+      "archived": "rya1371-collision-binding-backend-v3/report.json",
+      "disposition": "kernel"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

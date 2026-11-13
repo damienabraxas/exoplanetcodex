@@ -1,0 +1,58 @@
+{
+  "generator": {
+    "name": "export_multi_width_law.py",
+    "bytes": 4725,
+    "sha256": "9c352525ef465645f9bfe8ce6527693d948357d73f22b3f7cca629f0d9f688dc"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-comparison-v1/report.json": {
+      "name": "report.json",
+      "bytes": 17554,
+      "sha256": "6ce2bf50b2febbe91ff8b1a0f143ad729496abf1de48ec3adcebf79c5ebf7401"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-laws-v2/report.json": {
+      "name": "report.json",
+      "bytes": 3338,
+      "sha256": "5773288869dbd862aa6ef91e26086c86b54702f87f31eeb9ede263183808012e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-comparison-v1/widths.npz": {
+      "name": "widths.npz",
+      "bytes": 725580,
+      "sha256": "f003a1f6682c48b67e1e959d416c62dc878055f4f333b518667481a30e519cad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-laws-v2/laws.npz": {
+      "name": "laws.npz",
+      "bytes": 1557315,
+      "sha256": "941c3b2983502893b52582ae8b9c36d5c4dd71a6c1228407f00b44fd2ae35c15"
+    }
+  },
+  "output": {
+    "name": "law.json",
+    "bytes": 73892,
+    "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+  },
+  "baseline_max_relative_error": 5.551115123125783e-16,
+  "control_checks": [
+    {
+      "case": "half_neutral_H",
+      "max_relative_error": 5.551115123125783e-16
+    },
+    {
+      "case": "plus_10K_frozen_EOS",
+      "max_relative_error": 6.661338147750939e-16
+    },
+    {
+      "case": "xi_0p25kms",
+      "max_relative_error": 5.551115123125783e-16
+    },
+    {
+      "case": "xi_2kms",
+      "max_relative_error": 5.551115123125783e-16
+    },
+    {
+      "case": "xi_4kms",
+      "max_relative_error": 5.551115123125783e-16
+    }
+  ],
+  "scientific_admission": "HOLD"
+}

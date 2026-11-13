@@ -1,0 +1,63 @@
+{
+  "generator": {
+    "name": "audit_hop_helium_control.py",
+    "bytes": 2276,
+    "sha256": "1a293b9fa9bd9d75ddac47a337b821949c7480de938af6f7dbbfa82ed7c0112d"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-stark-transfer-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 205053,
+      "sha256": "7d16f2de75d73a3b3a68383fd776efca568110ced377c1383cf22a72d654b32a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v2/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 204980,
+      "sha256": "ddf4ca6c87a502a91451c143a0f9e2567dfb05baecd32078525a357f585f0f16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-stark-transfer-v1/native_LTE.npz": {
+      "name": "native_LTE.npz",
+      "bytes": 204923,
+      "sha256": "8b18ee927545fa9f1d066d1db10b5a89017ebe6ad7cb206a34312d4b1cc04797"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v2/native_LTE.npz": {
+      "name": "native_LTE.npz",
+      "bytes": 204870,
+      "sha256": "728f2fa34ac6a4aa652ea6fc4ede62c92969f2faab174aed913837536f6ff6ea"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v2/report.json": {
+      "name": "report.json",
+      "bytes": 203062,
+      "sha256": "1c8795825489001fa4ee9d48e560d124d23d2bb9d16beabccd90627c570245bc"
+    }
+  },
+  "cases": [
+    {
+      "case": "native_NLTE",
+      "unchanged_arrays": [
+        "populations",
+        "nstar",
+        "continuum_Inu_SI",
+        "wave_vac_A",
+        "wave_air_A"
+      ]
+    },
+    {
+      "case": "native_LTE",
+      "unchanged_arrays": [
+        "populations",
+        "nstar",
+        "continuum_Inu_SI",
+        "wave_vac_A",
+        "wave_air_A"
+      ]
+    }
+  ],
+  "actual_He_off_reads_verified": true,
+  "scientific_admission": "HOLD",
+  "invalid_prior": "rya1371-hop-no-he-transfer-v1: plan flag not wired to Perturbers(seed); actual reads retained He. No scientific use.",
+  "limitations": [
+    "Diagnostic only: native HI-only damping contrasted with LW H+He. No physical preference or abundance/EOS/default change.",
+    "Small integrated differences do not certify pointwise profiles, coupled SE, observed solar agreement or all-band applicability."
+  ]
+}

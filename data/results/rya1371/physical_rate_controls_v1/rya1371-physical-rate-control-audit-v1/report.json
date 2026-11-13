@@ -1,0 +1,487 @@
+{
+  "generator": {
+    "name": "audit_oxygen_physical_rate_controls.py",
+    "bytes": 7482,
+    "sha256": "fd9ff1a888983c970daf28766a9292c185285a289764a388e9fee153bf21f3be"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-physical-rates-v1/report.json": {
+      "name": "report.json",
+      "bytes": 179125,
+      "sha256": "7039970c8a843c298ca88a607da87620a53f52c3e3be4be319a7268c307de7ec"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-physical-rates-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335912,
+      "sha256": "0c50733ea5abc9b4b6c9578b6e5e978d5a84b9fcbefc9d9e8a25a5376876226f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-midpoint1-v1/report.json": {
+      "name": "report.json",
+      "bytes": 180109,
+      "sha256": "ab1e401dc96e17bd2e30677f0853d6b1ac2965a7deea0259adcc601610a721f4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-midpoint1-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 6939032,
+      "sha256": "6e4666a6d1f6e3c5956e1d17d0a981cdba48778c68a0c1c3f47afab69a9baae6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-midpoint8446-v1/report.json": {
+      "name": "report.json",
+      "bytes": 180402,
+      "sha256": "83533fb1597d1ab66ee56843544bb62c77974c8103f701aeccdc1ed6932b8568"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-midpoint8446-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 6979939,
+      "sha256": "d200e35c1612fa81e4ca2f693755c5665831fb098e97a5149a03e5168aa4632b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-support-v1/report.json": {
+      "name": "report.json",
+      "bytes": 301531,
+      "sha256": "56f25340fbb7a4c5ac875368934168cee505a0c7951c42116e8156e2aa5870f8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-support-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4329735,
+      "sha256": "ca35911948e62ef3bb5dc8221dd5321f2701b3975505febf424eef8b1122ec7f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-grid-v1/report.json": {
+      "name": "report.json",
+      "bytes": 301227,
+      "sha256": "645f7b9360696977d0252427740eb4c177127ca541e3b7c92c1a27951ba22579"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-grid-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4325479,
+      "sha256": "a13671ecd2a4042a22aea90f9435fb0bd3057b96fa780aca25155d46726d2ecd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-midpoint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 302648,
+      "sha256": "8ed52896ec31171b14b5bb5816ef7a3bb290a3859b827fc12fbd714c6e047f8e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-midpoint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 6917134,
+      "sha256": "0791004d62f7ff278ebfeed3abe10fb9028c0ee08febb4aec593aadfef849967"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-midpoint8446-v1/report.json": {
+      "name": "report.json",
+      "bytes": 302851,
+      "sha256": "b902d73430cdca696179ef020747f8841a007b6e2508cb95954709a851927354"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-native-midpoint8446-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 6956666,
+      "sha256": "cfa76a28d519a36b9192aad2127cfbb726351d4a741884d7f0ce1561dd9560f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "0d2126ca40a56a7e1a1886570ecd7d309cd79c66e70bddd783efdfcb2a88d00f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/SRC/rt_solvers_mod.f90": {
+      "name": "rt_solvers_mod.f90",
+      "bytes": 85188,
+      "sha256": "82d02c037639cfcad443519e3336e20011b3649f2f64315c0210a8f592acd452"
+    }
+  },
+  "cases": {
+    "default": {
+      "points": 6795,
+      "seconds": 2.2320229997858405,
+      "max_physical_residual": 0.0031795954082050825,
+      "native_physical_residual": 7.58259721599064e-08,
+      "max_radiative_delta_normalized": 0.0031795971240266693,
+      "max_collision_quantization_delta_normalized": 1.1605401929606513e-09,
+      "worst": {
+        "level_1based": 13,
+        "depth_top_to_bottom": 0,
+        "partners": [
+          {
+            "partner_1based": 7,
+            "kind": "BB",
+            "energy_gap_vac_A": 8448.56828449709,
+            "delta_net_m3_s": 118799264.73773395,
+            "signed_fraction_of_own_gross": 0.0031855066385313834
+          },
+          {
+            "partner_1based": 21,
+            "kind": "BB",
+            "energy_gap_vac_A": 11290.409079746985,
+            "delta_net_m3_s": -211768.20794481432,
+            "signed_fraction_of_own_gross": -5.678394001236881e-06
+          },
+          {
+            "partner_1based": 15,
+            "kind": "BB",
+            "energy_gap_vac_A": 13168.731216451013,
+            "delta_net_m3_s": -24140.764872052576,
+            "signed_fraction_of_own_gross": -6.473151742893149e-07
+          },
+          {
+            "partner_1based": 37,
+            "kind": "BB",
+            "energy_gap_vac_A": 7004.215206753577,
+            "delta_net_m3_s": 12234.963281989703,
+            "signed_fraction_of_own_gross": 3.2807069002495705e-07
+          },
+          {
+            "partner_1based": 34,
+            "kind": "BB",
+            "energy_gap_vac_A": 7256.529643068725,
+            "delta_net_m3_s": 2027.8904690067677,
+            "signed_fraction_of_own_gross": 5.4376250269701786e-08
+          },
+          {
+            "partner_1based": 40,
+            "kind": "BF",
+            "energy_gap_vac_A": 4715.708780461121,
+            "delta_net_m3_s": 1263.416609937892,
+            "signed_fraction_of_own_gross": 3.387749921746476e-08
+          }
+        ]
+      },
+      "component_7_13_top_up_native_s_inv": 232330.72089321847,
+      "component_7_13_top_up_replay_s_inv": 234237.02860174532,
+      "component_7_13_top_relative_up": 0.008205146961184795,
+      "scope": "Frozen identical n/nStar/physical fields; numerical grid controls only. Residual is evaluated at native radiation-population stage, not a new coupled solve or solar validation."
+    },
+    "default_midpoint": {
+      "points": 13589,
+      "seconds": 3.757719499990344,
+      "max_physical_residual": 0.002989242658773547,
+      "native_physical_residual": 7.58259721599064e-08,
+      "max_radiative_delta_normalized": 0.0029892443749342376,
+      "max_collision_quantization_delta_normalized": 1.1632877970704701e-09,
+      "worst": {
+        "level_1based": 13,
+        "depth_top_to_bottom": 0,
+        "partners": [
+          {
+            "partner_1based": 7,
+            "kind": "BB",
+            "energy_gap_vac_A": 8448.56828449709,
+            "delta_net_m3_s": 111714941.18606715,
+            "signed_fraction_of_own_gross": 0.0029961380257129645
+          },
+          {
+            "partner_1based": 21,
+            "kind": "BB",
+            "energy_gap_vac_A": 11290.409079746985,
+            "delta_net_m3_s": -255106.41133445344,
+            "signed_fraction_of_own_gross": -6.841824481913211e-06
+          },
+          {
+            "partner_1based": 15,
+            "kind": "BB",
+            "energy_gap_vac_A": 13168.731216451013,
+            "delta_net_m3_s": -17802.868913356648,
+            "signed_fraction_of_own_gross": -4.774639090509008e-07
+          },
+          {
+            "partner_1based": 37,
+            "kind": "BB",
+            "energy_gap_vac_A": 7004.215206753577,
+            "delta_net_m3_s": 12810.245300264036,
+            "signed_fraction_of_own_gross": 3.4356427757416837e-07
+          },
+          {
+            "partner_1based": 34,
+            "kind": "BB",
+            "energy_gap_vac_A": 7256.529643068725,
+            "delta_net_m3_s": 2193.490471927472,
+            "signed_fraction_of_own_gross": 5.882830122995777e-08
+          },
+          {
+            "partner_1based": 40,
+            "kind": "BF",
+            "energy_gap_vac_A": 4715.708780461121,
+            "delta_net_m3_s": 871.5484281525078,
+            "signed_fraction_of_own_gross": 2.3374486520015868e-08
+          }
+        ]
+      },
+      "component_7_13_top_up_native_s_inv": 232330.72089321847,
+      "component_7_13_top_up_replay_s_inv": 234125.2188627392,
+      "component_7_13_top_relative_up": 0.007723894466567183,
+      "scope": "Frozen identical n/nStar/physical fields; numerical grid controls only. Residual is evaluated at native radiation-population stage, not a new coupled solve or solar validation."
+    },
+    "default_local8446": {
+      "points": 13691,
+      "seconds": 3.5234309169463813,
+      "max_physical_residual": 0.0029390291995416316,
+      "native_physical_residual": 7.58259721599064e-08,
+      "max_radiative_delta_normalized": 0.0029390309157925226,
+      "max_collision_quantization_delta_normalized": 1.1632877946750177e-09,
+      "worst": {
+        "level_1based": 13,
+        "depth_top_to_bottom": 0,
+        "partners": [
+          {
+            "partner_1based": 7,
+            "kind": "BB",
+            "energy_gap_vac_A": 8448.56828449709,
+            "delta_net_m3_s": 109836905.51344362,
+            "signed_fraction_of_own_gross": 0.002945924928988616
+          },
+          {
+            "partner_1based": 21,
+            "kind": "BB",
+            "energy_gap_vac_A": 11290.409079746985,
+            "delta_net_m3_s": -255106.41133445344,
+            "signed_fraction_of_own_gross": -6.842184174635243e-06
+          },
+          {
+            "partner_1based": 15,
+            "kind": "BB",
+            "energy_gap_vac_A": 13168.731216451013,
+            "delta_net_m3_s": -17802.868913356648,
+            "signed_fraction_of_own_gross": -4.774890105853778e-07
+          },
+          {
+            "partner_1based": 37,
+            "kind": "BB",
+            "energy_gap_vac_A": 7004.215206753577,
+            "delta_net_m3_s": 12810.245300264036,
+            "signed_fraction_of_own_gross": 3.435823396525687e-07
+          },
+          {
+            "partner_1based": 34,
+            "kind": "BB",
+            "energy_gap_vac_A": 7256.529643068725,
+            "delta_net_m3_s": 2193.490471927472,
+            "signed_fraction_of_own_gross": 5.883139398860101e-08
+          },
+          {
+            "partner_1based": 40,
+            "kind": "BF",
+            "energy_gap_vac_A": 4715.708780461121,
+            "delta_net_m3_s": 871.5484281525078,
+            "signed_fraction_of_own_gross": 2.337571537829844e-08
+          }
+        ]
+      },
+      "component_7_13_top_up_native_s_inv": 232330.72089321847,
+      "component_7_13_top_up_replay_s_inv": 234095.57844982186,
+      "component_7_13_top_relative_up": 0.0075963159319534235,
+      "scope": "Frozen identical n/nStar/physical fields; numerical grid controls only. Residual is evaluated at native radiation-population stage, not a new coupled solve or solar validation."
+    },
+    "native_support_only": {
+      "points": 6795,
+      "seconds": 2.15499550011009,
+      "max_physical_residual": 0.003228467904234533,
+      "native_physical_residual": 7.58259721599064e-08,
+      "max_radiative_delta_normalized": 0.003228469619965755,
+      "max_collision_quantization_delta_normalized": 1.160540080846281e-09,
+      "worst": {
+        "level_1based": 13,
+        "depth_top_to_bottom": 0,
+        "partners": [
+          {
+            "partner_1based": 7,
+            "kind": "BB",
+            "energy_gap_vac_A": 8448.56828449709,
+            "delta_net_m3_s": 120655742.4738028,
+            "signed_fraction_of_own_gross": 0.0032351158936498895
+          },
+          {
+            "partner_1based": 21,
+            "kind": "BB",
+            "energy_gap_vac_A": 11290.409079746985,
+            "delta_net_m3_s": -245541.02959300217,
+            "signed_fraction_of_own_gross": -6.583637637901503e-06
+          },
+          {
+            "partner_1based": 15,
+            "kind": "BB",
+            "energy_gap_vac_A": 13168.731216451013,
+            "delta_net_m3_s": -18061.379863667218,
+            "signed_fraction_of_own_gross": -4.842758070208267e-07
+          },
+          {
+            "partner_1based": 37,
+            "kind": "BB",
+            "energy_gap_vac_A": 7004.215206753577,
+            "delta_net_m3_s": 12358.240699624703,
+            "signed_fraction_of_own_gross": 3.3135879059869424e-07
+          },
+          {
+            "partner_1based": 34,
+            "kind": "BB",
+            "energy_gap_vac_A": 7256.529643068725,
+            "delta_net_m3_s": 2117.259581388275,
+            "signed_fraction_of_own_gross": 5.6769615621228506e-08
+          },
+          {
+            "partner_1based": 40,
+            "kind": "BF",
+            "energy_gap_vac_A": 4715.708780461121,
+            "delta_net_m3_s": 1254.6554085366874,
+            "signed_fraction_of_own_gross": 3.36407996005008e-08
+          }
+        ]
+      },
+      "component_7_13_top_up_native_s_inv": 232330.72089321847,
+      "component_7_13_top_up_replay_s_inv": 234266.32967946478,
+      "component_7_13_top_relative_up": 0.008331264926156434,
+      "scope": "Frozen identical n/nStar/physical fields; numerical grid controls only. Residual is evaluated at native radiation-population stage, not a new coupled solve or solar validation."
+    },
+    "native_grid": {
+      "points": 6795,
+      "seconds": 2.1359027922153473,
+      "max_physical_residual": 0.0007287804044934216,
+      "native_physical_residual": 7.58259721599064e-08,
+      "max_radiative_delta_normalized": 0.0007287639228283288,
+      "max_collision_quantization_delta_normalized": 1.1605400482424317e-09,
+      "worst": {
+        "level_1based": 41,
+        "depth_top_to_bottom": 1,
+        "partners": [
+          {
+            "partner_1based": 4,
+            "kind": "BF",
+            "energy_gap_vac_A": 827.9468491240735,
+            "delta_net_m3_s": 341497.21148800873,
+            "signed_fraction_of_own_gross": 0.0007287639228283288
+          }
+        ]
+      },
+      "component_7_13_top_up_native_s_inv": 232330.72089321847,
+      "component_7_13_top_up_replay_s_inv": 232374.21215280177,
+      "component_7_13_top_relative_up": 0.0001871954746925919,
+      "scope": "Frozen identical n/nStar/physical fields; numerical grid controls only. Residual is evaluated at native radiation-population stage, not a new coupled solve or solar validation."
+    },
+    "native_midpoint": {
+      "points": 13589,
+      "seconds": 3.568661875091493,
+      "max_physical_residual": 0.0025799190816410337,
+      "native_physical_residual": 7.58259721599064e-08,
+      "max_radiative_delta_normalized": 0.0025799261780409676,
+      "max_collision_quantization_delta_normalized": 1.1632876579675837e-09,
+      "worst": {
+        "level_1based": 40,
+        "depth_top_to_bottom": 0,
+        "partners": [
+          {
+            "partner_1based": 6,
+            "kind": "BF",
+            "energy_gap_vac_A": 2772.477493928759,
+            "delta_net_m3_s": -18099372.639936056,
+            "signed_fraction_of_own_gross": -0.002224053370019949
+          },
+          {
+            "partner_1based": 7,
+            "kind": "BF",
+            "energy_gap_vac_A": 3026.447061614982,
+            "delta_net_m3_s": -3360410.552510954,
+            "signed_fraction_of_own_gross": -0.00041292770543172757
+          },
+          {
+            "partner_1based": 5,
+            "kind": "BF",
+            "energy_gap_vac_A": 1315.020532730598,
+            "delta_net_m3_s": 643201.3275234748,
+            "signed_fraction_of_own_gross": 7.903666654851208e-05
+          },
+          {
+            "partner_1based": 38,
+            "kind": "BF",
+            "energy_gap_vac_A": 14558.638848796005,
+            "delta_net_m3_s": -91138.95135364015,
+            "signed_fraction_of_own_gross": -1.119916672972946e-05
+          },
+          {
+            "partner_1based": 1,
+            "kind": "BF",
+            "energy_gap_vac_A": 910.4398250123731,
+            "delta_net_m3_s": -83785.03349428507,
+            "signed_fraction_of_own_gross": -1.0295516303644509e-05
+          },
+          {
+            "partner_1based": 15,
+            "kind": "BF",
+            "energy_gap_vac_A": 7346.473039105128,
+            "delta_net_m3_s": -29442.70417803036,
+            "signed_fraction_of_own_gross": -3.6179234911802e-06
+          }
+        ]
+      },
+      "component_7_13_top_up_native_s_inv": 232330.72089321847,
+      "component_7_13_top_up_replay_s_inv": 233756.00236974718,
+      "component_7_13_top_relative_up": 0.006134709482452649,
+      "scope": "Frozen identical n/nStar/physical fields; numerical grid controls only. Residual is evaluated at native radiation-population stage, not a new coupled solve or solar validation."
+    },
+    "native_local8446": {
+      "points": 13691,
+      "seconds": 3.5919038327410817,
+      "max_physical_residual": 0.0028102399429942933,
+      "native_physical_residual": 7.58259721599064e-08,
+      "max_radiative_delta_normalized": 0.0028102416594806704,
+      "max_collision_quantization_delta_normalized": 1.1632876573493871e-09,
+      "worst": {
+        "level_1based": 13,
+        "depth_top_to_bottom": 0,
+        "partners": [
+          {
+            "partner_1based": 7,
+            "kind": "BB",
+            "energy_gap_vac_A": 8448.56828449709,
+            "delta_net_m3_s": 104978780.73771581,
+            "signed_fraction_of_own_gross": 0.0028160122020059702
+          },
+          {
+            "partner_1based": 21,
+            "kind": "BB",
+            "energy_gap_vac_A": 11290.409079746985,
+            "delta_net_m3_s": -211715.90354683672,
+            "signed_fraction_of_own_gross": -5.67919119994519e-06
+          },
+          {
+            "partner_1based": 15,
+            "kind": "BB",
+            "energy_gap_vac_A": 13168.731216451013,
+            "delta_net_m3_s": -16888.362933913173,
+            "signed_fraction_of_own_gross": -4.530233229953937e-07
+          },
+          {
+            "partner_1based": 37,
+            "kind": "BB",
+            "energy_gap_vac_A": 7004.215206753577,
+            "delta_net_m3_s": 10804.771079577415,
+            "signed_fraction_of_own_gross": 2.898334976473957e-07
+          },
+          {
+            "partner_1based": 34,
+            "kind": "BB",
+            "energy_gap_vac_A": 7256.529643068725,
+            "delta_net_m3_s": 1813.9198167739073,
+            "signed_fraction_of_own_gross": 4.8657645874720986e-08
+          },
+          {
+            "partner_1based": 40,
+            "kind": "BF",
+            "energy_gap_vac_A": 4715.708780461121,
+            "delta_net_m3_s": 868.8524650480658,
+            "signed_fraction_of_own_gross": 2.3306606593491245e-08
+          }
+        ]
+      },
+      "component_7_13_top_up_native_s_inv": 232330.72089321847,
+      "component_7_13_top_up_replay_s_inv": 234018.90047674466,
+      "component_7_13_top_relative_up": 0.007266277903480889,
+      "scope": "Frozen identical n/nStar/physical fields; numerical grid controls only. Residual is evaluated at native radiation-population stage, not a new coupled solve or solar validation."
+    }
+  },
+  "all_level_depth_rows": 16072,
+  "all_pair_rows": 1946,
+  "native_amr": "P",
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "interpretation": "Coarse native-grid agreement is not numerical convergence or physical validation. Endpoint-only and spacing/support controls are distinct; both grid families require resolution checks. Native AMR is enabled, so the simple missing-upstream-interface-spacing hypothesis is not applicable."
+}

@@ -1,0 +1,6 @@
+{
+  "error": "TypeError: Object of type bool is not JSON serializable (numpy.bool_)",
+  "stage": "post-computation stdout/report serialization",
+  "admitted": false,
+  "cause": "within_FP64_bound uses comparison with a NumPy scalar bound; must serialize an explicit Python bool"
+}

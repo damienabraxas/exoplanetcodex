@@ -1,0 +1,142 @@
+{
+  "generator": {
+    "name": "audit_oxygen_native_table.py",
+    "bytes": 3821,
+    "sha256": "ed82d0e308d114004ba1c8d919c49f0d3ccc74af1b1dfff821f68181d0ef9d50"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-output-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/mul23_sub.f": {
+      "name": "mul23_sub.f",
+      "bytes": 232334,
+      "sha256": "2cbfae6420d362ee4561d3c455a8d32f404b49f4b2b0f8f30ca797931eb9f3bd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/atom_convert_mod.f90": {
+      "name": "atom_convert_mod.f90",
+      "bytes": 27796,
+      "sha256": "cd8e382f486721fdd79c7531bdc6a32b500fb22d7a0bd20473d2ddbe1f77ace0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/bbtrans_mod.f90": {
+      "name": "bbtrans_mod.f90",
+      "bytes": 17983,
+      "sha256": "e79519d7518ab6e0d7e96cb17d2f695524eca47e66a6e27a2dc2515677cc1199"
+    }
+  },
+  "multi_source_pin": "4d6aa3c39d634b38da772e469a5692435eba1354",
+  "scientific_admission": "HOLD",
+  "nlines": 256,
+  "selected": [
+    {
+      "line_index": 75,
+      "i_1based": 10,
+      "j_1based": 36,
+      "source_air_A": 6158.166014244174,
+      "native_air_A": 6158.166,
+      "native_minus_source_A": -1.4244174053601455e-05,
+      "source_loggf": -0.2962444758949353,
+      "native_loggf": -0.296,
+      "native_minus_source_loggf": 0.0002444758949353143,
+      "native_f_over_source": 1.0005630850241602
+    },
+    {
+      "line_index": 102,
+      "i_1based": 6,
+      "j_1based": 10,
+      "source_air_A": 7771.943869081232,
+      "native_air_A": 7771.944,
+      "native_minus_source_A": 0.00013091876826365478,
+      "source_loggf": 0.369030221809153,
+      "native_loggf": 0.369,
+      "native_minus_source_loggf": -3.0221809153019308e-05,
+      "native_f_over_source": 0.9999304141339695
+    },
+    {
+      "line_index": 103,
+      "i_1based": 6,
+      "j_1based": 9,
+      "source_air_A": 7774.165544987238,
+      "native_air_A": 7774.166,
+      "native_minus_source_A": 0.0004550127623588196,
+      "source_loggf": 0.22297644989339135,
+      "native_loggf": 0.223,
+      "native_minus_source_loggf": 2.3550106608649646e-05,
+      "native_f_over_source": 1.0000542275946784
+    },
+    {
+      "line_index": 104,
+      "i_1based": 6,
+      "j_1based": 8,
+      "source_air_A": 7775.387524437341,
+      "native_air_A": 7775.388,
+      "native_minus_source_A": 0.00047556265872117365,
+      "source_loggf": 0.0019499410842679385,
+      "native_loggf": 0.002,
+      "native_minus_source_loggf": 5.005891573206154e-05,
+      "native_f_over_source": 1.0001152715563915
+    },
+    {
+      "line_index": 111,
+      "i_1based": 7,
+      "j_1based": 13,
+      "source_air_A": 8446.247287263199,
+      "native_air_A": 8446.247,
+      "native_minus_source_A": -0.0002872631994250696,
+      "source_loggf": -0.46293685721838285,
+      "native_loggf": -0.463,
+      "native_minus_source_loggf": -6.31427816171759e-05,
+      "native_f_over_source": 0.9998546189411687
+    },
+    {
+      "line_index": 112,
+      "i_1based": 7,
+      "j_1based": 12,
+      "source_air_A": 8446.359322395783,
+      "native_air_A": 8446.359,
+      "native_minus_source_A": -0.0003223957828595303,
+      "source_loggf": 0.23603314711763596,
+      "native_loggf": 0.236,
+      "native_minus_source_loggf": -3.314711763596767e-05,
+      "native_f_over_source": 0.9999236788536626
+    },
+    {
+      "line_index": 113,
+      "i_1based": 7,
+      "j_1based": 11,
+      "source_air_A": 8446.758248687434,
+      "native_air_A": 8446.758,
+      "native_minus_source_A": -0.00024868743457773235,
+      "source_loggf": 0.014058277424335934,
+      "native_loggf": 0.014,
+      "native_minus_source_loggf": -5.8277424335933387e-05,
+      "native_f_over_source": 0.9998658202743705
+    },
+    {
+      "line_index": 255,
+      "i_1based": 1,
+      "j_1based": 4,
+      "source_air_A": 6300.303783559166,
+      "native_air_A": 6300.304,
+      "native_minus_source_A": 0.00021644083426508587,
+      "source_loggf": -9.719991046891813,
+      "native_loggf": -9.72,
+      "native_minus_source_loggf": -8.953108187270686e-06,
+      "native_f_over_source": 0.9999793849190471
+    }
+  ],
+  "max_absolute_air_shift_A": 1.0447839442098257,
+  "max_absolute_loggf_shift": 0.00048764687787006267,
+  "conclusions": [
+    "Pinned original MULTI2.3 sets GS=GQ*ne when GQ>=0; automatic GQ0 branch applies to Hydrogen only. Oxygen gStark0 therefore means no Stark in this source, consistent with Bride and unlike native HOP automatic Cowley. This does not prove producer identity of held MULTI record.",
+    "Native dispatch converts and reads back table: writer emits AIR wavelength to0.001A and loggf to0.001dex. Consumed source atom is identical, but these rounded transfer parameters differ from Bride full precision.",
+    "Report source-determined shifts/strength changes, not a fitted wavelength or abundance adjustment. No source/atom/default adoption or exact line-profile parity asserted."
+  ]
+}

@@ -1,0 +1,33 @@
+Preparing worktree (detached HEAD 32085d26c)
+Updating files:  62% (608/980)Updating files:  63% (618/980)Updating files:  64% (628/980)Updating files:  65% (637/980)Updating files:  66% (647/980)Updating files:  67% (657/980)Updating files:  68% (667/980)Updating files:  69% (677/980)Updating files:  70% (686/980)Updating files:  71% (696/980)Updating files:  72% (706/980)Updating files:  73% (716/980)Updating files:  74% (726/980)Updating files:  75% (735/980)Updating files:  76% (745/980)Updating files:  77% (755/980)Updating files:  78% (765/980)Updating files:  79% (775/980)Updating files:  80% (784/980)Updating files:  81% (794/980)Updating files:  82% (804/980)Updating files:  83% (814/980)Updating files:  84% (824/980)Updating files:  85% (833/980)Updating files:  86% (843/980)Updating files:  87% (853/980)Updating files:  88% (863/980)Updating files:  89% (873/980)Updating files:  90% (882/980)Updating files:  91% (892/980)Updating files:  92% (902/980)Updating files:  93% (912/980)Updating files:  94% (922/980)Updating files:  95% (931/980)Updating files:  96% (941/980)Updating files:  97% (951/980)Updating files:  98% (961/980)Updating files:  99% (971/980)Updating files: 100% (980/980)Updating files: 100% (980/980), done.
+HEAD is now at 32085d26c Merge branch 'docs/public-hopacity-mirror': public mirror wording, macos-15 wheels
+python3 gen_bindings.py hop_c_api.f90 > libhop.h
+ [ FC ] console_mod.o
+ [ FC ] namelist_check_mod.o
+ [ FC ] qlg_mod.o
+ [ FC ] hop_env_mod.o
+ [ FC ] const_mod.o
+ [ FC ] op_math_mod.o
+ [ FC ] interpol_mod.o
+ [ FC ] handyfuncs_mod.o
+ [ FC ] linelist_reader_mod.o
+ [ FC ] anstee_mod.o
+ [ FC ] hvcs_mod.o
+ [ FC ] level_mod.o
+ [ FC ] line_types_mod.o
+ [ FC ] bbtrans_mod.o
+ [ FC ] ion_mod.o
+ [ FC ] element_mod.o
+ [ FC ] molecule_mod.o
+ [ FC ] hprofl_mod.o
+ [ FC ] linelist_mod.o
+ [ FC ] bftrans_mod.o
+ [ FC ] trans_mod.o
+ [ FC ] spectrum_mod.o
+ [ FC ] optab_mod.o
+ [ FC ] osmet_mod.o
+ [ FC ] composition_mod.o
+ [ FC ] atmos_reader_mod.o
+ [ FC ] atom_convert_mod.o
+ [ FC ] hop_c_api.o
+ [ LD ] libhop.so

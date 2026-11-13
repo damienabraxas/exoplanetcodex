@@ -1,0 +1,40 @@
+ This version was compiled with default real KIND = 4
+ MPI is not enabled!
+ C-binding call created directory native/00000/           1
+ ===============================================================================
+ DISPATCH code framework, branch:main, hash:32085d26c
+ SOLVER=None OPTS=hoppe
+ GCC version 16.1.0                                                                                                              
+ ================================ mpi_t%info ====================================
+ n_sockets =   1
+   n_cores =   0
+ n_threads =   1
+  n_places =   0
+   n_ranks =   1
+ Stacksize =   256MB
+ This version was compiled with default real KIND = 4
+ ================================= io_t%init ====================================
+ parameters from: input.nml
+ output directory: native/
+ ============================ read_external_t%ini ===============================
+ C-binding call created directory native/save           1
+ C-binding call created directory native/atoms           1
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG
+ERROR STOP Error: ntheta is set too high. *ntheta<=6*
+
+Error termination. Backtrace:
+#0  0x10186b323
+#1  0x10186bef7
+#2  0x10186d113
+#3  0x100bc835f
+#4  0x100bef5c7
+#5  0x100b44b0f
+#6  0x100ac1a73
+#7  0x100ad947f
+#8  0x100be20df
+#9  0x100be5d53
+#10  0x100a00c37
+#11  0x100c6359f
+Reading marcs atmosphere from /Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod
+FeH was overwritten by Marcs model: [Fe/H] =  0.00
+Vmic from the model, mean: Vmic =  1.00

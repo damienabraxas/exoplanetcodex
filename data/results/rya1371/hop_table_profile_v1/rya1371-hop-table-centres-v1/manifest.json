@@ -1,0 +1,102 @@
+{
+  "generator": {
+    "name": "run_bride_hop_fixed_transfer.py",
+    "bytes": 6929,
+    "sha256": "184ab20b48d5af110b31a73fcd2a6dbb2388d9a7bd8501eb060d5c96c1d51bda"
+  },
+  "plan": {
+    "name": "rya1371_hop_table_centres.json",
+    "bytes": 2880,
+    "sha256": "0951af0504b510ba591046e3e53dde1d12653618dffca0f7a9eba354fa9051f9"
+  },
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_table_centres.json": {
+      "name": "rya1371_hop_table_centres.json",
+      "bytes": 2880,
+      "sha256": "0951af0504b510ba591046e3e53dde1d12653618dffca0f7a9eba354fa9051f9"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+      "name": "rya1371_hop_native_options.json",
+      "bytes": 1512,
+      "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_hop_transfer.py": {
+      "name": "bride_hop_transfer.py",
+      "bytes": 9653,
+      "sha256": "33941af55082ebacb5ffbcb6a639ad56156cd81652b58abcedecb836a278d3dd"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_native_table_control.py": {
+      "name": "bride_native_table_control.py",
+      "bytes": 2482,
+      "sha256": "7d0699089513014337ac79bc629e576b6685b62603a51fefb2d3e756fcbb578a"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_packet.py": {
+      "name": "hop_packet.py",
+      "bytes": 9256,
+      "sha256": "b1210b71e56c0d174692cc2674dd5019dbc48a6c051a463f140b3a36374614f0"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+      "name": "hop_abi.py",
+      "bytes": 959,
+      "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_top_cap.py": {
+      "name": "bride_top_cap.py",
+      "bytes": 8047,
+      "sha256": "b3151adb66bfd468aa1c651cf5435488d81a6f6c9a8a3c15372e0c3196438f29"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_reference.py": {
+      "name": "bride_reference.py",
+      "bytes": 10407,
+      "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85405,
+      "sha256": "434ee0ddcc074db866e8b80bdcf54006861315c2fc237aa65a8b87dc062928a8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 206843,
+      "sha256": "f30e9c32d98d119b114badf2416bfc5d9d1962be59ec672416095a468e46f314"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 3973,
+      "sha256": "5799127913d8455e5c3568b0852b924cd6c815adb695ba15c32209cde5674820"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json": {
+      "name": "reference-5750-4.5-A8.70-v1.json",
+      "bytes": 72076,
+      "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+    },
+    "/Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/LwCompiled.cpython-312-darwin.so": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-output-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    }
+  },
+  "scope": "Prospective pure transfer control with native56-node geometry/T/ne/rho and complete native41-level O n/nstar/totals. Native HOP LTE EOS/continuum and explicit native H/He perturber densities; unchanged LW atomic and broadening formulas, five native Lobatto angles and native-constant background source. No SE/collision/population update. Both nativeNLTE and nativeLTE cases, common native dense vacuum grid, no fitted shift/continuum. Top zero incoming; LW thermalized lower-boundary and native ghost/formal/profile/constants differences remain explicit. Report all six finite-window contrasts with no result-selected input or adopted model. Prospective LW linear formal solver at the same original native state; compared with native linear-output-only control. No agreement-selected production default. Explicit native Stark-off run populations consumed in full, including measured0.2103percent maximum population response. This isolates paired transfer at the new state; no original-state population equality claim. Prospective explicit He contribution disabled solely at LW elastic-broadening interface, to compare native HI-only damping. Native EOS/He density/continuum/atomic O populations and all remaining formulas retained. No helium abundance or production recipe change. Prospective consumed-table optical centres control: eight source transitions across predeclared six windows, no other transition or energy-level changes. Explicit native table rounding, not fitted offsets/strengths. Fixed populations only; wavelength overrides are not a self-consistent SE atom.",
+  "dry_run": false
+}

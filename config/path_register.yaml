@@ -275,6 +275,11 @@ entries:
     rel: bride_mac_checks/rya1281-solar-sensitivity-v1
     kind: dir
     desc: Independent solar10K and extended RT microturbulence controls; scientific HOLD.
+  experiments.bride_native_ghost_plugin:
+    root: work
+    rel: bride_mac_checks/rya1371-ghost-operator-build-v1
+    kind: dir
+    desc: Private full-coupling native ghost emissivity derivative; numerical controls only.
   experiments.bride_full_cap_plugin:
     root: work
     rel: bride_mac_checks/rya1281-full-cap-plugin-v1
@@ -748,6 +753,66 @@ entries:
     env: CODEX_BRIDE_MULTI_SPLINE_ORACLE
     kind: dir
     desc: Locally compiled pinned MULTI TAUTSP/PPVALU oracle for bounded Mac collision-convention diagnostics; not a full native MULTI reference.
+  experiments.openmulti3d_oxygen_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-analysis-v4
+    kind: dir
+    desc: Historical exploratory native audit; intensity-density labels invalid, wavelengths retained only as a donor. Use verified dense analysis for intensities.
+  experiments.openmulti3d_oxygen_dense_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-dense-analysis-v1
+    kind: dir
+    desc: Historical dense wavelength donor; v1 intensity-density labels invalid. Retained for exact transfer-input provenance only.
+  experiments.openmulti3d_oxygen_dense_verified:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-dense-analysis-v3
+    kind: dir
+    desc: Corrected native intensity units and dense optical output audit; scientific HOLD.
+  engines.lightweaver_default_molecules:
+    root: home
+    rel: bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules
+    kind: dir
+    desc: Installed RH molecular fit definitions for explicit LTE chemistry preflight; receipts and temperature validity required, no molecular NLTE admission.
+  engines.hop_collision_oracle:
+    root: work
+    rel: bride_inputs/rya1371/collision-interpolation-oracle-v1
+    kind: dir
+    desc: Read-only driver of qualified native log-Hermite collision interpolation; no SE adoption.
+  engines.hop_collider_provider_source:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-collider-provider-v4
+    kind: dir
+    desc: Experimental separate native ground-H export; no active-SE admission.
+  engines.hop_collider_provider_build:
+    root: work
+    rel: bride_inputs/rya1371/collider-provider-build-v4
+    kind: dir
+    desc: Pinned one-thread build receipt for read-only collider export.
+  engines.hop_trace_provider_source:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-hop-provider-v2
+    kind: dir
+    desc: Private derivative of pinned HOP source plus exact GPL trace-continuum ownership patch; reference source untouched.
+  engines.hop_trace_provider_build:
+    root: work
+    rel: bride_inputs/rya1371/hop-provider-build-v4
+    kind: dir
+    desc: Fresh one-thread derived HOP build receipt; experimental provider gate, no production token.
+  engines.openmulti3d_reference:
+    root: work
+    rel: bride_inputs/rya1281/openmulti3d-reference-v1
+    kind: dir
+    desc: Pinned OpenMULTI3D external reference source; experimental, no product admission.
+  engines.openmulti3d_reference_build:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-build-v1
+    kind: dir
+    desc: Private one-task Mac native build receipt; binary remains external.
+  experiments.bride_oxygen_reference:
+    root: work
+    rel: bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json
+    kind: file
+    desc: Exact held independent MULTI departure record; native producer input parity remains to qualify.
   experiments.bride_oxygen_atom:
     root: work
     rel: bride_inputs/rya1281/atom.o41f
@@ -1090,3 +1155,226 @@ entries:
       usable as a normalisation cross-check (RYA-485, RYA-846). Region 6 (2899-3525 A)
       is clean; region 5 (2995-4106 A) carries Fortran overflow markers and normalised
       fluxes to +9.98 in the near-UV.
+
+  experiments.openmulti3d_oxygen_no_stark_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1
+    kind: dir
+    desc: Explicit native Stark-off diagnostic consumed state, scientific HOLD.
+
+  experiments.openmulti3d_oxygen_linear_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-linear-output-v1
+    kind: dir
+    desc: Pinned native linear output control, consumed atom table retained; scientific HOLD.
+
+  engines.openmulti3d_profile_reference:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-profile-reference-v3
+    kind: dir
+    desc: Isolated pinned active-line accurate-kernel derivative, explicit diagnostic only.
+  engines.openmulti3d_profile_reference_build:
+    root: work
+    rel: bride_inputs/rya1371/profile-reference-build-v3
+    kind: dir
+    desc: Fresh one-thread bounded derivative build receipts, original reference untouched.
+
+  experiments.bride_shared_convergence:
+    root: work
+    rel: bride_mac_checks/rya1371-shared-convergence-audit-v4
+    kind: dir
+    desc: O41 shared-field convergence/analytic thermodynamic evidence; no physical admission.
+  experiments.bride_absolute_rate_replay:
+    root: work
+    rel: bride_mac_checks/rya1371-absolute-rates-v2
+    kind: dir
+    desc: Independent absolute saved-J BB/BF rate reconstruction; no formal solve or scientific admission.
+  experiments.bride_fixed_J_thermal:
+    root: work
+    rel: bride_mac_checks/rya1371-fixed-J-thermal-v2
+    kind: dir
+    desc: Fixed-field thermal shadow matrices and ranked native differences; no solver coefficient change or adoption.
+  experiments.bride_integrated_thermal:
+    root: work
+    rel: bride_mac_checks/rya1371-integrated-thermal-v3
+    kind: dir
+    desc: Actual source-profile/quadrature thermal integral canaries; no RT, SE or scientific admission.
+  experiments.bride_lte_reconstruction:
+    root: work
+    rel: bride_mac_checks/rya1371-lte-reconstruction-v1
+    kind: dir
+    desc: Native same-stage LTE precision reconstruction and collision reciprocity; no solver or adopted physics changes.
+  experiments.bride_thermal_conventions:
+    root: work
+    rel: bride_mac_checks/rya1371-thermodynamic-canary-v2
+    kind: dir
+    desc: O41 shared-field convergence/analytic thermodynamic evidence; no physical admission.
+  experiments.openmulti3d_oxygen_shared8_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared8-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared8 run; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared8_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared8-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared8 analysis; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared8_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-gross-shared8-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared8 physical_rates; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared16_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared16-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared16 run; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared16_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared16-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared16 analysis; experimental diagnostic HOLD.
+  experiments.openmulti3d_oxygen_shared16_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-gross-shared16-analysis-v1
+    kind: dir
+    desc: Shared-field Oxygen frequency refinement shared16 physical_rates; experimental diagnostic HOLD.
+  experiments.bride_instrument_coverage:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-instrument-coverage-v1
+    kind: dir
+    desc: Explicit Oxygen instrument-range/refinement evidence; numerical diagnostic, scientific HOLD.
+  experiments.bride_instrument_coverage_view:
+    root: work
+    rel: bride_mac_checks/rya1371-multiband-coverage-view-v1
+    kind: dir
+    desc: Explicit Oxygen instrument-range/refinement evidence; numerical diagnostic, scientific HOLD.
+  experiments.openmulti3d_oxygen_catalog_output:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-catalog-edges-v1
+    kind: dir
+    desc: Explicit Oxygen instrument-range/refinement evidence; numerical diagnostic, scientific HOLD.
+  experiments.openmulti3d_oxygen_catalog_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-catalog-edges-analysis-v1
+    kind: dir
+    desc: Explicit Oxygen instrument-range/refinement evidence; numerical diagnostic, scientific HOLD.
+  experiments.native_oxygen_refinement_audit:
+    root: work
+    rel: bride_mac_checks/rya1371-native-refinement-audit-v1
+    kind: dir
+    desc: Explicit Oxygen instrument-range/refinement evidence; numerical diagnostic, scientific HOLD.
+  experiments.openmulti3d_oxygen_frequency4_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1
+    kind: dir
+    desc: Explicit native frequency4 Oxygen reference run; experimental HOLD.
+  experiments.openmulti3d_oxygen_frequency4_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-frequency4-accurate-analysis-v3
+    kind: dir
+    desc: Explicit native frequency4 Oxygen reference analysis; experimental HOLD.
+  experiments.openmulti3d_oxygen_frequency4_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-gross-frequency4-analysis-v1
+    kind: dir
+    desc: Explicit native frequency4 Oxygen reference physical_rates; experimental HOLD.
+  experiments.openmulti3d_oxygen_shared4_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared4-v1
+    kind: dir
+    desc: Explicit native shared4 Oxygen reference run; experimental HOLD.
+  experiments.openmulti3d_oxygen_shared4_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-shared4-analysis-v1
+    kind: dir
+    desc: Explicit native shared4 Oxygen reference analysis; experimental HOLD.
+  experiments.openmulti3d_oxygen_shared4_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-gross-shared4-analysis-v1
+    kind: dir
+    desc: Explicit native shared4 Oxygen reference physical_rates; experimental HOLD.
+  experiments.hop_physical_native_midpoint:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-physical-native-midpoint-v1
+    kind: dir
+    desc: One-pass refinement of native frequency grid with frozen physical populations; diagnostic only.
+  experiments.hop_physical_native_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-physical-native-grid-v1
+    kind: dir
+    desc: Exact frozen-state native fractional frequency-grid rate control; not physical admission.
+  experiments.native_oxygen_line_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-native-line-grid-v1
+    kind: dir
+    desc: Original pinned HOP get_lam fractional offsets; numerical grid control, not photon/atom adoption.
+  experiments.hop_physical_midpoint1:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-physical-midpoint1-v1
+    kind: dir
+    desc: First explicit physical-rate frequency midpoint refinement; numerical control only.
+  experiments.hop_native_physical_replay:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-native-physical-rates-v1
+    kind: dir
+    desc: Qualified exact-native-stage frozen-population physical-rate replay; experimental HOLD.
+  experiments.native_oxygen_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-gross-analysis-v1
+    kind: dir
+    desc: Isolated stage-matched physical native Oxygen rate observer; experimental HOLD.
+  experiments.openmulti3d_oxygen_accurate_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-accurate-profile-v1
+    kind: dir
+    desc: Exact accurate-kernel native run and saved per-depth rates; experimental reference.
+  experiments.openmulti3d_oxygen_accurate_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1
+    kind: dir
+    desc: Isolated accurate-kernel native Oxygen control state and spectrum, not model admission.
+
+  experiments.openmulti3d_oxygen_no_vdw_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-no-vdw-analysis-v1
+    kind: dir
+    desc: Explicit VDW-off accurate-kernel native control, not physical model adoption.
+
+  experiments.native_wavelength_roundtrip:
+    root: work
+    rel: bride_mac_checks/rya1371-native-wavelength-roundtrip-v2
+    kind: dir
+    desc: Typed original-native numerical vacuum photon-centre packet, no physical FUV admission.
+
+  engines.multi_width_oracle:
+    root: work
+    rel: bride_inputs/rya1371/multi-width-oracle-v1
+    kind: dir
+    desc: Pinned original MULTI DAMP oracle, native DP recipe and capacity-only expansion; O-only, no RT/SE/producer identity admission.
+  engines.pymulti_reference_source:
+    root: work
+    rel: bride_inputs/rya1281/pymulti-source-v2
+    kind: dir
+    desc: Pinned original MULTI source for narrow typed diagnostic oracles, no data redistribution rights inferred.
+
+  experiments.hop_ghost_coupled_oxygen:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-ghost-mali-v1
+    kind: dir
+    desc: Source-defined native ghost-boundary coupled diagnostic; physical model HOLD.
+  experiments.hop_coupled_oxygen:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-coupled-source-mali-v3
+    kind: dir
+    desc: Full-source fixed-background native-LTE coupled diagnostic; physical1D HOLD.
+  experiments.native_oxygen_collision_matrix:
+    root: work
+    rel: bride_mac_checks/rya1371-native-collision-matrix-v3
+    kind: dir
+    desc: Source-reconstructed native O collision matrix; fixed-background numerical qualification only.
+  experiments.original_multi_width_law:
+    root: work
+    rel: bride_mac_checks/rya1371-multi-width-law-export-v1
+    kind: dir
+    desc: Algebraic original-DAMP O41 width coefficient export, numerical source-law qualification only; no physical/model admission.

@@ -105,6 +105,13 @@ def emergent_rays(ctx, wavelengths, mus, weights):
     if not np.isfinite(np.asarray(rayctx.spect.J)).all():
         raise ValueError('Nonfinite diagnostic-ray radiation field')
     grid=np.array(rayctx.spect.I)
+    expected_shape=(len(wavelengths),len(mus))
+    # LW squeezes its ray axis for a single mu. Restore only that documented
+    # axis before applying the per-wavelength cap, or NumPy broadcasts to NxN.
+    if grid.ndim==1 and len(mus)==1:
+        grid=grid[:,None]
+    if grid.shape!=expected_shape:
+        raise ValueError('Unexpected emergent wavelength/ray layout')
     cap=rayctx.atmos.pyAtmos.zUpperBc
     chi=np.asarray(rayctx.depthData.chi)[:,0,1,0]
     eta=np.asarray(rayctx.depthData.eta)[:,0,1,0]+np.asarray(rayctx.background.sca)[:,0]*previous_J_top

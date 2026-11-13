@@ -1,0 +1,108 @@
+{
+  "schema": "codex.bride_independent_transfer/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "run_bride_independent_transfer.py",
+    "bytes": 5915,
+    "sha256": "a8e690e8e46a0c7e4745a765ab11830ed33466d277b75c9bc9ebe8597d3ed8c8"
+  },
+  "plan": {
+    "name": "rya1371_bride_independent_dense_transfer.json",
+    "bytes": 1500,
+    "sha256": "5c64067f14c1a1a8f6ae1d1a726adf633bbe72053c02c2b0c2240a29ec775da4"
+  },
+  "cases": [
+    {
+      "case": "local",
+      "radiation": {
+        "iterations": 63,
+        "final_J_change": 9.318667948399195e-09,
+        "final_boundary_change": 6.525838796849603e-10,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 1.0
+      },
+      "continuum_radiation": {
+        "iterations": 35,
+        "final_J_change": 7.0843416688504135e-09,
+        "final_boundary_change": 2.755652671699555e-09,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 1.0
+      },
+      "endpoint_replay": {
+        "max_normalized_flux_difference": 0.0,
+        "max_relative_continuum_difference": 0.0
+      },
+      "SE_updated": false,
+      "populations": {
+        "name": "local.npz",
+        "bytes": 186539,
+        "sha256": "0fe8280beba63fb42aad7a45bd2efdb8ccf755b9e5194cfd969d92697fe3a8ad"
+      }
+    },
+    {
+      "case": "held_multi_b",
+      "radiation": {
+        "iterations": 63,
+        "final_J_change": 9.318667948399195e-09,
+        "final_boundary_change": 6.525841546263458e-10,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 1.0
+      },
+      "continuum_radiation": {
+        "iterations": 35,
+        "final_J_change": 7.084341779872716e-09,
+        "final_boundary_change": 2.7556545206893032e-09,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 1.0
+      },
+      "endpoint_replay": null,
+      "SE_updated": false,
+      "populations": {
+        "name": "held_multi_b.npz",
+        "bytes": 186545,
+        "sha256": "6d330373b90d1e28d4c98c146905c1c6cc54e6b499c6269e6f94f9200efdb835"
+      }
+    },
+    {
+      "case": "LTE",
+      "radiation": {
+        "iterations": 63,
+        "final_J_change": 9.3186681704438e-09,
+        "final_boundary_change": 6.52584314907136e-10,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 1.0
+      },
+      "continuum_radiation": {
+        "iterations": 35,
+        "final_J_change": 7.0843416688504135e-09,
+        "final_boundary_change": 2.7556556331178213e-09,
+        "outer_J_change": 1.0,
+        "outer_boundary_change": 1.0
+      },
+      "endpoint_replay": null,
+      "SE_updated": false,
+      "populations": {
+        "name": "LTE.npz",
+        "bytes": 186444,
+        "sha256": "1408dc73ddf699673edde8cda5689cd1b8c263825e95a7c0d4a3a89387f1d86d"
+      }
+    }
+  ],
+  "seconds": 88.66296820761636,
+  "scope": "Fixed-population vertical intensity comparison at the exact original5750/4.5/O8.70 node. Current local, independent held-MULTI departure shape mapped to local LTE and conserved total, and local LTE controls. Native OpenMULTI3D wavelengths define the sampling only; no collision/source/abundance fit, SE update, physics-equivalence or all-band admission. Other-species blends absent; observations not fitted. Compare intensities, not the previous flux profile. Explicit dense output grid, maximum 0.005 A sampling; 6363 A is an absent-transition control, not a qualified line.",
+  "source_report": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 101548,
+    "sha256": "b5b1aca6bd3a2a70732ca457100464e5b69829c020dbe5c6b533ce52a9f7672d"
+  }
+}

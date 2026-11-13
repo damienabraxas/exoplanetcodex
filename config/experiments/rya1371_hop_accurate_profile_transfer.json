@@ -1,0 +1,42 @@
+{
+  "purpose": "fixed-native-oxygen-transfer",
+  "seconds": 600,
+  "native_analysis_resource": "experiments.openmulti3d_oxygen_accurate_analysis",
+  "native_arrays": {
+    "name": "arrays.npz",
+    "bytes": 85404,
+    "sha256": "a76996b75c92ab40f0cff7b10f048ca3777f5fc4cfd8bd4bbe38b0ec84548acf"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 206878,
+    "sha256": "69e8a27a554df4c5d148795108d0a9fd3bb8ac982caf8570f78b56f8fdc51128"
+  },
+  "native_report": {
+    "name": "report.json",
+    "bytes": 4887,
+    "sha256": "f8ab625d0f77f84420f0b52404c33a17f00411f9d540692d20f1c04e950238f4"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "scope": "Prospective pure transfer control with native56-node geometry/T/ne/rho and complete native41-level O n/nstar/totals. Native HOP LTE EOS/continuum and explicit native H/He perturber densities; unchanged LW atomic and broadening formulas, five native Lobatto angles and native-constant background source. No SE/collision/population update. Both nativeNLTE and nativeLTE cases, common native dense vacuum grid, no fitted shift/continuum. Top zero incoming; LW thermalized lower-boundary and native ghost/formal/profile/constants differences remain explicit. Report all six finite-window contrasts with no result-selected input or adopted model. Prospective LW linear formal solver at the same original native state; compared with native linear-output-only control. No agreement-selected production default. Explicit native Stark-off run populations consumed in full, including measured0.2103percent maximum population response. This isolates paired transfer at the new state; no original-state population equality claim. Prospective explicit He contribution disabled solely at LW elastic-broadening interface, to compare native HI-only damping. Native EOS/He density/continuum/atomic O populations and all remaining formulas retained. No helium abundance or production recipe change. Prospective consumed-table optical centres_and_strengths control: ten source transitions across predeclared six windows, no other transition or energy-level changes. Explicit native table rounding, not fitted offsets/strengths. Fixed populations only; wavelength overrides are not a self-consistent SE atom. Prospective paired transfer at isolated accurate-kernel native populations. Use its complete n/nStar/totals, not original-profile populations; native SE response measured separately. Original HOP background provider, optical source-determined centre/strength controls, He-off broadening diagnostic and linear formal solver retained. No physical/default adoption.",
+  "native_options": {
+    "name": "rya1371_hop_native_options.json",
+    "bytes": 1512,
+    "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+  },
+  "formal_solver": "piecewise_linear_1d",
+  "helium_broadening": false,
+  "table_control": {
+    "resource": "experiments.openmulti3d_oxygen_linear_run",
+    "receipt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "mode": "centres_and_strengths"
+  }
+}
