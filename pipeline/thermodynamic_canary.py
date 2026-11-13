@@ -47,3 +47,30 @@ def collision_balance(matrix, populations):
     defect=np.full_like(gross,np.nan)
     np.divide(flow-reverse,gross,out=defect,where=present)
     return defect,present
+
+
+def integrated_defect(up,down,weights):
+    """Integrate positive directional terms on [wavelength,depth] grids.
+
+    Common transition/depth factors cancel in the normalized defect. Weights
+    must already carry the intended frequency measure and profile/cross section.
+    """
+    up=np.asarray(up,dtype=float);down=np.asarray(down,dtype=float);w=np.asarray(weights,dtype=float)
+    if up.ndim!=2 or down.shape!=up.shape or w.shape!=up.shape:
+        raise ValueError('Integrated rate shapes differ')
+    if any(not np.isfinite(x).all()for x in [up,down,w])or np.any(up<=0)or np.any(down<=0)or np.any(w<0)or np.any(w.sum(axis=0)<=0):
+        raise ValueError('Invalid integrated rate terms/measure')
+    return balanced_defect(np.sum(w*up,axis=0),np.sum(w*down,axis=0))
+
+
+def native_split_planck_defect(beta,thermal_integral):
+    """Native line_rate_coefficients identity at J=B (dev=0).
+
+    The common g_i/g_j factor cancels against the LTE population ratio.
+    This checks a source-derived formula; it is not a native solver run.
+    """
+    beta=np.asarray(beta,dtype=float);th=np.asarray(thermal_integral,dtype=float)
+    if beta.shape!=th.shape or np.any(beta<=0)or np.any(beta>=1):
+        raise ValueError('Invalid native thermal split ratio')
+    nref=beta/(1-beta)
+    return balanced_defect(nref*th,beta*((nref+1)*th))

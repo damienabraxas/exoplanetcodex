@@ -2,6 +2,8 @@ import numpy as np
 import pytest
 from pipeline.thermodynamic_canary import occupation,bb_thermal_defect,bf_thermal_defect
 from pipeline.thermodynamic_canary import collision_balance
+from pipeline.thermodynamic_canary import integrated_defect
+from pipeline.thermodynamic_canary import native_split_planck_defect
 
 
 def test_consistent_bb_and_bf_blackbody_identities_close_at_machine_precision():
@@ -30,3 +32,22 @@ def test_collision_balance_distinguishes_reciprocity_missing_and_one_way():
     assert collision_balance(C,n)[0][2,0,0]==1
     C[0,0]=1
     with pytest.raises(ValueError):collision_balance(C,n)
+
+
+def test_integrated_thermal_control_preserves_balance_and_resolves_profile_effect():
+    x=np.array([[.5,1.],[1.5,3.]])
+    n=occupation(x);w=np.array([[1.,2.],[3.,1.]])
+    assert np.max(abs(integrated_defect(n,np.exp(-x)*(1+n),w)))<1e-15
+    # A constant line-centre LTE ratio cannot impose pointwise detailed balance
+    # on a varying occupation field over a deliberately broad profile.
+    mixed=integrated_defect(n,np.exp(-x[0])[None,:]*(1+n),w)
+    assert np.max(abs(mixed))>.1
+    np.testing.assert_allclose(integrated_defect(n,n,w*17),0,atol=0)
+    with pytest.raises(ValueError):integrated_defect(n,n,np.zeros_like(w))
+
+
+def test_native_split_closes_despite_rounded_thermal_integral():
+    beta=np.exp(-np.array([.1,1.,10.,40.]))
+    thermal=np.asarray([.0123456789,1.23456789,12345.6789,1e8],dtype=np.float32)
+    assert np.max(abs(native_split_planck_defect(beta,thermal)))<1e-15
+    with pytest.raises(ValueError):native_split_planck_defect(beta,np.zeros(4))

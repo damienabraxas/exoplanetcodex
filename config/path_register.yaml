@@ -1184,6 +1184,11 @@ entries:
     rel: bride_mac_checks/rya1371-shared-convergence-audit-v4
     kind: dir
     desc: O41 shared-field convergence/analytic thermodynamic evidence; no physical admission.
+  experiments.bride_integrated_thermal:
+    root: work
+    rel: bride_mac_checks/rya1371-integrated-thermal-v3
+    kind: dir
+    desc: Actual source-profile/quadrature thermal integral canaries; no RT, SE or scientific admission.
   experiments.bride_lte_reconstruction:
     root: work
     rel: bride_mac_checks/rya1371-lte-reconstruction-v1

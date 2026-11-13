@@ -33345,3 +33345,27 @@ artifacts:
     generator: scripts/audit_oxygen_lte_reconstruction.py
     ticket: RYA-1371
     note: Exact LTE/collision convention diagnostic; no physical admission.
+  - artifact: rya1371/integrated_thermal_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-profile quadrature thermal canary; no RT/SE or physical adoption.
+  - artifact: rya1371/integrated_thermal_v1/rya1371-integrated-thermal-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-profile quadrature thermal canary; no RT/SE or physical adoption.
+  - artifact: rya1371/integrated_thermal_v1/rya1371-integrated-thermal-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Source-profile quadrature thermal canary; no RT/SE or physical adoption.
+  - artifact: rya1371/integrated_thermal_v1/rya1371-integrated-thermal-v3/integrated_defects.csv
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Source-profile quadrature thermal canary; no RT/SE or physical adoption.
+  - artifact: rya1371/integrated_thermal_v1/rya1371-integrated-thermal-v3/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Source-profile quadrature thermal canary; no RT/SE or physical adoption.
+  - artifact: rya1371/integrated_thermal_v1/rya1371-integrated-thermal-v3/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Source-profile quadrature thermal canary; no RT/SE or physical adoption.
