@@ -33369,3 +33369,71 @@ artifacts:
     generator: scripts/audit_oxygen_integrated_thermal_rates.py
     ticket: RYA-1371
     note: Source-profile quadrature thermal canary; no RT/SE or physical adoption.
+  - artifact: rya1371/absolute_rates_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v1/failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v1/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v2/absolute_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v2/absolute_transition_rates.csv
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v2/integrated_defects.csv
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v2/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-absolute-rates-v2/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-fixed-J-thermal-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-fixed-J-thermal-v2/absolute_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-fixed-J-thermal-v2/absolute_transition_rates.csv
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-fixed-J-thermal-v2/counterfactual_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-fixed-J-thermal-v2/integrated_defects.csv
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-fixed-J-thermal-v2/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/absolute_rates_v1/rya1371-fixed-J-thermal-v2/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.

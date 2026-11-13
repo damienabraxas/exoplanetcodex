@@ -1,5 +1,7 @@
 ## 2026-11-12 — Oxygen shared-grid convergence
 
+- **RYA-1371** — Absolute rates verified; fixed-J thermal terms explain only2.8% of residual,8446 field-feedback test next (v281).
+
 - **RYA-1371** — Integrated BB/BF thermal checks isolate rate-formulation difference; fixed-J absolute replay next (v280).
 
 - **RYA-1371** — Native LTE and collision reciprocity reconstructed; joint thermal qualification next, scientific HOLD (v279).

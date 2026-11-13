@@ -1184,6 +1184,16 @@ entries:
     rel: bride_mac_checks/rya1371-shared-convergence-audit-v4
     kind: dir
     desc: O41 shared-field convergence/analytic thermodynamic evidence; no physical admission.
+  experiments.bride_absolute_rate_replay:
+    root: work
+    rel: bride_mac_checks/rya1371-absolute-rates-v2
+    kind: dir
+    desc: Independent absolute saved-J BB/BF rate reconstruction; no formal solve or scientific admission.
+  experiments.bride_fixed_J_thermal:
+    root: work
+    rel: bride_mac_checks/rya1371-fixed-J-thermal-v2
+    kind: dir
+    desc: Fixed-field thermal shadow matrices and ranked native differences; no solver coefficient change or adoption.
   experiments.bride_integrated_thermal:
     root: work
     rel: bride_mac_checks/rya1371-integrated-thermal-v3

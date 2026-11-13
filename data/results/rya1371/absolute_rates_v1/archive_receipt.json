@@ -1,0 +1,265 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 18521,
+    "sha256": "cfe482085474ed2ea1ff265507c849e4c5cc52b84829794a99eeac6881547e3b"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v1/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 493555,
+        "sha256": "266d99cad955b814843da743462d437c4c4d159809eedbf219c9b30f3e1940b5"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v1/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768763,
+        "sha256": "6e4869dce43679b3838f90b55830797ad8d7301ed749ddc4d677013edbdd0c4c"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 14275,
+        "sha256": "5f8b495024b3a10f695a8e93161dcae43737b379d3c877c19bd884ff3921a638"
+      },
+      "archived": "rya1371-absolute-rates-v1/driver_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v1/failure.json",
+      "receipt": {
+        "name": "failure.json",
+        "bytes": 281,
+        "sha256": "e84629ec2218c6d8c777397abff954b298a09f40b7b9c85e6f75f968f1bfac05"
+      },
+      "archived": "rya1371-absolute-rates-v1/failure.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v1/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4728492,
+        "sha256": "4f98e1c9dce8e574146c317d22547adad699b4315ab706f741aa0cf89d0f4592"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1903,
+        "sha256": "cc047205c5d659b37225c9b77214845a6db73eb06a86137ef01f920a007a9821"
+      },
+      "archived": "rya1371-absolute-rates-v1/stdout_stderr.log",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v2/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 493555,
+        "sha256": "266d99cad955b814843da743462d437c4c4d159809eedbf219c9b30f3e1940b5"
+      },
+      "archived": "rya1371-absolute-rates-v2/absolute_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v2/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768763,
+        "sha256": "6e4869dce43679b3838f90b55830797ad8d7301ed749ddc4d677013edbdd0c4c"
+      },
+      "archived": "rya1371-absolute-rates-v2/absolute_transition_rates.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 14357,
+        "sha256": "00b413662573159d3d7999c90532e65053a7a091e5dcbb999e3bdacecf076851"
+      },
+      "archived": "rya1371-absolute-rates-v2/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v2/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4728492,
+        "sha256": "4f98e1c9dce8e574146c317d22547adad699b4315ab706f741aa0cf89d0f4592"
+      },
+      "archived": "rya1371-absolute-rates-v2/integrated_defects.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 90589,
+        "sha256": "003146e796ed1a08f3dd9684e3b5fa5347772b023382c4198edd005fd5735e03"
+      },
+      "archived": "rya1371-absolute-rates-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-absolute-rates-v2/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1374,
+        "sha256": "d9717c4f3f8a3e63cc2f8d12fb113e0b07fcff0ac99fc6d33eed5396eb39726e"
+      },
+      "archived": "rya1371-absolute-rates-v2/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v1/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 493555,
+        "sha256": "266d99cad955b814843da743462d437c4c4d159809eedbf219c9b30f3e1940b5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v1/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768763,
+        "sha256": "6e4869dce43679b3838f90b55830797ad8d7301ed749ddc4d677013edbdd0c4c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v1/counterfactual_rates.npz",
+      "receipt": {
+        "name": "counterfactual_rates.npz",
+        "bytes": 927206,
+        "sha256": "984aa8ffec03357a9c58c8984328d0131ea5dfa308224e5755bf071af1a9ed54"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 17391,
+        "sha256": "66b9e50c860596fd59e63d083d95a28294d35cc1b92ba259873f9bda07d70743"
+      },
+      "archived": "rya1371-fixed-J-thermal-v1/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v1/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4728492,
+        "sha256": "4f98e1c9dce8e574146c317d22547adad699b4315ab706f741aa0cf89d0f4592"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 91441,
+        "sha256": "47f56421ecba58cdf913ada4d8a407dc62e86e2a44fcdf66c68928782eaf7b5c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 2147,
+        "sha256": "8bab35fac29c197c27a599afbd21e959ac6b8e581ff619ceda971008e8c7fa9c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v2/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 493555,
+        "sha256": "266d99cad955b814843da743462d437c4c4d159809eedbf219c9b30f3e1940b5"
+      },
+      "archived": "rya1371-fixed-J-thermal-v2/absolute_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v2/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768763,
+        "sha256": "6e4869dce43679b3838f90b55830797ad8d7301ed749ddc4d677013edbdd0c4c"
+      },
+      "archived": "rya1371-fixed-J-thermal-v2/absolute_transition_rates.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v2/counterfactual_rates.npz",
+      "receipt": {
+        "name": "counterfactual_rates.npz",
+        "bytes": 927206,
+        "sha256": "984aa8ffec03357a9c58c8984328d0131ea5dfa308224e5755bf071af1a9ed54"
+      },
+      "archived": "rya1371-fixed-J-thermal-v2/counterfactual_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v2/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4728492,
+        "sha256": "4f98e1c9dce8e574146c317d22547adad699b4315ab706f741aa0cf89d0f4592"
+      },
+      "archived": "rya1371-fixed-J-thermal-v2/integrated_defects.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 95342,
+        "sha256": "b870c08c5c309ef185b8d5594052c9eba360e3eca3d4cc17c8ceb43eff8e4dd6"
+      },
+      "archived": "rya1371-fixed-J-thermal-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fixed-J-thermal-v2/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 5124,
+        "sha256": "b73d6ecfc919a58be6c9040d73ed8849084f0d02c0a5001c3db57332f115db10"
+      },
+      "archived": "rya1371-fixed-J-thermal-v2/stdout_stderr.log",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}
