@@ -1,0 +1,29 @@
+{
+  "schema": "rya1354.fac-recoupling-plan.v19",
+  "declaration_comment": "cf87be4c-0c79-44ca-8963-521000e7dc5c",
+  "source": "runs/fac_coherent_controls_v18",
+  "output": "runs/fac_recoupling_v19",
+  "cases": [
+    "coherent10",
+    "coherent100"
+  ],
+  "grasp_pin": "9006157730a82ac839f2b4ff4e938bcba63a539e",
+  "controls": "CI input, unique labeling off, all levels, zero omitted composition and print cutoff, full C/J/T outputs, unmodified converter",
+  "input_guard": "All43 signed FAC coefficients and15 original IDs preserved by exact native-print/bin transport before conversion; original C/CM unchanged afterward.",
+  "isodata": "Existing Z8 converter-support metadata only, no FAC nucleus/Hamiltonian replacement.",
+  "scope": "Angular representation transform only; no rates, empirical energies or accuracy admission.",
+  "review": [
+    "all15 global IDs/parity/J/energy",
+    "full coefficient and normalization preservation",
+    "expected complete minimal term inventory",
+    "analytic unique-term controls"
+  ],
+  "failure_policy": "Stop and retain any refusal/missing output/input change; no inferred upstream patch/fallback.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}
