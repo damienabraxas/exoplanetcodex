@@ -1,4 +1,5 @@
-Latest continuation: [fixed-space FAC potential-policy control](fac_potential_v26.md).
+Latest continuation: [verified zero-correction FAC factorial diagnostic](fac_no_correction_v27.md).
+Previous: [fixed-space FAC potential-policy control](fac_potential_v26.md).
 Previous: [expanded FAC LS replay and complete both-gauge rates](fac_expanded_rates_v25.md).
 Previous: [balanced FAC n3 valence-space expansion](fac_space_v23.md).
 Previous: [FAC minimal-model rate accounting and exploratory lifetimes](fac_rate_audit_v22.md).
