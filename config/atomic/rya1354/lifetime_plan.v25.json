@@ -1,0 +1,32 @@
+{
+  "schema": "rya1354.fac-expanded-rates-plan.v25",
+  "starting_commit": "d8f3725910a82dde921937ffd98c4da9d489e4a0",
+  "source": "runs/fac_space_v23",
+  "mapping": "runs/fac_expanded_recoupling_v24",
+  "output": "runs/fac_expanded_rates_v25",
+  "gauges": {
+    "B": 2,
+    "C": 1
+  },
+  "operator_mode": 0,
+  "cutoffs": [
+    0,
+    0
+  ],
+  "cases": [
+    "n3_r1_coherent10",
+    "n3_r1_coherent100",
+    "n3_r2_coherent10",
+    "n3_r2_coherent100"
+  ],
+  "channel_policy": "Derive ALL lower states from verified native energies, enumerate every rank1..Ju+Jl with triangle/parity.13requests re-derived for these spaces, not assumed. Raw native refusals/NaNs never zero-filled; prior minimal E3 proof inapplicable.",
+  "frontend": "Reuse v21 isolated diagnostic frontend only after exact binary/static-library/original-executable hash checks. No new source/library change.",
+  "source_guard": "Full expanded LS replay before output, source receipts/controls, all regenerated C/CM bytes identical to mapped case;900seconds per native process;retain failures, no fallback",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}
