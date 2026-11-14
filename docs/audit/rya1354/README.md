@@ -1,4 +1,5 @@
-Latest continuation: [FAC minimal-model rate accounting and exploratory lifetimes](fac_rate_audit_v22.md).
+Latest continuation: [balanced FAC n3 valence-space expansion](fac_space_v23.md).
+Previous: [FAC minimal-model rate accounting and exploratory lifetimes](fac_rate_audit_v22.md).
 Previous: [FAC native rate experiment and retained protocol failure](fac_rates_v21.md).
 Previous: [FAC signed transport and minimal-model LS mapping](fac_mapping_v19.md).
 Previous: [FAC stopping and basis-export controls](fac_controls_v18.md).

@@ -1,0 +1,212 @@
+{
+  "schema": "rya1354.fac-space-audit.v23",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "cases": {
+    "n3_r1_coherent10": {
+      "diagnostics": {
+        "iterations": 19,
+        "last": {
+          "iteration": 18,
+          "native_miter": 18,
+          "muconv": 1,
+          "tol": 8.50713e-07,
+          "atol": 1.06379e-07,
+          "potential_change": 8.50713e-07,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 8.507e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 17,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 3.44063e-06,
+          "atol": 2.84513e-07,
+          "potential_change": 3.44063e-06,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 3.441e-06,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.3,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 184,
+        "CSFs": 184,
+        "orbitals": 9,
+        "blocks": 12,
+        "signed_printed_coefficients_verified": 3855,
+        "declared_configurations_present": 7,
+        "LS_mapping_admitted": false
+      }
+    },
+    "n3_r1_coherent100": {
+      "diagnostics": {
+        "iterations": 20,
+        "last": {
+          "iteration": 19,
+          "native_miter": 19,
+          "muconv": 1,
+          "tol": 2.10944e-07,
+          "atol": 2.87588e-08,
+          "potential_change": 2.10944e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 2.109e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 18,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 8.51209e-07,
+          "atol": 2.41175e-08,
+          "potential_change": 8.51209e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 8.512e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.03,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 184,
+        "CSFs": 184,
+        "orbitals": 9,
+        "blocks": 12,
+        "signed_printed_coefficients_verified": 3855,
+        "declared_configurations_present": 7,
+        "LS_mapping_admitted": false
+      }
+    },
+    "n3_r2_coherent10": {
+      "diagnostics": {
+        "iterations": 19,
+        "last": {
+          "iteration": 18,
+          "native_miter": 18,
+          "muconv": 1,
+          "tol": 8.50713e-07,
+          "atol": 1.06379e-07,
+          "potential_change": 8.50713e-07,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 8.507e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 17,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 3.44063e-06,
+          "atol": 2.84513e-07,
+          "potential_change": 3.44063e-06,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 3.441e-06,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.3,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 62144,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      }
+    },
+    "n3_r2_coherent100": {
+      "diagnostics": {
+        "iterations": 20,
+        "last": {
+          "iteration": 19,
+          "native_miter": 19,
+          "muconv": 1,
+          "tol": 2.10944e-07,
+          "atol": 2.87588e-08,
+          "potential_change": 2.10944e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 2.109e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 18,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 8.51209e-07,
+          "atol": 2.41175e-08,
+          "potential_change": 8.51209e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 8.512e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.03,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 62144,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      }
+    }
+  },
+  "receipt_sha256": "ca8447883c4c73a5cf2f992cda8e52324efedc3fdbd7bf10b74bae7d26d14c75"
+}
