@@ -1,0 +1,218 @@
+{
+  "schema": "rya1354.fac-potential-audit.v26",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "scope": "Fixed SD space; explicit equal-reference potential policy with retained theory-only ConfigEnergy diagonal-correction workflow. Not pure orbital-only isolation or physical convergence.",
+  "cases": {
+    "coherent10": {
+      "diagnostics": {
+        "iterations": 20,
+        "last": {
+          "iteration": 19,
+          "native_miter": 19,
+          "muconv": 1,
+          "tol": 7.07718e-08,
+          "atol": 0.0,
+          "potential_change": 7.07718e-08,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 7.077e-08,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 18,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 2.87854e-07,
+          "atol": 3.17298e-07,
+          "potential_change": 2.87854e-07,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 2.879e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.3,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 62019,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      },
+      "full_LS_coefficients_reconstructed": 63316,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "target_weights": {
+        "3S": 0.98895506722884,
+        "5S": 0.9909305176613048
+      },
+      "rates": {
+        "B": {
+          "channels": 13,
+          "printed_rows_verified": 12,
+          "writer_suppressed": [
+            {
+              "upper": 6,
+              "lower": 5,
+              "multipole": 3,
+              "A_s1": 2.4710515404766745e-21
+            }
+          ],
+          "E3_A_s1": {
+            "1": 3.795080139191521e-11,
+            "3": 1.4287239229864936e-12
+          },
+          "exploratory_model_total_A_s1": 695616812.7417822,
+          "exploratory_model_lifetime_ns": 1.4375730742597894
+        },
+        "C": {
+          "channels": 13,
+          "printed_rows_verified": 12,
+          "writer_suppressed": [
+            {
+              "upper": 6,
+              "lower": 5,
+              "multipole": 3,
+              "A_s1": 2.4710515404766745e-21
+            }
+          ],
+          "E3_A_s1": {
+            "1": 4.559166827345847e-12,
+            "3": 3.666743529438623e-13
+          },
+          "exploratory_model_total_A_s1": 345618010.0978331,
+          "exploratory_model_lifetime_ns": 2.8933677377429863
+        }
+      }
+    },
+    "coherent100": {
+      "diagnostics": {
+        "iterations": 21,
+        "last": {
+          "iteration": 20,
+          "native_miter": 20,
+          "muconv": 1,
+          "tol": 1.75014e-08,
+          "atol": 2.64415e-08,
+          "potential_change": 1.75014e-08,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 1.75e-08,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 19,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 7.08163e-08,
+          "atol": 6.06493e-08,
+          "potential_change": 7.08163e-08,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 7.082e-08,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.03,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 62020,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      },
+      "full_LS_coefficients_reconstructed": 63316,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "target_weights": {
+        "3S": 0.98895506722884,
+        "5S": 0.9909305176613048
+      },
+      "rates": {
+        "B": {
+          "channels": 13,
+          "printed_rows_verified": 12,
+          "writer_suppressed": [
+            {
+              "upper": 6,
+              "lower": 5,
+              "multipole": 3,
+              "A_s1": 2.4710574255071056e-21
+            }
+          ],
+          "E3_A_s1": {
+            "1": 3.795087568093555e-11,
+            "3": 1.4287432049592835e-12
+          },
+          "exploratory_model_total_A_s1": 695616941.2781456,
+          "exploratory_model_lifetime_ns": 1.437572808624489
+        },
+        "C": {
+          "channels": 13,
+          "printed_rows_verified": 12,
+          "writer_suppressed": [
+            {
+              "upper": 6,
+              "lower": 5,
+              "multipole": 3,
+              "A_s1": 2.4710574255071056e-21
+            }
+          ],
+          "E3_A_s1": {
+            "1": 4.559169535540569e-12,
+            "3": 3.66666870186866e-13
+          },
+          "exploratory_model_total_A_s1": 345618167.72045887,
+          "exploratory_model_lifetime_ns": 2.893366418193661
+        }
+      }
+    }
+  },
+  "weight_default_discrepancy_preserved": true
+}

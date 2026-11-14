@@ -1,0 +1,9 @@
+{
+  "status": "UNLISTED_TEMPORARY_COPY_QUARANTINED_NOT_SCIENTIFIC_EVIDENCE",
+  "filename": ".candidate_000.tar.gz",
+  "bytes": 6643603,
+  "sha256": "2d0c01913cbcbf63b55449aee2444df6408ba2b3bcea43c3a975f94122d4c318",
+  "quarantine": "/private/tmp/rya1354-potential-incomplete-transfer-candidate.tar.gz",
+  "cause": "Early scp ran while packer still running; copied temporary candidate, absent from final manifest. Final complete parts hash/replay verified; size guard prevented staging.",
+  "final_native_archive_unchanged": true
+}

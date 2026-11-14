@@ -1,4 +1,5 @@
-Latest continuation: [expanded FAC LS replay and complete both-gauge rates](fac_expanded_rates_v25.md).
+Latest continuation: [fixed-space FAC potential-policy control](fac_potential_v26.md).
+Previous: [expanded FAC LS replay and complete both-gauge rates](fac_expanded_rates_v25.md).
 Previous: [balanced FAC n3 valence-space expansion](fac_space_v23.md).
 Previous: [FAC minimal-model rate accounting and exploratory lifetimes](fac_rate_audit_v22.md).
 Previous: [FAC native rate experiment and retained protocol failure](fac_rates_v21.md).
