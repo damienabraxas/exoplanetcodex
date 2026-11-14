@@ -1,0 +1,696 @@
+{
+  "schema": "rya1354.fac-no-correction-audit.v27",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "cases": {
+    "ground_coherent10": {
+      "diagnostics": {
+        "iterations": 19,
+        "last": {
+          "iteration": 18,
+          "native_miter": 18,
+          "muconv": 1,
+          "tol": 8.50713e-07,
+          "atol": 1.06379e-07,
+          "potential_change": 8.50713e-07,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 8.507e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 17,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 3.44063e-06,
+          "atol": 2.84513e-07,
+          "potential_change": 3.44063e-06,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 3.441e-06,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.3,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 61769,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      },
+      "configuration_state": {
+        "before": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        },
+        "after": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        }
+      },
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "target_weights": {
+        "3S": 0.9769764290725924,
+        "5S": 0.9795137700870543
+      },
+      "rates": {
+        "B": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 11,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": -2,
+                "A_s1": 3.0609054729777844e-14
+              },
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 6.62049271882605e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 6.235165584505779e-16,
+              "3": 6.719166630861663e-12
+            },
+            "exploratory_model_total_A_s1": 668510193.4424843,
+            "exploratory_model_lifetime_ns": 1.4958635033678596
+          }
+        },
+        "C": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 11,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": -2,
+                "A_s1": 2.8395016984207525e-16
+              },
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 6.62049271882605e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 2.1710595039321856e-15,
+              "3": 1.5880930760029534e-12
+            },
+            "exploratory_model_total_A_s1": 535890145.9490207,
+            "exploratory_model_lifetime_ns": 1.8660540925399478
+          }
+        }
+      }
+    },
+    "ground_coherent100": {
+      "diagnostics": {
+        "iterations": 20,
+        "last": {
+          "iteration": 19,
+          "native_miter": 19,
+          "muconv": 1,
+          "tol": 2.10944e-07,
+          "atol": 2.87588e-08,
+          "potential_change": 2.10944e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 2.109e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 18,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 8.51209e-07,
+          "atol": 2.41175e-08,
+          "potential_change": 8.51209e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 8.512e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.03,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 61770,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      },
+      "configuration_state": {
+        "before": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        },
+        "after": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        }
+      },
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "target_weights": {
+        "3S": 0.9769763895357456,
+        "5S": 0.9795137304988996
+      },
+      "rates": {
+        "B": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 11,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": -2,
+                "A_s1": 3.060608499857841e-14
+              },
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 6.620042145257639e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 6.233059683803852e-16,
+              "3": 6.718475474858162e-12
+            },
+            "exploratory_model_total_A_s1": 668509932.1698409,
+            "exploratory_model_lifetime_ns": 1.495864087993746
+          }
+        },
+        "C": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 11,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": -2,
+                "A_s1": 2.8401337835280236e-16
+              },
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 6.620042145257639e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 2.1705827129344282e-15,
+              "3": 1.5877919742563943e-12
+            },
+            "exploratory_model_total_A_s1": 535890289.6103975,
+            "exploratory_model_lifetime_ns": 1.866053592288487
+          }
+        }
+      }
+    },
+    "equal_coherent10": {
+      "diagnostics": {
+        "iterations": 20,
+        "last": {
+          "iteration": 19,
+          "native_miter": 19,
+          "muconv": 1,
+          "tol": 7.07718e-08,
+          "atol": 0.0,
+          "potential_change": 7.07718e-08,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 7.077e-08,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 18,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 2.87854e-07,
+          "atol": 3.17298e-07,
+          "potential_change": 2.87854e-07,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 2.879e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.3,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 61516,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      },
+      "configuration_state": {
+        "before": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        },
+        "after": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        }
+      },
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "target_weights": {
+        "3S": 0.991822566310352,
+        "5S": 0.9933638861840164
+      },
+      "rates": {
+        "B": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 11,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": -2,
+                "A_s1": 3.329051863328492e-14
+              },
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 1.4754214875157828e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 2.040753587329835e-14,
+              "3": 1.8184407143150739e-12
+            },
+            "exploratory_model_total_A_s1": 676157432.2023544,
+            "exploratory_model_lifetime_ns": 1.478945512353296
+          }
+        },
+        "C": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 12,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 1.4754214875157828e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 5.343912897910799e-16,
+              "3": 3.757443504089914e-13
+            },
+            "exploratory_model_total_A_s1": 344503301.68115383,
+            "exploratory_model_lifetime_ns": 2.9027298000340336
+          }
+        }
+      }
+    },
+    "equal_coherent100": {
+      "diagnostics": {
+        "iterations": 21,
+        "last": {
+          "iteration": 20,
+          "native_miter": 20,
+          "muconv": 1,
+          "tol": 1.75014e-08,
+          "atol": 2.64415e-08,
+          "potential_change": 1.75014e-08,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 1.75e-08,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 19,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 7.08163e-08,
+          "atol": 6.06493e-08,
+          "potential_change": 7.08163e-08,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 7.082e-08,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.03,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "transport": {
+        "levels": 788,
+        "CSFs": 788,
+        "orbitals": 9,
+        "blocks": 14,
+        "signed_printed_coefficients_verified": 61515,
+        "declared_configurations_present": 15,
+        "LS_mapping_admitted": false
+      },
+      "configuration_state": {
+        "before": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        },
+        "after": {
+          "mode": -1,
+          "groups": 15,
+          "configurations": 91,
+          "max_abs_delta": 0.0,
+          "max_abs_shift": 0.0
+        }
+      },
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "target_weights": {
+        "3S": 0.99182258622841,
+        "5S": 0.9933639061175448
+      },
+      "rates": {
+        "B": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 11,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": -2,
+                "A_s1": 3.32855653142872e-14
+              },
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 1.4757887690265155e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 2.0408701057072675e-14,
+              "3": 1.818363122230616e-12
+            },
+            "exploratory_model_total_A_s1": 676156794.5849934,
+            "exploratory_model_lifetime_ns": 1.4789469070022032
+          }
+        },
+        "C": {
+          "configuration_state": {
+            "before": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            },
+            "after": {
+              "mode": -1,
+              "groups": 15,
+              "configurations": 91,
+              "max_abs_delta": 0.0,
+              "max_abs_shift": 0.0
+            }
+          },
+          "audit": {
+            "channels": 13,
+            "printed_rows_verified": 12,
+            "writer_suppressed": [
+              {
+                "upper": 6,
+                "lower": 5,
+                "multipole": 3,
+                "A_s1": 1.4757887690265155e-25
+              }
+            ],
+            "E3_A_s1": {
+              "0": 5.344559907995252e-16,
+              "3": 3.757171801527189e-13
+            },
+            "exploratory_model_total_A_s1": 344503312.22792006,
+            "exploratory_model_lifetime_ns": 2.9027297111686683
+          }
+        }
+      }
+    }
+  },
+  "enabled_minimal_diagnostic_canary": {
+    "before": {
+      "mode": 0,
+      "groups": 2,
+      "configurations": 6,
+      "max_abs_delta": 0.09316408159550349,
+      "max_abs_shift": 0.0
+    },
+    "after": {
+      "mode": 0,
+      "groups": 2,
+      "configurations": 6,
+      "max_abs_delta": 0.09316408159550349,
+      "max_abs_shift": 0.0
+    }
+  },
+  "fixed_space_comparison_coherent100": {
+    "ground": {
+      "correction_workflow_enabled_ns": {
+        "B": 3.6373937105892775,
+        "C": 2.501307849682168
+      },
+      "correction_disabled_verified_zero_ns": {
+        "B": 1.495864087993746,
+        "C": 1.866053592288487
+      }
+    },
+    "equal": {
+      "correction_workflow_enabled_ns": {
+        "B": 1.437572808624489,
+        "C": 2.893366418193661
+      },
+      "correction_disabled_verified_zero_ns": {
+        "B": 1.4789469070022032,
+        "C": 2.9027297111686683
+      }
+    }
+  },
+  "enabled_auxiliary_optimization_convergence_qualified": false,
+  "qualification": "Enabled cases are inherited exposed workflow diagnostics; main-potential stopping qualified, but auxiliary ConfigEnergy0 group optimizations occur before coherent settings/printing and were not individually qualified. Disabled cases bypass that path; exact zero delta/shift directly measured. No physical-accuracy or calibrated-uncertainty claim."
+}
