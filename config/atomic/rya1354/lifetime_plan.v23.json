@@ -1,0 +1,185 @@
+{
+  "schema": "rya1354.fac-space-plan.v23",
+  "starting_commit": "25ddf510264979a14688fbf6f4aada2a73dbe108",
+  "output": "runs/fac_space_v23",
+  "spaces": {
+    "1": {
+      "configurations": [
+        [
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          2,
+          1,
+          1,
+          0
+        ],
+        [
+          2,
+          2,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          1
+        ],
+        [
+          3,
+          0,
+          1,
+          0
+        ],
+        [
+          3,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected_levels": 184
+    },
+    "2": {
+      "configurations": [
+        [
+          1,
+          1,
+          0,
+          2
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          0,
+          1
+        ],
+        [
+          1,
+          2,
+          1,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          2
+        ],
+        [
+          2,
+          0,
+          1,
+          1
+        ],
+        [
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          2,
+          1,
+          1,
+          0
+        ],
+        [
+          2,
+          2,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          1
+        ],
+        [
+          3,
+          0,
+          1,
+          0
+        ],
+        [
+          3,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected_levels": 788
+    }
+  },
+  "orbital_order": [
+    "2p",
+    "3s",
+    "3p",
+    "3d"
+  ],
+  "references": [
+    [
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      3,
+      1,
+      0,
+      0
+    ]
+  ],
+  "fixed_occupations": "1s2 2s2",
+  "selection": "Union of all configurations within single / single-and-double substitutions from either reference; no experimental fitting",
+  "numerical_cases": [
+    "coherent10",
+    "coherent100"
+  ],
+  "physics": "Original FAC pin/native nucleus; Breit/SE/VP/MS disabled; ground-only optimization, same theory-only ConfigEnergy workflow; no radial reoptimization to excited terms",
+  "native_timeout_seconds_per_case": 900,
+  "scope": "Levels/basis only; re-establish native transport and LS identities separately before rates; never reuse minimal IDs or E3 zero proof",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}
