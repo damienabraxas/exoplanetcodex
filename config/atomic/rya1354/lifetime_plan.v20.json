@@ -1,0 +1,47 @@
+{
+  "schema": "rya1354.fac-model-rates-plan.v20",
+  "starting_commit": "fb9bb06e58b51e8c60d0f4151fe94f1cdd072dce",
+  "pin": "9ab6defb6af62e1bc8251a35ff995809abef717c",
+  "output": "runs/fac_model_rates_v20",
+  "frontend": "toolchains/fac-rate-probe-v20",
+  "numerical_cases": [
+    "coherent10",
+    "coherent100"
+  ],
+  "gauges": {
+    "B": 2,
+    "C": 1
+  },
+  "operator_mode": 0,
+  "cutoffs": [
+    0,
+    0
+  ],
+  "operators": {
+    "ground": [
+      "E1",
+      "M2",
+      "E3"
+    ],
+    "quintet": [
+      "M1",
+      "E2",
+      "M3"
+    ]
+  },
+  "upper_ID": 6,
+  "quintet_ID": 5,
+  "expected_allowed_channels": 13,
+  "source_guard": "Complete numerical/transport/angular source replay before output; regenerated C/CM byte-identical to verified case; all lower states accounted.",
+  "observability": "Isolated copied SFAC frontend adds raw API queries, unchanged pinned FAC library/executable/source. Keep standard tables, native API statuses, constants and exact derived diff. No nonzero-status zero fill.",
+  "missing_channel_policy": "No complete lifetime from missing/unresolved channels. Only explicit native values or independently justified minimal-basis angular zeros count.",
+  "model_scope": "Minimal configurations and nuclear/potential/optimization differences retained; shared angular converter, independent FAC Hamiltonian. No calibration or experimental fitting.",
+  "failure_policy": "Stop and retain changed inputs/library, native refusal, unmet numerical criterion or incomplete queries; no fallback.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}
