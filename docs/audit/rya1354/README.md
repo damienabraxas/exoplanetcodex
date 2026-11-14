@@ -1,4 +1,6 @@
-Latest continuation: [FAC signed transport and minimal-model LS mapping](fac_mapping_v19.md).
+Latest continuation: [FAC minimal-model rate accounting and exploratory lifetimes](fac_rate_audit_v22.md).
+Previous: [FAC native rate experiment and retained protocol failure](fac_rates_v21.md).
+Previous: [FAC signed transport and minimal-model LS mapping](fac_mapping_v19.md).
 Previous: [FAC stopping and basis-export controls](fac_controls_v18.md).
 Previous: [matched CI results and independent FAC feasibility](ci_and_fac_v17.md).
 Previous: [joint timeout and matched qualified-orbital CI](joint_failure_and_ci_v16.md).
