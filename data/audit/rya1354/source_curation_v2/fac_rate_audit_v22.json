@@ -1,0 +1,124 @@
+{
+  "status": "MINIMAL_MODEL_RATE_ACCOUNTING_VERIFIED",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "scope": "Exploratory one-photon totals in the declared15-level minimal FAC model only; not a physical accuracy or calibrated-grade qualification.",
+  "cases": {
+    "coherent10_B": {
+      "printed_rows_verified": 10,
+      "raw_nonzero_channels": 11,
+      "explicit_model_angular_zeros": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        }
+      ],
+      "writer_suppressed_nonzero": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 9.463306562873129e-20
+        }
+      ],
+      "exploratory_model_total_A_s1": 414575541.13048947,
+      "exploratory_model_lifetime_ns": 2.4121056376677217
+    },
+    "coherent10_C": {
+      "printed_rows_verified": 10,
+      "raw_nonzero_channels": 11,
+      "explicit_model_angular_zeros": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        }
+      ],
+      "writer_suppressed_nonzero": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 9.463306562873129e-20
+        }
+      ],
+      "exploratory_model_total_A_s1": 431596632.5813616,
+      "exploratory_model_lifetime_ns": 2.3169782257545464
+    },
+    "coherent100_B": {
+      "printed_rows_verified": 10,
+      "raw_nonzero_channels": 11,
+      "explicit_model_angular_zeros": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        }
+      ],
+      "writer_suppressed_nonzero": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 9.463351238284966e-20
+        }
+      ],
+      "exploratory_model_total_A_s1": 414575989.43339795,
+      "exploratory_model_lifetime_ns": 2.4121030293305274
+    },
+    "coherent100_C": {
+      "printed_rows_verified": 10,
+      "raw_nonzero_channels": 11,
+      "explicit_model_angular_zeros": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "reason": "Minimal-basis one-electron j triangle forbids rank3; native angular_nz0/nmk0 corroborates."
+        }
+      ],
+      "writer_suppressed_nonzero": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 9.463351238284966e-20
+        }
+      ],
+      "exploratory_model_total_A_s1": 431596569.7351771,
+      "exploratory_model_lifetime_ns": 2.316978563137304
+    }
+  }
+}
