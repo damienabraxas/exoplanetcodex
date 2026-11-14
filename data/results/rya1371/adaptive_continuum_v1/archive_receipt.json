@@ -1,0 +1,805 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 20120,
+    "sha256": "db5a400553b2230baa9e3b74cb24c9826e5fe1e6212d863e950cdedf5f95e7a3"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 495513,
+        "sha256": "8af281ef8d516971276246908fe8ca020e77368b9fbcdb172d3e1d3d98900a9e"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768743,
+        "sha256": "0dd7123275f24e7a9fa02a6a186bde6a7c39b0bca6fbeaeee64ae9ff1bba06ce"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 293310,
+        "sha256": "8d93207eff1b34de38970561914ca6f0a69e05683ab5dc8f6d8fa8740a48ac8f"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v1/adaptive_grid.npz",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/adaptive_source.py",
+      "receipt": {
+        "name": "adaptive_source.py",
+        "bytes": 3085,
+        "sha256": "ff82cbf8aa1c263dc5af972189acd1986692cab7234fe43f8678bce10c814baf"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v1/adaptive_source.py",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21646,
+        "sha256": "96e142f45cc77cb068b83ca0a4c4700117eda2924ae77bfa84e70df11d713e38"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v1/driver_source.py",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4725601,
+        "sha256": "b60f4203556359ecf8930b44827c8fc567621b7a32a7cc38908377c3cb3ef380"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96249,
+        "sha256": "85048d064688bf848fed2f6b21a91eaca3dcca5439c2e48560aecd3b1072e91a"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v1/report.json",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1377,
+        "sha256": "eaf7f5df0298ffc6d014d781d8b0b644a21428d855c6684e7d945dd2152d5b20"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v1/stdout_stderr.log",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 496454,
+        "sha256": "c0ee63a1df4013a2edd4e1378f6b5f03eda0af2800aabf40f7f96af948e9f639"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768778,
+        "sha256": "4397d8a54e6a3526dadaf6cf287a1b243f9d7fbbd468561926ea526abd28bd54"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 327843,
+        "sha256": "1da584cafd70113cb44f87b6932673cf257002f2519cb761e5706ef4b9ed0944"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v2/adaptive_grid.npz",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/adaptive_source.py",
+      "receipt": {
+        "name": "adaptive_source.py",
+        "bytes": 3085,
+        "sha256": "ff82cbf8aa1c263dc5af972189acd1986692cab7234fe43f8678bce10c814baf"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v2/adaptive_source.py",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21646,
+        "sha256": "96e142f45cc77cb068b83ca0a4c4700117eda2924ae77bfa84e70df11d713e38"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v2/driver_source.py",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4722862,
+        "sha256": "8092a18dcf22d19a444d66b0fdc3f591d1a9beb779e9f3f8104af32bb6800304"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96246,
+        "sha256": "1bad0ea29813bd1d9a63e82f13dda153bc2b4224e80dd7f33e1c1232f19a81cd"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v2/report.json",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v2/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1374,
+        "sha256": "8533d6c80920885a538c1af6886e2a7b1dfa9275e3ea6a77127d517db2fdcf44"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v2/stdout_stderr.log",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 496526,
+        "sha256": "b5ac1a0b75141da661c69b3e04a1f10b9d05f6d7a088935334a301ff2e8dde7f"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768826,
+        "sha256": "995e0c444afcece994a9c5d157647cb077b1e2d069de79728b75fc0525ed6c64"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 346952,
+        "sha256": "708296bb4deea086449c0dfbabfa119db8e33cc3d6d89c5bc340337fc756b3ab"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v3/adaptive_grid.npz",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/adaptive_source.py",
+      "receipt": {
+        "name": "adaptive_source.py",
+        "bytes": 3085,
+        "sha256": "ff82cbf8aa1c263dc5af972189acd1986692cab7234fe43f8678bce10c814baf"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v3/adaptive_source.py",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21646,
+        "sha256": "96e142f45cc77cb068b83ca0a4c4700117eda2924ae77bfa84e70df11d713e38"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v3/driver_source.py",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4723708,
+        "sha256": "73b1b5c9e9cf43c83d182b898531c3599fa3cb178d4bc5a07d8576443c81d3fb"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96248,
+        "sha256": "c2cf365a49c04a74138cf74abb05241d779efce3471172402aca4e31a5d565a1"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v3/report.json",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-plan-v3/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1380,
+        "sha256": "77d2495eaa7476ac1b5e2d925932d4b537aa8660fb01298d1cecdff71f4716d6"
+      },
+      "archived": "rya1371-adaptive-continuum-plan-v3/stdout_stderr.log",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum1-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 23638,
+        "sha256": "9d9fda17f03a416f70fe85ca56bab483707e1e275ad6fad77eaafc8b7e98df50"
+      },
+      "archived": "rya1371-adaptive-continuum1-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum1-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129058,
+        "sha256": "f9589026eeb1d3913d11d1c4494e6c06572b5a63942cbe2dac126f9c3868b798"
+      },
+      "archived": "rya1371-adaptive-continuum1-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum1-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 8149876,
+        "sha256": "f50d26d1c15da60ac405a5c1496c6ca1e940e528e259fc7dd980662c3ad00d7d"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum1-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217543,
+        "sha256": "1aad55fcc3d3ec356a028955965951cdbc186547a7c01f43bfa94bfe9036c2b0"
+      },
+      "archived": "rya1371-adaptive-continuum1-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum1-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 670,
+        "sha256": "1f1c40bffe2ba195ebb26db35ec28f088736bde8727e2f0352607a07fd7ed592"
+      },
+      "archived": "rya1371-adaptive-continuum1-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum2-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 23638,
+        "sha256": "9d9fda17f03a416f70fe85ca56bab483707e1e275ad6fad77eaafc8b7e98df50"
+      },
+      "archived": "rya1371-adaptive-continuum2-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum2-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129170,
+        "sha256": "4878e635cdf66fc2aac488c5a6c6e88f38cbaaadd224eebfed51d3ccbd24c11c"
+      },
+      "archived": "rya1371-adaptive-continuum2-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum2-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 9388985,
+        "sha256": "37b3507f0c630894bf4bfd27cb737d124b981790ec071171a9209bf5bd2b7005"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum2-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217657,
+        "sha256": "9c6b028d31a817088f80d22d42db24f0bce2b7d51e4eb7b2d3d8b9f2a86c6cb1"
+      },
+      "archived": "rya1371-adaptive-continuum2-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum2-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 670,
+        "sha256": "c6152ad6413638cbd656e0815d36de4fbfce3c902e5a53eb3662cc8be6c5f579"
+      },
+      "archived": "rya1371-adaptive-continuum2-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum3-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 23638,
+        "sha256": "9d9fda17f03a416f70fe85ca56bab483707e1e275ad6fad77eaafc8b7e98df50"
+      },
+      "archived": "rya1371-adaptive-continuum3-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum3-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129246,
+        "sha256": "328afd246726c0e42a0ae5b85906966d683791f87662670a5d14c476eac7fc10"
+      },
+      "archived": "rya1371-adaptive-continuum3-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum3-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 9560970,
+        "sha256": "6b01bc3478912577657d33574ff807ced3665018206ee62602e31844b2deea41"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum3-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217731,
+        "sha256": "bf75bd755fc66f015d624468e22a17e294765b018c8e770950889a0a39a60b06"
+      },
+      "archived": "rya1371-adaptive-continuum3-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum3-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 671,
+        "sha256": "5c9e191e36d9ad9edb77bf0bfdebaf18b01cc4e9f90217c06358e1fb65d43651"
+      },
+      "archived": "rya1371-adaptive-continuum3-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 495513,
+        "sha256": "8af281ef8d516971276246908fe8ca020e77368b9fbcdb172d3e1d3d98900a9e"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768743,
+        "sha256": "0dd7123275f24e7a9fa02a6a186bde6a7c39b0bca6fbeaeee64ae9ff1bba06ce"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 293310,
+        "sha256": "8d93207eff1b34de38970561914ca6f0a69e05683ab5dc8f6d8fa8740a48ac8f"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v4/adaptive_grid.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/adaptive_source.py",
+      "receipt": {
+        "name": "adaptive_source.py",
+        "bytes": 3891,
+        "sha256": "1ba00bde4af4d589a62224372a5004b591515504950aa21135f916c81969d6cc"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v4/adaptive_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 22922,
+        "sha256": "94524075e6bd67cb62932c456899c6a264bae04c3c5c47c21a0e298c27cc5479"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v4/driver_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4725601,
+        "sha256": "b60f4203556359ecf8930b44827c8fc567621b7a32a7cc38908377c3cb3ef380"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/parabolic_rates.npz",
+      "receipt": {
+        "name": "parabolic_rates.npz",
+        "bytes": 249835,
+        "sha256": "6efed97ea83c849bdd65d2488e3c5b5554c0cfb7f58b30abb42b7dbe74a49f51"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v4/parabolic_rates.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96597,
+        "sha256": "05d8beaa10cfa1c0d2d6dd9a113f7b1a439aab8a8da6723e42fd66d1ecec278e"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v4/report.json",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v4/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1437,
+        "sha256": "d52168616b6a7b5d71f62b7fb063b454af007e88580841f4dc0543eb3ca9eb0c"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v4/stdout_stderr.log",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 496454,
+        "sha256": "c0ee63a1df4013a2edd4e1378f6b5f03eda0af2800aabf40f7f96af948e9f639"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768778,
+        "sha256": "4397d8a54e6a3526dadaf6cf287a1b243f9d7fbbd468561926ea526abd28bd54"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 327843,
+        "sha256": "1da584cafd70113cb44f87b6932673cf257002f2519cb761e5706ef4b9ed0944"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v5/adaptive_grid.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/adaptive_source.py",
+      "receipt": {
+        "name": "adaptive_source.py",
+        "bytes": 3891,
+        "sha256": "1ba00bde4af4d589a62224372a5004b591515504950aa21135f916c81969d6cc"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v5/adaptive_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 22922,
+        "sha256": "94524075e6bd67cb62932c456899c6a264bae04c3c5c47c21a0e298c27cc5479"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v5/driver_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4722862,
+        "sha256": "8092a18dcf22d19a444d66b0fdc3f591d1a9beb779e9f3f8104af32bb6800304"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/parabolic_rates.npz",
+      "receipt": {
+        "name": "parabolic_rates.npz",
+        "bytes": 249821,
+        "sha256": "dd00d46b47834bbe68c075537a1a28d6aeed2d5465956cd1f916e06affb934b6"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v5/parabolic_rates.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96596,
+        "sha256": "9920a57d891fb06bde1eddc119df5f25349fc3eea6a1b4ef3569ef7476d31c7d"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v5/report.json",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v5/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1435,
+        "sha256": "5b2a62abe67ae9b956913d39b045601cff3fb134bee1864bc697caca59dee128"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v5/stdout_stderr.log",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 496526,
+        "sha256": "b5ac1a0b75141da661c69b3e04a1f10b9d05f6d7a088935334a301ff2e8dde7f"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768826,
+        "sha256": "995e0c444afcece994a9c5d157647cb077b1e2d069de79728b75fc0525ed6c64"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 346952,
+        "sha256": "708296bb4deea086449c0dfbabfa119db8e33cc3d6d89c5bc340337fc756b3ab"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v6/adaptive_grid.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/adaptive_source.py",
+      "receipt": {
+        "name": "adaptive_source.py",
+        "bytes": 3891,
+        "sha256": "1ba00bde4af4d589a62224372a5004b591515504950aa21135f916c81969d6cc"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v6/adaptive_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 22922,
+        "sha256": "94524075e6bd67cb62932c456899c6a264bae04c3c5c47c21a0e298c27cc5479"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v6/driver_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4723708,
+        "sha256": "73b1b5c9e9cf43c83d182b898531c3599fa3cb178d4bc5a07d8576443c81d3fb"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/parabolic_rates.npz",
+      "receipt": {
+        "name": "parabolic_rates.npz",
+        "bytes": 249708,
+        "sha256": "c6e44484e5dea8ae97dfac3f5b22bc13d807fb4dc4a17d8e3063fbda66937b7f"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v6/parabolic_rates.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96597,
+        "sha256": "4b07184b416cff0678e6d120a0631f3911f5f76de5cd11e72f2c21731caa457c"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v6/report.json",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v6/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1442,
+        "sha256": "c40d5756e0b9c35a2ebc337cd7926e5f196ded9b7b1fadae2f0d1db144815eb4"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v6/stdout_stderr.log",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 496614,
+        "sha256": "d62c80e43db9f592f7d7ba411c6a7cb529bdf69ec0ba7cabe3956488f95de9ee"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768792,
+        "sha256": "1b0c22e2184552a058032c9eb8be79650fdb9cbeecd634e9d02db32ca820140e"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 349349,
+        "sha256": "9d39ddb8a0215ad975e4d3c5623521b86dcd4c57efc77c07afdd30cc6aa80451"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v7/adaptive_grid.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/adaptive_source.py",
+      "receipt": {
+        "name": "adaptive_source.py",
+        "bytes": 3891,
+        "sha256": "1ba00bde4af4d589a62224372a5004b591515504950aa21135f916c81969d6cc"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v7/adaptive_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 22922,
+        "sha256": "94524075e6bd67cb62932c456899c6a264bae04c3c5c47c21a0e298c27cc5479"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v7/driver_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4723636,
+        "sha256": "881ef3a3fb61a73154c7161d0569e9c14808b2c0d46e78d5dad0077dd70087de"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/parabolic_rates.npz",
+      "receipt": {
+        "name": "parabolic_rates.npz",
+        "bytes": 249697,
+        "sha256": "700f31dff232a916725bb90be349fedd0f5750c59b6dd35fc3ed5172880a44f8"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v7/parabolic_rates.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96602,
+        "sha256": "0c9ce5222c3a47c926b4461700a7bbdb6539d7d72e350518783ba575705692d7"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v7/report.json",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-continuum-audit-v7/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1441,
+        "sha256": "753cfb3f0ec2130e948be056c0756e7a65088f0ca78742644ef39467e3d2c098"
+      },
+      "archived": "rya1371-adaptive-continuum-audit-v7/stdout_stderr.log",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-sequence-v1/adaptive_sequence.png",
+      "receipt": {
+        "name": "adaptive_sequence.png",
+        "bytes": 139239,
+        "sha256": "67526b0346e31636f1a2fc2d9cbbe913801c233df20203e3be174c45e69aa83e"
+      },
+      "archived": "rya1371-adaptive-sequence-v1/adaptive_sequence.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-sequence-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 7081,
+        "sha256": "e43eea9ebcab2b01b7acc9c7c7e23928658930f2122367fc32c6ccc514146d2a"
+      },
+      "archived": "rya1371-adaptive-sequence-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-sequence-v1/sequence.csv",
+      "receipt": {
+        "name": "sequence.csv",
+        "bytes": 745,
+        "sha256": "3e5f4f1f7dffa7a3310301532e12e3e78b10e7909c78588b6b4e61aece30778a"
+      },
+      "archived": "rya1371-adaptive-sequence-v1/sequence.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-adaptive-sequence-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 2033,
+        "sha256": "c57efb4938417a33c6e523f70aab55615c8e9f80fb2203a1200e96f5ab8b1fc0"
+      },
+      "archived": "rya1371-adaptive-sequence-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

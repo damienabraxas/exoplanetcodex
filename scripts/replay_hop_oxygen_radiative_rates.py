@@ -106,19 +106,37 @@ def main():
     if 'wavelength_grid_control'in plan:
         from pipeline.rate_grid_control import midpoint_grid
         control=plan['wavelength_grid_control']
-        if physical_control is None or set(control)not in [{'resource','packet','passes','method'},{'resource','packet','passes','method','interval_vac_nm'}]or control['method']!='vacuum-nm-midpoint-insertion':raise ValueError('Require explicit physical-rate midpoint diagnostic')
-        path=require_codex_path(control['resource'])/'rates.npz'
-        if fingerprint(path)!=control['packet']:raise ValueError('Changed original frequency grid')
-        checks[str(path)]=control['packet'];checks[str(ROOT/'pipeline/rate_grid_control.py')]=fingerprint(ROOT/'pipeline/rate_grid_control.py')
-        if line_grid_control is not None:
-            producer=path.parent/'report.json';doc=json.loads(producer.read_text());prior=doc.get('context_audit',{}).get('line_grid_control')
-            if not doc['computational_completed']or prior is None or prior['receipt']!=line_grid_control.receipt or prior.get('mode','native-spacing-and-support')!=line_grid_control.mode:raise ValueError('Midpoint reference has wrong native line grid')
-            checks[str(producer)]=fingerprint(producer)
-        with np.load(path)as d:
-            np.testing.assert_array_equal(d['populations'],pop);np.testing.assert_array_equal(d['nstar'],star)
-            coarse=d['wave_vac_nm'].copy()
-        extra_wave=midpoint_grid(coarse,control['passes'],interval_vac_nm=control.get('interval_vac_nm'))
-        grid_audit=dict(interval_vac_nm=control.get('interval_vac_nm'),method=control['method'],passes=control['passes'],coarse_points=len(coarse),refined_points=len(extra_wave),endpoints_vac_nm=[float(extra_wave[0]),float(extra_wave[-1])],scope='Insert integration nodes only; original transition endpoints, source atom and frozen native populations unchanged. Numerical refinement, not physical adoption.')
+        if control.get('method')=='vacuum-nm-adaptive-continuum':
+            from pipeline.hop_packet import MAX_PACKET_WAVELENGTHS
+            if physical_control is None or set(control)!= {'resource','packet','producer','method'}:raise ValueError('Require explicit matched-state adaptive packet')
+            directory=require_codex_path(control['resource']);path=directory/'adaptive_grid.npz';producer=directory/'report.json'
+            if fingerprint(path)!=control['packet']or fingerprint(producer)!=control['producer']:raise ValueError('Changed adaptive grid producer')
+            doc=json.loads(producer.read_text())
+            if not doc['computational_completed']or doc.get('adaptive_continuum',{}).get('method')!=control['method']:raise ValueError('Unqualified adaptive grid producer')
+            for name in ['arrays.npz','report.json']:
+                if doc['inputs'].get(str(native/name))!=fingerprint(native/name):raise ValueError('Adaptive grid has wrong native state')
+            with np.load(path)as d:
+                np.testing.assert_array_equal(d['populations'],pop);np.testing.assert_array_equal(d['nstar'],star)
+                extra_wave=d['wave_vac_nm'].copy();inherited=d['fine_wave_vac_nm'].copy()
+            if len(extra_wave)>MAX_PACKET_WAVELENGTHS or not np.isfinite(extra_wave).all()or np.any(extra_wave<=0)or np.any(np.diff(extra_wave)<=0):raise ValueError('Invalid/oversized adaptive grid')
+            index=np.searchsorted(extra_wave,inherited)
+            if np.any(index>=len(extra_wave))or not np.array_equal(extra_wave[index],inherited)or not np.array_equal(extra_wave[[0,-1]],inherited[[0,-1]]):raise ValueError('Adaptive grid removed inherited nodes/support')
+            checks[str(path)]=fingerprint(path);checks[str(producer)]=fingerprint(producer)
+            grid_audit=dict(method=control['method'],coarse_points=len(inherited),refined_points=len(extra_wave),endpoints_vac_nm=[float(extra_wave[0]),float(extra_wave[-1])],scope='Source-bound adaptive continuum indicator; retain all inherited wavelengths/physical transitions under original20000-point cap. No reference-fit or physical change.')
+        else:
+            if physical_control is None or set(control)not in [{'resource','packet','passes','method'},{'resource','packet','passes','method','interval_vac_nm'}]or control['method']!='vacuum-nm-midpoint-insertion':raise ValueError('Require explicit physical-rate midpoint diagnostic')
+            path=require_codex_path(control['resource'])/'rates.npz'
+            if fingerprint(path)!=control['packet']:raise ValueError('Changed original frequency grid')
+            checks[str(path)]=control['packet'];checks[str(ROOT/'pipeline/rate_grid_control.py')]=fingerprint(ROOT/'pipeline/rate_grid_control.py')
+            if line_grid_control is not None:
+                producer=path.parent/'report.json';doc=json.loads(producer.read_text());prior=doc.get('context_audit',{}).get('line_grid_control')
+                if not doc['computational_completed']or prior is None or prior['receipt']!=line_grid_control.receipt or prior.get('mode','native-spacing-and-support')!=line_grid_control.mode:raise ValueError('Midpoint reference has wrong native line grid')
+                checks[str(producer)]=fingerprint(producer)
+            with np.load(path)as d:
+                np.testing.assert_array_equal(d['populations'],pop);np.testing.assert_array_equal(d['nstar'],star)
+                coarse=d['wave_vac_nm'].copy()
+            extra_wave=midpoint_grid(coarse,control['passes'],interval_vac_nm=control.get('interval_vac_nm'))
+            grid_audit=dict(interval_vac_nm=control.get('interval_vac_nm'),method=control['method'],passes=control['passes'],coarse_points=len(coarse),refined_points=len(extra_wave),endpoints_vac_nm=[float(extra_wave[0]),float(extra_wave[-1])],scope='Insert integration nodes only; original transition endpoints, source atom and frozen native populations unchanged. Numerical refinement, not physical adoption.')
     report=dict(generator=fingerprint(__file__),inputs=checks,scientific_admission='HOLD',computational_completed=False,scope=plan['scope'],source_atom=preflight,boundary_control=boundary_mode,wavelength_grid_control=grid_audit,native_rate_semantics='Saved native coefficients contain SE preconditioning; individual up/down values are not gross Einstein rates. Net-flow interpretation additionally requires the native linearization population. Fresh unpreconditioned native-field replay remains owed.')
     if physical_control is not None:report['native_rate_semantics']='Unpreconditioned physical rate integrals at exact PRE-update radiation populations; source FP32 contributions summed in FP64, normalized with source profile/LTE factors. Not a post-update fresh native formal solve.'
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n');ctx=None

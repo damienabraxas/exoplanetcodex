@@ -1244,6 +1244,61 @@ entries:
     rel: bride_mac_checks/rya1371-feedback-controls-v1
     kind: dir
     desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_adaptive_continuum1_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum1-v1
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_continuum2_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum2-v1
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_continuum3_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum3-v1
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_continuum_audit_v4:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum-audit-v4
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_continuum_audit_v5:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum-audit-v5
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_continuum_audit_v6:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum-audit-v6
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_continuum_audit_v7:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum-audit-v7
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_sequence_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-sequence-v1
+    kind: dir
+    desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_adaptive_continuum_plan3:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum-plan-v3
+    kind: dir
+    desc: Final400-point budgeted continuum-indicator allocation; no size-cap change.
+  experiments.bride_adaptive_continuum_plan2:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum-plan-v2
+    kind: dir
+    desc: Second bounded continuum panel-indicator allocation; no physical admission.
+  experiments.bride_adaptive_continuum_plan1:
+    root: work
+    rel: bride_mac_checks/rya1371-adaptive-continuum-plan-v1
+    kind: dir
+    desc: Error-indicator allocation from all22continua and56depths; no physical admission.
   experiments.bride_shared16_midpoint:
     root: work
     rel: bride_mac_checks/rya1371-shared16-midpoint-v1

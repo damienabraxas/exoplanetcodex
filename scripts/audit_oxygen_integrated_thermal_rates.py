@@ -23,8 +23,10 @@ def main():
     for name in ['plan','replay','output']:p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--absolute-replay',action='store_true',help='Independently reconstruct gross rates from the exact saved J field; no RT/SE')
     p.add_argument('--native-thermal-counterfactual',action='store_true',help='Also evaluate explicitly diagnostic native-style thermal rate terms at fixed saved J')
+    p.add_argument('--adaptive-continuum',action='store_true');p.add_argument('--base-replay',type=Path);p.add_argument('--additional-points',type=int)
     a=p.parse_args();plan=json.loads(a.plan.read_text());replay=json.loads((a.replay/'report.json').read_text())
     if a.native_thermal_counterfactual and not a.absolute_replay:raise ValueError('Thermal counterfactual requires qualified absolute replay')
+    if a.adaptive_continuum and(not a.absolute_replay or a.base_replay is None or a.additional_points is None):raise ValueError('Adaptive continuum requires exact absolute replay, base packet and budget')
     if os.environ.get('OMP_NUM_THREADS')!='1'or os.environ.get('OPENBLAS_NUM_THREADS')!='1'or plan['seconds']!=600 or plan['backend']!=fingerprint(compiled.__file__)or not replay['computational_completed']:
         raise ValueError('Require unchanged bounded single-thread held backend')
     if plan['purpose']!='full-source-O41-HOP-fixed-population-rates'or plan['formal_solver']!='piecewise_linear_1d':raise ValueError('Require qualified source profile plan')
@@ -80,6 +82,13 @@ def main():
     if a.absolute_replay:
         reconstructed_R=np.zeros_like(saved_R);angular_sum=float(mu_weights.sum());transition_rows=[];max_nodes=0
         delta_BB=np.zeros_like(saved_R);delta_BF=np.zeros_like(saved_R);delta_BF_full=np.zeros_like(saved_R)
+    if a.adaptive_continuum:
+        from pipeline.adaptive_continuum_grid import nested_indices,panel_indicators,adaptive_grid,nested_parabolic_measure
+        pin(ROOT/'pipeline/adaptive_continuum_grid.py');pin(a.base_replay/'rates.npz');pin(a.base_replay/'report.json')
+        if not json.loads((a.base_replay/'report.json').read_text())['computational_completed']:raise ValueError('Incomplete adaptive base')
+        with np.load(a.base_replay/'rates.npz')as d:
+            np.testing.assert_array_equal(d['populations'],pop);np.testing.assert_array_equal(d['nstar'],star);base_wave=d['wave_vac_nm'].copy()
+        nested_indices(base_wave,wave);scores=np.zeros(len(base_wave)-1);bf_scores=[];parabolic_BF=np.zeros_like(saved_R);trapezoid_BF=np.zeros_like(saved_R)
     for transition in oxygen.trans:
         if time.perf_counter()-start>plan['seconds']:raise TimeoutError('Original600s diagnostic cap exceeded')
         local=np.asarray(transition.wavelength);measure=np.empty_like(local)
@@ -115,6 +124,17 @@ def main():
             cases=dict(LW_Planck_consistent_star=integrated_defect(J,beta*(bare+J),weights),HOP_Planck_native_star=integrated_defect(hop_J,beta*(bare+hop_J),weights))
             kind='BF'
         else:raise ValueError('Unsupported thermal transition')
+        if a.adaptive_continuum and kind=='BF':
+            begin=np.searchsorted(base_wave,local[0]);end=np.searchsorted(base_wave,local[-1]);np.testing.assert_array_equal(base_wave[[begin,end]],local[[0,-1]])
+            global_idx=np.searchsorted(wave,local);Jfield=saved_J[global_idx]
+            pref=4*np.pi/c.HPlanck*np.asarray(transition.alpha)[:,None]/local[:,None]
+            upward=pref*Jfield;downward=pref*star[i][None,:]/star[j][None,:]*np.exp(-x)*(bare*angular_sum+Jfield)
+            local_score=np.maximum(panel_indicators(base_wave[begin:end+1],local,upward),panel_indicators(base_wave[begin:end+1],local,downward))
+            parabolic=nested_parabolic_measure(base_wave[begin:end+1],local)[:,None]
+            parabolic_BF[j,i]+=np.sum(parabolic*upward,axis=0);parabolic_BF[i,j]+=np.sum(parabolic*downward,axis=0)
+            trapezoid_BF[j,i]+=np.sum(measure[:,None]*upward,axis=0);trapezoid_BF[i,j]+=np.sum(measure[:,None]*downward,axis=0)
+            scores[begin:end]=np.maximum(scores[begin:end],local_score)
+            bf_scores.append(dict(lower_1based=i+1,upper_1based=j+1,sum_relative_panel_indicators=float(np.sum(local_score)),max_relative_panel_indicator=float(np.max(local_score))))
         if a.absolute_replay:
             idx=np.searchsorted(wave,local);np.testing.assert_array_equal(wave[idx],local)
             J=saved_J[idx];max_nodes=max(max_nodes,len(local))
@@ -183,7 +203,18 @@ def main():
                 lo=min(int(focus),int(partner));hi=max(int(focus),int(partner));gap=atom.levels[hi].E_cm-atom.levels[lo].E_cm
                 ranking.append(dict(partner_1based=int(partner+1),kind='BB'if atom.levels[lo].stage==atom.levels[hi].stage else'BF',source_energy_gap_vac_nm=1e7/gap,native_to_own_net_difference_m3_s=float(contributions[partner]),own_up_s_inv=float(reconstructed_R[hi,lo,z]),native_up_s_inv=float(native_R[hi,lo,z]),own_down_s_inv=float(reconstructed_R[lo,hi,z]),native_down_s_inv=float(native_R[lo,hi,z])))
             report['fixed_J_thermal_counterfactual']['focus']=dict(level_1based=int(focus+1),depth_top_to_bottom=int(z),ranked_native_to_own_radiative_net_differences=ranking,scope='Ranked differences between existing matched native and own physical rates; field, formulation and quadrature differences remain combined. Not unique transition attribution of a coupled error.')
+    if a.adaptive_continuum:
+        next_wave,selected=adaptive_grid(base_wave,wave,scores,a.additional_points)
+        report['adaptive_continuum']=dict(method='vacuum-nm-adaptive-continuum',base_points=len(base_wave),fine_points=len(wave),next_points=len(next_wave),additional_budget=a.additional_points,selected_base_panels=len(selected),continua=len(bf_scores),continuum_indicators=bf_scores,scope='Maximum relative up/down continuum panel indicator over all56depths and22continua, allocated by estimated error per added node. Heuristic indicator, not a certified bound or model PASS; no reference agreement used. All inherited nodes/transitions retained under original20000-point cap.')
+        parabolic_R=reconstructed_R-trapezoid_BF+parabolic_BF
+        if not np.isfinite(parabolic_R).all()or np.any(parabolic_R<0)or not np.array_equal(parabolic_R>0,saved_R>0):raise ValueError('Invalid independent parabolic rate graph')
+        report['adaptive_continuum']['independent_parabolic_BF_residual']=residual(parabolic_R)
+        report['adaptive_continuum']['parabolic_scope']='Independent positive three-point Newton-Cotes continuum integrals at the SAME sampled field/cross sections; BB weights unchanged. Numerical cross-check, not a new RT/SE operator or adopted result; cubic polynomial test does not certify integrand convergence.'
     a.output.mkdir(parents=True,exist_ok=False)
+    if a.adaptive_continuum:
+        np.savez_compressed(a.output/'adaptive_grid.npz',wave_vac_nm=next_wave,base_wave_vac_nm=base_wave,fine_wave_vac_nm=wave,panel_scores=scores,selected_base_panels=selected,populations=pop,nstar=star)
+        np.savez_compressed(a.output/'parabolic_rates.npz',R_s_inv=parabolic_R,BF_s_inv=parabolic_BF)
+        print(json.dumps({'independent_parabolic_BF_residual':residual(parabolic_R)}))
     with(a.output/'integrated_defects.csv').open('w',newline='')as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n');w.writeheader();w.writerows(rows)
     if a.absolute_replay:

@@ -33693,3 +33693,227 @@ artifacts:
     generator: scripts/archive_oxygen_reference_checks.py
     ticket: RYA-1371
     note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v4/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v4/adaptive_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v4/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v4/parabolic_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v4/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v4/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v5/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v5/adaptive_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v5/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v5/parabolic_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v5/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v5/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v6/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v6/adaptive_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v6/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v6/parabolic_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v6/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v6/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v7/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v7/adaptive_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v7/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v7/parabolic_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v7/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-audit-v7/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v1/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v1/adaptive_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v1/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v2/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v2/adaptive_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v2/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v2/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v3/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v3/adaptive_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v3/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v3/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum-plan-v3/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum1-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum1-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum1-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum1-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum2-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum2-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum2-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum2-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum3-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum3-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum3-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-continuum3-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-sequence-v1/adaptive_sequence.png
+    generator: scripts/audit_oxygen_adaptive_sequence.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-sequence-v1/report.json
+    generator: scripts/audit_oxygen_adaptive_sequence.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-sequence-v1/sequence.csv
+    generator: scripts/audit_oxygen_adaptive_sequence.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/adaptive_continuum_v1/rya1371-adaptive-sequence-v1/stdout_stderr.log
+    generator: scripts/audit_oxygen_adaptive_sequence.py
+    ticket: RYA-1371
+    note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
