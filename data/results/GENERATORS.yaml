@@ -33437,3 +33437,259 @@ artifacts:
     generator: scripts/audit_oxygen_integrated_thermal_rates.py
     ticket: RYA-1371
     note: Absolute fixed-field physical-rate replay and explicit unadopted thermal shadow controls.
+  - artifact: rya1371/feedback_controls_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bb-thermal-feedback-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bb-thermal-feedback-v1/independent_old_convention_rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bb-thermal-feedback-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bb-thermal-feedback-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bb-thermal-feedback-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bb-thermal-feedback-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bb-thermal-feedback-v1/thermal_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bf-thermal-feedback-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bf-thermal-feedback-v1/independent_old_convention_rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bf-thermal-feedback-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bf-thermal-feedback-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bf-thermal-feedback-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bf-thermal-feedback-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-bf-thermal-feedback-v1/thermal_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-feedback-controls-v1/controls.csv
+    generator: scripts/audit_oxygen_feedback_controls.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-feedback-controls-v1/feedback_controls.png
+    generator: scripts/audit_oxygen_feedback_controls.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-feedback-controls-v1/report.json
+    generator: scripts/audit_oxygen_feedback_controls.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-feedback-controls-v1/stdout_stderr.log
+    generator: scripts/audit_oxygen_feedback_controls.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-frozen-feedback-baseline-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-frozen-feedback-baseline-v1/independent_old_convention_rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-frozen-feedback-baseline-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-frozen-feedback-baseline-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-frozen-feedback-baseline-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-frozen-feedback-baseline-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-frozen-feedback-baseline-v1/thermal_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-native-strength-feedback-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-native-strength-feedback-v1/independent_old_convention_rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-native-strength-feedback-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-native-strength-feedback-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-native-strength-feedback-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-native-strength-feedback-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-native-strength-feedback-v1/thermal_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local1-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local1-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local1-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local1-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local2-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local2-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local2-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-local2-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-midpoint-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-midpoint-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-midpoint-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-shared16-midpoint-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v1/thermal_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v2/independent_old_convention_rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v2/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v2/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v2/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v2/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-feedback-v2/thermal_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-strength-feedback-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-strength-feedback-v1/independent_old_convention_rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-strength-feedback-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-strength-feedback-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-strength-feedback-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-strength-feedback-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.
+  - artifact: rya1371/feedback_controls_v1/rya1371-thermal-strength-feedback-v1/thermal_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Byte-preserved fixed-population field/precision/quadrature controls; rejected storage attempt excluded, scientific HOLD.

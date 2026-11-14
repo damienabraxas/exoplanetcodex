@@ -1194,6 +1194,66 @@ entries:
     rel: bride_mac_checks/rya1371-fixed-J-thermal-v2
     kind: dir
     desc: Fixed-field thermal shadow matrices and ranked native differences; no solver coefficient change or adoption.
+  experiments.bride_frozen_feedback_baseline:
+    root: work
+    rel: bride_mac_checks/rya1371-frozen-feedback-baseline-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_thermal_feedback_refused:
+    root: work
+    rel: bride_mac_checks/rya1371-thermal-feedback-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_thermal_feedback:
+    root: work
+    rel: bride_mac_checks/rya1371-thermal-feedback-v2
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_native_strength_feedback:
+    root: work
+    rel: bride_mac_checks/rya1371-native-strength-feedback-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_thermal_strength_feedback:
+    root: work
+    rel: bride_mac_checks/rya1371-thermal-strength-feedback-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_bb_thermal_feedback:
+    root: work
+    rel: bride_mac_checks/rya1371-bb-thermal-feedback-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_bf_thermal_feedback:
+    root: work
+    rel: bride_mac_checks/rya1371-bf-thermal-feedback-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_shared16_local1:
+    root: work
+    rel: bride_mac_checks/rya1371-shared16-local1-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_shared16_local2:
+    root: work
+    rel: bride_mac_checks/rya1371-shared16-local2-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_feedback_controls:
+    root: work
+    rel: bride_mac_checks/rya1371-feedback-controls-v1
+    kind: dir
+    desc: Explicit fixed-population feedback/precision/numerical diagnostic; computational status in report, scientific HOLD.
+  experiments.bride_shared16_midpoint:
+    root: work
+    rel: bride_mac_checks/rya1371-shared16-midpoint-v1
+    kind: dir
+    desc: One-pass own global midpoint grid at the exact shared16 physical reference state; numerical diagnostic only.
+  experiments.bride_shared16_fixed_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-physical-shared16-v1
+    kind: dir
+    desc: Exact PRE-update shared16 physical replay and inherited own wavelength grid.
   experiments.bride_integrated_thermal:
     root: work
     rel: bride_mac_checks/rya1371-integrated-thermal-v3

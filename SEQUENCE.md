@@ -1,3 +1,7 @@
+## 2026-11-14 — Oxygen field feedback and continuum quadrature
+
+- **RYA-1371** — Thermal/strength controls bounded; node doubling exposes OII continuum quadrature sensitivity, adaptive checks next (v282).
+
 ## 2026-11-12 — Oxygen shared-grid convergence
 
 - **RYA-1371** — Absolute rates verified; fixed-J thermal terms explain only2.8% of residual,8446 field-feedback test next (v281).

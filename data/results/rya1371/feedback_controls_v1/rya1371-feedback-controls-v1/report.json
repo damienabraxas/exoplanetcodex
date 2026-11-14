@@ -1,0 +1,245 @@
+{
+  "generator": {
+    "name": "audit_oxygen_feedback_controls.py",
+    "bytes": 5651,
+    "sha256": "ffbcf2be0ba411daaa6905abd61941a2c046f43bde6c8a3a678bab4bcdb63757"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_feedback_controls.py": {
+      "name": "audit_oxygen_feedback_controls.py",
+      "bytes": 5651,
+      "sha256": "ffbcf2be0ba411daaa6905abd61941a2c046f43bde6c8a3a678bab4bcdb63757"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 216428,
+      "sha256": "76236747b9043f05bc01fd98af57c8c1c9724acebca4f161dd54b63eb019e59e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335463,
+      "sha256": "66c57b0db2a10de2aae3a4a3efed4947a85bab308cb0a2735f2d96e1b37f3450"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218666,
+      "sha256": "ef82c83484d2d86f5d288ef01736bd1b7139753befe4171080eefdbebc247bc2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335439,
+      "sha256": "58cde6fef352c2a5715bfe767b9e5f9a0d2d31a2765dceb1a8f5103c1b0a034a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218594,
+      "sha256": "ebe342b141fb9595e1fd8795ad7784a42ed6dfdd0063653adba4e65437fdaf41"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4342605,
+      "sha256": "402fb9b8472128510f8b93a1af0c905d44bb55fb52d5001820a35c8fed442449"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218593,
+      "sha256": "50e2cbcabf40ec2175f5c4baaf3f1724fac40d44b5b532751cdcc4c22da6fc9b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335588,
+      "sha256": "ea9d9de9b2837e4851f3fba0ae05bfc6c61b943dedb6b207c86874880eb167b6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/report.json": {
+      "name": "report.json",
+      "bytes": 218570,
+      "sha256": "fd492b66a6a1ddc82e8e5d0db09c3d2d6a15e92e388c03285abe4efc3f590fa3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4342578,
+      "sha256": "0568af318c3c22d38e8c0b732098f6ecd35ee8c4a58a948f40f3cdad56bf3195"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/report.json": {
+      "name": "report.json",
+      "bytes": 268768,
+      "sha256": "83ff247ca46ebee289cc2fe99a2ddbc052465e38e7ee53e1c3c04a0294de12d1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335283,
+      "sha256": "7caba2d3691927c49c5df366bbe59009dc9b166b9994daf9d470d848316c10f8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/report.json": {
+      "name": "report.json",
+      "bytes": 268837,
+      "sha256": "7eea221aa93aa7baaac375f994805e09fc57df3999e9c5aed2d7815d104ddc1e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4342794,
+      "sha256": "8370b832a1f80034025d571eaa9924075c5a761c3cb711f827bfb9c8cbd8b160"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-midpoint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217460,
+      "sha256": "664a73db8b0257069f8876efce4f9a13b87892ed365279889b027ce64c26cafe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-midpoint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 6938735,
+      "sha256": "0c1b40d704eea99dff706c9d2acabd83ff16a5be60c63f8c32831fda4975f295"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local1-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217550,
+      "sha256": "3b88d38ff7c5fc293e00373f7b72bc1a1de6e6dc0d3978d203f0a964fe119c11"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local1-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 6979589,
+      "sha256": "d5a8744aa1a735008759f998a51b9667c6d8b53df52c98a09230f9711f88d04f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local2-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217555,
+      "sha256": "c1dc3a6e847c52514f8528139889f110c1d398096cbdbf24e5eb41ec29d9edb1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local2-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 7059606,
+      "sha256": "f503e17c93991e106fa808f65079e2461133f8f40b7470aaca0bd5d6e7b5a65b"
+    }
+  },
+  "cases": [
+    {
+      "case": "hop-physical-shared16-v1",
+      "points": 6795,
+      "seconds": 2.0262135420925915,
+      "max_physical_residual": 0.0002211660670029669,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 0.0002211660670029669,
+      "level40_top_residual": 0.00019940841002355475,
+      "max_common_node_J_relative": 0.0,
+      "common_node_J_bit_identical": true
+    },
+    {
+      "case": "frozen-feedback-baseline-v1",
+      "points": 6795,
+      "seconds": 1.504125750157982,
+      "max_physical_residual": 0.00022116606700276295,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 0.00022116606700276295,
+      "level40_top_residual": 0.0001994084100236716,
+      "max_common_node_J_relative": 8.881784197001252e-16,
+      "common_node_J_bit_identical": false
+    },
+    {
+      "case": "bb-thermal-feedback-v1",
+      "points": 6795,
+      "seconds": 1.3561565419659019,
+      "max_physical_residual": 0.0002167123392389811,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 0.0002167123392389811,
+      "level40_top_residual": 0.00019941799247734902,
+      "max_common_node_J_relative": 0.0008512230899189177,
+      "common_node_J_bit_identical": false
+    },
+    {
+      "case": "bf-thermal-feedback-v1",
+      "points": 6795,
+      "seconds": 1.282873374875635,
+      "max_physical_residual": 0.0002211292363389254,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 0.0002211292363389254,
+      "level40_top_residual": 0.00012788449874840928,
+      "max_common_node_J_relative": 6.249767355415159e-06,
+      "common_node_J_bit_identical": false
+    },
+    {
+      "case": "thermal-feedback-v2",
+      "points": 6795,
+      "seconds": 1.8728340002708137,
+      "max_physical_residual": 0.00021667550874944795,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 0.00021667550874944795,
+      "level40_top_residual": 0.00012789408120446376,
+      "max_common_node_J_relative": 0.0008511856446877797,
+      "common_node_J_bit_identical": false
+    },
+    {
+      "case": "native-strength-feedback-v1",
+      "points": 6795,
+      "seconds": 1.7557955840602517,
+      "max_physical_residual": 0.00022393711942506945,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 0.00022393711942506945,
+      "level40_top_residual": 0.00019940846617646265,
+      "max_common_node_J_relative": 0.00016027342242597165,
+      "common_node_J_bit_identical": false
+    },
+    {
+      "case": "thermal-strength-feedback-v1",
+      "points": 6795,
+      "seconds": 1.7517587500624359,
+      "max_physical_residual": 0.00021944664815238472,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 0.00021944664815238472,
+      "level40_top_residual": 0.00012789413707236713,
+      "max_common_node_J_relative": 0.0008512128805759911,
+      "common_node_J_bit_identical": false
+    },
+    {
+      "case": "shared16-midpoint-v1",
+      "points": 13589,
+      "seconds": 3.873212625272572,
+      "max_physical_residual": 0.0025995165438862317,
+      "worst_level_1based": 40,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 3.081627708160325e-05,
+      "level40_top_residual": 0.0025995165438862317,
+      "max_common_node_J_relative": 0.0,
+      "common_node_J_bit_identical": true
+    },
+    {
+      "case": "shared16-local1-v1",
+      "points": 13691,
+      "seconds": 3.720953249838203,
+      "max_physical_residual": 0.002599514221169221,
+      "worst_level_1based": 40,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 1.9396279258407423e-05,
+      "level40_top_residual": 0.002599514221169221,
+      "max_common_node_J_relative": 0.0,
+      "common_node_J_bit_identical": true
+    },
+    {
+      "case": "shared16-local2-v1",
+      "points": 13895,
+      "seconds": 3.5262155001983047,
+      "max_physical_residual": 0.0025995136240691435,
+      "worst_level_1based": 40,
+      "worst_depth_top_to_bottom": 0,
+      "level13_top_residual": 3.202331410590584e-05,
+      "level40_top_residual": 0.0025995136240691435,
+      "max_common_node_J_relative": 0.0,
+      "common_node_J_bit_identical": true
+    }
+  ],
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "findings": [
+    "Frozen complete coefficients reproduce original J within9e-16; populations/LTE/C exact.",
+    "Combined thermal field feedback improves coarse-grid maximum only about2percent; consumed-loggf control does not improve it.",
+    "Global node doubling leaves inherited-node J bit-identical, improves the former OI level13 discrepancy, but exposes a larger OII ground/BF balance error.",
+    "Local8446 refinements leave the OII maximum essentially unchanged. Continuum quadrature convergence remains unresolved; a closer coarse result is not validated."
+  ],
+  "scope": "Same matched PRE-update populations and full source graph. Frozen coefficient representation, thermal full-frequency sensitivity, explicit all256 consumed-loggf precision and numerical integration controls remain distinct. Historical strength-case scope prose saying strengths unchanged is superseded by its explicit strength-factor packet and this interpretation; source atom stays immutable, effective absorption strengths do change in those cases. No full native thermal-split reproduction, coupled SE, observational solar, flux, all-band or3D admission. Next: bounded adaptive continuum quadrature under original20000-point cap, then coherent coupled/observed checks."
+}

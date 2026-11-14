@@ -125,14 +125,44 @@ def main():
     try:
         ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=extra_wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary,line_grid_control=line_grid_control)
         ctx.set_fs_iter_scheme(scheme);ctx.kwargs['fsIterScheme']=scheme;active=ctx.activeAtoms[0];active.compute_collisions(fillDiagonal=False);np.testing.assert_array_equal(active.C,binding.matrix)
+        thermal=plan.get('fixed_population_thermal_control');thermal_audit=None;formal_ctx=ctx
+        if thermal is not None:
+            if thermal.get('method')!='HOP-LTE-frequency' or set(thermal)-{'method','components','strengths'} or not {'method','components'}<=set(thermal):raise ValueError('Unknown fixed-population thermal control')
+            from pipeline.fixed_population_thermal import apply_control
+            constants_source=engine_app/'HOP/const_mod.f90';checks[str(constants_source)]=fingerprint(constants_source)
+            constants={}
+            for key,name,scale in [('h','hh',1e-7),('k','bk',1e-7),('c','cc',.01)]:
+                match=__import__('re').search(r'\b'+name+r'\s*=\s*([0-9.+\-dDeE]+)',constants_source.read_text(),__import__('re').I)
+                if match is None:raise ValueError('Missing source thermal constant')
+                constants[key]=float(match[1].lower().replace('d','e'))*scale
+            for name in ['fixed_population_thermal.py','absolute_rate_integrals.py']:checks[str(ROOT/'pipeline'/name)]=fingerprint(ROOT/'pipeline'/name)
+            strengths=None;strength_rows=None
+            if 'strengths'in thermal:
+                if thermal['strengths']!='native-converted-loggf':raise ValueError('Unknown explicit strength control')
+                from pipeline.native_strength_precision import strength_factors
+                checks[str(ROOT/'pipeline/native_strength_precision.py')]=fingerprint(ROOT/'pipeline/native_strength_precision.py')
+                table=native_run/'native/atoms/O.txt';checks[str(table)]=fingerprint(table)
+                strengths,strength_rows=strength_factors(active.atomicModel.lines,[x.g for x in active.atomicModel.levels],table)
+                if strengths.shape!=(256,):raise ValueError('Incomplete consumed strength graph')
+            formal_ctx,thermal_audit=apply_control(ctx,thermal['components'],constants,strengths=strengths)
+            thermal_audit['strengths']=strength_rows
+            expected_background=(np.array(formal_ctx.background.chi).copy(),np.array(formal_ctx.background.eta).copy(),np.array(formal_ctx.background.sca).copy())
         if grid_audit is not None:np.testing.assert_array_equal(np.array(ctx.spect.wavelength),extra_wave)
-        if top_boundary is None:radiation=converge_cap_radiation(ctx,rtol=controls['cap_radiation_rtol'],maxiter=controls['cap_radiation_maxiter'],deadline=deadline)
+        if top_boundary is None:radiation=converge_cap_radiation(formal_ctx,rtol=controls['cap_radiation_rtol'],maxiter=controls['cap_radiation_maxiter'],deadline=deadline)
         else:
             from pipeline.native_ghost_boundary import converge_ghost_radiation
-            radiation=converge_ghost_radiation(ctx,rtol=controls['cap_radiation_rtol'],maxiter=controls['cap_radiation_maxiter'],deadline=deadline)
+            radiation=converge_ghost_radiation(formal_ctx,rtol=controls['cap_radiation_rtol'],maxiter=controls['cap_radiation_maxiter'],deadline=deadline)
         np.testing.assert_array_equal(active.n,pop);np.testing.assert_array_equal(active.nStar,star)
         own_R=np.zeros_like(foreign_R)
         for transition in active.trans:own_R[transition.j,transition.i]+=transition.Rij;own_R[transition.i,transition.j]+=transition.Rji
+        compiled_R=own_R.copy()
+        if thermal is not None:
+            from pipeline.fixed_population_thermal import physical_rates
+            compiled_R=physical_rates(ctx,[],constants,Jnu=np.asarray(formal_ctx.spect.J),strengths=strengths)
+            own_R=physical_rates(ctx,thermal['components'],constants,Jnu=np.asarray(formal_ctx.spect.J),strengths=strengths)
+            for actual,expected in zip([formal_ctx.background.chi,formal_ctx.background.eta,formal_ctx.background.sca],expected_background):np.testing.assert_array_equal(actual,expected)
+            report['fixed_population_thermal_control']=thermal_audit
+            report['scope']+=' Explicit isolated frequency-dependent LTE inverse/emission coefficient control at fixed populations; fresh radiation with independent modified physical-rate integrals. Old-convention independent integrals at the new field are separately saved; modified rates come from independent full-frequency inverse/emission factors. Not complete native source coefficients, coupled SE or physical adoption.'
         native_pairs=np.any(foreign_R>0,axis=2);own_pairs=np.any(own_R>0,axis=2)
         if not np.array_equal(native_pairs,own_pairs):raise ValueError('Source/native radiative graph differs')
         def residual(R,C):
@@ -160,7 +190,8 @@ def main():
             else:raise ValueError('Mixed rate semantics were incorrectly accepted')
         report.update(computational_completed=True,radiation=radiation,context_audit=audit,native_saved_effective_rate_residual=native_res,matched_population_replay_physical_residual=own_res,positive_directional_pairs=int(native_pairs.sum()),gross_coefficient_comparison_refused=comparison_refusal,focus=dict(level_1based=focus+1,depth=depth,temperature_K=float(state['temperature_K'][depth]),native_net_m3_s=float(native_net[focus,depth]),replay_net_m3_s=float(own_net[focus,depth]),ranked_partner_flow_changes=ranking))
         if physical_control is not None:report['native_physical_rate_residual']=report.pop('native_saved_effective_rate_residual');report['gross_rate_relative_difference']=comparison
-        np.savez_compressed(a.output/'rates.npz',native_R_s_inv=foreign_R,replay_R_s_inv=own_R,native_C_s_inv=foreign_C,replay_C_s_inv=active.C.copy(),populations=pop,nstar=star,wave_vac_nm=np.array(ctx.spect.wavelength),Jnu=np.array(ctx.spect.J))
+        np.savez_compressed(a.output/'rates.npz',native_R_s_inv=foreign_R,replay_R_s_inv=own_R,native_C_s_inv=foreign_C,replay_C_s_inv=active.C.copy(),populations=pop,nstar=star,wave_vac_nm=np.array(formal_ctx.spect.wavelength),Jnu=np.array(formal_ctx.spect.J))
+        if thermal is not None:np.savez_compressed(a.output/'independent_old_convention_rates.npz',R_s_inv=compiled_R)
     except (ValueError,RuntimeError,TimeoutError)as error:report['error']=str(error)
     finally:
         report['seconds']=time.perf_counter()-start
