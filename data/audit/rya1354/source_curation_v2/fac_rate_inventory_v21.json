@@ -1,0 +1,107 @@
+{
+  "status": "RAW_INVENTORY_VERIFIED_RATE_AUDIT_PENDING",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "cases": {
+    "coherent10_B": {
+      "queries": 13,
+      "finite_native_rates": 11,
+      "unresolved": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        }
+      ],
+      "total_rate": null,
+      "lifetime_ns": null
+    },
+    "coherent10_C": {
+      "queries": 13,
+      "finite_native_rates": 11,
+      "unresolved": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        }
+      ],
+      "total_rate": null,
+      "lifetime_ns": null
+    },
+    "coherent100_B": {
+      "queries": 13,
+      "finite_native_rates": 11,
+      "unresolved": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        }
+      ],
+      "total_rate": null,
+      "lifetime_ns": null
+    },
+    "coherent100_C": {
+      "queries": 13,
+      "finite_native_rates": 11,
+      "unresolved": [
+        {
+          "upper": 6,
+          "lower": 0,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        },
+        {
+          "upper": 6,
+          "lower": 3,
+          "multipole": -3,
+          "status": -1,
+          "angular_nz": 0,
+          "nmk": 0
+        }
+      ],
+      "total_rate": null,
+      "lifetime_ns": null
+    }
+  }
+}
