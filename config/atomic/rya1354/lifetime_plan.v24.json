@@ -1,0 +1,24 @@
+{
+  "schema": "rya1354.fac-expanded-angular-plan.v24",
+  "starting_commit": "d8f3725910a82dde921937ffd98c4da9d489e4a0",
+  "source": "runs/fac_space_v23",
+  "output": "runs/fac_expanded_recoupling_v24",
+  "cases": [
+    "n3_r1_coherent10",
+    "n3_r1_coherent100",
+    "n3_r2_coherent10",
+    "n3_r2_coherent100"
+  ],
+  "converter": "Unmodified GRASP9006157730a82ac839f2b4ff4e938bcba63a539e jj2lsj, shared angular implementation",
+  "controls": "CI input;unique labeling OFF;all levels;zero omitted composition/print cutoff;full C/J/T output;NK convention",
+  "isodata": "Existing Z8 support metadata only; not a replacement FAC nucleus/Hamiltonian",
+  "qualification": "Exact input/stopping/expanded native transport before converter; original C/CM unchanged; independently replay full transformed vectors and physical identities before rates",
+  "failure_policy": "Retain native refusal or missing output; no fallback;900seconds per converter",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

@@ -1,0 +1,155 @@
+{
+  "schema": "rya1354.fac-expanded-rate-audit.v25",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "cases": {
+    "n3_r1_coherent10_B": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.4386638991482523e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 8.274155443690328e-11,
+        "3": 6.839511171403066e-13
+      },
+      "exploratory_model_total_A_s1": 249361927.05551302,
+      "exploratory_model_lifetime_ns": 4.0102352905597325
+    },
+    "n3_r1_coherent10_C": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.4386638991482523e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 5.454733948896876e-12,
+        "3": 1.1380926053016083e-13
+      },
+      "exploratory_model_total_A_s1": 407792209.18664366,
+      "exploratory_model_lifetime_ns": 2.452229290977717
+    },
+    "n3_r1_coherent100_B": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.4386730608925236e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 8.274230661166803e-11,
+        "3": 6.83958613557836e-13
+      },
+      "exploratory_model_total_A_s1": 249361541.2311212,
+      "exploratory_model_lifetime_ns": 4.010241495392219
+    },
+    "n3_r1_coherent100_C": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.4386730608925236e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 5.4547360237518264e-12,
+        "3": 1.138022226780617e-13
+      },
+      "exploratory_model_total_A_s1": 407792244.168527,
+      "exploratory_model_lifetime_ns": 2.452229080616681
+    },
+    "n3_r2_coherent10_B": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.3357925023403837e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 6.772375607814341e-11,
+        "3": 4.755098889631315e-13
+      },
+      "exploratory_model_total_A_s1": 274922591.64186686,
+      "exploratory_model_lifetime_ns": 3.637387506162713
+    },
+    "n3_r2_coherent10_C": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.3357925023403837e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 8.141423527880525e-12,
+        "3": 1.472810976627342e-13
+      },
+      "exploratory_model_total_A_s1": 399790811.942069,
+      "exploratory_model_lifetime_ns": 2.5013081094642646
+    },
+    "n3_r2_coherent100_B": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.3358014072683884e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 6.772455483340299e-11,
+        "3": 4.755171090207705e-13
+      },
+      "exploratory_model_total_A_s1": 274922122.6970216,
+      "exploratory_model_lifetime_ns": 3.6373937105892775
+    },
+    "n3_r2_coherent100_C": {
+      "channels": 13,
+      "printed_rows_verified": 12,
+      "writer_suppressed": [
+        {
+          "upper": 6,
+          "lower": 5,
+          "multipole": 3,
+          "A_s1": 2.3358014072683884e-20
+        }
+      ],
+      "E3_A_s1": {
+        "0": 8.141436360823468e-12,
+        "3": 1.4727339978992743e-13
+      },
+      "exploratory_model_total_A_s1": 399790853.46374553,
+      "exploratory_model_lifetime_ns": 2.501307849682168
+    }
+  }
+}
