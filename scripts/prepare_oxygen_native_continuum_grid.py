@@ -9,7 +9,7 @@ def main():
     from config.constants import require_codex_path
     from pipeline.reference_engines import fingerprint,load_engine
     from pipeline.hop_background_knots import read_background_knots
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args();checks={}
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--second-refinement',action='store_true');a=p.parse_args();checks={}
     def pin(path):
         path=Path(path);checks[str(path)]=fingerprint(path);return path
     pin(__file__);pin(ROOT/'pipeline/hop_background_knots.py')
@@ -18,8 +18,17 @@ def main():
     old_path=pin(run/'native/save/all_lam.bin')
     entry=next(r for r in doc['output_files']if r['path']=='native/save/all_lam.bin')
     if fingerprint(old_path)!=entry['receipt']:raise ValueError('Changed native grid')
+    predecessor=None
+    if a.second_refinement:
+        key='experiments.openmulti3d_oxygen_grid_refined_run';run=require_codex_path(key)
+        report_path=pin(run/'report.json');doc=json.loads(report_path.read_text())
+        qualified=pin(ROOT/'config/experiments/rya1371_openmulti3d_oxygen_grid_refined.json')
+        if not doc['computational_completed']or doc['plan']!=fingerprint(qualified):raise ValueError('Wrong first-refinement producer')
+        old_path=pin(run/'native/save/all_lam.bin');entry=next(r for r in doc['output_files']if r['path']=='native/save/all_lam.bin')
+        if fingerprint(old_path)!=entry['receipt']:raise ValueError('Changed first-refinement grid')
+        predecessor=dict(resource=key,report=fingerprint(report_path),wave=fingerprint(old_path))
     old=np.fromfile(old_path,dtype='<f8')
-    if len(old)!=39841 or not np.isfinite(old).all()or np.any(np.diff(old)<=0):raise ValueError('Wrong native baseline grid')
+    if len(old)!=(59003 if a.second_refinement else 39841) or not np.isfinite(old).all()or np.any(np.diff(old)<=0):raise ValueError('Wrong native baseline grid')
     _,app,_,_=load_engine('openmulti3d')
     for path in [app/'HOP/spectrum_mod.f90',app/'HOP/op_math_mod.f90',app/'SRC/atom_mod.f90',app/'SRC/ray_patch_mod.f90']:pin(path)
     text=(app/'HOP/spectrum_mod.f90').read_text()
@@ -58,6 +67,9 @@ def main():
     for path,fp in checks.items():
         if fingerprint(path)!=fp:raise ValueError('Changed native-grid proposal input')
     report=dict(generator=fingerprint(__file__),inputs=checks,computational_completed=True,scientific_admission='HOLD',original_points=len(old),proposed_points=len(wave),added_points=len(accepted),continuum_panels_with_midpoint_proposals=int(active.sum()),source_background_tables=len(components),in_support_background_knots=len(knots),rejected_close_candidates=rejected,source_merge_tolerance_A=tol,all_original_nodes_exact=True,grid=fingerprint(grid),point_count_ratio=float(len(wave)/len(old)),scope='Dry proposal only, not an executable native plan or RT/SE packet. All original39841nodes/endpoints plus all56table opacity-knot and all22BF midpoint candidates, respecting native0.001A merging. No source atom/cross sections/atmosphere/data edit. Intended source line_grid_file hook replaces line grid; using the full original union avoids silently removing BB nodes, but actual native reproduction/memory/window invariance must still be tested. Native original600s/one-thread/2GB/tolerance controls remain required; point ratio is not measured memory/runtime. Existing HOP20000 packet cap is unchanged; this native grid is not sent to HOP and no engine guard is bypassed. Before execution, add a strictly validated opt-in adapter/control and verify emitted native grid retains originals. No adopted physical/numerical result.')
+    if predecessor is not None:
+        report['predecessor']=predecessor
+        report['scope']='Second source-preserving native continuum refinement proposal: every59003parent node and all original39841nodes retained, all22BF midpoint/source-background candidates subject to actual merge tolerance. Not a solver run, memory measurement or admission. Original600s/one-thread/2GB/tolerances and HOP20000cap unchanged; native grid is not a HOP packet.'
     (a.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps({key:value for key,value in report.items()if key!='inputs'}))
 
 

@@ -1,0 +1,110 @@
+{
+  "generator": {
+    "name": "prepare_oxygen_native_continuum_grid.py",
+    "bytes": 6723,
+    "sha256": "af0afa7664473686c326a2719368aa19c8acfbae02cc7627df25242384676169"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/prepare_oxygen_native_continuum_grid.py": {
+      "name": "prepare_oxygen_native_continuum_grid.py",
+      "bytes": 6723,
+      "sha256": "af0afa7664473686c326a2719368aa19c8acfbae02cc7627df25242384676169"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_background_knots.py": {
+      "name": "hop_background_knots.py",
+      "bytes": 1680,
+      "sha256": "84b55c66998317e133f378b292e39e01450527d480a2899badbf285baf19c39a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 38043,
+      "sha256": "c1386004fbed6596e90d5d37800ddec4f62208cf994e956620a2d4dbeecf7a8d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 318728,
+      "sha256": "3e151054e98401db2bc2e847549cddbbefb06392c3abff712aa25964af354424"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-v1/report.json": {
+      "name": "report.json",
+      "bytes": 39885,
+      "sha256": "1ad837e00ee976ba75b1474caa09c5b48555ce05e9887debdb19878eb049c01b"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_openmulti3d_oxygen_grid_refined.json": {
+      "name": "rya1371_openmulti3d_oxygen_grid_refined.json",
+      "bytes": 2983,
+      "sha256": "5c4c9b09c53a54b1a950a23f747224c444da62fe102685e46515fab2479f3c98"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 472024,
+      "sha256": "b4c915528b087a43468bbf3dc4428920dfe10b31fb323048f854fb8ec1bdad32"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/spectrum_mod.f90": {
+      "name": "spectrum_mod.f90",
+      "bytes": 27962,
+      "sha256": "73992dbd6d8c1b5a1b24a44d5fac1681d4999dab06c130b3b3e7d243a43a9cf1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/op_math_mod.f90": {
+      "name": "op_math_mod.f90",
+      "bytes": 23200,
+      "sha256": "b080255a656b324e752a3075536d2013e4f05763552a076607c6eb6bd74a8610"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/SRC/atom_mod.f90": {
+      "name": "atom_mod.f90",
+      "bytes": 114257,
+      "sha256": "3074db53793c8683e9770d20392316174ad7abb94d109752d27226a858a0be7a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/SRC/ray_patch_mod.f90": {
+      "name": "ray_patch_mod.f90",
+      "bytes": 17678,
+      "sha256": "0018539bb3f98c76a4aff1928bc2ce52ed95bf18f371dcdfeb091843a414a798"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "cc42e7dc44e41c7b9504a680a850227c84d375cae896008a8452dfc0d84804cc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+      "name": "TS_absdat.txt",
+      "bytes": 397207,
+      "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+    }
+  },
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "original_points": 59003,
+  "proposed_points": 86048,
+  "added_points": 27045,
+  "continuum_panels_with_midpoint_proposals": 44754,
+  "source_background_tables": 56,
+  "in_support_background_knots": 1838,
+  "rejected_close_candidates": 19547,
+  "source_merge_tolerance_A": 0.0010000000474974513,
+  "all_original_nodes_exact": true,
+  "grid": {
+    "name": "frequency_grid_vac_A.txt",
+    "bytes": 2065234,
+    "sha256": "48d4837fb93f3bfa4096b501c2edf68c800f4adebab51a24c0714bc88ac508f2"
+  },
+  "point_count_ratio": 1.4583665237360812,
+  "scope": "Second source-preserving native continuum refinement proposal: every59003parent node and all original39841nodes retained, all22BF midpoint/source-background candidates subject to actual merge tolerance. Not a solver run, memory measurement or admission. Original600s/one-thread/2GB/tolerances and HOP20000cap unchanged; native grid is not a HOP packet.",
+  "predecessor": {
+    "resource": "experiments.openmulti3d_oxygen_grid_refined_run",
+    "report": {
+      "name": "report.json",
+      "bytes": 39885,
+      "sha256": "1ad837e00ee976ba75b1474caa09c5b48555ce05e9887debdb19878eb049c01b"
+    },
+    "wave": {
+      "name": "all_lam.bin",
+      "bytes": 472024,
+      "sha256": "b4c915528b087a43468bbf3dc4428920dfe10b31fb323048f854fb8ec1bdad32"
+    }
+  }
+}

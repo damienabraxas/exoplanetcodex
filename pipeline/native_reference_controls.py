@@ -10,7 +10,7 @@ def validate_native_grid_plan(plan, qualified_shared16):
     control = candidate.pop('native_frequency_grid_control', None)
     if not isinstance(control, dict) or set(control) != {'kind', 'resource', 'producer', 'grid', 'source_resource', 'source_report', 'source_wave'}:
         raise ValueError('Require complete native grid control identity')
-    if control['kind'] not in ['baseline', 'continuum-refinement']:
+    if control['kind'] not in ['baseline', 'continuum-refinement', 'continuum-refinement2']:
         raise ValueError('Unknown native grid control kind')
     candidate['scope'] = qualified_shared16['scope']
     if candidate != qualified_shared16:

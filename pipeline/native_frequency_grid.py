@@ -33,7 +33,8 @@ def load_native_frequency_grid(plan, *, resolver):
     for values in [original, wave]:
         if values.ndim != 1 or len(values) < 2 or not np.isfinite(values).all() or np.any(values <= 0) or np.any(np.diff(values) <= 0):
             raise ValueError('Invalid native frequency grid')
-    if len(original) != 39841 or not len(original) <= len(wave) <= 59003 or producer['proposed_points'] != len(wave):
+    limit = 86048 if control['kind'] == 'continuum-refinement2' else 59003
+    if len(original) != 39841 or not len(original) <= len(wave) <= limit or producer['proposed_points'] != len(wave):
         raise ValueError('Native grid exceeds explicitly scoped refinement')
     index = np.searchsorted(wave, original)
     if np.any(index >= len(wave)) or not np.array_equal(wave[index], original) or not np.array_equal(wave[[0,-1]], original[[0,-1]]):
@@ -46,10 +47,31 @@ def load_native_frequency_grid(plan, *, resolver):
         raise ValueError('Native baseline grid must be exact original')
     if control['kind'] == 'continuum-refinement' and len(wave) <= len(original):
         raise ValueError('Native refinement must add nodes')
+    predecessor_identities = {}
+    if control['kind'] == 'continuum-refinement2':
+        parent = producer.get('predecessor', {})
+        if set(parent) != {'resource','report','wave'} or parent['resource'] != 'experiments.openmulti3d_oxygen_grid_refined_run':
+            raise ValueError('Second refinement requires the first qualified native producer')
+        parent_dir = Path(resolver(parent['resource']))
+        for name, path in [('report',parent_dir/'report.json'),('wave',parent_dir/'native/save/all_lam.bin')]:
+            if fingerprint(path) != parent[name] or producer['inputs'].get(str(path)) != parent[name]:
+                raise ValueError('Changed second-refinement predecessor')
+            predecessor_identities[str(path)] = parent[name]
+        parent_doc = json.loads((parent_dir/'report.json').read_text())
+        parent_plan = ROOT/'config/experiments/rya1371_openmulti3d_oxygen_grid_refined.json'
+        parent_outputs = [r for r in parent_doc['output_files'] if r['path']=='native/save/all_lam.bin']
+        if not parent_doc['computational_completed'] or parent_doc['plan'] != fingerprint(parent_plan) or len(parent_outputs)!=1 or parent_outputs[0]['receipt']!=parent['wave']:
+            raise ValueError('Unqualified first-refinement predecessor')
+        inherited_parent = np.fromfile(parent_dir/'native/save/all_lam.bin',dtype='<f8')
+        j = np.searchsorted(wave,inherited_parent)
+        if len(inherited_parent)!=59003 or len(wave)<=59003 or np.any(j>=len(wave)) or not np.array_equal(wave[j],inherited_parent):
+            raise ValueError('Second refinement removed predecessor nodes or added none')
     # Recheck all inputs after reading; copy bytes only after every refusal check.
     for key, path in paths.items():
         if fingerprint(path) != control[key]:
             raise ValueError('Native grid changed during validation')
+    for path,expected in predecessor_identities.items():
+        if fingerprint(path)!=expected:raise ValueError('Predecessor changed during validation')
     return paths['grid'], dict(kind=control['kind'], original_points=len(original), points=len(wave),
         identities={str(path):control[key] for key,path in paths.items()},
         all_original_nodes_exact=True, scope='Explicit diagnostic native line_grid_file; physical and resource controls unchanged. No HOP packet or scientific admission.')

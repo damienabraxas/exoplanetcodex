@@ -1,3 +1,7 @@
+## 2026-11-15 — Second native refinement and FUV contract
+
+- **RYA-1371** — Native86048node comparison and full-state FUV factorial diagnostics complete; thermal-profile floor distinguished from remaining consistency/convergence work, no physics adoption (v291).
+
 ## 2026-11-15 — Executed native continuum refinement
 
 - **RYA-1371** — Original-grid/observer112binary reproduction exact;59003node native solve and refined-state bridge replay complete, remaining4->41FUV convergence OPEN (v290).

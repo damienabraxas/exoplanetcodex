@@ -1,0 +1,103 @@
+{
+  "generator": {
+    "name": "audit_oxygen_continuum_balance_budget.py",
+    "bytes": 8625,
+    "sha256": "ad3dab728dde52b7ddc2b884e6d2ec6c0cbf337ce0ffbeb612e9a2842b4d3fe3"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_continuum_balance_budget.py": {
+      "name": "audit_oxygen_continuum_balance_budget.py",
+      "bytes": 8625,
+      "sha256": "ad3dab728dde52b7ddc2b884e6d2ec6c0cbf337ce0ffbeb612e9a2842b4d3fe3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-midpoint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218490,
+      "sha256": "5cb65ae50efb21b6d1f42c07f4f2b04ad3df3cca591eb3f1a3d6eb24a6fc1d35"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-midpoint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 8464790,
+      "sha256": "f507759559b405a10ca8fa19120919c4b89c4aac759ea6649b86afa1ac8b7027"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-midpoint-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96657,
+      "sha256": "d1cb119fd8035c0071ac68ae8074ab8ad1b9c5665b63c6863adadeb48d0a0d45"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-midpoint-audit-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249857,
+      "sha256": "3dfed0b8daa6c7836be1cd83730981fe4fb84b92f55f3225cb63085b4410f8a6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-adaptive-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218492,
+      "sha256": "730ea25b2c2df1823a70045621c8e2a68085138d3b25cd6c866f7fad70397e6c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-adaptive-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582327,
+      "sha256": "e0de8d614dfb64fe16cac16321f3116b54937d6a912d9033d6f088a902cded3c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-final-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96659,
+      "sha256": "d51aae717e67efe291285a5f22f60f41c79c759cc2ad989c52fe35ff34a0ee1a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-final-audit-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249835,
+      "sha256": "1709d40501cdbfb722b22a3ef8585e9c0676b2ca1efc6eb9fdf638696dd81fd8"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    }
+  },
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "nodes": [
+    17263,
+    19963
+  ],
+  "peak_balance": {
+    "level_1based": 41,
+    "depth_top_to_bottom": 0,
+    "signed_residual": -0.00020278744675232565,
+    "signed_native_rate_gap": -0.00020277844689353398,
+    "signed_BF_native_gap": -0.00020277844689353398,
+    "signed_BB_native_gap": 0.0,
+    "signed_mesh_step": -6.720316149766974e-06,
+    "signed_BF_mesh_step": -6.720316149766974e-06,
+    "signed_BB_mesh_step": 0.0,
+    "BF_pair_L1_mesh_step": 6.720316149766974e-06
+  },
+  "peak_BF_pairs": [
+    {
+      "lower_1based": 4,
+      "upper_1based": 41,
+      "depth_top_to_bottom": 0,
+      "up_relative_mesh_step": -1.3565640067081224e-05,
+      "down_relative_mesh_step": -1.2241597839021143e-07,
+      "signed_upper_mesh_balance_step": -6.720316149766974e-06,
+      "signed_lower_mesh_balance_step": 6.522586630537159e-14,
+      "signed_upper_native_gap": -0.00020277844689353398,
+      "signed_lower_native_gap": 1.9681216734345397e-12,
+      "signed_peak_native_gap": -0.00020277844689353398,
+      "signed_peak_mesh_step": -6.720316149766974e-06
+    }
+  ],
+  "max_L1_BF_mesh_balance_step": 1.025523249222253e-05,
+  "max_absolute_mesh_balance_step": 6.826147874773356e-05,
+  "max_absolute_BB_mesh_balance_step": 6.826145933246165e-05,
+  "max_absolute_BF_native_balance_gap": 0.00020277844689353398,
+  "max_absolute_BB_native_balance_gap": 4.503468111599499e-05,
+  "scope": "Fixed exact n/nStar/C/native rates; inherited J bit-identical. Same-node positive parabolic BF with compiled BB from each corresponding grid. Both BF and BB mesh changes are accounted separately; adding continuum nodes also changes line sampling. All 22 continua/56 depths/41 levels accounted. One final-step difference is not a numerical error bound, convergence certificate or isolated physics cause. Normalization uses final own gross R+C throughout; native own residual uses a different denominator. No RT, SE, abundance or production change."
+}

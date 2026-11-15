@@ -125,6 +125,51 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.grid_refined2_adaptive_plan:
+    root: work
+    rel: bride_mac_checks/rya1371-grid-refined2-midpoint-audit-v1
+    kind: dir
+    desc: Bounded adaptive continuum proposal at second-refinement native state; scientific HOLD.
+  experiments.grid_refined2_background_knots:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-grid-refined2-background-knots-v1
+    kind: dir
+    desc: Fixed-population second-native-refinement source-knot replay; scientific HOLD.
+  experiments.grid_refined2_background_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-grid-refined2-background-grid-v1
+    kind: dir
+    desc: State-bound second-native-refinement source-knot grid, scientific HOLD.
+  experiments.openmulti3d_oxygen_grid_refined2_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-grid-refined2-v1
+    kind: dir
+    desc: Explicit second native continuum refinement diagnostic; scientific HOLD.
+  experiments.openmulti3d_oxygen_grid_refined2_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-grid-refined2-analysis-v1
+    kind: dir
+    desc: Explicit second native continuum refinement diagnostic; scientific HOLD.
+  experiments.openmulti3d_oxygen_grid_refined2_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-grid-refined2-physical-v1
+    kind: dir
+    desc: Explicit second native continuum refinement diagnostic; scientific HOLD.
+  experiments.grid_refined_adaptive_replay:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-grid-refined-adaptive-v1
+    kind: dir
+    desc: Source-bound first-native-refinement fixed-state continuum diagnostic, scientific HOLD.
+  experiments.grid_refined_final_audit:
+    root: work
+    rel: bride_mac_checks/rya1371-grid-refined-final-audit-v1
+    kind: dir
+    desc: Source-bound first-native-refinement fixed-state continuum diagnostic, scientific HOLD.
+  experiments.native_continuum_grid2_proposal:
+    root: work
+    rel: bride_mac_checks/rya1371-native-continuum-grid2-v1
+    kind: dir
+    desc: Explicit second retained-node native continuum refinement proposal, scientific HOLD.
   experiments.grid_refined_adaptive_plan:
     root: work
     rel: bride_mac_checks/rya1371-grid-refined-midpoint-audit-v1

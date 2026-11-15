@@ -11,13 +11,13 @@ def main():
     from pipeline.openmulti3d_output import read_patch_set
     from pipeline.multi_atom import read_multi_atom
     import lightweaver.constants as modern
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--build',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--build',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--refined-native-state',action='store_true');a=p.parse_args()
     if os.environ.get('OMP_NUM_THREADS')!='1'or os.environ.get('OPENBLAS_NUM_THREADS')!='1':raise ValueError('Require one-thread audit')
     checks={};start=time.monotonic()
     def pin(path):
         path=Path(path);checks[str(path)]=fingerprint(path);return path
     for path in [Path(__file__),ROOT/'pipeline/openmulti3d_output.py',ROOT/'pipeline/multi_atom.py',modern.__file__]:pin(path)
-    run=require_codex_path('experiments.openmulti3d_oxygen_shared16_run');doc=json.loads(pin(run/'report.json').read_text())
+    run=require_codex_path('experiments.openmulti3d_oxygen_grid_refined_run'if a.refined_native_state else'experiments.openmulti3d_oxygen_shared16_run');doc=json.loads(pin(run/'report.json').read_text())
     if not doc['computational_completed']:raise ValueError('Incomplete native producer')
     for row in doc['output_files']:
         if fingerprint(pin(run/row['path']))!=row['receipt']:raise ValueError('Changed native producer output')
@@ -33,19 +33,20 @@ def main():
         if fingerprint(path)!=fp:raise ValueError('Changed oracle input')
     checks.update(build['inputs'])
     save=run/'native/save';wave=np.fromfile(pin(save/'all_lam.bin'),dtype='<f8');pin(save/'Jnu_meta.txt')
-    patches=read_patch_set(save,'Jnu');sizes=[patches[(1,i)].shape[0]for i in [1,2]]
-    if sizes!=[19921,19920]or len(wave)!=sum(sizes)or np.any(np.diff(wave)<=0):raise ValueError('Unexpected native window/grid layout')
-    if set(patches)!={(z,w)for z in range(1,9)for w in [1,2]}:raise ValueError('Incomplete native radiation mesh')
+    patches=read_patch_set(save,'Jnu');window_ids=sorted({key[1]for key in patches});sizes=[patches[(1,i)].shape[0]for i in window_ids]
+    if window_ids!=list(range(1,len(sizes)+1))or len(wave)!=sum(sizes)or len(wave)!=(59003 if a.refined_native_state else 39841)or np.any(np.diff(wave)<=0):raise ValueError('Unexpected native window/grid layout')
+    if not a.refined_native_state and sizes!=[19921,19920]:raise ValueError('Changed original window layout')
+    if set(patches)!={(z,w)for z in range(1,9)for w in window_ids}:raise ValueError('Incomplete native radiation mesh')
     windows=[]
-    for w in [1,2]:
+    for w in window_ids:
         parts=[patches[(z,w)]for z in range(1,9)]
         if any(x.shape!=(sizes[w-1],1,1,7,1)for x in parts):raise ValueError('Unexpected native depth/set shape')
         windows.append(np.concatenate([x[:,0,0,:,0]for x in parts],axis=1)[:,::-1])
     J=np.concatenate(windows,axis=0)
     # The strict reader checks both saved twin hemispheres are byte/value equal.
-    analysis=require_codex_path('experiments.openmulti3d_oxygen_shared16_analysis');pin(analysis/'arrays.npz')
+    analysis=require_codex_path('experiments.openmulti3d_oxygen_grid_refined_analysis'if a.refined_native_state else'experiments.openmulti3d_oxygen_shared16_analysis');pin(analysis/'arrays.npz')
     with np.load(analysis/'arrays.npz')as x:T=x['consumed_state_cgs'][::-1,2].astype(np.float32)
-    replay=require_codex_path('experiments.bride_background_adaptive_v1');pin(replay/'report.json')
+    replay=require_codex_path('experiments.grid_refined_adaptive_replay'if a.refined_native_state else'experiments.bride_background_adaptive_v1');pin(replay/'report.json')
     with np.load(pin(replay/'rates.npz'))as x:d={key:x[key].copy()for key in x.files}
     table=pin(run/'native/atoms/O.txt');lines=table.read_text().splitlines();begin=next(i for i,s in enumerate(lines)if s.split()==['i','lam_air','alpha','j'])+1;tables={}
     for line in lines[begin:]:
@@ -59,7 +60,7 @@ def main():
         tab=np.array(tables[(t.i,t.j)])[::-1];idx=np.flatnonzero((wave>=tab[0,0])&(wave<=tab[-1,0]));local=wave[idx];nu=cc/(local*1e-8)
         if len(local)<2 or np.any(np.diff(idx)!=1):raise ValueError('Incomplete native continuum support')
         alpha=[]
-        for number,chunk in enumerate(np.array_split(local,2)):
+        for number,chunk in enumerate(np.array_split(local,max(1,int(np.ceil(len(local)/20000))))):
             if len(chunk)<2 or len(chunk)>20000:raise ValueError('Oracle query outside existing packet size scope')
             request=f'{len(tab)} {len(chunk)}\n'+'\n'.join(f'{w:.17e} {v:.17e}'for w,v in tab)+'\n'+'\n'.join(f'{w:.17e}'for w in chunk)+'\n'
             name=f'continuum_{t.i}_{t.j}_{number}';(a.output/(name+'.in')).write_text(request)
@@ -80,7 +81,8 @@ def main():
         native_J=J[idx];sums=[]
         for field in [native_J]:
             up=np.zeros(56);down=np.zeros(56)
-            for win in [idx<sizes[0],idx>=sizes[0]]:
+            edges=np.r_[0,np.cumsum(sizes)]
+            for win in [(idx>=lo)&(idx<hi)for lo,hi in zip(edges[:-1],edges[1:])]:
                 if not np.any(win):continue
                 absorption=wa[win,None]*field[win]
                 emission=(wa[win,None]*beta[win])*(field[win]+np.float32(1))
@@ -112,7 +114,12 @@ def main():
     field_net=(np.sum(delta_field*n[None,:,:],axis=1)-delta_field.sum(axis=0)*n)/gross
     thermal_net=(np.sum(delta_thermal*n[None,:,:],axis=1)-delta_thermal.sum(axis=0)*n)/gross
     higher_precision=max(abs(r[key])for r in rows for key in ['up_relative_FP64_sum_reconstruction','down_relative_FP64_sum_reconstruction'])
+    focus=(40,0)if a.refined_native_state else(39,3)
     report=dict(generator=fingerprint(__file__),inputs=checks,computational_completed=True,scientific_admission='HOLD',max_relative_BF_rate_reconstruction=maximum,max_relative_FP64_sum_reconstruction=higher_precision,field_balance_change_at_level40_depth3=float(field_net[39,3]),max_absolute_field_balance_change=float(abs(field_net).max()),modern_thermal_balance_change_at_level40_depth3=float(thermal_net[39,3]),max_absolute_modern_thermal_balance_change=float(abs(thermal_net).max()),continua=len(atom.continua),depths=56,native_window_points=sizes,seconds=time.monotonic()-start,scope='Read-only saved native J reconstruction and frozen-field comparison. Native J is dimensionless photon-occupation work units; thermal/spontaneous terms and two combined twin hemispheres included. FP32 sequential and FP64 reduction diagnostics are distinct from compiler summation. Bridge J interpolated linearly in vacuum wavelength onto native continuum nodes without extrapolation, converted SI->cgs/native work units. Native alpha, weights and beta held fixed in field comparison; separate modern h/k/exponential-precision counterfactual holds native physical J/alpha/weights/nstar fixed. Thermal control does not reconcile LTE populations/collisions/EOS and is not adopted. Effects are not exact component attribution on the original bridge grid and cannot be added without an interaction term. BF balance changes use compiled own gross R+C denominator. Native two-window read is not a larger solver packet; each oracle query remains<=20000. No new RT/SE, field adoption or numerical/physical PASS. Stage consistency must be assessed from full rate reconstruction; a successful file read is insufficient.')
+    report.update(focus_level_1based=focus[0]+1,focus_depth_top_to_bottom=focus[1],field_balance_change_at_focus=float(field_net[focus]),modern_thermal_balance_change_at_focus=float(thermal_net[focus]))
+    report.update(held_LW_HPlanck_SI=modern.HPlanck,held_LW_KBoltzmann_SI=modern.KBoltzmann,held_LW_thermal_balance_change_at_focus=float(thermal_net[focus]),legacy_thermal_key_note='modern_thermal keys are retained for compatibility and denote held LW constants, not current SI values')
+    report['scope']=report['scope'].replace('modern h/k/exponential-precision','held-LW h/k/exponential-precision')
+    if a.refined_native_state:report['scope']=report['scope'].replace('Native two-window read','Native window read')
     (a.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps({k:v for k,v in report.items()if k!='inputs'}))
 
 

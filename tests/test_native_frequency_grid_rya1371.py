@@ -61,3 +61,29 @@ def test_grid_identity_and_retention_refusals(tmp_path,change):
 def test_wrong_source_producer_refuses_even_with_fresh_receipt(tmp_path):
     plan,resolve=fixture(tmp_path);p=resolve('grid')/'report.json';d=json.loads(p.read_text());d['inputs']={};p.write_text(json.dumps(d));plan['native_frequency_grid_control']['producer']=fingerprint(p)
     with pytest.raises(ValueError,match='another source'):load_native_frequency_grid(plan,resolver=resolve)
+
+
+def second_fixture(tmp_path):
+    plan,resolve=fixture(tmp_path);original=np.loadtxt(resolve('grid')/'frequency_grid_vac_A.txt')
+    parent_wave=np.sort(np.r_[original,101.+2*np.arange(19162)])
+    parent=tmp_path/'parent';(parent/'native/save').mkdir(parents=True)
+    binary=parent/'native/save/all_lam.bin';parent_wave.astype('<f8').tofile(binary)
+    report=parent/'report.json';report.write_text(json.dumps(dict(computational_completed=True,plan=fingerprint(ROOT/'config/experiments/rya1371_openmulti3d_oxygen_grid_refined.json'),output_files=[dict(path='native/save/all_lam.bin',receipt=fingerprint(binary))])))
+    plan['native_frequency_grid_control']['kind']='continuum-refinement2'
+    update_grid(plan,resolve,np.sort(np.r_[parent_wave,40101.]))
+    p=resolve('grid')/'report.json';doc=json.loads(p.read_text());doc['predecessor']=dict(resource='experiments.openmulti3d_oxygen_grid_refined_run',report=fingerprint(report),wave=fingerprint(binary));doc['inputs'].update({str(report):fingerprint(report),str(binary):fingerprint(binary)});p.write_text(json.dumps(doc));plan['native_frequency_grid_control']['producer']=fingerprint(p)
+    return plan,lambda key:parent if key=='experiments.openmulti3d_oxygen_grid_refined_run'else resolve(key)
+
+
+def test_second_refinement_requires_every_parent_node_and_separate_scope(tmp_path):
+    plan,resolve=second_fixture(tmp_path)
+    assert load_native_frequency_grid(plan,resolver=resolve)[1]['points']==59004
+    first=copy.deepcopy(plan);first['native_frequency_grid_control']['kind']='continuum-refinement'
+    with pytest.raises(ValueError,match='scoped'):load_native_frequency_grid(first,resolver=resolve)
+    wave=np.loadtxt(resolve('grid')/'frequency_grid_vac_A.txt');wave=np.sort(np.r_[wave[wave!=101.],40103.]);update_grid(plan,resolve,wave)
+    with pytest.raises(ValueError,match='predecessor nodes'):load_native_frequency_grid(plan,resolver=resolve)
+
+
+def test_second_refinement_refuses_a_changed_parent_receipt(tmp_path):
+    plan,resolve=second_fixture(tmp_path);p=resolve('experiments.openmulti3d_oxygen_grid_refined_run')/'report.json';p.write_text(p.read_text()+'\n')
+    with pytest.raises(ValueError,match='predecessor'):load_native_frequency_grid(plan,resolver=resolve)

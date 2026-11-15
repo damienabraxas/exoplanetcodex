@@ -8,8 +8,9 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 def main():
     from config.constants import require_codex_path
     from pipeline.reference_engines import fingerprint
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args();checks={str(Path(__file__)):fingerprint(__file__)}
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--second-refinement',action='store_true');a=p.parse_args();checks={str(Path(__file__)):fingerprint(__file__)}
     groups=[('baseline','experiments.openmulti3d_oxygen_shared16_physical_rates','experiments.openmulti3d_oxygen_shared16_analysis','experiments.openmulti3d_oxygen_shared16_run'),('refined','experiments.openmulti3d_oxygen_grid_refined_physical_rates','experiments.openmulti3d_oxygen_grid_refined_analysis','experiments.openmulti3d_oxygen_grid_refined_run')]
+    if a.second_refinement:groups=[('baseline','experiments.openmulti3d_oxygen_grid_refined_physical_rates','experiments.openmulti3d_oxygen_grid_refined_analysis','experiments.openmulti3d_oxygen_grid_refined_run'),('refined','experiments.openmulti3d_oxygen_grid_refined2_physical_rates','experiments.openmulti3d_oxygen_grid_refined2_analysis','experiments.openmulti3d_oxygen_grid_refined2_run')]
     cases={};spectra={};metrics={};grids={}
     for name,physical,analysis,run in groups:
         physical,analysis,run=[require_codex_path(key)for key in [physical,analysis,run]]
@@ -50,7 +51,7 @@ def main():
     import matplotlib.pyplot as plt
     fig,axes=plt.subplots(1,2,figsize=(12,4.5),layout='constrained')
     limit=100*np.max(abs(ratios['post']));im=axes[0].imshow(100*ratios['post'][:,::-1],aspect='auto',origin='lower',extent=[-.5,55.5,.5,41.5],cmap='RdBu_r',vmin=-limit,vmax=limit);fig.colorbar(im,ax=axes[0],label='Stored population change (%)')
-    axes[0].set(xlabel='Native depth index (top to bottom)',ylabel='Source level (1-based)',title='Original 39,841 to enriched 59,003 grid')
+    axes[0].set(xlabel='Native depth index (top to bottom)',ylabel='Source level (1-based)',title=f"Native grid {metrics['baseline']['points']:,} to {metrics['refined']['points']:,}")
     mask=(wave>=7770)&(wave<=7777);axes[1].plot(wave[mask],1e6*(r[mask]-b[mask]));axes[1].set(xlabel='AIR wavelength (Angstrom)',ylabel='Normalized intensity change (1e-6)',title='Theoretical disk-centre O I triplet window')
     fig.suptitle('Held 5750K / logg4.5 / A(O)8.70 — numerical control; science HOLD');fig.savefig(a.output/'grid_comparison.png',dpi=160);plt.close(fig)
     for path,fp in checks.items():

@@ -23,6 +23,9 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--raw-root', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
+    choice = p.add_mutually_exclusive_group()
+    choice.add_argument('--refined-native-state', action='store_true')
+    choice.add_argument('--second-refined-native-state', action='store_true')
     a = p.parse_args()
     checks = {str(Path(__file__)): fingerprint(__file__)}
 
@@ -39,6 +42,12 @@ def main():
 
     groups = ['background-midpoint-v1', 'background-adaptive-v1']
     audits = ['background-adaptive-plan-v1', 'background-final-audit-v1']
+    if a.refined_native_state:
+        groups = ['hop-grid-refined-midpoint-v1', 'hop-grid-refined-adaptive-v1']
+        audits = ['grid-refined-midpoint-audit-v1', 'grid-refined-final-audit-v1']
+    if a.second_refined_native_state:
+        groups = ['hop-grid-refined2-midpoint-v1', 'hop-grid-refined2-adaptive-v1']
+        audits = ['grid-refined2-midpoint-audit-v1', 'grid-refined2-final-audit-v1']
     data, high = [], []
     for group, audit in zip(groups, audits):
         doc = load(group, 'report.json')
