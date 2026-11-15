@@ -128,7 +128,8 @@ class LinePatch:
         ep = [r["ep_eV"] for r in mine]
         use_ep = all(e is not None for e in ep)
         m = match([r["wavelength_air_A"] for r in mine], list(cand_wl),
-                  want_ep=ep if use_ep else None, src_ep=list(cand_ep) if use_ep else None)
+                  want_ep=ep if use_ep else None, src_ep=list(cand_ep) if use_ep else None,
+                  require_ep=use_ep)
         bad = [mine[i]["wavelength_air_A"] for i in np.flatnonzero(~m.resolved)]
         bad += list(m.ambiguous)
         if bad:
@@ -160,7 +161,8 @@ class LinePatch:
             return None
         if rows:
             m = match([wave_A], [float(r["wavelength_air_A"]) for r in rows],
-                      want_ep=[ep_eV], src_ep=[_num(r.get("ep_eV")) for r in rows])
+                      want_ep=[ep_eV], src_ep=[_num(r.get("ep_eV")) for r in rows],
+                      require_ep=True)    # a lone row of another level is not this line
             if m.n_resolved:
                 led["reused"] += 1
                 return rows[int(m.index[0])]
