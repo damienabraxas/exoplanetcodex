@@ -1,0 +1,880 @@
+{
+  "schema": "rya1354.fac-radial-preflight-audit.v32",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "cases": {
+    "ground_coherent10": {
+      "potential_comparisons": {
+        "restored.pot": {
+          "serialized_byte_identical": true,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [],
+          "protected_sha256": "40405268777b61a4a4fc4ae6d73d903a0b180835199198d4f026ab595661fd8c",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "old_solved.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "40405268777b61a4a4fc4ae6d73d903a0b180835199198d4f026ab595661fd8c",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "extended.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "40405268777b61a4a4fc4ae6d73d903a0b180835199198d4f026ab595661fd8c",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        }
+      },
+      "grid_points": 1500,
+      "grid_supported_nmax": 27,
+      "old_orbitals": {
+        "n1_k-1": {
+          "n": 1,
+          "kappa": -1,
+          "energy_eV": -524.911513,
+          "samples": 236,
+          "qrnorm": 1.00038919,
+          "ilast": 235
+        },
+        "n2_k-1": {
+          "n": 2,
+          "kappa": -1,
+          "energy_eV": -27.2433752,
+          "samples": 302,
+          "qrnorm": 1.00004343,
+          "ilast": 301
+        },
+        "n2_k1": {
+          "n": 2,
+          "kappa": 1,
+          "energy_eV": -12.660944,
+          "samples": 328,
+          "qrnorm": 1.0000344,
+          "ilast": 327
+        },
+        "n2_k-2": {
+          "n": 2,
+          "kappa": -2,
+          "energy_eV": -12.6226137,
+          "samples": 328,
+          "qrnorm": 1.00003432,
+          "ilast": 327
+        },
+        "n3_k-1": {
+          "n": 3,
+          "kappa": -1,
+          "energy_eV": -3.99148959,
+          "samples": 384,
+          "qrnorm": 1.00000304,
+          "ilast": 383
+        },
+        "n3_k1": {
+          "n": 3,
+          "kappa": 1,
+          "energy_eV": -2.62314454,
+          "samples": 408,
+          "qrnorm": 1.00000228,
+          "ilast": 407
+        },
+        "n3_k-2": {
+          "n": 3,
+          "kappa": -2,
+          "energy_eV": -2.62153076,
+          "samples": 408,
+          "qrnorm": 1.00000228,
+          "ilast": 407
+        },
+        "n3_k2": {
+          "n": 3,
+          "kappa": 2,
+          "energy_eV": -1.51508271,
+          "samples": 444,
+          "qrnorm": 1.00000075,
+          "ilast": 443
+        },
+        "n3_k-3": {
+          "n": 3,
+          "kappa": -3,
+          "energy_eV": -1.51507725,
+          "samples": 444,
+          "qrnorm": 1.00000075,
+          "ilast": 443
+        }
+      },
+      "new_orbitals": {
+        "n4_k-1": {
+          "n": 4,
+          "kappa": -1,
+          "energy_eV": -1.66621773,
+          "samples": 440,
+          "qrnorm": 1.00000111,
+          "ilast": 439
+        },
+        "n4_k1": {
+          "n": 4,
+          "kappa": 1,
+          "energy_eV": -1.25423725,
+          "samples": 462,
+          "qrnorm": 1.00000093,
+          "ilast": 461
+        },
+        "n4_k-2": {
+          "n": 4,
+          "kappa": -2,
+          "energy_eV": -1.25370754,
+          "samples": 462,
+          "qrnorm": 1.00000093,
+          "ilast": 461
+        }
+      },
+      "overlaps": {
+        "-1": {
+          "before": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 4.86912e-08,
+            "max_abs_printed_H_asymmetry_au": 1.6864499999999998e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 16,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 4.86912e-08,
+            "max_abs_printed_H_asymmetry_au": 1.6864499999999998e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "1": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.428e-07,
+            "max_abs_printed_H_asymmetry_au": 8.500000000001697e-11,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.428e-07,
+            "max_abs_printed_H_asymmetry_au": 8.500000000001697e-11,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-2": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.92497e-07,
+            "max_abs_printed_H_asymmetry_au": 7.58336e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.92497e-07,
+            "max_abs_printed_H_asymmetry_au": 7.58336e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "2": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-3": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        }
+      }
+    },
+    "ground_coherent100": {
+      "potential_comparisons": {
+        "restored.pot": {
+          "serialized_byte_identical": true,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [],
+          "protected_sha256": "abe4cc81d1ff76ba52ab41a82806d7286808cd2e10b34cdbe9d8cb553ba217d1",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "old_solved.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "abe4cc81d1ff76ba52ab41a82806d7286808cd2e10b34cdbe9d8cb553ba217d1",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "extended.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "abe4cc81d1ff76ba52ab41a82806d7286808cd2e10b34cdbe9d8cb553ba217d1",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        }
+      },
+      "grid_points": 1500,
+      "grid_supported_nmax": 27,
+      "old_orbitals": {
+        "n1_k-1": {
+          "n": 1,
+          "kappa": -1,
+          "energy_eV": -524.911508,
+          "samples": 236,
+          "qrnorm": 1.00038919,
+          "ilast": 235
+        },
+        "n2_k-1": {
+          "n": 2,
+          "kappa": -1,
+          "energy_eV": -27.2433676,
+          "samples": 302,
+          "qrnorm": 1.00004343,
+          "ilast": 301
+        },
+        "n2_k1": {
+          "n": 2,
+          "kappa": 1,
+          "energy_eV": -12.6609365,
+          "samples": 328,
+          "qrnorm": 1.0000344,
+          "ilast": 327
+        },
+        "n2_k-2": {
+          "n": 2,
+          "kappa": -2,
+          "energy_eV": -12.6226092,
+          "samples": 328,
+          "qrnorm": 1.00003432,
+          "ilast": 327
+        },
+        "n3_k-1": {
+          "n": 3,
+          "kappa": -1,
+          "energy_eV": -3.9914897,
+          "samples": 384,
+          "qrnorm": 1.00000304,
+          "ilast": 383
+        },
+        "n3_k1": {
+          "n": 3,
+          "kappa": 1,
+          "energy_eV": -2.62314486,
+          "samples": 408,
+          "qrnorm": 1.00000228,
+          "ilast": 407
+        },
+        "n3_k-2": {
+          "n": 3,
+          "kappa": -2,
+          "energy_eV": -2.62153055,
+          "samples": 408,
+          "qrnorm": 1.00000228,
+          "ilast": 407
+        },
+        "n3_k2": {
+          "n": 3,
+          "kappa": 2,
+          "energy_eV": -1.51508366,
+          "samples": 444,
+          "qrnorm": 1.00000075,
+          "ilast": 443
+        },
+        "n3_k-3": {
+          "n": 3,
+          "kappa": -3,
+          "energy_eV": -1.51507808,
+          "samples": 444,
+          "qrnorm": 1.00000075,
+          "ilast": 443
+        }
+      },
+      "new_orbitals": {
+        "n4_k-1": {
+          "n": 4,
+          "kappa": -1,
+          "energy_eV": -1.66621709,
+          "samples": 440,
+          "qrnorm": 1.00000111,
+          "ilast": 439
+        },
+        "n4_k1": {
+          "n": 4,
+          "kappa": 1,
+          "energy_eV": -1.25423697,
+          "samples": 462,
+          "qrnorm": 1.00000093,
+          "ilast": 461
+        },
+        "n4_k-2": {
+          "n": 4,
+          "kappa": -2,
+          "energy_eV": -1.2537081,
+          "samples": 462,
+          "qrnorm": 1.00000093,
+          "ilast": 461
+        }
+      },
+      "overlaps": {
+        "-1": {
+          "before": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 4.728e-08,
+            "max_abs_printed_H_asymmetry_au": 1.6864700000000003e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 16,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 4.728e-08,
+            "max_abs_printed_H_asymmetry_au": 1.6864700000000003e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "1": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.62623e-07,
+            "max_abs_printed_H_asymmetry_au": 7.799999999998257e-11,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.62623e-07,
+            "max_abs_printed_H_asymmetry_au": 7.799999999998257e-11,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-2": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.58734e-07,
+            "max_abs_printed_H_asymmetry_au": 7.583e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.58734e-07,
+            "max_abs_printed_H_asymmetry_au": 7.583e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "2": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-3": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        }
+      }
+    },
+    "equal_coherent10": {
+      "potential_comparisons": {
+        "restored.pot": {
+          "serialized_byte_identical": true,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [],
+          "protected_sha256": "3101540c4da06b59441fd72e7e7b2defb330ba6489e445e0b98eac3c1bd60c51",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "old_solved.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "3101540c4da06b59441fd72e7e7b2defb330ba6489e445e0b98eac3c1bd60c51",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "extended.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "3101540c4da06b59441fd72e7e7b2defb330ba6489e445e0b98eac3c1bd60c51",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        }
+      },
+      "grid_points": 1500,
+      "grid_supported_nmax": 27,
+      "old_orbitals": {
+        "n1_k-1": {
+          "n": 1,
+          "kappa": -1,
+          "energy_eV": -529.35701,
+          "samples": 236,
+          "qrnorm": 1.00038915,
+          "ilast": 235
+        },
+        "n2_k-1": {
+          "n": 2,
+          "kappa": -1,
+          "energy_eV": -30.7213078,
+          "samples": 300,
+          "qrnorm": 1.00004553,
+          "ilast": 299
+        },
+        "n2_k1": {
+          "n": 2,
+          "kappa": 1,
+          "energy_eV": -15.9066697,
+          "samples": 320,
+          "qrnorm": 1.00003777,
+          "ilast": 319
+        },
+        "n2_k-2": {
+          "n": 2,
+          "kappa": -2,
+          "energy_eV": -15.8641712,
+          "samples": 320,
+          "qrnorm": 1.0000377,
+          "ilast": 319
+        },
+        "n3_k-1": {
+          "n": 3,
+          "kappa": -1,
+          "energy_eV": -4.12381384,
+          "samples": 382,
+          "qrnorm": 1.00000319,
+          "ilast": 381
+        },
+        "n3_k1": {
+          "n": 3,
+          "kappa": 1,
+          "energy_eV": -2.71393899,
+          "samples": 406,
+          "qrnorm": 1.00000215,
+          "ilast": 405
+        },
+        "n3_k-2": {
+          "n": 3,
+          "kappa": -2,
+          "energy_eV": -2.71253257,
+          "samples": 406,
+          "qrnorm": 1.00000215,
+          "ilast": 405
+        },
+        "n3_k2": {
+          "n": 3,
+          "kappa": 2,
+          "energy_eV": -1.51848597,
+          "samples": 444,
+          "qrnorm": 1.00000076,
+          "ilast": 443
+        },
+        "n3_k-3": {
+          "n": 3,
+          "kappa": -3,
+          "energy_eV": -1.5184803,
+          "samples": 444,
+          "qrnorm": 1.00000076,
+          "ilast": 443
+        }
+      },
+      "new_orbitals": {
+        "n4_k-1": {
+          "n": 4,
+          "kappa": -1,
+          "energy_eV": -1.70111416,
+          "samples": 440,
+          "qrnorm": 1.00000114,
+          "ilast": 439
+        },
+        "n4_k1": {
+          "n": 4,
+          "kappa": 1,
+          "energy_eV": -1.28366694,
+          "samples": 460,
+          "qrnorm": 1.0000009,
+          "ilast": 459
+        },
+        "n4_k-2": {
+          "n": 4,
+          "kappa": -2,
+          "energy_eV": -1.28320287,
+          "samples": 460,
+          "qrnorm": 1.0000009,
+          "ilast": 459
+        }
+      },
+      "overlaps": {
+        "-1": {
+          "before": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 3.49389e-08,
+            "max_abs_printed_H_asymmetry_au": 1.7272800000000003e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 16,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 2.38915e-07,
+            "max_abs_printed_H_asymmetry_au": 1.7272800000000003e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "1": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.31661e-07,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.31661e-07,
+            "max_abs_printed_H_asymmetry_au": 9.000000000010205e-12,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-2": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.32001e-07,
+            "max_abs_printed_H_asymmetry_au": 2.681569e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 4.3483e-07,
+            "max_abs_printed_H_asymmetry_au": 2.681569e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "2": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-3": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        }
+      }
+    },
+    "equal_coherent100": {
+      "potential_comparisons": {
+        "restored.pot": {
+          "serialized_byte_identical": true,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [],
+          "protected_sha256": "860bda8b9180f2a175fb390053b037ea49542f915ed17f4f56023ac3865e53cf",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "old_solved.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "860bda8b9180f2a175fb390053b037ea49542f915ed17f4f56023ac3865e53cf",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        },
+        "extended.pot": {
+          "serialized_byte_identical": false,
+          "protected_header_grid_potential_byte_identical": true,
+          "derived_energy_kappa_work_arrays_changed": [
+            "W",
+            "dW",
+            "dW2"
+          ],
+          "protected_sha256": "860bda8b9180f2a175fb390053b037ea49542f915ed17f4f56023ac3865e53cf",
+          "scope": "Only source-proven energy/kappa-dependent W,dW,dW2 may vary; every other byte protected. Raw saved files unchanged/retained."
+        }
+      },
+      "grid_points": 1500,
+      "grid_supported_nmax": 27,
+      "old_orbitals": {
+        "n1_k-1": {
+          "n": 1,
+          "kappa": -1,
+          "energy_eV": -529.357012,
+          "samples": 236,
+          "qrnorm": 1.00038915,
+          "ilast": 235
+        },
+        "n2_k-1": {
+          "n": 2,
+          "kappa": -1,
+          "energy_eV": -30.721309,
+          "samples": 300,
+          "qrnorm": 1.00004553,
+          "ilast": 299
+        },
+        "n2_k1": {
+          "n": 2,
+          "kappa": 1,
+          "energy_eV": -15.9066712,
+          "samples": 320,
+          "qrnorm": 1.00003777,
+          "ilast": 319
+        },
+        "n2_k-2": {
+          "n": 2,
+          "kappa": -2,
+          "energy_eV": -15.8641737,
+          "samples": 320,
+          "qrnorm": 1.0000377,
+          "ilast": 319
+        },
+        "n3_k-1": {
+          "n": 3,
+          "kappa": -1,
+          "energy_eV": -4.12381544,
+          "samples": 382,
+          "qrnorm": 1.00000319,
+          "ilast": 381
+        },
+        "n3_k1": {
+          "n": 3,
+          "kappa": 1,
+          "energy_eV": -2.71393865,
+          "samples": 406,
+          "qrnorm": 1.00000215,
+          "ilast": 405
+        },
+        "n3_k-2": {
+          "n": 3,
+          "kappa": -2,
+          "energy_eV": -2.71253156,
+          "samples": 406,
+          "qrnorm": 1.00000215,
+          "ilast": 405
+        },
+        "n3_k2": {
+          "n": 3,
+          "kappa": 2,
+          "energy_eV": -1.5184873,
+          "samples": 444,
+          "qrnorm": 1.00000076,
+          "ilast": 443
+        },
+        "n3_k-3": {
+          "n": 3,
+          "kappa": -3,
+          "energy_eV": -1.51848132,
+          "samples": 444,
+          "qrnorm": 1.00000076,
+          "ilast": 443
+        }
+      },
+      "new_orbitals": {
+        "n4_k-1": {
+          "n": 4,
+          "kappa": -1,
+          "energy_eV": -1.70111385,
+          "samples": 440,
+          "qrnorm": 1.00000114,
+          "ilast": 439
+        },
+        "n4_k1": {
+          "n": 4,
+          "kappa": 1,
+          "energy_eV": -1.28366766,
+          "samples": 460,
+          "qrnorm": 1.0000009,
+          "ilast": 459
+        },
+        "n4_k-2": {
+          "n": 4,
+          "kappa": -2,
+          "energy_eV": -1.28320251,
+          "samples": 460,
+          "qrnorm": 1.0000009,
+          "ilast": 459
+        }
+      },
+      "overlaps": {
+        "-1": {
+          "before": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 4.35488e-08,
+            "max_abs_printed_H_asymmetry_au": 1.7272499999999999e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 16,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 4.35488e-08,
+            "max_abs_printed_H_asymmetry_au": 1.7272499999999999e-06,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "1": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.23769e-07,
+            "max_abs_printed_H_asymmetry_au": 3.0000000000298715e-12,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.23769e-07,
+            "max_abs_printed_H_asymmetry_au": 9.000000000010205e-12,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-2": {
+          "before": {
+            "pairs": 4,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.15659e-07,
+            "max_abs_printed_H_asymmetry_au": 2.6806388e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 9,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 1.15659e-07,
+            "max_abs_printed_H_asymmetry_au": 2.6806388e-08,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "2": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        },
+        "-3": {
+          "before": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          },
+          "after": {
+            "pairs": 1,
+            "diagonal_printed_unity": true,
+            "max_abs_offdiagonal_overlap": 0.0,
+            "max_abs_printed_H_asymmetry_au": 0.0,
+            "scope": "Native printed normalization/overlap diagnostic; no physical accuracy or grid-convergence tolerance inferred."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "rya1354.fac-radial-preflight-plan.v32",
+  "starting_commit": "a586021db0eafa1d6e830aa295ae7ba08ed85471",
+  "baseline": "runs/fac_full_valence_v28",
+  "output": "runs/fac_radial_preflight_v32",
+  "scope": "Bound4s/4p readiness in existingqualified potentials only; NO6600-levelCI/LS/rate run yet.",
+  "cases": [
+    "ground_coherent10",
+    "ground_coherent100",
+    "equal_coherent10",
+    "equal_coherent100"
+  ],
+  "method": "SetAtomO/samephysics/correctionflags;RestorePotentialpairedfile;sameinnerorbitaltolerances;exportold9,new4s/4p3spinors,reexportold9;builtinRadialOverlapsbefore/after,SavePotentialat3stages.",
+  "source_semantics": "SavePotential first5ints mode/flag/r_core/nmax/maxrp;gridnmax fromboundarynotintroducedorbitals,baseline27/maxrp1500. SourceWaveFuncTableOrb emits12columns,notmanual6;fourthcolumnisGetVEffectivecachedscratch,excludedfromoldphysicalsampleequality,allrawcolumnsretained.",
+  "guards": "Allotherboundenergy/identity/radialcoverage/printedunitnorm/oldP/Q/r/rVT0/completeoverlapchecks unchanged. Oldrun remainsFAILED_RETAINED, newcoldcases only.",
+  "diagnostics": "OffdiagonaloverlapsandprintedZerothHamiltonasymmetryreportedwithoutinventedphysicalaccuracytolerance. Print-levelnormconsistencyisnotgridconvergence.",
+  "native_timeout_seconds": 300,
+  "failure_policy": "Stopandpreserveanymissingfile/nativeexit/radial/normalization/potential/oldorbitalguardfailure;noretryorchangedcriterionwithoutnewdeclaration.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "retained_failure": "runs/fac_radial_probe_v31:strict entire-serialization equality rejected expectedderivedWworkarray updates;originalfailure/source/data retained",
+  "source_mapped_potential_guard": "Parsepinned SavePotential/SetPotDP/SetPotentialW/consts layout:348-byteheader,69arrays,maxrp1500. HeaderandALLarrays byte-identical EXCEPT namedenergy/kappa-derived W,dW,dW2 atindices22/23/24,whichmustremainfinite. Restore roundtrip stillfullybyteidentical. No arbitraryoffsetmask, no numerical/physicaltolerancechange."
+}
