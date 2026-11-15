@@ -1,0 +1,232 @@
+{
+  "schema": "rya1354.fac-radial-angular-metadata.v38",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "scope": "Independent archive/provenance/native-label/CM metadata checks only; full signed matrix/vector numerical replay performed on Sirius",
+  "derived_weight_binary_differences": [
+    {
+      "ID": 54,
+      "Sirius": 0.9747127549361764,
+      "Mac": 0.9747127549361765,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 4489,
+      "Sirius": 0.3939492047829129,
+      "Mac": 0.39394920478291295,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 3806,
+      "Sirius": 0.2918526018811456,
+      "Mac": 0.29185260188114553,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 3977,
+      "Sirius": 0.6509908824208036,
+      "Mac": 0.6509908824208035,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 1566,
+      "Sirius": 0.22306763005612956,
+      "Mac": 0.2230676300561296,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 6436,
+      "Sirius": 0.3583166324798025,
+      "Mac": 0.35831663247980244,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 342,
+      "Sirius": 0.8574643694794385,
+      "Mac": 0.8574643694794384,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 6074,
+      "Sirius": 0.8957146399408804,
+      "Mac": 0.8957146399408803,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 4115,
+      "Sirius": 0.43969523100113606,
+      "Mac": 0.439695231001136,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 4441,
+      "Sirius": 0.22140729871999693,
+      "Mac": 0.2214072987199969,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 6021,
+      "Sirius": 0.1831452680475625,
+      "Mac": 0.18314526804756248,
+      "native_eight_decimal_match": true
+    },
+    {
+      "ID": 4867,
+      "Sirius": 0.46452549213954486,
+      "Mac": 0.4645254921395449,
+      "native_eight_decimal_match": true
+    }
+  ],
+  "derived_weight_portability_rule": "Native eight-decimal printed precision for derived metadata only; raw Sirius values retained; signed angular replay unchanged",
+  "prior_invalid_vector_control_rejection": "Missing LS vector identity",
+  "canary": {
+    "prior_canary_report_sha256": "e915711762ab1d17c3ec960ca30c67f617421ca5cc638bfd4c55d9b38b1b7a1e",
+    "python_version": "3.14.4",
+    "numpy_version": "2.3.5",
+    "thread_environment": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1"
+    },
+    "schema": "rya1354.fac-ls-fast-canary.v39",
+    "prior_control_disposition": "v37 vector-sign control modified an energy identity; prior report retained, coefficient-sign coverage qualified only by v39",
+    "status": "EXACT_LEGACY_EQUIVALENCE_AND_NEGATIVE_CONTROLS_PASS",
+    "started_utc": "2026-11-15T22:02:53.750791+00:00",
+    "reference_sha256": "741f0199af1dc6793b866d38c1fef38e058c4f2d14c01b6ee141c4a345ed4be6",
+    "source_receipt_sha256": "900f7d490190976f832ef0bd4246d74d11976d3a6305bbe047eaa8595f87914f",
+    "converter_receipt_sha256": "481f1d47a1cc4953607aee245f91b22b45d24821917591ab45b3dc35d5df15f6",
+    "cases": {
+      "ground_coherent10": {
+        "full_LS_coefficients": 329198,
+        "levels": 1858,
+        "targets": {
+          "3S": [
+            6
+          ],
+          "5S": [
+            5
+          ]
+        },
+        "old_orth_diagnostic": 1.5543122344752192e-15,
+        "new_orth_diagnostic": 1.5543122344752192e-15,
+        "signed_rounding_fallbacks": 0,
+        "weight_rounding_fallbacks": 0,
+        "all_nondiagnostic_report_fields_exact": true
+      },
+      "ground_coherent100": {
+        "full_LS_coefficients": 329198,
+        "levels": 1858,
+        "targets": {
+          "3S": [
+            6
+          ],
+          "5S": [
+            5
+          ]
+        },
+        "old_orth_diagnostic": 1.5543122344752192e-15,
+        "new_orth_diagnostic": 1.5543122344752192e-15,
+        "signed_rounding_fallbacks": 0,
+        "weight_rounding_fallbacks": 0,
+        "all_nondiagnostic_report_fields_exact": true
+      },
+      "equal_coherent10": {
+        "full_LS_coefficients": 329198,
+        "levels": 1858,
+        "targets": {
+          "3S": [
+            6
+          ],
+          "5S": [
+            5
+          ]
+        },
+        "old_orth_diagnostic": 1.5543122344752192e-15,
+        "new_orth_diagnostic": 1.5543122344752192e-15,
+        "signed_rounding_fallbacks": 0,
+        "weight_rounding_fallbacks": 0,
+        "all_nondiagnostic_report_fields_exact": true
+      },
+      "equal_coherent100": {
+        "full_LS_coefficients": 329198,
+        "levels": 1858,
+        "targets": {
+          "3S": [
+            6
+          ],
+          "5S": [
+            5
+          ]
+        },
+        "old_orth_diagnostic": 1.5543122344752192e-15,
+        "new_orth_diagnostic": 1.5543122344752192e-15,
+        "signed_rounding_fallbacks": 0,
+        "weight_rounding_fallbacks": 0,
+        "all_nondiagnostic_report_fields_exact": true
+      }
+    },
+    "negative_controls": {
+      "d4_seniority": "Unsupported NK d-shell seniority",
+      "vector_sign": "Expanded LS coefficient/sign replay differs",
+      "matrix_sign": "Expanded LS coefficient/sign replay differs",
+      "explicit_stdout_ID": "Explicit stdout/binary ID order differs"
+    },
+    "scientific_admission": "HOLD",
+    "exposure": "EXPOSED_NONBLIND",
+    "adoption_allowed": false,
+    "accepted_lifetime": null,
+    "uncertainty": null,
+    "covariance": null,
+    "calibrated_sigma": null,
+    "forced_proposal_recovery": {
+      "pass_exact": true,
+      "fallbacks": 16
+    },
+    "vector_control_location": {
+      "line": 6,
+      "column": 11,
+      "original": "-0.99761206",
+      "mutated": "0.99761206",
+      "field": "actual_first_vector_coefficient"
+    }
+  },
+  "case": "ground_coherent10",
+  "levels": 6600,
+  "full_LS_coefficients_reconstructed": 4354454,
+  "label_ID_overflows": 5600,
+  "targets": {
+    "3S": [
+      6
+    ],
+    "5S": [
+      5
+    ]
+  },
+  "target_metadata": {
+    "3S": {
+      "two_J": 2,
+      "parity": "-",
+      "energy_au": -74.474513096883,
+      "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+      "dominant_printed_weight": 0.970579888546817,
+      "native_component_count": 787,
+      "label_display_id_overflow": false
+    },
+    "5S": {
+      "two_J": 4,
+      "parity": "-",
+      "energy_au": -74.49195339517213,
+      "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+      "dominant_printed_weight": 0.964458204788989,
+      "native_component_count": 894,
+      "label_display_id_overflow": false
+    }
+  },
+  "orth_diagnostic": 1.7763568394002505e-15,
+  "signed_rounding_fallbacks": 0,
+  "weight_rounding_fallbacks": 0
+}

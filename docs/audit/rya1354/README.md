@@ -1,4 +1,5 @@
-Latest continuation: [all four 4s/4p CI cases](fac_radial_ci_v36.md).
+Latest continuation: [first 6,600-level signed LS replay and corrected controls](fac_radial_angular_v39.md).
+Previous: [all four 4s/4p CI cases](fac_radial_ci_v36.md).
 Previous: [first 4s/4p CI and exact identity replay](fac_radial_ci_v35.md).
 Previous: [source-mapped radial readiness and retained guard failure](fac_radial_preflight_v32.md).
 Previous: [complete fixed-potential valence CI and rates](fac_full_valence_v30.md).
