@@ -54,7 +54,7 @@ def test_engine_a_reach_reads_the_registered_grid_and_its_ions():
 def test_every_published_ti_engine_a_product_corrected_its_lines():
     feed = json.loads((rm.ROOT / "data/products/solar/Ti.json").read_text())
     ea = [p for p in feed["products"] if p["treatment"] == "ENGINE-A"]
-    assert len(ea) == 55
+    assert len(ea) == 57    # RYA-1350 Ti republish: +NIR Ti II KP-Kurucz GRADED/REFERENCE
     for p in ea:
         moved, n = cr.correction_applied(p)
         assert moved > 0 and moved == n, (p["band"], p["holding"], moved, n)

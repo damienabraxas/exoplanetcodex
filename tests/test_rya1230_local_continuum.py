@@ -128,3 +128,25 @@ def test_windows_helper_divides_only_its_own_window():
     assert recs[0]["applied"]
     inside = (w >= 5004.8) & (w <= 5007.2)
     assert np.allclose(out[inside], 1.0) and np.allclose(out[~inside], 0.99)
+
+
+def test_the_neighbourhood_synthesis_is_reused_across_lines():
+    """RYA-1350: adjacent lines' neighbourhoods come from the same cached chunks, and the
+    assembled reference is the synthesis itself, with no gap or duplicate at a chunk edge."""
+    from pipeline import local_continuum as lc
+    lc._NEIGH_CACHE.clear()
+    calls = []
+
+    def synth(lo, hi):
+        calls.append((lo, hi))
+        w = np.arange(lo, hi + 1e-9, 0.005)
+        return w, 1.0 - 0.001 * (w - 4000.0)
+
+    w1, f1 = lc._chunked_reference(synth, "k", 4003.0, 4113.0)
+    n_first = len(calls)
+    w2, f2 = lc._chunked_reference(synth, "k", 4008.0, 4118.0)
+    assert len(calls) == n_first                      # second line: nothing new synthesised
+    assert np.all(np.diff(w1) > 0) and np.allclose(np.diff(w1), 0.005)
+    assert w1[0] >= 4003.0 and w1[-1] <= 4113.0
+    assert np.allclose(f1, 1.0 - 0.001 * (w1 - 4000.0))
+    lc._NEIGH_CACHE.clear()

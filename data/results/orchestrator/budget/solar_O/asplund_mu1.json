@@ -1,0 +1,30 @@
+{
+ "element": "O",
+ "geometry": "disk-centre intensity mu=1 (Delbouille/Liege BASS2000)",
+ "treatment": "1D-LTE",
+ "route": "pipeline.cno_synthesis VIS region (coupled C/N/O)",
+ "mean_minus_A21_sigma_fit": 2.624,
+ "a21_basis": "AGSS21 Table 3 lte_MARCS, per indicator",
+ "n_lines": 1,
+ "mean_A_mu1": 7.78,
+ "mean_minus_A21_marcs_lte": -0.884,
+ "n_paired": 1,
+ "lines": [
+  {
+   "indicator": "OI_6300",
+   "role": "primary",
+   "A_mu1": 7.78,
+   "red_chi2": 70.857,
+   "sigma_fit": 2.624,
+   "status": "ok",
+   "A21_indicator": "[O I]",
+   "A21_marcs_lte": 8.664
+  }
+ ],
+ "cells": [
+  {
+   "ion": "C/N/O",
+   "band": "VIS"
+  }
+ ]
+}
