@@ -1,4 +1,5 @@
-Latest continuation: [source-mapped radial readiness and retained guard failure](fac_radial_preflight_v32.md).
+Latest continuation: [first 4s/4p CI and exact identity replay](fac_radial_ci_v35.md).
+Previous: [source-mapped radial readiness and retained guard failure](fac_radial_preflight_v32.md).
 Previous: [complete fixed-potential valence CI and rates](fac_full_valence_v30.md).
 Previous: [verified zero-correction FAC factorial diagnostic](fac_no_correction_v27.md).
 Previous: [fixed-space FAC potential-policy control](fac_potential_v26.md).
