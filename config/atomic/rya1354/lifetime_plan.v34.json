@@ -1,0 +1,18 @@
+{
+  "schema": "rya1354.fac-radial-identity-plan.v34",
+  "starting_commit": "094ca1e60298e24ae2c3eea0d2b12fdaab15bc3d",
+  "source_native": "runs/fac_radial_ci_first_v33",
+  "output": "runs/fac_radial_identity_replay_v34",
+  "native_recalculation": false,
+  "retained_failure": "v33 FAILED_RETAINED: duplicate suppressed display identity",
+  "identity": "symmetry + native nc principal-complex + NR sname + coupled jj name, reconstructed exactly from complete exported occupation; require bijection and every signed coefficient",
+  "source_semantics": "ConstructLevelName sums nq by n for nc and omits closed complexes; sname/name suppress filled shells. 3s2 versus4s2 occupancy can collide without nc.",
+  "scope": "Metadata-only complete identity/coefficient/potential/orbital/config replay of original first6600-level CI. Fourv28canaries must remain exact. No scientific input/calc/tolerance change.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}
