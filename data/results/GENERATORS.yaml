@@ -34093,3 +34093,27 @@ artifacts:
     generator: scripts/trace_oxygen_uv_panels.py
     ticket: RYA-1371
     note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/continuum_balance_budget_v1/archive_receipt.json
+    generator: scripts/audit_oxygen_continuum_balance_budget.py
+    ticket: RYA-1371
+    note: Fixed-state BF versus BB balance budget; no RT or convergence admission.
+  - artifact: rya1371/continuum_balance_budget_v1/driver_source.py
+    generator: scripts/audit_oxygen_continuum_balance_budget.py
+    ticket: RYA-1371
+    note: Fixed-state BF versus BB balance budget; no RT or convergence admission.
+  - artifact: rya1371/continuum_balance_budget_v1/levels.csv
+    generator: scripts/audit_oxygen_continuum_balance_budget.py
+    ticket: RYA-1371
+    note: Fixed-state BF versus BB balance budget; no RT or convergence admission.
+  - artifact: rya1371/continuum_balance_budget_v1/pairs.csv
+    generator: scripts/audit_oxygen_continuum_balance_budget.py
+    ticket: RYA-1371
+    note: Fixed-state BF versus BB balance budget; no RT or convergence admission.
+  - artifact: rya1371/continuum_balance_budget_v1/preflight_failure.json
+    generator: scripts/audit_oxygen_continuum_balance_budget.py
+    ticket: RYA-1371
+    note: Fixed-state BF versus BB balance budget; no RT or convergence admission.
+  - artifact: rya1371/continuum_balance_budget_v1/report.json
+    generator: scripts/audit_oxygen_continuum_balance_budget.py
+    ticket: RYA-1371
+    note: Fixed-state BF versus BB balance budget; no RT or convergence admission.
