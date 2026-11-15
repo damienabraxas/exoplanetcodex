@@ -34117,3 +34117,39 @@ artifacts:
     generator: scripts/audit_oxygen_continuum_balance_budget.py
     ticket: RYA-1371
     note: Fixed-state BF versus BB balance budget; no RT or convergence admission.
+  - artifact: rya1371/continuum_interpolation_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-interpolation-v3/cross_sections.csv
+    generator: scripts/audit_oxygen_continuum_interpolation.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-interpolation-v3/driver_source.py
+    generator: scripts/audit_oxygen_continuum_interpolation.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-interpolation-v3/rates.csv
+    generator: scripts/audit_oxygen_continuum_interpolation.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-interpolation-v3/report.json
+    generator: scripts/audit_oxygen_continuum_interpolation.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-oracle-build-v2/compiler.log
+    generator: scripts/build_hop_continuum_oracle.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-oracle-build-v2/driver_source.py
+    generator: scripts/build_hop_continuum_oracle.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-oracle-build-v2/manifest.json
+    generator: scripts/build_hop_continuum_oracle.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/continuum_interpolation_v1/rya1371-continuum-oracle-build-v2/receipt.json
+    generator: scripts/build_hop_continuum_oracle.py
+    ticket: RYA-1371
+    note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.

@@ -1,3 +1,7 @@
+## 2026-11-15 — Oxygen continuum interpolation diagnostic
+
+- **RYA-1371** — Compiled native frequency-Hermite oracle distinguishes interpolation contribution from remaining6/7->40 gap; frozen-field max6.26e-4, no RT adoption (v287).
+
 ## 2026-11-14 — Main landing reconciliation
 
 > **Current as of `main` 4994897f** (PR #622; ledger reconciliation only, no production files imported).

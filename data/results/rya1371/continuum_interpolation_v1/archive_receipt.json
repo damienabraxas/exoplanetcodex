@@ -1,0 +1,4215 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 21460,
+    "sha256": "147c2fa9f7fb6d70881a8e65992c256765b3b754cf1048d28cf16af7bc15faad"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v1/compiler.log",
+      "receipt": {
+        "name": "compiler.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v1/continuum_probe",
+      "receipt": {
+        "name": "continuum_probe",
+        "bytes": 1164784,
+        "sha256": "b02a27fdd3fe03e8781bb1fe3bd7f9d806ec71586c50f3565d2ff2e74fab9449"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 33355,
+        "sha256": "d4a33b62f9ba79416e8906ff69c282eb7a33deeda5dd5be743dc00e55511403d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v1/receipt.json",
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 33543,
+        "sha256": "a51ef4580fe05bcd892eb7dbba01a2a86d2855f203934ae3c7c45a6bc445c3e1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/compiler.log",
+      "receipt": {
+        "name": "compiler.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": "rya1371-continuum-oracle-build-v2/compiler.log",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/constant.in",
+      "receipt": {
+        "name": "constant.in",
+        "bytes": 701,
+        "sha256": "2324b7897d89d52ded6aaa72701a0024d0edbb586832f17dffe51de130f9f6e0"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/constant.out",
+      "receipt": {
+        "name": "constant.out",
+        "bytes": 513,
+        "sha256": "23f09ece829b2644f23833ba0e0409fb9a4137305e338343ce6283ed3c10e2f2"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/continuum_probe",
+      "receipt": {
+        "name": "continuum_probe",
+        "bytes": 1164784,
+        "sha256": "b02a27fdd3fe03e8781bb1fe3bd7f9d806ec71586c50f3565d2ff2e74fab9449"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 3600,
+        "sha256": "9bf5fcd3862ba9a81574429de89b70ed4d4319b7a18c83451227e9605a1c7260"
+      },
+      "archived": "rya1371-continuum-oracle-build-v2/driver_source.py",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/linear_frequency.in",
+      "receipt": {
+        "name": "linear_frequency.in",
+        "bytes": 701,
+        "sha256": "0c12d6646db3c6e7ab566db98940b194d63ef0f446472f95fd3b70f8429f3ad4"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/linear_frequency.out",
+      "receipt": {
+        "name": "linear_frequency.out",
+        "bytes": 513,
+        "sha256": "f0a7c7cca79f67cd2ec2f5a4fe3bfeb144ed9ec1f56dec221a87a496869e8b6f"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 33355,
+        "sha256": "74c8b2480b491ca903f89aec28d18915a61b66b8e29422c3d84451b714ca905f"
+      },
+      "archived": "rya1371-continuum-oracle-build-v2/manifest.json",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/native_driver_source.f90",
+      "receipt": {
+        "name": "native_driver_source.f90",
+        "bytes": 842,
+        "sha256": "3fe9c9dea96ab6e4213f4b84c638172204f0fe1d72a78d4de760cdcddcd3ed3f"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/receipt.json",
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 33904,
+        "sha256": "ba4bcbb9d492bc76e2672d90fe03a66e79f64ccab427dc0fba5ec58cd968d47b"
+      },
+      "archived": "rya1371-continuum-oracle-build-v2/receipt.json",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/cross_sections.csv",
+      "receipt": {
+        "name": "cross_sections.csv",
+        "bytes": 2814,
+        "sha256": "16199036edc5c0e46f7f75f9e321fce9e4ab0da911f18960208f6db5fa4ffb4e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_11_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_11_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.in",
+        "bytes": 28160,
+        "sha256": "5c086328ed1611ff641e0b33f1a5f3546a6b4531a51fb6c441c2acd0da6a7b23"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_11_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.out",
+        "bytes": 30267,
+        "sha256": "d05414d1dac76ece5bc5b1aa101eeecae03bfc94a849f245578f51382540f3ff"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_13_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_13_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.in",
+        "bytes": 28160,
+        "sha256": "6c57a1d725cbcb281013314dcdcbd65ed81cac611578b4a647fa634fca9a9f21"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_13_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.out",
+        "bytes": 30267,
+        "sha256": "4504ac48a1d52267ab8657877584dbbce49d3b27c7ed2b72e6197432fb42d264"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_15_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_15_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.in",
+        "bytes": 109568,
+        "sha256": "e6ea7785b6bb8dad181a4f5d6a764757c8d48f62a1d88ea5b7f73548f60589f6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_15_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.out",
+        "bytes": 121851,
+        "sha256": "76417335d13f3b040971ae693b4462c4d40da8882d500caceec3b701e326056b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_1_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_1_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.in",
+        "bytes": 1469,
+        "sha256": "89412c89ddb91f78fd75ce3492de5be5179211a3b1a6241c632ab6d24573626e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_1_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.out",
+        "bytes": 1485,
+        "sha256": "de316a62d0fda178540c52dd4897dc32313689ede4fd4297d386733da046b19b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_20_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_20_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.in",
+        "bytes": 191120,
+        "sha256": "5a029758f121097caf3fbbc9248e7403be8e9388a06eb44661bd0b07bead4d39"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_20_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.out",
+        "bytes": 213597,
+        "sha256": "7e9e94b15167a42f605c6154eab3f5b139187a9062721ba64e7f95a7963f7f2e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_21_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_21_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.in",
+        "bytes": 191504,
+        "sha256": "4b14fbc0d10d633967e130fc2304e57d90d424a5c52d5f4925437b07b06e4d9b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_21_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.out",
+        "bytes": 214029,
+        "sha256": "49ab752c05cc69f0197cb8852e426b54c1d0d5f6105d9d3007ef80f64f6cc356"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_22_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_22_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.in",
+        "bytes": 191504,
+        "sha256": "45ddeb87e4e3a56159cd6078d5f867e2a21539b8a2b210466ed9d8d7b5e3ad25"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_22_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.out",
+        "bytes": 214029,
+        "sha256": "8e823930c03174a8092f9098ae7fdcee1577c7750460d5ab8cdede458b5efe7a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_24_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_24_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.in",
+        "bytes": 213632,
+        "sha256": "e6dd952b8b385c91c018df14683ef87a885bb9875f74ea7b1688343230354f8d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_24_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.out",
+        "bytes": 238923,
+        "sha256": "8016f8d268b62941ac0bba59ede2327e403662dcd275a336e06bcb1c5d39a7a6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_25_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_25_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.in",
+        "bytes": 213632,
+        "sha256": "ed6efd8842f049854635fe349238a8cfe88536bcfd92db9c00e71853975269dd"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_25_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.out",
+        "bytes": 238923,
+        "sha256": "fe88dabf04810f629517505c716e73cc61f0075625460c5c90d06f7f8f5ef6ad"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_27_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_27_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.in",
+        "bytes": 214256,
+        "sha256": "d3b9694b7f2c74807e84c14a8170816c5062053dff54d4b26251441f7b798d7c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_27_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.out",
+        "bytes": 239625,
+        "sha256": "b9ec3c7263a0d2244e1642cbf95163a1737babb6e8e073046d2c3ae55f7f4e76"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_29_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_29_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.in",
+        "bytes": 214256,
+        "sha256": "e7a55a7d7c7dbe7e5d6446adb089be7fd69fd617095cec6ad028a800dcb06385"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_29_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.out",
+        "bytes": 239625,
+        "sha256": "91884b43da42ad810adadd1afd71edba833fed522f4958f30941116d3908e547"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_2_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_2_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.in",
+        "bytes": 1949,
+        "sha256": "0801be2ce5f7ebad6357f48e3de276945bac660fadff24482d9148a10feeb301"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_2_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.out",
+        "bytes": 1971,
+        "sha256": "073db3793ea285217cb74dc4ec387ae60e38725566aac2d40ff12eb4200a804f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_32_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_32_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.in",
+        "bytes": 237056,
+        "sha256": "9f71c6ddf8036a923c8631bdc3f5ff43f153447394481dd35d827c7a1b6d7a2b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_32_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.out",
+        "bytes": 265275,
+        "sha256": "5e7df5c604501e2de388b28c70456be690e1552580fa7caada3d99ad965c11ca"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_36_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_36_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.in",
+        "bytes": 242097,
+        "sha256": "cb464e5d517b13989d00b1a3ce2ae65097163d84536febb377c9110e83d3c8e2"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_36_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.out",
+        "bytes": 270945,
+        "sha256": "346a1c5486e3ae07294a9588b3153d5aa94dc1084ac6d8a7a1ccadbfa818cedd"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_38_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_38_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.in",
+        "bytes": 242289,
+        "sha256": "f3f76114856cc34900b3bed84eab307cac2b4a58bc81bdcacb3a52820e4b648d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_38_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.out",
+        "bytes": 271161,
+        "sha256": "813600340062316c44e37ecbc542cc2105fbe111be9176fbd299e4bd309f55e5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_3_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_3_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.in",
+        "bytes": 1997,
+        "sha256": "9333ff2ef18250ce6edfe724cf9d07f51627904e5b062bc53a50a832905a1bd8"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_3_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.out",
+        "bytes": 2025,
+        "sha256": "560fb915d92e9737d4995915b6d71be322e2afbfe32d582813223e519f09ca26"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_4_41.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_4_41.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.in",
+        "bytes": 45776,
+        "sha256": "f7d675d23df5bb49ea190a8f53282195cc1a6fdee0426a0452e426c870a20ba2"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_4_41.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.out",
+        "bytes": 50085,
+        "sha256": "aa158e5b7ccb3dd7f5b4ce033d027546c6c952662408101714ad5444496dcd9a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_5_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_5_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.in",
+        "bytes": 22447,
+        "sha256": "fafde579669f50d454d19c5d27d2ab9c503bf11b819f6c4af2bc459b4ee5fe73"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_5_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.out",
+        "bytes": 23841,
+        "sha256": "a74d691518c1f823307a150610f9e4cdd975c716bf0188b9ac494576cb9cc51f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_6_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_6_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.in",
+        "bytes": 13087,
+        "sha256": "ab44b18166257dc499666a2a64d5cf7ecbdb3de8753c20c9c93b5e5e9ab24c3f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_6_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.out",
+        "bytes": 13311,
+        "sha256": "b41ff21dfc40ac029ee21c2e2ac31e0482b70f99b5b520673c694a8f29f33b3b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_7_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_7_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.in",
+        "bytes": 15439,
+        "sha256": "28f96ec9f62831503a5a6cf99f07e12482c2e6eb4e14aa2340b8137fe310e3f6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_7_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.out",
+        "bytes": 15957,
+        "sha256": "633c5052f6d5bcb0a45089f6382657720e03de5bca297dbfef84995d6fbcdb2d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_8_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_8_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.in",
+        "bytes": 22399,
+        "sha256": "5e7ef3556b24fcd040499ec80b06f77d8d9d8c5189f5787035e598be2b2edea7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_8_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.out",
+        "bytes": 23787,
+        "sha256": "8141f77ed895e6399606c52cb9c2a695ccf0970598c029ebac81d35e4b53bd99"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_9_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_9_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.in",
+        "bytes": 22399,
+        "sha256": "0af050182e78a5f2349fefc9c686f093abaa7521fd94fcafb683eb5239d6c4e7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_consumed_table_9_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.out",
+        "bytes": 23787,
+        "sha256": "4e28b0119c5e5596b6ab05f9aa01587d5efb6e571d59d8c292ddae27f7be3cd7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_11_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_11_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.in",
+        "bytes": 28160,
+        "sha256": "147289c19f0e0609d178e675ce0748f6c826d282ef0a8c736e727496dfa162d7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_11_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.out",
+        "bytes": 30267,
+        "sha256": "11579157264725a955617d877096876c54fd71f1902441917786ac2d553edead"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_13_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_13_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.in",
+        "bytes": 28160,
+        "sha256": "2331817ce4363f3d46355042aba362c5816085a621ad85606ac6fc30cf150bd4"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_13_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.out",
+        "bytes": 30267,
+        "sha256": "ef1b3485f82b5ea23fbcf1c4ead7bad8e0099dc7aae4a1f1520487ff12f786ba"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_15_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_15_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.in",
+        "bytes": 109568,
+        "sha256": "c3d64856fa41c0b0754129ba408e027b59d7ab92fa2d736f4f8b6acc32e88611"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_15_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.out",
+        "bytes": 121851,
+        "sha256": "f21718fc5eebd626a44c62bc34fda3cf0aa673e6995ace95a0f128e3916a5d10"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_1_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_1_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.in",
+        "bytes": 1469,
+        "sha256": "2007dd6f57c4b8cfa240f3830cae1828536d51565433e94eba0ad2010bc7e393"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_1_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.out",
+        "bytes": 1485,
+        "sha256": "801816660f73250a52f770a96ac37b5748717cf6cb0d27f52425ccecbaf36f64"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_20_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_20_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.in",
+        "bytes": 191120,
+        "sha256": "c3fe921da9fb13e372d95d9cb3a449266b94a3b89e7fd52030301012c9e81f46"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_20_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.out",
+        "bytes": 213597,
+        "sha256": "ed82f2b37265184cf556590112edd2dfba85ec42711e1cf989acf5e7b0a38a95"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_21_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_21_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.in",
+        "bytes": 191504,
+        "sha256": "272538f76ac7930b46d9c96a549a811d5d3efbad9d8f121910f3baddba48604c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_21_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.out",
+        "bytes": 214029,
+        "sha256": "92abeb074ba8c907637377cdea27fd9794bb6499713787a86a6ed01fdbdac7b0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_22_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_22_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.in",
+        "bytes": 191504,
+        "sha256": "bdc491ced9bd629bbfab83ef93e025c0fc4440c084f45ab64464a0f172337319"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_22_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.out",
+        "bytes": 214029,
+        "sha256": "d92b2a3859b17afca2d02cef75fd522961a5096651ffb37ef1803b8c022b07fa"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_24_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_24_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.in",
+        "bytes": 213632,
+        "sha256": "4f5b8665bfaf6df540141261bbfd1e4399c871700109c1b1fbd224b5ec105ba7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_24_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.out",
+        "bytes": 238923,
+        "sha256": "8e5d5cecf68d6654e74796c550f0ab17e6a46a24cd74b1e99ff34b21a61e468a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_25_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_25_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.in",
+        "bytes": 213632,
+        "sha256": "1f5a47a10b2653e12770d43d0bac7c3a2f9e6cb1768050279affd044b8dc047b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_25_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.out",
+        "bytes": 238923,
+        "sha256": "778dfddb39fc3701aea3744c1bbaaf5fdafbd2d5353c3e396a54dc2190bc428b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_27_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_27_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.in",
+        "bytes": 214256,
+        "sha256": "9aa092a73ba5a12a47558126e92f07f449e03f46810e1003a132376ea7a1ed65"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_27_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.out",
+        "bytes": 239625,
+        "sha256": "d68dac12c65973bad197605576ff76ccee457c9ac13dacf78a925bb1dcb5b668"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_29_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_29_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.in",
+        "bytes": 214256,
+        "sha256": "04b2d3c62741c705ccf86f343c46b51f31b43d93c73f1b7aebac0fc94bae5862"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_29_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.out",
+        "bytes": 239625,
+        "sha256": "d2917c84e539b6bfc3fbe14775dc23ec500f7b1a32bdf37142a435313131aa15"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_2_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_2_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.in",
+        "bytes": 1949,
+        "sha256": "5068b74334ac7951aa95b1413f8b1509be8d94a8eba3227316b90fe04e46c438"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_2_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.out",
+        "bytes": 1971,
+        "sha256": "d91f7c7ccd5a4d2359b151cfe120f83471136748e61a89a673f6de527bbd7a0c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_32_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_32_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.in",
+        "bytes": 237056,
+        "sha256": "ba8b50b86b6861f122ad68b41241793bfae4f033b32a8d4e8fc224b4062abfc4"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_32_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.out",
+        "bytes": 265275,
+        "sha256": "0ffac228efd40d1340dfea51ce1d2486ab5b6ce32bce0a55dd12cb973830fd5c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_36_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_36_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.in",
+        "bytes": 242097,
+        "sha256": "ec89554c400a4fe1e741c7256535618742eef4d7c97bbea41e598eb6a1889b09"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_36_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.out",
+        "bytes": 270945,
+        "sha256": "019115a55396e9bbe9717120fbc73f83c23db69750a6f433cff2cbaa8b60b27d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_38_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_38_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.in",
+        "bytes": 242289,
+        "sha256": "51f4a5a3948408a99b13b207c3697fc25af44cd790b525d7bc4322a33fcfba44"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_38_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.out",
+        "bytes": 271161,
+        "sha256": "78ebe47f59d4e238fcad4478f0e5b9f3e558912e921fcd5508b5ae739b1b274a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_3_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_3_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.in",
+        "bytes": 1997,
+        "sha256": "7eb3f3280a056ec11d480c3e96867057b8e72652c4c6cb060a0bce2a046a479a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_3_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.out",
+        "bytes": 2025,
+        "sha256": "d969edff32af0feb5852338ffad35d92343f5f3367fafd38fa31a3788c57993a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_4_41.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_4_41.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.in",
+        "bytes": 45776,
+        "sha256": "0ea8b999317d87353c8da7f69797e2660b704895ee035b75246e191214b20bba"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_4_41.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.out",
+        "bytes": 50085,
+        "sha256": "bc4c41ba3d64595a559fbe106eed04660fafbe7e5e332a12e936fae8a1263e59"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_5_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_5_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.in",
+        "bytes": 22447,
+        "sha256": "9d56113fbbeee76e7f493069fc00fa4b741d7a03517afcacd8701e81f26fa750"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_5_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.out",
+        "bytes": 23841,
+        "sha256": "43b66e6169fe1bd82cb0315a8397df74de7b2167b2dee8afd821afc2202aa531"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_6_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_6_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.in",
+        "bytes": 13087,
+        "sha256": "7372dce6702184d091a7b7b9cb4c41e118934e11bedb46e5388bca55cba6afa4"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_6_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.out",
+        "bytes": 13311,
+        "sha256": "c2e02c3b25b8feed6da3de9169acfd250538a2c72ab79578f5201393c96f1166"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_7_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_7_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.in",
+        "bytes": 15439,
+        "sha256": "52498ae7f7c45afc596f98ce46635c3c9d543c746e46b1fb51b75b402b5e8f70"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_7_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.out",
+        "bytes": 15957,
+        "sha256": "2e15a1dc5a52f3c55cf6e85832f1d3a246499aca6f30592951434b7be72503b0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_8_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_8_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.in",
+        "bytes": 22399,
+        "sha256": "76e393f546e7ad06b0af84e1065a5c9cc79af8b0658cd97e963ef00355ca6362"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_8_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.out",
+        "bytes": 23787,
+        "sha256": "7b19164b31ccbd9eec26549c442ef28c8aad2fc6c1abbe88b56d2c27761ab498"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_9_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_9_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.in",
+        "bytes": 22399,
+        "sha256": "3b5889b37c05a719b4ed3a52fa8be70b7a965c8bec6b3bd1871b5abd16114f1b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/native_interpolation_raw_table_9_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.out",
+        "bytes": 23787,
+        "sha256": "99f5f21e7cd015958918c436ad75141a9e83896680ed86001d841a7f8ee116b0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/rates.csv",
+      "receipt": {
+        "name": "rates.csv",
+        "bytes": 217008,
+        "sha256": "34eb299579062f594b9a4697a3ca89d492edb2c1f64de05c48a8030ba7e020a5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 34593,
+        "sha256": "831e14d076c8c9c747fd1a9604aa5b81a15e396a4ff6d7a7daab81a9f4bfc20f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/cross_sections.csv",
+      "receipt": {
+        "name": "cross_sections.csv",
+        "bytes": 2814,
+        "sha256": "16199036edc5c0e46f7f75f9e321fce9e4ab0da911f18960208f6db5fa4ffb4e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_11_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_11_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.in",
+        "bytes": 28160,
+        "sha256": "5c086328ed1611ff641e0b33f1a5f3546a6b4531a51fb6c441c2acd0da6a7b23"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_11_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.out",
+        "bytes": 30267,
+        "sha256": "d05414d1dac76ece5bc5b1aa101eeecae03bfc94a849f245578f51382540f3ff"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_13_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_13_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.in",
+        "bytes": 28160,
+        "sha256": "6c57a1d725cbcb281013314dcdcbd65ed81cac611578b4a647fa634fca9a9f21"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_13_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.out",
+        "bytes": 30267,
+        "sha256": "4504ac48a1d52267ab8657877584dbbce49d3b27c7ed2b72e6197432fb42d264"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_15_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_15_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.in",
+        "bytes": 109568,
+        "sha256": "e6ea7785b6bb8dad181a4f5d6a764757c8d48f62a1d88ea5b7f73548f60589f6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_15_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.out",
+        "bytes": 121851,
+        "sha256": "76417335d13f3b040971ae693b4462c4d40da8882d500caceec3b701e326056b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_1_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_1_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.in",
+        "bytes": 1469,
+        "sha256": "89412c89ddb91f78fd75ce3492de5be5179211a3b1a6241c632ab6d24573626e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_1_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.out",
+        "bytes": 1485,
+        "sha256": "de316a62d0fda178540c52dd4897dc32313689ede4fd4297d386733da046b19b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_20_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_20_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.in",
+        "bytes": 191120,
+        "sha256": "5a029758f121097caf3fbbc9248e7403be8e9388a06eb44661bd0b07bead4d39"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_20_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.out",
+        "bytes": 213597,
+        "sha256": "7e9e94b15167a42f605c6154eab3f5b139187a9062721ba64e7f95a7963f7f2e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_21_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_21_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.in",
+        "bytes": 191504,
+        "sha256": "4b14fbc0d10d633967e130fc2304e57d90d424a5c52d5f4925437b07b06e4d9b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_21_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.out",
+        "bytes": 214029,
+        "sha256": "49ab752c05cc69f0197cb8852e426b54c1d0d5f6105d9d3007ef80f64f6cc356"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_22_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_22_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.in",
+        "bytes": 191504,
+        "sha256": "45ddeb87e4e3a56159cd6078d5f867e2a21539b8a2b210466ed9d8d7b5e3ad25"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_22_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.out",
+        "bytes": 214029,
+        "sha256": "8e823930c03174a8092f9098ae7fdcee1577c7750460d5ab8cdede458b5efe7a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_24_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_24_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.in",
+        "bytes": 213632,
+        "sha256": "e6dd952b8b385c91c018df14683ef87a885bb9875f74ea7b1688343230354f8d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_24_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.out",
+        "bytes": 238923,
+        "sha256": "8016f8d268b62941ac0bba59ede2327e403662dcd275a336e06bcb1c5d39a7a6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_25_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_25_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.in",
+        "bytes": 213632,
+        "sha256": "ed6efd8842f049854635fe349238a8cfe88536bcfd92db9c00e71853975269dd"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_25_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.out",
+        "bytes": 238923,
+        "sha256": "fe88dabf04810f629517505c716e73cc61f0075625460c5c90d06f7f8f5ef6ad"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_27_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_27_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.in",
+        "bytes": 214256,
+        "sha256": "d3b9694b7f2c74807e84c14a8170816c5062053dff54d4b26251441f7b798d7c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_27_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.out",
+        "bytes": 239625,
+        "sha256": "b9ec3c7263a0d2244e1642cbf95163a1737babb6e8e073046d2c3ae55f7f4e76"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_29_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_29_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.in",
+        "bytes": 214256,
+        "sha256": "e7a55a7d7c7dbe7e5d6446adb089be7fd69fd617095cec6ad028a800dcb06385"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_29_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.out",
+        "bytes": 239625,
+        "sha256": "91884b43da42ad810adadd1afd71edba833fed522f4958f30941116d3908e547"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_2_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_2_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.in",
+        "bytes": 1949,
+        "sha256": "0801be2ce5f7ebad6357f48e3de276945bac660fadff24482d9148a10feeb301"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_2_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.out",
+        "bytes": 1971,
+        "sha256": "073db3793ea285217cb74dc4ec387ae60e38725566aac2d40ff12eb4200a804f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_32_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_32_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.in",
+        "bytes": 237056,
+        "sha256": "9f71c6ddf8036a923c8631bdc3f5ff43f153447394481dd35d827c7a1b6d7a2b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_32_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.out",
+        "bytes": 265275,
+        "sha256": "5e7df5c604501e2de388b28c70456be690e1552580fa7caada3d99ad965c11ca"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_36_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_36_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.in",
+        "bytes": 242097,
+        "sha256": "cb464e5d517b13989d00b1a3ce2ae65097163d84536febb377c9110e83d3c8e2"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_36_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.out",
+        "bytes": 270945,
+        "sha256": "346a1c5486e3ae07294a9588b3153d5aa94dc1084ac6d8a7a1ccadbfa818cedd"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_38_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_38_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.in",
+        "bytes": 242289,
+        "sha256": "f3f76114856cc34900b3bed84eab307cac2b4a58bc81bdcacb3a52820e4b648d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_38_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.out",
+        "bytes": 271161,
+        "sha256": "813600340062316c44e37ecbc542cc2105fbe111be9176fbd299e4bd309f55e5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_3_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_3_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.in",
+        "bytes": 1997,
+        "sha256": "9333ff2ef18250ce6edfe724cf9d07f51627904e5b062bc53a50a832905a1bd8"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_3_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.out",
+        "bytes": 2025,
+        "sha256": "560fb915d92e9737d4995915b6d71be322e2afbfe32d582813223e519f09ca26"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_4_41.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_4_41.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.in",
+        "bytes": 45776,
+        "sha256": "f7d675d23df5bb49ea190a8f53282195cc1a6fdee0426a0452e426c870a20ba2"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_4_41.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.out",
+        "bytes": 50085,
+        "sha256": "aa158e5b7ccb3dd7f5b4ce033d027546c6c952662408101714ad5444496dcd9a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_5_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_5_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.in",
+        "bytes": 22447,
+        "sha256": "fafde579669f50d454d19c5d27d2ab9c503bf11b819f6c4af2bc459b4ee5fe73"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_5_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.out",
+        "bytes": 23841,
+        "sha256": "a74d691518c1f823307a150610f9e4cdd975c716bf0188b9ac494576cb9cc51f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_6_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_6_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.in",
+        "bytes": 13087,
+        "sha256": "ab44b18166257dc499666a2a64d5cf7ecbdb3de8753c20c9c93b5e5e9ab24c3f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_6_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.out",
+        "bytes": 13311,
+        "sha256": "b41ff21dfc40ac029ee21c2e2ac31e0482b70f99b5b520673c694a8f29f33b3b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_7_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_7_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.in",
+        "bytes": 15439,
+        "sha256": "28f96ec9f62831503a5a6cf99f07e12482c2e6eb4e14aa2340b8137fe310e3f6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_7_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.out",
+        "bytes": 15957,
+        "sha256": "633c5052f6d5bcb0a45089f6382657720e03de5bca297dbfef84995d6fbcdb2d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_8_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_8_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.in",
+        "bytes": 22399,
+        "sha256": "5e7ef3556b24fcd040499ec80b06f77d8d9d8c5189f5787035e598be2b2edea7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_8_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.out",
+        "bytes": 23787,
+        "sha256": "8141f77ed895e6399606c52cb9c2a695ccf0970598c029ebac81d35e4b53bd99"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_9_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_9_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.in",
+        "bytes": 22399,
+        "sha256": "0af050182e78a5f2349fefc9c686f093abaa7521fd94fcafb683eb5239d6c4e7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_consumed_table_9_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.out",
+        "bytes": 23787,
+        "sha256": "4e28b0119c5e5596b6ab05f9aa01587d5efb6e571d59d8c292ddae27f7be3cd7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_11_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_11_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.in",
+        "bytes": 28160,
+        "sha256": "147289c19f0e0609d178e675ce0748f6c826d282ef0a8c736e727496dfa162d7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_11_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.out",
+        "bytes": 30267,
+        "sha256": "11579157264725a955617d877096876c54fd71f1902441917786ac2d553edead"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_13_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_13_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.in",
+        "bytes": 28160,
+        "sha256": "2331817ce4363f3d46355042aba362c5816085a621ad85606ac6fc30cf150bd4"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_13_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.out",
+        "bytes": 30267,
+        "sha256": "ef1b3485f82b5ea23fbcf1c4ead7bad8e0099dc7aae4a1f1520487ff12f786ba"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_15_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_15_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.in",
+        "bytes": 109568,
+        "sha256": "c3d64856fa41c0b0754129ba408e027b59d7ab92fa2d736f4f8b6acc32e88611"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_15_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.out",
+        "bytes": 121851,
+        "sha256": "f21718fc5eebd626a44c62bc34fda3cf0aa673e6995ace95a0f128e3916a5d10"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_1_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_1_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.in",
+        "bytes": 1469,
+        "sha256": "2007dd6f57c4b8cfa240f3830cae1828536d51565433e94eba0ad2010bc7e393"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_1_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.out",
+        "bytes": 1485,
+        "sha256": "801816660f73250a52f770a96ac37b5748717cf6cb0d27f52425ccecbaf36f64"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_20_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_20_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.in",
+        "bytes": 191120,
+        "sha256": "c3fe921da9fb13e372d95d9cb3a449266b94a3b89e7fd52030301012c9e81f46"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_20_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.out",
+        "bytes": 213597,
+        "sha256": "ed82f2b37265184cf556590112edd2dfba85ec42711e1cf989acf5e7b0a38a95"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_21_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_21_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.in",
+        "bytes": 191504,
+        "sha256": "272538f76ac7930b46d9c96a549a811d5d3efbad9d8f121910f3baddba48604c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_21_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.out",
+        "bytes": 214029,
+        "sha256": "92abeb074ba8c907637377cdea27fd9794bb6499713787a86a6ed01fdbdac7b0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_22_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_22_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.in",
+        "bytes": 191504,
+        "sha256": "bdc491ced9bd629bbfab83ef93e025c0fc4440c084f45ab64464a0f172337319"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_22_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.out",
+        "bytes": 214029,
+        "sha256": "d92b2a3859b17afca2d02cef75fd522961a5096651ffb37ef1803b8c022b07fa"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_24_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_24_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.in",
+        "bytes": 213632,
+        "sha256": "4f5b8665bfaf6df540141261bbfd1e4399c871700109c1b1fbd224b5ec105ba7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_24_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.out",
+        "bytes": 238923,
+        "sha256": "8e5d5cecf68d6654e74796c550f0ab17e6a46a24cd74b1e99ff34b21a61e468a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_25_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_25_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.in",
+        "bytes": 213632,
+        "sha256": "1f5a47a10b2653e12770d43d0bac7c3a2f9e6cb1768050279affd044b8dc047b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_25_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.out",
+        "bytes": 238923,
+        "sha256": "778dfddb39fc3701aea3744c1bbaaf5fdafbd2d5353c3e396a54dc2190bc428b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_27_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_27_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.in",
+        "bytes": 214256,
+        "sha256": "9aa092a73ba5a12a47558126e92f07f449e03f46810e1003a132376ea7a1ed65"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_27_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.out",
+        "bytes": 239625,
+        "sha256": "d68dac12c65973bad197605576ff76ccee457c9ac13dacf78a925bb1dcb5b668"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_29_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_29_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.in",
+        "bytes": 214256,
+        "sha256": "04b2d3c62741c705ccf86f343c46b51f31b43d93c73f1b7aebac0fc94bae5862"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_29_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.out",
+        "bytes": 239625,
+        "sha256": "d2917c84e539b6bfc3fbe14775dc23ec500f7b1a32bdf37142a435313131aa15"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_2_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_2_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.in",
+        "bytes": 1949,
+        "sha256": "5068b74334ac7951aa95b1413f8b1509be8d94a8eba3227316b90fe04e46c438"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_2_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.out",
+        "bytes": 1971,
+        "sha256": "d91f7c7ccd5a4d2359b151cfe120f83471136748e61a89a673f6de527bbd7a0c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_32_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_32_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.in",
+        "bytes": 237056,
+        "sha256": "ba8b50b86b6861f122ad68b41241793bfae4f033b32a8d4e8fc224b4062abfc4"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_32_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.out",
+        "bytes": 265275,
+        "sha256": "0ffac228efd40d1340dfea51ce1d2486ab5b6ce32bce0a55dd12cb973830fd5c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_36_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_36_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.in",
+        "bytes": 242097,
+        "sha256": "ec89554c400a4fe1e741c7256535618742eef4d7c97bbea41e598eb6a1889b09"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_36_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.out",
+        "bytes": 270945,
+        "sha256": "019115a55396e9bbe9717120fbc73f83c23db69750a6f433cff2cbaa8b60b27d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_38_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_38_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.in",
+        "bytes": 242289,
+        "sha256": "51f4a5a3948408a99b13b207c3697fc25af44cd790b525d7bc4322a33fcfba44"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_38_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.out",
+        "bytes": 271161,
+        "sha256": "78ebe47f59d4e238fcad4478f0e5b9f3e558912e921fcd5508b5ae739b1b274a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_3_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_3_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.in",
+        "bytes": 1997,
+        "sha256": "7eb3f3280a056ec11d480c3e96867057b8e72652c4c6cb060a0bce2a046a479a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_3_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.out",
+        "bytes": 2025,
+        "sha256": "d969edff32af0feb5852338ffad35d92343f5f3367fafd38fa31a3788c57993a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_4_41.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_4_41.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.in",
+        "bytes": 45776,
+        "sha256": "0ea8b999317d87353c8da7f69797e2660b704895ee035b75246e191214b20bba"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_4_41.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.out",
+        "bytes": 50085,
+        "sha256": "bc4c41ba3d64595a559fbe106eed04660fafbe7e5e332a12e936fae8a1263e59"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_5_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_5_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.in",
+        "bytes": 22447,
+        "sha256": "9d56113fbbeee76e7f493069fc00fa4b741d7a03517afcacd8701e81f26fa750"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_5_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.out",
+        "bytes": 23841,
+        "sha256": "43b66e6169fe1bd82cb0315a8397df74de7b2167b2dee8afd821afc2202aa531"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_6_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_6_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.in",
+        "bytes": 13087,
+        "sha256": "7372dce6702184d091a7b7b9cb4c41e118934e11bedb46e5388bca55cba6afa4"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_6_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.out",
+        "bytes": 13311,
+        "sha256": "c2e02c3b25b8feed6da3de9169acfd250538a2c72ab79578f5201393c96f1166"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_7_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_7_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.in",
+        "bytes": 15439,
+        "sha256": "52498ae7f7c45afc596f98ce46635c3c9d543c746e46b1fb51b75b402b5e8f70"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_7_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.out",
+        "bytes": 15957,
+        "sha256": "2e15a1dc5a52f3c55cf6e85832f1d3a246499aca6f30592951434b7be72503b0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_8_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_8_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.in",
+        "bytes": 22399,
+        "sha256": "76e393f546e7ad06b0af84e1065a5c9cc79af8b0658cd97e963ef00355ca6362"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_8_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.out",
+        "bytes": 23787,
+        "sha256": "7b19164b31ccbd9eec26549c442ef28c8aad2fc6c1abbe88b56d2c27761ab498"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_9_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_9_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.in",
+        "bytes": 22399,
+        "sha256": "3b5889b37c05a719b4ed3a52fa8be70b7a965c8bec6b3bd1871b5abd16114f1b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/native_interpolation_raw_table_9_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.out",
+        "bytes": 23787,
+        "sha256": "99f5f21e7cd015958918c436ad75141a9e83896680ed86001d841a7f8ee116b0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/rates.csv",
+      "receipt": {
+        "name": "rates.csv",
+        "bytes": 217008,
+        "sha256": "34eb299579062f594b9a4697a3ca89d492edb2c1f64de05c48a8030ba7e020a5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 35928,
+        "sha256": "11ca6d052f311da4f4be1667aed541d042541beceadbf5674bd64edfd1a3dabc"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/cross_sections.csv",
+      "receipt": {
+        "name": "cross_sections.csv",
+        "bytes": 2814,
+        "sha256": "16199036edc5c0e46f7f75f9e321fce9e4ab0da911f18960208f6db5fa4ffb4e"
+      },
+      "archived": "rya1371-continuum-interpolation-v3/cross_sections.csv",
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 9581,
+        "sha256": "0cf41fbf9c99631fc85d20eab73421224ee382ce01e39c7f1d0bd8cd654ce0bc"
+      },
+      "archived": "rya1371-continuum-interpolation-v3/driver_source.py",
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_11_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_11_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.in",
+        "bytes": 28160,
+        "sha256": "5c086328ed1611ff641e0b33f1a5f3546a6b4531a51fb6c441c2acd0da6a7b23"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_11_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_11_40.out",
+        "bytes": 30267,
+        "sha256": "d05414d1dac76ece5bc5b1aa101eeecae03bfc94a849f245578f51382540f3ff"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_13_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_13_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.in",
+        "bytes": 28160,
+        "sha256": "6c57a1d725cbcb281013314dcdcbd65ed81cac611578b4a647fa634fca9a9f21"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_13_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_13_40.out",
+        "bytes": 30267,
+        "sha256": "4504ac48a1d52267ab8657877584dbbce49d3b27c7ed2b72e6197432fb42d264"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_15_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_15_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.in",
+        "bytes": 109568,
+        "sha256": "e6ea7785b6bb8dad181a4f5d6a764757c8d48f62a1d88ea5b7f73548f60589f6"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_15_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_15_40.out",
+        "bytes": 121851,
+        "sha256": "76417335d13f3b040971ae693b4462c4d40da8882d500caceec3b701e326056b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_1_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_1_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.in",
+        "bytes": 1469,
+        "sha256": "89412c89ddb91f78fd75ce3492de5be5179211a3b1a6241c632ab6d24573626e"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_1_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_1_40.out",
+        "bytes": 1485,
+        "sha256": "de316a62d0fda178540c52dd4897dc32313689ede4fd4297d386733da046b19b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_20_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_20_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.in",
+        "bytes": 191120,
+        "sha256": "5a029758f121097caf3fbbc9248e7403be8e9388a06eb44661bd0b07bead4d39"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_20_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_20_40.out",
+        "bytes": 213597,
+        "sha256": "7e9e94b15167a42f605c6154eab3f5b139187a9062721ba64e7f95a7963f7f2e"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_21_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_21_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.in",
+        "bytes": 191504,
+        "sha256": "4b14fbc0d10d633967e130fc2304e57d90d424a5c52d5f4925437b07b06e4d9b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_21_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_21_40.out",
+        "bytes": 214029,
+        "sha256": "49ab752c05cc69f0197cb8852e426b54c1d0d5f6105d9d3007ef80f64f6cc356"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_22_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_22_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.in",
+        "bytes": 191504,
+        "sha256": "45ddeb87e4e3a56159cd6078d5f867e2a21539b8a2b210466ed9d8d7b5e3ad25"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_22_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_22_40.out",
+        "bytes": 214029,
+        "sha256": "8e823930c03174a8092f9098ae7fdcee1577c7750460d5ab8cdede458b5efe7a"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_24_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_24_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.in",
+        "bytes": 213632,
+        "sha256": "e6dd952b8b385c91c018df14683ef87a885bb9875f74ea7b1688343230354f8d"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_24_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_24_40.out",
+        "bytes": 238923,
+        "sha256": "8016f8d268b62941ac0bba59ede2327e403662dcd275a336e06bcb1c5d39a7a6"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_25_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_25_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.in",
+        "bytes": 213632,
+        "sha256": "ed6efd8842f049854635fe349238a8cfe88536bcfd92db9c00e71853975269dd"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_25_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_25_40.out",
+        "bytes": 238923,
+        "sha256": "fe88dabf04810f629517505c716e73cc61f0075625460c5c90d06f7f8f5ef6ad"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_27_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_27_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.in",
+        "bytes": 214256,
+        "sha256": "d3b9694b7f2c74807e84c14a8170816c5062053dff54d4b26251441f7b798d7c"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_27_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_27_40.out",
+        "bytes": 239625,
+        "sha256": "b9ec3c7263a0d2244e1642cbf95163a1737babb6e8e073046d2c3ae55f7f4e76"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_29_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_29_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.in",
+        "bytes": 214256,
+        "sha256": "e7a55a7d7c7dbe7e5d6446adb089be7fd69fd617095cec6ad028a800dcb06385"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_29_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_29_40.out",
+        "bytes": 239625,
+        "sha256": "91884b43da42ad810adadd1afd71edba833fed522f4958f30941116d3908e547"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_2_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_2_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.in",
+        "bytes": 1949,
+        "sha256": "0801be2ce5f7ebad6357f48e3de276945bac660fadff24482d9148a10feeb301"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_2_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_2_40.out",
+        "bytes": 1971,
+        "sha256": "073db3793ea285217cb74dc4ec387ae60e38725566aac2d40ff12eb4200a804f"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_32_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_32_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.in",
+        "bytes": 237056,
+        "sha256": "9f71c6ddf8036a923c8631bdc3f5ff43f153447394481dd35d827c7a1b6d7a2b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_32_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_32_40.out",
+        "bytes": 265275,
+        "sha256": "5e7df5c604501e2de388b28c70456be690e1552580fa7caada3d99ad965c11ca"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_36_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_36_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.in",
+        "bytes": 242097,
+        "sha256": "cb464e5d517b13989d00b1a3ce2ae65097163d84536febb377c9110e83d3c8e2"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_36_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_36_40.out",
+        "bytes": 270945,
+        "sha256": "346a1c5486e3ae07294a9588b3153d5aa94dc1084ac6d8a7a1ccadbfa818cedd"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_38_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_38_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.in",
+        "bytes": 242289,
+        "sha256": "f3f76114856cc34900b3bed84eab307cac2b4a58bc81bdcacb3a52820e4b648d"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_38_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_38_40.out",
+        "bytes": 271161,
+        "sha256": "813600340062316c44e37ecbc542cc2105fbe111be9176fbd299e4bd309f55e5"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_3_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_3_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.in",
+        "bytes": 1997,
+        "sha256": "9333ff2ef18250ce6edfe724cf9d07f51627904e5b062bc53a50a832905a1bd8"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_3_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_3_40.out",
+        "bytes": 2025,
+        "sha256": "560fb915d92e9737d4995915b6d71be322e2afbfe32d582813223e519f09ca26"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_4_41.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_4_41.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.in",
+        "bytes": 45776,
+        "sha256": "f7d675d23df5bb49ea190a8f53282195cc1a6fdee0426a0452e426c870a20ba2"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_4_41.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_4_41.out",
+        "bytes": 50085,
+        "sha256": "aa158e5b7ccb3dd7f5b4ce033d027546c6c952662408101714ad5444496dcd9a"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_5_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_5_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.in",
+        "bytes": 22447,
+        "sha256": "fafde579669f50d454d19c5d27d2ab9c503bf11b819f6c4af2bc459b4ee5fe73"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_5_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_5_40.out",
+        "bytes": 23841,
+        "sha256": "a74d691518c1f823307a150610f9e4cdd975c716bf0188b9ac494576cb9cc51f"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_6_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_6_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.in",
+        "bytes": 13087,
+        "sha256": "ab44b18166257dc499666a2a64d5cf7ecbdb3de8753c20c9c93b5e5e9ab24c3f"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_6_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_6_40.out",
+        "bytes": 13311,
+        "sha256": "b41ff21dfc40ac029ee21c2e2ac31e0482b70f99b5b520673c694a8f29f33b3b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_7_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_7_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.in",
+        "bytes": 15439,
+        "sha256": "28f96ec9f62831503a5a6cf99f07e12482c2e6eb4e14aa2340b8137fe310e3f6"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_7_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_7_40.out",
+        "bytes": 15957,
+        "sha256": "633c5052f6d5bcb0a45089f6382657720e03de5bca297dbfef84995d6fbcdb2d"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_8_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_8_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.in",
+        "bytes": 22399,
+        "sha256": "5e7ef3556b24fcd040499ec80b06f77d8d9d8c5189f5787035e598be2b2edea7"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_8_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_8_40.out",
+        "bytes": 23787,
+        "sha256": "8141f77ed895e6399606c52cb9c2a695ccf0970598c029ebac81d35e4b53bd99"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_9_40.err",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_9_40.in",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.in",
+        "bytes": 22399,
+        "sha256": "0af050182e78a5f2349fefc9c686f093abaa7521fd94fcafb683eb5239d6c4e7"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_consumed_table_9_40.out",
+      "receipt": {
+        "name": "native_interpolation_consumed_table_9_40.out",
+        "bytes": 23787,
+        "sha256": "4e28b0119c5e5596b6ab05f9aa01587d5efb6e571d59d8c292ddae27f7be3cd7"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_11_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_11_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.in",
+        "bytes": 28160,
+        "sha256": "147289c19f0e0609d178e675ce0748f6c826d282ef0a8c736e727496dfa162d7"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_11_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_11_40.out",
+        "bytes": 30267,
+        "sha256": "11579157264725a955617d877096876c54fd71f1902441917786ac2d553edead"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_13_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_13_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.in",
+        "bytes": 28160,
+        "sha256": "2331817ce4363f3d46355042aba362c5816085a621ad85606ac6fc30cf150bd4"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_13_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_13_40.out",
+        "bytes": 30267,
+        "sha256": "ef1b3485f82b5ea23fbcf1c4ead7bad8e0099dc7aae4a1f1520487ff12f786ba"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_15_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_15_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.in",
+        "bytes": 109568,
+        "sha256": "c3d64856fa41c0b0754129ba408e027b59d7ab92fa2d736f4f8b6acc32e88611"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_15_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_15_40.out",
+        "bytes": 121851,
+        "sha256": "f21718fc5eebd626a44c62bc34fda3cf0aa673e6995ace95a0f128e3916a5d10"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_1_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_1_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.in",
+        "bytes": 1469,
+        "sha256": "2007dd6f57c4b8cfa240f3830cae1828536d51565433e94eba0ad2010bc7e393"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_1_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_1_40.out",
+        "bytes": 1485,
+        "sha256": "801816660f73250a52f770a96ac37b5748717cf6cb0d27f52425ccecbaf36f64"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_20_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_20_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.in",
+        "bytes": 191120,
+        "sha256": "c3fe921da9fb13e372d95d9cb3a449266b94a3b89e7fd52030301012c9e81f46"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_20_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_20_40.out",
+        "bytes": 213597,
+        "sha256": "ed82f2b37265184cf556590112edd2dfba85ec42711e1cf989acf5e7b0a38a95"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_21_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_21_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.in",
+        "bytes": 191504,
+        "sha256": "272538f76ac7930b46d9c96a549a811d5d3efbad9d8f121910f3baddba48604c"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_21_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_21_40.out",
+        "bytes": 214029,
+        "sha256": "92abeb074ba8c907637377cdea27fd9794bb6499713787a86a6ed01fdbdac7b0"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_22_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_22_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.in",
+        "bytes": 191504,
+        "sha256": "bdc491ced9bd629bbfab83ef93e025c0fc4440c084f45ab64464a0f172337319"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_22_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_22_40.out",
+        "bytes": 214029,
+        "sha256": "d92b2a3859b17afca2d02cef75fd522961a5096651ffb37ef1803b8c022b07fa"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_24_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_24_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.in",
+        "bytes": 213632,
+        "sha256": "4f5b8665bfaf6df540141261bbfd1e4399c871700109c1b1fbd224b5ec105ba7"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_24_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_24_40.out",
+        "bytes": 238923,
+        "sha256": "8e5d5cecf68d6654e74796c550f0ab17e6a46a24cd74b1e99ff34b21a61e468a"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_25_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_25_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.in",
+        "bytes": 213632,
+        "sha256": "1f5a47a10b2653e12770d43d0bac7c3a2f9e6cb1768050279affd044b8dc047b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_25_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_25_40.out",
+        "bytes": 238923,
+        "sha256": "778dfddb39fc3701aea3744c1bbaaf5fdafbd2d5353c3e396a54dc2190bc428b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_27_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_27_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.in",
+        "bytes": 214256,
+        "sha256": "9aa092a73ba5a12a47558126e92f07f449e03f46810e1003a132376ea7a1ed65"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_27_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_27_40.out",
+        "bytes": 239625,
+        "sha256": "d68dac12c65973bad197605576ff76ccee457c9ac13dacf78a925bb1dcb5b668"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_29_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_29_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.in",
+        "bytes": 214256,
+        "sha256": "04b2d3c62741c705ccf86f343c46b51f31b43d93c73f1b7aebac0fc94bae5862"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_29_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_29_40.out",
+        "bytes": 239625,
+        "sha256": "d2917c84e539b6bfc3fbe14775dc23ec500f7b1a32bdf37142a435313131aa15"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_2_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_2_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.in",
+        "bytes": 1949,
+        "sha256": "5068b74334ac7951aa95b1413f8b1509be8d94a8eba3227316b90fe04e46c438"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_2_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_2_40.out",
+        "bytes": 1971,
+        "sha256": "d91f7c7ccd5a4d2359b151cfe120f83471136748e61a89a673f6de527bbd7a0c"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_32_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_32_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.in",
+        "bytes": 237056,
+        "sha256": "ba8b50b86b6861f122ad68b41241793bfae4f033b32a8d4e8fc224b4062abfc4"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_32_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_32_40.out",
+        "bytes": 265275,
+        "sha256": "0ffac228efd40d1340dfea51ce1d2486ab5b6ce32bce0a55dd12cb973830fd5c"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_36_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_36_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.in",
+        "bytes": 242097,
+        "sha256": "ec89554c400a4fe1e741c7256535618742eef4d7c97bbea41e598eb6a1889b09"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_36_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_36_40.out",
+        "bytes": 270945,
+        "sha256": "019115a55396e9bbe9717120fbc73f83c23db69750a6f433cff2cbaa8b60b27d"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_38_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_38_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.in",
+        "bytes": 242289,
+        "sha256": "51f4a5a3948408a99b13b207c3697fc25af44cd790b525d7bc4322a33fcfba44"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_38_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_38_40.out",
+        "bytes": 271161,
+        "sha256": "78ebe47f59d4e238fcad4478f0e5b9f3e558912e921fcd5508b5ae739b1b274a"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_3_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_3_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.in",
+        "bytes": 1997,
+        "sha256": "7eb3f3280a056ec11d480c3e96867057b8e72652c4c6cb060a0bce2a046a479a"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_3_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_3_40.out",
+        "bytes": 2025,
+        "sha256": "d969edff32af0feb5852338ffad35d92343f5f3367fafd38fa31a3788c57993a"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_4_41.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_4_41.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.in",
+        "bytes": 45776,
+        "sha256": "0ea8b999317d87353c8da7f69797e2660b704895ee035b75246e191214b20bba"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_4_41.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_4_41.out",
+        "bytes": 50085,
+        "sha256": "bc4c41ba3d64595a559fbe106eed04660fafbe7e5e332a12e936fae8a1263e59"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_5_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_5_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.in",
+        "bytes": 22447,
+        "sha256": "9d56113fbbeee76e7f493069fc00fa4b741d7a03517afcacd8701e81f26fa750"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_5_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_5_40.out",
+        "bytes": 23841,
+        "sha256": "43b66e6169fe1bd82cb0315a8397df74de7b2167b2dee8afd821afc2202aa531"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_6_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_6_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.in",
+        "bytes": 13087,
+        "sha256": "7372dce6702184d091a7b7b9cb4c41e118934e11bedb46e5388bca55cba6afa4"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_6_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_6_40.out",
+        "bytes": 13311,
+        "sha256": "c2e02c3b25b8feed6da3de9169acfd250538a2c72ab79578f5201393c96f1166"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_7_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_7_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.in",
+        "bytes": 15439,
+        "sha256": "52498ae7f7c45afc596f98ce46635c3c9d543c746e46b1fb51b75b402b5e8f70"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_7_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_7_40.out",
+        "bytes": 15957,
+        "sha256": "2e15a1dc5a52f3c55cf6e85832f1d3a246499aca6f30592951434b7be72503b0"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_8_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_8_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.in",
+        "bytes": 22399,
+        "sha256": "76e393f546e7ad06b0af84e1065a5c9cc79af8b0658cd97e963ef00355ca6362"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_8_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_8_40.out",
+        "bytes": 23787,
+        "sha256": "7b19164b31ccbd9eec26549c442ef28c8aad2fc6c1abbe88b56d2c27761ab498"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_9_40.err",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.err",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_9_40.in",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.in",
+        "bytes": 22399,
+        "sha256": "3b5889b37c05a719b4ed3a52fa8be70b7a965c8bec6b3bd1871b5abd16114f1b"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/native_interpolation_raw_table_9_40.out",
+      "receipt": {
+        "name": "native_interpolation_raw_table_9_40.out",
+        "bytes": 23787,
+        "sha256": "99f5f21e7cd015958918c436ad75141a9e83896680ed86001d841a7f8ee116b0"
+      },
+      "archived": null,
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/rates.csv",
+      "receipt": {
+        "name": "rates.csv",
+        "bytes": 329788,
+        "sha256": "834df53129ed3fe570cc2d044c0b3bb013b9e9587c3acb31e8b1d624fbf59dbc"
+      },
+      "archived": "rya1371-continuum-interpolation-v3/rates.csv",
+      "disposition": "continuum-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-interpolation-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 51682,
+        "sha256": "591628d19122b901eec5c3edc7892e9108da4457c08e069955a54943c6a9ac50"
+      },
+      "archived": "rya1371-continuum-interpolation-v3/report.json",
+      "disposition": "continuum-audit"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}
