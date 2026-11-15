@@ -1,0 +1,20 @@
+{
+  "schema": "rya1354.fac-ls-fast-plan.v37",
+  "starting_commit": "4dc67eb6336417ff153807ca15543f526663406d",
+  "source": "runs/fac_full_valence_v28",
+  "converted": "runs/fac_full_recoupling_v29",
+  "reference": "evidence/fac_full_replay_v29b/report.json",
+  "reference_sha256": "741f0199af1dc6793b866d38c1fef38e058c4f2d14c01b6ee141c4a345ed4be6",
+  "output": "runs/fac_ls_fast_canary_v37",
+  "scope": "Sirius-only optimized signed angular replay qualification on EXISTING four n3 cases, no native converter or atomic rerun",
+  "method": "BLAS proposed vector products with strict original Python-sum fallback for ANY coefficient/weight mismatch at native print precision. All nondiagnostic old report fields must match exactly. Gram residual uses BLAS, separately recorded diagnostic without acceptance threshold; no invented physical tolerance.",
+  "controls": "Four old qualified cases exact; forced bad BLAS proposal must recover exact old result via legacy sum; d4seniority/vector sign/matrix sign/explicit stdout-ID corruption must be rejected.",
+  "failure_policy": "Stop and retain failure; no changed criterion or retry without declaration",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}
