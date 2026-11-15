@@ -78,7 +78,10 @@ terms are reported rather than silently adding separate effects.
    broader UV–VIS–IR/instrument-coverage gates. Internal FUV rate diagnostics are
    not observed FUV validation.
 
-The immediate next implementation is the guarded, joint opacity/rate alpha
-control in step 2. The thermal profile work is a contract to establish and test,
+Step 2 now has a qualified fixed-population diagnostic: all22 continua, fresh
+radiation, exact default reproduction and independent rates (joint_alpha_v1).
+The residual remains2.00412e-4 versus default2.00421e-4; interpolation alone does
+not resolve the dominant cell. The next work is the complete thermal-profile
+contract in step 3, followed by joint operator qualification. The thermal profile work is a contract to establish and test,
 not authorization to overwrite constants, defaults, source tables, gold or
 production products. Scientific admission remains HOLD.

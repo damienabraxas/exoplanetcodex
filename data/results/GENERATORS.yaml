@@ -34949,3 +34949,83 @@ artifacts:
     generator: scripts/run_reference_engine.py
     ticket: RYA-1371
     note: Explicit second native refinement and frozen-field thermal/interpolation factorial controls; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-alpha-default-replay-v1/bride_hop_transfer_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-alpha-default-replay-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-alpha-default-replay-v1/replay_hop_oxygen_radiative_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-alpha-default-replay-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-alpha-default-replay-v1/stdout_stderr.log
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-comparison-v1/report.json
+    generator: scripts/compare_oxygen_joint_alpha.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-comparison-v2/compare_oxygen_joint_alpha_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-comparison-v2/report.json
+    generator: scripts/compare_oxygen_joint_alpha.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-audit-v1/absolute_transition_rates.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-audit-v1/audit_oxygen_integrated_thermal_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-audit-v1/integrated_defects.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-audit-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-audit-v1/stdout_stderr.log
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-v1/bride_hop_transfer_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-v1/native_continuum_control_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-v1/replay_hop_oxygen_radiative_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/joint_alpha_v1/rya1371-native-alpha-joint-v1/stdout_stderr.log
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Joint native-alpha fixed-population opacity and rates control; science HOLD.

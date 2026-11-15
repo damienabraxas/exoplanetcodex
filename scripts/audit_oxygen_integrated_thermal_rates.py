@@ -74,10 +74,17 @@ def main():
         from pipeline.absolute_rate_integrals import bb_rates,bf_rates
         pin(ROOT/'pipeline/absolute_rate_integrals.py')
     start=time.perf_counter()
+    a.output.mkdir(parents=True,exist_ok=False)
+    alpha_control=None
+    if "continuum_interpolation_control" in plan:
+        from pipeline.native_continuum_control import load_native_continuum_control
+        alpha_control,more=load_native_continuum_control(plan["continuum_interpolation_control"],atom_path,atom,resolver=require_codex_path,output=a.output/"native_alpha_queries",deadline=start+plan["seconds"])
+        checks.update(more)
     # Detailed-static mode supplies exactly the source profiles without requiring
     # an active SE operator. No formal solver is called and no field is injected.
-    ctx,audit=make_context(state,read_marcs_structure(model_path),atom,pop,star,extra_vac_nm=wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law)
+    ctx,audit=make_context(state,read_marcs_structure(model_path),atom,pop,star,extra_vac_nm=wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None)
     oxygen=ctx.detailedAtoms[0];np.testing.assert_array_equal(ctx.spect.wavelength,wave)
+    if alpha_control is not None:alpha_control.verify_compiled(oxygen)
     rows=[];T=state['temperature_K'];mu_weights=np.asarray(audit['angles']['weight']);counts={'BB':0,'BF':0}
     if a.absolute_replay:
         reconstructed_R=np.zeros_like(saved_R);angular_sum=float(mu_weights.sum());transition_rows=[];max_nodes=0
@@ -173,6 +180,7 @@ def main():
         key=row['kind']+'/'+row['case'];maxima[key]=max(maxima.get(key,0),abs(row['signed_integrated_defect']))
     for key in ['BB/centre_identity','BF/LW_Planck_consistent_star','BB/native_split_Planck_identity','BB/native_split_FP32_thermal_identity']:
         if maxima[key]>1e-12:raise ValueError('Integrated thermal identity failed')
+    if alpha_control is not None:alpha_control.verify_inputs()
     for path,fp in checks.items():
         if fingerprint(path)!=fp:raise ValueError('Changed thermal audit input')
     report=dict(generator=fingerprint(__file__),inputs=checks,counts=counts,max_absolute_integrated_defects=maxima,context_audit=audit,seconds=time.perf_counter()-start,computational_completed=True,scientific_admission='HOLD',scope='Independent rate-integral ratios using actual compiled profiles/continuum cross sections and source trapezoid/angular measures. Common depth/transition factors cancel; not absolute rates or a direct compiled rate accumulator comparison. BB uses constant line-centre Einstein ratio (CRD) over its finite profile: a frequency-varying Planck field need not exactly balance it. BF uses per-frequency exponential; imported LTE factors cancel at n=nStar. No RT, SE, field/population/coefficient/constant change or scientific admission.')
@@ -210,7 +218,6 @@ def main():
         if not np.isfinite(parabolic_R).all()or np.any(parabolic_R<0)or not np.array_equal(parabolic_R>0,saved_R>0):raise ValueError('Invalid independent parabolic rate graph')
         report['adaptive_continuum']['independent_parabolic_BF_residual']=residual(parabolic_R)
         report['adaptive_continuum']['parabolic_scope']='Independent positive three-point Newton-Cotes continuum integrals at the SAME sampled field/cross sections; BB weights unchanged. Numerical cross-check, not a new RT/SE operator or adopted result; cubic polynomial test does not certify integrand convergence.'
-    a.output.mkdir(parents=True,exist_ok=False)
     if a.adaptive_continuum:
         np.savez_compressed(a.output/'adaptive_grid.npz',wave_vac_nm=next_wave,base_wave_vac_nm=base_wave,fine_wave_vac_nm=wave,panel_scores=scores,selected_base_panels=selected,populations=pop,nstar=star)
         np.savez_compressed(a.output/'parabolic_rates.npz',R_s_inv=parabolic_R,BF_s_inv=parabolic_BF)

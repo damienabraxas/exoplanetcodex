@@ -38,6 +38,7 @@ def main():
     from pipeline.bride_parameter_checks import positive_stat_equil
     import lightweaver.LwCompiled as compiled
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--plan',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');a=p.parse_args();plan=json.loads(a.plan.read_text())
+    if 'continuum_interpolation_control'in plan:raise ValueError('Native alpha control is not qualified for coupled SE')
     if plan['purpose']!='full-source-O41-HOP-coupled-diagnostic'or 'table_control'in plan or os.environ.get('OMP_NUM_THREADS')!='1'or plan['seconds']!=600 or fingerprint(Path(compiled.__file__))!=plan['backend']:raise ValueError('Require explicit full-source one-thread600s diagnostic')
     control_file=ROOT/plan['controls_source'];control_report=json.loads(control_file.read_text())
     if fingerprint(control_file)!=plan['controls_receipt']:raise ValueError('Changed predeclared solver controls')

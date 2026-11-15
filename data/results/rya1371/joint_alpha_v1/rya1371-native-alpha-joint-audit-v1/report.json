@@ -1,0 +1,4657 @@
+{
+  "generator": {
+    "name": "audit_oxygen_integrated_thermal_rates.py",
+    "bytes": 23552,
+    "sha256": "8fb41d90f4dea9c8982ec4e6cc3036e2cf83eee331633d42949efd9198c8a3ec"
+  },
+  "inputs": {
+    "config/experiments/rya1371_hop_grid_refined2_native_alpha.json": {
+      "name": "rya1371_hop_grid_refined2_native_alpha.json",
+      "bytes": 5901,
+      "sha256": "bbccf0ba2b5d0591f782dc713063d6c1c35d7ad5456f3f1d4745c525f9bf3a97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298132,
+      "sha256": "819b8249d28983e50332ef48383df136569052ebc82bbda68d26f9f6a53a0588"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582561,
+      "sha256": "fd64b654cc19b79379c6725ec3380ed0ae254d2a9f32ac3db8a6b68ad8eaa67b"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/LwCompiled.cpython-312-darwin.so": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/constants.py": {
+      "name": "constants.py",
+      "bytes": 941,
+      "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/receipt.json": {
+      "name": "receipt.json",
+      "bytes": 12133,
+      "sha256": "19cfafa575b0112bc166768cb9aa26965e000c40c476e88c12a41858bc205ae0"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/Constants.hpp": {
+      "name": "Constants.hpp",
+      "bytes": 3039,
+      "sha256": "e627c2e1c652ce29309debebe32aa453b71f603f76195ef752f2db66145655e0"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/LwTransition.hpp": {
+      "name": "LwTransition.hpp",
+      "bytes": 4843,
+      "sha256": "b3dee8794fa7a38151c7881589a3659cec370a4546adba7a1feb567387b3565c"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/LwAtom.hpp": {
+      "name": "LwAtom.hpp",
+      "bytes": 3820,
+      "sha256": "7f38fd78c75b26086fef552b984622c39487d0a7d16b64a60cb0b02a76008903"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/FormalScalar.cpp": {
+      "name": "FormalScalar.cpp",
+      "bytes": 21788,
+      "sha256": "0b3e84bcfd34e61f0210a7151cf37fae1440c16c5c021f771d21c9848ddff74c"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/LwMiddleLayer.pyx": {
+      "name": "LwMiddleLayer.pyx",
+      "bytes": 149674,
+      "sha256": "13428eab7aa0e0e2374015895cef73f60482aa30200cf87c09fae3942c5ab57a"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/SimdFullIterationTemplates.hpp": {
+      "name": "SimdFullIterationTemplates.hpp",
+      "bytes": 25208,
+      "sha256": "7f3d05bdeaec45d5510b5add2bf3b4e281e71372948f2c7fd59d70de9a6d256c"
+    },
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source/Dispatch_compute_full_operator_rates.ipp": {
+      "name": "Dispatch_compute_full_operator_rates.ipp",
+      "bytes": 939,
+      "sha256": "1e76de9eb92fcd22ede9c2b0387a97e85dc4a95278a3eaaaa2a8865eadc9255c"
+    },
+    "/Users/ryanschmitt/codex/rya1371/data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/baseline/report.json": {
+      "name": "report.json",
+      "bytes": 23507,
+      "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85435,
+      "sha256": "489adde4f50d335383e0010573343648b22f82aba92f0f5747a85784acb83264"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5126,
+      "sha256": "b1baaffcd18639481eee1a5e7d404bb9218fe5f2ccd066968f4febb3754d25a1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+      "name": "const_mod.f90",
+      "bytes": 5473,
+      "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/SRC/atom_mod.f90": {
+      "name": "atom_mod.f90",
+      "bytes": 114257,
+      "sha256": "3074db53793c8683e9770d20392316174ad7abb94d109752d27226a858a0be7a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/SRC/rt_patch_mod.f90": {
+      "name": "rt_patch_mod.f90",
+      "bytes": 199845,
+      "sha256": "4cd4b31388fca737105696d8a88a207977ae5696c6228a81803edfca8bcbf39a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json": {
+      "name": "reference-5750-4.5-A8.70-v1.json",
+      "bytes": 72076,
+      "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+    },
+    "/Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/law.json": {
+      "name": "law.json",
+      "bytes": 73892,
+      "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/report.json": {
+      "name": "report.json",
+      "bytes": 1840,
+      "sha256": "334d66abe7f43ef563f29d55fc4576320b0a8c6692e49c88d0b625dd13eb3fa9"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_hop_transfer.py": {
+      "name": "bride_hop_transfer.py",
+      "bytes": 13907,
+      "sha256": "db20eb3084daf4a2c3ca622f504af1616856cb70b778361adf6b0862c7c6dd42"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_packet.py": {
+      "name": "hop_packet.py",
+      "bytes": 10517,
+      "sha256": "e102cf1a16ba9b6e59cfb4d833c74809f43fa26ec1306c01341b1497fb1d1820"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+      "name": "hop_abi.py",
+      "bytes": 959,
+      "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_width_law.py": {
+      "name": "multi_width_law.py",
+      "bytes": 4651,
+      "sha256": "3a4a791687c3e32fa66e3275d9c814e3dfd897a9f9095f0fc7ad129e29345121"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/thermodynamic_canary.py": {
+      "name": "thermodynamic_canary.py",
+      "bytes": 3808,
+      "sha256": "7a2cbbe09795a7d4918aafa0c58901480d20d4b2e45967f8a504995b5187e2a9"
+    },
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_integrated_thermal_rates.py": {
+      "name": "audit_oxygen_integrated_thermal_rates.py",
+      "bytes": 23552,
+      "sha256": "8fb41d90f4dea9c8982ec4e6cc3036e2cf83eee331633d42949efd9198c8a3ec"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/absolute_rate_integrals.py": {
+      "name": "absolute_rate_integrals.py",
+      "bytes": 2372,
+      "sha256": "05140eb2edf2c31ac7225342499d787439632e2f62cdc51aae720e4687a70817"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/receipt.json": {
+      "name": "receipt.json",
+      "bytes": 33904,
+      "sha256": "ba4bcbb9d492bc76e2672d90fe03a66e79f64ccab427dc0fba5ec58cd968d47b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/continuum_probe": {
+      "name": "continuum_probe",
+      "bytes": 1164784,
+      "sha256": "b02a27fdd3fe03e8781bb1fe3bd7f9d806ec71586c50f3565d2ff2e74fab9449"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/native_continuum_control.py": {
+      "name": "native_continuum_control.py",
+      "bytes": 8251,
+      "sha256": "3f4270f1e762d80307ac80a845374363fd8fc52511c6fa7eafd53d3e8b8aef03"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+      "name": "libhop.so",
+      "bytes": 1164376,
+      "sha256": "12591629257b87eb5e7c637fd6cc4756f08d8f958f3d6ad312df89b27296e38a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+      "name": "libhop.h",
+      "bytes": 2165,
+      "sha256": "93881604affa797a1bfd1d7899696fc92c2ac97b1c98a3e724f24075f95ce118"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/collider-provider-build-v4/receipt.json": {
+      "name": "receipt.json",
+      "bytes": 1599,
+      "sha256": "4ef7f090589bcade0d7fa0349ae43f1e5a51ec1feb1421cc8ea29b13c61459d8"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/hop_collider_provider/trace_and_ground.patch": {
+      "name": "trace_and_ground.patch",
+      "bytes": 6941,
+      "sha256": "8d9f637bdabf4fcb588c09507fbecdeec5d0d12448a909fc8978e22ed70105e6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+      "name": "const_mod.f90",
+      "bytes": 5473,
+      "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+      "name": "rya1371_hop_native_options.json",
+      "bytes": 1512,
+      "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+      "name": "TS_absdat.txt",
+      "bytes": 397207,
+      "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+      "name": "abund_magg22.txt",
+      "bytes": 912,
+      "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+      "name": "isotopes_blp.txt",
+      "bytes": 8960,
+      "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+      "name": "molec_data_BC.txt",
+      "bytes": 5993,
+      "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+      "name": "Anstee-1802-2014.txt",
+      "bytes": 4766137,
+      "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+      "name": "stehle_paschen.txt",
+      "bytes": 374761,
+      "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+      "name": "vcs_balmer.txt",
+      "bytes": 1373161,
+      "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+      "name": "vcs_paschen.txt",
+      "bytes": 312313,
+      "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+      "name": "vcs_bracket.txt",
+      "bytes": 331828,
+      "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+      "name": "stehle_balmer.txt",
+      "bytes": 374761,
+      "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/hop_continuum_oracle/driver.f90": {
+      "name": "driver.f90",
+      "bytes": 842,
+      "sha256": "3fe9c9dea96ab6e4213f4b84c638172204f0fe1d72a78d4de760cdcddcd3ed3f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/Makefile": {
+      "name": "Makefile",
+      "bytes": 5760,
+      "sha256": "5482916e27650c406d7b915c1eab2789c147763f36ad13c89f463043eeba6df5"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/anstee_mod.f90": {
+      "name": "anstee_mod.f90",
+      "bytes": 13311,
+      "sha256": "b9772a41aca3cf797bd0b9987981fcdbbd44639caacdef6fe2cfd85d5b0adeb8"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/atmos_reader_mod.f90": {
+      "name": "atmos_reader_mod.f90",
+      "bytes": 33775,
+      "sha256": "77c51fead6b6a257562d744429964a5257c719462427a29c3673d755d87c5d53"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/atom_convert_mod.f90": {
+      "name": "atom_convert_mod.f90",
+      "bytes": 27796,
+      "sha256": "cd8e382f486721fdd79c7531bdc6a32b500fb22d7a0bd20473d2ddbe1f77ace0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/bbtrans_mod.f90": {
+      "name": "bbtrans_mod.f90",
+      "bytes": 17983,
+      "sha256": "e79519d7518ab6e0d7e96cb17d2f695524eca47e66a6e27a2dc2515677cc1199"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/bftrans_mod.f90": {
+      "name": "bftrans_mod.f90",
+      "bytes": 26092,
+      "sha256": "b9149eda9e18c773c818935917128ed80a95a04c119c7fd702ff36c777040ffb"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/composition_mod.f90": {
+      "name": "composition_mod.f90",
+      "bytes": 183334,
+      "sha256": "fdedde65cfb0ff665677e2e060495d42c4016013bbf744fb1a1440ade991a46e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/console_mod.f90": {
+      "name": "console_mod.f90",
+      "bytes": 4954,
+      "sha256": "7657c0c54459190addebed929f9e309bc9103b23fa6c13bcc3ea1355878fa91b"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/element_mod.f90": {
+      "name": "element_mod.f90",
+      "bytes": 4098,
+      "sha256": "3518434ca771aa0e66c397d442fa1dffaaad735e25e09f90ad487bea92c44b5e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/handyfuncs_mod.f90": {
+      "name": "handyfuncs_mod.f90",
+      "bytes": 39086,
+      "sha256": "e4002d0ccf494c013d4f9c7946f9750b13150aa845ec2433cd48e2bb528f4c40"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hop_env_mod.f90": {
+      "name": "hop_env_mod.f90",
+      "bytes": 3662,
+      "sha256": "e3b4dc61eb397848fbda57f4535e2ec658b1fe89eecb781d075a11c1e9e385fd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hprofl_mod.f90": {
+      "name": "hprofl_mod.f90",
+      "bytes": 56117,
+      "sha256": "e4d3a42b501c3e14383fd4802309b005d2bde692a537f21dfa78ea159c2e0cb7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hvcs_mod.f90": {
+      "name": "hvcs_mod.f90",
+      "bytes": 26213,
+      "sha256": "154e528b8b3e790a54b6bf09a148020b91e66e1f10dd635992b9f25666c949f1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/interpol_mod.f90": {
+      "name": "interpol_mod.f90",
+      "bytes": 38049,
+      "sha256": "1e16897adeb4fa16d023215a7054135d0dccb7a115b61fce6174c0197bc3f16f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/ion_mod.f90": {
+      "name": "ion_mod.f90",
+      "bytes": 10135,
+      "sha256": "a577743a27a92035ece7567ad01efa4632f4d6c4b9ffaf7301380b2731fb2937"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/level_mod.f90": {
+      "name": "level_mod.f90",
+      "bytes": 12172,
+      "sha256": "3991e6b99615fec15678543c7c178d4d6b615bfe3411319d71de3969c8800476"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/line_types_mod.f90": {
+      "name": "line_types_mod.f90",
+      "bytes": 4833,
+      "sha256": "c2af561203d4142c66fcde8db4a8ce1b7cf03ab363dd33d645609e898fbac1af"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/linelist_mod.f90": {
+      "name": "linelist_mod.f90",
+      "bytes": 87770,
+      "sha256": "5cef8450f4185381c84528790212902aa980f8454b5ee696491a678adee9c62a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/linelist_reader_mod.f90": {
+      "name": "linelist_reader_mod.f90",
+      "bytes": 27236,
+      "sha256": "2259fe631ebd9b68f6af2ce0cc5a4e81d20b2d5ff3b9f51467452b66cdda5203"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/molecule_mod.f90": {
+      "name": "molecule_mod.f90",
+      "bytes": 56749,
+      "sha256": "3b74ad922d9dfda25e51ab178b4695586abaa4b45946371cf77b761a9dea6fdc"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/namelist_check_mod.f90": {
+      "name": "namelist_check_mod.f90",
+      "bytes": 12899,
+      "sha256": "336eb88f43d8ff67f5406284f3868b36ef6d5e3dc1c733b7446aa4d60c84af14"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/op_math_mod.f90": {
+      "name": "op_math_mod.f90",
+      "bytes": 23200,
+      "sha256": "b080255a656b324e752a3075536d2013e4f05763552a076607c6eb6bd74a8610"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/optab_mod.f90": {
+      "name": "optab_mod.f90",
+      "bytes": 28243,
+      "sha256": "871eaca8ebde748ae7c9898d031726783bc2f1e1dd8a0f615871615dd335f626"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/osmet_mod.f90": {
+      "name": "osmet_mod.f90",
+      "bytes": 14694,
+      "sha256": "d46f456c7e8a90f4c4cc685f32eb612afc442ba903a83e7263d3d72cd5634d2e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/qlg_mod.f90": {
+      "name": "qlg_mod.f90",
+      "bytes": 34977,
+      "sha256": "b9332dca475018b8efae038b4ac69c05e52f77a27c2d7c116eb11053f84e7ea1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/spectrum_mod.f90": {
+      "name": "spectrum_mod.f90",
+      "bytes": 27962,
+      "sha256": "73992dbd6d8c1b5a1b24a44d5fac1681d4999dab06c130b3b3e7d243a43a9cf1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/trans_mod.f90": {
+      "name": "trans_mod.f90",
+      "bytes": 8921,
+      "sha256": "991f51482fa8cd1243bbf66213b3ed06ed809d11372b0482415ffb60a9da51e4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/anstee_mod.o": {
+      "name": "anstee_mod.o",
+      "bytes": 21072,
+      "sha256": "8ab3075dd9cf44388ab2464b900eefd2b70f4192423478901ade798ccd8bc1ac"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atmos_reader_mod.o": {
+      "name": "atmos_reader_mod.o",
+      "bytes": 74272,
+      "sha256": "b04a219a2bbbf40d8493a7cd68d2ffc025325851bbce3dba3ce3b98e33e8aea0"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atom_convert_mod.o": {
+      "name": "atom_convert_mod.o",
+      "bytes": 67064,
+      "sha256": "16ba579d7ef48fedaf2e6bf3a4bcf487b431a48ba3bb71c5742485e5c810793d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bbtrans_mod.o": {
+      "name": "bbtrans_mod.o",
+      "bytes": 8056,
+      "sha256": "2c1b60569713193e90c34daae3a4e4089a1d86d1096a9cec6f626acc98caa94f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bftrans_mod.o": {
+      "name": "bftrans_mod.o",
+      "bytes": 44168,
+      "sha256": "e06608c6984b986a8fe186922f3bd8651e519d38f6cb13963b0cda4eceb015b8"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/composition_mod.o": {
+      "name": "composition_mod.o",
+      "bytes": 423800,
+      "sha256": "5efc950934e1f37520f48e6054c69e4b08a0df82f31496f374ba078280ace04f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/console_mod.o": {
+      "name": "console_mod.o",
+      "bytes": 3320,
+      "sha256": "3a5153d21545b10a3af459b1a936d15a967a11affa9ccca521a0cff947a8aac4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/const_mod.o": {
+      "name": "const_mod.o",
+      "bytes": 992,
+      "sha256": "9c94bdb9f2eaf3caf81d6674fb1715f76bfed10c5d84505545478df4f95916ff"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/element_mod.o": {
+      "name": "element_mod.o",
+      "bytes": 22736,
+      "sha256": "c6c2d174f5da73d8a237053c139b50641b27d366228050b6a251255cb473ca53"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.o": {
+      "name": "handyfuncs_mod.o",
+      "bytes": 45120,
+      "sha256": "6c1944a5f56e37cf3280f31377a5f36106fa4b5a84b5c56814e803fdfb745da6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_c_api.o": {
+      "name": "hop_c_api.o",
+      "bytes": 171408,
+      "sha256": "bcd46f27ad810293a492cc412742749f84c343ca98653b7c1cb4187e7939961e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_env_mod.o": {
+      "name": "hop_env_mod.o",
+      "bytes": 12888,
+      "sha256": "cf090c9cfe956e609c8e3745943b08606b6864486e6d67275a22060d54c84713"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hprofl_mod.o": {
+      "name": "hprofl_mod.o",
+      "bytes": 34568,
+      "sha256": "a79557b016fd2958a6f894c133be5c4388b431f143a217615b9687e849db1891"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hvcs_mod.o": {
+      "name": "hvcs_mod.o",
+      "bytes": 22888,
+      "sha256": "a335d093b7f064996c34630399cdd2fde9ac4532ab783e33cca1364a343da863"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/interpol_mod.o": {
+      "name": "interpol_mod.o",
+      "bytes": 54080,
+      "sha256": "20359984fc7636f14d935c938684fdf45c0a378679c39c08aaf2fd5e268c9d12"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/ion_mod.o": {
+      "name": "ion_mod.o",
+      "bytes": 29792,
+      "sha256": "74a8b8eb086a5f7f379f631c62e511d7d95694efc32a3ed99aee3bf055ca5f17"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/level_mod.o": {
+      "name": "level_mod.o",
+      "bytes": 13560,
+      "sha256": "df6d9731b7b7ee3b2fd936c961fc5f436dbcc901542ce8d28b5a901fa5277675"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/line_types_mod.o": {
+      "name": "line_types_mod.o",
+      "bytes": 8144,
+      "sha256": "029b5da6f08821cebcbea1d2b312f4f208a891f711b5937172fced1bf732cbea"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_mod.o": {
+      "name": "linelist_mod.o",
+      "bytes": 70800,
+      "sha256": "b5c04f1e6c0220e166ec1517e7012b15071bc11aa5ffada82078e36fad01e9cf"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_reader_mod.o": {
+      "name": "linelist_reader_mod.o",
+      "bytes": 21512,
+      "sha256": "b425c5ec3aa687dd29a4cde1578f783674388ec8feffcfbb68d5483175da5880"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/molecule_mod.o": {
+      "name": "molecule_mod.o",
+      "bytes": 71520,
+      "sha256": "c62654f86708b893bde7022323c5add54b09c173247574a7dd27c7eed790ba59"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/namelist_check_mod.o": {
+      "name": "namelist_check_mod.o",
+      "bytes": 14904,
+      "sha256": "e9b45dfce23e1ee14960f809fb386e251641cf6454ab152438c280352296ff9b"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/op_math_mod.o": {
+      "name": "op_math_mod.o",
+      "bytes": 18136,
+      "sha256": "28508431adee9ff25a66f49455c6a9068e56d2d3079d8068857742e5236fdeea"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/optab_mod.o": {
+      "name": "optab_mod.o",
+      "bytes": 39424,
+      "sha256": "85b14877aaa4f40d9294117a2e9e831c3b03a20316d3df6cf5a82db1f2f90369"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/osmet_mod.o": {
+      "name": "osmet_mod.o",
+      "bytes": 31336,
+      "sha256": "223cd529004fe275b2311d2371a2dcda107ba5e60bf5221b0f27104937074a37"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/qlg_mod.o": {
+      "name": "qlg_mod.o",
+      "bytes": 13856,
+      "sha256": "4aaee0abdca0d895dbd7032fbf43ab0c481fe6f31881d2a57dbdbe569446ed5a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/spectrum_mod.o": {
+      "name": "spectrum_mod.o",
+      "bytes": 47312,
+      "sha256": "f96610deadc5958dbb58f275fef9541e4684041c2f309b92e9565a2d3fa68141"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/trans_mod.o": {
+      "name": "trans_mod.o",
+      "bytes": 11384,
+      "sha256": "2e73fba00f92733ff01ee040e44377ecb64ed0ddaaf48ba15d40122cead43fcd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/anstee_mod.mod": {
+      "name": "anstee_mod.mod",
+      "bytes": 1304,
+      "sha256": "9a93df4a63ec3be364dbe6fc324fa5227d58980cef580d69eb5bdf4d64ec2bde"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atmos_reader_mod.mod": {
+      "name": "atmos_reader_mod.mod",
+      "bytes": 4586,
+      "sha256": "4ea4b0ab1c311cff5321bbd1df8ec899cc812f95b5d12804ec03b6539b4025af"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atom_convert_mod.mod": {
+      "name": "atom_convert_mod.mod",
+      "bytes": 4314,
+      "sha256": "bc3f92ffc305c375772bb57ba8dee9832a5c23f91597a65746f6aa819215e8ac"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bbtrans_mod.mod": {
+      "name": "bbtrans_mod.mod",
+      "bytes": 4268,
+      "sha256": "cfbfed9a2c8ba3c12376ed25d2ed857c28d83d4472f1939e10ab224601350ba5"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bftrans_mod.mod": {
+      "name": "bftrans_mod.mod",
+      "bytes": 12569,
+      "sha256": "543b40b5d2bc10e6761cd540cb182b189a16870fb9bfc5de3801c6641f04229a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/composition_mod.mod": {
+      "name": "composition_mod.mod",
+      "bytes": 33112,
+      "sha256": "c4d06a2f0ea735c3d58a9bb9999e0f3db8eeffbba81e7e2a9786d69db8fc06cc"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/console_mod.mod": {
+      "name": "console_mod.mod",
+      "bytes": 741,
+      "sha256": "dc8d25e792e4517e63fb2fba378bebe0b4b7c7a75facc8c818a060987a319c00"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/const_mod.mod": {
+      "name": "const_mod.mod",
+      "bytes": 2183,
+      "sha256": "b618a928a42cbab9bdec741126919c9cec213bd4005b653ac957752403cf0feb"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/element_mod.mod": {
+      "name": "element_mod.mod",
+      "bytes": 13773,
+      "sha256": "c6b0a20f71fb94c6ddc860c586b8e9e91d050a5ba293dfa823cdf9cec24a20f6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.mod": {
+      "name": "handyfuncs_mod.mod",
+      "bytes": 10215,
+      "sha256": "88df2a98dac408345bdae83806457862250379f813783a6782f4ebe7ef177a8c"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_c_api.mod": {
+      "name": "hop_c_api.mod",
+      "bytes": 36098,
+      "sha256": "76df99b6c4386a3306422cf540629413e432685062e38b83054fd7f5bc0c38b2"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_env_mod.mod": {
+      "name": "hop_env_mod.mod",
+      "bytes": 2595,
+      "sha256": "435ed8eeb09ad0f3ef2cc3f71581a8e03ffcb0db96759083c02f49e53f3675dd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hprofl_mod.mod": {
+      "name": "hprofl_mod.mod",
+      "bytes": 5209,
+      "sha256": "7f624ecd889e75b88f3ca0f20c6204f4105dc2b75d7b67bfb5221cac002718fb"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hvcs_mod.mod": {
+      "name": "hvcs_mod.mod",
+      "bytes": 1815,
+      "sha256": "4efb80fb84928b4f42892c8196f5af51b414eaeae1c742256a8ff80f0790a126"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/interpol_mod.mod": {
+      "name": "interpol_mod.mod",
+      "bytes": 2708,
+      "sha256": "ccf9e0293f03a99bcd216cbee377f433b53b66d1ffb2abbcd38a1396a0d7d352"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/ion_mod.mod": {
+      "name": "ion_mod.mod",
+      "bytes": 10844,
+      "sha256": "2050d774c86feefd84c7b73e2f42fb15d00f5ca77b04db238e4ce0863a1bbcac"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/level_mod.mod": {
+      "name": "level_mod.mod",
+      "bytes": 4126,
+      "sha256": "760ef8e170067cd6621243b52e2adca1d4f4689ea8619989e96abae2228b5a77"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/line_types_mod.mod": {
+      "name": "line_types_mod.mod",
+      "bytes": 1462,
+      "sha256": "ae2ae24249e61477582b86be7f4378a6009f3b752d7daf7480c7f26129b9caca"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_mod.mod": {
+      "name": "linelist_mod.mod",
+      "bytes": 12902,
+      "sha256": "b636bfbb73e5fe5fa09d164e6015833d1968c9ed451e52ccaf369ff18051e7b7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_reader_mod.mod": {
+      "name": "linelist_reader_mod.mod",
+      "bytes": 4286,
+      "sha256": "8a3d787818b068eabf083693f5ebe59190287fe625dbe2aee61c1369946dcf73"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/molecule_mod.mod": {
+      "name": "molecule_mod.mod",
+      "bytes": 18680,
+      "sha256": "3a4e37b20e1bf5f2f235d29ddd25d050a48c92186c06e982bc310f14dfb9a26c"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/namelist_check_mod.mod": {
+      "name": "namelist_check_mod.mod",
+      "bytes": 317,
+      "sha256": "51a386f9daefa05a8ad6a459ea76b8faf333574711f066b54ecf940d2982de67"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/op_math_mod.mod": {
+      "name": "op_math_mod.mod",
+      "bytes": 4296,
+      "sha256": "061ab9cdfc59f41b46423d58a11dde43a702f1c793211e18c89a83b4b30e71d5"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/optab_mod.mod": {
+      "name": "optab_mod.mod",
+      "bytes": 13210,
+      "sha256": "b30fc75d2a876ee4ced0f70705a94220e0170a14a72fb7daddfd5f123fa1b295"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/osmet_mod.mod": {
+      "name": "osmet_mod.mod",
+      "bytes": 8594,
+      "sha256": "61ec6cad3a97a252b8295ac3e61f172618b84ffa04f7fa7e9f7eb3668fb5faab"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/qlg.mod": {
+      "name": "qlg.mod",
+      "bytes": 2232,
+      "sha256": "0e3570c22762cbc1b4cc31293c637454aa427ceb80894b8d5da215c37098cae6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/spectrum_mod.mod": {
+      "name": "spectrum_mod.mod",
+      "bytes": 7591,
+      "sha256": "8ae23d95af06be8943a248bc8f0ecfd36b0658cb4bcfb41d1c8c6e5a9dc2a2de"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/trans_mod.mod": {
+      "name": "trans_mod.mod",
+      "bytes": 9693,
+      "sha256": "a0d52db2d3b02f91034886f5184491a766edf38f8cb9e306df264a3b5ab5a18e"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_continuum.py": {
+      "name": "multi_continuum.py",
+      "bytes": 1219,
+      "sha256": "de0b3f6e69e05e231247fe986743f3d3c7310b7ebf85fd66d07b1ca4c6470e7e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/trans_mod.f90": {
+      "name": "trans_mod.f90",
+      "bytes": 8921,
+      "sha256": "991f51482fa8cd1243bbf66213b3ed06ed809d11372b0482415ffb60a9da51e4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/interpol_mod.f90": {
+      "name": "interpol_mod.f90",
+      "bytes": 38049,
+      "sha256": "1e16897adeb4fa16d023215a7054135d0dccb7a115b61fce6174c0197bc3f16f"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+      "name": "const_mod.f90",
+      "bytes": 5473,
+      "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+    }
+  },
+  "counts": {
+    "BB": 256,
+    "BF": 22
+  },
+  "max_absolute_integrated_defects": {
+    "BB/centre_identity": 4.1345940281893126e-16,
+    "BB/LW_Planck_consistent_star": 1.2780041774378892e-07,
+    "BB/LW_Planck_native_star": 0.00022548174747093202,
+    "BB/HOP_Planck_native_star": 9.351554669158842e-06,
+    "BB/native_split_Planck_identity": 2.1391490870129293e-16,
+    "BB/native_split_FP32_thermal_identity": 2.2062333753793012e-16,
+    "BF/LW_Planck_consistent_star": 1.9280246396345033e-16,
+    "BF/HOP_Planck_native_star": 0.000233082819182845
+  },
+  "context_audit": {
+    "continuum_interpolation_control": {
+      "method": "native-frequency-hermite-raw-source",
+      "table_kind": "raw-source",
+      "identities": {
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/receipt.json": {
+          "name": "receipt.json",
+          "bytes": 33904,
+          "sha256": "ba4bcbb9d492bc76e2672d90fe03a66e79f64ccab427dc0fba5ec58cd968d47b"
+        },
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-continuum-oracle-build-v2/continuum_probe": {
+          "name": "continuum_probe",
+          "bytes": 1164784,
+          "sha256": "b02a27fdd3fe03e8781bb1fe3bd7f9d806ec71586c50f3565d2ff2e74fab9449"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+          "name": "atom.o41f",
+          "bytes": 187797,
+          "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+        },
+        "/Users/ryanschmitt/codex/rya1371/pipeline/native_continuum_control.py": {
+          "name": "native_continuum_control.py",
+          "bytes": 8251,
+          "sha256": "3f4270f1e762d80307ac80a845374363fd8fc52511c6fa7eafd53d3e8b8aef03"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+          "name": "libhop.so",
+          "bytes": 1164376,
+          "sha256": "12591629257b87eb5e7c637fd6cc4756f08d8f958f3d6ad312df89b27296e38a"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+          "name": "libhop.h",
+          "bytes": 2165,
+          "sha256": "93881604affa797a1bfd1d7899696fc92c2ac97b1c98a3e724f24075f95ce118"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/collider-provider-build-v4/receipt.json": {
+          "name": "receipt.json",
+          "bytes": 1599,
+          "sha256": "4ef7f090589bcade0d7fa0349ae43f1e5a51ec1feb1421cc8ea29b13c61459d8"
+        },
+        "/Users/ryanschmitt/codex/rya1371/native/hop_collider_provider/trace_and_ground.patch": {
+          "name": "trace_and_ground.patch",
+          "bytes": 6941,
+          "sha256": "8d9f637bdabf4fcb588c09507fbecdeec5d0d12448a909fc8978e22ed70105e6"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+          "name": "const_mod.f90",
+          "bytes": 5473,
+          "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+        },
+        "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+          "name": "hop_abi.py",
+          "bytes": 959,
+          "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+        },
+        "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+          "name": "rya1371_hop_native_options.json",
+          "bytes": 1512,
+          "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+          "name": "TS_absdat.txt",
+          "bytes": 397207,
+          "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+          "name": "abund_magg22.txt",
+          "bytes": 912,
+          "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+          "name": "isotopes_blp.txt",
+          "bytes": 8960,
+          "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+          "name": "molec_data_BC.txt",
+          "bytes": 5993,
+          "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+          "name": "Anstee-1802-2014.txt",
+          "bytes": 4766137,
+          "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+          "name": "stehle_paschen.txt",
+          "bytes": 374761,
+          "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+          "name": "vcs_balmer.txt",
+          "bytes": 1373161,
+          "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+          "name": "vcs_paschen.txt",
+          "bytes": 312313,
+          "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+          "name": "vcs_bracket.txt",
+          "bytes": 331828,
+          "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+          "name": "stehle_balmer.txt",
+          "bytes": 374761,
+          "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+        },
+        "/Users/ryanschmitt/codex/rya1371/native/hop_continuum_oracle/driver.f90": {
+          "name": "driver.f90",
+          "bytes": 842,
+          "sha256": "3fe9c9dea96ab6e4213f4b84c638172204f0fe1d72a78d4de760cdcddcd3ed3f"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/Makefile": {
+          "name": "Makefile",
+          "bytes": 5760,
+          "sha256": "5482916e27650c406d7b915c1eab2789c147763f36ad13c89f463043eeba6df5"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/anstee_mod.f90": {
+          "name": "anstee_mod.f90",
+          "bytes": 13311,
+          "sha256": "b9772a41aca3cf797bd0b9987981fcdbbd44639caacdef6fe2cfd85d5b0adeb8"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/atmos_reader_mod.f90": {
+          "name": "atmos_reader_mod.f90",
+          "bytes": 33775,
+          "sha256": "77c51fead6b6a257562d744429964a5257c719462427a29c3673d755d87c5d53"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/atom_convert_mod.f90": {
+          "name": "atom_convert_mod.f90",
+          "bytes": 27796,
+          "sha256": "cd8e382f486721fdd79c7531bdc6a32b500fb22d7a0bd20473d2ddbe1f77ace0"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/bbtrans_mod.f90": {
+          "name": "bbtrans_mod.f90",
+          "bytes": 17983,
+          "sha256": "e79519d7518ab6e0d7e96cb17d2f695524eca47e66a6e27a2dc2515677cc1199"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/bftrans_mod.f90": {
+          "name": "bftrans_mod.f90",
+          "bytes": 26092,
+          "sha256": "b9149eda9e18c773c818935917128ed80a95a04c119c7fd702ff36c777040ffb"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/composition_mod.f90": {
+          "name": "composition_mod.f90",
+          "bytes": 183334,
+          "sha256": "fdedde65cfb0ff665677e2e060495d42c4016013bbf744fb1a1440ade991a46e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/console_mod.f90": {
+          "name": "console_mod.f90",
+          "bytes": 4954,
+          "sha256": "7657c0c54459190addebed929f9e309bc9103b23fa6c13bcc3ea1355878fa91b"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/element_mod.f90": {
+          "name": "element_mod.f90",
+          "bytes": 4098,
+          "sha256": "3518434ca771aa0e66c397d442fa1dffaaad735e25e09f90ad487bea92c44b5e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/handyfuncs_mod.f90": {
+          "name": "handyfuncs_mod.f90",
+          "bytes": 39086,
+          "sha256": "e4002d0ccf494c013d4f9c7946f9750b13150aa845ec2433cd48e2bb528f4c40"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hop_env_mod.f90": {
+          "name": "hop_env_mod.f90",
+          "bytes": 3662,
+          "sha256": "e3b4dc61eb397848fbda57f4535e2ec658b1fe89eecb781d075a11c1e9e385fd"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hprofl_mod.f90": {
+          "name": "hprofl_mod.f90",
+          "bytes": 56117,
+          "sha256": "e4d3a42b501c3e14383fd4802309b005d2bde692a537f21dfa78ea159c2e0cb7"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/hvcs_mod.f90": {
+          "name": "hvcs_mod.f90",
+          "bytes": 26213,
+          "sha256": "154e528b8b3e790a54b6bf09a148020b91e66e1f10dd635992b9f25666c949f1"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/interpol_mod.f90": {
+          "name": "interpol_mod.f90",
+          "bytes": 38049,
+          "sha256": "1e16897adeb4fa16d023215a7054135d0dccb7a115b61fce6174c0197bc3f16f"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/ion_mod.f90": {
+          "name": "ion_mod.f90",
+          "bytes": 10135,
+          "sha256": "a577743a27a92035ece7567ad01efa4632f4d6c4b9ffaf7301380b2731fb2937"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/level_mod.f90": {
+          "name": "level_mod.f90",
+          "bytes": 12172,
+          "sha256": "3991e6b99615fec15678543c7c178d4d6b615bfe3411319d71de3969c8800476"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/line_types_mod.f90": {
+          "name": "line_types_mod.f90",
+          "bytes": 4833,
+          "sha256": "c2af561203d4142c66fcde8db4a8ce1b7cf03ab363dd33d645609e898fbac1af"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/linelist_mod.f90": {
+          "name": "linelist_mod.f90",
+          "bytes": 87770,
+          "sha256": "5cef8450f4185381c84528790212902aa980f8454b5ee696491a678adee9c62a"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/linelist_reader_mod.f90": {
+          "name": "linelist_reader_mod.f90",
+          "bytes": 27236,
+          "sha256": "2259fe631ebd9b68f6af2ce0cc5a4e81d20b2d5ff3b9f51467452b66cdda5203"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/molecule_mod.f90": {
+          "name": "molecule_mod.f90",
+          "bytes": 56749,
+          "sha256": "3b74ad922d9dfda25e51ab178b4695586abaa4b45946371cf77b761a9dea6fdc"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/namelist_check_mod.f90": {
+          "name": "namelist_check_mod.f90",
+          "bytes": 12899,
+          "sha256": "336eb88f43d8ff67f5406284f3868b36ef6d5e3dc1c733b7446aa4d60c84af14"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/op_math_mod.f90": {
+          "name": "op_math_mod.f90",
+          "bytes": 23200,
+          "sha256": "b080255a656b324e752a3075536d2013e4f05763552a076607c6eb6bd74a8610"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/optab_mod.f90": {
+          "name": "optab_mod.f90",
+          "bytes": 28243,
+          "sha256": "871eaca8ebde748ae7c9898d031726783bc2f1e1dd8a0f615871615dd335f626"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/osmet_mod.f90": {
+          "name": "osmet_mod.f90",
+          "bytes": 14694,
+          "sha256": "d46f456c7e8a90f4c4cc685f32eb612afc442ba903a83e7263d3d72cd5634d2e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/qlg_mod.f90": {
+          "name": "qlg_mod.f90",
+          "bytes": 34977,
+          "sha256": "b9332dca475018b8efae038b4ac69c05e52f77a27c2d7c116eb11053f84e7ea1"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/spectrum_mod.f90": {
+          "name": "spectrum_mod.f90",
+          "bytes": 27962,
+          "sha256": "73992dbd6d8c1b5a1b24a44d5fac1681d4999dab06c130b3b3e7d243a43a9cf1"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/trans_mod.f90": {
+          "name": "trans_mod.f90",
+          "bytes": 8921,
+          "sha256": "991f51482fa8cd1243bbf66213b3ed06ed809d11372b0482415ffb60a9da51e4"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/anstee_mod.o": {
+          "name": "anstee_mod.o",
+          "bytes": 21072,
+          "sha256": "8ab3075dd9cf44388ab2464b900eefd2b70f4192423478901ade798ccd8bc1ac"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atmos_reader_mod.o": {
+          "name": "atmos_reader_mod.o",
+          "bytes": 74272,
+          "sha256": "b04a219a2bbbf40d8493a7cd68d2ffc025325851bbce3dba3ce3b98e33e8aea0"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atom_convert_mod.o": {
+          "name": "atom_convert_mod.o",
+          "bytes": 67064,
+          "sha256": "16ba579d7ef48fedaf2e6bf3a4bcf487b431a48ba3bb71c5742485e5c810793d"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bbtrans_mod.o": {
+          "name": "bbtrans_mod.o",
+          "bytes": 8056,
+          "sha256": "2c1b60569713193e90c34daae3a4e4089a1d86d1096a9cec6f626acc98caa94f"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bftrans_mod.o": {
+          "name": "bftrans_mod.o",
+          "bytes": 44168,
+          "sha256": "e06608c6984b986a8fe186922f3bd8651e519d38f6cb13963b0cda4eceb015b8"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/composition_mod.o": {
+          "name": "composition_mod.o",
+          "bytes": 423800,
+          "sha256": "5efc950934e1f37520f48e6054c69e4b08a0df82f31496f374ba078280ace04f"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/console_mod.o": {
+          "name": "console_mod.o",
+          "bytes": 3320,
+          "sha256": "3a5153d21545b10a3af459b1a936d15a967a11affa9ccca521a0cff947a8aac4"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/const_mod.o": {
+          "name": "const_mod.o",
+          "bytes": 992,
+          "sha256": "9c94bdb9f2eaf3caf81d6674fb1715f76bfed10c5d84505545478df4f95916ff"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/element_mod.o": {
+          "name": "element_mod.o",
+          "bytes": 22736,
+          "sha256": "c6c2d174f5da73d8a237053c139b50641b27d366228050b6a251255cb473ca53"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.o": {
+          "name": "handyfuncs_mod.o",
+          "bytes": 45120,
+          "sha256": "6c1944a5f56e37cf3280f31377a5f36106fa4b5a84b5c56814e803fdfb745da6"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_c_api.o": {
+          "name": "hop_c_api.o",
+          "bytes": 171408,
+          "sha256": "bcd46f27ad810293a492cc412742749f84c343ca98653b7c1cb4187e7939961e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_env_mod.o": {
+          "name": "hop_env_mod.o",
+          "bytes": 12888,
+          "sha256": "cf090c9cfe956e609c8e3745943b08606b6864486e6d67275a22060d54c84713"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hprofl_mod.o": {
+          "name": "hprofl_mod.o",
+          "bytes": 34568,
+          "sha256": "a79557b016fd2958a6f894c133be5c4388b431f143a217615b9687e849db1891"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hvcs_mod.o": {
+          "name": "hvcs_mod.o",
+          "bytes": 22888,
+          "sha256": "a335d093b7f064996c34630399cdd2fde9ac4532ab783e33cca1364a343da863"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/interpol_mod.o": {
+          "name": "interpol_mod.o",
+          "bytes": 54080,
+          "sha256": "20359984fc7636f14d935c938684fdf45c0a378679c39c08aaf2fd5e268c9d12"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/ion_mod.o": {
+          "name": "ion_mod.o",
+          "bytes": 29792,
+          "sha256": "74a8b8eb086a5f7f379f631c62e511d7d95694efc32a3ed99aee3bf055ca5f17"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/level_mod.o": {
+          "name": "level_mod.o",
+          "bytes": 13560,
+          "sha256": "df6d9731b7b7ee3b2fd936c961fc5f436dbcc901542ce8d28b5a901fa5277675"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/line_types_mod.o": {
+          "name": "line_types_mod.o",
+          "bytes": 8144,
+          "sha256": "029b5da6f08821cebcbea1d2b312f4f208a891f711b5937172fced1bf732cbea"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_mod.o": {
+          "name": "linelist_mod.o",
+          "bytes": 70800,
+          "sha256": "b5c04f1e6c0220e166ec1517e7012b15071bc11aa5ffada82078e36fad01e9cf"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_reader_mod.o": {
+          "name": "linelist_reader_mod.o",
+          "bytes": 21512,
+          "sha256": "b425c5ec3aa687dd29a4cde1578f783674388ec8feffcfbb68d5483175da5880"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/molecule_mod.o": {
+          "name": "molecule_mod.o",
+          "bytes": 71520,
+          "sha256": "c62654f86708b893bde7022323c5add54b09c173247574a7dd27c7eed790ba59"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/namelist_check_mod.o": {
+          "name": "namelist_check_mod.o",
+          "bytes": 14904,
+          "sha256": "e9b45dfce23e1ee14960f809fb386e251641cf6454ab152438c280352296ff9b"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/op_math_mod.o": {
+          "name": "op_math_mod.o",
+          "bytes": 18136,
+          "sha256": "28508431adee9ff25a66f49455c6a9068e56d2d3079d8068857742e5236fdeea"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/optab_mod.o": {
+          "name": "optab_mod.o",
+          "bytes": 39424,
+          "sha256": "85b14877aaa4f40d9294117a2e9e831c3b03a20316d3df6cf5a82db1f2f90369"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/osmet_mod.o": {
+          "name": "osmet_mod.o",
+          "bytes": 31336,
+          "sha256": "223cd529004fe275b2311d2371a2dcda107ba5e60bf5221b0f27104937074a37"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/qlg_mod.o": {
+          "name": "qlg_mod.o",
+          "bytes": 13856,
+          "sha256": "4aaee0abdca0d895dbd7032fbf43ab0c481fe6f31881d2a57dbdbe569446ed5a"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/spectrum_mod.o": {
+          "name": "spectrum_mod.o",
+          "bytes": 47312,
+          "sha256": "f96610deadc5958dbb58f275fef9541e4684041c2f309b92e9565a2d3fa68141"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/trans_mod.o": {
+          "name": "trans_mod.o",
+          "bytes": 11384,
+          "sha256": "2e73fba00f92733ff01ee040e44377ecb64ed0ddaaf48ba15d40122cead43fcd"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/anstee_mod.mod": {
+          "name": "anstee_mod.mod",
+          "bytes": 1304,
+          "sha256": "9a93df4a63ec3be364dbe6fc324fa5227d58980cef580d69eb5bdf4d64ec2bde"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atmos_reader_mod.mod": {
+          "name": "atmos_reader_mod.mod",
+          "bytes": 4586,
+          "sha256": "4ea4b0ab1c311cff5321bbd1df8ec899cc812f95b5d12804ec03b6539b4025af"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/atom_convert_mod.mod": {
+          "name": "atom_convert_mod.mod",
+          "bytes": 4314,
+          "sha256": "bc3f92ffc305c375772bb57ba8dee9832a5c23f91597a65746f6aa819215e8ac"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bbtrans_mod.mod": {
+          "name": "bbtrans_mod.mod",
+          "bytes": 4268,
+          "sha256": "cfbfed9a2c8ba3c12376ed25d2ed857c28d83d4472f1939e10ab224601350ba5"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/bftrans_mod.mod": {
+          "name": "bftrans_mod.mod",
+          "bytes": 12569,
+          "sha256": "543b40b5d2bc10e6761cd540cb182b189a16870fb9bfc5de3801c6641f04229a"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/composition_mod.mod": {
+          "name": "composition_mod.mod",
+          "bytes": 33112,
+          "sha256": "c4d06a2f0ea735c3d58a9bb9999e0f3db8eeffbba81e7e2a9786d69db8fc06cc"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/console_mod.mod": {
+          "name": "console_mod.mod",
+          "bytes": 741,
+          "sha256": "dc8d25e792e4517e63fb2fba378bebe0b4b7c7a75facc8c818a060987a319c00"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/const_mod.mod": {
+          "name": "const_mod.mod",
+          "bytes": 2183,
+          "sha256": "b618a928a42cbab9bdec741126919c9cec213bd4005b653ac957752403cf0feb"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/element_mod.mod": {
+          "name": "element_mod.mod",
+          "bytes": 13773,
+          "sha256": "c6b0a20f71fb94c6ddc860c586b8e9e91d050a5ba293dfa823cdf9cec24a20f6"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.mod": {
+          "name": "handyfuncs_mod.mod",
+          "bytes": 10215,
+          "sha256": "88df2a98dac408345bdae83806457862250379f813783a6782f4ebe7ef177a8c"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_c_api.mod": {
+          "name": "hop_c_api.mod",
+          "bytes": 36098,
+          "sha256": "76df99b6c4386a3306422cf540629413e432685062e38b83054fd7f5bc0c38b2"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hop_env_mod.mod": {
+          "name": "hop_env_mod.mod",
+          "bytes": 2595,
+          "sha256": "435ed8eeb09ad0f3ef2cc3f71581a8e03ffcb0db96759083c02f49e53f3675dd"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hprofl_mod.mod": {
+          "name": "hprofl_mod.mod",
+          "bytes": 5209,
+          "sha256": "7f624ecd889e75b88f3ca0f20c6204f4105dc2b75d7b67bfb5221cac002718fb"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/hvcs_mod.mod": {
+          "name": "hvcs_mod.mod",
+          "bytes": 1815,
+          "sha256": "4efb80fb84928b4f42892c8196f5af51b414eaeae1c742256a8ff80f0790a126"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/interpol_mod.mod": {
+          "name": "interpol_mod.mod",
+          "bytes": 2708,
+          "sha256": "ccf9e0293f03a99bcd216cbee377f433b53b66d1ffb2abbcd38a1396a0d7d352"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/ion_mod.mod": {
+          "name": "ion_mod.mod",
+          "bytes": 10844,
+          "sha256": "2050d774c86feefd84c7b73e2f42fb15d00f5ca77b04db238e4ce0863a1bbcac"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/level_mod.mod": {
+          "name": "level_mod.mod",
+          "bytes": 4126,
+          "sha256": "760ef8e170067cd6621243b52e2adca1d4f4689ea8619989e96abae2228b5a77"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/line_types_mod.mod": {
+          "name": "line_types_mod.mod",
+          "bytes": 1462,
+          "sha256": "ae2ae24249e61477582b86be7f4378a6009f3b752d7daf7480c7f26129b9caca"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_mod.mod": {
+          "name": "linelist_mod.mod",
+          "bytes": 12902,
+          "sha256": "b636bfbb73e5fe5fa09d164e6015833d1968c9ed451e52ccaf369ff18051e7b7"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/linelist_reader_mod.mod": {
+          "name": "linelist_reader_mod.mod",
+          "bytes": 4286,
+          "sha256": "8a3d787818b068eabf083693f5ebe59190287fe625dbe2aee61c1369946dcf73"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/molecule_mod.mod": {
+          "name": "molecule_mod.mod",
+          "bytes": 18680,
+          "sha256": "3a4e37b20e1bf5f2f235d29ddd25d050a48c92186c06e982bc310f14dfb9a26c"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/namelist_check_mod.mod": {
+          "name": "namelist_check_mod.mod",
+          "bytes": 317,
+          "sha256": "51a386f9daefa05a8ad6a459ea76b8faf333574711f066b54ecf940d2982de67"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/op_math_mod.mod": {
+          "name": "op_math_mod.mod",
+          "bytes": 4296,
+          "sha256": "061ab9cdfc59f41b46423d58a11dde43a702f1c793211e18c89a83b4b30e71d5"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/optab_mod.mod": {
+          "name": "optab_mod.mod",
+          "bytes": 13210,
+          "sha256": "b30fc75d2a876ee4ced0f70705a94220e0170a14a72fb7daddfd5f123fa1b295"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/osmet_mod.mod": {
+          "name": "osmet_mod.mod",
+          "bytes": 8594,
+          "sha256": "61ec6cad3a97a252b8295ac3e61f172618b84ffa04f7fa7e9f7eb3668fb5faab"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/qlg.mod": {
+          "name": "qlg.mod",
+          "bytes": 2232,
+          "sha256": "0e3570c22762cbc1b4cc31293c637454aa427ceb80894b8d5da215c37098cae6"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/spectrum_mod.mod": {
+          "name": "spectrum_mod.mod",
+          "bytes": 7591,
+          "sha256": "8ae23d95af06be8943a248bc8f0ecfd36b0658cb4bcfb41d1c8c6e5a9dc2a2de"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4/experiments/OpenMULTI3D/HOP/standalone/build/trans_mod.mod": {
+          "name": "trans_mod.mod",
+          "bytes": 9693,
+          "sha256": "a0d52db2d3b02f91034886f5184491a766edf38f8cb9e306df264a3b5ab5a18e"
+        },
+        "/Users/ryanschmitt/codex/rya1371/pipeline/multi_continuum.py": {
+          "name": "multi_continuum.py",
+          "bytes": 1219,
+          "sha256": "de0b3f6e69e05e231247fe986743f3d3c7310b7ebf85fd66d07b1ca4c6470e7e"
+        },
+        "/Users/ryanschmitt/bride_rya1118/lw_src/Source/LwTransition.hpp": {
+          "name": "LwTransition.hpp",
+          "bytes": 4843,
+          "sha256": "b3dee8794fa7a38151c7881589a3659cec370a4546adba7a1feb567387b3565c"
+        },
+        "/Users/ryanschmitt/bride_rya1118/lw_src/Source/SimdFullIterationTemplates.hpp": {
+          "name": "SimdFullIterationTemplates.hpp",
+          "bytes": 25208,
+          "sha256": "7f3d05bdeaec45d5510b5add2bf3b4e281e71372948f2c7fd59d70de9a6d256c"
+        },
+        "/Users/ryanschmitt/bride_rya1118/lw_src/Source/Dispatch_compute_full_operator_rates.ipp": {
+          "name": "Dispatch_compute_full_operator_rates.ipp",
+          "bytes": 939,
+          "sha256": "1e76de9eb92fcd22ede9c2b0387a97e85dc4a95278a3eaaaa2a8865eadc9255c"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/trans_mod.f90": {
+          "name": "trans_mod.f90",
+          "bytes": 8921,
+          "sha256": "991f51482fa8cd1243bbf66213b3ed06ed809d11372b0482415ffb60a9da51e4"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/interpol_mod.f90": {
+          "name": "interpol_mod.f90",
+          "bytes": 38049,
+          "sha256": "1e16897adeb4fa16d023215a7054135d0dccb7a115b61fce6174c0197bc3f16f"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+          "name": "const_mod.f90",
+          "bytes": 5473,
+          "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+        }
+      },
+      "calls": [
+        {
+          "lower_1based": 1,
+          "upper_1based": 40,
+          "input_points": 3,
+          "inside_points": 3,
+          "canonical_source_knots": 3,
+          "input": {
+            "name": "alpha_0000_1_40.in",
+            "bytes": 220,
+            "sha256": "ca90b7c7c1f4f01a9b4fb0ffd1474f17654eeab1c6c5954f77c31d392697a25f"
+          },
+          "output": {
+            "name": "alpha_0000_1_40.out",
+            "bytes": 81,
+            "sha256": "755b8583601a44881d99f230941e139ede53dcdfab6a933715c7541f6f94ed43"
+          },
+          "stderr": {
+            "name": "alpha_0000_1_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 2,
+          "upper_1based": 40,
+          "input_points": 4,
+          "inside_points": 4,
+          "canonical_source_knots": 4,
+          "input": {
+            "name": "alpha_0001_2_40.in",
+            "bytes": 292,
+            "sha256": "0793ac4de8bfca8d416dc16bae3947ba4c572296346a6010d295a9097b2523d8"
+          },
+          "output": {
+            "name": "alpha_0001_2_40.out",
+            "bytes": 108,
+            "sha256": "8d4ff41af1808ff59aaf9179f6fac2b61fba1cecd59e1e0d070d38e122dd71c0"
+          },
+          "stderr": {
+            "name": "alpha_0001_2_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 3,
+          "upper_1based": 40,
+          "input_points": 4,
+          "inside_points": 4,
+          "canonical_source_knots": 4,
+          "input": {
+            "name": "alpha_0002_3_40.in",
+            "bytes": 292,
+            "sha256": "9dfa2b180dc24c869d0ab40c2b27c7d61318f0ecdbbe909f8026f1dfc974bff5"
+          },
+          "output": {
+            "name": "alpha_0002_3_40.out",
+            "bytes": 108,
+            "sha256": "1b7d564399b9ed23cf51422a553a162e9e7b9b866ea7828bccee7bb163a60929"
+          },
+          "stderr": {
+            "name": "alpha_0002_3_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 4,
+          "upper_1based": 41,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0003_4_41.in",
+            "bytes": 1878,
+            "sha256": "1b01522435e8e1ac67e8a6d20570a3e9578d54df24c5ee2fac830e92946e576b"
+          },
+          "output": {
+            "name": "alpha_0003_4_41.out",
+            "bytes": 702,
+            "sha256": "f93233507a92b45fb86e8ed17e389975359355c43e25801575aec3a864a5cf0e"
+          },
+          "stderr": {
+            "name": "alpha_0003_4_41.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 5,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0004_5_40.in",
+            "bytes": 1878,
+            "sha256": "b05d27bed51aa2c3c6832466b4bec084f8cb20354bff49fd6b0ed3ab0138c26e"
+          },
+          "output": {
+            "name": "alpha_0004_5_40.out",
+            "bytes": 702,
+            "sha256": "232d8f53cfe1824d9c2340ebb94d19dad6c3ad0d904f80b8b02097023d49dfe7"
+          },
+          "stderr": {
+            "name": "alpha_0004_5_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 6,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0005_6_40.in",
+            "bytes": 1878,
+            "sha256": "7a3751120e6d62970223b8ea5274c11d7da5e7fc9a892057c54c1a8e94f87397"
+          },
+          "output": {
+            "name": "alpha_0005_6_40.out",
+            "bytes": 702,
+            "sha256": "b687181226d3a6bf69219cf94de0c188331003306186e6e9a53c4f95624ae76d"
+          },
+          "stderr": {
+            "name": "alpha_0005_6_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 7,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0006_7_40.in",
+            "bytes": 1878,
+            "sha256": "7593b78bf6a60432d6d3f8c8bfec27146b2e4d0caf1d54c8725c881284cdcc70"
+          },
+          "output": {
+            "name": "alpha_0006_7_40.out",
+            "bytes": 702,
+            "sha256": "d6b73561628ee9731fb0998fe53d5f6f39c5e506d938b46785e055ba29a806c2"
+          },
+          "stderr": {
+            "name": "alpha_0006_7_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 8,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0007_8_40.in",
+            "bytes": 1878,
+            "sha256": "e5c02eab113f5604df159dfd6738a2c7e08105a79546285b1d83d239e60fcc3d"
+          },
+          "output": {
+            "name": "alpha_0007_8_40.out",
+            "bytes": 702,
+            "sha256": "0027c7037d6a15670b2bdb9d87afe07e37091d3d59bfc868d600ba7e83a85746"
+          },
+          "stderr": {
+            "name": "alpha_0007_8_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 9,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0008_9_40.in",
+            "bytes": 1878,
+            "sha256": "8b780c45c4166687f28a52224cb3075c8feb0e9549c9107ca3d56a3a44ef3174"
+          },
+          "output": {
+            "name": "alpha_0008_9_40.out",
+            "bytes": 702,
+            "sha256": "c512322b66f06d4601b7b83da5d0bb8e035fd7687edd7f6b037c52010c72b44c"
+          },
+          "stderr": {
+            "name": "alpha_0008_9_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 11,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0009_11_40.in",
+            "bytes": 1878,
+            "sha256": "fd8a72790f89d270b87dbf3e10a87acb611844d597ed98f71fe589ba02051712"
+          },
+          "output": {
+            "name": "alpha_0009_11_40.out",
+            "bytes": 702,
+            "sha256": "e16952105a3ab6c8ef1842d68d40e5ce09a4d48eb0b8dd59d8c2d4938cac8c67"
+          },
+          "stderr": {
+            "name": "alpha_0009_11_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 13,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0010_13_40.in",
+            "bytes": 1878,
+            "sha256": "986db0dcb8c39c98b46499c977dac0997a1409f7e16fdff3661e0ea3c9cc8fe3"
+          },
+          "output": {
+            "name": "alpha_0010_13_40.out",
+            "bytes": 702,
+            "sha256": "b3b9d3751f56a5fd1db414bbfd099cc8c4d9a0fddb0636b2cdee200888882d95"
+          },
+          "stderr": {
+            "name": "alpha_0010_13_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 15,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0011_15_40.in",
+            "bytes": 1878,
+            "sha256": "11a9d31faf42d093b14310036c2dd8e1cd472b4dc25f7e9ccc5657058d92fba6"
+          },
+          "output": {
+            "name": "alpha_0011_15_40.out",
+            "bytes": 702,
+            "sha256": "4e5131fc84996123cbc7a9bf7384a10691379319954ee316091a8bfeb44468a6"
+          },
+          "stderr": {
+            "name": "alpha_0011_15_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 20,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0012_20_40.in",
+            "bytes": 1878,
+            "sha256": "5ef09f414393447eb183e621c1e177912b46726c553585900a22eb21b107837a"
+          },
+          "output": {
+            "name": "alpha_0012_20_40.out",
+            "bytes": 702,
+            "sha256": "fa1b0f476cc9df32476f0aa0cddfdecf009f0fc9b928ae1b63ce316ab5054de9"
+          },
+          "stderr": {
+            "name": "alpha_0012_20_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 21,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0013_21_40.in",
+            "bytes": 1878,
+            "sha256": "7cb411d9ee3e4652b277a7f9750de873e6ba1744d14d9c3fda5b159493f2a3f5"
+          },
+          "output": {
+            "name": "alpha_0013_21_40.out",
+            "bytes": 702,
+            "sha256": "157caef28659316c2abb6e6cae71d33640504431cc16e981f9669a053ae32028"
+          },
+          "stderr": {
+            "name": "alpha_0013_21_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 22,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0014_22_40.in",
+            "bytes": 1878,
+            "sha256": "14a991be3a3f056d0ac686568485f91e7c464bdf1a37d0c3c213c754b1cbc5a9"
+          },
+          "output": {
+            "name": "alpha_0014_22_40.out",
+            "bytes": 702,
+            "sha256": "6027bbd88d2b255a3eb42eecffc9b6b82689ec5601c14498e8fc1021aa7572ec"
+          },
+          "stderr": {
+            "name": "alpha_0014_22_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 24,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0015_24_40.in",
+            "bytes": 1878,
+            "sha256": "0232f544365d35c11b8cb2ef13aa3363bcdde25e54e80d1e5af6c422ca323a63"
+          },
+          "output": {
+            "name": "alpha_0015_24_40.out",
+            "bytes": 702,
+            "sha256": "fd087c1b78a46ae78fee14a10a7bd3a8e84c6136002187ac96d491d92412e356"
+          },
+          "stderr": {
+            "name": "alpha_0015_24_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 25,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0016_25_40.in",
+            "bytes": 1878,
+            "sha256": "6110d86d2cab38cb75dd3613c0f6ec65866f20b03fb0a2cfaeeade4e157199a4"
+          },
+          "output": {
+            "name": "alpha_0016_25_40.out",
+            "bytes": 702,
+            "sha256": "478befc21b4c9347902704289ba9512dec6337d29a8696b2c943a5d819a3f4df"
+          },
+          "stderr": {
+            "name": "alpha_0016_25_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 27,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0017_27_40.in",
+            "bytes": 1878,
+            "sha256": "d2506cfd72489fb393ef1a8aa746bd6f59deb1a66c684d853d9d15ae0fe3b628"
+          },
+          "output": {
+            "name": "alpha_0017_27_40.out",
+            "bytes": 702,
+            "sha256": "4b1e08316580482385bf46def8569102d9f3b3f2a4b11c7fc9986ff9fd26f0aa"
+          },
+          "stderr": {
+            "name": "alpha_0017_27_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 29,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0018_29_40.in",
+            "bytes": 1878,
+            "sha256": "09223114533308bdbcd2a09f90efc655e5a92935751a811643c672cfb091055d"
+          },
+          "output": {
+            "name": "alpha_0018_29_40.out",
+            "bytes": 702,
+            "sha256": "7ad0b05c790704e13674eaa72ea2034fac07566562f425225ef91ae31ab0f7b7"
+          },
+          "stderr": {
+            "name": "alpha_0018_29_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 32,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0019_32_40.in",
+            "bytes": 1878,
+            "sha256": "1139045662ad3a90177cb2f5505d313d3714ca86eca38b602aca88fe820320eb"
+          },
+          "output": {
+            "name": "alpha_0019_32_40.out",
+            "bytes": 702,
+            "sha256": "c8c6f60adfaeaab4d8ca927e3b7ec8a508794a70938691fa90d0f4bfb5cd3d19"
+          },
+          "stderr": {
+            "name": "alpha_0019_32_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 36,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0020_36_40.in",
+            "bytes": 1878,
+            "sha256": "a48fa4303a2034e93322a74961b430e28ce362f36a3504f4e125f945a44d7118"
+          },
+          "output": {
+            "name": "alpha_0020_36_40.out",
+            "bytes": 702,
+            "sha256": "d80242ce7f2bf39729a822ce6c508a90a6d3360df5f223b55ab6837ce47d8504"
+          },
+          "stderr": {
+            "name": "alpha_0020_36_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 38,
+          "upper_1based": 40,
+          "input_points": 26,
+          "inside_points": 26,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0021_38_40.in",
+            "bytes": 1878,
+            "sha256": "430f0b586e3448c740c582f6cdc99699974c8db41e988b1fd577dba2f1bbf26d"
+          },
+          "output": {
+            "name": "alpha_0021_38_40.out",
+            "bytes": 702,
+            "sha256": "1f167e67cd2c24244f01eb79dd9d681966582f52b11e6c798608e9283d045103"
+          },
+          "stderr": {
+            "name": "alpha_0021_38_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 1,
+          "upper_1based": 40,
+          "input_points": 55,
+          "inside_points": 55,
+          "canonical_source_knots": 3,
+          "input": {
+            "name": "alpha_0022_1_40.in",
+            "bytes": 1469,
+            "sha256": "2007dd6f57c4b8cfa240f3830cae1828536d51565433e94eba0ad2010bc7e393"
+          },
+          "output": {
+            "name": "alpha_0022_1_40.out",
+            "bytes": 1485,
+            "sha256": "801816660f73250a52f770a96ac37b5748717cf6cb0d27f52425ccecbaf36f64"
+          },
+          "stderr": {
+            "name": "alpha_0022_1_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 2,
+          "upper_1based": 40,
+          "input_points": 73,
+          "inside_points": 73,
+          "canonical_source_knots": 4,
+          "input": {
+            "name": "alpha_0023_2_40.in",
+            "bytes": 1949,
+            "sha256": "7f0a973a4bd69388320b10cf07f56d9bf45fa0d481c6676ab88d2987eed95142"
+          },
+          "output": {
+            "name": "alpha_0023_2_40.out",
+            "bytes": 1971,
+            "sha256": "d46896e24cefc4cffb004f92c0fcad17182c048897843b3f82de0064b0dfd9e4"
+          },
+          "stderr": {
+            "name": "alpha_0023_2_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 3,
+          "upper_1based": 40,
+          "input_points": 75,
+          "inside_points": 75,
+          "canonical_source_knots": 4,
+          "input": {
+            "name": "alpha_0024_3_40.in",
+            "bytes": 1997,
+            "sha256": "c45ddd02b545a273da987af8fc89c965e9b5716e2fe6c2d127146dfbc24dcdfb"
+          },
+          "output": {
+            "name": "alpha_0024_3_40.out",
+            "bytes": 2025,
+            "sha256": "d41a6db1b4fbc1acb4e628418a6dfb477987fc6f69aaf992e3c179e5c0bc6bc0"
+          },
+          "stderr": {
+            "name": "alpha_0024_3_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 4,
+          "upper_1based": 41,
+          "input_points": 1855,
+          "inside_points": 1855,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0025_4_41.in",
+            "bytes": 45776,
+            "sha256": "0387dfbe6c5a8ae627071a6c6d345af32af6741d62c5ecab2ada1caed8b6c5d6"
+          },
+          "output": {
+            "name": "alpha_0025_4_41.out",
+            "bytes": 50085,
+            "sha256": "bc4c41ba3d64595a559fbe106eed04660fafbe7e5e332a12e936fae8a1263e59"
+          },
+          "stderr": {
+            "name": "alpha_0025_4_41.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 5,
+          "upper_1based": 40,
+          "input_points": 883,
+          "inside_points": 883,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0026_5_40.in",
+            "bytes": 22447,
+            "sha256": "b6d9c2c712b344d5f3d4d4db50cdfca814f02585a658861be6b5cbc61605d5a1"
+          },
+          "output": {
+            "name": "alpha_0026_5_40.out",
+            "bytes": 23841,
+            "sha256": "b69fb0717511072b8dfdd381afc96fa80ba7492c9cc0be3c45a910e1efce0ac7"
+          },
+          "stderr": {
+            "name": "alpha_0026_5_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 6,
+          "upper_1based": 40,
+          "input_points": 493,
+          "inside_points": 493,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0027_6_40.in",
+            "bytes": 13087,
+            "sha256": "f16b19dd980d00c9a110cfefcd4f716fb832b786ff0f3632ac5795b717138ec0"
+          },
+          "output": {
+            "name": "alpha_0027_6_40.out",
+            "bytes": 13311,
+            "sha256": "c2e02c3b25b8feed6da3de9169acfd250538a2c72ab79578f5201393c96f1166"
+          },
+          "stderr": {
+            "name": "alpha_0027_6_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 7,
+          "upper_1based": 40,
+          "input_points": 591,
+          "inside_points": 591,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0028_7_40.in",
+            "bytes": 15439,
+            "sha256": "07d901aa9b8b4d00ec85cc6d48a6c82da888c622f76ba478fce90d567136e956"
+          },
+          "output": {
+            "name": "alpha_0028_7_40.out",
+            "bytes": 15957,
+            "sha256": "2e15a1dc5a52f3c55cf6e85832f1d3a246499aca6f30592951434b7be72503b0"
+          },
+          "stderr": {
+            "name": "alpha_0028_7_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 8,
+          "upper_1based": 40,
+          "input_points": 881,
+          "inside_points": 881,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0029_8_40.in",
+            "bytes": 22399,
+            "sha256": "d05db711582a40c751e28895f52a8a89e2d9f720f6ad934c8a40f6750df42e23"
+          },
+          "output": {
+            "name": "alpha_0029_8_40.out",
+            "bytes": 23787,
+            "sha256": "7b19164b31ccbd9eec26549c442ef28c8aad2fc6c1abbe88b56d2c27761ab498"
+          },
+          "stderr": {
+            "name": "alpha_0029_8_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 9,
+          "upper_1based": 40,
+          "input_points": 881,
+          "inside_points": 881,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0030_9_40.in",
+            "bytes": 22399,
+            "sha256": "7afa8cef98c16b88005107a72998cefecce1405c6b91ea62788c9f8ad322bdaf"
+          },
+          "output": {
+            "name": "alpha_0030_9_40.out",
+            "bytes": 23787,
+            "sha256": "99f5f21e7cd015958918c436ad75141a9e83896680ed86001d841a7f8ee116b0"
+          },
+          "stderr": {
+            "name": "alpha_0030_9_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 11,
+          "upper_1based": 40,
+          "input_points": 1121,
+          "inside_points": 1121,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0031_11_40.in",
+            "bytes": 28160,
+            "sha256": "121f6db85b57288f1290801bcd6cc080f183db5767ace95aa4e2282e9e3c0295"
+          },
+          "output": {
+            "name": "alpha_0031_11_40.out",
+            "bytes": 30267,
+            "sha256": "11579157264725a955617d877096876c54fd71f1902441917786ac2d553edead"
+          },
+          "stderr": {
+            "name": "alpha_0031_11_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 13,
+          "upper_1based": 40,
+          "input_points": 1121,
+          "inside_points": 1121,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0032_13_40.in",
+            "bytes": 28160,
+            "sha256": "926a08f6ccc8889951d40a177bfdf0284aa9b6eabd2868bd15d96d0330ed2ecb"
+          },
+          "output": {
+            "name": "alpha_0032_13_40.out",
+            "bytes": 30267,
+            "sha256": "ef1b3485f82b5ea23fbcf1c4ead7bad8e0099dc7aae4a1f1520487ff12f786ba"
+          },
+          "stderr": {
+            "name": "alpha_0032_13_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 15,
+          "upper_1based": 40,
+          "input_points": 4513,
+          "inside_points": 4513,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0033_15_40.in",
+            "bytes": 109568,
+            "sha256": "6144df3e05c514a4b2521fc289790a009b3c667bdac89c19284f202dcd876645"
+          },
+          "output": {
+            "name": "alpha_0033_15_40.out",
+            "bytes": 121851,
+            "sha256": "f21718fc5eebd626a44c62bc34fda3cf0aa673e6995ace95a0f128e3916a5d10"
+          },
+          "stderr": {
+            "name": "alpha_0033_15_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 20,
+          "upper_1based": 40,
+          "input_points": 7911,
+          "inside_points": 7911,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0034_20_40.in",
+            "bytes": 191120,
+            "sha256": "e7adcf2d7033d7ccc7c62a3286ce19605765101ce0563152cb2e1d56fbdb85ad"
+          },
+          "output": {
+            "name": "alpha_0034_20_40.out",
+            "bytes": 213597,
+            "sha256": "bbf4b8dcd4fc39b3f9743a3c02411f50d89bc8a0d0d6c428b144bfed2035c7d2"
+          },
+          "stderr": {
+            "name": "alpha_0034_20_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 21,
+          "upper_1based": 40,
+          "input_points": 7927,
+          "inside_points": 7927,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0035_21_40.in",
+            "bytes": 191504,
+            "sha256": "ba3aa394af38b0a09fe13c11ddf69a0da5b8027a21b53750ba891ae3a1306197"
+          },
+          "output": {
+            "name": "alpha_0035_21_40.out",
+            "bytes": 214029,
+            "sha256": "92abeb074ba8c907637377cdea27fd9794bb6499713787a86a6ed01fdbdac7b0"
+          },
+          "stderr": {
+            "name": "alpha_0035_21_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 22,
+          "upper_1based": 40,
+          "input_points": 7927,
+          "inside_points": 7927,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0036_22_40.in",
+            "bytes": 191504,
+            "sha256": "d79e85bb6331549ceecc1020240e7ebaf793f56d94d1c347759a0f750b2aecc0"
+          },
+          "output": {
+            "name": "alpha_0036_22_40.out",
+            "bytes": 214029,
+            "sha256": "d92b2a3859b17afca2d02cef75fd522961a5096651ffb37ef1803b8c022b07fa"
+          },
+          "stderr": {
+            "name": "alpha_0036_22_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 24,
+          "upper_1based": 40,
+          "input_points": 8849,
+          "inside_points": 8849,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0037_24_40.in",
+            "bytes": 213632,
+            "sha256": "cee5ef5988a3b7c305618bbf2fc647729d3e6191c84045d046896417d3a61ac8"
+          },
+          "output": {
+            "name": "alpha_0037_24_40.out",
+            "bytes": 238923,
+            "sha256": "8e5d5cecf68d6654e74796c550f0ab17e6a46a24cd74b1e99ff34b21a61e468a"
+          },
+          "stderr": {
+            "name": "alpha_0037_24_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 25,
+          "upper_1based": 40,
+          "input_points": 8849,
+          "inside_points": 8849,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0038_25_40.in",
+            "bytes": 213632,
+            "sha256": "9ab139a2c40eb318e22d767a481f7c27f70e26be7a7719034bcd1766736d22a0"
+          },
+          "output": {
+            "name": "alpha_0038_25_40.out",
+            "bytes": 238923,
+            "sha256": "778dfddb39fc3701aea3744c1bbaaf5fdafbd2d5353c3e396a54dc2190bc428b"
+          },
+          "stderr": {
+            "name": "alpha_0038_25_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 27,
+          "upper_1based": 40,
+          "input_points": 8875,
+          "inside_points": 8875,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0039_27_40.in",
+            "bytes": 214256,
+            "sha256": "68c3619444bf5cda29d4a81999f04ee48e725f6d40f9c0e295663b9c52fb442d"
+          },
+          "output": {
+            "name": "alpha_0039_27_40.out",
+            "bytes": 239625,
+            "sha256": "d68dac12c65973bad197605576ff76ccee457c9ac13dacf78a925bb1dcb5b668"
+          },
+          "stderr": {
+            "name": "alpha_0039_27_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 29,
+          "upper_1based": 40,
+          "input_points": 8875,
+          "inside_points": 8875,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0040_29_40.in",
+            "bytes": 214256,
+            "sha256": "162928d43a29dcffc41d1c7cdf713393f6158d2eadcc5c25e62b2ceba5aee5b6"
+          },
+          "output": {
+            "name": "alpha_0040_29_40.out",
+            "bytes": 239625,
+            "sha256": "d2917c84e539b6bfc3fbe14775dc23ec500f7b1a32bdf37142a435313131aa15"
+          },
+          "stderr": {
+            "name": "alpha_0040_29_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 32,
+          "upper_1based": 40,
+          "input_points": 9825,
+          "inside_points": 9825,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0041_32_40.in",
+            "bytes": 237056,
+            "sha256": "ccf1018773d893198f3bc5ac25bf26786852f378bac288b3be33d5aefc64e8d6"
+          },
+          "output": {
+            "name": "alpha_0041_32_40.out",
+            "bytes": 265275,
+            "sha256": "ec5fb754b303bc84bc9117d49cadb4a10c3f82b9a3be2af622ced46c7cfc6ed6"
+          },
+          "stderr": {
+            "name": "alpha_0041_32_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 36,
+          "upper_1based": 40,
+          "input_points": 10035,
+          "inside_points": 10035,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0042_36_40.in",
+            "bytes": 242097,
+            "sha256": "3e98dab81af6a501795f8ab263ec1905faac78e21ae98d948f6212c377632734"
+          },
+          "output": {
+            "name": "alpha_0042_36_40.out",
+            "bytes": 270945,
+            "sha256": "b9c61d71dbbfc4cdd71b65081be0c03e73f3c3d216365dd37d26440b875c58a0"
+          },
+          "stderr": {
+            "name": "alpha_0042_36_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "lower_1based": 38,
+          "upper_1based": 40,
+          "input_points": 10043,
+          "inside_points": 10043,
+          "canonical_source_knots": 26,
+          "input": {
+            "name": "alpha_0043_38_40.in",
+            "bytes": 242289,
+            "sha256": "78895ba443f7fa8061458cd1a557a1ce0ab5018b5b57fbe6f20860f4a97179ac"
+          },
+          "output": {
+            "name": "alpha_0043_38_40.out",
+            "bytes": 271161,
+            "sha256": "e1f6c1e02a6fc9c3323461c2a5e71fcf4ddf5a9f2af355abaa375fb85d78ca5e"
+          },
+          "stderr": {
+            "name": "alpha_0043_38_40.err",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "compiled_alpha_checks": [
+        {
+          "lower_1based": 1,
+          "upper_1based": 40,
+          "points": 55,
+          "alpha_sha256": "1304b41767a7c2342ae5c985634e3ac78bf270570e8e519ff851af087b456cd6"
+        },
+        {
+          "lower_1based": 2,
+          "upper_1based": 40,
+          "points": 73,
+          "alpha_sha256": "532ef8b65460d658748fe49107f5a1d29536e9acd38a9fa44845b52bce8f78cd"
+        },
+        {
+          "lower_1based": 3,
+          "upper_1based": 40,
+          "points": 75,
+          "alpha_sha256": "8a1455ee5d25baf3a0f3bf71d9f6ffff5173a61d97c19afb51ea2bb11a5fb279"
+        },
+        {
+          "lower_1based": 4,
+          "upper_1based": 41,
+          "points": 1855,
+          "alpha_sha256": "afc1583cf6d8653f67b2602ca091bf1a5f3acc1a3ce99212e7f071dd8f54ea8b"
+        },
+        {
+          "lower_1based": 5,
+          "upper_1based": 40,
+          "points": 883,
+          "alpha_sha256": "939fe7a59fe71e327a4580bd15a784d1adf462f2c8e2e83336cb3a7f5a170612"
+        },
+        {
+          "lower_1based": 6,
+          "upper_1based": 40,
+          "points": 493,
+          "alpha_sha256": "02f152fde965f8724406e615f5a8c12bbaab5065352ebb03407284cc2059d8d6"
+        },
+        {
+          "lower_1based": 7,
+          "upper_1based": 40,
+          "points": 591,
+          "alpha_sha256": "a3761f0ed8e047f8265a9836961b6d6065a19ece4b8b14a15b54efd06fcf0f1c"
+        },
+        {
+          "lower_1based": 8,
+          "upper_1based": 40,
+          "points": 881,
+          "alpha_sha256": "f8a90a824ca9043cbcaab89b3f336bd5eb54d56b4a2e8ddfcac11751f3712622"
+        },
+        {
+          "lower_1based": 9,
+          "upper_1based": 40,
+          "points": 881,
+          "alpha_sha256": "ba54eaf459efba514525871791bd462d70eefd823cdd436eb57d9e30c053f4c4"
+        },
+        {
+          "lower_1based": 11,
+          "upper_1based": 40,
+          "points": 1121,
+          "alpha_sha256": "79dd82a520784adb211377dedbffaa0515d89a0929abb87c318470e523f3b369"
+        },
+        {
+          "lower_1based": 13,
+          "upper_1based": 40,
+          "points": 1121,
+          "alpha_sha256": "72c63f8c8d75128fea33c82a83f8de8052cfde524482ce9a3ed4ba65535084d9"
+        },
+        {
+          "lower_1based": 15,
+          "upper_1based": 40,
+          "points": 4513,
+          "alpha_sha256": "e393a45ea7ef6e603fca66aaa37d2e7e3ec7956228b9da1e776f4f4f9912ed70"
+        },
+        {
+          "lower_1based": 20,
+          "upper_1based": 40,
+          "points": 7911,
+          "alpha_sha256": "b2556fa8ccf3f8d557f03a074e24e5a8a58e54fc1f61785e37b95516c550db24"
+        },
+        {
+          "lower_1based": 21,
+          "upper_1based": 40,
+          "points": 7927,
+          "alpha_sha256": "3cb97aad734dfb7e3c7f0cd2bdaac1f1252bd0ffe8731a86a833cfc39d185e3c"
+        },
+        {
+          "lower_1based": 22,
+          "upper_1based": 40,
+          "points": 7927,
+          "alpha_sha256": "9895060dc1cf8c6f577be3de6930424ab192fac3e1ab5d8f07a6e2850f1ab3b4"
+        },
+        {
+          "lower_1based": 24,
+          "upper_1based": 40,
+          "points": 8849,
+          "alpha_sha256": "bff8bc385b431b18527c0527ea3025dfede382dbee3e10f16368eaf381a7f564"
+        },
+        {
+          "lower_1based": 25,
+          "upper_1based": 40,
+          "points": 8849,
+          "alpha_sha256": "2708fb0a15166c2e5451ac714eb6a23157f58ffc126dfd844c9c34009ea2908e"
+        },
+        {
+          "lower_1based": 27,
+          "upper_1based": 40,
+          "points": 8875,
+          "alpha_sha256": "9c654120e8013b9736aa0fee71fb9f68bdeaa5fb776e349bd8ffed9e5c4fe50e"
+        },
+        {
+          "lower_1based": 29,
+          "upper_1based": 40,
+          "points": 8875,
+          "alpha_sha256": "88c51d83fd32ab08a98dd5a5f869419cb5fd698e77bde39bc167f995f811fe6e"
+        },
+        {
+          "lower_1based": 32,
+          "upper_1based": 40,
+          "points": 9825,
+          "alpha_sha256": "8c707e3c3fa00471a4043ea2b0dd874610a8e1bc6979cd7073ab95a1f6f36736"
+        },
+        {
+          "lower_1based": 36,
+          "upper_1based": 40,
+          "points": 10035,
+          "alpha_sha256": "d112b3c4cb7e7abcf6846cb29cf72966d63dce1744ae0a9430b06b76a2ed242b"
+        },
+        {
+          "lower_1based": 38,
+          "upper_1based": 40,
+          "points": 10043,
+          "alpha_sha256": "0cbe658ca97c923a607346e596f8e94256eedd5810ae3e9d238dbe7fc19550dc"
+        }
+      ],
+      "scope": "One shared compiled continuum alpha supplies active opacity/emissivity and rates. Exact source-table knots use their canonical Angstrom coordinates; arbitrary points are not snapped. Native float32 interpolation output converted cm2->m2. Original model table/support/grid, BB and held-LW thermal constants unchanged. Fixed-population diagnostic only; not coupled SE or physical adoption.",
+      "source_tables_reproduced_at_knots": 22
+    },
+    "line_grid_control": null,
+    "coupled_native_contract_diagnostic": false,
+    "original_width_law": {
+      "source_mass_amu": 15.999,
+      "temperature_numeric_interval": [
+        4045.89892578125,
+        9779.8701171875
+      ],
+      "inputs": {
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/law.json": {
+          "name": "law.json",
+          "bytes": 73892,
+          "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+        },
+        "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-law-export-v1/report.json": {
+          "name": "report.json",
+          "bytes": 1840,
+          "sha256": "334d66abe7f43ef563f29d55fc4576320b0a8c6692e49c88d0b625dd13eb3fa9"
+        }
+      },
+      "actual_calls": [
+        {
+          "line_index": 0,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 1,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 2,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 3,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 4,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 5,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 6,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 7,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 8,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 9,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 10,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 11,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 12,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 13,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 14,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 15,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 16,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 17,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 18,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 19,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 20,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 21,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 22,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 23,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 24,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 25,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 26,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 27,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 28,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 29,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 30,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 31,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 32,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 33,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 34,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 35,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 36,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 37,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 38,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 39,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 40,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 41,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 42,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 43,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 44,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 45,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 46,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 47,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 48,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 49,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 50,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 51,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 52,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 53,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 54,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 55,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 56,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 57,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 58,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 59,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 60,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 61,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 62,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 63,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 64,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 65,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 66,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 67,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 68,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 69,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 70,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 71,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 72,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 73,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 74,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 75,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 76,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 77,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 78,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 79,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 80,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 81,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 82,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 83,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 84,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 85,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 86,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 87,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 88,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 89,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 90,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 91,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 92,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 93,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 94,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 95,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 96,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 97,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 98,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 99,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 100,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 101,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 102,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 103,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 104,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 105,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 106,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 107,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 108,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 109,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 110,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 111,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 112,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 113,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 114,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 115,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 116,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 117,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 118,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 119,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 120,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 121,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 122,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 123,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 124,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 125,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 126,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 127,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 128,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 129,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 130,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 131,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 132,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 133,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 134,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 135,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 136,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 137,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 138,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 139,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 140,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 141,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 142,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 143,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 144,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 145,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 146,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 147,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 148,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 149,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 150,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 151,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 152,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 153,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 154,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 155,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 156,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 157,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 158,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 159,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 160,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 161,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 162,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 163,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 164,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 165,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 166,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 167,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 168,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 169,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 170,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 171,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 172,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 173,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 174,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 175,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 176,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 177,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 178,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 179,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 180,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 181,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 182,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 183,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 184,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 185,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 186,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 187,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 188,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 189,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 190,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 191,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 192,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 193,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 194,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 195,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 196,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 197,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 198,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 199,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 200,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 201,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 202,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 203,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 204,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 205,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 206,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 207,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 208,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 209,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 210,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 211,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 212,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 213,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 214,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 215,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 216,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 217,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 218,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 219,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 220,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 221,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 222,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 223,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 224,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 225,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 226,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 227,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 228,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 229,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 230,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 231,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 232,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 233,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 234,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 235,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 236,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 237,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 238,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 239,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 240,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 241,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 242,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 243,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 244,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 245,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 246,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 247,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 248,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 249,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 250,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 251,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 252,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 253,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 254,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        },
+        {
+          "line_index": 255,
+          "calls": 1,
+          "density_role": "HOP total neutral H, not H ground/level populations",
+          "prescription": "original-MULTI2.3-DAMP",
+          "extra_helium_factor": false
+        }
+      ]
+    },
+    "vdw_broadening": true,
+    "elastic_terms_remaining": 256,
+    "table_control": null,
+    "helium_broadening": false,
+    "formal_solver": "piecewise_linear_1d",
+    "seed": {
+      "reference": {
+        "registry": {
+          "name": "reference_engines.yaml",
+          "bytes": 877,
+          "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+        },
+        "build_receipt": {
+          "name": "receipt.json",
+          "bytes": 1552,
+          "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+        },
+        "executable": {
+          "name": "dispatch.x",
+          "bytes": 3614040,
+          "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+        },
+        "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+      },
+      "inputs": {
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+          "name": "libhop.so",
+          "bytes": 1164328,
+          "sha256": "306e3cf806ab335e29a1b685a8de05e708942e9ac588ec385f44ad90d41df2d0"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+          "name": "libhop.h",
+          "bytes": 2102,
+          "sha256": "2732074eb71f1c58ea908276b7fad061458bf95f74854805708f9cb76475476d"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/receipt.json": {
+          "name": "receipt.json",
+          "bytes": 1591,
+          "sha256": "d4c2e8ab13d1dbff80e0a66db40d643ee11457b8ad63acb91da00251b86d2d6b"
+        },
+        "/Users/ryanschmitt/codex/rya1371/native/hop_trace_provider/trace_continua.patch": {
+          "name": "trace_continua.patch",
+          "bytes": 4874,
+          "sha256": "3148e0f98fb21c3f4d5a421827da88f10ccfbbfaaea6c7eaee9c59d380274c74"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+          "name": "const_mod.f90",
+          "bytes": 5473,
+          "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+        },
+        "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+          "name": "hop_abi.py",
+          "bytes": 959,
+          "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+        },
+        "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+          "name": "rya1371_hop_native_options.json",
+          "bytes": 1512,
+          "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+          "name": "TS_absdat.txt",
+          "bytes": 397207,
+          "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+          "name": "abund_magg22.txt",
+          "bytes": 912,
+          "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+          "name": "isotopes_blp.txt",
+          "bytes": 8960,
+          "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+          "name": "molec_data_BC.txt",
+          "bytes": 5993,
+          "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+          "name": "Anstee-1802-2014.txt",
+          "bytes": 4766137,
+          "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+          "name": "stehle_paschen.txt",
+          "bytes": 374761,
+          "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+          "name": "vcs_balmer.txt",
+          "bytes": 1373161,
+          "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+          "name": "vcs_paschen.txt",
+          "bytes": 312313,
+          "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+          "name": "vcs_bracket.txt",
+          "bytes": 331828,
+          "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+        },
+        "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+          "name": "stehle_balmer.txt",
+          "bytes": 374761,
+          "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+        }
+      },
+      "module_options_reset": {
+        "ref_lam": 5000.0,
+        "debug_opac": 0.0,
+        "tolerance": 9.99999975e-05,
+        "opac_table_vmic": 1.0,
+        "eosmet": 0.5,
+        "lam_tolerance": 0.0010000000474974513,
+        "mhd_eos": true,
+        "helium_scattering": true,
+        "relative_abundances": false,
+        "line_scattering": false,
+        "sample_linelist": false,
+        "h_occupation_probability": true,
+        "debye_shield": true,
+        "irwin_dis": true,
+        "disable_rad": false,
+        "disable_stk": false,
+        "disable_vdw": false,
+        "molecule_damping_estimates": true,
+        "hydrogen_bpo": true,
+        "hydrogen_profiles": "stehle",
+        "ll_profile": false,
+        "voigt_kernel": 0,
+        "line_reject_frac": 0.0,
+        "exclude_elements": "",
+        "only_elements": ""
+      },
+      "source_constants_cgs": {
+        "hh": 6.626176e-27,
+        "bk": 1.380662e-16,
+        "cc": 29979245800.0
+      },
+      "atom_trace_selection": {
+        "symbol": "O",
+        "abundance": 8.7,
+        "weight": 15.999,
+        "stages": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "excitation_eV": [
+          0.0,
+          0.019622358307079604,
+          0.028141560177335535,
+          1.9673640648993322,
+          4.189746133053594,
+          9.146090746964331,
+          9.521363374721485,
+          10.740224575718,
+          10.740475147772079,
+          10.988791805394698,
+          10.988880578076895,
+          11.930385047826697,
+          12.078662951586121,
+          12.087017874400637,
+          12.087026553294148,
+          12.28596167066612,
+          12.286045112028019,
+          12.358864376157308,
+          12.358906654767125,
+          12.541673365480955,
+          12.75370369331888,
+          12.766435258146725
+        ]
+      },
+      "excluded_O_records": 1,
+      "frame": "vacuum_nm",
+      "opacity": "total extinction m-1 including scattering exactly once",
+      "source": "native HOP historical-constant LTE I_nu; scattering source added by RT backend",
+      "molecular_equilibrium": "native HOP, LTE; no molecular line-list opacity",
+      "scientific_admission": "HOLD"
+    },
+    "angles": {
+      "source": {
+        "name": "ray_mod.f90",
+        "bytes": 24625,
+        "sha256": "b6f55089ab835924fc97fc60ae9ef94d9fda2e4aec4cb71a2fb4aae3032ef9ec"
+      },
+      "literal_precision": "default real4 promoted to real8; no weight renormalization",
+      "mu": [
+        1.0,
+        0.919533908367157,
+        0.7387738823890686,
+        0.4779249429702759,
+        0.16527895629405975
+      ],
+      "weight": [
+        0.02222222276031971,
+        0.13330599665641785,
+        0.22488933801651,
+        0.29204267263412476,
+        0.3275397717952728
+      ]
+    },
+    "background_records": [
+      {
+        "wavelengths": 19963,
+        "depths": 56,
+        "packet": {
+          "reference": {
+            "registry": {
+              "name": "reference_engines.yaml",
+              "bytes": 877,
+              "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+            },
+            "build_receipt": {
+              "name": "receipt.json",
+              "bytes": 1552,
+              "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+            },
+            "executable": {
+              "name": "dispatch.x",
+              "bytes": 3614040,
+              "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+            },
+            "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+          },
+          "inputs": {
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+              "name": "libhop.so",
+              "bytes": 1164328,
+              "sha256": "306e3cf806ab335e29a1b685a8de05e708942e9ac588ec385f44ad90d41df2d0"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+              "name": "libhop.h",
+              "bytes": 2102,
+              "sha256": "2732074eb71f1c58ea908276b7fad061458bf95f74854805708f9cb76475476d"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/receipt.json": {
+              "name": "receipt.json",
+              "bytes": 1591,
+              "sha256": "d4c2e8ab13d1dbff80e0a66db40d643ee11457b8ad63acb91da00251b86d2d6b"
+            },
+            "/Users/ryanschmitt/codex/rya1371/native/hop_trace_provider/trace_continua.patch": {
+              "name": "trace_continua.patch",
+              "bytes": 4874,
+              "sha256": "3148e0f98fb21c3f4d5a421827da88f10ccfbbfaaea6c7eaee9c59d380274c74"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+              "name": "const_mod.f90",
+              "bytes": 5473,
+              "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+            },
+            "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+              "name": "hop_abi.py",
+              "bytes": 959,
+              "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+            },
+            "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+              "name": "rya1371_hop_native_options.json",
+              "bytes": 1512,
+              "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+              "name": "TS_absdat.txt",
+              "bytes": 397207,
+              "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+              "name": "abund_magg22.txt",
+              "bytes": 912,
+              "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+              "name": "isotopes_blp.txt",
+              "bytes": 8960,
+              "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+              "name": "molec_data_BC.txt",
+              "bytes": 5993,
+              "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+              "name": "Anstee-1802-2014.txt",
+              "bytes": 4766137,
+              "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+              "name": "stehle_paschen.txt",
+              "bytes": 374761,
+              "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+              "name": "vcs_balmer.txt",
+              "bytes": 1373161,
+              "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+              "name": "vcs_paschen.txt",
+              "bytes": 312313,
+              "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+              "name": "vcs_bracket.txt",
+              "bytes": 331828,
+              "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+            },
+            "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+              "name": "stehle_balmer.txt",
+              "bytes": 374761,
+              "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+            }
+          },
+          "module_options_reset": {
+            "ref_lam": 5000.0,
+            "debug_opac": 0.0,
+            "tolerance": 9.99999975e-05,
+            "opac_table_vmic": 1.0,
+            "eosmet": 0.5,
+            "lam_tolerance": 0.0010000000474974513,
+            "mhd_eos": true,
+            "helium_scattering": true,
+            "relative_abundances": false,
+            "line_scattering": false,
+            "sample_linelist": false,
+            "h_occupation_probability": true,
+            "debye_shield": true,
+            "irwin_dis": true,
+            "disable_rad": false,
+            "disable_stk": false,
+            "disable_vdw": false,
+            "molecule_damping_estimates": true,
+            "hydrogen_bpo": true,
+            "hydrogen_profiles": "stehle",
+            "ll_profile": false,
+            "voigt_kernel": 0,
+            "line_reject_frac": 0.0,
+            "exclude_elements": "",
+            "only_elements": ""
+          },
+          "source_constants_cgs": {
+            "hh": 6.626176e-27,
+            "bk": 1.380662e-16,
+            "cc": 29979245800.0
+          },
+          "atom_trace_selection": {
+            "symbol": "O",
+            "abundance": 8.7,
+            "weight": 15.999,
+            "stages": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "excitation_eV": [
+              0.0,
+              0.019622358307079604,
+              0.028141560177335535,
+              1.9673640648993322,
+              4.189746133053594,
+              9.146090746964331,
+              9.521363374721485,
+              10.740224575718,
+              10.740475147772079,
+              10.988791805394698,
+              10.988880578076895,
+              11.930385047826697,
+              12.078662951586121,
+              12.087017874400637,
+              12.087026553294148,
+              12.28596167066612,
+              12.286045112028019,
+              12.358864376157308,
+              12.358906654767125,
+              12.541673365480955,
+              12.75370369331888,
+              12.766435258146725
+            ]
+          },
+          "excluded_O_records": 1,
+          "frame": "vacuum_nm",
+          "opacity": "total extinction m-1 including scattering exactly once",
+          "source": "native HOP historical-constant LTE I_nu; scattering source added by RT backend",
+          "molecular_equilibrium": "native HOP, LTE; no molecular line-list opacity",
+          "scientific_admission": "HOLD"
+        }
+      }
+    ],
+    "perturbers": [],
+    "scope": "Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission."
+  },
+  "seconds": 2.091819250024855,
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "scope": "Independent absolute BB/BF gross-rate reconstruction from exact saved J, actual compiled isotropic profiles/cross sections and original quadratures; compared with saved compiled rate coefficients. Exact PRE-update populations preserved. No fresh RT, SE or physical operator modification; thermal canaries remain diagnostic. Scientific HOLD.",
+  "absolute_replay": {
+    "max_relative_directional_difference": 2.864375403532904e-14,
+    "positive_direction_depths": 31136,
+    "worst_destination_source_depth": [
+      19,
+      39,
+      41
+    ],
+    "positive_sum_FP64_bound": 3.5679903488923983e-10,
+    "max_transition_nodes": 10043,
+    "angular_weight_sum": 1.0000000018626451,
+    "saved_physical_residual": 0.00020041235450489695,
+    "reconstructed_physical_residual": 0.00020041235450698618,
+    "within_FP64_bound": true
+  }
+}

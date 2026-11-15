@@ -1,3 +1,7 @@
+## 2026-11-15 — Joint continuum opacity and rate control
+
+- **RYA-1371** — Native alpha opt-in tested with fresh fixed-population RT and independent rates; default exact, residual essentially unchanged. Complete thermal-profile contract next; science HOLD (v292).
+
 ## 2026-11-15 — Second native refinement and FUV contract
 
 - **RYA-1371** — Native86048node comparison and full-state FUV factorial diagnostics complete; thermal-profile floor distinguished from remaining consistency/convergence work, no physics adoption (v291).

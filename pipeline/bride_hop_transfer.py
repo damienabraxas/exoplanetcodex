@@ -96,7 +96,7 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False,top_boundary=None,line_grid_control=None):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False,top_boundary=None,line_grid_control=None,continuum_interpolation_control=None,fixed_population_diagnostic=False):
     """Bind complete native O state and HOP background before Context compilation."""
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     if not isinstance(vdw_broadening,bool):raise ValueError('Require explicit VDW diagnostic boolean')
@@ -119,6 +119,11 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lw.ThermalisedRadiation(),upperBc=FiniteColumnCap(0.)if top_boundary is None else top_boundary)
     mu,weight,angles=native_lobatto5();atmos.quadrature(Nrays=5,mu=mu,wmu=weight)
     model=to_lightweaver(atom);perturbers=Perturbers(seed,helium=helium_broadening)
+    alpha_audit=None
+    if continuum_interpolation_control is not None:
+        from pipeline.native_continuum_control import NativeContinuumControl
+        if not isinstance(continuum_interpolation_control,NativeContinuumControl)or fixed_population_diagnostic is not True or table_control is not None or continuum_only or line_grid_control is not None:raise ValueError('Native alpha requires explicit full-source fixed-population diagnostic without other transfer overrides')
+        alpha_audit=continuum_interpolation_control.apply(model)
     table_audit=None
     if table_control is not None:
         from pipeline.bride_native_table_control import apply_table_control
@@ -153,4 +158,4 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     if not continuum_only and vdw_broadening and original_width_law is None:verify_helium_reads(perturbers.reads,helium_broadening)
     if not vdw_broadening and (perturbers.reads or any(line.broadening.elastic for line in model.lines)):raise ValueError('VDW-off diagnostic retained elastic broadening reads/terms')
     if original_width_law is not None and not continuum_only and (len(source_width_reads)!=256 or any(x['calls']==0 for x in source_width_reads)or perturbers.reads):raise ValueError('Original full-width law did not reach actual model without extra perturbation')
-    return ctx,dict(line_grid_control=line_grid_audit,coupled_native_contract_diagnostic=coupled_diagnostic,original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
+    return ctx,dict(continuum_interpolation_control=alpha_audit,line_grid_control=line_grid_audit,coupled_native_contract_diagnostic=coupled_diagnostic,original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

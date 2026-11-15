@@ -137,12 +137,18 @@ def main():
                 coarse=d['wave_vac_nm'].copy()
             extra_wave=midpoint_grid(coarse,control['passes'],interval_vac_nm=control.get('interval_vac_nm'))
             grid_audit=dict(interval_vac_nm=control.get('interval_vac_nm'),method=control['method'],passes=control['passes'],coarse_points=len(coarse),refined_points=len(extra_wave),endpoints_vac_nm=[float(extra_wave[0]),float(extra_wave[-1])],scope='Insert integration nodes only; original transition endpoints, source atom and frozen native populations unchanged. Numerical refinement, not physical adoption.')
+    alpha_control=None
+    if 'continuum_interpolation_control'in plan:
+        if physical_control is None or 'fixed_population_thermal_control'in plan:raise ValueError('Native alpha control requires matched physical state and no simultaneous thermal override')
+        from pipeline.native_continuum_control import load_native_continuum_control
+        alpha_control,more=load_native_continuum_control(plan['continuum_interpolation_control'],atom_file,atom,resolver=require_codex_path,output=a.output/'native_alpha_queries',deadline=deadline);checks.update(more)
     report=dict(generator=fingerprint(__file__),inputs=checks,scientific_admission='HOLD',computational_completed=False,scope=plan['scope'],source_atom=preflight,boundary_control=boundary_mode,wavelength_grid_control=grid_audit,native_rate_semantics='Saved native coefficients contain SE preconditioning; individual up/down values are not gross Einstein rates. Net-flow interpretation additionally requires the native linearization population. Fresh unpreconditioned native-field replay remains owed.')
     if physical_control is not None:report['native_rate_semantics']='Unpreconditioned physical rate integrals at exact PRE-update radiation populations; source FP32 contributions summed in FP64, normalized with source profile/LTE factors. Not a post-update fresh native formal solve.'
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n');ctx=None
     try:
-        ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=extra_wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary,line_grid_control=line_grid_control)
+        ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=extra_wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary,line_grid_control=line_grid_control,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None)
         ctx.set_fs_iter_scheme(scheme);ctx.kwargs['fsIterScheme']=scheme;active=ctx.activeAtoms[0];active.compute_collisions(fillDiagonal=False);np.testing.assert_array_equal(active.C,binding.matrix)
+        if alpha_control is not None:alpha_control.verify_compiled(active)
         thermal=plan.get('fixed_population_thermal_control');thermal_audit=None;formal_ctx=ctx
         if thermal is not None:
             if thermal.get('method')!='HOP-LTE-frequency' or set(thermal)-{'method','components','strengths'} or not {'method','components'}<=set(thermal):raise ValueError('Unknown fixed-population thermal control')
@@ -171,6 +177,7 @@ def main():
             from pipeline.native_ghost_boundary import converge_ghost_radiation
             radiation=converge_ghost_radiation(formal_ctx,rtol=controls['cap_radiation_rtol'],maxiter=controls['cap_radiation_maxiter'],deadline=deadline)
         np.testing.assert_array_equal(active.n,pop);np.testing.assert_array_equal(active.nStar,star)
+        if alpha_control is not None:alpha_control.verify_compiled(active);alpha_control.verify_inputs()
         own_R=np.zeros_like(foreign_R)
         for transition in active.trans:own_R[transition.j,transition.i]+=transition.Rij;own_R[transition.i,transition.j]+=transition.Rji
         compiled_R=own_R.copy()
