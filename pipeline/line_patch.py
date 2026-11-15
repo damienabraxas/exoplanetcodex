@@ -82,17 +82,27 @@ def res_from_row(row: dict, obs_source: str) -> dict:
             "red_chi2": _num(row.get("red_chi2"))}
 
 
+def continuum_applied(method: str) -> bool:
+    """Whether the recorded continuum was divided out: the loop writes `<method>; <reason>`
+    and the reason of an applied level is `applied`."""
+    return bool(method) and method.rsplit("; ", 1)[-1].startswith("applied")
+
+
 def continuum_drift(row: dict, level, method: str) -> str:
-    """'' when the re-placed continuum equals the stored one, else what moved."""
+    """'' when the re-placed continuum divides the flux exactly as the stored one did, else
+    what moved. The LEVEL and whether it was APPLIED decide the fitted flux; the method's
+    prose does not (RYA-1350 appended "sag corroborated: ..." to unchanged levels)."""
     old_l, new_l = _num(row.get("continuum_level")), _num(level)
     same_l = ((np.isnan(old_l) and np.isnan(new_l))
               or (np.isfinite(old_l) and np.isfinite(new_l)
                   and abs(new_l - old_l) <= CONTINUUM_REL_TOL * max(1.0, abs(old_l))))
-    old_m = row.get("continuum_method") or ""
-    if same_l and old_m == (method or ""):
+    old_a = continuum_applied(row.get("continuum_method") or "")
+    new_a = continuum_applied(method or "")
+    if same_l and old_a == new_a:
         return ""
-    return f"level {row.get('continuum_level') or '-'} -> {level if level is not None else '-'}" + (
-        "" if old_m == (method or "") else "; method changed")
+    return (f"level {row.get('continuum_level') or '-'} -> "
+            f"{level if level is not None else '-'}"
+            + ("" if old_a == new_a else f"; applied {old_a} -> {new_a}"))
 
 
 @dataclass

@@ -41,10 +41,15 @@ def test_a_failed_fit_keeps_its_status_behind_a_registry_prefix():
 
 
 def test_a_moved_continuum_is_drift_and_an_unmoved_one_is_not():
-    r = _row("5000.0", "2.0")
-    assert lp.continuum_drift(r, 0.99, "RYA-1230 model-guided; ok") == ""
-    assert "level" in lp.continuum_drift(r, 0.97, "RYA-1230 model-guided; ok")
-    assert "method" in lp.continuum_drift(r, 0.99, "RYA-1230 model-guided; refused")
+    r = _row("5000.0", "2.0", method="RYA-1230 model-guided, 3-MAD clipped; applied")
+    same = "RYA-1230 model-guided, 3-MAD clipped; applied"
+    assert lp.continuum_drift(r, 0.99, same) == ""
+    assert lp.continuum_drift(r, 0.99 + 1e-16, same) == ""                     # float noise
+    reworded = "RYA-1230 model-guided, 3-MAD clipped; sag corroborated: median 0.99; applied"
+    assert lp.continuum_drift(r, 0.99, reworded) == ""                         # prose only
+    assert "level" in lp.continuum_drift(r, 0.97, same)
+    refused = "RYA-1230 model-guided; CONTINUUM_UNPLACEABLE: 0.99 not corroborated"
+    assert "applied True -> False" in lp.continuum_drift(r, 0.99, refused)     # the gate
     blank = _row("5000.0", "2.0", level="", method="")
     assert lp.continuum_drift(blank, None, "") == ""
 
