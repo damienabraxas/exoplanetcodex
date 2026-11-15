@@ -1,5 +1,7 @@
 ## 2026-11-14 — Oxygen field feedback and continuum quadrature
 
+- **RYA-1371** — Native background-knot sampling tested; Fe next-element plan/resource/ion coverage audited, science HOLD (v284).
+
 - **RYA-1371** — Adaptive continuum and same-node higher-order checks localize unresolved UV quadrature;83 tests, HOLD (v283).
 
 - **RYA-1371** — Thermal/strength controls bounded; node doubling exposes OII continuum quadrature sensitivity, adaptive checks next (v282).

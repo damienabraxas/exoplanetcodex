@@ -106,13 +106,13 @@ def main():
     if 'wavelength_grid_control'in plan:
         from pipeline.rate_grid_control import midpoint_grid
         control=plan['wavelength_grid_control']
-        if control.get('method')=='vacuum-nm-adaptive-continuum':
+        if control.get('method')in ['vacuum-nm-adaptive-continuum','vacuum-nm-background-knots']:
             from pipeline.hop_packet import MAX_PACKET_WAVELENGTHS
             if physical_control is None or set(control)!= {'resource','packet','producer','method'}:raise ValueError('Require explicit matched-state adaptive packet')
-            directory=require_codex_path(control['resource']);path=directory/'adaptive_grid.npz';producer=directory/'report.json'
+            directory=require_codex_path(control['resource']);path=directory/('adaptive_grid.npz'if control['method']=='vacuum-nm-adaptive-continuum'else'background_grid.npz');producer=directory/'report.json'
             if fingerprint(path)!=control['packet']or fingerprint(producer)!=control['producer']:raise ValueError('Changed adaptive grid producer')
             doc=json.loads(producer.read_text())
-            if not doc['computational_completed']or doc.get('adaptive_continuum',{}).get('method')!=control['method']:raise ValueError('Unqualified adaptive grid producer')
+            if not doc['computational_completed']or doc.get('adaptive_continuum',doc.get('grid_control',{})).get('method')!=control['method']:raise ValueError('Unqualified adaptive grid producer')
             for name in ['arrays.npz','report.json']:
                 if doc['inputs'].get(str(native/name))!=fingerprint(native/name):raise ValueError('Adaptive grid has wrong native state')
             with np.load(path)as d:
@@ -122,7 +122,7 @@ def main():
             index=np.searchsorted(extra_wave,inherited)
             if np.any(index>=len(extra_wave))or not np.array_equal(extra_wave[index],inherited)or not np.array_equal(extra_wave[[0,-1]],inherited[[0,-1]]):raise ValueError('Adaptive grid removed inherited nodes/support')
             checks[str(path)]=fingerprint(path);checks[str(producer)]=fingerprint(producer)
-            grid_audit=dict(method=control['method'],coarse_points=len(inherited),refined_points=len(extra_wave),endpoints_vac_nm=[float(extra_wave[0]),float(extra_wave[-1])],scope='Source-bound adaptive continuum indicator; retain all inherited wavelengths/physical transitions under original20000-point cap. No reference-fit or physical change.')
+            grid_audit=dict(method=control['method'],coarse_points=len(inherited),refined_points=len(extra_wave),endpoints_vac_nm=[float(extra_wave[0]),float(extra_wave[-1])],scope='Source-bound wavelength enrichment from the declared producer; retain all inherited wavelengths/physical transitions under original20000-point cap. No reference-fit or physical change.')
         else:
             if physical_control is None or set(control)not in [{'resource','packet','passes','method'},{'resource','packet','passes','method','interval_vac_nm'}]or control['method']!='vacuum-nm-midpoint-insertion':raise ValueError('Require explicit physical-rate midpoint diagnostic')
             path=require_codex_path(control['resource'])/'rates.npz'

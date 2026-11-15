@@ -33917,3 +33917,179 @@ artifacts:
     generator: scripts/audit_oxygen_adaptive_sequence.py
     ticket: RYA-1371
     note: Bounded nested continuum quadrature and same-node higher-order diagnostics; scientific HOLD.
+  - artifact: rya1371/uv_background_fe_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-plan-v1/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-plan-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-plan-v1/parabolic_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-plan-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-plan-v1/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-adaptive-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-final-audit-v1/adaptive_grid.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-final-audit-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-final-audit-v1/parabolic_rates.npz
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-final-audit-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-final-audit-v1/stdout_stderr.log
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knot-grid-v1/background_grid.npz
+    generator: scripts/build_oxygen_background_grid.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knot-grid-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knot-grid-v1/knot_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knot-grid-v1/packaging_failure.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knot-grid-v1/report.json
+    generator: scripts/build_oxygen_background_grid.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knots-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knots-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knots-v1/rates.npz
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knots-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-knots-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-midpoint-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-midpoint-v1/manifest.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-midpoint-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-midpoint-v1/stdout_stderr.log
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-sequence-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-sequence-v1/report.json
+    generator: scripts/audit_background_knot_sequence.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-sequence-v1/sequence.csv
+    generator: scripts/audit_background_knot_sequence.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-background-sequence-v1/stdout_stderr.log
+    generator: scripts/audit_background_knot_sequence.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-fe-readiness-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-fe-readiness-v1/report.json
+    generator: scripts/audit_fe_reference_readiness.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-fe-readiness-v1/stdout_stderr.log
+    generator: scripts/audit_fe_reference_readiness.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v1/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v2/candidates.csv
+    generator: scripts/trace_oxygen_uv_panels.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v2/driver_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v2/knot_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v2/report.json
+    generator: scripts/trace_oxygen_uv_panels.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v2/samples.csv
+    generator: scripts/trace_oxygen_uv_panels.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v2/stdout_stderr.log
+    generator: scripts/trace_oxygen_uv_panels.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.
+  - artifact: rya1371/uv_background_fe_v1/rya1371-uv-panel-trace-v2/uv_panels.png
+    generator: scripts/trace_oxygen_uv_panels.py
+    ticket: RYA-1371
+    note: UV source-background grid diagnostics and read-only Fe readiness; no scientific admission or Fe RT.

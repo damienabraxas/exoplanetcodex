@@ -1284,6 +1284,56 @@ entries:
     rel: bride_mac_checks/rya1371-adaptive-sequence-v1
     kind: dir
     desc: Bounded adaptive continuum numerical evidence; computational completion separate from scientific HOLD.
+  experiments.bride_uv_panel_trace_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-uv-panel-trace-v1
+    kind: dir
+    desc: Source UV/background or Fe readiness diagnostics; scientific admission remains HOLD.
+  experiments.bride_uv_panel_trace_v2:
+    root: work
+    rel: bride_mac_checks/rya1371-uv-panel-trace-v2
+    kind: dir
+    desc: Source UV/background or Fe readiness diagnostics; scientific admission remains HOLD.
+  experiments.bride_fe_readiness_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-fe-readiness-v1
+    kind: dir
+    desc: Source UV/background or Fe readiness diagnostics; scientific admission remains HOLD.
+  experiments.bride_background_midpoint_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-background-midpoint-v1
+    kind: dir
+    desc: Source UV/background or Fe readiness diagnostics; scientific admission remains HOLD.
+  experiments.bride_background_adaptive_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-background-adaptive-v1
+    kind: dir
+    desc: Source UV/background or Fe readiness diagnostics; scientific admission remains HOLD.
+  experiments.bride_background_final_audit_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-background-final-audit-v1
+    kind: dir
+    desc: Source UV/background or Fe readiness diagnostics; scientific admission remains HOLD.
+  experiments.bride_background_sequence_v1:
+    root: work
+    rel: bride_mac_checks/rya1371-background-sequence-v1
+    kind: dir
+    desc: Source UV/background or Fe readiness diagnostics; scientific admission remains HOLD.
+  experiments.bride_background_adaptive_plan:
+    root: work
+    rel: bride_mac_checks/rya1371-background-adaptive-plan-v1
+    kind: dir
+    desc: Source-background-knot branch with all-continuum error allocation under20000 nodes.
+  experiments.bride_background_knots:
+    root: work
+    rel: bride_mac_checks/rya1371-background-knots-v1
+    kind: dir
+    desc: Full inherited O grid plus all native background opacity knots; fixed-population numerical branch.
+  experiments.bride_background_knot_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-background-knot-grid-v1
+    kind: dir
+    desc: Source HOP absdat knot union preserving the inherited full O grid; no physical change.
   experiments.bride_adaptive_continuum_plan3:
     root: work
     rel: bride_mac_checks/rya1371-adaptive-continuum-plan-v3

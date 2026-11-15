@@ -1,0 +1,128 @@
+{
+  "generator": {
+    "name": "audit_fe_reference_readiness.py",
+    "bytes": 6302,
+    "sha256": "31163ad08b07d82e167c04caf00f3cb8176241c4b46de9502ec026d487dfeb5f"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/atoms/atom.fe607a": {
+      "name": "atom.fe607a",
+      "bytes": 6683950,
+      "sha256": "9715c0dec2be8968a1a41f9545e4c6ec45fdeacbad516fbc5b1812c1e8de7cad"
+    },
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_fe_reference_readiness.py": {
+      "name": "audit_fe_reference_readiness.py",
+      "bytes": 6302,
+      "sha256": "31163ad08b07d82e167c04caf00f3cb8176241c4b46de9502ec026d487dfeb5f"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/data/results/rya1055/atom_ion_reach.json": {
+      "name": "atom_ion_reach.json",
+      "bytes": 1147,
+      "sha256": "dedd91fbea12169c4f2461d901fdbbe0b52c708f72ff60c5ba5888b838ac0442"
+    }
+  },
+  "engine_receipt": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "source_atom": {
+    "name": "atom.fe607a",
+    "bytes": 6683950,
+    "sha256": "9715c0dec2be8968a1a41f9545e4c6ec45fdeacbad516fbc5b1812c1e8de7cad"
+  },
+  "source_abundance_input": 7.5,
+  "source_weight": 55.85,
+  "levels": 607,
+  "levels_per_ion": {
+    "1": 548,
+    "2": 58,
+    "3": 1
+  },
+  "BB": 12635,
+  "BB_stage_pairs": {
+    "1->1": 12635
+  },
+  "BF": 606,
+  "BF_stage_pairs": {
+    "1->2": 548,
+    "2->3": 58
+  },
+  "collision_records": 29983,
+  "collision_kinds": {
+    "CE": 14001,
+    "CH": 15090,
+    "CH0": 344,
+    "CI": 548
+  },
+  "source_temperature_span_K": [
+    3000.0,
+    10000.0
+  ],
+  "nonzero_Stark_coefficients": 0,
+  "bound_bound_centre_span_vac_nm": [
+    170.07779800683107,
+    1999.9140036978395
+  ],
+  "centre_counts_by_inventory_bin": {
+    "UV_below400nm": 4165,
+    "VIS400_700nm": 3668,
+    "NIR700_1000nm": 1677,
+    "IR1000_2000nm": 3125,
+    "IR_at_least2000nm": 0
+  },
+  "source_q_counts": {
+    "51": 39,
+    "9": 12584,
+    "101": 12
+  },
+  "raw_doubled_line_quadrature_nodes": 220279,
+  "raw_profile_bytes_projection": 986849920,
+  "one_dense607_square_matrix_at56depth_bytes": 165065152,
+  "dry_conversion": {
+    "status": "AtomicModel construction and dry quadrature only; not physics qualification",
+    "merged_candidate_points": 242487,
+    "fits_current_HOP_packet_scope": false,
+    "candidate_BB_profile_samples": 518144,
+    "projected_BB_phi_bytes_at56depth5rays2directions": 2321285120,
+    "scope": "No Context, profile array, atmosphere, collision matrix, EOS packet or RT/SE solve allocated. Candidate union uses inherited O diagnostic numerical prescription; Fe grid selection still unqualified. Byte projections are arithmetic, not measured peak memory or runtime."
+  },
+  "legacy_identity": {
+    "record": "/Users/ryanschmitt/codex/rya1371/data/results/rya1055/atom_ion_reach.json",
+    "recorded_sha256": "53446fe1db5e22e35ad972c3d36b990d27bcf6b13c92c95c00aa57cf1f6d7243",
+    "byte_identical_to_supplied_atom": false,
+    "registered_directory": "/Users/ryanschmitt/Documents/Exoplanet Codex/grids/nlte/gerber_ts",
+    "registered_directory_present": false,
+    "scope": "Different byte hashes do not prove changed physical data; complete comparison to the legacy atom is still owed. Missing registered directory is explicit, with no silent path substitute."
+  },
+  "gates": [
+    "Oxygen continuum numerical convergence and reviewed engine foundation",
+    "Fe atom identity/provenance/rights and assigned-line coverage, with FeII BB absence explicit",
+    "Fe-specific collision interpolation/direction and full atomic/background continuum ownership qualification; O41-specific bindings cannot be reused as-is",
+    "Dry resource gate before any full Fe column; no size/tolerance bypass",
+    "Matched-input FeI1D reference/departure/rate benchmark at declared source abundance, then current solar observable/line-by-line validation",
+    "FeII ionization diagnostic needs a separate eligible model or explicit LTE limitation",
+    "Parameter sensitivity and justified broader-band expansion; no tuning to a3D7.46 abundance target"
+  ],
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "scope": "Next-element readiness only. Source FeI/FeII/FeIII bookkeeping is not general FeII NLTE capability. Existing production Fe values/dispositions unaffected. No restricted/super-level atom, collision approximation, new gf, benchmark result, solar abundance or timing claim. Fe is the next expansion target per Ryan; C/N remain queued. Existing1137/1139/1372/1368 ownership and later corrections must be reconciled; no duplicate ticket or outreach."
+}
