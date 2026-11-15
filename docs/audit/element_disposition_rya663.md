@@ -61,7 +61,7 @@ Invisible to the RYA-632 ledger guard, which compares verdicts and counts but ne
 | C | PASS | PASS | 8.491 | 8.460 | — | — | — | n/a | — | already PASS — nothing owed |
 | Ca | CURATION-OWED | owed-HELD | 6.324 | 6.300 | 0.016 | ✓ | ✓ | OK | REGENERATE | none — promotes under the ratified three gates |
 | Co | PASS | PASS | 4.960 | 4.940 | — | — | — | n/a | — | already PASS — nothing owed |
-| Cr | CURATION-OWED | EW-pool | 6.022 | 5.620 | -1.058 | ✗ | ✗ | FAILED | REGENERATE-then-ADJUDICATE | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Cr); gate 2: |A - ref| = 0.402 > 0.1; gate 3: |dCE| = 1.058 > 0.1 |
+| Cr | CURATION-OWED | EW-pool | 6.022 | 5.620 | -1.058 | ✗ | ✗ | FAILED | REGENERATE-then-ADJUDICATE | gate 1: Engine-B atom not RYA-534-validated (Cr_gerber2023.prov.json: no verdict recorded); gate 2: |A - ref| = 0.402 > 0.1; gate 3: |dCE| = 1.058 > 0.1 |
 | Cu | CURATION-OWED | measured-awaiting-freeze | 4.345 | 4.180 | — | ✗ | ✗ | FAILED | REGENERATE | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Cu); gate 2: |A - ref| = 0.165 > 0.1; gate 3: single-engine record — zero independent confirmation |
 | Eu | CURATION-OWED | owed-BLANK | — | 0.520 | — | ✗ | ✗ | UNEVALUABLE | — | no value exists (zero graded survivors) — needs a real line, not a decision |
 | Fe | PASS | PASS | 7.466 | 7.460 | 0.084 | — | — | n/a | ADJUDICATE | already PASS — nothing owed |

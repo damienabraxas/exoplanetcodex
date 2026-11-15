@@ -18,6 +18,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from pipeline import line_match  # noqa: E402
 from pipeline import published_line_add as pla  # noqa: E402
 
 WAVES = (9294.23, 9446.81, 9571.75, 9667.2)
@@ -34,7 +35,11 @@ CITE = {"sobeck2007": {"doi": "10.1086/519987", "citation": "Sobeck et al. 2007 
 
 def main() -> None:
     lab = pd.read_csv(ROOT / "data" / "reference" / "lab_gf_tables" / "lab_gf_lines.csv", low_memory=False)
-    lab = lab[(lab.paper == "sobeck2007") & lab.wavelength_air_A.round(2).isin(WAVES)]
+    lab = lab[lab.paper == "sobeck2007"].reset_index(drop=True)
+    hit = line_match.require_resolved(line_match.match(WAVES, lab.wavelength_air_A.to_numpy()),
+                                      what="Sobeck 2007 Cr I lines", species="Cr I",
+                                      source="lab_gf_lines.csv")
+    lab = lab.iloc[hit]
     if len(lab) != len(WAVES):
         raise SystemExit(f"expected {len(WAVES)} Sobeck rows, found {len(lab)}")
     plans = [pla.plan({"species": r.species, "wavelength_A": r.wavelength_air_A, "ep_eV": r.ep_eV,
