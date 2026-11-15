@@ -115,6 +115,7 @@ class LinePatch:
     species: str
     aliases: tuple = ()
     refit_wl: set = field(default_factory=set)
+    not_in_pool: list = field(default_factory=list)
     ledger: dict = field(default_factory=dict)
     drift: list = field(default_factory=list)
 
@@ -129,26 +130,33 @@ class LinePatch:
         return cls(read_refit_list(refit_csv), Path(prior_dir), stem, species,
                    (species, *aliases))
 
-    def bind(self, cand_wl, cand_ep) -> None:
-        """Tie every refit row to exactly one candidate line of THIS pool (EP when the list
-        gives it), or refuse. A row of another species is not this run's business."""
+    def bind(self, cand_wl, cand_ep, known_wl=(), known_ep=()) -> None:
+        """Tie each refit row of this species to a candidate line of THIS pool (EP required
+        when the list gives it). A row that is a real line of our atomic data (`known_*`,
+        canonical_gf) but not in this pool is skipped and recorded -- an element-wide list
+        spans every pool. A row that is neither is refused: a mistyped wavelength."""
         mine = [r for r in self.refit if not r["species"] or r["species"] in self.aliases]
         if not mine:
             return
         ep = [r["ep_eV"] for r in mine]
         use_ep = all(e is not None for e in ep)
+        kw = dict(want_ep=ep if use_ep else None, require_ep=use_ep)
         m = match([r["wavelength_air_A"] for r in mine], list(cand_wl),
-                  want_ep=ep if use_ep else None, src_ep=list(cand_ep) if use_ep else None,
-                  require_ep=use_ep)
-        bad = [mine[i]["wavelength_air_A"] for i in np.flatnonzero(~m.resolved)]
-        bad += list(m.ambiguous)
+                  src_ep=list(cand_ep) if use_ep else None, **kw)
+        k = match([r["wavelength_air_A"] for r in mine], list(known_wl),
+                  src_ep=list(known_ep) if use_ep else None, **kw)
+        bad = [mine[i]["wavelength_air_A"] for i in range(len(mine))
+               if not m.resolved[i] and not k.resolved[i]]
         if bad:
             raise LinePatchError(
-                f"refit list: {len(bad)} {self.species} line(s) are not lines of this pool "
-                f"(no candidate within {MATCH_TOL_A} A, or ambiguous): "
+                f"refit list: {len(bad)} {self.species} line(s) are not lines of our atomic "
+                f"data (canonical_gf, within {MATCH_TOL_A} A"
+                + (", EP within 0.02 eV" if use_ep else "") + "): "
                 + ", ".join(f"{float(w):.3f}" for w in bad[:20])
-                + ". Pick lines from the pool's own list; a mistyped wavelength is refused.")
+                + ". Pick lines from the list; a mistyped wavelength is refused.")
         self.refit_wl = {round(float(cand_wl[i]), 3) for i in m.index[m.resolved]}
+        self.not_in_pool = sorted(round(mine[i]["wavelength_air_A"], 3)
+                                  for i in range(len(mine)) if not m.resolved[i])
 
     def _prior_rows(self, treatment: str) -> list[dict] | None:
         p = self.prior_dir / f"{self.stem}_{treatment}_lines.csv"
@@ -195,5 +203,6 @@ class LinePatch:
         p.write_text(json.dumps({"stem": self.stem, "species": self.species,
                                  "prior_dir": str(self.prior_dir),
                                  "refit_requested": len(self.refit_wl),
+                                 "listed_not_in_pool": self.not_in_pool,
                                  "treatments": self.ledger}, indent=1) + "\n")
         return p

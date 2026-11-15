@@ -1667,8 +1667,14 @@ def synthesis_route(a, pol) -> None:
                                  getattr(a, "reuse_fits_from", None), synthesis_stem(a),
                                  f"{a.element} {a.ion}", (species_token(a.element, a.ion),))
     if _patch is not None:
-        _patch.bind(cand.wave_A.to_numpy(float), cand.ep_eV.to_numpy(float))
-        print(f"  [patch] refitting {len(_patch.refit_wl)} of {len(cand)} lines; the rest "
+        _cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv",
+                          usecols=["species", "wavelength_air_A", "excitation_potential_eV"])
+        _cg = _cg[_cg.species == f"{a.element} {a.ion}"]
+        _patch.bind(cand.wave_A.to_numpy(float), cand.ep_eV.to_numpy(float),
+                    _cg.wavelength_air_A.to_numpy(float),
+                    _cg.excitation_potential_eV.to_numpy(float))
+        print(f"  [patch] refitting {len(_patch.refit_wl)} of {len(cand)} lines "
+              f"({len(_patch.not_in_pool)} listed line(s) are not in this pool); the rest "
               f"reuse their stored fits from {_patch.prior_dir}")
 
     # Per PROCESS (RYA-1230): two band runs launched in parallel shared this directory.

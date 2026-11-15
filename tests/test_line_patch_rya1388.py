@@ -61,20 +61,31 @@ def test_refit_lines_and_stored_fits_come_together(tmp_path):
                                None, "s", "Fe I")
 
 
-def test_a_wavelength_not_in_the_pool_is_refused(tmp_path):
+def test_a_wavelength_not_in_our_atomic_data_is_refused(tmp_path):
     refit = _write(tmp_path / "r.csv", [{"species": "Fe I", "wavelength_air_A": "5000.003",
                                          "loggf": "-9"},
                                         {"species": "Fe I", "wavelength_air_A": "5010.5"}])
     p = lp.LinePatch.from_args(str(refit), str(tmp_path), "s", "Fe I")
     with pytest.raises(lp.LinePatchError, match="5010.500"):
-        p.bind(np.array([5000.0, 5005.0]), np.array([2.0, 3.0]))
+        p.bind(np.array([5000.0, 5005.0]), np.array([2.0, 3.0]),
+               np.array([5000.0, 5005.0, 6000.0]), np.array([2.0, 3.0, 1.0]))
+
+
+def test_a_real_line_of_another_pool_is_skipped_not_refused(tmp_path):
+    refit = _write(tmp_path / "r.csv", [{"wavelength_air_A": "5005.0"},
+                                        {"wavelength_air_A": "6000.0"}])
+    p = lp.LinePatch.from_args(str(refit), str(tmp_path), "s", "Fe I")
+    p.bind(np.array([5000.0, 5005.0]), np.array([2.0, 3.0]),
+           np.array([5000.0, 5005.0, 6000.0]), np.array([2.0, 3.0, 1.0]))
+    assert p.refit_wl == {5005.0} and p.not_in_pool == [6000.0]
 
 
 def test_other_species_rows_are_left_to_their_own_run(tmp_path):
     refit = _write(tmp_path / "r.csv", [{"species": "Fe II", "wavelength_air_A": "6000.0"},
                                         {"species": "Fe 1", "wavelength_air_A": "5005.001"}])
     p = lp.LinePatch.from_args(str(refit), str(tmp_path), "s", "Fe I", ("Fe 1",))
-    p.bind(np.array([5000.0, 5005.0]), np.array([2.0, 3.0]))
+    p.bind(np.array([5000.0, 5005.0]), np.array([2.0, 3.0]),
+           np.array([5000.0, 5005.0]), np.array([2.0, 3.0]))
     assert p.refit_wl == {5005.0}
 
 
