@@ -1,3 +1,10 @@
+## 2026-11-15 — RYA-728 landed; RYA-1350 Ti republished, Fe/Ca gate checked
+
+> **Current as of `main` 4994897f** (PR #622).
+
+- **RYA-728** — `4994897f` PR #622: solar Cr published through the ORCH (coverage DONE); Ward+2023 / Tozzi+1985 lab gf; model registry fingerprinted by its emitting rows.
+- **RYA-1350** (this branch) — Ti republished through the continuum gate: feed v1.685, 342 products, coverage DONE; only Ti I NIR KP-molecfit moves > 0.05 (-0.09 to -0.11, 7 lines). mu=1 step reads Liege in the rest frame (+0.43 km/s observed frame) and now covers C/N/O against AGSS21 Table 3 (C -0.084 +/- 0.019; N has no shared indicator; O unconstraining); per line vs A21 1D MARCS Al +0.064, Na +0.069, Mg +0.033, Si +0.035, Ca +0.054, Ti +0.023, Fe +0.026. Gate scan: 0 ungated levels in any element. Ca HARPS VIS rerun identical to published; Fe HARPS VIS moves +0.01 to +0.06 (small pools) and is owed through a line-subset ORCH input (new ticket), not this branch.
+
 ## 2026-11-10 — RYA-1378 landed; RYA-1350 branch reconciled
 
 > **Current as of `main` 45901e76** (PR #621).
