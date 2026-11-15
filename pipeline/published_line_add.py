@@ -26,6 +26,7 @@ and legacy archive as compatibility fallbacks.
 from __future__ import annotations
 
 import glob
+import io
 import os
 from pathlib import Path
 
@@ -62,6 +63,7 @@ SOLAR_EXTRACTS = ((2000.0, 3780.0, "vald_solar_nearuv_2000_3780_hfson_raw.txt"),
 COMPONENT_WINDOW_A = 0.10
 EP_TOL_EV = 0.01
 TIER = "PUBLISHED-SET"
+SCOPED_ADDITIONS = "element_scoped_additions.tsv"
 UNSOLD_FDAMP = {"Na": 2.0}           # default 2.5 (RYA-1232, GESv6)
 
 
@@ -164,12 +166,43 @@ def plan(row: dict, *, allow_ungraded: bool = False) -> dict:
             "clashes": clashes(sp.split()[0], list(wl)), "_components": comps}
 
 
-def apply(plans: list[dict], *, citation: dict) -> list[dict]:
-    """Write each plan (synthesis list + canonical row). Refuses on any clash."""
+def scoped_additions_path(synthesis_list: Path) -> Path:
+    return Path(synthesis_list).parent / SCOPED_ADDITIONS
+
+
+def read_scoped_additions(synthesis_list: Path) -> pd.DataFrame:
+    """Rows added to a shared list for one element (RYA-728). `clashes` has already shown they
+    cannot move another element's product, so they do not count in other elements' cell identity."""
+    p = scoped_additions_path(synthesis_list)
+    if not p.exists():
+        return pd.DataFrame(columns=["element", "ion_element", "wave_A"])
+    return pd.read_csv(p, sep="\t", dtype={"element": str, "ion_element": str, "wave_A": float})
+
+
+def _append_canonical_rows(rows: list[dict], columns: list[str]) -> None:
+    """Append text only. A full to_csv reformats floats in rows nobody touched (RYA-728: 157 Ti I
+    and Ca I lines changed text and no value), and those bytes key finished elements' cells."""
+    buf = io.StringIO(newline="")
+    pd.DataFrame(rows).reindex(columns=columns).to_csv(buf, index=False, header=False)
+    with CANONICAL.open("a", encoding="utf-8", newline="") as fh:
+        fh.write(buf.getvalue())
+
+
+def apply(plans: list[dict], *, citation: dict, tier: str | None = None, status: str | None = None,
+          element_scoped: bool = False, at_centroid: bool = False,
+          accept_clash: tuple = ()) -> list[dict]:
+    """Write each plan (synthesis list + canonical row). Refuses on any clash.
+
+    `tier` and `status` name a lab line's own grade rather than the published-set defaults.
+    `element_scoped` records the list rows, so other elements' cells keep their identity.
+    `at_centroid` places the canonical row on VALD's wavelength: a lab table's 2-decimal value
+    can sit 0.09 A from the transition (Sobeck 9667.2 is VALD 9667.286), and the fit centres there.
+    `accept_clash` names lines a person decided to add next to another element's pool line (Ryan
+    2026-11-08: a line leaves only when it cannot be resolved). The caller records the clash."""
     from pipeline import nearuv_linelist as nl
     from pipeline.element_prepare import adopted_reference
     from pipeline.physical_line_id import physical_id
-    bad = [p for p in plans if p["clashes"]]
+    bad = [p for p in plans if p["clashes"] and p["wavelength_A"] not in accept_clash]
     if bad:
         raise LineAddError("; ".join(f"{p['species']} {p['wavelength_A']}: would move "
                                      f"{', '.join(p['clashes'][:5])}" for p in bad))
@@ -191,6 +224,19 @@ def apply(plans: list[dict], *, citation: dict) -> list[dict]:
                                          for e in add["element"][z]]
         merged = np.concatenate([base, add.astype(base.dtype)])
         nl.write(merged[np.argsort(merged["wave_A"], kind="stable")], path)
+        if element_scoped:
+            keep = pd.read_csv(path, sep="\t", dtype=str, keep_default_na=False,
+                               usecols=["element", "wave_A"])
+            keep["w"] = keep.wave_A.astype(float)
+            added = np.round(np.asarray(add["wave_A"], dtype=float), 4)
+            names = [str(e).strip() for e in add["element"]]
+            mine = keep[[any(n == e and abs(a - w) < 1e-3 for n, a in zip(names, added))
+                         for e, w in zip(keep.element, keep.w)]]
+            row = pd.DataFrame({"element": mine.element.str.split().str[0], "ion_element": mine.element,
+                                "wave_A": mine.wave_A})
+            sp = scoped_additions_path(path)
+            old = read_scoped_additions(path).astype(str) if sp.exists() else None
+            pd.concat([old, row] if old is not None else [row]).to_csv(sp, sep="\t", index=False)
     canon = pd.read_csv(CANONICAL, low_memory=False)
     start = 1 + max(int(x.split("_")[1]) for x in canon.line_id if str(x).startswith("gf_"))
     rows = []
@@ -198,20 +244,20 @@ def apply(plans: list[dict], *, citation: dict) -> list[dict]:
         el, ion = p["species"].split()
         same = canon[canon.species == p["species"]]
         z = int(same.key_z.iloc[0]) if len(same) else None
+        wave = round(p["centroid_A"] if at_centroid else p["wavelength_A"], 3)
         cit = citation.get(p["set"], {})
         rows.append({
             "line_id": f"gf_{start + i:06d}",
-            "physical_id": physical_id(p["species"], round(p["wavelength_A"], 3), round(p["ep_eV"], 4)),
+            "physical_id": physical_id(p["species"], wave, round(p["ep_eV"], 4)),
             "key_z": z, "ion": 1.0 if ion == "I" else 2.0, "species": p["species"],
-            "wavelength_air_A": round(p["wavelength_A"], 3),
+            "wavelength_air_A": wave,
             "excitation_potential_eV": round(p["ep_eV"], 4),
             "hfs_n_components": p["n_components"],
             "log_gf": p["authors_loggf"], "loggf_reference": adopted_reference(p, citation),
             "seed_source": f"{p['extract']} (orchestrator prepare --apply, RYA-1233)",
-            "adjudication_status": f"added_rya1233_{p['set'].lower()}",
+            "adjudication_status": status or f"added_rya1233_{p['set'].lower()}",
             "gf_linelist_vald": p["vald_total_loggf"], "in_synth": True, "in_linelist": True,
             "lab_source_tag": p["set"], "gf_sigma_dex": p["authors_sigma_dex"],
-            "gf_source_doi": cit.get("doi"), "is_diagnostic": False, "gf_tier": TIER})
-    out = pd.concat([canon, pd.DataFrame(rows)], ignore_index=True)
-    out.to_csv(CANONICAL, index=False)
+            "gf_source_doi": cit.get("doi"), "is_diagnostic": False, "gf_tier": tier or TIER})
+    _append_canonical_rows(rows, list(canon.columns))
     return [{k: v for k, v in p.items() if not k.startswith("_")} for p in plans]

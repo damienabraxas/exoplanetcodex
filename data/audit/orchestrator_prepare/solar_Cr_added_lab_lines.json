@@ -1,0 +1,111 @@
+{
+ "added": [
+  {
+   "species": "Cr I",
+   "wavelength_A": 9446.81,
+   "ep_eV": 2.5446,
+   "set": "sobeck2007",
+   "authors_loggf": -2.21,
+   "authors_sigma_dex": 0.0633,
+   "authors_gf_source": "Sobeck+2007",
+   "extract": "vald_solar_redopt_6910_9500_hfson_raw.txt",
+   "n_components": 1,
+   "centroid_A": 9446.8043,
+   "vald_total_loggf": -2.21,
+   "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+   "synthesis_existing": false,
+   "clashes": []
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9571.75,
+   "ep_eV": 2.5443,
+   "set": "sobeck2007",
+   "authors_loggf": -2.3,
+   "authors_sigma_dex": 0.0548,
+   "authors_gf_source": "Sobeck+2007",
+   "extract": "vald_solar_ir_9500_17000_hfson_raw.txt",
+   "n_components": 1,
+   "centroid_A": 9571.8127,
+   "vald_total_loggf": -2.3,
+   "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+   "synthesis_existing": false,
+   "clashes": []
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9667.2,
+   "ep_eV": 2.5438,
+   "set": "sobeck2007",
+   "authors_loggf": -2.51,
+   "authors_sigma_dex": 0.0544,
+   "authors_gf_source": "Sobeck+2007",
+   "extract": "vald_solar_ir_9500_17000_hfson_raw.txt",
+   "n_components": 1,
+   "centroid_A": 9667.2857,
+   "vald_total_loggf": -2.51,
+   "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+   "synthesis_existing": false,
+   "clashes": []
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9294.23,
+   "ep_eV": 2.5446,
+   "set": "sobeck2007",
+   "authors_loggf": -2.45,
+   "authors_sigma_dex": 0.0492,
+   "authors_gf_source": "Sobeck+2007",
+   "extract": "vald_solar_redopt_6910_9500_hfson_raw.txt",
+   "n_components": 1,
+   "centroid_A": 9294.2275,
+   "vald_total_loggf": -2.45,
+   "synthesis_list": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv",
+   "synthesis_existing": false,
+   "clashes": [
+    "FeI 9294.534 (FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv)"
+   ]
+  }
+ ],
+ "accepted_clash": [
+  {
+   "wavelength_A": 9294.23,
+   "clashes": [
+    "FeI 9294.534 (FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_11081_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv)",
+    "FeI 9294.534 (FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_synth-1D-LTE-gerber_lines.csv)"
+   ]
+  }
+ ],
+ "unresolved": [
+  {
+   "species": "Cr II",
+   "wavelength_A": 4627.654,
+   "ep_eV": 5.6699,
+   "gurell_log_gf": -1.269,
+   "theory_log_gf": [
+    -4.682,
+    -4.74
+   ],
+   "reason": "Gurell 2010 Table 3 sits 3.4 dex above both theory values in the same row. The transition is not in the GES or solar VALD lists. The Delbouille atlas shows only a shoulder of about 3% on the red wing of Fe I 4627.547. Held under the 0.5 dex rule."
+  }
+ ]
+}

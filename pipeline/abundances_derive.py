@@ -704,7 +704,8 @@ def invert_linemasks(linemasks: np.ndarray,
 # marked as such in the per-line output (RYA-167 Bug 1 prevention).
 
 def _load_synth_resources(linelist_file: str = None,
-                          apply_canonical_gf: bool = True) -> tuple:
+                          apply_canonical_gf: bool = True,
+                          nlte_label_element: str = None) -> tuple:
     """Load the synthesis linelist, isotopes, chemical elements (cached per process).
 
     Defaults are the optical production path and are unchanged: the GES v6 list with
@@ -720,7 +721,7 @@ def _load_synth_resources(linelist_file: str = None,
     than defaulting. Turning it off is a real loss of gf single-sourcing, so the caller
     must ask for it explicitly and say so in its provenance — it is never inferred here.
     """
-    key = (str(linelist_file or _SYNTH_LINELIST_FILE), bool(apply_canonical_gf))
+    key = (str(linelist_file or _SYNTH_LINELIST_FILE), bool(apply_canonical_gf), nlte_label_element)
     global _synth_cache
     if _synth_cache.get('key') != key:
         path = linelist_file or _SYNTH_LINELIST_FILE
@@ -732,7 +733,7 @@ def _load_synth_resources(linelist_file: str = None,
             # LTE cell's fingerprint does not move when an element is labelled. LTE ignores
             # them; Gerber NLTE needs them (see pipeline/nlte_label_sidecar.py).
             from pipeline.nlte_label_sidecar import apply_sidecar
-            ll, _n_lab = apply_sidecar(ll, path)
+            ll, _n_lab = apply_sidecar(ll, path, element=nlte_label_element)
             if _n_lab:
                 print(f"  [synth] NLTE level labels merged from the sidecar: {_n_lab} lines")
         if apply_canonical_gf:

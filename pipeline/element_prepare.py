@@ -16,6 +16,11 @@ each time -- run up front, into one report Ryan reviews once:
   E  holdings         each corrected holding serves the graded lines in its window, at rest
                       (line core within REST_TOL_KMS of the line)
   F  literature       litscan present; every declared bibliography key resolves
+  F3 literature sweep every ion x band has a recorded search (RYA-728): sources named, result
+                      stated; a band with lines but no graded gf also carries a measured
+                      diagnostic. Owed cells are held; the other bands go on.
+  I  line inventory   every ion x band: set, reference, codex, ungraded lines; lab-table lines
+                      not adopted or absent from the line list (RYA-728, reported)
 
 Written to data/results/orchestrator/prepare/<star>_<El>.json (+ .md). `--apply` writes ONLY
 the adoption plan (authors' gf + sigma into canonical_gf, the old value kept in the audit) and
@@ -55,6 +60,7 @@ REGISTRY_PC = ROOT / "data" / "registry" / "problem_children.csv"
 REW_CEILING = -4.90          # RYA-458 linear ceiling (pipeline.problem_children.REW_LINEAR_CEILING)
 SAT_MIN_DEPTH = 0.30         # below this a line is on the linear part of the curve of growth
 REST_TOL_KMS = 3.0
+LAB_MATCH_A = 0.10           # a 2-decimal lab wavelength against VALD's: Sobeck 9667.2 is VALD 9667.286
 ADOPT_TIER = "PUBLISHED-SET"  # graded through its stated sigma (pipeline.gf_grades.is_gf_graded)
 STAR_NAME = {"solar": "Sun"}
 #: adjudication_status values a published-set adoption may overwrite; any other value is a
@@ -202,6 +208,63 @@ def _frame_dv(instrument, holding, lo, hi, load_window_ex, canon) -> tuple:
     return _FRAME[key]
 
 
+def literature_sweep_status(litscan: dict | None, ion_bands: list, needs: list) -> dict:
+    """RYA-728 (Ryan 2026-11-08: "all lines all grades ... all the literature? For IR? UV? ...
+    every element no question"). A litscan's anchor values say nothing about which bands were
+    searched, so the sweep is recorded band by band and checked here: every (ion, band) the
+    matrix can run needs an entry naming what was searched and what it found, and a band with
+    lines but no graded gf also needs a diagnostic (a band is not a gap until it is measured)."""
+    entries = {(str(e.get("ion")), str(e.get("band"))): e
+               for e in ((litscan or {}).get("literature_sweep") or {}).get("bands") or []}
+    no_gf = {(n["species"].split()[-1], n["band"]) for n in needs}
+    owed = []
+    for ion, band in sorted(ion_bands):
+        e = entries.get((ion, band))
+        if not e or not e.get("searched") or not e.get("result"):
+            owed.append({"ion": ion, "band": band, "why": "no recorded search"})
+        elif (ion, band) in no_gf and not e.get("diagnostic"):
+            owed.append({"ion": ion, "band": band, "why": "lines but no graded gf: no measured diagnostic"})
+    return {"recorded": len(ion_bands) - len(owed), "owed": owed}
+
+
+def line_inventory(element: str, star_bands: dict, sets: list) -> list:
+    """RYA-728: every ion x band, by grade, from the same masks the cells use. Lab-table lines are
+    counted too: `lab_unadopted` sits in the list without its lab gf (held or unmatched), and
+    `lab_absent` is not in the list at all, so no cell can reach it."""
+    from pipeline import run_matrix as rm
+    canon = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False,
+                        usecols=["species", "wavelength_air_A", "excitation_potential_eV", "gf_tier"])
+    lab = pd.read_csv(ROOT / "data" / "reference" / "lab_gf_tables" / "lab_gf_lines.csv", low_memory=False)
+    out = []
+    for (ion, band), ds in sorted(star_bands.items()):
+        species = f"{element} {ion}"
+        w, masks = rm._canonical_species(element, ion)
+        inwin = np.zeros(len(w), dtype=bool)
+        lab_w = lab[lab.species == species]
+        lab_in = np.zeros(len(lab_w), dtype=bool)
+        for d in ds:
+            inwin |= np.asarray((w >= d.lo_A) & (w <= d.hi_A))
+            lab_in |= lab_w.wavelength_air_A.between(d.lo_A, d.hi_A).values
+        n_set = sum(1 for r in sets if r["species"] == species
+                    and any(d.lo_A <= float(r["wavelength_A"]) <= d.hi_A for d in ds))
+        c = canon[canon.species == species]
+        absent, unadopted = [], []
+        for r in lab_w[lab_in].itertuples():
+            near = c[((c.wavelength_air_A - r.wavelength_air_A).abs() <= LAB_MATCH_A)
+                     & ((c.excitation_potential_eV - r.ep_eV).abs() <= 0.02)]
+            if near.empty:
+                absent.append(float(r.wavelength_air_A))
+            elif not near.gf_tier.astype(str).str.contains(f"LAB|{ADOPT_TIER}").any():
+                unadopted.append(float(r.wavelength_air_A))
+        graded, reference = np.asarray(masks["graded"]), np.asarray(masks["reference"])
+        out.append({"ion": ion, "band": band, "in_list": int(inwin.sum()), "set": n_set,
+                    "reference": int((inwin & reference).sum()), "codex": int((inwin & graded).sum()),
+                    "ungraded": int((inwin & ~graded).sum()), "lab_table": int(lab_in.sum()),
+                    "lab_unadopted": sorted(unadopted), "lab_absent": sorted(absent),
+                    "holdings": sorted({d.holding for d in ds})})
+    return out
+
+
 def prepare(star: str, element: str) -> dict:
     from pipeline import gf_error_model, line_sets as ls, problem_children as pc
     from pipeline import run_matrix as rm
@@ -339,6 +402,11 @@ def prepare(star: str, element: str) -> dict:
         if not is_culled(sp, w) and not cited and not nlte_has_line(table, provenance, sp, w):
             rep["nlte_missing"].append({"species": sp, "wavelength_A": w})
     rep["nlte_table"] = str(nlte.relative_to(ROOT)) if nlte.exists() else None
+    try:
+        from pipeline.gerber_nlte import staged_unregistered
+        rep["gerber_unregistered"] = staged_unregistered(element)
+    except Exception:                                                   # noqa: BLE001
+        rep["gerber_unregistered"] = []
 
     # E -- every corrected holding serves its window's graded lines, at rest
     import sys
@@ -426,6 +494,11 @@ def prepare(star: str, element: str) -> dict:
                         f"error-stated gf source is found (RYA-1237 register input)")}
         for v in need.values()]
 
+    # F3 + I -- RYA-728: the per-band literature sweep (owed cells are held) and the inventory
+    _litscan = yaml.safe_load(lit.read_text()) if lit.exists() else None
+    rep["literature_sweep"] = literature_sweep_status(_litscan, list(bands), rep["literature_needs"])
+    rep["line_inventory"] = line_inventory(element, bands, rep["sets"])
+
     # READY blocks on what would make a measurement WRONG -- an un-adopted published gf, a
     # solar-literature line missing from canonical_gf, a holding
     # whose frame is off, missing literature -- and on what would make it STALE the moment it
@@ -441,7 +514,8 @@ def prepare(star: str, element: str) -> dict:
         "cull_candidates": 0,
         "missing_solar_literature_lines": sum(1 for m in rep["missing_lines"] if m["solar_literature"]),
         "holdings_frame": sum(1 for h in rep["holdings"] if not h["ok"]),
-        "literature": int(not rep["literature"]["litscan"]) + len(rep["literature"]["missing_bib_keys"])}
+        "literature": int(not rep["literature"]["litscan"]) + len(rep["literature"]["missing_bib_keys"]),
+        "literature_sweep": len(rep["literature_sweep"]["owed"])}
     # The rule-applied plan (RULE_KINDS) is pending work for `resolve()`, not a human
     # decision; `ready` stays strict -- nothing pending at all -- so a caller that measures
     # without resolving first is still held per cell (run_matrix.preparation_hold_for_cell).
@@ -464,6 +538,17 @@ def render(rep: dict) -> str:
     L.append(f"  F literature: litscan {'yes' if lit['litscan'] else 'MISSING'}; "
              f"set bibliography keys {lit['set_bib_keys']}"
              + (f"; MISSING {lit['missing_bib_keys']}" if lit["missing_bib_keys"] else ""))
+    _sw = rep.get("literature_sweep") or {"recorded": 0, "owed": []}
+    L.append(f"  F3 literature sweep: {_sw['recorded']} ion x band recorded, {len(_sw['owed'])} owed "
+             f"(owed cells are HELD until the search is recorded in the litscan)")
+    for o in _sw["owed"]:
+        L.append(f"      OWED {rep['element']} {o['ion']} {o['band']}: {o['why']}")
+    L.append("  I line inventory (in list / set / reference / codex / ungraded / lab table):")
+    for r in rep.get("line_inventory") or []:
+        L.append(f"      {rep['element']} {r['ion']:<3} {r['band']:<12} {r['in_list']:>5} / {r['set']:>3} / "
+                 f"{r['reference']:>4} / {r['codex']:>4} / {r['ungraded']:>5} / {r['lab_table']:>4}"
+                 + (f"  lab not adopted {r['lab_unadopted']}" if r["lab_unadopted"] else "")
+                 + (f"  lab ABSENT from list {r['lab_absent']}" if r["lab_absent"] else ""))
     L.append(f"  A published sets: {len(rep['sets'])} lines; adopt authors' gf on "
              f"{len(rep['adopt'])}; sigma only {len(rep.get('sigma_only', []))}; prior-adjudication "
              f"conflicts {len(rep.get('adopt_conflicts', []))}; missing from canonical_gf: "
@@ -499,9 +584,13 @@ def render(rep: dict) -> str:
     L.append(f"  C saturated, not a solar-literature line (measured, reported, NOT culled): {len(rep['cull_candidates'])}")
     for c in rep["cull_candidates"]:
         L.append(f"      {c['species']} {c['wavelength_A']}: rew {c.get('rew')} depth {c.get('depth')}")
-    L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {rep['nlte_table']}"
+    _table = rep["nlte_table"] or f"a PySME table (none exists for {rep['element']})"
+    L.append(f"  D NLTE: {len(rep['nlte_missing'])} graded line(s) not in {_table}"
              + (f" -> on Sirius: scripts/extend_nlte_grid.py --element {rep['element']} --write"
                 if rep["nlte_missing"] and rep.get("nlte_table") else ""))
+    if rep.get("gerber_unregistered"):
+        L.append(f"  G WIRING GAP: Gerber deck(s) {', '.join(rep['gerber_unregistered'])} STAGED on this "
+                 f"host but NOT in gerber_nlte.DECKS: every such cell will be HELD. Register, label, gate.")
     bad = [h for h in rep["holdings"] if not h["ok"]]
     L.append(f"  E holdings: {len(rep['holdings'])} windows; {len(bad)} not serving / frame off rest")
     for h in bad:

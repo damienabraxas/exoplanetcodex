@@ -472,6 +472,10 @@ def _deck_hold(d: RunDescriptor) -> str:
     key = d.element + ("@mean3D" if "mean3d" in d.engine_deck else "")
     if key not in DECKS:
         have = sorted({k.split("@")[0] for k in DECKS if ("@mean3D" in k) == ("mean3d" in d.engine_deck)})
+        from pipeline.gerber_nlte import staged_unregistered
+        if ("<3D>" if "mean3d" in d.engine_deck else "1D") in staged_unregistered(d.element):
+            return (f"ENGINE: {d.element} Gerber deck is STAGED on this host but NOT REGISTERED in "
+                    f"gerber_nlte.DECKS: a wiring gap, not a physical limit (see prepare check G)")
         return (f"ENGINE: no Gerber {'mean-3D ' if 'mean3d' in d.engine_deck else ''}deck for "
                 f"{d.element} (decks exist for {', '.join(have)})")
     if d.engine_deck in ('gerber-nlte', 'gerber-mean3d'):
@@ -571,12 +575,18 @@ def preparation_hold_for_cell(report: dict, d: RunDescriptor) -> str:
     if not required <= report.keys():
         return 'PROCESS step 7: incomplete preparation report'
     known = {'nlte_missing', 'adopt', 'cull_candidates', 'missing_solar_literature_lines',
-             'holdings_frame', 'literature'}
+             'holdings_frame', 'literature', 'literature_sweep'}
     if any(v for k, v in report.get('blocking', {}).items() if k not in known):
         return 'PROCESS step 7: unknown preparation blocker'
     lit = report['literature']
     if not lit.get('litscan') or lit.get('missing_bib_keys'):
         return 'PROCESS step 5: unresolved literature'
+    # RYA-728: scoped to this ion x band. A report written before this check has no key: its own
+    # `ready` already answered above, and a not-ready one is judged on the rest of this function.
+    for owed in (report.get('literature_sweep') or {}).get('owed', []):
+        if owed['ion'] == d.ion and owed['band'] == d.band:
+            return (f"PROCESS step 5: literature sweep owed for {d.element} {d.ion} {d.band} "
+                    f"({owed['why']})")
     def relevant(row):
         return (row.get('species') == f'{d.element} {d.ion}'
                 and d.lo_A <= float(row['wavelength_A']) <= d.hi_A)
@@ -664,6 +674,13 @@ EMPTY_POOL_MARKERS = (
     "no requested line matched the synthesis list",
     "Where the population is mostly saturated the deep pool IS this band's graded pool",
     "Refusing to emit a 'graded' product with no graded line in it",
+)
+# RYA-728: derive refuses an NLTE product when NOT ONE pooled line carries an NLTE label (it
+# would be LTE under an NLTE name, RYA-764/RYA-1050). Same fact as _nlte_label_hold, reached
+# inside derive for the iSpec GES list, which that pre-dispatch check leaves to derive: a HOLD
+# with its reason, not a failure (8 Cr cells FAILED this way in the RYA-728 run).
+NLTE_UNLABELLED_POOL_MARKERS = (
+    "pooled lines carries an NLTE label",
 )
 
 
@@ -902,14 +919,18 @@ def synthesis_lists_for(lo: float, hi: float) -> list[Path]:
     return out
 
 
-def _rows_fingerprint(path: Path, col: str, lo: float, hi: float, *, sep: str = ",") -> str:
+def _rows_fingerprint(path: Path, col: str, lo: float, hi: float, *, sep: str = ",",
+                      for_element: str | None = None) -> str:
     """sha256 of the rows of a table whose `col` lies in [lo, hi] (sorted, so row order and
-    rows elsewhere in the file do not move it). Memoised on the file's identity."""
+    rows elsewhere in the file do not move it). Memoised on the file's identity.
+
+    `for_element` (RYA-728): rows another element added under the clash guard
+    (`published_line_add.read_scoped_additions`) do not count in this element's identity."""
     try:
         st = path.stat()
     except OSError as exc:
         return f"ABSENT:{type(exc).__name__}"
-    key = (str(path), st.st_mtime_ns, st.st_size, col, lo, hi)
+    key = (str(path), st.st_mtime_ns, st.st_size, col, lo, hi, for_element)
     if key not in _HASH_CACHE:
         import pandas as pd
         tkey = (str(path), st.st_mtime_ns, st.st_size)
@@ -919,6 +940,15 @@ def _rows_fingerprint(path: Path, col: str, lo: float, hi: float, *, sep: str = 
         d = _TABLE_CACHE[tkey]
         w = pd.to_numeric(d[col], errors="coerce")
         sub = d[(w >= lo) & (w <= hi)]
+        if for_element is not None:
+            from pipeline.published_line_add import read_scoped_additions
+            scoped = read_scoped_additions(path)
+            scoped = scoped[scoped.element != for_element]
+            if len(scoped):
+                other = set(zip(scoped.ion_element, scoped.wave_A.astype(float).round(4)))
+                keep = [(e, round(float(x), 4)) not in other
+                        for e, x in zip(sub["element"], sub[col])]
+                sub = sub[keep]
         body = "\n".join(sorted(sub.to_csv(index=False, header=False).splitlines()))
         _HASH_CACHE[key] = hashlib.sha256(body.encode()).hexdigest()
     return _HASH_CACHE[key]
@@ -994,9 +1024,19 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     lo, hi = float(descriptor.lo_A) - GF_SCOPE_PAD_A, float(descriptor.hi_A) + GF_SCOPE_PAD_A
     rows.append({"kind": "ledger_scoped", "name": f"{CANONICAL_GF.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                  "digest": _rows_fingerprint(CANONICAL_GF, "wavelength_air_A", lo, hi)})
+    # RYA-728: the GES list is fingerprinted by the engine install, its sidecar here. Only this
+    # element's rows in this window, on NLTE cells: nobody else's identity moves.
+    if descriptor.engine_deck in ("gerber-nlte", "gerber-mean3d"):
+        from pipeline.nlte_label_sidecar import GES_SIDECAR, fingerprint_rows as _ges_fp
+        _fp = _ges_fp(GES_SIDECAR.parent / "atomic_lines.tsv", descriptor.element, lo, hi)
+        if _fp is not None:
+            rows.append({"kind": "nlte_labels",
+                         "name": f"{GES_SIDECAR.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
+                         "digest": _fp})
     for _lst in synthesis_lists_for(lo, hi):
         rows.append({"kind": "synthesis_list", "name": f"{_lst.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
-                     "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t")})
+                     "digest": _rows_fingerprint(_lst, "wave_A", lo, hi, sep="\t",
+                                                 for_element=descriptor.element)})
         # RYA-1250: the NLTE label sidecar is an input of the element's NLTE cells only;
         # an LTE synthesis never reads a label, so its cells keep their identity.
         if descriptor.engine_deck in ("gerber-nlte", "gerber-mean3d"):
@@ -1011,8 +1051,11 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
     for _n in _nlte:
         rows.append({"kind": "nlte_scoped", "name": f"{_n.relative_to(ROOT)}[{lo:.0f}-{hi:.0f}]",
                      "digest": _rows_fingerprint(_n, "wave_A", lo, hi)})
-    for ledger in (MODEL_REGISTRY, HOLDINGS_REGISTRY,
-                   ROOT / "data" / "catalog" / "instrument_catalog.csv"):
+    # RYA-728: the model registry SCOPED to the rows that can emit a product (a stored token).
+    # Hashed whole, a note on the in-dev Bride row (RYA-1278) re-ran every cell of every element.
+    rows.append({"kind": "ledger_scoped", "name": f"{MODEL_REGISTRY.relative_to(ROOT)}[emitting]",
+                 "digest": model_registry_fingerprint()})
+    for ledger in (HOLDINGS_REGISTRY, ROOT / "data" / "catalog" / "instrument_catalog.csv"):
         rows.append({"kind": "ledger", "name": str(ledger.relative_to(ROOT)),
                      "digest": _file_fingerprint(ledger)})
     # RYA-1250: the cull registry, SCOPED like canonical_gf. Hashed whole, culling one Mg K
@@ -1023,6 +1066,24 @@ def input_fingerprints(descriptor: RunDescriptor, resolved, *,
 
 
 PROBLEM_CHILDREN = ROOT / "data" / "registry" / "problem_children.csv"
+
+
+def model_registry_fingerprint(path: Path | None = None, text: str | None = None) -> str:
+    """sha256 over every column of the model-registry rows that carry a stored_token.
+
+    A row with no token (in-dev, not-emitted) can produce no product, so editing it cannot
+    change any cell; a row gaining a token enters the hash and re-runs what it touches.
+    `text` lets a record be re-derived from the registry as it stood at its own commit."""
+    import csv as _csv
+    import io as _io
+    if text is None:
+        path = path or MODEL_REGISTRY
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError as exc:
+            return f"ABSENT:{type(exc).__name__}"
+    rows = [r for r in _csv.DictReader(_io.StringIO(text)) if (r.get("stored_token") or "").strip()]
+    return hashlib.sha256(json.dumps(rows, sort_keys=True).encode()).hexdigest()
 
 
 def registry_fingerprint(lo: float, hi: float, path: Path = PROBLEM_CHILDREN) -> str:
@@ -1565,7 +1626,8 @@ def ensure_nlte_labels(element: str, *, dry_run: bool, echo: bool = True) -> dic
     run could have made. Same routes and lists as RYA-1250 (`scripts/rya1250_nlte_label_
     sidecars.py`, `pipeline/nlte_label_sidecar.py`); writes only this element's rows of each
     `nlte_labels.tsv`. A list the element already has sidecar rows in, or that RYA-1094
-    labelled in place (Fe IR/H), is left alone. Returns {list: 'present'|'labelled n/m'|why}."""
+    labelled in place (Fe IR/H), is left alone. The GES list is `_ensure_ges_labels`.
+    Returns {list: 'present'|'labelled n/m'|why}."""
     from pipeline.gerber_nlte import DECKS
     import pandas as pd
     from config.constants import codex_path
@@ -1602,7 +1664,51 @@ def ensure_nlte_labels(element: str, *, dry_run: bool, echo: bool = True) -> dic
                 out[name] = f"LABEL FAILED: {type(exc).__name__}: {str(exc)[:200]}"
         if echo:
             print(f"NLTE labels {element} {name}: {out[name]}")
+    out["ges_v6"] = _ensure_ges_labels(element, deck, gen, dry_run=dry_run)
+    if echo:
+        print(f"NLTE labels {element} ges_v6: {out['ges_v6']}")
     return out
+
+
+def _ensure_ges_labels(element: str, deck: dict, gen, *, dry_run: bool) -> str:
+    """RYA-728: VIS and red-optical synthesise from GES. When GES labels too few of the element's
+    graded lines for its NLTE cells to mean anything, write the element's GES sidecar. MEASURED,
+    not a list of elements; and an element with a published feed is reported, never relabelled
+    (that would change finished work: Ryan's call)."""
+    import pandas as pd
+    from config.constants import codex_path
+    from pipeline import nlte_label_sidecar as nls
+    from pipeline.abundances_derive import _SYNTH_LINELIST_FILE as ges
+    side = nls.GES_SIDECAR
+    if side.exists() and (pd.read_csv(side, sep="\t", usecols=["element"]).element
+                          .str.split().str[0] == element).any():
+        return "present"
+    graded = sorted((ROOT / "data" / "reference" / "line_sets").glob(
+        f"{element.lower()}_*_{element}*_graded.csv"))
+    if not graded:
+        return "no graded set: GES labels used as they are"
+    lab, n = nls.ges_graded_share(element, ges, graded)
+    if not n or lab / n >= nls.GES_MIN_GRADED_SHARE:
+        return f"GES labels {lab}/{n} graded lines: used as they are"
+    if (ROOT / "data" / "products" / "solar" / f"{element}.json").exists():
+        return f"GES labels only {lab}/{n} graded lines; feed published, NOT relabelled (Ryan's call)"
+    if dry_run:
+        return f"GES labels {lab}/{n} graded lines -- a real run writes the sidecar first"
+    try:
+        from pipeline.model_atom import read_gerber_atom
+        levels = read_gerber_atom(Path(str(codex_path("grids.gerber_ts"))) / deck["atom"])
+        raw = Path(str(codex_path("data.vald_raw")))
+        extracts = sorted({raw / e for v in gen.LISTS.values() for e in v} | {raw / "vald_solar_raw.txt"})
+        rows, st = nls.label_list(ges, element, levels, extracts, level_paths=extracts,
+                                  term_join=nls.ges_term_join(
+                                      element, levels, codex_path("engines.ges_nlte_linelist")))
+        if len(rows):
+            side.parent.mkdir(parents=True, exist_ok=True)
+            nls.write_sidecar(side.parent / "atomic_lines.tsv", [rows])
+        return ", ".join(f"{k} labelled {v['labelled']}/{v['lines']} ({v['conflict']} conflicts)"
+                         for k, v in st.items()) or "no lines"
+    except Exception as exc:                                  # noqa: BLE001
+        return f"LABEL FAILED: {type(exc).__name__}: {str(exc)[:200]}"
 
 
 def ensure_nlte_table(star: str, element: str, *, dry_run: bool, echo: bool = True) -> dict:
@@ -1621,6 +1727,17 @@ def ensure_nlte_table(star: str, element: str, *, dry_run: bool, echo: bool = Tr
         if sp.split()[0] == element:
             by_ion.setdefault(sp.split()[1], []).append(m)
     out = {}
+    # RYA-728: no departure grid (Cr has none in the Amarsi set) means extending cannot work. The
+    # registered per-line table serves ENGINE-A's lines; report it, do not attempt and fail.
+    try:
+        from config.constants import codex_path as _cp
+        _grids = Path(str(_cp("grids.amarsi_galah")))
+        if _grids.is_dir() and not list(_grids.glob(f"nlte_{element}_*.grd")):
+            return {ion: f"{len(rows)} line(s) not in a PySME table: no {element} departure grid "
+                         f"exists; ENGINE-A = the registered table only"
+                    for ion, rows in sorted(by_ion.items())}
+    except Exception:                                                   # noqa: BLE001
+        pass
     try:
         from config.constants import codex_path
         py = Path(str(codex_path("engines.venv_pysme_python")))
@@ -1780,6 +1897,11 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
             if any(k in (detail or "") for k in EMPTY_POOL_MARKERS):
                 cell.status = HELD
                 cell.reason = f"PROCESS step 7 (graded lines): pool empty or too small -- {detail}"
+                with _lock:
+                    record_empty_pool(lkey, want, detail or "")
+            elif any(k in (detail or "") for k in NLTE_UNLABELLED_POOL_MARKERS):
+                cell.status = HELD
+                cell.reason = f"NLTE: no pooled line carries an NLTE label -- {detail}"
                 with _lock:
                     record_empty_pool(lkey, want, detail or "")
             else:

@@ -373,7 +373,8 @@ def build_solar_context(element: str, resolving_power: float, *,
             "do it. Set a fixed solar vmac or adopt a literature RT value.")
 
     linelist, isotopes, chem = _load_synth_resources(
-        linelist_file=linelist_file, apply_canonical_gf=apply_canonical_gf)
+        linelist_file=linelist_file, apply_canonical_gf=apply_canonical_gf,
+        nlte_label_element=element)
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
     # RYA-1230 -- the `blends` leg of the RYA-587 budget for an atomic line whose profile
     # carries molecular absorption (CN inside the solar N I lines): the SAME run with ONE

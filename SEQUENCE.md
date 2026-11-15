@@ -1,3 +1,7 @@
+## 2026-11-14 — RYA-728 solar Cr through the ORCH
+
+- **RYA-728** (this branch) — solar Cr published: 199 products, coverage DONE, 0 owed. Ward+2023 Cr II and Tozzi+1985 Cr I lab gf adopted; a line already held for a >0.5 dex lab move stays held unless `data/reference/gf_hold_releases.csv` releases it. Derive's unlabelled-NLTE refusal is HELD, not FAILED. The model registry is fingerprinted by its emitting rows only (a Bride-row edit no longer makes every built cell stale); `scripts/rya728_rescope_model_registry_fingerprint.py --element <El> --apply` re-stamps an element's records. VIS Cr I/II 5.55-5.60 (Asplund 5.62); NIR Cr I 6.11 on the a5G-z5F multiplet, published as measured, cause open.
+
 ## 2026-11-09 — RYA-1378 Atomic Data Gap Register; #618/#619 reconciled
 
 > **Current as of `main` 10f0dc95** (PR #618).
