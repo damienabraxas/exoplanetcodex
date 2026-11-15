@@ -1,0 +1,26 @@
+{
+  "schema": "rya1354.fac-full-angular-plan.v29",
+  "starting_commit": "cd5d3c43aa78fdbe717d7887ccb7c3078ea20ccb",
+  "source": "runs/fac_full_valence_v28",
+  "output": "runs/fac_full_recoupling_v29",
+  "converter": "Unmodified GRASP9006157730a82ac839f2b4ff4e938bcba63a539e jj2lsj,sharedangularimplementation",
+  "cases": [
+    "ground_coherent10",
+    "ground_coherent100",
+    "equal_coherent10",
+    "equal_coherent100"
+  ],
+  "controls": "SameCI/alllevels/zeroomittedcomposition/fullCJT/NK convention/uniquelabelingOFF",
+  "source_guard": "Exact full-space input/stopping/inventory/native-export transport;originalC/CMcopiesunchanged",
+  "new_scope": "Audit rawseniority in .lsj.c versusNKindices in displayed d3/d4 labels accordingtopinned getchLS/getchLS_lbl/PACKLS. Preservefullbasisidentities and allcomponents; rejectambiguouslabels/unknownseniority.",
+  "replay": "Fullindependent originalFACvector x savedmatrix/sign/ID/J/parity/nativeenergy/parentterm/weight replay onSirius;compactmetadatareportreferencesfullnativecompositions,notdiscarded",
+  "timeout_seconds_per_converter": 900,
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "failure_policy": "Retain andstop anyrefusal/changedinput/unknownidentity/missingoutput;no rates beforecompleteaudit"
+}

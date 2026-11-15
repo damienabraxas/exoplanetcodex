@@ -1,0 +1,157 @@
+{
+  "schema": "rya1354.fac-full-ls-audit.v29",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "independent_angular_implementation": false,
+  "source_receipt_sha256": "900f7d490190976f832ef0bd4246d74d11976d3a6305bbe047eaa8595f87914f",
+  "converter_receipt_sha256": "481f1d47a1cc4953607aee245f91b22b45d24821917591ab45b3dc35d5df15f6",
+  "scope": "Complete4valence CI insidefixedn3orbitalset;fullnumerical representation replay only. Allcompositions retained innativeC/J/LBL/T;compactperlevelindex notaccuracy/calibration.",
+  "native_report_sha256": "741f0199af1dc6793b866d38c1fef38e058c4f2d14c01b6ee141c4a345ed4be6",
+  "cases": {
+    "ground_coherent10": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 329198,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "label_ID_overflows": 858,
+      "original_ID_authority": "Native binary CM IDs, independently matched to explicit I4 LS stdout IDs/order/J/parity; I3 label overflow preserved",
+      "levels_verified": 1858,
+      "target_metadata": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.46749891416782,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.9769717834985688,
+          "native_component_count": 202,
+          "label_display_id_overflow": false
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.48459727886838,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9795107020074288,
+          "native_component_count": 240,
+          "label_display_id_overflow": false
+        }
+      }
+    },
+    "ground_coherent100": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 329198,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "label_ID_overflows": 858,
+      "original_ID_authority": "Native binary CM IDs, independently matched to explicit I4 LS stdout IDs/order/J/parity; I3 label overflow preserved",
+      "levels_verified": 1858,
+      "target_metadata": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.46749876376634,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.9769717637301925,
+          "native_component_count": 202,
+          "label_display_id_overflow": false
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.48459713156483,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9795106822133824,
+          "native_component_count": 240,
+          "label_display_id_overflow": false
+        }
+      }
+    },
+    "equal_coherent10": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 329198,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "label_ID_overflows": 858,
+      "original_ID_authority": "Native binary CM IDs, independently matched to explicit I4 LS stdout IDs/order/J/parity; I3 label overflow preserved",
+      "levels_verified": 1858,
+      "target_metadata": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.53774385857564,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.9918227854089999,
+          "native_component_count": 202,
+          "label_display_id_overflow": false
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.55428232341481,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9933641652534337,
+          "native_component_count": 240,
+          "label_display_id_overflow": false
+        }
+      }
+    },
+    "equal_coherent100": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 329198,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "label_ID_overflows": 858,
+      "original_ID_authority": "Native binary CM IDs, independently matched to explicit I4 LS stdout IDs/order/J/parity; I3 label overflow preserved",
+      "levels_verified": 1858,
+      "target_metadata": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.53774407465968,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.9918228053270601,
+          "native_component_count": 202,
+          "label_display_id_overflow": false
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.55428254939346,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9933641652534337,
+          "native_component_count": 240,
+          "label_display_id_overflow": false
+        }
+      }
+    }
+  }
+}
