@@ -1,3 +1,7 @@
+## 2026-11-15 — Native continuum quadrature/refinement preparation
+
+- **RYA-1371** — All22BF/56depth Gaussian integrals expose native sampling sensitivity; dry59003node grid retains all original nodes, no new RT or adoption (v289).
+
 ## 2026-11-15 — Saved native radiation controls
 
 - **RYA-1371** — Saved native J/BF reconstruction and separate field/thermal comparisons completed; whole-field reconstruction and continuum quadrature remain OPEN, no new RT or adoption (v288).

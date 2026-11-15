@@ -34177,3 +34177,35 @@ artifacts:
     generator: scripts/audit_oxygen_native_radiation.py
     ticket: RYA-1371
     note: Saved native J reconstruction and frozen-field controls; no new RT or admission.
+  - artifact: rya1371/native_quadrature_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
+  - artifact: rya1371/native_quadrature_v1/rya1371-native-continuum-grid-v1/driver_source.py
+    generator: scripts/prepare_oxygen_native_continuum_grid.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
+  - artifact: rya1371/native_quadrature_v1/rya1371-native-continuum-grid-v2/driver_source.py
+    generator: scripts/prepare_oxygen_native_continuum_grid.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
+  - artifact: rya1371/native_quadrature_v1/rya1371-native-continuum-grid-v2/frequency_grid_vac_A.txt
+    generator: scripts/prepare_oxygen_native_continuum_grid.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
+  - artifact: rya1371/native_quadrature_v1/rya1371-native-continuum-grid-v2/report.json
+    generator: scripts/prepare_oxygen_native_continuum_grid.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
+  - artifact: rya1371/native_quadrature_v1/rya1371-native-quadrature-v1/driver_source.py
+    generator: scripts/audit_oxygen_native_quadrature.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
+  - artifact: rya1371/native_quadrature_v1/rya1371-native-quadrature-v1/rates.csv
+    generator: scripts/audit_oxygen_native_quadrature.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
+  - artifact: rya1371/native_quadrature_v1/rya1371-native-quadrature-v1/report.json
+    generator: scripts/audit_oxygen_native_quadrature.py
+    ticket: RYA-1371
+    note: Gaussian integral-of-saved-field-interpolant and dry native refinement proposal; not new RT or scientific admission.
