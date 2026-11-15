@@ -31,6 +31,9 @@ sys.path[:0] = [str(ROOT), str(ROOT / "scripts")]
 
 LIEGE = "/mnt/codex-data/solar_reference/delbouille_bass2000/delbouille_bass2000_visible.csv.gz"
 LIEGE_SPAN_A = (3000.0, 10000.0)
+#: pairing window to A21's cited wavelengths, EP required: the largest same-transition
+#: offset is 34 mA (Mg II 7896.4, quoted to 0.1 A); the next same-species line is >= 0.5 A away
+A21_WL_TOL_A = 0.05
 #: which production cell each band borrows (its line list, window, pool); only the spectrum
 #: and the geometry change
 CELL = {"near-UV": ("kpno_solar_atlas", "solar_kpno_molecfit_corrected"),
@@ -253,19 +256,26 @@ def main_cno(symbol: str) -> int:
 def collect(symbol: str, work: Path) -> dict:
     """Per-line mu=1 values from the cells' 1D-LTE line files, joined to A21's per-line
     values where the set records them."""
+    from pipeline.line_match import match
     lit = {}
-    for f in (ROOT / "data/reference/agss21_cited_sets/agss21_cited_lines.csv",):
-        with f.open(newline="") as fh:
-            for r in csv.DictReader(fh):
-                if r["species"].split()[0] == symbol:
-                    lit[(r["species"], round(float(r["wavelength_air_A"]), 1))] = r
+    with (ROOT / "data/reference/agss21_cited_sets/agss21_cited_lines.csv").open(newline="") as fh:
+        for r in csv.DictReader(fh):
+            if r["species"].split()[0] == symbol:
+                lit.setdefault(r["species"], []).append(r)
     lines = []
     for f in sorted(work.rglob("*_1D-LTE_lines.csv")):
         with f.open(newline="") as fh:
             for r in csv.DictReader(fh):
                 sp = f"{r['element']} {r['ion']}"
                 w = float(r["wavelength_air_A"])
-                a = lit.get((sp, round(w, 1)), {})
+                src = lit.get(sp, [])
+                # A21's cited wavelengths come from the papers' own sources, some to 0.1 A:
+                # the same transitions sit 7-34 mA from ours (Mg II 7896.4 vs 7896.366,
+                # Ti II 4719.533 vs 4719.511), past MATCH_TOL_A. EP is the identity here.
+                m = match([w], [float(x["wavelength_air_A"]) for x in src],
+                          want_ep=[float(r["ep_eV"])], src_ep=[float(x["ep_eV"]) for x in src],
+                          tol_A=A21_WL_TOL_A, require_ep=True)
+                a = src[m.index[0]] if m.n_resolved else {}
                 lines.append({"species": sp, "wavelength_air_A": w,
                               "A_mu1": float(r["abundance"]), "in_aggregate": r["in_aggregate"] == "True",
                               "red_chi2": float(r["red_chi2"]) if r.get("red_chi2") else None,
