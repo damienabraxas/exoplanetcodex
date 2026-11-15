@@ -125,6 +125,46 @@ roots:
       loader, the tests and the guard all read (RYA-810).
 
 entries:
+  experiments.grid_refined_adaptive_plan:
+    root: work
+    rel: bride_mac_checks/rya1371-grid-refined-midpoint-audit-v1
+    kind: dir
+    desc: State-bound bounded adaptive continuum proposal for refined native comparison.
+  experiments.grid_refined_background_knots:
+    root: work
+    rel: bride_mac_checks/rya1371-hop-grid-refined-background-knots-v1
+    kind: dir
+    desc: Fixed-population source-knot replay at refined native state; scientific HOLD.
+  experiments.grid_refined_background_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-grid-refined-background-grid-v1
+    kind: dir
+    desc: State-bound source-knot grid for refined native population replay, scientific HOLD.
+  experiments.openmulti3d_oxygen_grid_refined_run:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-grid-refined-v1
+    kind: dir
+    desc: Explicit native retained-node continuum refinement diagnostic; scientific HOLD.
+  experiments.openmulti3d_oxygen_grid_refined_analysis:
+    root: work
+    rel: bride_mac_checks/rya1371-oxygen-grid-refined-analysis-v1
+    kind: dir
+    desc: Explicit native retained-node continuum refinement diagnostic; scientific HOLD.
+  experiments.openmulti3d_oxygen_grid_refined_physical_rates:
+    root: work
+    rel: bride_mac_checks/rya1371-native-grid-refined-physical-v1
+    kind: dir
+    desc: Explicit native retained-node continuum refinement diagnostic; scientific HOLD.
+  experiments.native_grid_original_control:
+    root: work
+    rel: bride_mac_checks/rya1371-native-grid-original-v1
+    kind: dir
+    desc: Source-bound original-grid reproduction input, experimental native diagnostic only.
+  experiments.native_continuum_grid_proposal:
+    root: work
+    rel: bride_mac_checks/rya1371-native-continuum-grid-v2
+    kind: dir
+    desc: Retained-node native continuum refinement proposal; no physical admission.
   experiments.bride_molecular_tables:
     root: work
     rel: bride_inputs/rya1281/barklem-collet-cd2f54ed

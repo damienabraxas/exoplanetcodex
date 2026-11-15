@@ -1,0 +1,7 @@
+{
+  "computational_completed": false,
+  "phase": "before native launch",
+  "error": "Changed copied native grid",
+  "cause": "Receipt includes basename; copying frequency_grid_vac_A.txt to native_frequency_grid_vac_A.txt changed the identity despite identical bytes",
+  "resolution": "Keep receipt basename; add adapter copy regression test; use fresh output directory"
+}

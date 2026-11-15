@@ -132,11 +132,16 @@ def prepare_run(plan,output,app,*,resolver):
     if abundance!=plan['abundance']:raise ValueError('Declared/source atom abundance mismatch')
     c=plan['controls'];rtol=c['rtol']if plan['mode']=='1D-NLTE'else 0.;maxiter=c['maxiter']if rtol else 0
     local_limit=rtol/10 if c.get('freeze_depths',True)else 0.
+    native_grid=None;native_grid_audit=None;grid_control=''
+    if 'native_frequency_grid_control' in plan:
+        from pipeline.native_frequency_grid import load_native_frequency_grid
+        native_grid,native_grid_audit=load_native_frequency_grid(plan,resolver=resolver)
+        grid_control=", line_grid_file='frequency_grid_vac_A.txt'"
     radiation_control=(', decouple_continuum='+('T'if c['decouple_continuum']else'F'))if 'decouple_continuum'in c else''
     nml=f'''&io_params datadir='native', gb_step=6., do_trace=F /
 &timer_params sec_per_report=1d8, verbose=1 /
 &atmos_params atmos_format='Marcs', atmos_file={quote_nml(atmos)}, use_abnd=T, use_ne=T, use_rho=T, prune_top=F, save_atmos=T, save_eos=T /
-&atom_params atom_file={quote_nml(atom)}, use_atom_abnd=T, qnorm={c['qnorm']}, nq_fac={c['nq_fac']} /
+&atom_params atom_file={quote_nml(atom)}, use_atom_abnd=T, qnorm={c['qnorm']}, nq_fac={c['nq_fac']}{grid_control} /
 &nlte_params convlim={rtol:.12e}, convmax={local_limit:.12e}, premature_finish=F{radiation_control} /
 &rt_iteration_params angle_quad={quote_nml(c['angle_quad'])}, ntheta={c['ntheta']}, nphi={c['nphi']}, maxiter={maxiter}, include_absmet=F, include_linelist=F /
 &rt_output_params solver={quote_nml(c.get('output_solver','quadratic'))}, angle_quad={quote_nml(c.get('output_angle_quad','none'))}, include_absmet=F, include_linelist=F /
@@ -154,6 +159,10 @@ def prepare_run(plan,output,app,*,resolver):
     output=Path(output)
     if output.resolve().is_relative_to(app.resolve()):raise ValueError('Run output must be outside engine source')
     output.mkdir(parents=True,exist_ok=False);(output/'input').symlink_to(app/'input',target_is_directory=True);(output/'input.nml').write_text(nml)
+    if native_grid is not None:
+        import shutil
+        shutil.copyfile(native_grid,output/'frequency_grid_vac_A.txt')
+        if fingerprint(output/'frequency_grid_vac_A.txt')!=plan['native_frequency_grid_control']['grid']:raise ValueError('Changed copied native grid')
     output_grid_audit=None
     if 'output_grid' in plan:
         import numpy as np
@@ -161,4 +170,6 @@ def prepare_run(plan,output,app,*,resolver):
         np.savetxt(output/'output_wavelengths_vac_A.txt',wave,fmt='%.12f')
         nml+="&spectrum_params lam_file='output_wavelengths_vac_A.txt', in_air=F /\n"
         (output/'input.nml').write_text(nml)
-    return dict(output_grid=output_grid_audit,atmosphere=fingerprint(atmos),atom=fingerprint(atom),element=entries[0],atom_header=dict(abundance=abundance,mass=mass,levels=levels,lines=lines,continua=continua,fixed=fixed),namelist=fingerprint(output/'input.nml'),controls=c,physical_limitations=['Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.','Line blanketing and background bound-bound opacity explicitly off in this first reference plan.','Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.','Source atom is not silently replaced by the supplied variant; source paths and hashes are checked.'])
+    result=dict(output_grid=output_grid_audit,atmosphere=fingerprint(atmos),atom=fingerprint(atom),element=entries[0],atom_header=dict(abundance=abundance,mass=mass,levels=levels,lines=lines,continua=continua,fixed=fixed),namelist=fingerprint(output/'input.nml'),controls=c,physical_limitations=['Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.','Line blanketing and background bound-bound opacity explicitly off in this first reference plan.','Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.','Source atom is not silently replaced by the supplied variant; source paths and hashes are checked.'])
+    if native_grid_audit is not None:result['native_frequency_grid']=native_grid_audit
+    return result

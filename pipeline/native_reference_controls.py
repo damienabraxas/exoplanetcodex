@@ -2,6 +2,22 @@
 import copy
 
 
+def validate_native_grid_plan(plan, qualified_shared16):
+    """Explicit retained-node control, keeping every other shared16 input fixed."""
+    if qualified_shared16['controls'].get('nq_fac') != 16. or qualified_shared16['controls'].get('decouple_continuum') is not False:
+        raise ValueError('Require qualified shared16 baseline')
+    candidate = copy.deepcopy(plan)
+    control = candidate.pop('native_frequency_grid_control', None)
+    if not isinstance(control, dict) or set(control) != {'kind', 'resource', 'producer', 'grid', 'source_resource', 'source_report', 'source_wave'}:
+        raise ValueError('Require complete native grid control identity')
+    if control['kind'] not in ['baseline', 'continuum-refinement']:
+        raise ValueError('Unknown native grid control kind')
+    candidate['scope'] = qualified_shared16['scope']
+    if candidate != qualified_shared16:
+        raise ValueError('Native grid control changed another physical/resource axis')
+    return control
+
+
 def validate_observer_plan(plan,qualified):
     if qualified['controls']['nq_fac']!=2.:raise ValueError('Require qualified NQFAC2 base')
     factor=plan['controls']['nq_fac']

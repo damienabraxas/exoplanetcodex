@@ -6,6 +6,18 @@ from pipeline.reference_engines import prepare_run,validate_plan,fingerprint,ins
 ROOT=Path(__file__).resolve().parents[1]
 
 
+def test_native_grid_copy_preserves_receipt_basename_and_bytes(tmp_path,monkeypatch):
+    from pipeline import native_frequency_grid
+    p,app,resolve=fixture_plan(tmp_path)
+    grid=tmp_path/'frequency_grid_vac_A.txt';grid.write_text('100.0\n101.0\n')
+    p['native_frequency_grid_control']={'grid':fingerprint(grid)}
+    monkeypatch.setattr(native_frequency_grid,'load_native_frequency_grid',lambda plan,**kw:(grid,{'guarded_fixture':True}))
+    out=tmp_path/'run';result=prepare_run(p,out,app,resolver=resolve)
+    assert fingerprint(out/grid.name)==fingerprint(grid)
+    assert "line_grid_file='frequency_grid_vac_A.txt'"in(out/'input.nml').read_text()
+    assert result['native_frequency_grid']['guarded_fixture']
+
+
 def fixture_plan(tmp_path):
     source=tmp_path/'source';source.mkdir();(source/'atmos.mod').write_text('test atmosphere receipt only\n');atom=source/'atom';atom.write_text(' O\n 8.70 15.999\n 41 256 22 0\n')
     p=json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_1d.json').read_text());p['atom']=dict(resource='atom',receipt=fingerprint(atom));p['atmosphere']=dict(resource='atmos',filename='atmos.mod',receipt=fingerprint(source/'atmos.mod'))
@@ -26,6 +38,7 @@ def test_preparation_is_fresh_and_preserves_source_and_explicit_input_identity(t
     assert r['element']=='O'and r['atom_header']['levels']==41
     assert resolve('atom').read_bytes()==source
     text=(out/'input.nml').read_text();assert 'include_absmet=F'in text and 'include_linelist=F'in text and str(resolve('atom'))in text
+    assert 'line_grid_file'not in text
     with pytest.raises(FileExistsError):prepare_run(p,out,app,resolver=resolve)
     with pytest.raises(ValueError,match='outside'):prepare_run(p,app/'bad',app,resolver=resolve)
 

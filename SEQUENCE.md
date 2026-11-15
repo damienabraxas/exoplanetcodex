@@ -1,3 +1,7 @@
+## 2026-11-15 — Executed native continuum refinement
+
+- **RYA-1371** — Original-grid/observer112binary reproduction exact;59003node native solve and refined-state bridge replay complete, remaining4->41FUV convergence OPEN (v290).
+
 ## 2026-11-15 — Native continuum quadrature/refinement preparation
 
 - **RYA-1371** — All22BF/56depth Gaussian integrals expose native sampling sensitivity; dry59003node grid retains all original nodes, no new RT or adoption (v289).

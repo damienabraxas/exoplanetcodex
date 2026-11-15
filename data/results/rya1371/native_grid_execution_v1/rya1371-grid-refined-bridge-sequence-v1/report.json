@@ -1,0 +1,131 @@
+{
+  "generator": {
+    "name": "audit_background_knot_sequence.py",
+    "bytes": 5509,
+    "sha256": "3b137afd3d89f444f43fcbd1f562ad49e7616b27b477469ebbee0be5a43c9b7c"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_background_knot_sequence.py": {
+      "name": "audit_background_knot_sequence.py",
+      "bytes": 5509,
+      "sha256": "3b137afd3d89f444f43fcbd1f562ad49e7616b27b477469ebbee0be5a43c9b7c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-grid-refined-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217510,
+      "sha256": "bbde8a067eeddef6434f97527f0fd3859c696e2217495fbd69a60d1288ee88e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-grid-refined-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335475,
+      "sha256": "9aabcf94110b6211c4d4610830f330d4011ac18a74be0aad71ca7b2cbd8f9054"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-background-knots-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218495,
+      "sha256": "b01514b69971054f0456dbabd05418abaa21784af059b20672ac32e92e63faad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-background-knots-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 5104843,
+      "sha256": "06d8fb1378a9afe6aea5417bb20fdb354ed14e2a11f99a6fd2a1f72e23b303e1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-midpoint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218490,
+      "sha256": "5cb65ae50efb21b6d1f42c07f4f2b04ad3df3cca591eb3f1a3d6eb24a6fc1d35"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-midpoint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 8464790,
+      "sha256": "f507759559b405a10ca8fa19120919c4b89c4aac759ea6649b86afa1ac8b7027"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-midpoint-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96657,
+      "sha256": "d1cb119fd8035c0071ac68ae8074ab8ad1b9c5665b63c6863adadeb48d0a0d45"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-midpoint-audit-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249857,
+      "sha256": "3dfed0b8daa6c7836be1cd83730981fe4fb84b92f55f3225cb63085b4410f8a6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-adaptive-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218492,
+      "sha256": "730ea25b2c2df1823a70045621c8e2a68085138d3b25cd6c866f7fad70397e6c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined-adaptive-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582327,
+      "sha256": "e0de8d614dfb64fe16cac16321f3116b54937d6a912d9033d6f088a902cded3c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-final-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96659,
+      "sha256": "d51aae717e67efe291285a5f22f60f41c79c759cc2ad989c52fe35ff34a0ee1a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-grid-refined-final-audit-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249835,
+      "sha256": "1709d40501cdbfb722b22a3ef8585e9c0676b2ca1efc6eb9fdf638696dd81fd8"
+    }
+  },
+  "cases": [
+    {
+      "case": "hop-physical-grid-refined-v1",
+      "points": 6795,
+      "max_physical_residual": 0.0004921446380778007,
+      "seconds": 2.4821959170512855,
+      "radiation_iterations": 8,
+      "max_inherited_J_relative": null,
+      "max_BF_coefficient_relative_step": null,
+      "parabolic_BF_max_residual": null,
+      "max_parabolic_BF_coefficient_relative_step": null,
+      "worst_level_1based": 40,
+      "worst_depth_top_to_bottom": 5
+    },
+    {
+      "case": "hop-grid-refined-background-knots-v1",
+      "points": 8632,
+      "max_physical_residual": 0.00023555397789846072,
+      "seconds": 2.620566875208169,
+      "radiation_iterations": 9,
+      "max_inherited_J_relative": 1.45372602844418e-12,
+      "max_BF_coefficient_relative_step": 0.003707773078766019,
+      "parabolic_BF_max_residual": null,
+      "max_parabolic_BF_coefficient_relative_step": null,
+      "worst_level_1based": 13,
+      "worst_depth_top_to_bottom": 0
+    },
+    {
+      "case": "hop-grid-refined-midpoint-v1",
+      "points": 17263,
+      "max_physical_residual": 0.0001944645012671249,
+      "seconds": 4.452881874982268,
+      "radiation_iterations": 9,
+      "max_inherited_J_relative": 0.0,
+      "max_BF_coefficient_relative_step": 0.001439976742351079,
+      "parabolic_BF_max_residual": 0.00019606578897210457,
+      "max_parabolic_BF_coefficient_relative_step": null,
+      "worst_level_1based": 41,
+      "worst_depth_top_to_bottom": 0
+    },
+    {
+      "case": "hop-grid-refined-adaptive-v1",
+      "points": 19963,
+      "max_physical_residual": 0.00020070679673573884,
+      "seconds": 4.796727874781936,
+      "radiation_iterations": 9,
+      "max_inherited_J_relative": 0.0,
+      "max_BF_coefficient_relative_step": 0.0003734273379019104,
+      "parabolic_BF_max_residual": 0.00020278744675232565,
+      "max_parabolic_BF_coefficient_relative_step": 0.00016542879597358784,
+      "worst_level_1based": 41,
+      "worst_depth_top_to_bottom": 0
+    }
+  ],
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "scope": "Same source-feature quadrature branch at exact PRE-update59003-node native-reference populations. Original own nodes/physical graph and all source opacity knots retained, n/nStar/C identical across own cases. Inherited J differences measured in each row, not assumed zero. No SE update, error bound, numerical/physical/model/solar/Fe admission. Native refinement and own-grid refinement are distinct numerical axes."
+}

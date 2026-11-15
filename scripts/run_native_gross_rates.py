@@ -28,7 +28,10 @@ def main():
     if platform.system()!='Darwin'or os.environ.get('OMP_NUM_THREADS')!='1':raise ValueError('Mac-only one-thread observer')
     plan=json.loads(a.plan.read_text());app,exe,engine=verify(a.source,a.build)
     from pipeline.native_reference_controls import validate_observer_plan
-    if plan['controls'].get('decouple_continuum')is False:
+    if 'native_frequency_grid_control' in plan:
+        from pipeline.native_reference_controls import validate_native_grid_plan
+        validate_native_grid_plan(plan,json.loads((ROOT/'config/experiments/rya1371_openmulti3d_oxygen_shared16.json').read_text()))
+    elif plan['controls'].get('decouple_continuum')is False:
         from pipeline.native_reference_controls import validate_shared_radiation_plan
         if plan['controls']['nq_fac']in [8.,16.]:
             from pipeline.native_reference_controls import validate_shared_refinement_plan
