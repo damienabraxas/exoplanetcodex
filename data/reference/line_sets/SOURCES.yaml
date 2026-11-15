@@ -19,6 +19,13 @@
 #                     lines (Asplund / Amarsi / Deshmukh / Nordlander & Lind+Scott). The cull
 #                     protocol keeps such lines; a benchmark or red-supergiant list does not
 #                     protect a line the Sun cannot use.
+#   grade             optional. THEORETICAL_CODEX (RYA-1351/1352): the set's lines carry
+#                     THEORETICAL gf with no published uncertainty, and Ryan adopted them by
+#                     name. The set is measured on all its declared lines (not only those with a
+#                     gf uncertainty) and its products are stamped "Theoretical Codex", never
+#                     Reference or Codex. Requires an `adoption` block: approved_by, date,
+#                     ticket, gf_origin, gf_method, limitations. gf_graded stays False: the
+#                     grade is an adoption, not a gf uncertainty.
 sets:
   - name: SI_AGSS21
     element: Si
@@ -259,6 +266,34 @@ sets:
     citation: "Asplund 2021 -> Scott et al. 2015 (A&A 573, A26) Table 1: 29 Cr I + 10 Cr II"
     gf_basis: "Cr I as printed (Sobeck+2007 / Blackwell); Cr II replaced by Lawler+2017 in AGSS21 (not held)"
     solar_literature: true
+
+  - name: CR_ELGUETA2026
+    element: Cr
+    source: data/audit/rya1058_elgueta/normalized_lines.csv
+    # The authors' Sun robust flag (all four criteria Y), as SI_ELGUETA2026. Their printed
+    # Table B.2 lists 5 of these 7 (it omits 10486.25 and 12910.09, both YYYY in the data);
+    # the Si set shows the same data-vs-print difference.
+    where: {species: CrI, sun_Gd_rob: "Y"}
+    species: "Cr I"
+    columns: {wavelength: wavelength_A, ep: lower_ep_eV, loggf: elgueta_loggf, band: band}
+    match: {canonical_id_col: canonical_line_id}
+    bib: elgueta2026
+    doi: 10.1051/0004-6361/202659148
+    citation: "Elgueta et al. 2026 (A&A 710, A111), Sun/G-dwarf Rob=Y"
+    gf_basis: "VALD3 = Kurucz 2016 calculated gf, as the authors used (no lab gf beyond 9734.6 A; Elgueta calibrate no gf)"
+    solar_literature: false
+    grade: THEORETICAL_CODEX
+    adoption:
+      approved_by: Ryan Schmitt
+      date: 2026-11-15
+      ticket: RYA-728 / RYA-1351
+      gf_origin: theoretical
+      gf_method: Kurucz 2016 (semi-empirical calculation), delivered by VALD3
+      limitations: >-
+        No laboratory gf and no published gf uncertainty for any line. Not a blind benchmark:
+        the 11-15 solar diagnostic (median 5.60-5.58 against Asplund 2021 5.62 and our
+        optical lab-gf 5.68) was seen before adoption. The published sigma is the Asplund
+        budget, which carries no gf term.
 
   - name: MN_AGSS21
     element: Mn

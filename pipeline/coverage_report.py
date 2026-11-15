@@ -293,7 +293,10 @@ def _selector(pool: str | None) -> str:
 
 
 def _grade(pool: str | None) -> str:
-    return "Reference Grade" if pool and pool.startswith(rm.SET_POOL_PREFIX) else GRADE_OF_POOL.get(pool or "", "")
+    if pool and pool.startswith(rm.SET_POOL_PREFIX):
+        from pipeline.cno_grade import grade_for
+        return grade_for({"selector": _selector(pool)})
+    return GRADE_OF_POOL.get(pool or "", "")
 
 
 def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict:
