@@ -28,6 +28,7 @@ A leg is complete when its directory holds DONE; a re-invocation skips completed
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shlex
 import subprocess
@@ -144,8 +145,15 @@ def parse_units(path: Path) -> list[list[str]]:
     return units
 
 
-def run_leg(unit: int, args: list[str], leg: str, out: Path, py: str) -> str:
+def run_leg(unit: int, args: list[str], leg: str, out: Path, py: str,
+            patch: tuple[str, str] | None = None) -> str:
     env_extra, argv_extra = LEGS[leg]
+    if patch is not None and leg != "nominal":
+        # RYA-1388: refit only the patch's lines in this leg; reuse the rest from the same
+        # leg of an earlier build of this unit. With no such leg on file, the leg runs in full.
+        prior = Path(patch[1]) / leg
+        if (prior / "DONE").exists():
+            argv_extra = [*argv_extra, "--refit-lines", patch[0], "--reuse-fits-from", str(prior)]
     d = out / f"unit{unit:02d}" / leg
     if (d / "DONE").exists():
         return f"skip unit{unit:02d}/{leg}"
@@ -172,6 +180,10 @@ def main() -> int:
     ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--legs", default=",".join(DEFAULT_LEGS))
     ap.add_argument("--only-units", default=None, help="comma list of unit indices")
+    ap.add_argument("--patch-refit", default=None, metavar="CSV",
+                    help="RYA-1388: the patch's line list (with --leg-priors)")
+    ap.add_argument("--leg-priors", default=None, metavar="JSON",
+                    help="RYA-1388: {unit index: filed leg dir of an earlier build}")
     a = ap.parse_args()
     units = parse_units(a.units)
     a.out.mkdir(parents=True, exist_ok=True)
@@ -186,11 +198,15 @@ def main() -> int:
         if a.legs == ",".join(DEFAULT_LEGS) and "--element" in u and u[u.index("--element") + 1] == "Fe":
             legs += [lg for lg in FE_EXTRA_LEGS if lg not in legs]
         return legs
+    priors = (json.loads(Path(a.leg_priors).read_text())
+              if a.patch_refit and a.leg_priors else {})
     tasks = [(i, u, leg) for i, u in enumerate(units) for leg in legs_of(u)
              if keep is None or i in keep]
     print(f"{len(units)} units, legs {a.legs} = {len(tasks)} runs", flush=True)
     with ThreadPoolExecutor(a.jobs) as ex:
-        for msg in ex.map(lambda t: run_leg(t[0], t[1], t[2], a.out, sys.executable), tasks):
+        for msg in ex.map(lambda t: run_leg(t[0], t[1], t[2], a.out, sys.executable,
+                                            (a.patch_refit, priors[str(t[0])])
+                                            if str(t[0]) in priors else None), tasks):
             print(msg, flush=True)
     return 0
 

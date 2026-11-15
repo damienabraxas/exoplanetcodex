@@ -96,3 +96,45 @@ def test_drift_on_a_reused_line_refuses_the_patch(tmp_path):
     p.note_drift("1D-LTE", 5000.0, "level 0.99 -> 0.97")
     with pytest.raises(lp.LinePatchError, match="5000.000"):
         p.assert_no_drift()
+
+
+def _leg(store, sig, leg, args, extra=(), done=True):
+    d = store / sig / leg
+    d.mkdir(parents=True)
+    import shlex
+    d.joinpath("argv.txt").write_text(shlex.join(
+        ["py", "scripts/derive_band_products.py", *args, *extra, "--out", str(d)]) + "\n{}\n")
+    if done:
+        d.joinpath("DONE").write_text("0\n")
+
+
+def test_a_unit_finds_its_own_earlier_legs_by_command(tmp_path):
+    from pipeline.element_publish import leg_priors
+    a = ["--element", "Fe", "--ion", "I", "--lines-tier", "reference"]
+    b = ["--element", "Fe", "--ion", "II", "--lines-tier", "reference"]
+    _leg(tmp_path, "s1", "cscale", a)
+    _leg(tmp_path, "s1", "core", a, extra=("--half-width-A", "0.25"))
+    _leg(tmp_path, "s2", "cscale", b, done=False)                 # killed leg: no prior
+    units = [("u0", "python3 scripts/derive_band_products.py " + " ".join(a), "ts", "k0"),
+             ("u1", "python3 scripts/derive_band_products.py " + " ".join(b), "ts", "k1"),
+             ("u2", "python3 scripts/derive_band_products.py " + " ".join(a), "ts", "k2")]
+    assert leg_priors(tmp_path, units, kept=[2]) == {0: str(tmp_path / "s1")}
+
+
+def test_two_filed_builds_of_one_command_are_ambiguous(tmp_path):
+    from pipeline.element_publish import leg_priors
+    a = ["--element", "Fe", "--ion", "I"]
+    _leg(tmp_path, "s1", "cscale", a)
+    _leg(tmp_path, "s2", "cscale", a)
+    units = [("u0", "python3 scripts/derive_band_products.py " + " ".join(a), "ts", "k0")]
+    assert leg_priors(tmp_path, units, kept=[]) == {}
+
+
+def test_a_line_list_runs_only_as_a_synthesis_patch():
+    from pipeline.run_request import RunRequest
+    ok = dict(star="solar", element="Fe", mode="select", ions=["I"], routes=["synthesis"],
+              lines="x.csv", patch=True)
+    assert RunRequest.from_dict(ok).problems() == []
+    assert RunRequest.from_dict({**ok, "patch": False}).problems()
+    assert RunRequest.from_dict({**ok, "routes": ["profile-fit"]}).problems()
+    assert RunRequest.from_dict({**ok, "lines": ""}).problems()
