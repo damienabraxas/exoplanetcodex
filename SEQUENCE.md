@@ -1,3 +1,9 @@
+## 2026-11-14 — Main landing reconciliation
+
+> **Current as of `main` 4994897f** (PR #622; ledger reconciliation only, no production files imported).
+
+- **RYA-728** — Merged PR #622 at4994897f: solar Cr199products, coverage DONE with203held cells; unlabelled NLTE pools HELD; emitting-row model fingerprints. NIR Cr I6.11 remains unexplained. Source: ticket close-out2026-11-15T01:28:51Z and merged diff. This branch has not rerun Cr or changed its products.
+
 ## 2026-11-14 — Oxygen field feedback and continuum quadrature
 
 - **RYA-1371** — Continuum balance budget localizes peak BF gap and accounts shared-grid BB changes; science HOLD (v285).

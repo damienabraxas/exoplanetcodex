@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v285** · _Last updated: 2026-11-14 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v286** · _Last updated: 2026-11-14 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -751,6 +751,7 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 
 - **v276** (2026-11-11) — RYA-1371 all41x56 physical-rate decomposition across seven grid controls identifies8446 component pumping and coarse native-grid sensitivity. Residuals after default/native local refinements.002939/.002810; coarse-native.000729 must not be adopted as physical agreement.66focused tests pass, failed over-limit midpoint case retained and planner guard fixed. Native frequency/BF refinement and physical solar gates remain open.
 
+- **v286** (2026-11-14) — Main landing reconciliation only: RYA-728 merged PR622/4994897f supplies Cr199products/coverage DONE/203held cells; NIR discrepancy remains open. Main v253 Cr narrative is acknowledged here without replacing this branch historical v253 Oxygen entry; version reconciliation remains an integration concern. No Cr/production files imported, no engine evidence changed. Initial push correctly refused missing landing; SEQUENCE updated from actual merged diff and ticket close-out.
 - **v285** (2026-11-15) — RYA-1371 separates BF/BB mesh and native-gap balance budgets: OII peak mainly6/7 photoionization, shared-node BB sampling effect explicit.86tests; fixed-state audit only, scientific HOLD.
 - **v284** (2026-11-14) — RYA-1371 traces UV opacity structure to source-background knots and tests complete-knot sampling; Fe-next readiness/roadmap inventoried with resource/FeII gaps explicit.86 tests; no scientific admission.
 - **v283** (2026-11-14) — RYA-1371 bounded adaptive continuum sampling reaches19989points with inherited J/alpha exact; trapezoid and higher-order sequences nonmonotonic. UV panel investigation next;83 tests; scientific HOLD.
