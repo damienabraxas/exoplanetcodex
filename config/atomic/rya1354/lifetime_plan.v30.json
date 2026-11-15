@@ -1,0 +1,22 @@
+{
+  "schema": "rya1354.fac-full-valence-rates-plan.v30",
+  "starting_commit": "cd5d3c43aa78fdbe717d7887ccb7c3078ea20ccb",
+  "source": "runs/fac_full_valence_v28",
+  "mapping": "runs/fac_full_recoupling_v29",
+  "qualified_audit": "evidence/fac_full_replay_v29b/report.json",
+  "audit_sha256": "741f0199af1dc6793b866d38c1fef38e058c4f2d14c01b6ee141c4a345ed4be6",
+  "output": "runs/fac_full_valence_rates_v30",
+  "cases": "ground/equal-reference xcoherent10/100 xB/C separatecoldprocesses",
+  "guard": "Reuseimmutable hash-qualified fullLSreplay linkedtosource/converterreceipts;recheck all sourcefiles/mode-1/actualCFGdelta=shift0;eachrateprocess regeneratesC/CM/potential BYTEIDENTICALLY to mappedcase.",
+  "operators": "Mode0/cutoffs0,singleTRdatabase,alllowerstatesfromverifiednativeenergies andeverytriangle/parityallowedrank freshlyenumerated;rawstatesneverzero-filled,allwriteromissionsauditfromsource",
+  "frontend": "Reusev27readonly frontend/library/executableexacthash;no newbuild/sourcepatch",
+  "timeout_seconds_per_case": 900,
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "failure_policy": "Retainandstop anysource/numerical/correction/state/potential/channel/formatfailure;no fallback/gaugechoice/experimentalfit"
+}
