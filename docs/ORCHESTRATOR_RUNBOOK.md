@@ -111,6 +111,9 @@ NOT READY with the blockers. Clear each blocker below, then re-run prepare until
 | **B gf source ... unclassified** | A gf source has no correlation entry. | Resolve the source under `data/reference/gf_error_model.csv` and its owning procedure; add only a supported, cited classification, never a guessed correlation. |
 | **F2 literature need** | Bands with no error-stated gf: no Codex/Deep pool there. | Not blocking. Record it in the ticket; do not invent gf errors. |
 | **E holdings not serving** | A spectrum does not cover a window at rest. | Report it; do not re-prepare spectra. |
+| **F3 literature sweep owed** | An ion x band has no recorded search. | Step 4. The hold covers only that ion x band; other cells run. |
+| **G Gerber deck** | The element has a staged deck that is not registered. | Reported, not blocking. Register it with `scripts/ts_gerber_gate.py` evidence (step 5). |
+| **I line inventory** | Band x holding x grade counts, plus lab lines unadopted or absent. | Read it before measuring. Close each lab line: adopted, held over 0.5 dex, or recorded unresolved with its reason. |
 
 ## 3. Register the published line set (the Asplund recipe)
 
@@ -150,6 +153,30 @@ Create `data/reference/litscan/<El>.yaml` by copying `Al.yaml` / `Si.yaml`: elem
 scale (3D-NLTE), and `entries` with Asplund+2021's value and sigma plus the other
 published solar values (Lodders+2025, Scott+2015b, ...), each with citation and the
 method. Every `bib` key must resolve. Values come from the papers, never from memory.
+
+**Every element, every band (Ryan 2026-11-08).** A set paper plus an anchor is not a sweep. Add
+`literature_sweep` to the litscan, with one row for each ion x band the star's holdings reach:
+
+```yaml
+literature_sweep:
+  bands:
+    - {ion: I, band: H, searched: [Smith+2021, NIST ASD], result: no lab gf, diagnostic: <path to measured table>}
+```
+
+`searched` names what was read, in the local reference folder first. A band with no error-stated
+gf also needs `diagnostic`: measure it to scratch with `--lines-tier all` before calling it a gap.
+Papers that cannot be fetched go on the library ticket (RYA-1283). Check each downloaded title page.
+
+Adding what the sweep finds:
+1. Parse the paper's table into `data/reference/lab_gf_tables/transcribed/`, reading its own value
+   column, and regenerate with `scripts/rya1268_transcribe_lab_gf.py`.
+2. `python scripts/rya1268_adopt_lab_gf.py <El>` adopts for that element only and changes no other
+   element's rows. It is safe to rerun. Moves over 0.5 dex are held in `held_large_gf_moves.csv`.
+3. A lab line missing from a repo synthesis list goes in with `published_line_add.apply(...,
+   element_scoped=True)`. It is listed in `element_scoped_additions.tsv`, so other elements'
+   fingerprints do not move and their finished products stay current.
+4. A line leaves only when it cannot be resolved. Record the reason in the element's audit file and
+   list it in the run report.
 
 ## 5. NLTE table (Sirius only)
 

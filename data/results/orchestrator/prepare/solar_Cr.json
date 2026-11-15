@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Cr",
- "generated": "2026-10-24",
+ "generated": "2026-11-14",
  "sets": [
   {
    "set": "CR_AGSS21",
@@ -590,17 +590,24 @@
   }
  ],
  "adopt": [],
+ "sigma_only": [],
+ "adopt_conflicts": [],
  "missing_lines": [],
  "gf_sources": [
   {
    "lab_source_tag": "sobeck2007",
-   "n_graded_lines": 192,
+   "n_graded_lines": 206,
    "classified": true
   },
   {
    "lab_source_tag": "lawler2017_cr2",
    "n_graded_lines": 128,
    "classified": true
+  },
+  {
+   "lab_source_tag": "ward2023_cr2",
+   "n_graded_lines": 76,
+   "classified": false
   },
   {
    "lab_source_tag": "NIST_ASD",
@@ -610,6 +617,21 @@
   {
    "lab_source_tag": "CR_AGSS21",
    "n_graded_lines": 18,
+   "classified": true
+  },
+  {
+   "lab_source_tag": "tozzi1985_cr1",
+   "n_graded_lines": 10,
+   "classified": false
+  },
+  {
+   "lab_source_tag": "gurell2010_cr2",
+   "n_graded_lines": 8,
+   "classified": true
+  },
+  {
+   "lab_source_tag": "nilsson2006_cr2",
+   "n_graded_lines": 3,
    "classified": true
   }
  ],
@@ -893,6 +915,17 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 4049.7737,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.427,
+   "ew_mA": 137.3,
+   "rew": -4.47,
+   "saturated": true,
+   "core_dv_kms": -2.09
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 4058.7689,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -1088,6 +1121,17 @@
    "rew": -4.485,
    "saturated": true,
    "core_dv_kms": 2.38
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 4371.2748,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.811,
+   "ew_mA": 292.7,
+   "rew": -4.174,
+   "saturated": true,
+   "core_dv_kms": 0.41
   },
   {
    "species": "Cr I",
@@ -1385,6 +1429,17 @@
    "rew": -4.586,
    "saturated": true,
    "core_dv_kms": 0.86
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 4654.724,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.469,
+   "ew_mA": 225.3,
+   "rew": -4.315,
+   "saturated": true,
+   "core_dv_kms": -2.09
   },
   {
    "species": "Cr I",
@@ -1762,6 +1817,17 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 5224.925,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.494,
+   "ew_mA": 117.0,
+   "rew": -4.65,
+   "saturated": true,
+   "core_dv_kms": 0.59
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 5225.02,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -1825,6 +1891,17 @@
    "rew": -4.271,
    "saturated": true,
    "core_dv_kms": 0.35
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 5273.425,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.661,
+   "ew_mA": 220.3,
+   "rew": -4.379,
+   "saturated": true,
+   "core_dv_kms": -1.06
   },
   {
    "species": "Cr I",
@@ -1971,6 +2048,17 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 4098.4306,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.348,
+   "ew_mA": 305.8,
+   "rew": -4.127,
+   "saturated": true,
+   "core_dv_kms": 1.97
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 4110.9818,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -1990,6 +2078,17 @@
    "rew": -4.04,
    "saturated": true,
    "core_dv_kms": -0.21
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 4145.7788,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.528,
+   "ew_mA": 222.4,
+   "rew": -4.27,
+   "saturated": true,
+   "core_dv_kms": -1.66
   },
   {
    "species": "Cr II",
@@ -2278,6 +2377,17 @@
    "core_dv_kms": 0.59
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3003.916,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.785,
+   "ew_mA": 422.1,
+   "rew": -3.852,
+   "saturated": true,
+   "core_dv_kms": 0.09
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3005.061,
    "problem_class": "SATURATION_COG",
@@ -2287,6 +2397,17 @@
    "rew": -4.023,
    "saturated": true,
    "core_dv_kms": 0.13
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3011.42,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.68,
+   "ew_mA": 342.4,
+   "rew": -3.944,
+   "saturated": true,
+   "core_dv_kms": 1.07
   },
   {
    "species": "Cr I",
@@ -2410,6 +2531,17 @@
    "core_dv_kms": 0.41
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3026.83,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.663,
+   "ew_mA": 320.1,
+   "rew": -3.976,
+   "saturated": true,
+   "core_dv_kms": 0.2
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3029.161,
    "problem_class": "SATURATION_COG",
@@ -2465,6 +2597,28 @@
    "core_dv_kms": 0.44
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3034.537,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.906,
+   "ew_mA": 304.1,
+   "rew": -3.999,
+   "saturated": true,
+   "core_dv_kms": 0.45
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3034.981,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.577,
+   "ew_mA": 176.7,
+   "rew": -4.235,
+   "saturated": true,
+   "core_dv_kms": 0.07
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3037.045,
    "problem_class": "SATURATION_COG",
@@ -2485,6 +2639,28 @@
    "rew": -3.863,
    "saturated": true,
    "core_dv_kms": 0.68
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3042.774,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.817,
+   "ew_mA": 429.0,
+   "rew": -3.851,
+   "saturated": true,
+   "core_dv_kms": -0.72
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3043.87,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.834,
+   "ew_mA": 321.6,
+   "rew": -3.976,
+   "saturated": true,
+   "core_dv_kms": -0.91
   },
   {
    "species": "Cr II",
@@ -2509,6 +2685,17 @@
    "core_dv_kms": 0.52
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3053.652,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.783,
+   "ew_mA": 410.2,
+   "rew": -3.872,
+   "saturated": true,
+   "core_dv_kms": 0.67
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3053.878,
    "problem_class": "SATURATION_COG",
@@ -2518,6 +2705,28 @@
    "rew": -3.933,
    "saturated": true,
    "core_dv_kms": 0.17
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3055.452,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.62,
+   "ew_mA": 367.4,
+   "rew": -3.92,
+   "saturated": true,
+   "core_dv_kms": -0.03
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3058.34,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.812,
+   "ew_mA": 436.4,
+   "rew": -3.846,
+   "saturated": true,
+   "core_dv_kms": 1.09
   },
   {
    "species": "Cr II",
@@ -2543,6 +2752,28 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3061.569,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.623,
+   "ew_mA": 257.3,
+   "rew": -4.076,
+   "saturated": true,
+   "core_dv_kms": 0.17
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3063.834,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.62,
+   "ew_mA": 426.5,
+   "rew": -3.856,
+   "saturated": true,
+   "core_dv_kms": -0.58
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3067.148,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2551,6 +2782,149 @@
    "rew": -3.77,
    "saturated": true,
    "core_dv_kms": -0.97
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3071.564,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.53,
+   "ew_mA": 231.3,
+   "rew": -4.123,
+   "saturated": true,
+   "core_dv_kms": -0.15
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3072.467,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.825,
+   "ew_mA": 339.2,
+   "rew": -3.957,
+   "saturated": true,
+   "core_dv_kms": 1.04
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3073.225,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.753,
+   "ew_mA": 325.4,
+   "rew": -3.975,
+   "saturated": true,
+   "core_dv_kms": 0.66
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3083.601,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.762,
+   "ew_mA": 470.7,
+   "rew": -3.816,
+   "saturated": true,
+   "core_dv_kms": 1.05
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3084.458,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.551,
+   "ew_mA": 143.2,
+   "rew": -4.333,
+   "saturated": true,
+   "core_dv_kms": 0.0
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3085.336,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.7,
+   "ew_mA": 298.9,
+   "rew": -4.014,
+   "saturated": true,
+   "core_dv_kms": -1.01
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3093.948,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.691,
+   "ew_mA": 435.8,
+   "rew": -3.851,
+   "saturated": true,
+   "core_dv_kms": -0.77
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3094.928,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.827,
+   "ew_mA": 286.5,
+   "rew": -4.033,
+   "saturated": true,
+   "core_dv_kms": -1.01
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3108.655,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.666,
+   "ew_mA": 215.7,
+   "rew": -4.159,
+   "saturated": true,
+   "core_dv_kms": 1.04
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3111.946,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.627,
+   "ew_mA": 419.2,
+   "rew": -3.871,
+   "saturated": true,
+   "core_dv_kms": 0.01
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3115.283,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.607,
+   "ew_mA": 249.2,
+   "rew": -4.097,
+   "saturated": true,
+   "core_dv_kms": 0.02
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3117.254,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.734,
+   "ew_mA": 314.5,
+   "rew": -3.996,
+   "saturated": true,
+   "core_dv_kms": -0.88
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3118.143,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.748,
+   "ew_mA": 364.4,
+   "rew": -3.932,
+   "saturated": true,
+   "core_dv_kms": 0.17
   },
   {
    "species": "Cr II",
@@ -2576,6 +2950,50 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3121.052,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.508,
+   "ew_mA": 337.3,
+   "rew": -3.966,
+   "saturated": true,
+   "core_dv_kms": 0.93
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3121.811,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.803,
+   "ew_mA": 389.6,
+   "rew": -3.904,
+   "saturated": true,
+   "core_dv_kms": -0.98
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3121.966,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.616,
+   "ew_mA": 380.2,
+   "rew": -3.914,
+   "saturated": true,
+   "core_dv_kms": -0.18
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3122.601,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.861,
+   "ew_mA": 372.8,
+   "rew": -3.923,
+   "saturated": true,
+   "core_dv_kms": -1.08
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3124.978,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2584,6 +3002,17 @@
    "rew": -3.848,
    "saturated": true,
    "core_dv_kms": 0.61
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3125.475,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.603,
+   "ew_mA": 418.8,
+   "rew": -3.873,
+   "saturated": true,
+   "core_dv_kms": 0.08
   },
   {
    "species": "Cr II",
@@ -2620,6 +3049,39 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3137.546,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.494,
+   "ew_mA": 292.0,
+   "rew": -4.031,
+   "saturated": true,
+   "core_dv_kms": 0.45
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3139.905,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.891,
+   "ew_mA": 377.1,
+   "rew": -3.92,
+   "saturated": true,
+   "core_dv_kms": 0.88
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3142.744,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.513,
+   "ew_mA": 365.9,
+   "rew": -3.934,
+   "saturated": true,
+   "core_dv_kms": -0.16
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3145.104,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2628,6 +3090,28 @@
    "rew": -3.872,
    "saturated": true,
    "core_dv_kms": 0.93
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3145.763,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.828,
+   "ew_mA": 367.4,
+   "rew": -3.933,
+   "saturated": true,
+   "core_dv_kms": -1.02
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3147.211,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.918,
+   "ew_mA": 417.3,
+   "rew": -3.877,
+   "saturated": true,
+   "core_dv_kms": 1.02
   },
   {
    "species": "Cr II",
@@ -2652,6 +3136,39 @@
    "core_dv_kms": 1.11
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3149.834,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.841,
+   "ew_mA": 323.3,
+   "rew": -3.989,
+   "saturated": true,
+   "core_dv_kms": 1.13
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3150.107,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.749,
+   "ew_mA": 405.0,
+   "rew": -3.891,
+   "saturated": true,
+   "core_dv_kms": -0.77
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3152.215,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.892,
+   "ew_mA": 370.3,
+   "rew": -3.93,
+   "saturated": true,
+   "core_dv_kms": 0.89
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3155.154,
    "problem_class": "SATURATION_COG",
@@ -2661,6 +3178,17 @@
    "rew": -4.051,
    "saturated": true,
    "core_dv_kms": -0.98
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3158.027,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.849,
+   "ew_mA": 442.7,
+   "rew": -3.853,
+   "saturated": true,
+   "core_dv_kms": -0.92
   },
   {
    "species": "Cr II",
@@ -2674,6 +3202,39 @@
    "core_dv_kms": 0.53
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3160.101,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.621,
+   "ew_mA": 425.6,
+   "rew": -3.871,
+   "saturated": true,
+   "core_dv_kms": -0.89
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 3160.611,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.852,
+   "ew_mA": 461.5,
+   "rew": -3.836,
+   "saturated": true,
+   "core_dv_kms": 1.16
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3162.431,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.69,
+   "ew_mA": 388.9,
+   "rew": -3.91,
+   "saturated": true,
+   "core_dv_kms": -0.37
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3163.76,
    "problem_class": "SATURATION_COG",
@@ -2683,6 +3244,28 @@
    "rew": -3.998,
    "saturated": true,
    "core_dv_kms": 0.59
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 3169.575,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.629,
+   "ew_mA": 361.5,
+   "rew": -3.943,
+   "saturated": true,
+   "core_dv_kms": 1.14
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3173.558,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.755,
+   "ew_mA": 318.7,
+   "rew": -3.998,
+   "saturated": true,
+   "core_dv_kms": 1.16
   },
   {
    "species": "Cr II",
@@ -2730,6 +3313,17 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3203.509,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.565,
+   "ew_mA": 260.4,
+   "rew": -4.09,
+   "saturated": true,
+   "core_dv_kms": -1.21
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3208.589,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2763,6 +3357,193 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3219.776,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.938,
+   "ew_mA": 416.9,
+   "rew": -3.888,
+   "saturated": true,
+   "core_dv_kms": 1.16
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3225.453,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.568,
+   "ew_mA": 390.7,
+   "rew": -3.917,
+   "saturated": true,
+   "core_dv_kms": 0.39
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3234.058,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.816,
+   "ew_mA": 423.7,
+   "rew": -3.883,
+   "saturated": true,
+   "core_dv_kms": 0.25
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3238.499,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.444,
+   "ew_mA": 222.2,
+   "rew": -4.164,
+   "saturated": true,
+   "core_dv_kms": 0.97
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3238.762,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.761,
+   "ew_mA": 367.8,
+   "rew": -3.945,
+   "saturated": true,
+   "core_dv_kms": 0.36
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3250.779,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.918,
+   "ew_mA": 375.4,
+   "rew": -3.938,
+   "saturated": true,
+   "core_dv_kms": -1.17
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3264.265,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.641,
+   "ew_mA": 297.4,
+   "rew": -4.04,
+   "saturated": true,
+   "core_dv_kms": 0.4
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3268.464,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.358,
+   "ew_mA": 173.1,
+   "rew": -4.276,
+   "saturated": true,
+   "core_dv_kms": 0.98
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3270.134,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.719,
+   "ew_mA": 217.4,
+   "rew": -4.177,
+   "saturated": true,
+   "core_dv_kms": 0.08
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3288.031,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.495,
+   "ew_mA": 245.2,
+   "rew": -4.127,
+   "saturated": true,
+   "core_dv_kms": 1.17
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3295.425,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.76,
+   "ew_mA": 201.6,
+   "rew": -4.213,
+   "saturated": true,
+   "core_dv_kms": 0.29
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3307.046,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.835,
+   "ew_mA": 330.1,
+   "rew": -4.001,
+   "saturated": true,
+   "core_dv_kms": -0.92
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3311.933,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.778,
+   "ew_mA": 259.1,
+   "rew": -4.107,
+   "saturated": true,
+   "core_dv_kms": 0.05
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3312.183,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.805,
+   "ew_mA": 334.8,
+   "rew": -3.995,
+   "saturated": true,
+   "core_dv_kms": 0.91
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3315.295,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.838,
+   "ew_mA": 308.1,
+   "rew": -4.032,
+   "saturated": true,
+   "core_dv_kms": 0.95
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3322.704,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.505,
+   "ew_mA": 424.3,
+   "rew": -3.894,
+   "saturated": true,
+   "core_dv_kms": -1.03
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3323.537,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.615,
+   "ew_mA": 283.4,
+   "rew": -4.069,
+   "saturated": true,
+   "core_dv_kms": -0.23
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3324.058,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2774,6 +3555,17 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3324.341,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.805,
+   "ew_mA": 322.8,
+   "rew": -4.013,
+   "saturated": true,
+   "core_dv_kms": 1.11
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3328.35,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2782,6 +3574,28 @@
    "rew": -4.209,
    "saturated": true,
    "core_dv_kms": 0.57
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3335.297,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.784,
+   "ew_mA": 387.4,
+   "rew": -3.935,
+   "saturated": true,
+   "core_dv_kms": -0.14
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3335.428,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.673,
+   "ew_mA": 427.5,
+   "rew": -3.892,
+   "saturated": true,
+   "core_dv_kms": -0.29
   },
   {
    "species": "Cr II",
@@ -2815,6 +3629,17 @@
    "rew": -4.037,
    "saturated": true,
    "core_dv_kms": 0.72
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3339.88,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.754,
+   "ew_mA": 307.9,
+   "rew": -4.035,
+   "saturated": true,
+   "core_dv_kms": -1.09
   },
   {
    "species": "Cr II",
@@ -2873,6 +3698,17 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3357.4,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.697,
+   "ew_mA": 221.0,
+   "rew": -4.182,
+   "saturated": true,
+   "core_dv_kms": 0.43
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3358.5,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2917,6 +3753,17 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3367.435,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.64,
+   "ew_mA": 352.3,
+   "rew": -3.98,
+   "saturated": true,
+   "core_dv_kms": 0.13
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3368.049,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2925,6 +3772,39 @@
    "rew": -3.924,
    "saturated": true,
    "core_dv_kms": 1.09
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3368.709,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.604,
+   "ew_mA": 336.0,
+   "rew": -4.001,
+   "saturated": true,
+   "core_dv_kms": 0.44
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3372.106,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.925,
+   "ew_mA": 444.8,
+   "rew": -3.88,
+   "saturated": true,
+   "core_dv_kms": 1.06
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3376.268,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.628,
+   "ew_mA": 259.4,
+   "rew": -4.114,
+   "saturated": true,
+   "core_dv_kms": 1.14
   },
   {
    "species": "Cr II",
@@ -3027,6 +3907,28 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3395.606,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.523,
+   "ew_mA": 284.6,
+   "rew": -4.077,
+   "saturated": true,
+   "core_dv_kms": 0.41
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3399.518,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.411,
+   "ew_mA": 288.1,
+   "rew": -4.072,
+   "saturated": true,
+   "core_dv_kms": -0.36
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3402.397,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -3104,6 +4006,17 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3428.922,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.301,
+   "ew_mA": 185.8,
+   "rew": -4.266,
+   "saturated": true,
+   "core_dv_kms": 0.38
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3433.309,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -3112,6 +4025,39 @@
    "rew": -3.84,
    "saturated": true,
    "core_dv_kms": 0.83
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3475.116,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.797,
+   "ew_mA": 408.7,
+   "rew": -3.93,
+   "saturated": true,
+   "core_dv_kms": 1.29
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3495.373,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.815,
+   "ew_mA": 321.8,
+   "rew": -4.036,
+   "saturated": true,
+   "core_dv_kms": 0.93
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3511.824,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.823,
+   "ew_mA": 278.1,
+   "rew": -4.101,
+   "saturated": true,
+   "core_dv_kms": 0.89
   },
   {
    "species": "Cr I",
@@ -3214,6 +4160,17 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3617.273,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.588,
+   "ew_mA": 304.1,
+   "rew": -4.075,
+   "saturated": true,
+   "core_dv_kms": 0.99
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3631.467,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -3269,6 +4226,39 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3684.223,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.45,
+   "ew_mA": 255.4,
+   "rew": -4.159,
+   "saturated": true,
+   "core_dv_kms": -1.14
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3686.673,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.364,
+   "ew_mA": 215.9,
+   "rew": -4.232,
+   "saturated": true,
+   "core_dv_kms": 0.4
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3697.996,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.498,
+   "ew_mA": 179.7,
+   "rew": -4.313,
+   "saturated": true,
+   "core_dv_kms": 1.13
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3712.936,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -3288,6 +4278,17 @@
    "rew": -4.233,
    "saturated": true,
    "core_dv_kms": 0.28
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3727.375,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.807,
+   "ew_mA": 526.3,
+   "rew": -3.85,
+   "saturated": true,
+   "core_dv_kms": -1.19
   },
   {
    "species": "Cr I",
@@ -3387,6 +4388,17 @@
    "rew": -3.829,
    "saturated": true,
    "core_dv_kms": -1.02
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3750.525,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.501,
+   "ew_mA": 421.2,
+   "rew": -3.95,
+   "saturated": true,
+   "core_dv_kms": -1.13
   },
   {
    "species": "Cr II",
@@ -3587,7 +4599,15 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 4039.2952
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 4048.7795
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 4049.7737
   },
   {
    "species": "Cr I",
@@ -3639,6 +4659,10 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 4320.573
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 4320.602
   },
   {
@@ -3680,6 +4704,10 @@
   {
    "species": "Cr I",
    "wavelength_A": 4368.254
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 4371.2748
   },
   {
    "species": "Cr I",
@@ -3767,6 +4795,10 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 4548.647
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 4565.504
   },
   {
@@ -3820,6 +4852,10 @@
   {
    "species": "Cr I",
    "wavelength_A": 4652.157
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 4654.724
   },
   {
    "species": "Cr I",
@@ -4011,6 +5047,14 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 5032.548
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 5034.644
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 5051.897
   },
   {
@@ -4055,6 +5099,10 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 5200.172
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 5204.498
   },
   {
@@ -4072,6 +5120,10 @@
   {
    "species": "Cr I",
    "wavelength_A": 5224.064
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 5224.925
   },
   {
    "species": "Cr I",
@@ -4131,6 +5183,10 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 5273.425
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 5287.178
   },
   {
@@ -4172,6 +5228,10 @@
   {
    "species": "Cr I",
    "wavelength_A": 5340.447
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 5344.756
   },
   {
    "species": "Cr I",
@@ -4251,6 +5311,10 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 6322.57
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 6322.6
   },
   {
@@ -4271,7 +5335,19 @@
   },
   {
    "species": "Cr I",
+   "wavelength_A": 8916.24
+  },
+  {
+   "species": "Cr I",
    "wavelength_A": 8917.116
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 8939.191
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 8955.745
   },
   {
    "species": "Cr II",
@@ -4287,7 +5363,15 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 4082.2908
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 4086.1279
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 4098.4306
   },
   {
    "species": "Cr II",
@@ -4300,6 +5384,10 @@
   {
    "species": "Cr II",
    "wavelength_A": 4132.411
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 4145.7788
   },
   {
    "species": "Cr II",
@@ -4384,6 +5472,10 @@
   {
    "species": "Cr II",
    "wavelength_A": 4634.07
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 4697.598
   },
   {
    "species": "Cr II",
@@ -4518,8 +5610,16 @@
    "wavelength_A": 3000.887
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3003.916
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3005.061
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3011.42
   },
   {
    "species": "Cr I",
@@ -4566,6 +5666,10 @@
    "wavelength_A": 3024.348
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3026.83
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3029.161
   },
@@ -4586,12 +5690,28 @@
    "wavelength_A": 3034.188
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3034.537
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3034.981
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3037.045
   },
   {
    "species": "Cr I",
    "wavelength_A": 3040.84
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3042.774
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3043.87
   },
   {
    "species": "Cr II",
@@ -4602,8 +5722,20 @@
    "wavelength_A": 3047.759
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3053.652
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3053.878
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3055.452
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3058.34
   },
   {
    "species": "Cr II",
@@ -4615,7 +5747,67 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3061.569
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3063.834
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3067.148
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3071.564
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3072.467
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3073.225
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3083.601
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3084.458
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3085.336
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3093.948
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3094.928
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3108.655
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3111.946
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3115.283
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3117.254
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3118.143
   },
   {
    "species": "Cr II",
@@ -4627,7 +5819,27 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3121.052
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3121.811
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3121.966
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3122.601
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3124.978
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3125.475
   },
   {
    "species": "Cr II",
@@ -4643,7 +5855,27 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3137.546
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3139.905
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3142.744
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3145.104
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3145.763
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3147.211
   },
   {
    "species": "Cr II",
@@ -4654,16 +5886,52 @@
    "wavelength_A": 3148.449
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3149.834
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3150.107
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3152.215
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3155.154
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3158.027
   },
   {
    "species": "Cr II",
    "wavelength_A": 3159.103
   },
   {
+   "species": "Cr II",
+   "wavelength_A": 3160.101
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 3160.611
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3162.431
+  },
+  {
    "species": "Cr I",
    "wavelength_A": 3163.76
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 3169.575
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3173.558
   },
   {
    "species": "Cr II",
@@ -4683,6 +5951,10 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3203.509
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3208.589
   },
   {
@@ -4695,11 +5967,91 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3219.776
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3225.453
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3234.058
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3238.499
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3238.762
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3250.779
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3264.265
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3268.464
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3270.134
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3288.031
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3295.425
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3307.046
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3311.933
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3312.183
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3315.295
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3322.704
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3323.537
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3324.058
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3324.341
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3328.35
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3335.297
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3335.428
   },
   {
    "species": "Cr II",
@@ -4712,6 +6064,10 @@
   {
    "species": "Cr II",
    "wavelength_A": 3339.801
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3339.88
   },
   {
    "species": "Cr II",
@@ -4735,6 +6091,10 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3357.4
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3358.5
   },
   {
@@ -4751,7 +6111,23 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3367.435
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3368.049
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3368.709
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3372.106
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3376.268
   },
   {
    "species": "Cr II",
@@ -4791,6 +6167,14 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3395.606
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3399.518
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3402.397
   },
   {
@@ -4819,7 +6203,27 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3426.143
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3428.922
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3433.309
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3475.116
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3495.373
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3511.824
   },
   {
    "species": "Cr I",
@@ -4859,11 +6263,19 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3617.273
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3631.467
   },
   {
    "species": "Cr II",
    "wavelength_A": 3631.683
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3633.998
   },
   {
    "species": "Cr I",
@@ -4879,11 +6291,27 @@
   },
   {
    "species": "Cr II",
+   "wavelength_A": 3684.223
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3686.673
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3697.996
+  },
+  {
+   "species": "Cr II",
    "wavelength_A": 3712.936
   },
   {
    "species": "Cr II",
    "wavelength_A": 3715.172
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3727.375
   },
   {
    "species": "Cr I",
@@ -4920,6 +6348,10 @@
   {
    "species": "Cr I",
    "wavelength_A": 3748.995
+  },
+  {
+   "species": "Cr II",
+   "wavelength_A": 3750.525
   },
   {
    "species": "Cr II",
@@ -4968,6 +6400,30 @@
   {
    "species": "Cr I",
    "wavelength_A": 9574.312
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9670.54
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9734.562
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9446.804
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9571.813
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9667.286
+  },
+  {
+   "species": "Cr I",
+   "wavelength_A": 9294.228
   }
  ],
  "holdings": [
@@ -4976,22 +6432,30 @@
    "band": "near-UV",
    "lo_A": 3000.0,
    "hi_A": 3780.0,
-   "graded_lines": 111,
+   "graded_lines": 196,
    "served": 5,
    "tested": 5,
    "off_rest": [
     {
      "wavelength_A": 3000.887,
      "dv_kms": 3.8
+    },
+    {
+     "wavelength_A": 3003.916,
+     "dv_kms": -4.2
+    },
+    {
+     "wavelength_A": 3011.42,
+     "dv_kms": 4.2
     }
    ],
    "not_served": [],
    "dv_kms": [
     3.81,
+    -4.16,
     0.31,
-    0.31,
-    0.99,
-    0.66
+    4.23,
+    0.31
    ],
    "frame_median_dv_kms": 0.56,
    "frame_n_lines": 20,
@@ -5003,22 +6467,30 @@
    "band": "near-UV",
    "lo_A": 3000.0,
    "hi_A": 3780.0,
-   "graded_lines": 111,
+   "graded_lines": 196,
    "served": 5,
    "tested": 5,
    "off_rest": [
     {
      "wavelength_A": 3000.887,
      "dv_kms": 4.9
+    },
+    {
+     "wavelength_A": 3003.916,
+     "dv_kms": -4.8
+    },
+    {
+     "wavelength_A": 3011.42,
+     "dv_kms": 4.7
     }
    ],
    "not_served": [],
    "dv_kms": [
     4.87,
+    -4.84,
     0.13,
-    0.29,
-    0.87,
-    0.25
+    4.68,
+    0.29
    ],
    "frame_median_dv_kms": 0.69,
    "frame_n_lines": 20,
@@ -5030,7 +6502,7 @@
    "band": "VIS",
    "lo_A": 3780.0,
    "hi_A": 6910.0,
-   "graded_lines": 252,
+   "graded_lines": 269,
    "served": 5,
    "tested": 5,
    "off_rest": [
@@ -5061,7 +6533,7 @@
    "band": "VIS",
    "lo_A": 3780.0,
    "hi_A": 6910.0,
-   "graded_lines": 252,
+   "graded_lines": 269,
    "served": 5,
    "tested": 5,
    "off_rest": [
@@ -5092,7 +6564,7 @@
    "band": "VIS",
    "lo_A": 3782.6,
    "hi_A": 6910.0,
-   "graded_lines": 252,
+   "graded_lines": 269,
    "served": 5,
    "tested": 5,
    "off_rest": [
@@ -5119,62 +6591,13 @@
    "ok": true
   },
   {
-   "holding": "solar_iag_reiners2016",
-   "band": "VIS",
-   "lo_A": 4047.46,
-   "hi_A": 5001.1,
-   "graded_lines": 142,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    -2.74,
-    -0.6,
-    0.08,
-    -0.58,
-    -0.2
-   ],
-   "frame_median_dv_kms": 0.51,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag",
-   "band": "VIS",
-   "lo_A": 5001.1,
-   "hi_A": 6910.0,
-   "graded_lines": 86,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [
-    {
-     "wavelength_A": 5065.908,
-     "dv_kms": 4.0
-    }
-   ],
-   "not_served": [],
-   "dv_kms": [
-    -0.72,
-    0.46,
-    3.96,
-    0.65,
-    0.05
-   ],
-   "frame_median_dv_kms": 0.53,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
    "holding": "solar_iag",
    "band": "red-optical",
    "lo_A": 6910.0,
    "hi_A": 9199.0,
-   "graded_lines": 4,
-   "served": 4,
-   "tested": 4,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
@@ -5192,9 +6615,9 @@
    "band": "red-optical",
    "lo_A": 6910.0,
    "hi_A": 9199.0,
-   "graded_lines": 4,
-   "served": 4,
-   "tested": 4,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
@@ -5212,9 +6635,9 @@
    "band": "red-optical",
    "lo_A": 6910.0,
    "hi_A": 9199.0,
-   "graded_lines": 4,
-   "served": 4,
-   "tested": 4,
+   "graded_lines": 7,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
@@ -5232,15 +6655,16 @@
    "band": "NIR",
    "lo_A": 9199.0,
    "hi_A": 10000.0,
-   "graded_lines": 3,
-   "served": 3,
-   "tested": 3,
+   "graded_lines": 9,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
     0.36,
     0.59,
-    0.32
+    0.32,
+    1.17
    ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 1,
@@ -5252,15 +6676,17 @@
    "band": "NIR",
    "lo_A": 9199.0,
    "hi_A": 10010.0,
-   "graded_lines": 3,
-   "served": 3,
-   "tested": 3,
+   "graded_lines": 9,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
     0.28,
     0.42,
-    0.37
+    0.37,
+    -0.69,
+    0.25
    ],
    "frame_median_dv_kms": null,
    "frame_n_lines": 3,
@@ -5272,9 +6698,9 @@
    "band": "NIR",
    "lo_A": 9199.0,
    "hi_A": 13000.0,
-   "graded_lines": 3,
-   "served": 3,
-   "tested": 3,
+   "graded_lines": 9,
+   "served": 5,
+   "tested": 5,
    "off_rest": [],
    "not_served": [],
    "dv_kms": [
@@ -5386,6 +6812,7 @@
   "missing_bib_keys": []
  },
  "nlte_table": null,
+ "gerber_unregistered": [],
  "literature_needs": [
   {
    "species": "Cr II",
@@ -5436,13 +6863,254 @@
    "why_needed": "66 Cr I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
   }
  ],
+ "literature_sweep": {
+  "recorded": 12,
+  "owed": []
+ },
+ "line_inventory": [
+  {
+   "ion": "I",
+   "band": "H",
+   "in_list": 64,
+   "set": 0,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 64,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_h_rya1094",
+    "solar_crires_plus_h_rya1232"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "K",
+   "in_list": 66,
+   "set": 0,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 66,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_k_rya1219"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "NIR",
+   "in_list": 41,
+   "set": 0,
+   "reference": 9,
+   "codex": 9,
+   "ungraded": 32,
+   "lab_table": 9,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_j_rya1219",
+    "solar_crires_plus_y_rya794",
+    "solar_crires_plus_y_wide_rya1054",
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "VIS",
+   "in_list": 6432,
+   "set": 29,
+   "reference": 165,
+   "codex": 205,
+   "ungraded": 6227,
+   "lab_table": 221,
+   "lab_unadopted": [
+    4026.21,
+    4039.09,
+    4048.779,
+    4058.769
+   ],
+   "lab_absent": [],
+   "holdings": [
+    "solar_harps_molecfit_corrected",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "near-UV",
+   "in_list": 1629,
+   "set": 0,
+   "reference": 38,
+   "codex": 45,
+   "ungraded": 1584,
+   "lab_table": 46,
+   "lab_unadopted": [
+    3148.449,
+    3155.154,
+    3163.76
+   ],
+   "lab_absent": [],
+   "holdings": [
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "red-optical",
+   "in_list": 2644,
+   "set": 0,
+   "reference": 4,
+   "codex": 7,
+   "ungraded": 2637,
+   "lab_table": 4,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "II",
+   "band": "H",
+   "in_list": 0,
+   "set": 0,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 0,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_h_rya1094",
+    "solar_crires_plus_h_rya1232"
+   ]
+  },
+  {
+   "ion": "II",
+   "band": "K",
+   "in_list": 0,
+   "set": 0,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 0,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_k_rya1219"
+   ]
+  },
+  {
+   "ion": "II",
+   "band": "NIR",
+   "in_list": 2,
+   "set": 0,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 2,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_j_rya1219",
+    "solar_crires_plus_y_rya794",
+    "solar_crires_plus_y_wide_rya1054",
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "II",
+   "band": "VIS",
+   "in_list": 3507,
+   "set": 10,
+   "reference": 64,
+   "codex": 64,
+   "ungraded": 3443,
+   "lab_table": 77,
+   "lab_unadopted": [
+    4891.4948,
+    6421.7063
+   ],
+   "lab_absent": [
+    4627.654
+   ],
+   "holdings": [
+    "solar_harps_molecfit_corrected",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "II",
+   "band": "near-UV",
+   "in_list": 826,
+   "set": 0,
+   "reference": 151,
+   "codex": 151,
+   "ungraded": 675,
+   "lab_table": 235,
+   "lab_unadopted": [
+    3077.5886,
+    3077.589,
+    3179.4493,
+    3179.45,
+    3183.3297,
+    3183.33,
+    3421.591,
+    3421.614,
+    3421.6158,
+    3658.155,
+    3658.1605,
+    3665.979
+   ],
+   "lab_absent": [],
+   "holdings": [
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "II",
+   "band": "red-optical",
+   "in_list": 2807,
+   "set": 0,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 2807,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  }
+ ],
  "blocking": {
   "nlte_missing": 0,
   "adopt": 0,
-  "cull_candidates": 261,
+  "cull_candidates": 0,
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
-  "literature": 0
+  "literature": 0,
+  "literature_sweep": 0
  },
- "ready": false
+ "pending_rule_plan": {
+  "adopt": 0,
+  "sigma_only": 0,
+  "add_lines": 0
+ },
+ "ready": true
 }

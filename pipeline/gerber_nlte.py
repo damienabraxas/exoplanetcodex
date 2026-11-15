@@ -92,6 +92,20 @@ DECKS = {
     "Ca": dict(Z=20, atom="atom.ca105b",
                aux="auxData_Ca_MARCS_Jun-02-2021.dat",
                grid="NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin"),
+    # RYA-728 -- Cr, 1D MARCS and <3D> STAGGER (staged RYA-800, md5 in Cr_gerber2023.prov.json).
+    # atom.cr374 is TERM-RESOLVED: every fine-structure component shares its term's departure
+    # coefficient (RYA-818). GES's own Cr labels are replaced by the committed sidecar.
+    "Cr": dict(Z=24, atom="atom.cr374",
+               aux="auxData_Cr_MARCS_Dec-16-2024.dat",
+               grid="NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin"),
+    "Cr@mean3D": dict(Z=24, atom="atom.cr374",
+                      aux="auxData_Cr_STAGGERmean3D_Dec-12-2024_marcs_names.txt",
+                      grid="NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
+                      read_via="direct"),
     "Fe": dict(Z=26, atom="atom.fe607a",
                aux="auxData_Fe_MARCS_May-07-2021.dat",
                grid="NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"),
@@ -363,6 +377,18 @@ def nlte_ion_capability(element: str, ion) -> tuple:
         f"atom carries no bound-bound transition with both levels in that ionisation "
         f"stage, so bsyn applies departure = 1 to every line of it. RYA-1055.")
     return (False, note)
+
+def staged_unregistered(element: str) -> list[str]:
+    """Deck files on THIS host for `element` that DECKS does not register (RYA-728): 1D, <3D>.
+    A staged deck left out of DECKS HELD every Cr Gerber cell for three months with a reason that
+    read like a physical limit, so the hold and the prepare report name this state."""
+    import glob
+    out = []
+    for kind, key, pat in (("1D", element, "MARCS"), ("<3D>", f"{element}@mean3D", "STAGGERmean3D")):
+        if key not in DECKS and glob.glob(f"{GT}/auxData_{element}_{pat}_*"):
+            out.append(kind)
+    return out
+
 
 def deck_atmosphere(element: str) -> str:
     """The atmosphere this deck's departures were solved on.

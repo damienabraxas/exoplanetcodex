@@ -65,7 +65,8 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.treatment_axes import axes_for  # RYA-906
 from pipeline import treatment_axes as taxes  # RYA-1040: <3D> tokens, never typed
-from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
+from pipeline.band_products import (build_product, LineMeasurement, products_frame,  # noqa: E402
+                                     no_data_reason)
 from pipeline.line_sets import aggregation_for
 from pipeline.error_budget import build as build_budget  # noqa: E402
 from pipeline.error_budget import assert_stat_publishable  # noqa: E402  RYA-907
@@ -1240,6 +1241,8 @@ def synthesis_route(a, pol) -> None:
     _placed_cont: dict = {}
     #: RYA-1230 — the local-continuum record per line centre, for the per-line artifact.
     _continuum_by_line: dict = {}
+    #: the window as the holding served it, per line: what `no_data_reason` reads (RYA-728).
+    _served_window: dict = {}
     _telluric_masked: dict = {}
     _SKY_PAIRS = {"kpno_solar_atlas": ("solar_kpno", "solar_kpno_molecfit_corrected"),
                   "harps": ("solar_harps", "solar_harps_molecfit_corrected"),
@@ -1335,6 +1338,7 @@ def synthesis_route(a, pol) -> None:
                 f"Fitting it would spend A({a.element}) closing a continuum offset "
                 f"(RYA-713/843). Normalise the product first, or pass --place-continuum "
                 f"if this holding genuinely ships no continuum to double (RYA-911).")
+        _served_window[round(float(centre), 3)] = (win.wave, win.flux)
         _served[h.holding_id] = _served.get(h.holding_id, 0) + 1
         _served_specs[h.holding_id] = h
         _window_median.append(float(np.median(win.flux)))
@@ -1809,6 +1813,13 @@ def synthesis_route(a, pol) -> None:
                            f"[{_d.get('governing_tickets', '')}] -- carried, not dropped")
                     lm.excluded_reason = (why if not lm.excluded_reason
                                           else f"{why} | {lm.excluded_reason}")
+            # RYA-728: a detector gap is served as flux exactly 0. The fit takes those pixels
+            # as data: HARPS Cr I 5304.18, on the edge of the 5304-5337 A gap, entered the NLTE
+            # aggregates at +0.3 dex with a clean status.
+            _nd = no_data_reason(*_served_window.get(round(w, 3), ((), ())), w, hw + _fhw.get(w, 0.0))
+            if _nd:
+                lm.in_aggregate = False
+                lm.excluded_reason = _nd
             lines.append(lm)
         lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
         return lines
