@@ -1,4 +1,5 @@
-Latest continuation: [complete fixed-potential valence CI and rates](fac_full_valence_v30.md).
+Latest continuation: [source-mapped radial readiness and retained guard failure](fac_radial_preflight_v32.md).
+Previous: [complete fixed-potential valence CI and rates](fac_full_valence_v30.md).
 Previous: [verified zero-correction FAC factorial diagnostic](fac_no_correction_v27.md).
 Previous: [fixed-space FAC potential-policy control](fac_potential_v26.md).
 Previous: [expanded FAC LS replay and complete both-gauge rates](fac_expanded_rates_v25.md).
