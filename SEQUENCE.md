@@ -1,3 +1,7 @@
+## 2026-11-15 — Saved native radiation controls
+
+- **RYA-1371** — Saved native J/BF reconstruction and separate field/thermal comparisons completed; whole-field reconstruction and continuum quadrature remain OPEN, no new RT or adoption (v288).
+
 ## 2026-11-15 — Oxygen continuum interpolation diagnostic
 
 - **RYA-1371** — Compiled native frequency-Hermite oracle distinguishes interpolation contribution from remaining6/7->40 gap; frozen-field max6.26e-4, no RT adoption (v287).

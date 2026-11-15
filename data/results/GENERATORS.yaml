@@ -34153,3 +34153,27 @@ artifacts:
     generator: scripts/build_hop_continuum_oracle.py
     ticket: RYA-1371
     note: Frozen-field native continuum interpolation counterfactual; source and limits unchanged; science HOLD.
+  - artifact: rya1371/native_radiation_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Saved native J reconstruction and frozen-field controls; no new RT or admission.
+  - artifact: rya1371/native_radiation_v1/rya1371-native-radiation-v1/driver_source.py
+    generator: scripts/audit_oxygen_native_radiation.py
+    ticket: RYA-1371
+    note: Saved native J reconstruction and frozen-field controls; no new RT or admission.
+  - artifact: rya1371/native_radiation_v1/rya1371-native-radiation-v2/driver_source.py
+    generator: scripts/audit_oxygen_native_radiation.py
+    ticket: RYA-1371
+    note: Saved native J reconstruction and frozen-field controls; no new RT or admission.
+  - artifact: rya1371/native_radiation_v1/rya1371-native-radiation-v3/driver_source.py
+    generator: scripts/audit_oxygen_native_radiation.py
+    ticket: RYA-1371
+    note: Saved native J reconstruction and frozen-field controls; no new RT or admission.
+  - artifact: rya1371/native_radiation_v1/rya1371-native-radiation-v3/reconstruction.csv
+    generator: scripts/audit_oxygen_native_radiation.py
+    ticket: RYA-1371
+    note: Saved native J reconstruction and frozen-field controls; no new RT or admission.
+  - artifact: rya1371/native_radiation_v1/rya1371-native-radiation-v3/report.json
+    generator: scripts/audit_oxygen_native_radiation.py
+    ticket: RYA-1371
+    note: Saved native J reconstruction and frozen-field controls; no new RT or admission.
