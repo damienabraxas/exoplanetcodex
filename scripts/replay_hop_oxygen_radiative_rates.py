@@ -18,6 +18,9 @@ def main():
     import lightweaver.LwCompiled as compiled
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--plan',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();plan=json.loads(a.plan.read_text())
     if plan['purpose']!='full-source-O41-HOP-fixed-population-rates'or 'table_control'in plan or os.environ.get('OMP_NUM_THREADS')!='1'or plan['seconds']!=600 or fingerprint(Path(compiled.__file__))!=plan['backend']:raise ValueError('Require explicit full-source one-thread600s diagnostic')
+    if 'joint_lte_control'in plan:
+        from pipeline.joint_oxygen_lte_control import validate_joint_plan
+        validate_joint_plan(plan)
     control_file=ROOT/plan['controls_source'];control_report=json.loads(control_file.read_text())
     if fingerprint(control_file)!=plan['controls_receipt']:raise ValueError('Changed predeclared solver controls')
     from pipeline.bride_coupled_contract import validate_operator_contract
@@ -150,7 +153,15 @@ def main():
         source=engine_app/'HOP/const_mod.f90'
         emission_control=dict(profile=emission['profile'],native_source=source)
         for path in [source,ROOT/'pipeline/oxygen_emission_profile.py']:checks[str(path)]=fingerprint(path)
+    source_star=star.copy();joint_audit=None
+    if 'joint_lte_control'in plan:
+        from pipeline.joint_oxygen_lte_control import held_lw_reference_star,rebind_source_inverse
+        from lightweaver import atomic_set
+        star=held_lw_reference_star(atom,state,source_star)
+        binding,joint_audit=rebind_source_inverse(binding,atom,state,star)
+        for path in [ROOT/'pipeline/joint_oxygen_lte_control.py',ROOT/'pipeline/oxygen_lte_contract.py',Path(atomic_set.__file__)]:checks[str(path)]=fingerprint(path)
     report=dict(generator=fingerprint(__file__),inputs=checks,scientific_admission='HOLD',computational_completed=False,scope=plan['scope'],source_atom=preflight,boundary_control=boundary_mode,wavelength_grid_control=grid_audit,native_rate_semantics='Saved native coefficients contain SE preconditioning; individual up/down values are not gross Einstein rates. Net-flow interpretation additionally requires the native linearization population. Fresh unpreconditioned native-field replay remains owed.')
+    if joint_audit is not None:report['joint_lte_control']=joint_audit
     if physical_control is not None:report['native_rate_semantics']='Unpreconditioned physical rate integrals at exact PRE-update radiation populations; source FP32 contributions summed in FP64, normalized with source profile/LTE factors. Not a post-update fresh native formal solve.'
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n');ctx=None
     try:
@@ -187,6 +198,8 @@ def main():
         if emission_control is not None:
             lower=ctx.atmos.pyAtmos.zLowerBc
             np.savez_compressed(a.output/'emission_profile_arrays.npz',background_chi=ctx.background.chi,background_eta=ctx.background.eta,background_sca=ctx.background.sca,bottom_total_chi=lower.chi,bottom_intensity=lower.compute_bc(ctx.atmos.pyAtmos,ctx.spect))
+        if emission_control is not None:
+            np.savez_compressed(a.output/'stationary_coefficients.npz',total_chi_m_inv=np.asarray(ctx.depthData.chi)[:,0,0,:],total_thermal_eta=np.asarray(ctx.depthData.eta)[:,0,0,:])
         np.testing.assert_array_equal(active.n,pop);np.testing.assert_array_equal(active.nStar,star)
         if alpha_control is not None:alpha_control.verify_compiled(active);alpha_control.verify_inputs()
         own_R=np.zeros_like(foreign_R)
@@ -227,6 +240,7 @@ def main():
         report.update(computational_completed=True,radiation=radiation,context_audit=audit,native_saved_effective_rate_residual=native_res,matched_population_replay_physical_residual=own_res,positive_directional_pairs=int(native_pairs.sum()),gross_coefficient_comparison_refused=comparison_refusal,focus=dict(level_1based=focus+1,depth=depth,temperature_K=float(state['temperature_K'][depth]),native_net_m3_s=float(native_net[focus,depth]),replay_net_m3_s=float(own_net[focus,depth]),ranked_partner_flow_changes=ranking))
         if physical_control is not None:report['native_physical_rate_residual']=report.pop('native_saved_effective_rate_residual');report['gross_rate_relative_difference']=comparison
         np.savez_compressed(a.output/'rates.npz',native_R_s_inv=foreign_R,replay_R_s_inv=own_R,native_C_s_inv=foreign_C,replay_C_s_inv=active.C.copy(),populations=pop,nstar=star,wave_vac_nm=np.array(formal_ctx.spect.wavelength),Jnu=np.array(formal_ctx.spect.J))
+        if joint_audit is not None:np.savez_compressed(a.output/'joint_lte_inputs.npz',native_nstar=source_star,candidate_nstar=star)
         if thermal is not None:np.savez_compressed(a.output/'independent_old_convention_rates.npz',R_s_inv=compiled_R)
     except (ValueError,RuntimeError,TimeoutError)as error:report['error']=str(error)
     finally:

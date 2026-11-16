@@ -22,6 +22,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ['plan','replay','output']:p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--absolute-replay',action='store_true',help='Independently reconstruct gross rates from the exact saved J field; no RT/SE')
+    p.add_argument('--coefficient-replay',action='store_true',help='Independently reconstruct actual saved total chi and thermal eta; no RT/SE')
     p.add_argument('--profile-contract',action='store_true',help='Audit actual background absorption/scattering and imported-LTE collision equilibrium; no RT/SE')
     p.add_argument('--native-thermal-counterfactual',action='store_true',help='Also evaluate explicitly diagnostic native-style thermal rate terms at fixed saved J')
     p.add_argument('--adaptive-continuum',action='store_true');p.add_argument('--base-replay',type=Path);p.add_argument('--additional-points',type=int)
@@ -61,13 +62,26 @@ def main():
         f=d['consumed_state_cgs'][::-1].astype(float);star=d['native_nstar_cm3'][:,::-1].copy()*1e6
         pop=d['native_populations_cm3'][:,::-1].copy()*1e6
         state=dict(height_m=d['height_m'][::-1].copy(),temperature_K=f[:,2],ne_m3=f[:,0]*1e6,rho_kg_m3=f[:,1]*1e3,vturb_m_s=f[:,7]*1e3)
+    source_star=star.copy()
     with np.load(a.replay/'rates.npz')as d:
-        wave=d['wave_vac_nm'].copy();np.testing.assert_array_equal(star,d['nstar'])
+        wave=d['wave_vac_nm'].copy();saved_star=d['nstar'].copy()
+        if 'joint_lte_control'not in plan:np.testing.assert_array_equal(star,saved_star)
         if a.absolute_replay:
             pop=d['populations'].copy();saved_J=d['Jnu'].copy();saved_R=d['replay_R_s_inv'].copy();saved_C=d['replay_C_s_inv'].copy();native_R=d['native_R_s_inv'].copy();native_C=d['native_C_s_inv'].copy()
     atom_path=require_codex_path('experiments.bride_oxygen_atom');ref_path=require_codex_path('experiments.bride_oxygen_reference');ref=json.loads(ref_path.read_text());model_path=require_codex_path('grids.marcs_standard')/ref['atmosphere_file']['name']
     pin(atom_path,ref['atom']);pin(ref_path);pin(model_path,ref['atmosphere_file'])
     atom=read_multi_atom(atom_path);law,more=load_width_law(plan['original_width_law'],atom_path,atom);checks.update(more)
+    joint_audit=None
+    if 'joint_lte_control'in plan:
+        from pipeline.joint_oxygen_lte_control import validate_joint_plan,held_lw_reference_star,rebind_source_inverse
+        from pipeline.bride_collision_binding import load_collision_binding
+        from lightweaver import atomic_set
+        validate_joint_plan(plan)
+        star=held_lw_reference_star(atom,state,source_star);np.testing.assert_array_equal(star,saved_star)
+        binding,more=load_collision_binding(plan['collision_binding'],atom_path,atom,state,source_star);checks.update(more)
+        binding,joint_audit=rebind_source_inverse(binding,atom,state,star)
+        np.testing.assert_array_equal(binding.matrix,saved_C)
+        for path in [ROOT/'pipeline/joint_oxygen_lte_control.py',ROOT/'pipeline/oxygen_lte_contract.py',ROOT/'pipeline/bride_collision_binding.py',ROOT/'pipeline/native_oxygen_collisions.py',Path(atomic_set.__file__)]:pin(path)
     for name in ['bride_hop_transfer.py','hop_packet.py','hop_abi.py','multi_atom.py','multi_width_law.py','thermodynamic_canary.py']:
         pin(ROOT/'pipeline'/name)
     pin(__file__)
@@ -92,6 +106,18 @@ def main():
     ctx,audit=make_context(state,read_marcs_structure(model_path),atom,pop,star,extra_vac_nm=wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None or emission_control is not None,emission_profile_control=emission_control)
     oxygen=ctx.detailedAtoms[0];np.testing.assert_array_equal(ctx.spect.wavelength,wave)
     if alpha_control is not None:alpha_control.verify_compiled(oxygen)
+    coefficient_replay=None
+    if a.coefficient_replay:
+        if not a.absolute_replay:raise ValueError('Coefficient replay requires absolute saved-state audit')
+        from pipeline.stationary_oxygen_coefficients import reconstruct_coefficients
+        pin(ROOT/'pipeline/stationary_oxygen_coefficients.py')
+        coefficient_file=a.replay/'stationary_coefficients.npz';pin(coefficient_file)
+        chi,eta,counts_coeff=reconstruct_coefficients(ctx,oxygen)
+        with np.load(coefficient_file)as d:expected=[d['total_chi_m_inv'].copy(),d['total_thermal_eta'].copy()]
+        differences=[float(np.max(abs(actual/old-1)))for actual,old in zip([chi,eta],expected)]
+        bound=256*np.finfo(float).eps*(1+sum(counts_coeff.values()))
+        if max(differences)>bound:raise ValueError('Total coefficient reconstruction exceeds arithmetic screen')
+        coefficient_replay=dict(counts=counts_coeff,max_relative_chi=differences[0],max_relative_thermal_eta=differences[1],arithmetic_screen=bound,scattering_scope='Thermal eta only; scattering remains background sca*J added once by backend, not included as thermal absorption')
     profile_contract=None
     if a.profile_contract:
         if not a.absolute_replay:raise ValueError('Profile contract requires exact absolute replay')
@@ -117,7 +143,7 @@ def main():
             largest_Planck_difference_at=dict(wave_vac_nm=float(wave[worst[0]]),depth_top_to_bottom=int(worst[1]),temperature_K=float(state['temperature_K'][worst[1]]),native_over_held_LW_minus_one=float(relative_planck[worst])),
             bottom_two_depths_max_relative_Planck_difference=float(np.max(abs(relative_planck[:,-2:]))),
             lower_boundary_scope='Compiled ThermalisedRadiation uses held-LW Planck at the bottom two depths with an optical-depth gradient correction, not simply I=B. This audit compares its thermal input conventions; it does not run or reconstruct the boundary formal solve.',
-            own_C_imported_native_LTE=collision_summary(saved_C,star),native_C_imported_native_LTE=collision_summary(native_C,star),
+            own_C_declared_LTE=collision_summary(saved_C,star),native_C_imported_native_LTE=collision_summary(native_C,source_star),
             scope='Actual rebuilt background packet tested at J=B for each declared profile; thermal absorption and total including scattering reported separately. Collision reciprocity at imported native nStar only; not full Saha/EOS or microscopic validation. Active BB/BF component identities are reported separately below. No common equilibrium profile or coupled qualification is asserted.')
     rows=[];T=state['temperature_K'];mu_weights=np.asarray(audit['angles']['weight']);counts={'BB':0,'BF':0}
     if a.absolute_replay:
@@ -218,6 +244,8 @@ def main():
     for path,fp in checks.items():
         if fingerprint(path)!=fp:raise ValueError('Changed thermal audit input')
     report=dict(generator=fingerprint(__file__),inputs=checks,counts=counts,max_absolute_integrated_defects=maxima,context_audit=audit,seconds=time.perf_counter()-start,computational_completed=True,scientific_admission='HOLD',scope='Independent rate-integral ratios using actual compiled profiles/continuum cross sections and source trapezoid/angular measures. Common depth/transition factors cancel; not absolute rates or a direct compiled rate accumulator comparison. BB uses constant line-centre Einstein ratio (CRD) over its finite profile: a frequency-varying Planck field need not exactly balance it. BF uses per-frequency exponential; imported LTE factors cancel at n=nStar. No RT, SE, field/population/coefficient/constant change or scientific admission.')
+    if coefficient_replay is not None:report['coefficient_replay']=coefficient_replay
+    if joint_audit is not None:report['joint_lte_control']=joint_audit
     if profile_contract is not None:report['profile_contract']=profile_contract
     if a.absolute_replay:
         if not np.isfinite(reconstructed_R).all()or np.any(reconstructed_R<0)or not np.array_equal(reconstructed_R>0,saved_R>0):raise ValueError('Reconstructed radiative graph/positivity mismatch')
