@@ -1,6 +1,30 @@
-PREPARE solar Fe  -> READY to measure
+PREPARE solar Fe  -> NOT READY -- blocking: literature_sweep 10
   F literature: litscan yes; set bibliography keys ['asplund2021']
-  A published sets: 53 lines; adopt authors' gf on 0; missing from canonical_gf: 0
+  F3 literature sweep: 2 ion x band recorded, 10 owed (owed cells are HELD until the search is recorded in the litscan)
+      OWED Fe I H: no recorded search
+      OWED Fe I K: no recorded search
+      OWED Fe I NIR: no recorded search
+      OWED Fe I near-UV: no recorded search
+      OWED Fe I red-optical: no recorded search
+      OWED Fe II H: no recorded search
+      OWED Fe II K: no recorded search
+      OWED Fe II NIR: no recorded search
+      OWED Fe II near-UV: no recorded search
+      OWED Fe II red-optical: no recorded search
+  I line inventory (in list / set / reference / codex / ungraded / lab table):
+      Fe I   H             1894 /   0 /   25 /   25 /  1869 /    0
+      Fe I   K             1368 /   0 /    0 /    0 /  1368 /    0
+      Fe I   NIR            246 /   1 /   29 /   52 /   194 /    0
+      Fe I   VIS          10212 /  27 /  243 /  857 /  9355 /    0
+      Fe I   near-UV       4274 /   0 /   58 /  565 /  3709 /    0
+      Fe I   red-optical   5243 /  12 /   70 /  107 /  5136 /    0
+      Fe II  H               41 /   0 /    0 /    0 /    41 /    0
+      Fe II  K               10 /   0 /    0 /    0 /    10 /    0
+      Fe II  NIR              8 /   0 /    0 /    0 /     8 /    0
+      Fe II  VIS           8434 /   9 /    9 /  386 /  8048 /    0
+      Fe II  near-UV        665 /   0 /   12 /   47 /   618 /    0
+      Fe II  red-optical   6173 /   4 /    0 /  147 /  6026 /    0
+  A published sets: 53 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
   B gf source NIST-C+: 1710 graded lines, classified
   B gf source DH14: 199 graded lines, classified
   B gf source RU14: 129 graded lines, classified
@@ -13,7 +37,7 @@ PREPARE solar Fe  -> READY to measure
   F2 literature need: 41 Fe II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 1368 Fe I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
   F2 literature need: 10 Fe II lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
-  C cull candidates (saturated, not a solar-literature line): 1492  -- decision: no_cull (Ryan, 2026-10-19); kept in the pool
+  C saturated, not a solar-literature line (measured, reported, NOT culled): 1492
       Fe I 3781.1861: rew -4.458 depth 0.843
       Fe I 3782.4478: rew -4.213 depth 0.784
       Fe I 3785.706: rew -4.053 depth 0.776
@@ -1506,5 +1530,5 @@ PREPARE solar Fe  -> READY to measure
       Fe I 15691.853: rew -4.667 depth 0.458
       Fe I 16009.61: rew -4.72 depth 0.502
       Fe I 16165.029: rew -4.732 depth 0.365
-  D NLTE: 1607 graded line(s) not in None
-  E holdings: 19 windows; 0 not serving / frame off rest
+  D NLTE: 2187 graded line(s) not in a PySME table (none exists for Fe)
+  E holdings: 17 windows; 0 not serving / frame off rest
