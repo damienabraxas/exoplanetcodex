@@ -119,3 +119,15 @@ populations worsens and is retained without preference. Numerical refinement
 response remains3.75e-4 for some rates; next resolve quadrature and independently
 qualify absolute EOS/partition normalization. Coupled action/preconditioning,
 SE/restart and physical/observational model admission are not established.
+
+## Current continuation after v297
+
+[Saved-field quadrature budget](oxygen_saved_field_quadrature.md) now separates
+Gaussian integration of each declared linear-J interpolant from represented-field
+refinement. Gaussian order agreement does not validate unknown interior J; shadow
+rate residuals worsen and are retained without selection. Next prepare a bounded
+new-interior-radiation probe selected by source/interpolant indicators, preserving
+all19963nodes and original20000cap (37slots remain). Independently compare actual
+new samples against interpolation before proposing a different quadrature or
+coupled operator. Absolute EOS/partition, BB numerical and observed-model gates
+remain open; no physical admission or larger packet is implied.

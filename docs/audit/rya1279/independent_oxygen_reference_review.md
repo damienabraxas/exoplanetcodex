@@ -2011,3 +2011,7 @@ See [the complete contract, commands and evidence](oxygen_emission_profile_contr
 ## 2026-11-16: joint fixed-population LTE/inverse diagnostic (v296)
 
 [Contract, commands, every result and source ownership](oxygen_joint_lte_control.md): original CE/CH downward and CI/CH0 upward coefficients retained per source record; compiledactiveopacity/emission/rates jointly consume declaredLTE. Freshbaseline8arrays exact; totalchi/thermaleta4.44e-16 and all31136rates<3.42e-14 independent. Jointresidual worsens2.72286e-4 versusbaseline5.59305e-5; noadoption. Coarse17263->19963Jbitexact/rateresponse3.75e-4, so numericalconvergenceOPEN. AbsoluteEOS/coupled/solar/Fe-next gatespersist.133tests;853rawreceipts/47copies; no newbug/fallback.
+
+## 2026-11-16: saved-field BF quadrature budget (v297)
+
+[Exact contract, commands and all outcomes](oxygen_saved_field_quadrature.md): both17263/19963savedJinterpolants,22BF/56depths, source-qualifiedHermitealpha/heldLWthermal/actualangularsum. Trapezoidreconstruction<3.42e-14, G16/G8<3.49e-9; fineintegrationchange1.20e-4 and representedfieldrefinement1.72e-4 separated by exact telescoping identity. Shadowresiduals worsen2.98e-4fine/3.83e-4coarse; no operator/adoption.139tests,7023rawreceipts/5compactcopies. ActualinteriorJ/BBquadrature/absoluteEOS/coupled/observed qualification remain OPEN.

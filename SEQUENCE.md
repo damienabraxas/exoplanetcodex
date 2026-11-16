@@ -1,3 +1,7 @@
+## 2026-11-16 — Saved-field quadrature budget
+
+- **RYA-1371** — BF integration and represented-field refinement separated; actual interior radiation and model admission remain open (v297).
+
 ## 2026-11-16 — Joint fixed-state oxygen coefficient/rate milestone
 
 - **RYA-1371** — Joint LTE/source-direction inverses verified in coefficients and rates; numerical and physical admission remain open (v296).

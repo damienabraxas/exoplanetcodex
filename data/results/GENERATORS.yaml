@@ -35473,3 +35473,27 @@ artifacts:
     generator: scripts/replay_hop_oxygen_radiative_rates.py
     ticket: RYA-1371
     note: Joint LTE/source-direction inverse fixed-population coefficient and rate diagnostic; no physical admission.
+  - artifact: rya1371/saved_field_quadrature_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Declared saved-field BF integral budget; no new RT or physical admission.
+  - artifact: rya1371/saved_field_quadrature_v1/rya1371-saved-field-quadrature-v1/BF_quadrature.csv
+    generator: scripts/audit_oxygen_saved_field_quadrature.py
+    ticket: RYA-1371
+    note: Declared saved-field BF integral budget; no new RT or physical admission.
+  - artifact: rya1371/saved_field_quadrature_v1/rya1371-saved-field-quadrature-v1/audit_oxygen_saved_field_quadrature_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Declared saved-field BF integral budget; no new RT or physical admission.
+  - artifact: rya1371/saved_field_quadrature_v1/rya1371-saved-field-quadrature-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Declared saved-field BF integral budget; no new RT or physical admission.
+  - artifact: rya1371/saved_field_quadrature_v1/rya1371-saved-field-quadrature-v1/report.json
+    generator: scripts/audit_oxygen_saved_field_quadrature.py
+    ticket: RYA-1371
+    note: Declared saved-field BF integral budget; no new RT or physical admission.
+  - artifact: rya1371/saved_field_quadrature_v1/rya1371-saved-field-quadrature-v1/saved_field_quadrature_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Declared saved-field BF integral budget; no new RT or physical admission.
