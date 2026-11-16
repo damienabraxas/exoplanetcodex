@@ -94,3 +94,16 @@ profiles; measured Planck difference reaches0.04695percent. The next bounded
 control isolates background plus lower-boundary emission-profile consistency at
 fixed populations; it must not be called complete thermal closure. Active
 BB/BF/LTE/C and full Saha/EOS consistency still require joint qualification.
+
+## Current continuation after v295
+
+The earlier emission-axis next step above is completed at v294
+([emission controls](oxygen_emission_profile_control.md)). v295 now reconstructs
+all41levels/both OI-OII stages at56depths using actual source Saha/Debye/precision
+and independently checks held-LW LTE ([full LTE contract](oxygen_full_lte_contract.md)).
+This qualifies finite-level shape, not absolute EOS/partition normalization.
+Actual BB line-centre canaries and all BB/BF inverse-factor sensitivities now
+make the remaining coupled ownership explicit: changing LTE alone breaks
+fixed-C reciprocity. Next is a coordinated fixed-population active opacity,
+emission and rate operator, with finite-profile CRD checks and independent
+integrals, before any new coupled solver qualification. Scientific HOLD persists.

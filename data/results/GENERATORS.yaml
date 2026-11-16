@@ -35237,3 +35237,47 @@ artifacts:
     generator: scripts/replay_hop_oxygen_radiative_rates.py
     ticket: RYA-1371
     note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/full_lte_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v1/audit_oxygen_full_lte_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v1/ion_fractions.csv
+    generator: scripts/audit_oxygen_full_lte_contract.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v1/oxygen_lte_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v1/report.json
+    generator: scripts/audit_oxygen_full_lte_contract.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v2/audit_oxygen_full_lte_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v2/ion_fractions.csv
+    generator: scripts/audit_oxygen_full_lte_contract.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v2/oxygen_lte_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v2/report.json
+    generator: scripts/audit_oxygen_full_lte_contract.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v2-failed/audit_oxygen_full_lte_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.
+  - artifact: rya1371/full_lte_v1/rya1371-full-lte-contract-v2-failed/failure_note.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Full finite-level LTE shape and inverse-input diagnostic; absolute EOS normalization unqualified.

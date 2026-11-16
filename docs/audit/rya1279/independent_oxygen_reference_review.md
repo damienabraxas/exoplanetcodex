@@ -2003,3 +2003,7 @@ Verification close: all16715raw receipts/1033compact copies verified. Generator 
 ## 2026-11-15: fixed-population emission/bottom diffusion axis (v294)
 
 See [the complete contract, commands and evidence](oxygen_emission_profile_control.md). Fresh default reproduces all8prior arrays exactly. Both declared profiles retain chi/sca/totalbottomchi/n/nStar/C/wavelengths; heldLWphysical residual5.59305e-5, source-native2.00412e-4. Independent all256BB/22BF/31136positive rates reconstruct below2.98e-14. No preferred profile, coupled closure or scientific admission.127issue-focused tests pass;705raw receipts/38compact copies. Next active inverse/emission and LTE/energy/partition/Saha/reverseC qualification. Library83unindexed unchanged; run-bug ledger none discovered.
+
+## 2026-11-15: full LTE shape and inverse-input milestone (v295)
+
+[Full contract, measured results and commands](oxygen_full_lte_contract.md):41levels/bothOI-OIIstages/56depths source reconstruction1.08e-14; independentheldLW3.55e-15; actual256BBlinecentre5.49e-15. HeldLWpopulation substitution with unchangedC fails reciprocity2.49e-4. AbsoluteEOS/partition, finiteCRD and joint active operator remain OPEN.131tests,12raw receipts/10compactcopies; reporting TypeError preserved/fixed in canonical bugledger. No RT/SE/default/production or admission change.

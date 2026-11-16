@@ -1,3 +1,7 @@
+## 2026-11-15 — Full oxygen LTE shape and inverse-input milestone
+
+- **RYA-1371** — Both ion stages reconstructed; LTE/inverse-collision coupling measured. Joint operator and absolute EOS remain open (v295).
+
 ## 2026-11-15 — Emission and lower-boundary profile axis
 
 - **RYA-1371** — Both emission profiles measured at fixed populations; independent rates pass. Active thermal/LTE closure remains open (v294).

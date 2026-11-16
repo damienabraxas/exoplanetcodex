@@ -76,9 +76,23 @@ def main():
         for ion in [1,2]:
             fraction=values[stage==ion].sum(axis=0)/total;original=star[stage==ion].sum(axis=0)/total
             for z in range(len(T)):row_data.append(dict(profile=name,stage=ion,depth_top_to_bottom=z,T_K=T[z],native_fraction=original[z],candidate_fraction=fraction[z],relative_fraction_change=fraction[z]/original[z]-1))
+    from pipeline.thermodynamic_canary import bb_thermal_defect,occupation
+    active_inputs={}
+    for name,values in candidates.items():
+        centre=[];inverse_changes={'BB':[],'BF':[]}
+        for kind,transitions in [('BB',atom.lines),('BF',atom.continua)]:
+            for t in transitions:
+                i=t.i-1;j=t.j-1
+                change=(values[i]/values[j])/(star[i]/star[j])-1
+                inverse_changes[kind].append(change)
+                if kind=='BB':
+                    beta=values[j]/values[i]*g[i]/g[j]
+                    nu=(model.levels[j].E_SI-model.levels[i].E_SI)/c.HPlanck
+                    centre.append(bb_thermal_defect(beta,occupation(c.HPlanck*nu/(c.KBoltzmann*T))))
+        active_inputs[name]=dict(BB_transitions=len(inverse_changes['BB']),BF_transitions=len(inverse_changes['BF']),max_relative_inverse_LTE_factor_change={k:float(np.max(np.abs(v)))for k,v in inverse_changes.items()},max_BB_held_LW_line_centre_thermal_defect=float(np.max(np.abs(centre))),scope='Actual candidate populations and source graph; BB line-centre canary only, not finite-profile or actual RT. BF LTE-factor response requires joint inverse-opacity/emissivity/rate updates, not a standalone BF correctness claim.')
     pin(__file__)
     for path in [ROOT/'pipeline/oxygen_lte_contract.py',ROOT/'pipeline/thermal_profile_contract.py',ROOT/'pipeline/thermodynamic_canary.py',ROOT/'pipeline/multi_atom.py',Path(c.__file__),Path(atomic_set.__file__)]:pin(path)
-    report=dict(generator=fingerprint(__file__),inputs=checks,computational_completed=True,scientific_admission='HOLD',levels=41,depths=len(T),stages=[1,2],all_stage_native_reconstruction_max_relative=native_error,all_ground_ratio_reconstruction_max_relative=ratio_error,held_LW_independent_formula_max_relative=lw_error,source_auxiliary_ranges={k:[float(v.min()),float(v.max())]for k,v in aux.items()},candidate_statistics=statistics,source_constants_cgs=constants,held_LW_constants_SI=lwc,normalization='Each diagnostic keeps the measured native total at each depth; complete finite-level shape reconstructed, absolute EOS/element normalization/partition function NOT independently validated. Actual run LEVEL_PARTF=F uses external partition functions; their common normalization cancels in level ratios.',scope='Read-only all-level Saha/Boltzmann/Debye/precision and collision inverse-input contract. Both native and held-LW formulas audited; no preferred profile, RT, SE, solver population/collision/opacity change or physical closure/admission.',seconds=time.perf_counter()-start)
+    report=dict(generator=fingerprint(__file__),inputs=checks,computational_completed=True,scientific_admission='HOLD',levels=41,depths=len(T),stages=[1,2],all_stage_native_reconstruction_max_relative=native_error,all_ground_ratio_reconstruction_max_relative=ratio_error,held_LW_independent_formula_max_relative=lw_error,source_auxiliary_ranges={k:[float(v.min()),float(v.max())]for k,v in aux.items()},candidate_statistics=statistics,active_inverse_inputs=active_inputs,source_constants_cgs=constants,held_LW_constants_SI=lwc,normalization='Each diagnostic keeps the measured native total at each depth; complete finite-level shape reconstructed, absolute EOS/element normalization/partition function NOT independently validated. Actual run LEVEL_PARTF=F uses external partition functions; their common normalization cancels in level ratios.',scope='Read-only all-level Saha/Boltzmann/Debye/precision and collision inverse-input contract. Both native and held-LW formulas audited; no preferred profile, RT, SE, solver population/collision/opacity change or physical closure/admission.',seconds=time.perf_counter()-start)
     for path,expected in checks.items():
         if fingerprint(path)!=expected:raise ValueError('Changed input during full LTE audit')
     a.output.mkdir(parents=True,exist_ok=False)
@@ -88,7 +102,7 @@ def main():
     # Preserve producing source snapshots, not source atomic input tables.
     for path in [Path(__file__),ROOT/'pipeline/oxygen_lte_contract.py']:(a.output/(path.stem+'_source.py')).write_bytes(path.read_bytes())
     (a.output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
-    print(json.dumps({k:report[k]for k in ['all_stage_native_reconstruction_max_relative','all_ground_ratio_reconstruction_max_relative','held_LW_independent_formula_max_relative','candidate_statistics']},indent=2))
+    print(json.dumps({k:report[k]for k in ['all_stage_native_reconstruction_max_relative','all_ground_ratio_reconstruction_max_relative','held_LW_independent_formula_max_relative','candidate_statistics','active_inverse_inputs']},indent=2))
 
 
 if __name__=='__main__':main()
