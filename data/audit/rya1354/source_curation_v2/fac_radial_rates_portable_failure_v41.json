@@ -1,0 +1,15 @@
+{
+  "status": "FAILED_RETAINED",
+  "stage": "first Mac portable metadata replay after complete native success and archive transfer",
+  "exception": "ValueError: Configuration basis layout differs",
+  "original_reader": "evidence/fac_radial_rate_driver_v41/rya1354_fac_radial_rates_audit.py",
+  "retained_in": "data/audit/rya1354/fac_radial_rates_complete_v41",
+  "native_heading": "============Mixing Coefficients===================",
+  "cause": "Slicing bytes immediately before the marker words leaves the leading equals signs as an unexpected basis row",
+  "correction": "Include the existing marker words in the small prefix passed to the unchanged configuration parser, so its original section-boundary rule executes",
+  "regression": "tests/test_rya1354_fac_radial_rates.py::test_portable_basis_reader_keeps_decorated_native_section_boundary",
+  "native_rerun": false,
+  "numeric_or_physics_criteria_changed": false,
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false
+}
