@@ -22,6 +22,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ['plan','replay','output']:p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--absolute-replay',action='store_true',help='Independently reconstruct gross rates from the exact saved J field; no RT/SE')
+    p.add_argument('--profile-contract',action='store_true',help='Audit actual background absorption/scattering and imported-LTE collision equilibrium; no RT/SE')
     p.add_argument('--native-thermal-counterfactual',action='store_true',help='Also evaluate explicitly diagnostic native-style thermal rate terms at fixed saved J')
     p.add_argument('--adaptive-continuum',action='store_true');p.add_argument('--base-replay',type=Path);p.add_argument('--additional-points',type=int)
     a=p.parse_args();plan=json.loads(a.plan.read_text());replay=json.loads((a.replay/'report.json').read_text())
@@ -63,7 +64,7 @@ def main():
     with np.load(a.replay/'rates.npz')as d:
         wave=d['wave_vac_nm'].copy();np.testing.assert_array_equal(star,d['nstar'])
         if a.absolute_replay:
-            pop=d['populations'].copy();saved_J=d['Jnu'].copy();saved_R=d['replay_R_s_inv'].copy();saved_C=d['replay_C_s_inv'].copy();native_R=d['native_R_s_inv'].copy()
+            pop=d['populations'].copy();saved_J=d['Jnu'].copy();saved_R=d['replay_R_s_inv'].copy();saved_C=d['replay_C_s_inv'].copy();native_R=d['native_R_s_inv'].copy();native_C=d['native_C_s_inv'].copy()
     atom_path=require_codex_path('experiments.bride_oxygen_atom');ref_path=require_codex_path('experiments.bride_oxygen_reference');ref=json.loads(ref_path.read_text());model_path=require_codex_path('grids.marcs_standard')/ref['atmosphere_file']['name']
     pin(atom_path,ref['atom']);pin(ref_path);pin(model_path,ref['atmosphere_file'])
     atom=read_multi_atom(atom_path);law,more=load_width_law(plan['original_width_law'],atom_path,atom);checks.update(more)
@@ -85,6 +86,33 @@ def main():
     ctx,audit=make_context(state,read_marcs_structure(model_path),atom,pop,star,extra_vac_nm=wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None)
     oxygen=ctx.detailedAtoms[0];np.testing.assert_array_equal(ctx.spect.wavelength,wave)
     if alpha_control is not None:alpha_control.verify_compiled(oxygen)
+    profile_contract=None
+    if a.profile_contract:
+        if not a.absolute_replay:raise ValueError('Profile contract requires exact absolute replay')
+        from pipeline.thermal_profile_contract import background_balance,collision_summary
+        from pipeline.hop_packet import native_planck
+        pin(ROOT/'pipeline/thermal_profile_contract.py');pin(ROOT/'pipeline/thermodynamic_canary.py')
+        pin(source_root/'LwMisc.hpp');pin(source_root/'LwTransition.hpp');pin(ROOT/'pipeline/hop_packet.py')
+        Bhop,_=native_planck(wave,state['temperature_K'],source)
+        nu_all=c.CLight/(wave[:,None]*1e-9)
+        Blw=2*c.HPlanck*nu_all**3/c.CLight**2*occupation(c.HPlanck*nu_all/(c.KBoltzmann*state['temperature_K'][None,:]))
+        background=[np.asarray(x)for x in [ctx.background.chi,ctx.background.eta,ctx.background.sca]]
+        native_background=background_balance(*background,Bhop)
+        if native_background['thermal_absorption']['max_absolute_signed_defect']>1e-12:raise ValueError('Native background Kirchhoff identity failed')
+        exponent=c.HPlanck*nu_all/(c.KBoltzmann*state['temperature_K'][None,:])
+        native_exponent=native_constants['hh']*nu_all/(native_constants['bk']*state['temperature_K'][None,:])
+        if np.max(exponent)>=150 or np.max(native_exponent)>=80:raise ValueError('Planck branch differences require a separate control')
+        relative_planck=Bhop/Blw-1
+        worst=np.unravel_index(np.argmax(abs(relative_planck)),relative_planck.shape)
+        profile_contract=dict(background_native_Planck=native_background,background_held_LW_Planck=background_balance(*background,Blw),
+            background_arrays={key:dict(shape=list(x.shape),sha256=__import__('hashlib').sha256(x.tobytes()).hexdigest())for key,x in zip(['chi','eta','sca'],background)},
+            max_relative_Planck_difference=float(np.max(abs(Bhop/Blw-1))),
+            max_held_LW_exponent=float(exponent.max()),max_native_exponent=float(native_exponent.max()),
+            largest_Planck_difference_at=dict(wave_vac_nm=float(wave[worst[0]]),depth_top_to_bottom=int(worst[1]),temperature_K=float(state['temperature_K'][worst[1]]),native_over_held_LW_minus_one=float(relative_planck[worst])),
+            bottom_two_depths_max_relative_Planck_difference=float(np.max(abs(relative_planck[:,-2:]))),
+            lower_boundary_scope='Compiled ThermalisedRadiation uses held-LW Planck at the bottom two depths with an optical-depth gradient correction, not simply I=B. This audit compares its thermal input conventions; it does not run or reconstruct the boundary formal solve.',
+            own_C_imported_native_LTE=collision_summary(saved_C,star),native_C_imported_native_LTE=collision_summary(native_C,star),
+            scope='Actual rebuilt background packet tested at J=B for each declared profile; thermal absorption and total including scattering reported separately. Collision reciprocity at imported native nStar only; not full Saha/EOS or microscopic validation. Active BB/BF component identities are reported separately below. No common equilibrium profile or coupled qualification is asserted.')
     rows=[];T=state['temperature_K'];mu_weights=np.asarray(audit['angles']['weight']);counts={'BB':0,'BF':0}
     if a.absolute_replay:
         reconstructed_R=np.zeros_like(saved_R);angular_sum=float(mu_weights.sum());transition_rows=[];max_nodes=0
@@ -184,6 +212,7 @@ def main():
     for path,fp in checks.items():
         if fingerprint(path)!=fp:raise ValueError('Changed thermal audit input')
     report=dict(generator=fingerprint(__file__),inputs=checks,counts=counts,max_absolute_integrated_defects=maxima,context_audit=audit,seconds=time.perf_counter()-start,computational_completed=True,scientific_admission='HOLD',scope='Independent rate-integral ratios using actual compiled profiles/continuum cross sections and source trapezoid/angular measures. Common depth/transition factors cancel; not absolute rates or a direct compiled rate accumulator comparison. BB uses constant line-centre Einstein ratio (CRD) over its finite profile: a frequency-varying Planck field need not exactly balance it. BF uses per-frequency exponential; imported LTE factors cancel at n=nStar. No RT, SE, field/population/coefficient/constant change or scientific admission.')
+    if profile_contract is not None:report['profile_contract']=profile_contract
     if a.absolute_replay:
         if not np.isfinite(reconstructed_R).all()or np.any(reconstructed_R<0)or not np.array_equal(reconstructed_R>0,saved_R>0):raise ValueError('Reconstructed radiative graph/positivity mismatch')
         positive=saved_R>0;relative=np.zeros_like(saved_R);relative[positive]=abs(reconstructed_R[positive]/saved_R[positive]-1)

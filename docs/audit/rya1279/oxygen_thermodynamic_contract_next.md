@@ -85,3 +85,12 @@ not resolve the dominant cell. The next work is the complete thermal-profile
 contract in step 3, followed by joint operator qualification. The thermal profile work is a contract to establish and test,
 not authorization to overwrite constants, defaults, source tables, gold or
 production products. Scientific admission remains HOLD.
+
+
+The component ownership/measurement contract is now recorded in
+[oxygen_thermal_profile_ownership.md](oxygen_thermal_profile_ownership.md) (v293).
+Background emission and the compiled lower-boundary Planck inputs use different
+profiles; measured Planck difference reaches0.04695percent. The next bounded
+control isolates background plus lower-boundary emission-profile consistency at
+fixed populations; it must not be called complete thermal closure. Active
+BB/BF/LTE/C and full Saha/EOS consistency still require joint qualification.

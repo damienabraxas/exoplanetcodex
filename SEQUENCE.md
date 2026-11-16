@@ -1,3 +1,7 @@
+## 2026-11-15 — Thermal component ownership contract
+
+- **RYA-1371** — Background Kirchhoff and collision reciprocity audited on actual full grid; mixed Planck profile measured and disconnected level41 explicit. Background/lower-boundary emission-profile axis next; science HOLD (v293).
+
 ## 2026-11-15 — Joint continuum opacity and rate control
 
 - **RYA-1371** — Native alpha opt-in tested with fresh fixed-population RT and independent rates; default exact, residual essentially unchanged. Complete thermal-profile contract next; science HOLD (v292).

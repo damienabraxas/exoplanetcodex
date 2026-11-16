@@ -35029,3 +35029,55 @@ artifacts:
     generator: scripts/archive_oxygen_reference_checks.py
     ticket: RYA-1371
     note: Joint native-alpha fixed-population opacity and rates control; science HOLD.
+  - artifact: rya1371/thermal_profile_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v1/absolute_transition_rates.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v1/audit_oxygen_integrated_thermal_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v1/integrated_defects.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v1/stdout_stderr.log
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v1/thermal_profile_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v2/absolute_transition_rates.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v2/audit_oxygen_integrated_thermal_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v2/integrated_defects.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v2/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v2/stdout_stderr.log
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/thermal_profile_v1/rya1371-thermal-profile-contract-v2/thermal_profile_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Read-only thermal profile component contract; no RT or scientific adoption.
