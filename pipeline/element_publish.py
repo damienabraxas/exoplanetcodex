@@ -351,6 +351,39 @@ def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
     return kept
 
 
+#: RYA-1388: an element whose feed is packaged after the publisher writes it, in order. Fe's
+#: feed is enriched by its own emitter (grade / atlas / line_set_resolved / xi / the Fe II NLTE
+#: stamp, and the RYA-587 systematic in place of the 0.17 blanket; it refuses to write if any
+#: published A moves), and the per-line product and the audits that read the feed are derived
+#: from the result. RYA-1315 and RYA-1388 each republished Fe rows without these and ran them
+#: by hand afterwards (28f3e442, e25e43af).
+PACKAGERS = {"Fe": (
+    ("scripts/rya1178_emit_fe_schema.py",),
+    ("scripts/generate_perline_product.py", "--star", "solar", "--element", "Fe"),
+    ("scripts/rya1055_fe2_label_audit.py",),
+    ("scripts/rya870_reproduce_perline.py",),
+    ("scripts/rya935_live_status.py",),
+)}
+
+
+def package_feed(element: str, py: str) -> list | None:
+    """Run the element's packagers over the just-published feed, stopping at the first that
+    fails; None if it has none."""
+    steps = PACKAGERS.get(element)
+    if steps is None:
+        return None
+    done = []
+    for argv in steps:
+        res = subprocess.run([py, *argv], cwd=ROOT, capture_output=True, text=True)
+        done.append({"argv": list(argv), "rc": res.returncode,
+                     "tail": (res.stdout + res.stderr).strip().splitlines()[-3:]})
+        if res.returncode:
+            print(f"PACKAGING FAILED ({argv[0]}, rc={res.returncode}): the {element} feed is "
+                  f"published but its packaging stopped here -- " + " | ".join(done[-1]["tail"]))
+            break
+    return done
+
+
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
             interpreter: str | None = None, reason: str | None = None,
             patch_lines: str | None = None) -> dict:
@@ -489,6 +522,7 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         summary["scope"] = report["scope"]
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
     shutil.rmtree(prev_stage, ignore_errors=True)
+    summary["packaging"] = package_feed(element, py)
     from pipeline import coverage_report, element_verdict
     summary["verdict"] = {k: v for k, v in element_verdict.judge_feed(star, element).items() if k != "cells"}
     cov = coverage_report.coverage(star, element)

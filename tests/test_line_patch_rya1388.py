@@ -157,3 +157,19 @@ def test_a_line_list_runs_only_as_a_synthesis_patch():
     assert RunRequest.from_dict({**ok, "patch": False}).problems()
     assert RunRequest.from_dict({**ok, "routes": ["profile-fit"]}).problems()
     assert RunRequest.from_dict({**ok, "lines": ""}).problems()
+
+
+def test_the_fe_feed_is_packaged_by_its_emitter_first_and_a_failure_stops_the_chain(
+        tmp_path, monkeypatch):
+    """RYA-1315 and RYA-1388 each republished Fe rows the ORCH never packaged: no grade,
+    atlas, Fe II NLTE stamp, and the 0.17 blanket systematic left in place."""
+    import sys
+    from pipeline import element_publish as ep
+    assert ep.PACKAGERS["Fe"][0] == ("scripts/rya1178_emit_fe_schema.py",)
+    assert ep.package_feed("Ti", sys.executable) is None
+    bad, good = tmp_path / "bad.py", tmp_path / "good.py"
+    bad.write_text("raise SystemExit(2)\n")
+    good.write_text("print('ok')\n")
+    monkeypatch.setitem(ep.PACKAGERS, "Xx", ((str(good),), (str(bad),), (str(good),)))
+    done = ep.package_feed("Xx", sys.executable)
+    assert [d["rc"] for d in done] == [0, 2]
