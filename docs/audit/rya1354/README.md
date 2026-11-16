@@ -1,4 +1,5 @@
-Latest continuation: [all four expanded signed LS cases](fac_radial_angular_v40.md).
+Latest continuation: [expanded radial rates and lifetime sensitivity](fac_radial_rates_v41.md).
+Previous: [all four expanded signed LS cases](fac_radial_angular_v40.md).
 Previous: [first 6,600-level signed LS replay and corrected controls](fac_radial_angular_v39.md).
 Previous: [all four 4s/4p CI cases](fac_radial_ci_v36.md).
 Previous: [first 4s/4p CI and exact identity replay](fac_radial_ci_v35.md).

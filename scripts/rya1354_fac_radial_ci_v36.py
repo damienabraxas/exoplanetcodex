@@ -27,9 +27,10 @@ def input_text(scale=10):
     return text+"SavePotential('ci.pot')\n"
 
 
-def review(out,spec,scale=10):
+def review(out,spec,scale=10,*,declared_input=None):
     text=(out/'input.sf').read_text()
-    if text!=input_text(scale):raise ValueError('Declared radial CI input differs')
+    expected=input_text(scale) if declared_input is None else declared_input
+    if not expected.startswith(input_text(scale)) or text!=expected:raise ValueError('Declared radial CI input differs')
     files={p.name:p.read_bytes() for p in out.iterdir() if p.is_file() and (p.suffix in ('.pot','.wav','.overlap') or p.name=='input.sf')}
     files['input.sf']=radial_input(scale).encode()
     preflight=radial_review(files,scale,spec)
