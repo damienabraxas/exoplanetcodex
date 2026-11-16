@@ -2007,3 +2007,7 @@ See [the complete contract, commands and evidence](oxygen_emission_profile_contr
 ## 2026-11-15: full LTE shape and inverse-input milestone (v295)
 
 [Full contract, measured results and commands](oxygen_full_lte_contract.md):41levels/bothOI-OIIstages/56depths source reconstruction1.08e-14; independentheldLW3.55e-15; actual256BBlinecentre5.49e-15. HeldLWpopulation substitution with unchangedC fails reciprocity2.49e-4. AbsoluteEOS/partition, finiteCRD and joint active operator remain OPEN.131tests,12raw receipts/10compactcopies; reporting TypeError preserved/fixed in canonical bugledger. No RT/SE/default/production or admission change.
+
+## 2026-11-16: joint fixed-population LTE/inverse diagnostic (v296)
+
+[Contract, commands, every result and source ownership](oxygen_joint_lte_control.md): original CE/CH downward and CI/CH0 upward coefficients retained per source record; compiledactiveopacity/emission/rates jointly consume declaredLTE. Freshbaseline8arrays exact; totalchi/thermaleta4.44e-16 and all31136rates<3.42e-14 independent. Jointresidual worsens2.72286e-4 versusbaseline5.59305e-5; noadoption. Coarse17263->19963Jbitexact/rateresponse3.75e-4, so numericalconvergenceOPEN. AbsoluteEOS/coupled/solar/Fe-next gatespersist.133tests;853rawreceipts/47copies; no newbug/fallback.

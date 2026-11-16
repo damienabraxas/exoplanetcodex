@@ -143,7 +143,7 @@ def main():
             largest_Planck_difference_at=dict(wave_vac_nm=float(wave[worst[0]]),depth_top_to_bottom=int(worst[1]),temperature_K=float(state['temperature_K'][worst[1]]),native_over_held_LW_minus_one=float(relative_planck[worst])),
             bottom_two_depths_max_relative_Planck_difference=float(np.max(abs(relative_planck[:,-2:]))),
             lower_boundary_scope='Compiled ThermalisedRadiation uses held-LW Planck at the bottom two depths with an optical-depth gradient correction, not simply I=B. This audit compares its thermal input conventions; it does not run or reconstruct the boundary formal solve.',
-            own_C_declared_LTE=collision_summary(saved_C,star),native_C_imported_native_LTE=collision_summary(native_C,source_star),
+            own_C_imported_native_LTE=collision_summary(saved_C,star),native_C_imported_native_LTE=collision_summary(native_C,source_star),
             scope='Actual rebuilt background packet tested at J=B for each declared profile; thermal absorption and total including scattering reported separately. Collision reciprocity at imported native nStar only; not full Saha/EOS or microscopic validation. Active BB/BF component identities are reported separately below. No common equilibrium profile or coupled qualification is asserted.')
     rows=[];T=state['temperature_K'];mu_weights=np.asarray(audit['angles']['weight']);counts={'BB':0,'BF':0}
     if a.absolute_replay:
@@ -231,6 +231,7 @@ def main():
                     delta_BF[i,j]+=counter_down*native_constants['hh']/c.HPlanck-down
                     delta_BF_full[j,i]+=counter_up-up;delta_BF_full[i,j]+=counter_down-down
             for z in range(len(T)):transition_rows.append(dict(kind=kind,lower_1based=i+1,upper_1based=j+1,depth_top_to_bottom=z,up_s_inv=float(up[z]),down_s_inv=float(down[z])))
+        if joint_audit is not None:cases={name.replace('native_star','declared_star'):value for name,value in cases.items()}
         for case,values in cases.items():
             for z,value in enumerate(values):rows.append(dict(kind=kind,lower_1based=i+1,upper_1based=j+1,case=case,depth_top_to_bottom=z,signed_integrated_defect=float(value)))
     if counts!={'BB':256,'BF':22}:raise ValueError('Incomplete source transition inventory')
@@ -246,7 +247,9 @@ def main():
     report=dict(generator=fingerprint(__file__),inputs=checks,counts=counts,max_absolute_integrated_defects=maxima,context_audit=audit,seconds=time.perf_counter()-start,computational_completed=True,scientific_admission='HOLD',scope='Independent rate-integral ratios using actual compiled profiles/continuum cross sections and source trapezoid/angular measures. Common depth/transition factors cancel; not absolute rates or a direct compiled rate accumulator comparison. BB uses constant line-centre Einstein ratio (CRD) over its finite profile: a frequency-varying Planck field need not exactly balance it. BF uses per-frequency exponential; imported LTE factors cancel at n=nStar. No RT, SE, field/population/coefficient/constant change or scientific admission.')
     if coefficient_replay is not None:report['coefficient_replay']=coefficient_replay
     if joint_audit is not None:report['joint_lte_control']=joint_audit
-    if profile_contract is not None:report['profile_contract']=profile_contract
+    if profile_contract is not None:
+        if joint_audit is not None:profile_contract['own_C_declared_LTE']=profile_contract.pop('own_C_imported_native_LTE')
+        report['profile_contract']=profile_contract
     if a.absolute_replay:
         if not np.isfinite(reconstructed_R).all()or np.any(reconstructed_R<0)or not np.array_equal(reconstructed_R>0,saved_R>0):raise ValueError('Reconstructed radiative graph/positivity mismatch')
         positive=saved_R>0;relative=np.zeros_like(saved_R);relative[positive]=abs(reconstructed_R[positive]/saved_R[positive]-1)

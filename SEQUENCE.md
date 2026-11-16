@@ -1,3 +1,7 @@
+## 2026-11-16 — Joint fixed-state oxygen coefficient/rate milestone
+
+- **RYA-1371** — Joint LTE/source-direction inverses verified in coefficients and rates; numerical and physical admission remain open (v296).
+
 ## 2026-11-15 — Full oxygen LTE shape and inverse-input milestone
 
 - **RYA-1371** — Both ion stages reconstructed; LTE/inverse-collision coupling measured. Joint operator and absolute EOS remain open (v295).

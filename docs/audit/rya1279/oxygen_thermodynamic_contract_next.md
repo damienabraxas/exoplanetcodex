@@ -107,3 +107,15 @@ make the remaining coupled ownership explicit: changing LTE alone breaks
 fixed-C reciprocity. Next is a coordinated fixed-population active opacity,
 emission and rate operator, with finite-profile CRD checks and independent
 integrals, before any new coupled solver qualification. Scientific HOLD persists.
+
+## Current continuation after v296
+
+The joint fixed-population coefficient/rate diagnostic is now executed and
+independently checked ([joint control](oxygen_joint_lte_control.md)). Source
+CE/CH downward and CI/CH0 upward directions are preserved per record; the old
+all-upward algebraic projection remains a canary only. Exact baseline, total
+chi/thermal-eta and absolute-rate checks pass. Joint agreement with native
+populations worsens and is retained without preference. Numerical refinement
+response remains3.75e-4 for some rates; next resolve quadrature and independently
+qualify absolute EOS/partition normalization. Coupled action/preconditioning,
+SE/restart and physical/observational model admission are not established.
