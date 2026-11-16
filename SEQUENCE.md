@@ -1,3 +1,7 @@
+## 2026-11-15 — Emission and lower-boundary profile axis
+
+- **RYA-1371** — Both emission profiles measured at fixed populations; independent rates pass. Active thermal/LTE closure remains open (v294).
+
 ## 2026-11-15 — Thermal component ownership contract
 
 - **RYA-1371** — Background Kirchhoff and collision reciprocity audited on actual full grid; mixed Planck profile measured and disconnected level41 explicit. Background/lower-boundary emission-profile axis next; science HOLD (v293).

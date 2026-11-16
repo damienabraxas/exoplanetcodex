@@ -35081,3 +35081,159 @@ artifacts:
     generator: scripts/archive_oxygen_reference_checks.py
     ticket: RYA-1371
     note: Read-only thermal profile component contract; no RT or scientific adoption.
+  - artifact: rya1371/emission_profile_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v1/report.json
+    generator: scripts/compare_oxygen_emission_profiles.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/archive_oxygen_reference_checks_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/audit_oxygen_integrated_thermal_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_collision_binding_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_coupled_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_hop_transfer_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_numerical_validation_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_overlap_plugin_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_parameter_checks_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_reference_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/bride_top_cap_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/compare_oxygen_emission_profiles_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/hop_abi_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/hop_packet_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/multi_atom_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/multi_continuum_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/multi_width_law_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/native_continuum_control_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/native_ghost_boundary_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/native_oxygen_collisions_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/openmulti3d_output_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/oxygen_emission_profile_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/rate_semantics_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/replay_hop_oxygen_radiative_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/report.json
+    generator: scripts/compare_oxygen_emission_profiles.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-comparison-v2/run_hop_oxygen_coupled_diagnostic_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-default-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-default-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-lw-audit-v1/absolute_transition_rates.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-lw-audit-v1/integrated_defects.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-lw-audit-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-lw-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-lw-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-native-audit-v1/absolute_transition_rates.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-native-audit-v1/integrated_defects.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-native-audit-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-native-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
+  - artifact: rya1371/emission_profile_v1/rya1371-emission-native-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Fixed-population emission and bottom diffusion profile diagnostic; no model admission.
