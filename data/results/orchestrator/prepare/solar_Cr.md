@@ -1,10 +1,10 @@
 PREPARE solar Cr  -> READY to measure
-  F literature: litscan yes; set bibliography keys ['scott2015']
+  F literature: litscan yes; set bibliography keys ['elgueta2026', 'scott2015']
   F3 literature sweep: 12 ion x band recorded, 0 owed (owed cells are HELD until the search is recorded in the litscan)
   I line inventory (in list / set / reference / codex / ungraded / lab table):
       Cr I   H               64 /   0 /    0 /    0 /    64 /    0
       Cr I   K               66 /   0 /    0 /    0 /    66 /    0
-      Cr I   NIR             41 /   0 /    9 /    9 /    32 /    9
+      Cr I   NIR             41 /   7 /    9 /    9 /    32 /    9
       Cr I   VIS           6432 /  29 /  165 /  205 /  6227 /  221  lab not adopted [4026.21, 4039.09, 4048.779, 4058.769]
       Cr I   near-UV       1629 /   0 /   38 /   45 /  1584 /   46  lab not adopted [3148.449, 3155.154, 3163.76]
       Cr I   red-optical   2644 /   0 /    4 /    7 /  2637 /    4
@@ -14,7 +14,7 @@ PREPARE solar Cr  -> READY to measure
       Cr II  VIS           3507 /  10 /   64 /   64 /  3443 /   77  lab not adopted [4891.4948, 6421.7063]  lab ABSENT from list [4627.654]
       Cr II  near-UV        826 /   0 /  151 /  151 /   675 /  235  lab not adopted [3077.5886, 3077.589, 3179.4493, 3179.45, 3183.3297, 3183.33, 3421.591, 3421.614, 3421.6158, 3658.155, 3658.1605, 3665.979]
       Cr II  red-optical   2807 /   0 /    0 /    0 /  2807 /    0
-  A published sets: 39 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
+  A published sets: 46 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
   B gf source sobeck2007: 206 graded lines, classified
   B gf source lawler2017_cr2: 128 graded lines, classified
   B gf source ward2023_cr2: 76 graded lines, NOT in gf_error_model (UNREVIEWED)

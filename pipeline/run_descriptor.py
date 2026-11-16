@@ -206,6 +206,12 @@ def star_graded_csv(row: dict, star: str) -> str:
     the builder wrote one (that star culled lines), else the star-agnostic `_graded.csv`
     -- every reference line with a priced gf -- else the full set."""
     from pathlib import Path
+    from pipeline.line_sets import theoretical_codex
+    # RYA-1351: a Theoretical Codex set's lines are admitted by Ryan's adoption, not by a
+    # published gf uncertainty -- its graded file is empty by construction -- so every
+    # declared line is measured.
+    if theoretical_codex(row["set_name"]):
+        return row["csv"]
     base = row.get("graded_csv") or row["csv"]
     if base.endswith("_graded.csv"):
         cand = base[:-len(".csv")] + f"_{star}.csv"

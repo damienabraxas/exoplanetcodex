@@ -10,7 +10,10 @@ The rule is RYA-1220's, on Fe's own axis (a product measured on an external PUBL
 set is Reference Grade; the Codex's own selection is Codex Grade), with one addition that
 the same axis already implies:
 
-  selector SET-<name>        -> Reference Grade  a published reference line set
+  selector SET-<name>        -> Theoretical Codex  when line_sets.SOURCES.yaml adopts <name>
+                                                  as THEORETICAL_CODEX (RYA-1351): theoretical
+                                                  gf, no published uncertainty, Ryan-adopted
+  selector SET-<name>        -> Reference Grade  any other published reference line set
                                                   (SET-AGSS21, SET-LBP25)
   selector MOL-CN_AX_IR      -> Reference Grade  its fit windows ARE AGSS21's own published
                                                   CN A-X (0-0) line positions
@@ -38,6 +41,12 @@ def grade_for(row: dict) -> str | None:
     if str(row.get("element")) in SELF_STAMPING:
         return None
     sel = str(row.get("selector") or "")
+    # RYA-1351: an adopted Theoretical Codex set is its own grade. Checked before the SET-
+    # rule, which would otherwise stamp theoretical gf "Reference Grade".
+    if sel.startswith("SET-"):
+        from pipeline.line_sets import theoretical_codex
+        if theoretical_codex(sel[len("SET-"):]):
+            return "Theoretical Codex"
     if sel.startswith("SET-") or sel in REFERENCE_MOLECULAR_SELECTORS:
         return "Reference Grade"
     # RYA-1311: the full laboratory-gf pool is Reference Grade on Fe's own axis

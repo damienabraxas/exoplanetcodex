@@ -42,6 +42,31 @@ def load_sources() -> list[dict]:
     return yaml.safe_load(SOURCES.read_text())["sets"]
 
 
+THEORETICAL_CODEX = "THEORETICAL_CODEX"
+#: The adoption record a Theoretical Codex set must carry (RYA-1352 approvals 4-6, given by
+#: Ryan): without it the set is not adopted, whatever its `grade` says.
+ADOPTION_KEYS = ("approved_by", "date", "ticket", "gf_origin", "gf_method", "limitations")
+
+
+def theoretical_codex(set_name: str) -> dict | None:
+    """The adoption record of a Theoretical Codex set (RYA-1351), or None for any other set.
+
+    A Theoretical Codex set's lines carry theoretical gf with no published uncertainty; Ryan
+    adopted the set by name. It is never Reference or Codex Grade, and its gf is never called
+    laboratory. Raises on a set that declares the grade without a complete adoption."""
+    spec = next((s for s in load_sources() if s["name"] == set_name), None)
+    if spec is None or spec.get("grade") != THEORETICAL_CODEX:
+        return None
+    adoption = spec.get("adoption") or {}
+    missing = [k for k in ADOPTION_KEYS if not adoption.get(k)]
+    if missing:
+        raise ValueError(f"{set_name}: grade {THEORETICAL_CODEX} without adoption {missing}")
+    if str(adoption["gf_origin"]).lower() != "theoretical":
+        raise ValueError(f"{set_name}: a Theoretical Codex set's gf_origin must be "
+                         f"'theoretical', not {adoption['gf_origin']!r}")
+    return adoption
+
+
 def aggregation_for(selection: str | None) -> str:
     """The declared line statistic; existing undeclared pools retain their median."""
     if not selection:

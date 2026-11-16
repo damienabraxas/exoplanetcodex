@@ -1,7 +1,7 @@
 {
  "star": "solar",
  "element": "Cr",
- "generated": "2026-11-14",
+ "generated": "2026-11-15",
  "sets": [
   {
    "set": "CR_AGSS21",
@@ -587,6 +587,111 @@
    "canonical_tier": "OTHER",
    "canonical_sigma": null,
    "d_loggf": 0.035
+  },
+  {
+   "set": "CR_ELGUETA2026",
+   "species": "Cr I",
+   "wavelength_A": 9949.073,
+   "ep_eV": 3.556,
+   "solar_literature": false,
+   "authors_loggf": -1.093,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 9949.073,
+   "canonical_loggf": -1.093,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CR_ELGUETA2026",
+   "species": "Cr I",
+   "wavelength_A": 10486.25,
+   "ep_eV": 3.011,
+   "solar_literature": false,
+   "authors_loggf": -0.953,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 10486.251,
+   "canonical_loggf": -0.953,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CR_ELGUETA2026",
+   "species": "Cr I",
+   "wavelength_A": 10510.01,
+   "ep_eV": 3.013,
+   "solar_literature": false,
+   "authors_loggf": -1.539,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 10510.013,
+   "canonical_loggf": -1.539,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CR_ELGUETA2026",
+   "species": "Cr I",
+   "wavelength_A": 10647.64,
+   "ep_eV": 3.011,
+   "solar_literature": false,
+   "authors_loggf": -1.585,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 10647.642,
+   "canonical_loggf": -1.585,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CR_ELGUETA2026",
+   "species": "Cr I",
+   "wavelength_A": 10672.14,
+   "ep_eV": 3.013,
+   "solar_literature": false,
+   "authors_loggf": -1.358,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 10672.142,
+   "canonical_loggf": -1.358,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CR_ELGUETA2026",
+   "species": "Cr I",
+   "wavelength_A": 12532.84,
+   "ep_eV": 2.709,
+   "solar_literature": false,
+   "authors_loggf": -1.887,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 12532.838,
+   "canonical_loggf": -1.887,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "CR_ELGUETA2026",
+   "species": "Cr I",
+   "wavelength_A": 12910.09,
+   "ep_eV": 2.708,
+   "solar_literature": false,
+   "authors_loggf": -1.789,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 12910.09,
+   "canonical_loggf": -1.789,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
   }
  ],
  "adopt": [],
@@ -6807,6 +6912,7 @@
  "literature": {
   "litscan": true,
   "set_bib_keys": [
+   "elgueta2026",
    "scott2015"
   ],
   "missing_bib_keys": []
@@ -6903,7 +7009,7 @@
    "ion": "I",
    "band": "NIR",
    "in_list": 41,
-   "set": 0,
+   "set": 7,
    "reference": 9,
    "codex": 9,
    "ungraded": 32,
