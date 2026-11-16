@@ -1,4 +1,5 @@
-Latest continuation: [expanded radial rates and lifetime sensitivity](fac_radial_rates_v41.md).
+Latest continuation: [radial E1 frequency consistency and retained floor failure](fac_radial_operator_v43.md).
+Previous: [expanded radial rates and lifetime sensitivity](fac_radial_rates_v41.md).
 Previous: [all four expanded signed LS cases](fac_radial_angular_v40.md).
 Previous: [first 6,600-level signed LS replay and corrected controls](fac_radial_angular_v39.md).
 Previous: [all four 4s/4p CI cases](fac_radial_ci_v36.md).
