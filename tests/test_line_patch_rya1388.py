@@ -131,9 +131,12 @@ def test_a_unit_finds_its_own_earlier_legs_by_command(tmp_path):
     _leg(tmp_path, "s1", "cscale", a)
     _leg(tmp_path, "s1", "core", a, extra=("--half-width-A", "0.25"))
     _leg(tmp_path, "s2", "cscale", b, done=False)                 # killed leg: no prior
-    units = [("u0", "python3 scripts/derive_band_products.py " + " ".join(a), "ts", "k0"),
+    # a unit names its own --out (the band_products deck dir); its legs ran with the leg dir
+    cmd_a = ("python3 scripts/derive_band_products.py " + " ".join(a[:4])
+             + " --out data/results/band_products/deck_gerber-1d-lte " + " ".join(a[4:]))
+    units = [("u0", cmd_a, "ts", "k0"),
              ("u1", "python3 scripts/derive_band_products.py " + " ".join(b), "ts", "k1"),
-             ("u2", "python3 scripts/derive_band_products.py " + " ".join(a), "ts", "k2")]
+             ("u2", cmd_a, "ts", "k2")]
     assert leg_priors(tmp_path, units, kept=[2]) == {0: str(tmp_path / "s1")}
 
 

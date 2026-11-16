@@ -256,12 +256,29 @@ def unit_signature(command: str, inputs_hash: str | None) -> str:
     return f"{command}\n# {inputs_hash}"
 
 
+def _derive_args(cmd: str) -> tuple:
+    """A derive command's arguments with where it writes and any patch removed: a leg runs
+    its unit's command with `--out <leg dir>` in place of the unit's own `--out`."""
+    import shlex
+    a = shlex.split(cmd)
+    a = a[a.index("scripts/derive_band_products.py") + 1:] \
+        if "scripts/derive_band_products.py" in a else []
+    drop = {"--out", "--refit-lines", "--reuse-fits-from"}
+    out, i = [], 0
+    while i < len(a):
+        if a[i] in drop:
+            i += 2
+            continue
+        out.append(a[i])
+        i += 1
+    return tuple(out)
+
+
 def leg_priors(store: Path, units: list, kept: list[int]) -> dict[int, str]:
     """RYA-1388: for each unit whose legs were NOT kept, the filed leg directory of an earlier
     build of the SAME derive command (`legs.store/<sig>/`), matched on each leg's recorded
     argv with its `--out` and leg-specific arguments removed. A patch then refits only its
     listed lines in each leg too; a unit with no filed match, or two, runs its legs in full."""
-    import shlex
     from scripts.rya1230_cno_budget_legs import LEGS
     seen: dict[tuple, list[Path]] = {}
     for d in sorted(store.glob("*")) if store.is_dir() else []:
@@ -269,29 +286,18 @@ def leg_priors(store: Path, units: list, kept: list[int]) -> dict[int, str]:
             argv = leg_dir / "argv.txt"
             if not ((leg_dir / "DONE").exists() and argv.exists()):
                 continue
-            a = shlex.split(argv.read_text().splitlines()[0])
-            a = a[a.index("scripts/derive_band_products.py") + 1:] \
-                if "scripts/derive_band_products.py" in a else []
-            drop = {"--out", "--refit-lines", "--reuse-fits-from"}
-            out, i = [], 0
-            while i < len(a):
-                if a[i] in drop:
-                    i += 2
-                    continue
-                out.append(a[i])
-                i += 1
+            out = _derive_args(argv.read_text().splitlines()[0])
             extra = LEGS.get(leg_dir.name, ({}, []))[1]
-            if extra and out[-len(extra):] == list(extra):
+            if extra and out[-len(extra):] == tuple(extra):
                 out = out[:-len(extra)]
-            seen.setdefault(tuple(out), [])
-            if d not in seen[tuple(out)]:
-                seen[tuple(out)].append(d)
+            seen.setdefault(out, [])
+            if d not in seen[out]:
+                seen[out].append(d)
     priors = {}
     for i, u in enumerate(units):
         if i in kept:
             continue
-        args = tuple(shlex.split(u[1])[2:])          # "python3 scripts/derive_band_products.py ..."
-        hit = seen.get(args, [])
+        hit = seen.get(_derive_args(u[1]), [])
         if len(hit) == 1:
             priors[i] = str(hit[0])
     return priors
