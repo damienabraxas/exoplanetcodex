@@ -1,0 +1,28 @@
+{
+  "schema": "rya1354.fac-radial-angular-remaining-plan.v40",
+  "starting_commit": "ad01c0da62d8351c8705eebd772267654f050c97",
+  "first_angular": "runs/fac_radial_angular_first_v38",
+  "first": "runs/fac_radial_ci_first_v33",
+  "identity": "runs/fac_radial_identity_replay_v35",
+  "remaining": "runs/fac_radial_ci_remaining_v36",
+  "old_converted": "runs/fac_full_recoupling_v29",
+  "canary": "runs/fac_ls_fast_canary_v39",
+  "output": "runs/fac_radial_angular_remaining_v40",
+  "cases": [
+    "ground_coherent100",
+    "equal_coherent10",
+    "equal_coherent100"
+  ],
+  "scope": "Complete remaining THREE 6600-level native LS conversions and unchanged full signed replay, no Hamiltonian/orbital/rate/lifetime calculation",
+  "method": "Unchanged current qualified child driver/math module/full output controls; original paired C/CM and support isodata; corrected v39 schema/location/rejection gate. Same pinned unmodified GRASP binary/source; verify all original CI/runtime/first angular/canary provenance.",
+  "guards": "Every4354454signedcoefficient and component weight at native print precision; full CSF/parent-term/seniority/matrix/originalID/J/parity/energy transport; explicit CM+stdout authority for5600 I3 overflows each; unique3S/5S identities independently derived for each case; no ID assumption or energy-nearness matching.",
+  "resource_policy": "Sequential single-thread nice19; native1800secondcap and child2400secondcap; isolated owned process groups terminated on child failure/timeout; stop batch at first failure, preserve all outputs.",
+  "failure_policy": "No criteria changes, omissions, skip or retry without declaration. First case is NOT rerun. Full C/J/LBL/T and all inputs/reports/logs/receipts retained in <=5MiB lossless parts; packing completion precedes transfer.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}
