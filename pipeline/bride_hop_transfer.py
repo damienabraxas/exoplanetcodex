@@ -70,7 +70,7 @@ class NativePerturberBroadener(StandardLineBroadener):
 
 
 class NativeHopBackground(BackgroundProvider):
-    def __init__(self,eqPops,radSet,wavelength,*,state,atom,abundances,records,coupled_binding=None):
+    def __init__(self,eqPops,radSet,wavelength,*,state,atom,abundances,records,coupled_binding=None,emission_profile_control=None):
         from lightweaver.atomic_table import PeriodicTable
         super().__init__(eqPops,radSet,wavelength)
         if coupled_binding is None:
@@ -82,6 +82,12 @@ class NativeHopBackground(BackgroundProvider):
         for value in self.state.values():value.flags.writeable=False
         self.packet,self.meta=compute_packet(self.state['temperature_K'],self.state['ne_m3'],self.state['rho_kg_m3'],self.wave,abundances,atom,vmic_m_s=float(self.state['vturb_m_s'][0]))
         np.testing.assert_array_equal(self.packet['nHTot_m3'],self.state['nHTot_m3'])
+        if emission_profile_control is not None:
+            from pipeline.oxygen_emission_profile import profile_planck
+            B=profile_planck(self.wave,self.state['temperature_K'],**emission_profile_control)
+            absorption=self.packet['chi_m_inv']-self.packet['scat_m_inv']
+            if np.any(absorption<0):raise ValueError('Negative background absorption')
+            self.packet['eta_SI']=absorption*B
         self.check(eqPops.atmosphere);records.append(dict(wavelengths=len(self.wave),depths=len(state['temperature_K']),packet=self.meta))
 
     def check(self,atmos):
@@ -96,8 +102,13 @@ class NativeHopBackground(BackgroundProvider):
             output[:]=self.packet[key]
 
 
-def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False,top_boundary=None,line_grid_control=None,continuum_interpolation_control=None,fixed_population_diagnostic=False):
+def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum_only=False,formal_solver='piecewise_besser_1d',helium_broadening=True,table_control=None,vdw_broadening=True,original_width_law=None,collision_binding=None,coupled_diagnostic=False,top_boundary=None,line_grid_control=None,continuum_interpolation_control=None,fixed_population_diagnostic=False,emission_profile_control=None):
     """Bind complete native O state and HOP background before Context compilation."""
+    if emission_profile_control is not None:
+        if fixed_population_diagnostic is not True or formal_solver!='piecewise_linear_1d' or table_control is not None or continuum_only:
+            raise ValueError('Emission profile requires explicit fixed-population linear diagnostic')
+        if set(emission_profile_control)!={'profile','native_source'} or emission_profile_control['profile']not in ['held-LW','source-native']:
+            raise ValueError('Unknown explicit emission profile contract')
     if formal_solver not in ['piecewise_besser_1d','piecewise_linear_1d']:raise ValueError('Unsupported fixed-transfer formal solver')
     if not isinstance(vdw_broadening,bool):raise ValueError('Require explicit VDW diagnostic boolean')
     if original_width_law is not None and (helium_broadening or not vdw_broadening):raise ValueError('Original source law owns full VDW/He prescription; no added He factor or VDW omission')
@@ -116,7 +127,11 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     seed,seed_meta=compute_packet(state['temperature_K'],state['ne_m3'],state['rho_kg_m3'],np.array([500.,845.]),structure['abundances_dex'],atom,vmic_m_s=float(state['vturb_m_s'][0]))
     state={key:np.array(value,copy=True)for key,value in state.items()};state['nHTot_m3']=seed['nHTot_m3'].copy()
     for value in state.values():value.flags.writeable=False
-    atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lw.ThermalisedRadiation(),upperBc=FiniteColumnCap(0.)if top_boundary is None else top_boundary)
+    lower_boundary=lw.ThermalisedRadiation()
+    if emission_profile_control is not None:
+        from pipeline.oxygen_emission_profile import EmissionProfileBoundary
+        lower_boundary=EmissionProfileBoundary(**emission_profile_control)
+    atmos=lw.Atmosphere.make_1d(scale=lw.ScaleType.Geometric,depthScale=state['height_m'].copy(),temperature=state['temperature_K'].copy(),ne=state['ne_m3'].copy(),nHTot=state['nHTot_m3'].copy(),vturb=state['vturb_m_s'].copy(),vlos=np.zeros(expected[1]),logG=structure['logg_cgs']-2,lowerBc=lower_boundary,upperBc=FiniteColumnCap(0.)if top_boundary is None else top_boundary)
     mu,weight,angles=native_lobatto5();atmos.quadrature(Nrays=5,mu=mu,wmu=weight)
     model=to_lightweaver(atom);perturbers=Perturbers(seed,helium=helium_broadening)
     alpha_audit=None
@@ -152,10 +167,10 @@ def make_context(state,structure,atom,populations,nstar,*,extra_vac_nm,continuum
     if collision_binding is not None:
         collision_binding.setup(model);model.collisions=[collision_binding]
     spect=rad.compute_wavelength_grid(extraWavelengths=np.asarray(extra_vac_nm));records=[]
-    def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records,coupled_binding=collision_binding if coupled_diagnostic else None)
+    def factory(e,r,w):return NativeHopBackground(e,r,w,state=state,atom=atom,abundances=structure['abundances_dex'],records=records,coupled_binding=collision_binding if coupled_diagnostic else None,emission_profile_control=emission_profile_control)
     ng=lw.NgOptions(Norder=3,Nperiod=5,Ndelay=10,threshold=.05,lowerThreshold=0.)if coupled_diagnostic else None
     ctx=lw.Context(atmos,spect,eq,Nthreads=1,formalSolver=formal_solver,conserveCharge=False,backgroundProvider=factory,ngOptions=ng);ctx.depthData.fill=True
     if not continuum_only and vdw_broadening and original_width_law is None:verify_helium_reads(perturbers.reads,helium_broadening)
     if not vdw_broadening and (perturbers.reads or any(line.broadening.elastic for line in model.lines)):raise ValueError('VDW-off diagnostic retained elastic broadening reads/terms')
     if original_width_law is not None and not continuum_only and (len(source_width_reads)!=256 or any(x['calls']==0 for x in source_width_reads)or perturbers.reads):raise ValueError('Original full-width law did not reach actual model without extra perturbation')
-    return ctx,dict(continuum_interpolation_control=alpha_audit,line_grid_control=line_grid_audit,coupled_native_contract_diagnostic=coupled_diagnostic,original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')
+    return ctx,dict(emission_profile_control=None if emission_profile_control is None else dict(profile=emission_profile_control["profile"],scope="Background thermal emission and callable bottom diffusion profile only; active BB/BF/LTE/collisions unchanged"),continuum_interpolation_control=alpha_audit,line_grid_control=line_grid_audit,coupled_native_contract_diagnostic=coupled_diagnostic,original_width_law=None if original_width_law is None else dict(source_mass_amu=original_width_law.source_mass_amu,temperature_numeric_interval=original_width_law.temperature_interval,inputs=original_width_law.receipt,actual_calls=source_width_reads),vdw_broadening=vdw_broadening,elastic_terms_remaining=sum(len(line.broadening.elastic)for line in model.lines),table_control=table_audit,helium_broadening=helium_broadening,formal_solver=formal_solver,seed=seed_meta,angles=angles,background_records=records,perturbers=perturbers.reads,scope='Fixed complete native O n/nstar/totals; native EOS/continuum and perturber densities; LW atomic formulas with explicit LW or original-source broadening prescription. Native source constants retained; lower ghost/formal-solver conventions remain distinct. No SE or production admission.')

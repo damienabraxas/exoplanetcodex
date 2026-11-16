@@ -81,9 +81,15 @@ def main():
         from pipeline.native_continuum_control import load_native_continuum_control
         alpha_control,more=load_native_continuum_control(plan["continuum_interpolation_control"],atom_path,atom,resolver=require_codex_path,output=a.output/"native_alpha_queries",deadline=start+plan["seconds"])
         checks.update(more)
+    emission_control=None
+    if 'emission_profile_control'in plan:
+        emission=plan['emission_profile_control']
+        if set(emission)!={'profile'} or emission['profile']not in ['held-LW','source-native']:raise ValueError('Unknown emission profile audit')
+        emission_control=dict(profile=emission['profile'],native_source=source)
+        pin(ROOT/'pipeline/oxygen_emission_profile.py')
     # Detailed-static mode supplies exactly the source profiles without requiring
     # an active SE operator. No formal solver is called and no field is injected.
-    ctx,audit=make_context(state,read_marcs_structure(model_path),atom,pop,star,extra_vac_nm=wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None)
+    ctx,audit=make_context(state,read_marcs_structure(model_path),atom,pop,star,extra_vac_nm=wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None or emission_control is not None,emission_profile_control=emission_control)
     oxygen=ctx.detailedAtoms[0];np.testing.assert_array_equal(ctx.spect.wavelength,wave)
     if alpha_control is not None:alpha_control.verify_compiled(oxygen)
     profile_contract=None
@@ -98,7 +104,7 @@ def main():
         Blw=2*c.HPlanck*nu_all**3/c.CLight**2*occupation(c.HPlanck*nu_all/(c.KBoltzmann*state['temperature_K'][None,:]))
         background=[np.asarray(x)for x in [ctx.background.chi,ctx.background.eta,ctx.background.sca]]
         native_background=background_balance(*background,Bhop)
-        if native_background['thermal_absorption']['max_absolute_signed_defect']>1e-12:raise ValueError('Native background Kirchhoff identity failed')
+        if emission_control is None and native_background['thermal_absorption']['max_absolute_signed_defect']>1e-12:raise ValueError('Native background Kirchhoff identity failed')
         exponent=c.HPlanck*nu_all/(c.KBoltzmann*state['temperature_K'][None,:])
         native_exponent=native_constants['hh']*nu_all/(native_constants['bk']*state['temperature_K'][None,:])
         if np.max(exponent)>=150 or np.max(native_exponent)>=80:raise ValueError('Planck branch differences require a separate control')

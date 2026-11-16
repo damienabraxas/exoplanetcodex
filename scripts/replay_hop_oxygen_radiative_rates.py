@@ -142,11 +142,19 @@ def main():
         if physical_control is None or 'fixed_population_thermal_control'in plan:raise ValueError('Native alpha control requires matched physical state and no simultaneous thermal override')
         from pipeline.native_continuum_control import load_native_continuum_control
         alpha_control,more=load_native_continuum_control(plan['continuum_interpolation_control'],atom_file,atom,resolver=require_codex_path,output=a.output/'native_alpha_queries',deadline=deadline);checks.update(more)
+    emission_control=None
+    if 'emission_profile_control'in plan:
+        emission=plan['emission_profile_control']
+        if physical_control is None or boundary_mode!='native-zero-ghost-linear' or 'fixed_population_thermal_control'in plan or set(emission)!={'profile'} or emission['profile']not in ['held-LW','source-native']:
+            raise ValueError('Unqualified fixed-state emission profile')
+        source=engine_app/'HOP/const_mod.f90'
+        emission_control=dict(profile=emission['profile'],native_source=source)
+        for path in [source,ROOT/'pipeline/oxygen_emission_profile.py']:checks[str(path)]=fingerprint(path)
     report=dict(generator=fingerprint(__file__),inputs=checks,scientific_admission='HOLD',computational_completed=False,scope=plan['scope'],source_atom=preflight,boundary_control=boundary_mode,wavelength_grid_control=grid_audit,native_rate_semantics='Saved native coefficients contain SE preconditioning; individual up/down values are not gross Einstein rates. Net-flow interpretation additionally requires the native linearization population. Fresh unpreconditioned native-field replay remains owed.')
     if physical_control is not None:report['native_rate_semantics']='Unpreconditioned physical rate integrals at exact PRE-update radiation populations; source FP32 contributions summed in FP64, normalized with source profile/LTE factors. Not a post-update fresh native formal solve.'
     (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n');ctx=None
     try:
-        ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=extra_wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary,line_grid_control=line_grid_control,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None)
+        ctx,audit=make_context(state,read_marcs_structure(model_file),atom,pop,star,extra_vac_nm=extra_wave,formal_solver=plan['formal_solver'],helium_broadening=False,vdw_broadening=True,original_width_law=law,collision_binding=binding,coupled_diagnostic=True,top_boundary=top_boundary,line_grid_control=line_grid_control,continuum_interpolation_control=alpha_control,fixed_population_diagnostic=alpha_control is not None or emission_control is not None,emission_profile_control=emission_control)
         ctx.set_fs_iter_scheme(scheme);ctx.kwargs['fsIterScheme']=scheme;active=ctx.activeAtoms[0];active.compute_collisions(fillDiagonal=False);np.testing.assert_array_equal(active.C,binding.matrix)
         if alpha_control is not None:alpha_control.verify_compiled(active)
         thermal=plan.get('fixed_population_thermal_control');thermal_audit=None;formal_ctx=ctx
@@ -176,6 +184,9 @@ def main():
         else:
             from pipeline.native_ghost_boundary import converge_ghost_radiation
             radiation=converge_ghost_radiation(formal_ctx,rtol=controls['cap_radiation_rtol'],maxiter=controls['cap_radiation_maxiter'],deadline=deadline)
+        if emission_control is not None:
+            lower=ctx.atmos.pyAtmos.zLowerBc
+            np.savez_compressed(a.output/'emission_profile_arrays.npz',background_chi=ctx.background.chi,background_eta=ctx.background.eta,background_sca=ctx.background.sca,bottom_total_chi=lower.chi,bottom_intensity=lower.compute_bc(ctx.atmos.pyAtmos,ctx.spect))
         np.testing.assert_array_equal(active.n,pop);np.testing.assert_array_equal(active.nStar,star)
         if alpha_control is not None:alpha_control.verify_compiled(active);alpha_control.verify_inputs()
         own_R=np.zeros_like(foreign_R)

@@ -41,6 +41,10 @@ def converge_ghost_radiation(ctx,*,rtol,maxiter,deadline):
     for i in range(maxiter):
         if time.perf_counter()>deadline:raise TimeoutError('Original fixed-radiation budget exhausted')
         top=np.array(ctx.spect.J)[:,0].copy();update=ctx.formal_sol_gamma_matrices(lambdaIterate=True);change=boundary.update_from_context(ctx,top)
+        from pipeline.oxygen_emission_profile import EmissionProfileBoundary
+        lower=ctx.atmos.pyAtmos.zLowerBc
+        lower_change=lower.update_from_context(ctx)if isinstance(lower,EmissionProfileBoundary)else 0.
+        change=max(change,lower_change)
         if not np.isfinite(update.dJMax):raise ValueError('Nonfinite ghost radiation')
         if max(update.dJMax,change)<rtol:return dict(iterations=i+1,final_J_change=float(update.dJMax),final_boundary_change=change,ghost_step_m=boundary.step_m)
     raise RuntimeError('Original fixed-radiation maxiter exhausted')
