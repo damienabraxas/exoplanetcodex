@@ -8,6 +8,12 @@ from pipeline.saved_field_quadrature import gaussian_panel_batches
 METHOD='vacuum-nm-radiation-probe-gauss4'
 
 
+def registered_probe_destination(output,resource,*,resolver):
+    expected=Path(resolver(resource)).resolve();output=Path(output).resolve()
+    if output!=expected or output.exists():raise ValueError('Require fresh registered probe destination')
+    return output
+
+
 def gaussian_probe_grid(inherited,scores,budget=32):
     wave=np.asarray(inherited,float);scores=np.asarray(scores,float)
     if wave.ndim!=1 or len(wave)<2 or not np.isfinite(wave).all()or np.any(wave<=0)or np.any(np.diff(wave)<=0)or scores.shape!=(len(wave)-1,)or not np.isfinite(scores).all()or np.any(scores<0):raise ValueError('Invalid radiation probe grid/indicators')

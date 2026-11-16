@@ -6,12 +6,12 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 
 def main():
-    from config.constants import require_codex_path
+    from config.constants import require_codex_path,codex_path
     from pipeline.reference_engines import fingerprint
     from pipeline.multi_atom import read_multi_atom
     from pipeline.native_continuum_control import load_native_continuum_control
     from pipeline.joint_oxygen_lte_control import validate_joint_plan
-    from pipeline.radiation_probe_grid import gaussian_probe_grid,physics_plan,METHOD
+    from pipeline.radiation_probe_grid import gaussian_probe_grid,physics_plan,METHOD,registered_probe_destination
     from pipeline.saved_field_quadrature import interpolate_saved_field
     import lightweaver.constants as c
     import lightweaver.LwCompiled as compiled
@@ -23,7 +23,8 @@ def main():
         if expected is not None and fp!=expected:raise ValueError('Changed source '+str(path))
         checks[str(path)]=fp
         return path
-    if os.environ.get('OMP_NUM_THREADS')!='1'or os.environ.get('OPENBLAS_NUM_THREADS')!='1'or a.output.resolve()!=require_codex_path(a.resource).resolve():raise ValueError('Require registered fresh output and one thread')
+    if os.environ.get('OMP_NUM_THREADS')!='1'or os.environ.get('OPENBLAS_NUM_THREADS')!='1':raise ValueError('Require one thread')
+    registered_probe_destination(a.output,a.resource,resolver=codex_path)
     for name,plan_path,directory in [('fine',a.fine_plan,a.fine),('coarse',a.coarse_plan,a.coarse)]:
         plan=json.loads(pin(plan_path).read_text());validate_joint_plan(plan)
         if plan['purpose']!='full-source-O41-HOP-fixed-population-rates'or plan['seconds']!=600 or plan['backend']!=fingerprint(compiled.__file__):raise ValueError('Wrong source diagnostic/resources')
