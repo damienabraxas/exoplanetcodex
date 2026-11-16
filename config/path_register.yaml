@@ -130,6 +130,11 @@ entries:
     rel: bride_mac_checks/rya1371-continuum-oracle-build-v2
     kind: dir
     desc: Qualified native frequency-Hermite interpolation oracle; fixed-population diagnostic only.
+  experiments.joint_radiation_probe_grid:
+    root: work
+    rel: bride_mac_checks/rya1371-radiation-probe-plan-v1
+    kind: dir
+    desc: Source-indicator32point interior radiation probe; retains all19963nodes under original20000cap, no physical admission.
   experiments.grid_refined2_adaptive_plan:
     root: work
     rel: bride_mac_checks/rya1371-grid-refined2-midpoint-audit-v1

@@ -109,7 +109,11 @@ def main():
     if 'wavelength_grid_control'in plan:
         from pipeline.rate_grid_control import midpoint_grid
         control=plan['wavelength_grid_control']
-        if control.get('method')in ['vacuum-nm-adaptive-continuum','vacuum-nm-background-knots']:
+        if control.get('method')=='vacuum-nm-radiation-probe-gauss4':
+            if physical_control is None:raise ValueError('Probe requires exact physical native state')
+            from pipeline.radiation_probe_grid import load_probe_control
+            extra_wave,grid_audit,more=load_probe_control(control,plan,native,state,atom,pop,star,resolver=require_codex_path);checks.update(more)
+        elif control.get('method')in ['vacuum-nm-adaptive-continuum','vacuum-nm-background-knots']:
             from pipeline.hop_packet import MAX_PACKET_WAVELENGTHS
             if physical_control is None or set(control)!= {'resource','packet','producer','method'}:raise ValueError('Require explicit matched-state adaptive packet')
             directory=require_codex_path(control['resource']);path=directory/('adaptive_grid.npz'if control['method']=='vacuum-nm-adaptive-continuum'else'background_grid.npz');producer=directory/'report.json'
