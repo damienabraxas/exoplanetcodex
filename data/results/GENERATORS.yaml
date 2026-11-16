@@ -35497,3 +35497,199 @@ artifacts:
     generator: scripts/archive_oxygen_reference_checks.py
     ticket: RYA-1371
     note: Declared saved-field BF integral budget; no new RT or physical admission.
+  - artifact: rya1371/interior_radiation_probe_v1/archive_receipt.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/absolute_rate_integrals_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/audit_oxygen_integrated_thermal_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_collision_binding_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_coupled_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_hop_transfer_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_numerical_validation_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_overlap_plugin_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_parameter_checks_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_reference_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/bride_top_cap_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/compare_oxygen_radiation_probe_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/hop_abi_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/hop_packet_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/joint_oxygen_lte_control_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/multi_atom_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/multi_continuum_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/multi_width_law_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/native_continuum_control_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/native_ghost_boundary_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/native_oxygen_collisions_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/new_radiation_samples.csv
+    generator: scripts/compare_oxygen_radiation_probe.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/openmulti3d_output_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/oxygen_emission_profile_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/oxygen_lte_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/prepare_oxygen_radiation_probe_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/radiation_probe_grid_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/rate_semantics_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/replay_hop_oxygen_radiative_rates_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/report.json
+    generator: scripts/compare_oxygen_radiation_probe.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/run_hop_oxygen_coupled_diagnostic_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/saved_field_quadrature_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/stationary_oxygen_coefficients_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/thermal_profile_contract_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-comparison-v1/thermodynamic_canary_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-probe-audit-v1/absolute_transition_rates.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-probe-audit-v1/integrated_defects.csv
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-probe-audit-v1/report.json
+    generator: scripts/audit_oxygen_integrated_thermal_rates.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-probe-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-interior-radiation-probe-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-baseline-v1/manifest.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-baseline-v1/report.json
+    generator: scripts/replay_hop_oxygen_radiative_rates.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-plan-v1/prepare_oxygen_radiation_probe_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-plan-v1/probe_grid.npz
+    generator: scripts/prepare_oxygen_radiation_probe.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-plan-v1/probe_plan.json
+    generator: scripts/prepare_oxygen_radiation_probe.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-plan-v1/radiation_probe_grid_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-plan-v1/report.json
+    generator: scripts/prepare_oxygen_radiation_probe.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-preflight-failed-v1/failure_note.json
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.
+  - artifact: rya1371/interior_radiation_probe_v1/rya1371-radiation-probe-preflight-failed-v1/prepare_oxygen_radiation_probe_source.py
+    generator: scripts/archive_oxygen_reference_checks.py
+    ticket: RYA-1371
+    note: Bounded32point actual radiation versus interpolation diagnostic; no global convergence/model admission.

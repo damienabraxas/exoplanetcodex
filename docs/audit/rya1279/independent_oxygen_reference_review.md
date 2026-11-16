@@ -2015,3 +2015,7 @@ See [the complete contract, commands and evidence](oxygen_emission_profile_contr
 ## 2026-11-16: saved-field BF quadrature budget (v297)
 
 [Exact contract, commands and all outcomes](oxygen_saved_field_quadrature.md): both17263/19963savedJinterpolants,22BF/56depths, source-qualifiedHermitealpha/heldLWthermal/actualangularsum. Trapezoidreconstruction<3.42e-14, G16/G8<3.49e-9; fineintegrationchange1.20e-4 and representedfieldrefinement1.72e-4 separated by exact telescoping identity. Shadowresiduals worsen2.98e-4fine/3.83e-4coarse; no operator/adoption.139tests,7023rawreceipts/5compactcopies. ActualinteriorJ/BBquadrature/absoluteEOS/coupled/observed qualification remain OPEN.
+
+## 2026-11-16: actual32point interior-radiation probe (v298)
+
+[Source selector, all commands, measurements and limits](oxygen_interior_radiation_probe.md):8panels chosen from all22BF/56depth rate-normalized represented-field indicators before RT;19963->19995retains all ancestors. ActualJ/interpolation difference2.5453percent at130.231096nm/top0; inheritedJ/chi/thermaleta/backgroundexact, n/nStar/Cfixed. Ratechange1.998e-4 but globalresidual near-stable2.72292e-4. Independentrates3.08e-14/coeff4.44e-16;143tests. Output-resolver preflight defect preserved/fixed in bugledger, no RT on failure.526rawreceipts/48copies. Five slots remain; global quadrature/EOS/coupled/observational admission OPEN.

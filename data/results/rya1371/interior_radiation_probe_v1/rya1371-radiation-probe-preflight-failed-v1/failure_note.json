@@ -1,0 +1,7 @@
+{
+  "stage": "before_output_creation",
+  "error": "FileNotFoundError from require_codex_path on fresh registered output",
+  "cause": "Read-side existence resolver used for write destination",
+  "native_or_RT_call": false,
+  "scope": "Authored after actual refusal; pre-fix source preserved. No source input missing and no output created on failed preparation."
+}

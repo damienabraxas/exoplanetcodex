@@ -131,3 +131,16 @@ all19963nodes and original20000cap (37slots remain). Independently compare actua
 new samples against interpolation before proposing a different quadrature or
 coupled operator. Absolute EOS/partition, BB numerical and observed-model gates
 remain open; no physical admission or larger packet is implied.
+
+## Current continuation after v298
+
+[Actual interior probe](oxygen_interior_radiation_probe.md) adds32Gauss4samples
+in8preselected source-indicator panels while preserving all19963nodes. New
+actualJ differs from interpolation by2.545percent with inherited arrays exact,
+even though Gaussian integration of the assumed interpolant was order-stable
+and the overall residual barely changes. Thus interpolation/global rate
+convergence is not established. Grid19995leaves5slots; one explicitly scoped
+4point nested probe can use actual rate-normalized field indicators without
+node removal or tiling. Further mesh/compute strategy needs its own validated
+normalization/coupling scope. Absolute EOS/partition and coupled/observational
+qualification remain open; no default/model admission.

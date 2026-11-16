@@ -1,3 +1,7 @@
+## 2026-11-16 — Actual interior radiation probe
+
+- **RYA-1371** — 32new samples expose2.55percent interpolation mismatch; all ancestors retained under cap, global convergence remains open (v298).
+
 ## 2026-11-16 — Saved-field quadrature budget
 
 - **RYA-1371** — BF integration and represented-field refinement separated; actual interior radiation and model admission remain open (v297).
