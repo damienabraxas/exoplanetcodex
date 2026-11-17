@@ -354,26 +354,30 @@ def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
 #: RYA-1388: an element whose feed is packaged after the publisher writes it, in order. Fe's
 #: feed is enriched by its own emitter (grade / atlas / line_set_resolved / xi / the Fe II NLTE
 #: stamp, and the RYA-587 systematic in place of the 0.17 blanket; it refuses to write if any
-#: published A moves), and the per-line product and the audits that read the feed are derived
-#: from the result. RYA-1315 and RYA-1388 each republished Fe rows without these and ran them
-#: by hand afterwards (28f3e442, e25e43af).
+#: published A moves), and the audits that read the feed are rerun on the result. RYA-1315 and
+#: RYA-1388 each republished Fe rows without these and ran them by hand (28f3e442, e25e43af).
 PACKAGERS = {"Fe": (
     ("scripts/rya1178_emit_fe_schema.py",),
-    ("scripts/generate_perline_product.py", "--star", "solar", "--element", "Fe"),
     ("scripts/rya1055_fe2_label_audit.py",),
-    ("scripts/rya870_reproduce_perline.py",),
     ("scripts/rya935_live_status.py",),
+)}
+#: Derived from the COMMITTED feed and stage: the per-line product stamps the commit it was
+#: built from and refuses uncommitted inputs, so these run after the publish is committed.
+#: The publish summary names them as owed rather than leaving them to memory.
+AFTER_COMMIT = {"Fe": (
+    ("scripts/generate_perline_product.py", "--star", "solar", "--element", "Fe"),
+    ("scripts/rya870_reproduce_perline.py",),
 )}
 
 
-def package_feed(element: str, py: str) -> list | None:
+def package_feed(element: str, py: str) -> dict | None:
     """Run the element's packagers over the just-published feed, stopping at the first that
-    fails; None if it has none."""
-    steps = PACKAGERS.get(element)
-    if steps is None:
+    fails, and name what is owed once the publish is committed; None if it has neither."""
+    steps, owed = PACKAGERS.get(element), AFTER_COMMIT.get(element, ())
+    if steps is None and not owed:
         return None
     done = []
-    for argv in steps:
+    for argv in steps or ():
         res = subprocess.run([py, *argv], cwd=ROOT, capture_output=True, text=True)
         done.append({"argv": list(argv), "rc": res.returncode,
                      "tail": (res.stdout + res.stderr).strip().splitlines()[-3:]})
@@ -381,7 +385,10 @@ def package_feed(element: str, py: str) -> list | None:
             print(f"PACKAGING FAILED ({argv[0]}, rc={res.returncode}): the {element} feed is "
                   f"published but its packaging stopped here -- " + " | ".join(done[-1]["tail"]))
             break
-    return done
+    if owed:
+        print(f"OWED after the {element} publish is committed: "
+              + "; ".join(" ".join(a) for a in owed))
+    return {"ran": done, "after_commit": [list(a) for a in owed]}
 
 
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,

@@ -172,4 +172,7 @@ def test_the_fe_feed_is_packaged_by_its_emitter_first_and_a_failure_stops_the_ch
     good.write_text("print('ok')\n")
     monkeypatch.setitem(ep.PACKAGERS, "Xx", ((str(good),), (str(bad),), (str(good),)))
     done = ep.package_feed("Xx", sys.executable)
-    assert [d["rc"] for d in done] == [0, 2]
+    assert [d["rc"] for d in done["ran"]] == [0, 2]
+    # the per-line product stamps its commit, so it is owed after the commit, never run here
+    assert ep.AFTER_COMMIT["Fe"][0][0] == "scripts/generate_perline_product.py"
+    assert not any(a[0] == "scripts/generate_perline_product.py" for a in ep.PACKAGERS["Fe"])
