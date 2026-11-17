@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v253** · _Last updated: 2026-11-14 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v254** · _Last updated: 2026-11-17 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -691,6 +691,7 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 
 - **v250** (2026-11-09) — RYA-1350 landing reconciled from merged PR617 at078cf7de and ticket close-out00b249a8: Al86/Si104 products; cited Si3D NLTE and5690.42 restored; continuum deviations beyond3% require smooth neighbourhood corroboration. Ti rerun remains owner decision. Experimental Bride four-case results remain pinned and HOLD; new ORCH continuum parity replay is next, not silently retrofitted.
 
+- **v254** (2026-11-17) — **RYA-1388 landed (#626, 78ab9eb0); RYA-470 V line inventory started.** Holmes+2016 V I lab gf added (outranks Lawler+2014 only in 8900-9100 A, where Lawler is 0.18 dex too weak); V literature sweep recorded for 10/12 ion x bands (V I NIR, V II H owe Sirius diagnostics); V_AGSS21 fully graded; V gap register regenerated. V not yet run through the ORCH.
 - **v253** (2026-11-14) — **RYA-728 solar Cr through the ORCH.** 199 products published, coverage DONE (0 owed, 0 stale); 203 cells held with reasons. Ward+2023 Cr II and Tozzi+1985 Cr I lab gf adopted; a line held for a >0.5 dex lab move stays held unless data/reference/gf_hold_releases.csv releases it. Unlabelled-NLTE pool refusal recorded HELD, not FAILED. Model registry fingerprinted by its emitting rows only. Element disposition regenerated: the Cr row now cites Cr_gerber2023.prov.json (no RYA-534 verdict recorded), gate 1 still HELD. VIS Cr I/II 5.55-5.60 (Asplund 5.62); NIR Cr I 6.11 (a5G-z5F multiplet) published as measured, cause open.
 - **v252** (2026-11-09) — **RYA-1278/1281 integration checkpoint.** Preserve current-main production state and completed experimental Bride evidence. Resolve historical branch/main version collisions: former Bride v173-v243 become v181-v251; canonical main v173-v180 remain unchanged. Physical oxygen/1.5D/full3D admission remains HOLD; active OpenMULTI3D work is excluded. Merge authorized by Ryan; see docs/audit/rya1278/merge_readiness_2026-11-09.md.
 

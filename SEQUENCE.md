@@ -1,3 +1,10 @@
+## 2026-11-17 — RYA-1388 landed; RYA-470 V line inventory (this branch)
+
+> **Current as of `main` 78ab9eb0** (PR #626).
+
+- **RYA-1388** — `78ab9eb0` PR #626: ORCH line-list patch mode; Fe HARPS VIS continuum-gate lines refit; live-status tracker written as compact JSON (175 MB indented -> 68 MB).
+- **RYA-470** (this branch) — V line inventory: Holmes+2016 V I lab gf (181 lines, only lab V I gf past 1.6 um) outranks Lawler+2014 in 8900-9100 A only; 12 ion x band literature sweep rows; V_AGSS21 30/30 V I graded (set lines now told apart from a neighbour within 0.01 A by lower level); V gap register with 4 lab lines absent from canonical_gf.
+
 ## 2026-11-15 — RYA-728 landed; RYA-1350 Ti republished, Fe/Ca gate checked
 
 > **Current as of `main` 4994897f** (PR #622).
