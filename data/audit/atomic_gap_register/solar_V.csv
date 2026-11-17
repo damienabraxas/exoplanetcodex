@@ -11,6 +11,7 @@ gf_133260,pk_01e0ae6cdf94,V I,3901.1511,2.2954,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133645,pk_1fd8c6613765,V I,4238.949,1.942,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.21 (lawler2014_v1) moves canonical -2.809 by 1.599 dex [RYA-1268],,candidate
 gf_133646,pk_b571a5a2c07e,V I,4239.613,1.854,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.4559319556497243 (NIST C) moves canonical -2.957 by 2.501 dex [RYA-1268],,candidate
 gf_133676,pk_28bd770a5a95,V I,4270.315,1.804,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.5 (lawler2014_v1) moves canonical -3.158 by 2.658 dex [RYA-1268],,candidate
+gf_133726,pk_9fd27a5c1a66,V I,4307.315,1.195,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.84 (holmes2016_v1) moves canonical -3.533 by 1.693 dex [RYA-1268],,candidate
 gf_133772,pk_ddaa33c2c2dc,V I,4334.092,1.218,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.5 (lawler2014_v1) moves canonical -0.829 by -0.671 dex [RYA-1268],,candidate
 gf_134043,pk_4d8f3957945e,V I,4463.121,1.95,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -2.25 (lawler2014_v1) moves canonical -2.878 by 0.628 dex [RYA-1268],,candidate
 gf_134046,pk_d7632dc06c31,V I,4464.735,1.95,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.99 (lawler2014_v1) moves canonical -1.636 by 0.646 dex [RYA-1268],,candidate
@@ -71,8 +72,8 @@ gf_133608,pk_7de6c2519cf9,V I,4210.851,2.581,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_133609,pk_f1850dc899b6,V I,4212.198,1.945,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133610,pk_239d9b62c835,V I,4213.483,2.286,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133611,pk_181ce1332e9a,V I,4213.911,2.583,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133612,pk_06076349a363,V I,4216.342,0.287,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133613,pk_70c813006b8a,V I,4216.364,0.275,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_133612,pk_06076349a363,V I,4216.342,0.287,VIS,True,UNGRADED_GF,False,UNRATED_GF;nan,3,Lawler+2014 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
+gf_133613,pk_70c813006b8a,V I,4216.364,0.275,VIS,True,UNGRADED_GF,False,UNRATED_GF;nan,3,Lawler+2014 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
 gf_133614,pk_312d4c74fa5b,V I,4217.675,1.218,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133615,pk_158c5ed85f35,V I,4217.963,2.581,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133616,pk_6860bf9057d5,V I,4218.056,1.849,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -154,7 +155,6 @@ gf_133720,pk_f76a25873763,V I,4305.749,1.893,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_133721,pk_443cafb9d6a4,V I,4306.215,0.017,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_133723,pk_85a2321309b7,V I,4307.154,2.578,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133725,pk_5e0df63de9e2,V I,4307.204,2.138,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133726,pk_9fd27a5c1a66,V I,4307.315,1.195,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133727,pk_69f7631c3b53,V I,4307.506,2.122,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133728,pk_114da4be9eda,V I,4308.438,1.804,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133730,pk_d1dd58879fca,V I,4309.738,2.13,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -313,7 +313,6 @@ gf_133920,pk_f864fb46c3a8,V I,4401.112,2.578,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_133921,pk_0526d2882af3,V I,4401.736,1.195,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133922,pk_0a272138d8b1,V I,4402.056,2.916,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133924,pk_661b92e51373,V I,4405.002,1.854,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133925,pk_77e34c513549,V I,4405.012,0.275,VIS,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
 gf_133926,pk_a9ae2c2ad92e,V I,4405.767,2.581,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133927,pk_cdddee647818,V I,4406.072,1.064,VIS,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
 gf_133928,pk_a2109a4a3ddf,V I,4406.161,1.893,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -1505,7 +1504,7 @@ gf_135297,pk_268f08e996c5,V I,5397.866,2.555,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_135298,pk_b2d91ac9cf51,V I,5398.49,3.245,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135299,pk_0c1e9cb97b0b,V I,5398.56,3.116,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135300,pk_583eea899151,V I,5398.819,3.868,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_135301,pk_57b49d1d2478,V I,5398.907,0.287,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_135301,pk_57b49d1d2478,V I,5398.907,0.287,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF;nan,3,Holmes+2016 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
 gf_135302,pk_729a87f59a59,V I,5400.076,3.215,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135303,pk_961d47816d86,V I,5400.263,3.371,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135304,pk_41a883a45aa7,V I,5400.333,2.295,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4507,7 +4506,7 @@ gf_138470,pk_64054bd9a383,V I,9030.806,3.885,red-optical,True,UNGRADED_GF,False,
 gf_138471,pk_43d1c5b0ffd3,V I,9034.103,4.308,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138472,pk_dd911f0d21a2,V I,9034.503,3.278,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138473,pk_f9b936214097,V I,9035.515,4.087,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138474,pk_caad4b342cd9,V I,9037.582,1.183,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
+gf_138474,pk_caad4b342cd9,V I,9037.582,1.183,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,3,gf via MFW: source paper not attached | Holmes+2016 -1.94 +/- 0.04 (Lawler -2.12 is 0.18 dex too weak here); list row 0.031 A away (lab line at 9037.613 A) [RYA-470],,candidate
 gf_138475,pk_cefe8a462894,V I,9040.213,3.215,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138476,pk_bb6330243108,V I,9040.213,4.011,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138477,pk_281e1016c181,V I,9044.769,3.215,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4565,7 +4564,7 @@ gf_138530,pk_57b351b60798,V I,9108.312,3.246,red-optical,True,UNGRADED_GF,False,
 gf_138531,pk_de6d32a6276e,V I,9109.117,3.888,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138532,pk_d111fa6a5c95,V I,9109.349,4.837,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138533,pk_2dffd69f75fb,V I,9110.711,2.581,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138534,pk_958dc56c56c2,V I,9113.709,1.195,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
+gf_138534,pk_958dc56c56c2,V I,9113.709,1.195,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,3,gf via MFW: source paper not attached | Holmes+2016 lab gf at 9113.744 A -2.80 +/- 0.08; list row 0.035 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
 gf_138535,pk_2e1ab54b608d,V I,9113.983,1.711,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138536,pk_4cf575bdb6ea,V I,9115.313,1.955,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138537,pk_399033736cb1,V I,9116.593,3.893,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -7202,7 +7201,6 @@ gf_133121,pk_e5abea7d9979,V I,3809.0841,2.2563,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133123,pk_0ff83f509914,V I,3810.3835,1.8926,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133124,pk_ff5883a65e11,V I,3811.2973,2.2692,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133125,pk_efc7f0f3d984,V I,3811.4556,2.5749,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133126,pk_c6837d907483,V I,3813.449,0.267,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133128,pk_d8499b381a76,V I,3814.5796,2.5775,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133130,pk_1073887e3b84,V I,3815.9425,1.7112,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133132,pk_c5ca715c94d0,V I,3817.9303,2.2638,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7355,7 +7353,7 @@ gf_133354,pk_dbcca32a3965,V I,3980.6344,1.8535,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133355,pk_38e2fb65c59e,V I,3984.3278,1.8486,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133357,pk_f1f6de7839f8,V I,3987.6271,2.5749,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133358,pk_bc795a99597b,V I,3988.0837,2.3654,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133360,pk_d2193d83dde8,V I,3990.5724,1.8512,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_133360,pk_d2193d83dde8,V I,3990.5724,1.8512,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF;nan,4,Lawler+2014 lab gf at 3990.5382 A exists; list row 0.034 A away (beyond the 0.03 A match tolerance) so it is not attached [RYA-470],,candidate
 gf_133361,pk_f8beaf186a60,V I,3991.0467,2.5775,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133362,pk_998a1a56e5d8,V I,3992.6406,2.3737,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133364,pk_0f9fae0b1305,V I,3992.8878,2.6163,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7408,7 +7406,7 @@ gf_133431,pk_5982eee72de8,V I,4063.6451,1.9496,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133432,pk_6c2bec46be05,V I,4063.921,2.1145,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_133433,pk_31db364ce5b2,V I,4064.9191,2.5749,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133435,pk_d4e5e3c96dc1,V I,4067.8136,2.1303,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133436,pk_e701331963e2,V I,4067.9355,0.0401,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
+gf_133436,pk_e701331963e2,V I,4067.9355,0.0401,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 4067.9657 A exists; list row 0.030 A away (at the match tolerance) so it is not attached [RYA-470],,candidate
 gf_133437,pk_9bb1c7d48595,V I,4070.7587,0.0685,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133438,pk_2cefc89f9273,V I,4071.5313,1.9307,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133440,pk_acc338044548,V I,4072.636,1.9307,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7464,7 +7462,6 @@ gf_133529,pk_3a5bdd433ff7,V I,4134.0505,1.9422,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133534,pk_da74b4734ee1,V I,4136.9211,2.2563,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133540,pk_432c17ef5237,V I,4141.3238,2.286,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133542,pk_315796e5e53b,V I,4142.3602,2.2779,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133544,pk_9f7e6318e42a,V I,4142.8684,1.0806,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133545,pk_5be2f8378a4d,V I,4145.5346,2.286,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133546,pk_06281dd11f83,V I,4147.3576,2.2638,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133547,pk_bfad8d035e26,V I,4147.8463,2.2692,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7501,14 +7498,13 @@ gf_133587,pk_029d0c71befa,V I,4195.5928,2.5775,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133589,pk_9494e6994fc8,V I,4197.5976,1.8926,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133591,pk_5f7893edfcb7,V I,4199.5672,2.2779,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133592,pk_b28c2e0ac96e,V I,4199.823,2.5805,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_134040,pk_e1d7325b5bbc,V I,4462.3574,1.8599,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_134122,pk_ca3dc6591607,V I,4515.548,1.8926,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_134939,pk_a6f9ef079a7c,V I,5157.0092,2.2779,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_135511,pk_88e9c9c43544,V I,5578.3726,1.0509,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
+gf_134040,pk_e1d7325b5bbc,V I,4462.3574,1.8599,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
+,,V I,5845.2695,,VIS,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Lawler+2014 lab gf -2.55 +/- 0.05; not in canonical_gf and no solar hfs-on VALD extract covers 3780-6910 A to add it [RYA-470] | no row in canonical_gf,,candidate
 gf_135872,pk_ab0fd857fbd3,V I,5846.2563,3.131,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_136019,pk_bb3c61258d31,V I,6016.0856,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_136065,pk_b4106ced252b,V I,6063.3517,1.8486,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_136389,pk_14a62bb33b9d,V I,6343.9029,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
+gf_136019,pk_bb3c61258d31,V I,6016.0856,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6016.121 A exists; list row 0.035 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
+gf_136065,pk_b4106ced252b,V I,6063.3517,1.8486,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6063.3882 A exists; list row 0.037 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
+gf_136389,pk_14a62bb33b9d,V I,6343.9029,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6343.9503 A exists; list row 0.047 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
+,,V I,7944.6472,,red-optical,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Lawler+2014 lab gf -1.01; not in canonical_gf; add through the shared add route on Sirius [RYA-470] | no row in canonical_gf,,candidate
 gf_171144,pk_97b2bd897864,V I,13022.02034687524,3.932999999999998,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_171162,pk_c6790d4bfa9e,V I,13044.05717170048,1.9452000000000005,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_171166,pk_908404771f5e,V I,13051.241868681967,3.9597,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7616,7 +7612,6 @@ gf_174840,pk_03db7cd1ef87,V I,17245.8657,4.6815,H,False,UNGRADED_GF,False,UNRATE
 gf_174907,pk_576f966c3d33,V I,17322.6274,3.5454,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_174962,pk_181d9cb5cf3d,V I,17366.6126,4.9094,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175352,pk_c1dd9a0262fa,V I,17822.0874,1.8695,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_175353,pk_f1822973df4c,V I,17822.407301625364,1.8694999999999995,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175355,pk_7de66f99675b,V I,17822.7001,1.8695,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175356,pk_c589356aef39,V I,17822.9311,1.8695,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175491,pk_b7d52fd1a881,V I,17987.35070907079,1.8933,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7659,7 +7654,7 @@ gf_176732,pk_62099a6ccf31,V I,19535.305005583577,4.0901000000000005,K,False,GRAD
 gf_176751,pk_0c706b31c7ca,V I,19585.4423,1.9496,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176752,pk_19ada5356318,V I,19585.6261,1.9495,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176753,pk_ad8ea8d34d45,V I,19585.78576680843,1.94955,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_176755,pk_3c7a3758bcc9,V I,19586.19345514732,1.9495285714285715,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
+gf_176755,pk_3c7a3758bcc9,V I,19586.19345514732,1.9495285714285715,K,False,UNGRADED_GF,False,UNRATED_GF;nan,4,Holmes+2016 lab gf at 19586.162 A -2.09 +/- 0.04 (list Kurucz -2.45); list row 0.031 A away [RYA-470],,candidate
 gf_176785,pk_c314b5999440,V I,19651.69749915172,4.110699999999999,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176829,pk_89ded6735da7,V I,19711.42595665165,2.137714285714286,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176830,pk_97d9a18e7569,V I,19711.85151494027,2.137726666666666,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7676,7 +7671,9 @@ gf_176978,pk_42b8e500cdcd,V I,19954.393,4.5861,K,False,UNGRADED_GF,False,UNRATED
 gf_176984,pk_e94d9e1621d4,V I,19958.09778290717,4.6156,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176985,pk_76ebbe65908e,V I,19960.369106132115,4.627399999999999,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_177013,pk_b10f494a9919,V I,19995.101139441736,4.6421,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+,,V I,19998.913,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Holmes+2016 lab gf -2.33 +/- 0.06 (the only lab V I gf in K); not in canonical_gf; add on Sirius [RYA-470] | no row in canonical_gf,,candidate
 gf_177143,pk_b353bd2290ce,V I,20218.23602347746,4.6156,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
+,,V I,20230.568,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Holmes+2016 lab gf -2.41 +/- 0.06; not in canonical_gf; add on Sirius [RYA-470] | no row in canonical_gf,,candidate
 gf_177158,pk_a2d3f6f06059,V I,20241.464813352613,2.130299999999999,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_177160,pk_3409894101b8,V I,20241.816741116247,2.1303,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_177193,pk_94aff1a18f44,V I,20318.37582428554,2.616252380952381,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
