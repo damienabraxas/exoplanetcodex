@@ -49,10 +49,11 @@ def capsule_files(path,*,verify=True):
     return files
 
 
-def verify_artifacts(files,*,external_restart_caches=None):
-    """Validate receipts after explicitly joining all parts of a split capsule."""
+def verify_artifacts(files,*,external_restart_caches=None,inventoried=()):
+    """Validate receipts after explicitly joining all parts of a split capsule.
+    `inventoried` receipts carry no files list; the caller has verified their declared sidecar."""
     for name,content in files.items():
-        if not name.endswith('/receipt.json'):
+        if not name.endswith('/receipt.json') or name in inventoried:
             continue
         receipt=json.loads(content)
         parent=name.rsplit('/',1)[0]

@@ -86,5 +86,32 @@ def load_parts(directory,*,repo_root=None):
         if set(extra)&set(files) or len(files)+len(extra)!=manifest['native_paths_preserved_byte_for_byte']:
             raise ValueError('Referenced/stored native path accounting differs')
         files.update(extra)
-    verify_artifacts(files,external_restart_caches=manifest.get('external_restart_caches'))
+    inventoried=sidecar_inventories(manifest,files)
+    verify_artifacts(files,external_restart_caches=manifest.get('external_restart_caches'),inventoried=inventoried)
     return files,manifest
+
+
+def sidecar_inventories(manifest,files):
+    """Optional `receipt_inventories` {receipt: sidecar} for a native receipt written without a files
+    list. The sidecar must be archived; every file it names under the receipt's directory must be
+    archived with that hash or listed in `off_archive_regenerable` with the same hash and bytes, and
+    every archived file under that directory must be named. Returns the receipts so covered."""
+    declared=manifest.get('receipt_inventories') or {}
+    off=manifest.get('off_archive_regenerable') or {}
+    covered=set()
+    for receipt,sidecar in declared.items():
+        if receipt not in files or sidecar not in files:raise ValueError('Declared receipt inventory is not archived: '+receipt)
+        if 'files' in json.loads(files[receipt]):raise ValueError('Receipt already carries a files list: '+receipt)
+        parent=receipt.rsplit('/',1)[0]+'/';inv=json.loads(files[sidecar])
+        if str(inv.get('run'))+'/'!=parent:raise ValueError('Sidecar names another run: '+receipt)
+        named={parent+k:v for k,v in inv['files'].items()}
+        for key,record in named.items():
+            if key in files:checked(files[key],record,key)
+            elif key not in off or {k:off[key][k] for k in ('sha256','bytes')}!=record:
+                raise ValueError('Inventoried native file missing or changed: '+key)
+        if {k for k in files if k.startswith(parent)}-set(named):raise ValueError('Archived file absent from sidecar: '+receipt)
+        covered|=set(named)
+    if set(off)-covered:raise ValueError('Off-archive file not covered by a declared sidecar')
+    for key,record in off.items():
+        if record.get('regenerate_stdin') not in files:raise ValueError('Off-archive file lacks archived regeneration input: '+key)
+    return set(declared)

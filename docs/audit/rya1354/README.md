@@ -1,5 +1,5 @@
-Latest continuation: [full-eigenvector mixing-cut control and retained v45 review failure](fac_mixcut_control_v46.md).
-Previous: [signed native E1 component audit](fac_e1_components_v44.md).
+Latest continuation: [literature check, candidate theoretical grade and Li-scheme sizing](li_scheme_sizing_v47.md).
+Previous: [full-eigenvector mixing-cut control and retained v45 review failure](fac_mixcut_control_v46.md); [signed native E1 component audit](fac_e1_components_v44.md).
 Previous: [radial E1 frequency consistency and retained floor failure](fac_radial_operator_v43.md).
 Previous: [expanded radial rates and lifetime sensitivity](fac_radial_rates_v41.md).
 Previous: [all four expanded signed LS cases](fac_radial_angular_v40.md).

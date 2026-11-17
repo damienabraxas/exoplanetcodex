@@ -11,7 +11,7 @@ CHUNK=4*1024*1024
 LIMIT=5*1024*1024
 
 
-def pack(root,paths,out,chunk=CHUNK,*,references=None,repo_root=None):
+def pack(root,paths,out,chunk=CHUNK,*,references=None,repo_root=None,receipt_inventories=None,off_archive_regenerable=None):
     """references: {path: {sha256,bytes,archive,archive_path}} for files byte-identical to an
     earlier committed archive (schema v3); they are not stored again but restored and hash-checked."""
     if not 1024<=chunk<=CHUNK:raise ValueError('Raw chunk must be within proven archive ceiling')
@@ -69,6 +69,8 @@ def pack(root,paths,out,chunk=CHUNK,*,references=None,repo_root=None):
         manifest.update(schema='rya1354.native-evidence-parts.v3',referenced_archives=archives,referenced_files=references,
             native_paths_preserved_byte_for_byte=len(files)+len(references),
             verification='As v2 for stored files. Referenced files are byte-identical to the named, manifest-pinned earlier archive; the same decoder restores them from it and checks every hash before receipts are verified.')
+    if receipt_inventories or off_archive_regenerable:
+        manifest.update(receipt_inventories=dict(receipt_inventories or {}),off_archive_regenerable=dict(off_archive_regenerable or {}))
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     # Do not declare completion until the existing independent decoder passes.
     replay,_=load_parts(out,repo_root=repo_root)
