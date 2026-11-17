@@ -4,7 +4,8 @@
 # Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 unchanged from AGSS21; AGSS21 kept (RYA-1251).
 element: V
 ion: I
-ions: [I]
+# RYA-470: V II added. The anchor is elemental, and Scott+2015 / AGSS21 build it from 30 V I + 5 V II lines.
+ions: [I, II]
 source_of_truth: RYA-1268
 scale: as adopted by AGSS21 (Scott et al. 2015 (A&A 573, A26) + Lawler et al. 2014 gf)
 entries:
@@ -58,15 +59,18 @@ literature_sweep:
     - ion: I
       band: NIR
       searched: [Holmes+2016, Lawler+2014 (to 9157 A), Whaling+1985, NIST ASD, VALD gf references, Kurucz gf2300]
-      result: 'No lab gf. Holmes has no line in this band''s holdings; Lawler stops at 9157 A. The 2 list lines are Kurucz theory, which makes them Theoretical Codex candidates. Diagnostic owed (a Sirius run).'
+      result: 'No lab gf. Holmes has no line in this band''s holdings; Lawler stops at 9157 A. The 2 list lines are Kurucz theory, the only Theoretical Codex candidates here. Measured 2026-11-17 on Sirius: none reaches the 0.15 depth floor in the Sun (diagnostic file), so no Theoretical Codex set is possible here.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
     - ion: I
       band: H
       searched: [Holmes+2016, Gaia FGK benchmarks 2026 Table B.2, NIST ASD, VALD gf references, Kurucz gf2300]
       result: '11 NIST class C lines (TP ref u38) graded; 65 ungraded Kurucz. Holmes''s IR lines lie past 17800 A, outside the H holdings. Holmes 17822.407 is adopted on its list row (-2.64 -> -2.23), but it falls between the H and K holdings.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
     - ion: I
       band: K
       searched: [Holmes+2016, Gaia FGK benchmarks 2026 Table B.2, NIST ASD, VALD gf references, Kurucz gf2300]
       result: '4 NIST class C lines graded; 48 ungraded. There are 3 Holmes lab lines, the only lab V I gf in the K band. 19586.162 (-2.09 +/- 0.04) is 0.031 A from the list row (Kurucz -2.45), beyond the match tolerance. 19998.913 (-2.33) and 20230.568 (-2.41) are not in the list, and our solar hfs-on VALD extract has no component of either (VALD stellar depth cut), so they stay on the gap register (MISSING_GF).'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
     - ion: II
       band: near-UV
       searched: [Wood+2014, Biemont+1989, Scott+2015, Heiter+2021, Thorne+2013 (levels), NIST ASD, VALD gf references, Kurucz gf2301 + .lab files]
@@ -78,7 +82,8 @@ literature_sweep:
     - ion: II
       band: red-optical
       searched: [Wood+2014, Biemont+1989, NIST ASD, VALD gf references, Kurucz gf2301, web search 2026-11-17]
-      result: 'No lab gf; none of the lab tables reach this band. 6 NIST class C rows (TP ref T9770). Five are log gf near -8.5, too weak to fit; the only usable one is 7332.326 (-1.37). 650 Kurucz rows are Theoretical Codex candidates. Diagnostic owed (a Sirius run).'
+      result: 'No lab gf; none of the lab tables reach this band. 6 NIST class C rows (TP ref T9770). Five are log gf near -8.5, too weak to fit; the only usable one is 7332.326 (-1.37). 650 Kurucz rows are Theoretical Codex candidates. Measured 2026-11-17 on Sirius: every V II line here has theoretical depth 0.00 in the Sun, so none can be fitted on any gf; no Theoretical Codex set is possible here.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
     - ion: II
       band: NIR
       searched: [Wood+2014, NIST ASD, VALD gf references]
@@ -86,7 +91,8 @@ literature_sweep:
     - ion: II
       band: H
       searched: [Wood+2014, NIST ASD, VALD gf references, Kurucz gf2301]
-      result: 'No lab gf. The 3 list lines are Kurucz theory, which makes them Theoretical Codex candidates. Diagnostic owed (a Sirius run).'
+      result: 'No lab gf. The 3 list lines are Kurucz theory, the only Theoretical Codex candidates here. Measured 2026-11-17 on Sirius: none reaches the 0.15 depth floor in the Sun (diagnostic file), so no Theoretical Codex set is possible here.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
     - ion: II
       band: K
       searched: [NIST ASD, VALD gf references]

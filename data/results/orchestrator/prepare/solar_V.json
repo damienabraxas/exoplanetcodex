@@ -11911,19 +11911,8 @@
   }
  ],
  "literature_sweep": {
-  "recorded": 10,
-  "owed": [
-   {
-    "ion": "I",
-    "band": "NIR",
-    "why": "lines but no graded gf: no measured diagnostic"
-   },
-   {
-    "ion": "II",
-    "band": "H",
-    "why": "lines but no graded gf: no measured diagnostic"
-   }
-  ]
+  "recorded": 12,
+  "owed": []
  },
  "line_inventory": [
   {
@@ -12199,12 +12188,12 @@
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
   "literature": 0,
-  "literature_sweep": 2
+  "literature_sweep": 0
  },
  "pending_rule_plan": {
   "adopt": 0,
   "sigma_only": 0,
   "add_lines": 0
  },
- "ready": false
+ "ready": true
 }

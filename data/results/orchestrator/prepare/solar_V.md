@@ -1,8 +1,6 @@
-PREPARE solar V  -> NOT READY -- blocking: literature_sweep 2
+PREPARE solar V  -> READY to measure
   F literature: litscan yes; set bibliography keys ['scott2015']
-  F3 literature sweep: 10 ion x band recorded, 2 owed (owed cells are HELD until the search is recorded in the litscan)
-      OWED V I NIR: lines but no graded gf: no measured diagnostic
-      OWED V II H: lines but no graded gf: no measured diagnostic
+  F3 literature sweep: 12 ion x band recorded, 0 owed (owed cells are HELD until the search is recorded in the litscan)
   I line inventory (in list / set / reference / codex / ungraded / lab table):
       V I   H               76 /   0 /    0 /   11 /    65 /    0
       V I   K               52 /   0 /    0 /    4 /    48 /    3  lab not adopted [19586.162]  lab ABSENT from list [19998.913, 20230.568]
