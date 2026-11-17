@@ -87,7 +87,8 @@ def load_parts(directory,*,repo_root=None):
             raise ValueError('Referenced/stored native path accounting differs')
         files.update(extra)
     inventoried=sidecar_inventories(manifest,files)
-    verify_artifacts(files,external_restart_caches=manifest.get('external_restart_caches'),inventoried=inventoried)
+    verify_artifacts(files,external_restart_caches=manifest.get('external_restart_caches'),inventoried=inventoried,
+                     off_archive=manifest.get('off_archive_regenerable') or {})
     return files,manifest
 
 
@@ -111,7 +112,16 @@ def sidecar_inventories(manifest,files):
                 raise ValueError('Inventoried native file missing or changed: '+key)
         if {k for k in files if k.startswith(parent)}-set(named):raise ValueError('Archived file absent from sidecar: '+receipt)
         covered|=set(named)
-    if set(off)-covered:raise ValueError('Off-archive file not covered by a declared sidecar')
+    for receipt,content in files.items():   # v50: a native receipt files list also vouches for off-archive files
+        if not receipt.endswith('/receipt.json') or receipt in declared:continue
+        listed=json.loads(content).get('files') or {}
+        parent=receipt.rsplit('/',1)[0]+'/'
+        for rel,record in listed.items():
+            key=parent+rel
+            if key in off:
+                if {k:off[key][k] for k in ('sha256','bytes')}!=record:raise ValueError('Off-archive file differs from its native receipt: '+key)
+                covered.add(key)
+    if set(off)-covered:raise ValueError('Off-archive file not covered by a declared sidecar or native receipt')
     for key,record in off.items():
         if record.get('regenerate_stdin') not in files:raise ValueError('Off-archive file lacks archived regeneration input: '+key)
     return set(declared)

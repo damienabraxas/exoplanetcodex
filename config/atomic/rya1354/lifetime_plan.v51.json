@@ -1,0 +1,32 @@
+{
+  "schema": "rya1354.rci-feasibility-plan.v51",
+  "starting_commit": "d504c6b2",
+  "driver": "evidence/rci_feasibility_driver_v51/rya1354_rci_feasibility.py",
+  "driver_sha256": "fededb871759e0f51b9d48693f648cdae9729984839185321231efc8f6b8d72e",
+  "helper_sha256": {
+    "rya1354_li_scheme_sizing.py": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+    "rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd"
+  },
+  "v47_receipt_sha256": "59ae0aa93e4f5782850395947cb860b341bc15c89d45581c1b0d08305daf1dc9",
+  "grasp": "toolchains/grasp/build/bin (pinned 9006157730a82ac839f2b4ff4e938bcba63a539e, serial build)",
+  "output": "runs/rci_feasibility_v51",
+  "declaration": "Linear 02cf4798-6870-43a3-a8a2-d2d867d7ba09",
+  "why": "v47 sized Li 2023 Table 1: full RCI lists are 0.3-2.1M CSFs per J block, beyond a serial 15 GB build as generated. Before any physical RCI, measure the literature's own reduction (rcsfinteract, Gaigalas & Froese Fischer) and the per-block angular+CI cost, so the scaled scheme is chosen from measurements.",
+  "scope": "A: n_max 6,7 x {even 2J 0-4, odd 2J 2-4}: regenerate the v47 RCI list (sha must equal v47), generate the MR (0 excitations, same active set/2J), rcsfinteract DC (1) and DCB (2). B: odd J=1 block (3S1 upper), DCB-reduced, n_max 4,5,6: rnucleus (point static Z=8), rangular, rwfnestimate Thomas-Fermi, rci Breit static limit lowest state; GNU time -v per step. Thomas-Fermi orbitals: rci energies are NOT results; only wall time, peak RSS, angular disk.",
+  "guards": "Fresh directory; inputs hard-linked, never copied; budgets s: rcsfgenerate 3600, rcsfinteract 7200, rangular 14400, rwfnestimate 1800, rci 21600; disk guard 40 GiB free. Budget/disk stop = measured outcome ending its section. Refusal, nonzero exit or failed cross-check (v47 sha; MR/full peel headers; rcsfinteract Before/After/MR table vs streamed inventories; reduced subset of full; MR subset of reduced; section B J=1 count vs section A) = stop and preserve (FAILED_RETAINED). Receipt writes a files inventory.",
+  "evidence": "Receipts, stdin/stdout/stderr/time and small lists archived; lists and angular files above the size cap stay on Sirius with sha256/bytes in the receipt files list.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "retained_failure": [
+    "runs/rci_feasibility_v48 (plan v48)",
+    "runs/rci_feasibility_v49 (plan v49)",
+    "runs/rci_feasibility_v50 (plan v50; section A complete)"
+  ],
+  "change_from_v50": "state.w is linked from rwfn.inp (ESTIMATE_OUTPUT), the file rwfnestimate writes. Identical scope is rerun (section A included, about 15 min) so one receipt carries both sections. Budgets, guards and cross-checks are unchanged.",
+  "outcome": "FAILED_RETAINED in section B cost_odd_J1_n5 at rwfnestimate (rc=2): TFWAVE could not compute 5g and the remaining-subshell prompt hit end of input. Section A COMPLETE, identical to v50. Section B n4 COMPLETE: 7596 CSFs; rangular 32.7 s, 564 MB; rci 62.8 s, 58 MB; 109 MB angular. n5: 33575 CSFs; rangular 312.7 s, 6.31 GB peak RSS, 1.12 GB angular. Superseded by v52 (section B only); run directory preserved."
+}

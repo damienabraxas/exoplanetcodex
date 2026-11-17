@@ -22,6 +22,14 @@ def pack(root,paths,out,chunk=CHUNK,*,references=None,repo_root=None,receipt_inv
         if not path.exists():raise FileNotFoundError(path)
         for p in sorted(path.rglob('*')) if path.is_dir() else [path]:
             if p.is_file():selected[str(p.relative_to(root))]=p
+    for key,record in (off_archive_regenerable or {}).items():   # declared off-archive: verified on disk, not stored
+        if key in selected:
+            h=hashlib.sha256()
+            with selected[key].open('rb') as f:
+                for block in iter(lambda:f.read(1<<24),b''):h.update(block)
+            if (h.hexdigest(),selected[key].stat().st_size)!=(record['sha256'],record['bytes']):
+                raise ValueError('Declared off-archive file differs on disk: '+key)
+            del selected[key]
     if not selected:raise ValueError('No native files selected')
     references=dict(references or {})
     if set(references)&set(selected):raise ValueError('A path is both stored and referenced')

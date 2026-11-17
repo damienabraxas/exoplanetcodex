@@ -49,9 +49,10 @@ def capsule_files(path,*,verify=True):
     return files
 
 
-def verify_artifacts(files,*,external_restart_caches=None,inventoried=()):
+def verify_artifacts(files,*,external_restart_caches=None,inventoried=(),off_archive=None):
     """Validate receipts after explicitly joining all parts of a split capsule.
-    `inventoried` receipts carry no files list; the caller has verified their declared sidecar."""
+    `inventoried` receipts carry no files list; the caller has verified their declared sidecar.
+    `off_archive` files (manifest off_archive_regenerable) were verified by the caller against the receipt."""
     for name,content in files.items():
         if not name.endswith('/receipt.json') or name in inventoried:
             continue
@@ -60,6 +61,10 @@ def verify_artifacts(files,*,external_restart_caches=None,inventoried=()):
         for relative,record in receipt['files'].items():
             key=parent+'/'+relative
             if key not in files and Path(relative).name.startswith('mcp.'):
+                continue
+            if key not in files and off_archive and key in off_archive:
+                if (off_archive[key]['sha256'],off_archive[key]['bytes'])!=(record['sha256'],record['bytes']):
+                    raise ValueError('Off-archive identity differs from native receipt: '+key)
                 continue
             if key not in files and external_restart_caches and key in external_restart_caches:
                 external=external_restart_caches[key]
