@@ -469,16 +469,30 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
     #: neither band has a lab Fe II line on the shallow side of the depth gate, so the
     #: Reference selector and the Deep selector return an identical set.
     assert len(served) == 10, sorted(served)
+    #: RYA-1388: the bound is MPIA's own served range. The weak lines carry -0.001/-0.002;
+    #: the strong multiplet-42 lines in the RYA-1233 Deep pool (4923.921, 5169.028) carry
+    #: +0.015/+0.014 (data/cache/mpia/26.02_*). Fe II departures stay within 0.02 dex.
     for name, (n, k, deltas) in served.items():
-        assert deltas and all(-0.0021 <= x <= -0.0009 for x in deltas), (name, deltas)
+        assert deltas and all(abs(x) <= 0.02 for x in deltas), (name, deltas)
         assert k < n, f"{name}: MPIA served every line — the n-drop confound is gone?"
     # the VIS pools: 2 of 8 served, at -0.001/-0.002
     #: 🔴 MATCH ON `_4200_69`, NOT `_4200_6910_`. RYA-1203 re-emitted the HARPS VIS pair at
     #: 4200_6908 -- its generator's own bounds -- so a filter pinned to 6910 silently stops
     #: seeing that holding and the assertion below would pass on a smaller set than it
     #: claims to test. 9 -> 8 and 3 -> 2 because Fe II 4303.170 is curated out (RYA-1191).
-    vis = [v for k, v in served.items() if "_4200_69" in k]
-    assert len(vis) == 6 and all(v[0] == 8 and v[1] == 2 for v in vis), vis
+    #: RYA-1388: Deep and Reference are no longer one Fe II pool. RYA-1233 (ae521da8, Ryan
+    #: 10-09) made the Deep pool every deep line with ANY published gf uncertainty; Reference
+    #: stays the all-lab pool (8 lines, 2 served). HARPS Deep, rebuilt on that definition, is
+    #: 23 lines / 8 served; a Deep pool not yet rerun since ae521da8 is still the lab pool.
+    vis = {k: v for k, v in served.items() if "_4200_69" in k}
+    assert len(vis) == 6, sorted(vis)
+    for k, v in vis.items():
+        if "_REFERENCE_" in k:
+            assert v[:2] == (8, 2), (k, v)
+        elif "_harps_" in k:
+            assert v[:2] == (23, 8), (k, v)
+        else:
+            assert v[:2] in ((8, 2), (23, 8)), (k, v)
     # the near-UV pools: 7 of 12 served, at -0.001 — RYA-1113's n=7-vs-12
     nuv = [v for k, v in served.items() if "_3000_3780_" in k]
     assert len(nuv) == 4 and all(v[0] == 12 and v[1] == 7 for v in nuv), nuv
@@ -517,6 +531,7 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
         return out
 
     eng, lte = by_product("ENGINE-A", True), by_product("1D-LTE", False)
+    feed = json.loads(FEED.read_text())
     #: RYA-1315: 6 -> 7, HARPS VIS gains a Codex-Grade (GRADED) Fe II ENGINE-A product on the
     #: fixed continuum; the per-row checks below run on it like the rest.
     assert len(eng) == 7, sorted(eng)            # three holdings x Deep + Reference, + HARPS GRADED
@@ -537,12 +552,15 @@ def test_what_the_live_fe_ii_products_ACTUALLY_applied_is_read_from_their_own_ar
         #: bound was the range of the two lines then served; the strong multiplet-42 lines
         #: now served (4923.921, 5169.028) carry MPIA's own +0.015.
         own = {}
-        #: RYA-1315: orchestrator-published products keep their artifact in the budget stage;
-        #: read it first so a RYA-1232 run artifact, where one exists, still has the last word
-        own_files = sorted((ROOT / "data/results/orchestrator/budget/solar_Fe/stage").glob(
-            f"FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv")) + sorted(
-            (ROOT / "data/results/rya1232_fe").glob(
-                f"*/products/FeII_*_{key[0]}_SYNTH_{key[1]}_ENGINE-A_lines.csv"))
+        #: RYA-1388: the product's OWN artifact, by its feed `copied_to` -- not every file
+        #: whose name matches. The HARPS Deep product was rebuilt into the ORCH stage while its
+        #: RYA-1232 hand-campaign artifact stays on disk with MPIA's older 5169.028 value.
+        ct = next(q["provenance"]["copied_to"] for q in feed["products"]
+                  if str(q["ion"]) == "II" and q["band"] == "VIS"
+                  and q["treatment"] == "ENGINE-A"
+                  and (q["holding"], q["tier"], q["selector"], q["route"]) == key)
+        own_files = [ROOT / ct.replace("_ENGINE-A_products.csv", "_ENGINE-A_lines.csv")]
+        assert own_files[0].exists(), own_files[0]
         for f in own_files:
             d_ = pd.read_csv(f)
             for w_, v_ in zip(d_.wavelength_air_A, d_.nlte_delta_dex):
