@@ -15,6 +15,7 @@ from pathlib import Path
 import platform
 import shutil
 import subprocess
+import tempfile
 
 from rya1354_fac_bootstrap import PIN,sha
 from rya1354_fac_rates import verify_receipt
@@ -32,12 +33,21 @@ STATE_FILES=('o_export_000.c','o_export_000.cm','source.pot','ci.pot','raw.tsv')
 # (session stamp/timing). rates.tr(.b) carry the same stamp. Everything else must be byte-identical.
 UNSTABLE={'input.sf','native.time','o.lev','o.lev.b','rates.tr','rates.tr.b','components.tsv'}
 FORBIDDEN=('AngZ','angz','mix_cut','MixCut','PrepAngular','max_nbs','SetTransitionMaxE','SetTransitionMaxM')
+# v45 mixing-cut control: SetMixCut changes ONLY which eigenvector components AddToLevels stores
+# (structure.c:3039). Declared consequences: the printed/exported mixing and the rates change.
+MIXCUT_CHANGED={'o.basis','o_export_000.cm','raw.tsv'}
+STRUCTURE="Structure('o.lev.b', "
 
 
-def input_text(scale,gauge,mapping):
-    """Exact v41 input plus component calls after the last E1 RawTransition."""
+def input_text(scale,gauge,mapping,mix_cut=None):
+    """Exact v41 input plus component calls after the last E1 RawTransition.
+    With mix_cut, ONLY SetMixCut(mix_cut) is inserted immediately before Structure."""
     text,requests,lower=rate_input(scale,gauge,mapping)
     if any(x in text for x in FORBIDDEN):raise ValueError('Native angular/mixing cut controls differ from defaults')
+    if mix_cut is not None:
+        if mix_cut!=0:raise ValueError('Only the declared full-eigenvector control (0) is supported')
+        if text.count(STRUCTURE)!=1:raise ValueError('Structure insertion point differs')
+        text=text.replace(STRUCTURE,f'SetMixCut({mix_cut:.17g})\n'+STRUCTURE,1)
     upper,=mapping['targets']['3S']
     e1=[r['lower'] for r in requests if r['multipole']==-1]
     if not e1 or len(set(e1))!=len(e1):raise ValueError('E1 channel inventory differs')
@@ -49,7 +59,7 @@ def input_text(scale,gauge,mapping):
     return head+last+calls+tail,requests,e1
 
 
-def prepare(root):
+def prepare(root,*,cases=CASES,mix_cut=None,retained_failure=None):
     base=operator_prepare(root)
     parent=root/'runs/fac_radial_rates_v41';receipt=verify_receipt(parent);hold(receipt)
     index=json.loads((parent/'index.json').read_text())
@@ -65,11 +75,24 @@ def prepare(root):
         snippet_sha256=sha(Path(__file__).with_suffix('.c')),potential_layout=index['potential_layout'],
         constants=base['constants'],cases={},scientific_admission='HOLD',exposure='EXPOSED_NONBLIND',adoption_allowed=False,
         accepted_lifetime=None,uncertainty=None,covariance=None,calibrated_sigma=None)
-    for case in CASES:
+    if mix_cut is not None:
+        v44=root/'runs/fac_e1_components_v44';r44=verify_receipt(v44);hold(r44)
+        if r44['status']!='FAC_E1_COMPONENTS_COMPLETED_REVIEW_REQUIRED' or not set(cases)<=set(CASES):
+            raise ValueError('v44 component checkpoint or declared case subset differs')
+        result.update(schema='rya1354.e1-components-input.v45',mix_cut=mix_cut,v44_receipt_sha256=sha(v44/'receipt.json'),
+                      declared_changed_files=sorted(MIXCUT_CHANGED))
+    if retained_failure is not None:
+        if mix_cut is None:raise ValueError('Retained-failure revision is declared only for the mixing-cut control')
+        failed=root/retained_failure;prior=verify_receipt(failed);hold(prior)
+        if prior['status']!='FAILED_RETAINED' or 'Declared radial CI input differs' not in prior['error']:
+            raise ValueError('Retained v45 review failure differs')
+        result.update(schema='rya1354.e1-components-input.v46',retained_failure=retained_failure,
+                      retained_failure_receipt_sha256=sha(failed/'receipt.json'))
+    for case in cases:
         entry=index['cases'][case];mapping=entry['mapping'];scale=100 if case.endswith('100') else 10
         upper,=mapping['targets']['3S'];gauges={}
         for suffix,gauge in [('B',2),('C',1)]:
-            src=parent/(case+'_'+suffix);text,requests,e1=input_text(scale,gauge,mapping)
+            src=parent/(case+'_'+suffix);text,requests,e1=input_text(scale,gauge,mapping,mix_cut)
             if (src/'input.sf').read_text()!=rate_input(scale,gauge,mapping)[0]:raise ValueError('Parent input differs')
             gauges[suffix]=dict(parent=str(src.relative_to(root)),gauge=gauge,e1_lower=e1,input_sha256=sha_text(text),
                                 parent_raw_sha256=sha(src/'raw.tsv'),parent_audit=receipt['cases'][case+'_'+suffix]['audit'])
@@ -107,28 +130,58 @@ def build(root,source,probe,evidence,index):
     return dict(path=str(probe/'sfac'),sha256=sha(probe/'sfac'),libfac_sha256=before,rate_frontend_sha256=fe['sfac_sha256'])
 
 
-def identical(out,parent):
-    """Every stable parent file must exist and match byte-for-byte."""
-    names=sorted(p.name for p in parent.iterdir() if p.is_file() and p.name not in UNSTABLE)
+def identical(out,parent,changed=frozenset()):
+    """Every stable parent file not DECLARED changed must exist and match byte-for-byte."""
+    names=sorted(p.name for p in parent.iterdir() if p.is_file() and p.name not in UNSTABLE|changed)
     bad=[n for n in names if not (out/n).is_file() or (out/n).read_bytes()!=(parent/n).read_bytes()]
     if bad:raise ValueError('Native output differs from sealed v41: '+', '.join(bad[:10]))
-    if any(n not in names for n in STATE_FILES):raise ValueError('Required state file not compared')
+    if any(n not in names for n in set(STATE_FILES)-changed):raise ValueError('Required state file not compared')
     return names
+
+
+def level_table(text):
+    """o.lev without its session stamp: every level energy/label line must be unchanged."""
+    return [l for l in text.splitlines() if not l.startswith('TSess')]
 
 
 def review(out,root,entry,g,index):
     parent=root/g['parent'];scale=entry['scale']
     text=(out/'input.sf').read_text()
     if sha_text(text)!=g['input_sha256']:raise ValueError('Declared component input differs')
-    if ci_review(out,index['potential_layout'],scale,declared_input=text)!=entry['qualified_CI']:raise ValueError('CI replay differs')
-    return identical(out,parent)
+    if 'mix_cut' not in index:
+        state=ci_review(out,index['potential_layout'],scale,declared_input=text)
+        if state!=entry['qualified_CI']:raise ValueError('CI replay differs')
+        return identical(out,parent)
+    # Mixing-cut control: orbitals, potential, configuration state must be unchanged; the
+    # coefficient transport is re-derived from the new full eigenvectors and recorded.
+    state=mixcut_ci_review(out,index['potential_layout'],scale,text,index['mix_cut'])
+    if set(state)!=set(entry['qualified_CI']) or any(state[k]!=entry['qualified_CI'][k] for k in state if k!='transport'):
+        raise ValueError('CI replay differs beyond stored mixing')
+    if level_table((out/'o.lev').read_text())!=level_table((parent/'o.lev').read_text()):raise ValueError('Level energies/labels changed')
+    return dict(byte_identical=identical(out,parent,frozenset(MIXCUT_CHANGED)),transport=state['transport'])
 
 
-def component_review(out,scale,g,case_mapping,c):
+def mixcut_ci_review(out,layout,scale,text,mix_cut):
+    """v45 FAILED_RETAINED because the unchanged v41 CI review requires its exact CI prefix.
+    Verify the input is EXACTLY the v44 input plus the one declared SetMixCut line before
+    Structure, then review a read-only symlink view whose input.sf is that v44 input."""
+    line=f'SetMixCut({mix_cut:.17g})\n'
+    base=text.replace(line,'',1)
+    if text.count(line)!=1 or text.index(line)+len(line)!=text.index(STRUCTURE) or line+STRUCTURE not in text:
+        raise ValueError('Declared single SetMixCut insertion differs')
+    with tempfile.TemporaryDirectory(prefix='rya1354_mixcut_view_') as d:
+        view=Path(d)
+        for p in out.iterdir():
+            if p.is_file() and p.name!='input.sf':(view/p.name).symlink_to(p.resolve())
+        (view/'input.sf').write_text(base)
+        return ci_review(view,layout,scale,declared_input=base)
+
+
+def component_review(out,scale,g,case_mapping,c,changed=False):
     raw_text=(out/'raw.tsv').read_text()
     requests=rate_input(scale,g['gauge'],case_mapping)[1]
     audit=rate_review(raw_text,(out/'rates.tr').read_text(),requests,g['gauge'],case_mapping,c)
-    if audit!=g['parent_audit']:raise ValueError('Independent rate audit differs from sealed v41')
+    if not changed and audit!=g['parent_audit']:raise ValueError('Independent rate audit differs from sealed v41')
     raw={}
     for line in raw_text.splitlines():
         if line.startswith('#') or not line.strip():continue
@@ -138,7 +191,8 @@ def component_review(out,scale,g,case_mapping,c):
     if [x['lower'] for x in contexts]!=g['e1_lower'] or any(x['gauge']!=g['gauge'] for x in contexts):
         raise ValueError('Component context inventory differs')
     cut=float(header['ANGZCUT'])
-    return {str(x['lower']):dict(verify(x,raw[x['lower']],cut),grid=grid_context(x)) for x in contexts}
+    result={str(x['lower']):dict(verify(x,raw[x['lower']],cut),grid=grid_context(x)) for x in contexts}
+    return dict(contexts=result,rate_audit=audit) if changed else result
 
 
 def main():
@@ -150,7 +204,9 @@ def main():
         if isinstance(v,Path):setattr(a,k,v.resolve())
     if sha(a.index)!=a.index_sha256:raise ValueError('Declared component index differs')
     index=json.loads(a.index.read_text());hold(index)
-    if index!=prepare(a.root):raise ValueError('Frozen component inputs differ')
+    if index!=prepare(a.root,cases=tuple(index['cases']),mix_cut=index.get('mix_cut'),retained_failure=index.get('retained_failure')):
+        raise ValueError('Frozen component inputs differ')
+    changed='mix_cut' in index;version=index['schema'].rsplit('.',1)[1]
     fe=index['rate_frontend']
     if (index['fac_pin']!=PIN or subprocess.check_output(['git','rev-parse','HEAD'],cwd=a.source,text=True).strip()!=PIN
         or subprocess.check_output(['git','diff','--name-only'],cwd=a.source,text=True).strip()
@@ -165,29 +221,33 @@ def main():
     for n in ('faclib/structure.c','faclib/structure.h','faclib/transition.c','faclib/radial.c','faclib/consts.h','faclib/config.h'):
         dest=docs/n;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(a.source/n,dest)
     mappings=json.loads((a.root/'runs/fac_radial_rates_v41/index.json').read_text())['cases']
-    receipt=dict(schema='rya1354.e1-components.v44',status='RUNNING',fac_pin=PIN,started_utc=datetime.now(timezone.utc).isoformat(),
+    receipt=dict(schema='rya1354.e1-components.'+version,status='RUNNING',fac_pin=PIN,started_utc=datetime.now(timezone.utc).isoformat(),
         index_sha256=a.index_sha256,cases={},scientific_admission='HOLD',exposure='EXPOSED_NONBLIND',adoption_allowed=False,
         accepted_lifetime=None,uncertainty=None,covariance=None,calibrated_sigma=None)
     try:
         receipt['probe']=build(a.root,a.source,a.probe,a.out/'frontend_evidence',index);binary=Path(receipt['probe']['path'])
-        entry=index['cases']['ground_coherent10'];g=entry['gauges']['B']
+        first=next(iter(index['cases']));entry=index['cases'][first];g=entry['gauges']['B']
         out=a.out/'canary_unchanged_v41_input';out.mkdir();parent=a.root/g['parent']
         shutil.copyfile(parent/'source.pot',out/'source.pot');shutil.copyfile(parent/'input.sf',out/'input.sf')
         run_native(binary,out,1800)
-        receipt['canary']=dict(case='ground_coherent10_B',byte_identical=identical(out,parent))
+        receipt['canary']=dict(case=first+'_B',byte_identical=identical(out,parent))
         (a.out/'progress.json').write_text(json.dumps(receipt,indent=2)+'\n')
-        for case in CASES:
-            entry=index['cases'][case]
+        for case,entry in index['cases'].items():
             for suffix,g in entry['gauges'].items():
                 name=case+'_'+suffix;out=a.out/name;out.mkdir();parent=a.root/g['parent']
                 shutil.copyfile(parent/'source.pot',out/'source.pot')
-                text=input_text(entry['scale'],g['gauge'],mappings[case]['mapping'])[0];(out/'input.sf').write_text(text)
+                text=input_text(entry['scale'],g['gauge'],mappings[case]['mapping'],index.get('mix_cut'))[0];(out/'input.sf').write_text(text)
                 run_native(binary,out,1800)
                 compared=review(out,a.root,entry,g,index)
+                if 'retained_failure' in index and (a.root/index['retained_failure']/name/'raw.tsv').is_file():
+                    prior=a.root/index['retained_failure']/name
+                    same=identical(out,prior)
+                    if (out/'components.tsv').read_bytes()!=(prior/'components.tsv').read_bytes():raise ValueError('Retained native components differ')
+                    compared['retained_failure_outputs_identical']=same
                 receipt['cases'][name]=dict(compared_byte_identical=compared,
-                    components=component_review(out,entry['scale'],g,mappings[case]['mapping'],index['constants']))
+                    components=component_review(out,entry['scale'],g,mappings[case]['mapping'],index['constants'],changed))
                 (a.out/'progress.json').write_text(json.dumps(receipt,indent=2)+'\n')
-        receipt['status']='FAC_E1_COMPONENTS_COMPLETED_REVIEW_REQUIRED'
+        receipt['status']='FAC_MIXCUT_CONTROL_COMPLETED_REVIEW_REQUIRED' if changed else 'FAC_E1_COMPONENTS_COMPLETED_REVIEW_REQUIRED'
     except Exception as exc:
         receipt.update(status='FAILED_RETAINED',error=type(exc).__name__+': '+str(exc));raise
     finally:

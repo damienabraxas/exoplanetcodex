@@ -53,3 +53,16 @@ def test_v3_rejects_wrong_reference_and_changed_earlier_archive(tmp_path):
     m=tmp_path/'repo/archive_old/manifest.json';m.write_text(m.read_text()+' ')
     import rya1354_native_parts;rya1354_native_parts._REFERENCE_CACHE.clear()
     with pytest.raises(ValueError,match='manifest differs'):load_parts(tmp_path/'repo/a2',repo_root=tmp_path/'repo')
+
+
+def test_v3_self_reference_restores_a_file_stored_once_in_the_same_archive(tmp_path):
+    stage=tmp_path/'stage';(stage/'run/b').mkdir(parents=True);(stage/'run/c').mkdir()
+    payload=os.urandom(7000);(stage/'run/b/o.basis').write_bytes(payload)
+    d=hashlib.sha256(payload).hexdigest()
+    (stage/'run/receipt.json').write_text(json.dumps({'files':{'b/o.basis':{'bytes':7000,'sha256':d},'c/o.basis':{'bytes':7000,'sha256':d}}}))
+    refs={'run/c/o.basis':dict(sha256=d,bytes=7000,archive='.',archive_path='run/b/o.basis')}
+    pack(stage,[Path('run')],tmp_path/'a',chunk=2048,references=refs)
+    files,manifest=load_parts(tmp_path/'a')
+    assert files['run/c/o.basis']==files['run/b/o.basis']==payload and manifest['referenced_archives']=={'.':'.'}
+    bad={'run/c/o.basis':dict(sha256=d,bytes=7000,archive='.',archive_path='run/x')}
+    with pytest.raises(ValueError,match='not stored here'):pack(stage,[Path('run')],tmp_path/'b',references=bad)

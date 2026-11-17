@@ -35,19 +35,25 @@ V3='rya1354.native-evidence-parts.v3'
 _REFERENCE_CACHE={}
 
 
-def referenced(manifest,repo_root):
-    """v3 only: restore files that are byte-identical to an EARLIER committed archive.
-    Each archive is decoded by this same reader and pinned by its manifest hash."""
-    if repo_root is None:raise ValueError('Referenced native files need the repository root')
+SELF='.'
+
+
+def referenced(manifest,repo_root,own):
+    """v3 only: restore files byte-identical to an EARLIER committed archive (pinned by its
+    manifest hash, decoded by this same reader) or, with archive '.', to a file STORED in this one."""
+    external={a for a in manifest['referenced_archives'] if a!=SELF}
+    if external and repo_root is None:raise ValueError('Referenced native files need the repository root')
+    if manifest['referenced_archives'].get(SELF,SELF)!=SELF:raise ValueError('Self-reference pin differs')
     out={}
-    for archive,pin in manifest['referenced_archives'].items():
+    for archive in sorted(external):
+        pin=manifest['referenced_archives'][archive]
         path=(Path(repo_root)/archive).resolve()
         if Path(archive).is_absolute() or '..' in Path(archive).parts:raise ValueError('Referenced archive path is not repository-relative')
         if hashlib.sha256((path/'manifest.json').read_bytes()).hexdigest()!=pin:raise ValueError('Referenced archive manifest differs: '+archive)
         if path not in _REFERENCE_CACHE:_REFERENCE_CACHE[path]=load_parts(path,repo_root=repo_root)[0]
     for name,record in manifest['referenced_files'].items():
         if record['archive'] not in manifest['referenced_archives']:raise ValueError('Undeclared referenced archive')
-        source=_REFERENCE_CACHE[(Path(repo_root)/record['archive']).resolve()]
+        source=own if record['archive']==SELF else _REFERENCE_CACHE[(Path(repo_root)/record['archive']).resolve()]
         if record['archive_path'] not in source:raise ValueError('Referenced original missing: '+name)
         data=source[record['archive_path']];checked(data,record,name);out[name]=data
     return out
@@ -76,7 +82,7 @@ def load_parts(directory,*,repo_root=None):
         raise ValueError('Missing/extra reconstructed native file')
     for key,data in files.items():checked(data,manifest['files'][key],key)
     if schema==V3:
-        extra=referenced(manifest,repo_root)
+        extra=referenced(manifest,repo_root,files)
         if set(extra)&set(files) or len(files)+len(extra)!=manifest['native_paths_preserved_byte_for_byte']:
             raise ValueError('Referenced/stored native path accounting differs')
         files.update(extra)

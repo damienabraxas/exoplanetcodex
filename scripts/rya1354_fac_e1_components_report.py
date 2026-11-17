@@ -26,15 +26,25 @@ def native_amplitudes(raw_text):
     return out
 
 
-def case_report(files,name,v43,top):
-    raw=native_amplitudes(files[RUN+name+'/raw.tsv'].decode())
-    header,contexts=parse(files[RUN+name+'/components.tsv'].decode());cut=float(header['ANGZCUT'])
+def total_rate(raw_text):
+    """Sum of every native channel rate from the upper level (all multipoles), s^-1."""
+    return math.fsum(float(l.split()[14]) for l in raw_text.splitlines() if l.strip() and not l.startswith('#'))
+
+
+def channels_for(files,prefix,name,top):
+    raw=native_amplitudes(files[prefix+name+'/raw.tsv'].decode())
+    header,contexts=parse(files[prefix+name+'/components.tsv'].decode());cut=float(header['ANGZCUT'])
     channels={}
     for c in contexts:
         n=raw[c['lower']]
         if c['energy_au']!=n['energy_au']:raise ValueError('Component energy differs from native raw energy')
         v=verify(c,n['amplitude'],cut);d=decompose(c,top)
         channels[str(c['lower'])]=dict(verification=v,grid=grid_context(c),decomposition=d,A_s1=n['A_s1'],energy_au=n['energy_au'])
+    return channels,contexts
+
+
+def case_report(files,name,v43,top):
+    channels,contexts=channels_for(files,RUN,name,top)
     ref=contexts[0]
     if ref['lower']!=0:raise ValueError('Reference 3P2 context is not first')
     rows={((r['n1'],r['kappa1']),(r['n2'],r['kappa2'])):r for r in v43['cases'][name+'_own']['rows']}
@@ -81,11 +91,57 @@ def summarize(base,repo_root,top=25):
     return report
 
 
+V46='runs/fac_mixcut_control_v46/'
+
+
+def summarize_mixcut(base,repo_root,top=25):
+    """Full-eigenvector control vs the v44 (default mix-cut) decomposition of the same models."""
+    files,manifest=load_parts(base/'fac_mixcut_control_complete_v46',repo_root=repo_root)
+    failed,_=load_parts(base/'fac_mixcut_control_failed_v45',repo_root=repo_root)
+    retained=json.loads(failed['runs/fac_mixcut_control_v45/receipt.json'])
+    v44,_=load_parts(base/'fac_e1_components_complete_v44',repo_root=repo_root)
+    receipt=json.loads(files[V46+'receipt.json'])
+    if receipt['status']!='FAC_MIXCUT_CONTROL_COMPLETED_REVIEW_REQUIRED':raise ValueError('v46 run not completed')
+    if retained['status']!='FAILED_RETAINED':raise ValueError('Retained v45 failure differs')
+    report=dict(schema='rya1354.mixcut-control-report.v46',run_receipt_status=receipt['status'],index_sha256=receipt['index_sha256'],
+        retained_failure=dict(status=retained['status'],error=retained['error'],canary_files=len(retained['canary']['byte_identical']),
+            completed_native_case_reproduced=sorted(k for k,v in receipt['cases'].items() if 'retained_failure_outputs_identical' in v['compared_byte_identical'])),
+        archive=dict(stored_files=len(manifest['files']),referenced_files=len(manifest['referenced_files']),
+                     native_paths=manifest['native_paths_preserved_byte_for_byte'],parts=len(manifest['parts']),
+                     compressed_bytes=sum(v['bytes'] for v in manifest['parts'].values())),
+        canary_files=len(receipt['canary']['byte_identical']),cases={},
+        scientific_admission='HOLD',exposure='EXPOSED_NONBLIND',adoption_allowed=False,
+        accepted_lifetime=None,uncertainty=None,covariance=None,calibrated_sigma=None)
+    for name,entry in receipt['cases'].items():
+        new,_=channels_for(files,V46,name,top);old,_=channels_for(v44,RUN,name,top)
+        for low,ch in new.items():
+            want=dict(entry['components']['contexts'][low]);grid=want.pop('grid')
+            if ch['verification']!=want or ch['grid']!=grid:raise ValueError('Portable verification differs from v46 receipt: '+name+'/'+low)
+        rows={}
+        for low in new:
+            a,b=old[low],new[low]
+            rows[low]=dict(v44_amplitude=a['verification']['native_amplitude'],full_mixing_amplitude=b['verification']['native_amplitude'],
+                relative_amplitude_change=b['verification']['native_amplitude']/a['verification']['native_amplitude']-1,
+                v44_A_s1=a['A_s1'],full_mixing_A_s1=b['A_s1'],rate_ratio=b['A_s1']/a['A_s1'],
+                stored_basis=dict(v44=a['decomposition']['stored_basis'],full_mixing=b['decomposition']['stored_basis']),
+                cut=dict(v44=a['decomposition']['cut'],full_mixing=b['decomposition']['cut']),
+                cancellation_index=dict(v44=a['decomposition']['cancellation_index'],full_mixing=b['decomposition']['cancellation_index']),
+                configuration_shift=configuration_shift(a['decomposition'],b['decomposition']))
+            rows[low]['configuration_shift']['rows']=rows[low]['configuration_shift']['rows'][:top]
+        report['cases'][name]=dict(channels=rows,byte_identical_v41_files=len(entry['compared_byte_identical']['byte_identical']),
+            transport=entry['compared_byte_identical']['transport'],
+            total_rate_s1=dict(v44=total_rate(v44[RUN+name+'/raw.tsv'].decode()),full_mixing=total_rate(files[V46+name+'/raw.tsv'].decode())))
+        tr=report['cases'][name]['total_rate_s1'];tr['ratio']=tr['full_mixing']/tr['v44']
+    return report
+
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--base',type=Path,required=True);ap.add_argument('--repo-root',type=Path,required=True)
-    ap.add_argument('--out',type=Path,required=True);a=ap.parse_args()
-    a.out.write_text(json.dumps(summarize(a.base,a.repo_root),indent=1)+'\n')
+    ap.add_argument('--out',type=Path,required=True);ap.add_argument('--version',choices=('v44','v46'),default='v44')
+    a=ap.parse_args()
+    report=summarize(a.base,a.repo_root) if a.version=='v44' else summarize_mixcut(a.base,a.repo_root)
+    a.out.write_text(json.dumps(report,indent=1)+'\n')
 
 
 if __name__=='__main__':main()

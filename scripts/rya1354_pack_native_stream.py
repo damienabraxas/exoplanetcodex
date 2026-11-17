@@ -62,7 +62,10 @@ def pack(root,paths,out,chunk=CHUNK,*,references=None,repo_root=None):
         archives={}
         for name,r in references.items():
             if set(r)!={'sha256','bytes','archive','archive_path'}:raise ValueError('Reference record differs: '+name)
-            archives[r['archive']]=hashlib.sha256((Path(repo_root)/r['archive']/'manifest.json').read_bytes()).hexdigest()
+            if r['archive']=='.':
+                if r['archive_path'] not in files:raise ValueError('Self-reference target is not stored here: '+name)
+                archives['.']='.'
+            else:archives[r['archive']]=hashlib.sha256((Path(repo_root)/r['archive']/'manifest.json').read_bytes()).hexdigest()
         manifest.update(schema='rya1354.native-evidence-parts.v3',referenced_archives=archives,referenced_files=references,
             native_paths_preserved_byte_for_byte=len(files)+len(references),
             verification='As v2 for stored files. Referenced files are byte-identical to the named, manifest-pinned earlier archive; the same decoder restores them from it and checks every hash before receipts are verified.')

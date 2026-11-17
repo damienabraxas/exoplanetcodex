@@ -126,3 +126,49 @@ def test_actual_v44_archive_replays_every_component_and_the_machine_report():
         return {(r['key']['lower_config'],r['key']['upper_config']):r['amplitude'] for r in d['configuration_pairs']}[('2p3.3p1','2p3.3s1')]
     assert adm('equal_coherent100_B')<-0.9 and adm('equal_coherent100_C')>0.15
     assert abs(adm('ground_coherent100_B'))<0.08 and abs(adm('ground_coherent100_C'))<0.011
+
+
+def test_mixcut_control_inserts_only_setmixcut_before_structure():
+    from rya1354_fac_e1_components import MIXCUT_CHANGED,level_table
+    for gauge in (1,2):
+        v44=input_text(100,gauge,mapping())[0];v45=input_text(100,gauge,mapping(),0)[0]
+        assert v45.replace('SetMixCut(0)\n','',1)==v44 and v45.count('SetMixCut(')==1
+        assert v45.index('SetMixCut(0)\n')+len('SetMixCut(0)\n')==v45.index("Structure('o.lev.b', ")
+    with pytest.raises(ValueError,match='declared full-eigenvector'):input_text(100,2,mapping(),1e-6)
+    assert MIXCUT_CHANGED=={'o.basis','o_export_000.cm','raw.tsv'} and not MIXCUT_CHANGED&{'ci.pot','source.pot','o_export_000.c'}
+    assert level_table('A\nTSess\t= 1\nB')==level_table('A\nTSess\t= 2\nB')!=level_table('A\nTSess\t= 2\nC')
+
+
+def test_mixcut_review_view_passes_exact_v44_input_and_retains_strictness(tmp_path,monkeypatch):
+    import rya1354_fac_e1_components as m
+    v44=input_text(100,2,mapping())[0];v45=input_text(100,2,mapping(),0)[0]
+    out=tmp_path/'out';out.mkdir();(out/'input.sf').write_text(v45);(out/'o.basis').write_text('basis')
+    seen={}
+    def fake(view,layout,scale,declared_input=None):
+        seen.update(input=(view/'input.sf').read_text(),declared=declared_input,basis=(view/'o.basis').read_text(),
+                    link=(view/'o.basis').is_symlink())
+        return {'ok':True}
+    monkeypatch.setattr(m,'ci_review',fake)
+    assert m.mixcut_ci_review(out,None,100,v45,0)=={'ok':True}
+    assert seen==dict(input=v44,declared=v44,basis='basis',link=True) and (out/'input.sf').read_text()==v45
+    with pytest.raises(ValueError,match='single SetMixCut'):m.mixcut_ci_review(out,None,100,v44+'SetMixCut(0)\n',0)
+    with pytest.raises(ValueError,match='single SetMixCut'):m.mixcut_ci_review(out,None,100,v45.replace('SetMixCut(0)\n','SetMixCut(0)\nSetMixCut(0)\n'),0)
+
+
+def test_actual_v46_full_eigenvector_control_replays_and_bounds_the_mixing_cut():
+    import json
+    from rya1354_fac_e1_components_report import summarize_mixcut
+    base=ROOT/'data/audit/rya1354'
+    result=summarize_mixcut(base,ROOT)
+    assert result==json.loads((base/'source_curation_v2/fac_mixcut_control_v46.json').read_text())
+    assert result['retained_failure']['status']=='FAILED_RETAINED' and result['retained_failure']['canary_files']==56
+    assert result['retained_failure']['completed_native_case_reproduced']==['ground_coherent100_B']
+    assert result['scientific_admission']=='HOLD' and not result['adoption_allowed'] and result['accepted_lifetime'] is None
+    assert set(result['cases'])=={f'{m}_coherent100_{g}' for m in ('ground','equal') for g in 'BC'}
+    for case in result['cases'].values():
+        assert case['byte_identical_v41_files']==53 and abs(case['total_rate_s1']['ratio']-1)<1e-5
+        for low,ch in case['channels'].items():
+            full=ch['stored_basis']['full_mixing']
+            assert all(full[s]['dropped_by_mixing_cut']==0 for s in ('0','1'))
+            if low in ('0','1','2'):  # 3P2,1,0: the stored-mixing truncation is not the gauge split
+                assert abs(ch['relative_amplitude_change'])<1e-5
