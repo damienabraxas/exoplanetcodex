@@ -2761,6 +2761,12 @@ def engine_a_model(element: str) -> str:
         return "amarsi"
     from config.constants import NLTE_CORRECTION_ELEMENTS
     spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
+    if not spec:
+        # RYA-470: an element with NO registered Engine-A source (V: no NLTE model atom exists)
+        # has no model to name. engine_a_source() already says so, and _emit_departure then
+        # writes "NOT PRODUCED"; raising here crashed every V cell AFTER its 1D-LTE products
+        # were written, so the ORCH marked them FAILED.
+        return "none"
     if spec.get("model_axis"):
         return spec["model_axis"]
     source = f"{spec.get('grid', '')} {spec.get('ref', '')}".lower()
