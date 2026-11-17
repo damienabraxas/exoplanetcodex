@@ -54,7 +54,7 @@ literature_sweep:
     - ion: I
       band: red-optical
       searched: [Lawler+2014, Holmes+2016, Wood+2018, Whaling+1985, Heiter+2021, NIST ASD, VALD gf references, Kurucz gf2300 + .lab files]
-      result: '33 graded. Lawler+2014 gf in 8900-9100 A are 0.18 +/- 0.03 dex too weak (Holmes+2016; confirmed on Arcturus by Wood+2018), so Holmes outranks Lawler in that window only. 8919.83, 8932.94, 8971.68, 9046.69 and 9085.22 are now Holmes gf; the five rows were restored to their pre-Lawler text and re-adopted. 9037.613 and 9113.744 are 0.031 and 0.035 A from the list row, beyond the match tolerance. Lawler 7944.6472 is not in the list; it is added on Sirius through the shared add route.'
+      result: '33 graded. Lawler+2014 gf in 8900-9100 A are 0.18 +/- 0.03 dex too weak (Holmes+2016; confirmed on Arcturus by Wood+2018), so Holmes outranks Lawler in that window only. 8919.83, 8932.94, 8971.68, 9046.69 and 9085.22 are now Holmes gf; the five rows were restored to their pre-Lawler text and re-adopted. 9037.613 and 9113.744 are 0.031 and 0.035 A from the list row, beyond the match tolerance. Lawler 7944.6472 is not in the list, and our solar hfs-on VALD extract has no component of it, so the add route cannot place it (gap register, MISSING_GF).'
     - ion: I
       band: NIR
       searched: [Holmes+2016, Lawler+2014 (to 9157 A), Whaling+1985, NIST ASD, VALD gf references, Kurucz gf2300]
@@ -66,7 +66,7 @@ literature_sweep:
     - ion: I
       band: K
       searched: [Holmes+2016, Gaia FGK benchmarks 2026 Table B.2, NIST ASD, VALD gf references, Kurucz gf2300]
-      result: '4 NIST class C lines graded; 48 ungraded. There are 3 Holmes lab lines, the only lab V I gf in the K band. 19586.162 (-2.09 +/- 0.04) is 0.031 A from the list row (Kurucz -2.45), beyond the match tolerance. 19998.913 (-2.33) and 20230.568 (-2.41) are not in the list; they are added on Sirius through the shared add route.'
+      result: '4 NIST class C lines graded; 48 ungraded. There are 3 Holmes lab lines, the only lab V I gf in the K band. 19586.162 (-2.09 +/- 0.04) is 0.031 A from the list row (Kurucz -2.45), beyond the match tolerance. 19998.913 (-2.33) and 20230.568 (-2.41) are not in the list, and our solar hfs-on VALD extract has no component of either (VALD stellar depth cut), so they stay on the gap register (MISSING_GF).'
     - ion: II
       band: near-UV
       searched: [Wood+2014, Biemont+1989, Scott+2015, Heiter+2021, Thorne+2013 (levels), NIST ASD, VALD gf references, Kurucz gf2301 + .lab files]
