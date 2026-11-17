@@ -2,263 +2,36 @@
  "star": "solar",
  "element": "Fe",
  "units": [
-  "I VIS solar_harps_molecfit_corrected gerber-1d-lte codex",
-  "I VIS solar_harps_molecfit_corrected gerber-1d-lte reference",
-  "I VIS solar_harps_molecfit_corrected gerber-1d-lte set:FE_AGSS21",
-  "I VIS solar_harps_molecfit_corrected gerber-mean3d codex",
-  "I VIS solar_harps_molecfit_corrected gerber-mean3d reference",
-  "I VIS solar_harps_molecfit_corrected gerber-mean3d set:FE_AGSS21",
-  "I VIS solar_harps_molecfit_corrected gerber-mean3d-lte codex",
-  "I VIS solar_harps_molecfit_corrected gerber-mean3d-lte reference",
-  "I VIS solar_harps_molecfit_corrected gerber-mean3d-lte set:FE_AGSS21",
-  "I VIS solar_harps_molecfit_corrected gerber-nlte codex",
-  "I VIS solar_harps_molecfit_corrected gerber-nlte reference",
-  "I VIS solar_harps_molecfit_corrected gerber-nlte set:FE_AGSS21",
-  "I VIS solar_harps_molecfit_corrected ts-lte codex",
-  "I VIS solar_harps_molecfit_corrected ts-lte reference",
-  "I VIS solar_harps_molecfit_corrected ts-lte set:FE_AGSS21",
-  "II VIS solar_harps_molecfit_corrected gerber-1d-lte codex",
-  "II VIS solar_harps_molecfit_corrected gerber-1d-lte reference",
-  "II VIS solar_harps_molecfit_corrected gerber-1d-lte set:FE_AGSS21",
-  "II VIS solar_harps_molecfit_corrected gerber-mean3d-lte codex",
-  "II VIS solar_harps_molecfit_corrected gerber-mean3d-lte reference",
-  "II VIS solar_harps_molecfit_corrected gerber-mean3d-lte set:FE_AGSS21",
-  "II VIS solar_harps_molecfit_corrected ts-lte codex",
-  "II VIS solar_harps_molecfit_corrected ts-lte reference",
-  "II VIS solar_harps_molecfit_corrected ts-lte set:FE_AGSS21"
+  "II VIS solar_harps_molecfit_corrected gerber-1d-lte deep"
  ],
  "dropped": [
   {
-   "product": "VIS solar_harps_molecfit_corrected GRADED 1D-LTE",
+   "product": "VIS solar_harps_molecfit_corrected DEEPGRADED 1D-LTE",
    "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
   },
   {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-A",
+   "product": "VIS solar_harps_molecfit_corrected DEEPGRADED ENGINE-A",
    "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-A",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d (it emits synth-mean3D-NLTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-A",
-   "why": "not emitted by deck gerber-nlte (it emits ENGINE-B-NLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE",
-   "why": "not emitted by deck gerber-1d-lte (it emits synth-1D-LTE-gerber)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE",
-   "why": "not emitted by deck gerber-mean3d-lte (it emits synth-mean3D-LTE-gerber-stagger)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected GRADED ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
-  },
-  {
-   "product": "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-B",
-   "why": "not emitted by deck ts-lte (it emits 1D-LTE, ENGINE-A, ENGINE-A-3DNLTE)"
   }
  ],
  "published": [
-  "VIS solar_harps_molecfit_corrected GRADED synth-1D-LTE-gerber A=7.411",
-  "VIS solar_harps_molecfit_corrected REFERENCE synth-1D-LTE-gerber A=7.363",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 synth-1D-LTE-gerber A=7.4",
-  "VIS solar_harps_molecfit_corrected GRADED synth-mean3D-NLTE-gerber-stagger A=7.542",
-  "VIS solar_harps_molecfit_corrected REFERENCE synth-mean3D-NLTE-gerber-stagger A=7.496",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 synth-mean3D-NLTE-gerber-stagger A=7.515",
-  "VIS solar_harps_molecfit_corrected GRADED synth-mean3D-LTE-gerber-stagger A=7.501",
-  "VIS solar_harps_molecfit_corrected REFERENCE synth-mean3D-LTE-gerber-stagger A=7.458",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 synth-mean3D-LTE-gerber-stagger A=7.48",
-  "VIS solar_harps_molecfit_corrected GRADED ENGINE-B-NLTE A=7.459",
-  "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-B-NLTE A=7.413",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-B-NLTE A=7.452",
-  "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=7.403",
-  "VIS solar_harps_molecfit_corrected GRADED ENGINE-A A=7.401",
-  "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE A=7.358",
-  "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A A=7.365",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.398",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 ENGINE-A A=7.416",
-  "VIS solar_harps_molecfit_corrected GRADED synth-1D-LTE-gerber A=7.386",
-  "VIS solar_harps_molecfit_corrected REFERENCE synth-1D-LTE-gerber A=7.489",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 synth-1D-LTE-gerber A=7.419",
-  "VIS solar_harps_molecfit_corrected GRADED synth-mean3D-LTE-gerber-stagger A=7.453",
-  "VIS solar_harps_molecfit_corrected REFERENCE synth-mean3D-LTE-gerber-stagger A=7.591",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 synth-mean3D-LTE-gerber-stagger A=7.474",
-  "VIS solar_harps_molecfit_corrected GRADED 1D-LTE A=7.38",
-  "VIS solar_harps_molecfit_corrected GRADED ENGINE-A A=7.613",
-  "VIS solar_harps_molecfit_corrected REFERENCE 1D-LTE A=7.476",
-  "VIS solar_harps_molecfit_corrected REFERENCE ENGINE-A A=7.277",
-  "VIS solar_harps_molecfit_corrected SET-FE_AGSS21 1D-LTE A=7.432"
+  "VIS solar_harps_molecfit_corrected DEEPGRADED synth-1D-LTE-gerber A=7.366"
  ],
  "held": [],
- "patch": {
-  "refit_lines": "/home/damienabraxas/scratch/rya1388/data/results/rya1388/fe_gate_refit.csv",
-  "units_with_leg_priors": [],
-  "units_legs_in_full": [
-   0,
-   1,
-   2,
-   3,
-   4,
-   5,
-   6,
-   7,
-   8,
-   9,
-   10,
-   11,
-   12,
-   13,
-   14,
-   15,
-   16,
-   17,
-   18,
-   19,
-   20,
-   21,
-   22,
-   23
-  ]
- },
  "legs_incomplete": [],
  "withdrawn": [],
  "scope": {
+  "ions": [
+   "II"
+  ],
   "bands": [
    "VIS"
   ],
   "instruments": [
    "harps"
+  ],
+  "engines": [
+   "gerber-1d-lte"
   ],
   "methods": [
    "synthesis"
@@ -271,8 +44,8 @@
   "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
   "n_products_judged": 242,
   "counts": {
-   "IN_BAND": 99,
-   "OUT_OF_BAND": 143,
+   "IN_BAND": 95,
+   "OUT_OF_BAND": 147,
    "NO_REFERENCE": 0,
    "REPORTED": 0
   },
@@ -280,19 +53,19 @@
  },
  "coverage": {
   "counts": {
-   "PUBLISHED": 31,
+   "PUBLISHED": 36,
    "CODE_DRIFT": 0,
    "HELD": 574,
    "NOT_RUN": 16,
-   "STALE": 198
+   "STALE": 193
   },
   "done": false,
   "checklist": [
    {
     "item": "treatment synth-1D-LTE-gerber",
-    "done": 6,
+    "done": 7,
     "held": 65,
-    "owed": 46,
+    "owed": 45,
     "unverified": 0,
     "ok": false
    },
@@ -322,17 +95,17 @@
    },
    {
     "item": "treatment 1D-LTE",
-    "done": 6,
+    "done": 8,
     "held": 61,
-    "owed": 50,
+    "owed": 48,
     "unverified": 0,
     "ok": false
    },
    {
     "item": "treatment ENGINE-A",
-    "done": 5,
+    "done": 7,
     "held": 73,
-    "owed": 39,
+    "owed": 37,
     "unverified": 0,
     "ok": false
    },
@@ -354,11 +127,11 @@
    },
    {
     "item": "instrument HARPS",
-    "done": 31,
+    "done": 36,
     "held": 20,
-    "owed": 5,
+    "owed": 0,
     "unverified": 2,
-    "ok": false
+    "ok": true
    },
    {
     "item": "instrument Kitt Peak",
@@ -1204,37 +977,6 @@
     "correction_applied": [
      18,
      18
-    ]
-   },
-   {
-    "band": "VIS",
-    "holding": "solar_harps_molecfit_corrected",
-    "ion": "I",
-    "grade": "Deep Grade",
-    "pool": "deep",
-    "treatment": "1D-LTE",
-    "outcome": "STALE",
-    "reason": "no orchestrator build record for this cell",
-    "A": 7.419,
-    "sigma": 0.0831887891078737,
-    "n_lines": 106,
-    "correction_applied": null
-   },
-   {
-    "band": "VIS",
-    "holding": "solar_harps_molecfit_corrected",
-    "ion": "I",
-    "grade": "Deep Grade",
-    "pool": "deep",
-    "treatment": "ENGINE-A",
-    "outcome": "STALE",
-    "reason": "no orchestrator build record for this cell",
-    "A": 7.429,
-    "sigma": 0.08903334302754178,
-    "n_lines": 102,
-    "correction_applied": [
-     104,
-     104
     ]
    },
    {
@@ -3313,51 +3055,6 @@
     "sigma": 0.10599370483715949,
     "n_lines": 6,
     "correction_applied": null
-   },
-   {
-    "band": "VIS",
-    "holding": "solar_harps_molecfit_corrected",
-    "ion": "II",
-    "grade": "Deep Grade",
-    "pool": "deep",
-    "treatment": "synth-1D-LTE-gerber",
-    "outcome": "STALE",
-    "reason": "no orchestrator build record for this cell",
-    "A": 7.457,
-    "sigma": 0.12704122173872542,
-    "n_lines": 23,
-    "correction_applied": null
-   },
-   {
-    "band": "VIS",
-    "holding": "solar_harps_molecfit_corrected",
-    "ion": "II",
-    "grade": "Deep Grade",
-    "pool": "deep",
-    "treatment": "1D-LTE",
-    "outcome": "STALE",
-    "reason": "no orchestrator build record for this cell",
-    "A": 7.456,
-    "sigma": 0.13972117656291128,
-    "n_lines": 23,
-    "correction_applied": null
-   },
-   {
-    "band": "VIS",
-    "holding": "solar_harps_molecfit_corrected",
-    "ion": "II",
-    "grade": "Deep Grade",
-    "pool": "deep",
-    "treatment": "ENGINE-A",
-    "outcome": "STALE",
-    "reason": "no orchestrator build record for this cell",
-    "A": 7.444,
-    "sigma": 0.14768155514877437,
-    "n_lines": 10,
-    "correction_applied": [
-     10,
-     10
-    ]
    },
    {
     "band": "red-optical",

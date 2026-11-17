@@ -332630,6 +332630,127 @@
     "products": [],
     "recorded_at": "2026-11-15T00:15:27Z"
   },
+  "solar|Fe|II|VIS|harps|solar_harps_molecfit_corrected|gerber-1d-lte|SYNTH|DEEPGRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+        "sha256": "9c79d090a552b62b0012c6d267b5a75fa4deb193745640aceb3ac54797b7aefc"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt",
+        "sha256": "3c6d44764371cb66316bcc2d6c3fdaac4230a7aab2f3e1fab3a180c08650a171"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+        "sha256": "de5243bcd4975beb598892e830a3013995ef4c96f2a818fffa7208e37597d618"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv",
+        "sha256": "7f8f59633608a30999e5987bbd433c666aea65ae0a27f9c53627e49903f0e02e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt",
+        "sha256": "d406b69a6ab919629433f1c447d044b4f3b7e4bffc025bf4d38ed8353f479641"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt",
+        "sha256": "0da87f847e2d904d02241c6878054007cf316e6d24b8ca04385c2257ac4ad01f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
+        "sha256": "75b04434341742b87204d413f4500d49d8db8f2d0f042ac567b7be236deeb137"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt",
+        "sha256": "3044df22d9ad5069c838e0fb8ed0d3278522274b3695dc1729a87552f6f97678"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_budgets.txt",
+        "sha256": "dd119b56fbfadf4b151c8e997b5702a5967fb708b422614026afc43817063f09"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+        "sha256": "d9fea55cab6755c88b4a3b920676a44ebe84688f6adaf27bf74a741867f8559e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_products.csv",
+        "sha256": "e22677dbd5fe71b151edce139052f14ee7df6dd09d881c65391c865004267e42"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-1d-lte/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_provenance.txt",
+        "sha256": "5522f62246e50543504682907203452b3c954ba6eafb36574eaee9337837e2bf"
+      }
+    ],
+    "code_commit": "3ab9034f7397451c60bc3bde0dde60237ae46629-dirty",
+    "forced_at": "2026-11-17T01:21:28Z",
+    "inputs": [
+      {
+        "digest": "e9d4b46b10dd409945e74b06264ddf7a8bd19d5066c65c9ea67d72cd783596fb",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "68e4ec443c84202a32c8c0fc17764ca1a5cbb632b90b6f13dd7961d517862545",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "f31d82710ce7d4526eff9e4e0221531994d45828dbb159e7785fc8e8b76cd824",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya931_molecfit_runtime/intake_manifest.json"
+      },
+      {
+        "digest": "698ced10e784ec49a0fe88764496af7b3e10f4ca89456249d5cbbcf39422aefe",
+        "kind": "spectrum",
+        "name": "solar_normalized_tellcorr.csv"
+      },
+      {
+        "digest": "a4021c22edfc505df7475c5be5fd15fb40461ab429494f4d7e2f335ffcc7cb27",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[3773-6920]"
+      },
+      {
+        "digest": "f38576a3cae824c5f4629b287fcce3f4c76e8a981fe0b9d415e1d8ce6591f700",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]"
+      },
+      {
+        "digest": "2ed77bc3a6659747b069baf3c679b68d686ee840b091f767d9309b45fb7ae9dd",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Fe_Bergemann_MPIA.csv[3773-6920]"
+      },
+      {
+        "digest": "0daef419107812a98c7c39a09773953b597f6a25be1588276d95a063296cb6a0",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[3773-6920]"
+      }
+    ],
+    "inputs_hash": "2ed9a152dd2a03360b87d080a1041241c2dc70e5dcd51a4fecd0bb21da395a76",
+    "products": [
+      "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|synth-1D-LTE-gerber|our-deep-graded"
+    ],
+    "recorded_at": "2026-11-17T01:21:28Z"
+  },
   "solar|Fe|II|VIS|harps|solar_harps_molecfit_corrected|gerber-1d-lte|SYNTH|GRADED": {
     "artifacts": [
       {
@@ -333397,6 +333518,127 @@
       "Fe|II|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|synth-mean3D-LTE-gerber-stagger|asplund"
     ],
     "recorded_at": "2026-11-15T23:22:51Z"
+  },
+  "solar|Fe|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|DEEPGRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+        "sha256": "9c79d090a552b62b0012c6d267b5a75fa4deb193745640aceb3ac54797b7aefc"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt",
+        "sha256": "3c6d44764371cb66316bcc2d6c3fdaac4230a7aab2f3e1fab3a180c08650a171"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+        "sha256": "de5243bcd4975beb598892e830a3013995ef4c96f2a818fffa7208e37597d618"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv",
+        "sha256": "7f8f59633608a30999e5987bbd433c666aea65ae0a27f9c53627e49903f0e02e"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt",
+        "sha256": "d406b69a6ab919629433f1c447d044b4f3b7e4bffc025bf4d38ed8353f479641"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_budgets.txt",
+        "sha256": "0da87f847e2d904d02241c6878054007cf316e6d24b8ca04385c2257ac4ad01f"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+        "sha256": "ebc157c4d1e3496b34e7b6bf27731c493a161552bc8e618241c98b6723442941"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv",
+        "sha256": "49fcbb91e47b39d00d2a1b03eb8ced971140613f0a7e452dbcb2fff9732adac4"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_provenance.txt",
+        "sha256": "b6a268594c33f6852a87cadf1a15df024d9cfe1e30064dbc2889caf63cf3d450"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt",
+        "sha256": "0da87f847e2d904d02241c6878054007cf316e6d24b8ca04385c2257ac4ad01f"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
+        "sha256": "75b04434341742b87204d413f4500d49d8db8f2d0f042ac567b7be236deeb137"
+      },
+      {
+        "path": "data/results/band_products/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt",
+        "sha256": "3044df22d9ad5069c838e0fb8ed0d3278522274b3695dc1729a87552f6f97678"
+      }
+    ],
+    "code_commit": "3ab9034f7397451c60bc3bde0dde60237ae46629-dirty",
+    "inputs": [
+      {
+        "digest": "b51440512a26423d9649edcc186f33c6ea59f4afcdfd34b6494c327ad51efcd6",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "68e4ec443c84202a32c8c0fc17764ca1a5cbb632b90b6f13dd7961d517862545",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "f31d82710ce7d4526eff9e4e0221531994d45828dbb159e7785fc8e8b76cd824",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya931_molecfit_runtime/intake_manifest.json"
+      },
+      {
+        "digest": "698ced10e784ec49a0fe88764496af7b3e10f4ca89456249d5cbbcf39422aefe",
+        "kind": "spectrum",
+        "name": "solar_normalized_tellcorr.csv"
+      },
+      {
+        "digest": "a4021c22edfc505df7475c5be5fd15fb40461ab429494f4d7e2f335ffcc7cb27",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[3773-6920]"
+      },
+      {
+        "digest": "f38576a3cae824c5f4629b287fcce3f4c76e8a981fe0b9d415e1d8ce6591f700",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]"
+      },
+      {
+        "digest": "2ed77bc3a6659747b069baf3c679b68d686ee840b091f767d9309b45fb7ae9dd",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Fe_Bergemann_MPIA.csv[3773-6920]"
+      },
+      {
+        "digest": "0daef419107812a98c7c39a09773953b597f6a25be1588276d95a063296cb6a0",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[3773-6920]"
+      }
+    ],
+    "inputs_hash": "f6f2459df0ae2cad173ee17d3890c3178f1e13b45bafde2a2c54e4b910246f9f",
+    "products": [
+      "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
+      "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded"
+    ],
+    "recorded_at": "2026-11-17T00:02:29Z"
   },
   "solar|Fe|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|GRADED": {
     "artifacts": [
@@ -370348,6 +370590,127 @@
       "Fe|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund"
     ],
     "recorded_at": "2026-11-15T23:10:49Z"
+  },
+  "solar|Fe|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|DEEPGRADED": {
+    "artifacts": [
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+        "sha256": "42bbeda722be28f33128f051cba2f990119843f5a54d5c28e72246d14a70e875"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt",
+        "sha256": "48d259f011cae1fca3e6afb8ad754b32507a01f21c51dee1f3bbc86205aaaceb"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+        "sha256": "1202788f3156c5ed866f3bbaeb85e1d377cbe3f7b7abc8508b79de126ab31ecd"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv",
+        "sha256": "60027063b1a05a47a2405f65a702335222d01c37d2ce65e5077653ac331830a8"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt",
+        "sha256": "d406b69a6ab919629433f1c447d044b4f3b7e4bffc025bf4d38ed8353f479641"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_budgets.txt",
+        "sha256": "638d618eb843cc5adb7d15d7b9a052292967240ac11a584fa39b4d6b24c86386"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv",
+        "sha256": "032dd749bc177f929a30a761e4b77ad5c85c563719509d95bded9b39761f1a60"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv",
+        "sha256": "7bd1cd1e1f347b4605f0c81e92625985ecdbadb176577815425961c1253ca097"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_provenance.txt",
+        "sha256": "b6a268594c33f6852a87cadf1a15df024d9cfe1e30064dbc2889caf63cf3d450"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt",
+        "sha256": "638d618eb843cc5adb7d15d7b9a052292967240ac11a584fa39b4d6b24c86386"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
+        "sha256": "f2333d3ee1372c819ad93bff17e6fd4268062b84fec1b84dc334757de4ce31e2"
+      },
+      {
+        "path": "data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt",
+        "sha256": "ec6cd3d0c8d2ca67695bf10fb87162b307e0bcb286a4033fc0a5f709618afaf9"
+      }
+    ],
+    "code_commit": "3ab9034f7397451c60bc3bde0dde60237ae46629-dirty",
+    "inputs": [
+      {
+        "digest": "dad293bc96bccd99bf52090a020ff84aed1b47d7d2da6c429492389a6d3e426f",
+        "kind": "descriptor",
+        "name": "run_descriptor"
+      },
+      {
+        "digest": "synthesis",
+        "kind": "method",
+        "name": "resolved_method"
+      },
+      {
+        "digest": "68e4ec443c84202a32c8c0fc17764ca1a5cbb632b90b6f13dd7961d517862545",
+        "kind": "stage_script",
+        "name": "scripts/derive_band_products.py"
+      },
+      {
+        "digest": "f31d82710ce7d4526eff9e4e0221531994d45828dbb159e7785fc8e8b76cd824",
+        "kind": "holding_manifest",
+        "name": "data/audit/rya931_molecfit_runtime/intake_manifest.json"
+      },
+      {
+        "digest": "698ced10e784ec49a0fe88764496af7b3e10f4ca89456249d5cbbcf39422aefe",
+        "kind": "spectrum",
+        "name": "solar_normalized_tellcorr.csv"
+      },
+      {
+        "digest": "a4021c22edfc505df7475c5be5fd15fb40461ab429494f4d7e2f335ffcc7cb27",
+        "kind": "ledger_scoped",
+        "name": "data/linelists/canonical_gf.csv[3773-6920]"
+      },
+      {
+        "digest": "f38576a3cae824c5f4629b287fcce3f4c76e8a981fe0b9d415e1d8ce6591f700",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]"
+      },
+      {
+        "digest": "2ed77bc3a6659747b069baf3c679b68d686ee840b091f767d9309b45fb7ae9dd",
+        "kind": "nlte_scoped",
+        "name": "data/nlte_grids/Fe_Bergemann_MPIA.csv[3773-6920]"
+      },
+      {
+        "digest": "0daef419107812a98c7c39a09773953b597f6a25be1588276d95a063296cb6a0",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
+      },
+      {
+        "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
+        "kind": "ledger",
+        "name": "data/catalog/holdings_manifest_registry.csv"
+      },
+      {
+        "digest": "4565881728a27c6a4f9fd12a961e3e749604396fe8b324cbb2b72bb018179e00",
+        "kind": "ledger",
+        "name": "data/catalog/instrument_catalog.csv"
+      },
+      {
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
+        "kind": "registry_scoped",
+        "name": "data/registry/problem_children.csv[3773-6920]"
+      }
+    ],
+    "inputs_hash": "e973464a65ce21d2140879d6da7c511bfe855861e7cb0f65d1c898ae304c3728",
+    "products": [
+      "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
+      "Fe|I|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded"
+    ],
+    "recorded_at": "2026-11-16T23:45:01Z"
   },
   "solar|Fe|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|GRADED": {
     "artifacts": [

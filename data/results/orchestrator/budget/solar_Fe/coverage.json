@@ -1,21 +1,21 @@
 {
  "star": "solar",
  "element": "Fe",
- "feed_version": "1.606",
+ "feed_version": "1.611",
  "counts": {
-  "PUBLISHED": 31,
+  "PUBLISHED": 36,
   "CODE_DRIFT": 0,
   "HELD": 574,
   "NOT_RUN": 16,
-  "STALE": 198
+  "STALE": 193
  },
  "done": false,
  "checklist": [
   {
    "item": "treatment synth-1D-LTE-gerber",
-   "done": 6,
+   "done": 7,
    "held": 65,
-   "owed": 46,
+   "owed": 45,
    "unverified": 0,
    "ok": false
   },
@@ -45,17 +45,17 @@
   },
   {
    "item": "treatment 1D-LTE",
-   "done": 6,
+   "done": 8,
    "held": 61,
-   "owed": 50,
+   "owed": 48,
    "unverified": 0,
    "ok": false
   },
   {
    "item": "treatment ENGINE-A",
-   "done": 5,
+   "done": 7,
    "held": 73,
-   "owed": 39,
+   "owed": 37,
    "unverified": 0,
    "ok": false
   },
@@ -77,11 +77,11 @@
   },
   {
    "item": "instrument HARPS",
-   "done": 31,
+   "done": 36,
    "held": 20,
-   "owed": 5,
+   "owed": 0,
    "unverified": 2,
-   "ok": false
+   "ok": true
   },
   {
    "item": "instrument Kitt Peak",
@@ -2356,11 +2356,11 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "STALE",
-   "reason": "no orchestrator build record for this cell",
-   "A": 7.419,
-   "sigma": 0.0831887891078737,
-   "n_lines": 106,
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.365,
+   "sigma": 0.0553451493983613,
+   "n_lines": 295,
    "correction_applied": null
   },
   {
@@ -2370,14 +2370,14 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "STALE",
-   "reason": "no orchestrator build record for this cell",
-   "A": 7.429,
-   "sigma": 0.08903334302754178,
-   "n_lines": 102,
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.375,
+   "sigma": 0.0630380867611297,
+   "n_lines": 284,
    "correction_applied": [
-    104,
-    104
+    284,
+    284
    ]
   },
   {
@@ -8068,10 +8068,10 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "synth-1D-LTE-gerber",
-   "outcome": "STALE",
-   "reason": "no orchestrator build record for this cell",
-   "A": 7.457,
-   "sigma": 0.12704122173872542,
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.366,
+   "sigma": 0.0566279256273831,
    "n_lines": 23,
    "correction_applied": null
   },
@@ -8323,10 +8323,10 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "1D-LTE",
-   "outcome": "STALE",
-   "reason": "no orchestrator build record for this cell",
-   "A": 7.456,
-   "sigma": 0.13972117656291128,
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.347,
+   "sigma": 0.0564702198924773,
    "n_lines": 23,
    "correction_applied": null
   },
@@ -8337,14 +8337,14 @@
    "grade": "Deep Grade",
    "pool": "deep",
    "treatment": "ENGINE-A",
-   "outcome": "STALE",
-   "reason": "no orchestrator build record for this cell",
-   "A": 7.444,
-   "sigma": 0.14768155514877437,
-   "n_lines": 10,
+   "outcome": "PUBLISHED",
+   "reason": "",
+   "A": 7.381,
+   "sigma": 0.0804408652388496,
+   "n_lines": 8,
    "correction_applied": [
-    10,
-    10
+    8,
+    8
    ]
   },
   {
