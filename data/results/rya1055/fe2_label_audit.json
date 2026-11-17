@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-1055",
   "purpose": "item 3 \u2014 confirm live Fe II labels + state the balance with its scale",
-  "generated_at": "2026-11-07T16:40:04Z",
+  "generated_at": "2026-11-17T01:33:15Z",
   "n_live_fe_ii_products": 55,
   "n_stamped": 55,
   "n_taking_nlte_from_the_gerber_deck": 0,
@@ -137,9 +137,60 @@
       "excluded_reasons": []
     },
     {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
+      "n_lines": 25,
+      "n_in_aggregate": 23,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "NO-DATA: 124 of 124 window pixels have zero flux (detector gap)",
+        "SYNTHESIS: edge_pinned"
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
+      "n_lines": 23,
+      "n_in_aggregate": 8,
+      "n_with_a_nonzero_departure": 8,
+      "nlte_delta_dex_values": [
+        -0.002,
+        -0.001,
+        0.014,
+        0.015
+      ],
+      "nlte_source": [
+        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
+        "registered per-line delta_nlte (NOT SERVED)"
+      ],
+      "excluded_reasons": [
+        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+      ]
+    },
+    {
+      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+      "n_lines": 25,
+      "n_in_aggregate": 23,
+      "n_with_a_nonzero_departure": 0,
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "excluded_reasons": [
+        "NO-DATA: 124 of 124 window pixels have zero flux (detector gap)",
+        "SYNTHESIS: edge_pinned"
+      ]
+    },
+    {
       "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
       "n_lines": 171,
-      "n_in_aggregate": 145,
+      "n_in_aggregate": 144,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -156,9 +207,9 @@
     },
     {
       "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
-      "n_lines": 145,
-      "n_in_aggregate": 3,
-      "n_with_a_nonzero_departure": 3,
+      "n_lines": 144,
+      "n_in_aggregate": 4,
+      "n_with_a_nonzero_departure": 4,
       "nlte_delta_dex_values": [
         -0.001,
         0.001
@@ -174,7 +225,7 @@
     {
       "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv",
       "n_lines": 171,
-      "n_in_aggregate": 145,
+      "n_in_aggregate": 144,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -186,13 +237,13 @@
         "FIT-NOT-PHYSICAL: A(Fe) = 4.600 is 2.86 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
         "FIT-NOT-PHYSICAL: A(Fe) = 5.697 is 1.76 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
         "FIT-NOT-PHYSICAL: A(Fe) = 9.493 is 2.03 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
-        "FIT-NOT-PHYSICAL: A(Fe) = 9.766 is 2.31 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
+        "FIT-NOT-PHYSICAL: A(Fe) = 9.773 is 2.31 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191)."
       ]
     },
     {
       "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
       "n_lines": 171,
-      "n_in_aggregate": 141,
+      "n_in_aggregate": 140,
       "n_with_a_nonzero_departure": 0,
       "nlte_delta_dex_values": [
         0.0
@@ -661,56 +712,6 @@
       "excluded_reasons": []
     },
     {
-      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
-      "n_lines": 25,
-      "n_in_aggregate": 23,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": [
-        "FIT-NOT-PHYSICAL: A(Fe) = 9.960 is 2.50 dex from solar 7.46, outside the +/-1.5 dex validity bound. This is a NON-CONVERGENT FIT, not an outlier: the bound spans a factor of ~1000 in abundance and cannot shape a result (RYA-1191).",
-        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool"
-      ]
-    },
-    {
-      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv",
-      "n_lines": 24,
-      "n_in_aggregate": 10,
-      "n_with_a_nonzero_departure": 10,
-      "nlte_delta_dex_values": [
-        -0.002,
-        -0.001,
-        0.015
-      ],
-      "nlte_source": [
-        "Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction",
-        "registered per-line delta_nlte (NOT SERVED)"
-      ],
-      "excluded_reasons": [
-        "ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
-      ]
-    },
-    {
-      "artifact": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
-      "n_lines": 25,
-      "n_in_aggregate": 23,
-      "n_with_a_nonzero_departure": 0,
-      "nlte_delta_dex_values": [
-        0.0
-      ],
-      "nlte_source": [
-        "none \u2014 LTE, no departure applied"
-      ],
-      "excluded_reasons": [
-        "LEG-UNSTABLE (RYA-1232 budget assembly): excluded from the budgeted pool",
-        "SYNTHESIS: edge_pinned"
-      ]
-    },
-    {
       "artifact": "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv",
       "n_lines": 25,
       "n_in_aggregate": 23,
@@ -1057,7 +1058,7 @@
       "display": "Synth \u00b7 1D-LTE",
       "A": 7.432,
       "n_lines": 9,
-      "sigma_reported": 0.05680512796608362,
+      "sigma_reported": 0.0568051279660836,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1070,9 +1071,9 @@
       "tier": "DEEPGRADED",
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
-      "A": 7.456,
+      "A": 7.347,
       "n_lines": 23,
-      "sigma_reported": 0.13972117656291128,
+      "sigma_reported": 0.0564702198924773,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1085,9 +1086,9 @@
       "tier": "GRADED",
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
-      "A": 7.398,
-      "n_lines": 145,
-      "sigma_reported": 0.04531842750804546,
+      "A": 7.38,
+      "n_lines": 144,
+      "sigma_reported": 0.0451968932696001,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1100,9 +1101,9 @@
       "tier": "REFERENCE",
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
-      "A": 7.439,
+      "A": 7.476,
       "n_lines": 8,
-      "sigma_reported": 0.0899780920082561,
+      "sigma_reported": 0.090288742606408,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1115,9 +1116,9 @@
       "tier": "DEEPGRADED",
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
-      "A": 7.444,
-      "n_lines": 10,
-      "sigma_reported": 0.14768155514877437,
+      "A": 7.381,
+      "n_lines": 8,
+      "sigma_reported": 0.0804408652388496,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1130,9 +1131,9 @@
       "tier": "GRADED",
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
-      "A": 7.552,
-      "n_lines": 3,
-      "sigma_reported": 0.10688156708579873,
+      "A": 7.613,
+      "n_lines": 4,
+      "sigma_reported": 0.1107540935759361,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1145,9 +1146,9 @@
       "tier": "REFERENCE",
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
-      "A": 7.221,
+      "A": 7.277,
       "n_lines": 2,
-      "sigma_reported": 0.16050069727935928,
+      "sigma_reported": 0.2142906293498634,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1175,9 +1176,9 @@
       "tier": "DEEPGRADED",
       "treatment": "synth-1D-LTE-gerber",
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
-      "A": 7.457,
+      "A": 7.366,
       "n_lines": 23,
-      "sigma_reported": 0.12704122173872542,
+      "sigma_reported": 0.0566279256273831,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1190,9 +1191,9 @@
       "tier": "GRADED",
       "treatment": "synth-1D-LTE-gerber",
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
-      "A": 7.39,
-      "n_lines": 145,
-      "sigma_reported": 0.045458436870562384,
+      "A": 7.386,
+      "n_lines": 144,
+      "sigma_reported": 0.0453650481098537,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1205,9 +1206,9 @@
       "tier": "REFERENCE",
       "treatment": "synth-1D-LTE-gerber",
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
-      "A": 7.443,
+      "A": 7.489,
       "n_lines": 8,
-      "sigma_reported": 0.08964146783566139,
+      "sigma_reported": 0.0902972466675031,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1222,7 +1223,7 @@
       "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
       "A": 7.474,
       "n_lines": 9,
-      "sigma_reported": 0.058306012398050826,
+      "sigma_reported": 0.0583060123980508,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1236,8 +1237,8 @@
       "treatment": "synth-mean3D-LTE-gerber-stagger",
       "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
       "A": 7.453,
-      "n_lines": 141,
-      "sigma_reported": 0.044645041401066475,
+      "n_lines": 140,
+      "sigma_reported": 0.0445927780325166,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1250,9 +1251,9 @@
       "tier": "REFERENCE",
       "treatment": "synth-mean3D-LTE-gerber-stagger",
       "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
-      "A": 7.531,
+      "A": 7.591,
       "n_lines": 8,
-      "sigma_reported": 0.09386456755052042,
+      "sigma_reported": 0.0944826792819898,
       "limit_stamped": true,
       "limit_text_matches_the_single_source": true,
       "takes_nlte_from_the_gerber_deck": false,
@@ -1887,7 +1888,7 @@
       "A_FeI": 7.398,
       "n_FeI": 27,
       "FeII_minus_FeI_dex": 0.034,
-      "sigma_reported_FeII": 0.05680512796608362,
+      "sigma_reported_FeII": 0.0568051279660836,
       "within_reported_bar": true
     },
     {
@@ -1915,7 +1916,7 @@
       "A_FeI": 7.48,
       "n_FeI": 27,
       "FeII_minus_FeI_dex": -0.006,
-      "sigma_reported_FeII": 0.058306012398050826,
+      "sigma_reported_FeII": 0.0583060123980508,
       "within_reported_bar": true
     },
     {
@@ -1924,12 +1925,12 @@
       "treatment": "1D-LTE",
       "tier": "DEEPGRADED",
       "scale": "1D-LTE",
-      "A_FeII": 7.456,
+      "A_FeII": 7.347,
       "n_FeII": 23,
-      "A_FeI": 7.419,
-      "n_FeI": 106,
-      "FeII_minus_FeI_dex": 0.037,
-      "sigma_reported_FeII": 0.13972117656291128,
+      "A_FeI": 7.365,
+      "n_FeI": 295,
+      "FeII_minus_FeI_dex": -0.018,
+      "sigma_reported_FeII": 0.0564702198924773,
       "within_reported_bar": true
     },
     {
@@ -1938,12 +1939,12 @@
       "treatment": "ENGINE-A",
       "tier": "DEEPGRADED",
       "scale": "1D-NLTE",
-      "A_FeII": 7.444,
-      "n_FeII": 10,
-      "A_FeI": 7.429,
-      "n_FeI": 102,
-      "FeII_minus_FeI_dex": 0.015,
-      "sigma_reported_FeII": 0.14768155514877437,
+      "A_FeII": 7.381,
+      "n_FeII": 8,
+      "A_FeI": 7.375,
+      "n_FeI": 284,
+      "FeII_minus_FeI_dex": 0.006,
+      "sigma_reported_FeII": 0.0804408652388496,
       "within_reported_bar": true
     },
     {
@@ -1952,12 +1953,12 @@
       "treatment": "1D-LTE",
       "tier": "GRADED",
       "scale": "1D-LTE",
-      "A_FeII": 7.398,
-      "n_FeII": 145,
-      "A_FeI": 7.401,
+      "A_FeII": 7.38,
+      "n_FeII": 144,
+      "A_FeI": 7.403,
       "n_FeI": 171,
-      "FeII_minus_FeI_dex": -0.003,
-      "sigma_reported_FeII": 0.04531842750804546,
+      "FeII_minus_FeI_dex": -0.023,
+      "sigma_reported_FeII": 0.0451968932696001,
       "within_reported_bar": true
     },
     {
@@ -1966,12 +1967,12 @@
       "treatment": "ENGINE-A",
       "tier": "GRADED",
       "scale": "1D-NLTE",
-      "A_FeII": 7.552,
-      "n_FeII": 3,
-      "A_FeI": 7.4,
+      "A_FeII": 7.613,
+      "n_FeII": 4,
+      "A_FeI": 7.401,
       "n_FeI": 144,
-      "FeII_minus_FeI_dex": 0.152,
-      "sigma_reported_FeII": 0.10688156708579873,
+      "FeII_minus_FeI_dex": 0.212,
+      "sigma_reported_FeII": 0.1107540935759361,
       "within_reported_bar": false
     },
     {
@@ -1980,12 +1981,12 @@
       "treatment": "synth-1D-LTE-gerber",
       "tier": "GRADED",
       "scale": "1D-LTE",
-      "A_FeII": 7.39,
-      "n_FeII": 145,
-      "A_FeI": 7.403,
+      "A_FeII": 7.386,
+      "n_FeII": 144,
+      "A_FeI": 7.411,
       "n_FeI": 171,
-      "FeII_minus_FeI_dex": -0.013,
-      "sigma_reported_FeII": 0.045458436870562384,
+      "FeII_minus_FeI_dex": -0.025,
+      "sigma_reported_FeII": 0.0453650481098537,
       "within_reported_bar": true
     },
     {
@@ -1995,11 +1996,11 @@
       "tier": "GRADED",
       "scale": "<3D>-LTE",
       "A_FeII": 7.453,
-      "n_FeII": 141,
-      "A_FeI": 7.499,
+      "n_FeII": 140,
+      "A_FeI": 7.501,
       "n_FeI": 171,
-      "FeII_minus_FeI_dex": -0.046,
-      "sigma_reported_FeII": 0.044645041401066475,
+      "FeII_minus_FeI_dex": -0.048,
+      "sigma_reported_FeII": 0.0445927780325166,
       "within_reported_bar": false
     },
     {
@@ -2008,12 +2009,12 @@
       "treatment": "1D-LTE",
       "tier": "REFERENCE",
       "scale": "1D-LTE",
-      "A_FeII": 7.439,
+      "A_FeII": 7.476,
       "n_FeII": 8,
-      "A_FeI": 7.346,
+      "A_FeI": 7.358,
       "n_FeI": 167,
-      "FeII_minus_FeI_dex": 0.093,
-      "sigma_reported_FeII": 0.0899780920082561,
+      "FeII_minus_FeI_dex": 0.118,
+      "sigma_reported_FeII": 0.090288742606408,
       "within_reported_bar": false
     },
     {
@@ -2022,12 +2023,12 @@
       "treatment": "ENGINE-A",
       "tier": "REFERENCE",
       "scale": "1D-NLTE",
-      "A_FeII": 7.221,
+      "A_FeII": 7.277,
       "n_FeII": 2,
-      "A_FeI": 7.346,
+      "A_FeI": 7.365,
       "n_FeI": 157,
-      "FeII_minus_FeI_dex": -0.125,
-      "sigma_reported_FeII": 0.16050069727935928,
+      "FeII_minus_FeI_dex": -0.088,
+      "sigma_reported_FeII": 0.2142906293498634,
       "within_reported_bar": true
     },
     {
@@ -2036,12 +2037,12 @@
       "treatment": "synth-1D-LTE-gerber",
       "tier": "REFERENCE",
       "scale": "1D-LTE",
-      "A_FeII": 7.443,
+      "A_FeII": 7.489,
       "n_FeII": 8,
-      "A_FeI": 7.352,
+      "A_FeI": 7.363,
       "n_FeI": 167,
-      "FeII_minus_FeI_dex": 0.091,
-      "sigma_reported_FeII": 0.08964146783566139,
+      "FeII_minus_FeI_dex": 0.126,
+      "sigma_reported_FeII": 0.0902972466675031,
       "within_reported_bar": false
     },
     {
@@ -2050,13 +2051,13 @@
       "treatment": "synth-mean3D-LTE-gerber-stagger",
       "tier": "REFERENCE",
       "scale": "<3D>-LTE",
-      "A_FeII": 7.531,
+      "A_FeII": 7.591,
       "n_FeII": 8,
-      "A_FeI": 7.446,
+      "A_FeI": 7.458,
       "n_FeI": 167,
-      "FeII_minus_FeI_dex": 0.085,
-      "sigma_reported_FeII": 0.09386456755052042,
-      "within_reported_bar": true
+      "FeII_minus_FeI_dex": 0.133,
+      "sigma_reported_FeII": 0.0944826792819898,
+      "within_reported_bar": false
     },
     {
       "holding": "solar_kpno_kurucz2005_corrected",
@@ -2535,7 +2536,7 @@
       "within_reported_bar": false
     }
   ],
-  "balance_note": "Fe II minus Fe I on the SAME band, instrument, holding, tier, selector, route and treatment \u2014 one scale by construction, so no correction is applied to either side and no value is re-derived (RYA-161). 37 of 47 matched pairs sit inside the Fe II reported bar; the VIS 1D-NLTE (Bergemann) pairs agree to +0.0150, +0.1520, -0.1250, +0.0310, -0.1390, -0.1210, -0.1410 dex. Closest pair: solar_kpno_molecfit_corrected VIS synth-1D-LTE-gerber at -0.0020 dex (Fe II 7.460 n=6 vs Fe I 7.462 n=22). \u26a0\ufe0f The Fe II bars are wide \u2014 dominated by line-to-line scatter over n=3 \u2014 so 'consistent' here means the balance does not CONTRADICT the Fe I anchor, not that it constrains it.",
+  "balance_note": "Fe II minus Fe I on the SAME band, instrument, holding, tier, selector, route and treatment \u2014 one scale by construction, so no correction is applied to either side and no value is re-derived (RYA-161). 36 of 47 matched pairs sit inside the Fe II reported bar; the VIS 1D-NLTE (Bergemann) pairs agree to +0.0060, +0.2120, -0.0880, +0.0310, -0.1390, -0.1210, -0.1410 dex. Closest pair: solar_kpno_molecfit_corrected VIS synth-1D-LTE-gerber at -0.0020 dex (Fe II 7.460 n=6 vs Fe I 7.462 n=22). \u26a0\ufe0f The Fe II bars are wide \u2014 dominated by line-to-line scatter over n=3 \u2014 so 'consistent' here means the balance does not CONTRADICT the Fe I anchor, not that it constrains it.",
   "anchor_caveat": "\u26a0\ufe0f DO NOT quote the Fe II VIS cells against the 7.466 anchor directly. That anchor is on the 3D-NLTE (gold v3, RYA-553) scale and these are 1D-NLTE products; comparing them mixes two scales, which is the RYA-669 ratchet the RYA-783 report warns about in as many words. The coincidence is inviting -- the kurucz2005 Fe II cell is 7.466 to three decimals, the anchor's own digits -- and a number that looks right on arrival is the one that never gets challenged. The defensible statement is the scale-matched balance above.",
   "problems": [],
   "verdict": "CLEAN \u2014 every live Fe II product carries the limit, none takes departures from the Gerber deck, and no Fe II per-line row is on an NLTE scale"

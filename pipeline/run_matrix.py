@@ -1329,7 +1329,8 @@ def load_ledger() -> dict:
 
 def record_inputs_hash(key: str, want_hash: str, *, product_keys: list[str],
                        code_commit: str, inputs: list[dict] | None = None,
-                       artifacts: list[dict] | None = None, forced: bool = False) -> None:
+                       artifacts: list[dict] | None = None, forced: bool = False,
+                       patch: dict | None = None) -> None:
     """Record what this cell was built from, after it was built -- published or not.
 
     RYA-1233 (Ryan, 2026-10-02): unchanged work is not redone. `inputs` names every
@@ -1345,6 +1346,10 @@ def record_inputs_hash(key: str, want_hash: str, *, product_keys: list[str],
         # RYA-1315: a forced rebuild at an UNCHANGED hash; publish keys a unit's legs on this
         # too, or it would price the rebuilt product from the legs of the build it replaced.
         led[key]["forced_at"] = led[key]["recorded_at"]
+    if patch:
+        # RYA-1388: built by refitting the listed lines and reusing the rest from the stage;
+        # the per-treatment detail is the run's own `<stem>_patch.json` artifact.
+        led[key]["patch"] = dict(patch)
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     LEDGER.write_text(json.dumps(led, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -1767,12 +1772,16 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         methods: list[str] | None = None, pools: list[str] | None = None,
         step_timeout: int | None = None, report_dir: Path | None = None,
         echo: bool = True, jobs: int = 1, prepare_first: bool = False,
-        force: bool = False) -> dict:
+        force: bool = False, lines: str | None = None, patch: bool = False) -> dict:
     """Drive the full matrix for one (star, element). Returns the run report.
 
     `force` (RYA-1315) re-runs every selected cell whatever the ledger says: the one-off for a
     change `inputs_hash` cannot see (a library module such as `local_continuum`). Refused on a
     whole-element run -- narrow it with ions/bands/instruments/engines/pools.
+
+    `lines` + `patch` (RYA-1388) refit only the listed lines of each selected synthesis cell
+    and reuse every other line's fit from the element's PUBLISHED stage copies
+    (`derive_band_products --refit-lines/--reuse-fits-from`); the result equals a full rerun.
 
     Loud-fail-CONTINUE is the whole contract: a cell that blocks, is not ready, or
     breaks is recorded with its reason and the next cell is attempted. The only
@@ -1781,6 +1790,22 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
     """
     element = validate_element(element)
     symbol, pinned_ion = split_symbol(element)
+    _patch_rec = None
+    if lines or patch:
+        if not (lines and patch):
+            raise MatrixError("a line list runs as a PATCH (--lines CSV --patch): refit those "
+                              "lines, reuse the rest. A standalone line-list product is not "
+                              "wired yet (RYA-1388)")
+        if list(methods or []) != ["synthesis"]:
+            raise MatrixError("--patch reuses synthesis fits; select --route synthesis only")
+        _lp = Path(lines).resolve()
+        if not _lp.is_file():
+            raise MatrixError(f"--lines {lines}: no such file")
+        from pipeline.element_publish import budget_dir
+        _stage = budget_dir(star, split_symbol(element)[0]) / "stage"
+        _patch_rec = {"refit_lines": str(_lp),
+                      "refit_lines_sha256": hashlib.sha256(_lp.read_bytes()).hexdigest(),
+                      "reused_from": str(_stage)}
     if force and not any((ions, bands, instruments, engines, methods, pools)):
         raise MatrixError("--force re-runs work the ledger calls current; narrow it "
                           "(--band/--instrument/--engine/--ion/--pool), never the whole element")
@@ -1862,6 +1887,10 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
                             pending=_pending, started_at=progress_started,
                             current=cell.cell_key)
         for step in resolved.steps:
+            if _patch_rec is not None and step["name"] == "derive_products":
+                step = {**step, "args": [*step["args"],
+                                         "--refit-lines", _patch_rec["refit_lines"],
+                                         "--reuse-fits-from", _patch_rec["reused_from"]]}
             # 🔴 WITHIN ONE RUN, DO NOT RE-DISPATCH AN IDENTICAL COMMAND.
             # The EW step is DECK-INDEPENDENT: `descriptor.key` carries no deck, so
             # all five decks over one (holding, band) invoke `measure_band_profilefit`
@@ -1925,7 +1954,7 @@ def run(star: str, element: str, *, ions: list[str] | None = None,
         with _lock:
           record_inputs_hash(lkey, want, code_commit=commit,
                            product_keys=[_product_key(p) for p in published],
-                           inputs=rows, artifacts=arts, forced=force)
+                           inputs=rows, artifacts=arts, forced=force, patch=_patch_rec)
           ledger[lkey] = {"inputs_hash": want, "artifacts": arts}
         if not published:
             cell.status = UNPUBLISHED

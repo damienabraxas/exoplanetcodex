@@ -1661,6 +1661,21 @@ def synthesis_route(a, pol) -> None:
     print(f"  {len(cand)} {a.element} {a.ion} candidates {_how} "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
+    # RYA-1388: a patch refits the listed lines and reuses the stored fit of every other.
+    from pipeline.line_patch import LinePatch, res_from_row, continuum_drift
+    _patch = LinePatch.from_args(getattr(a, "refit_lines", None),
+                                 getattr(a, "reuse_fits_from", None), synthesis_stem(a),
+                                 f"{a.element} {a.ion}", (species_token(a.element, a.ion),))
+    if _patch is not None:
+        _cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv",
+                          usecols=["species", "wavelength_air_A", "excitation_potential_eV"])
+        _cg = _cg[_cg.species == f"{a.element} {a.ion}"]
+        _patch.bind(cand.wave_A.to_numpy(float), cand.ep_eV.to_numpy(float),
+                    _cg.wavelength_air_A.to_numpy(float),
+                    _cg.excitation_potential_eV.to_numpy(float))
+        print(f"  [patch] refitting {len(_patch.refit_wl)} of {len(cand)} lines "
+              f"({len(_patch.not_in_pool)} listed line(s) are not in this pool); the rest "
+              f"reuse their stored fits from {_patch.prior_dir}")
 
     # Per PROCESS (RYA-1230): two band runs launched in parallel shared this directory.
     tmp = f"/tmp/ispec_synth_{pol.name.replace(chr(47), chr(45))}_{os.getpid()}"
@@ -1681,7 +1696,25 @@ def synthesis_route(a, pol) -> None:
             # synthesised without the molecules its band declares. False everywhere but
             # the near-UV, where `**fit_kw` is otherwise unchanged.
             _mol_kw = {"use_molecules": True} if cfg.use_molecules else {}
-            res = fit_one(ctx, segs, w, hw + _fhw.get(w, 0.0), tmp, load=_observed, **fit_kw, **_mol_kw)
+            _prior = _patch.prior(treatment, w, float(r.ep_eV)) if _patch is not None else None
+            res = None
+            if _prior is not None:
+                # RYA-1388: the loader runs exactly as fit_one would call it, so the served
+                # window, holding count and continuum record are this run's own.
+                try:
+                    _ow, _of, _src = _observed(w, hw + _fhw.get(w, 0.0) + 0.4)
+                except LookupError:
+                    _prior = None
+                else:
+                    _cr = _continuum_by_line.get(round(w, 3))
+                    _drift = continuum_drift(
+                        _prior, _f(getattr(_cr, "level_at_centre", None)),
+                        f"{_cr.method}; {_cr.reason}" if _cr else "")
+                    if _drift:
+                        _patch.note_drift(treatment, w, _drift)
+                    res = res_from_row(_prior, _src)
+            if res is None:
+                res = fit_one(ctx, segs, w, hw + _fhw.get(w, 0.0), tmp, load=_observed, **fit_kw, **_mol_kw)
             a_x = float(res.get("a_synth", float("nan")))
             lm = LineMeasurement(
                 element=a.element, ion=a.ion, wavelength_air_A=w,
@@ -1822,6 +1855,10 @@ def synthesis_route(a, pol) -> None:
                 lm.excluded_reason = _nd
             lines.append(lm)
         lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
+        if _patch is not None:
+            _patch.assert_no_drift()
+            Path(a.out).mkdir(parents=True, exist_ok=True)
+            _patch.write(Path(a.out))
         return lines
 
     from pipeline import problem_children as _pc
@@ -2824,6 +2861,19 @@ def main() -> None:
                          "a strength-ranked rule selects against the very lines the "
                          "campaign is about. Publish the result with `publish_product "
                          "--line-set <name>` (RYA-1127/1185).")
+    ap.add_argument("--refit-lines", default=None, metavar="CSV",
+                    help="RYA-1388: refit ONLY these lines of the pool (CSV with "
+                         "`wavelength_air_A`, optional `species`/`ep_eV`; any atomic data in "
+                         "it is ignored) and reuse every other line's stored fit from "
+                         "--reuse-fits-from. Each row must be a line of this pool. The "
+                         "per-line gates, aggregate and budget run as normal, so the result "
+                         "equals a full rerun; a reused line whose continuum moved refuses "
+                         "the patch. Synthesis route only.")
+    ap.add_argument("--reuse-fits-from", default=None, metavar="DIR",
+                    help="RYA-1388: directory holding this product's stored "
+                         "`<stem>_<treatment>_lines.csv` (the out dir of the earlier run, or "
+                         "the published stage copy). A treatment with no stored file is "
+                         "fitted in full.")
     ap.add_argument("--degrade-to-R", type=float, default=None, metavar="R",
                     help="RYA-995: convolve the OBSERVED spectrum down to this resolving "
                          "power before fitting, and fit at it. The controlled "
@@ -2946,6 +2996,10 @@ def main() -> None:
         # there is no EW file to read and there never will be. Take the synthesis route
         # rather than failing on a missing input that is missing BY DESIGN (RYA-832).
         return synthesis_route(a, pol_early)
+    if getattr(a, "refit_lines", None) or getattr(a, "reuse_fits_from", None):
+        raise SystemExit("--refit-lines / --reuse-fits-from patch the SYNTHESIS route only; "
+                         "this invocation takes the profile-fit route and would refit every "
+                         "line while appearing to patch (RYA-1388).")
 
     # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
     # differing by whether tellurics were removed would otherwise write the same

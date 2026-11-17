@@ -837,11 +837,19 @@ def test_iron_first(rm, monkeypatch):
     assert 9 not in {r["step"] for r in rm.process_steps("solar", "Fe")}
 
 
-def test_a_band_with_no_lab_graded_line_is_held_at_step_7(rm):
+def test_a_band_with_no_lab_graded_line_is_held_at_step_7(rm, monkeypatch, tmp_path):
     from pipeline.run_descriptor import RunDescriptor
     d = RunDescriptor(element="Fe", ion="II", instrument="crires_plus",
                       holding="solar_crires_plus_h_rya1094", lo_A=15007.11, hi_A=17493.69,
                       method="synthesis", pool="reference")
+    #: RYA-1388: Fe's litscan records the VIS sweep only, so step 5 (RYA-728's per ion x band
+    #: sweep) now holds this cell first; with that sweep done it is still held at step 7.
+    assert "PROCESS step 5: literature sweep owed for Fe II H" in rm.cell_process_hold(d)
+    rep = json.loads((rm.PREPARE_DIR / "solar_Fe.json").read_text())
+    sweep = rep["literature_sweep"]
+    sweep["owed"] = [o for o in sweep["owed"] if (o["ion"], o["band"]) != ("II", "H")]
+    (tmp_path / "solar_Fe.json").write_text(json.dumps(rep))
+    monkeypatch.setattr(rm, "PREPARE_DIR", tmp_path)
     assert "PROCESS step 7" in rm.cell_process_hold(d)
 
 
