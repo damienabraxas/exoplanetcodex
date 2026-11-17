@@ -952,6 +952,13 @@ def collect_model_matrix() -> dict:
                 "engines": [], "molecules": [], "problem_count": None}
 
 
+def _dump(status: dict) -> str:
+    """Compact JSON. RYA-1388: indented, the tracker reached 175 MB (GitHub refuses a file
+    over 100 MiB; main's was already 99.8 MiB) once every element published since 11-06
+    joined it; the content is the same and every reader parses it."""
+    return json.dumps(status, separators=(",", ":")) + "\n"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--products-root", type=Path, action="append", default=None)
@@ -1048,7 +1055,7 @@ def main() -> None:
             reachability[f"{inst['holding']}|{policy.name}"] = reason
     status["reachability"] = reachability
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(status, indent=2) + "\n")
+    args.out.write_text(_dump(status))
     have = ", ".join(status["elements_with_products"]) or "(none)"
     print(f"{len(products)} product rows across {have}; "
           f"{len(status['elements'])} species tracked -> {args.out}")
@@ -1133,7 +1140,7 @@ def main() -> None:
     # e.g. "Synth · 1D-LTE" on molecfit and on kurucz2005 -- and the fix there is to say
     # what differs, not to hide one.
     status["identity"] = identity_report(_science)
-    args.out.write_text(json.dumps(status, indent=2) + "\n")
+    args.out.write_text(_dump(status))
     for i in status["instruments"]:
         have = {p["band"] for p in products if p["holding"] == i["holding"]}
         print(f"  {i['holding']:<34} telluric={i['telluric_applied']:<12} "
