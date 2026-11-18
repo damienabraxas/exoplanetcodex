@@ -1,4 +1,4 @@
-Latest: [Calibrating theoretical O I gf against the laboratory (Li 2023 vs experiment vs NIST), candidate line tiers](theory_calibration_oi.md).
+Latest: [Calibrating theoretical Fe I gf (Kurucz K17) against 493 primary lab gf; Fe I IR candidates](theory_calibration_fe.md); [O I (Li 2023 vs experiment vs NIST)](theory_calibration_oi.md).
 Previous: [Li-scheme MCDHF-EOL spectroscopic stage, v53-v60](mcdhf_s0_v53_v60.md); [RCI reduction and cost feasibility, v48-v51 retained failures](rci_feasibility_v48_v52.md); [literature check, candidate theoretical grade and Li-scheme sizing](li_scheme_sizing_v47.md); [full-eigenvector mixing-cut control and retained v45 review failure](fac_mixcut_control_v46.md); [signed native E1 component audit](fac_e1_components_v44.md).
 Previous: [radial E1 frequency consistency and retained floor failure](fac_radial_operator_v43.md).
 Previous: [expanded radial rates and lifetime sensitivity](fac_radial_rates_v41.md).
