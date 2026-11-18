@@ -261,6 +261,9 @@ _BANKED_PROFILEFIT_HANDLER: dict[str, str] = {
     # above and on the same MARCS.GES atmosphere; departures withheld is a physics
     # difference, not a route one, so it shares that handler.
     treatment_axes.GERBER1D_LTE_MARCS.token: "SynthesisHandler",
+    # RYA-1371 -- the OpenMULTI3D 1D pair: the same Turbospectrum flux re-fit on MARCS.GES.
+    treatment_axes.OM1D_NLTE_MARCS.token: "SynthesisHandler",
+    treatment_axes.OM1D_LTE_MARCS.token: "SynthesisHandler",
 }
 
 

@@ -68,7 +68,11 @@ SCALES = ("1D-LTE", "1D-NLTE", "<3D>-LTE", "<3D>-NLTE", "3D-NLTE")
 LTE_SCALES = ("1D-LTE", "<3D>-LTE")
 NLTE_SCALES = ("1D-NLTE", "<3D>-NLTE", "3D-NLTE")
 
-MODELS = ("none", "bergemann", "amarsi", "gerber")
+#: RYA-1371: `openmulti3d` is the OpenMULTI3D statistical-equilibrium solve (Bergemann group,
+#: arXiv 2611.09370) on the MPG Keeper atoms -- Ryan 2026-11-18: a publication engine
+#: wherever it has a model atom. Distinct from `gerber` (Gerber+2023 decks) even where the
+#: atom file is byte-identical: the solver differs, and that is the axis.
+MODELS = ("none", "bergemann", "amarsi", "gerber", "openmulti3d")
 
 #: `stagger-mean3d` is the ⟨3D⟩ STAGGER model (Magic et al. 2013) averaged on constant
 #: tau500 surfaces -- `data/atmospheres/stagger_avg3d_rya442/sun_avg3d_stagger.mod`,
@@ -247,7 +251,8 @@ _ROUTE_BY_LABEL = {
 _LEGACY_ATMOS = {"gerber": "marcs-ges"}
 _LEGACY_ATMOS_DEFAULT = "atlas9"
 
-DISPLAY_MODEL = {"bergemann": "Bergemann", "amarsi": "Amarsi", "gerber": "Gerber"}
+DISPLAY_MODEL = {"bergemann": "Bergemann", "amarsi": "Amarsi", "gerber": "Gerber",
+                 "openmulti3d": "OpenMULTI3D"}
 DISPLAY_ROUTE = {"ew": "EW", "synth": "Synth"}
 #: 🔴 There is deliberately NO entry for an unknown route. A display name is the NAME OF A
 #: PRODUCT, not a status report about it: a placeholder like "route?" is not the name of
@@ -450,7 +455,20 @@ GERBER1D_LTE_MARCS = _register_axis_native(
     route="synth", scale="1D-LTE", model="gerber", atmos="marcs-ges",
     gf="kurucz", route_basis="axis-native", deck="none")
 
+#: RYA-1371 -- the OpenMULTI3D 1D pair, built exactly like the Gerber 1D pair: the NLTE
+#: member applies OpenMULTI3D departures (solved on the solar MARCS node, applied on
+#: MARCS.GES); the LTE member is THE SAME SETUP with the departures withheld, so the NLTE
+#: effect is measured on one atmosphere (RYA-542/1045). Axis-native from birth: no legacy
+#: label, and never an ENGINE-* spelling (RYA-906).
+OM1D_NLTE_MARCS = _register_axis_native(
+    route="synth", scale="1D-NLTE", model="openmulti3d", atmos="marcs-ges",
+    gf="kurucz", route_basis="axis-native", deck="none")
+OM1D_LTE_MARCS = _register_axis_native(
+    route="synth", scale="1D-LTE", model="openmulti3d", atmos="marcs-ges",
+    gf="kurucz", route_basis="axis-native", deck="none")
+
 NLTE_LTE_PAIRS = {MEAN3D_NLTE_STAGGER.token: MEAN3D_LTE_STAGGER.token,
+                  OM1D_NLTE_MARCS.token: OM1D_LTE_MARCS.token,
                   # the legacy NLTE label, paired to its new axis-native comparand
                   "ENGINE-B-NLTE": GERBER1D_LTE_MARCS.token}
 

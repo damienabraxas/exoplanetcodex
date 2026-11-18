@@ -204,6 +204,24 @@ entries:
       RYA-1371 direct triplet fit (profile + EW, three continuum legs, IAG + two
       KP holdings), scripts/fit_openmulti3d_solar_lines.py; compact copy in
       data/results/rya1371/openmulti3d_solar_o_fit_v1.
+  engines.openmulti3d_atoms:
+    root: work
+    rel: openmulti3d_atoms
+    kind: dir
+    desc: >-
+      Mac working copies (read-only) of the MPG Keeper model atoms the OpenMULTI3D
+      Engine-B decks load and Turbospectrum reads; source of truth is
+      grids.keeper_atoms_20261118 on Sirius, SHA-256 pinned in
+      pipeline/openmulti3d_nlte.py DECKS.
+  grids.openmulti3d_decks:
+    root: work
+    rel: openmulti3d_decks
+    kind: dir
+    desc: >-
+      RYA-1371 OpenMULTI3D 1D NLTE departure decks (deck.npz + deck.json provenance)
+      built on the Mac by scripts/build_openmulti3d_deck.py via
+      pipeline.openmulti3d_nlte.ensure_deck; rebuilt, never edited, when an input hash
+      changes.
   engines.openmulti3d_python:
     root: work
     rel: venv_openmulti3d

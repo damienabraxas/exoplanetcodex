@@ -1888,7 +1888,7 @@ def synthesis_route(a, pol) -> None:
     eb_lines = eb_treatment = eb_prov = None
     if not a.skip_engine_b:
         _mean3d = a.engine_b_deck in ("gerber-mean3d", "gerber-mean3d-lte")
-        _nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d")
+        _nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d", "openmulti3d-nlte")
         _fit_kw: dict = {}
         # 🔴 INITIALISED HERE BECAUSE IT IS READ ON EVERY DECK, NOT JUST THE NLTE ONES.
         # RYA-1206 added the unlabelled-line re-attachment below and bound `_unlabelled`
@@ -1942,6 +1942,32 @@ def synthesis_route(a, pol) -> None:
                   f"{Path(_model3d['path']).name} (ndep={_dep['ndep']}, "
                   f"nlev={_dep['nk']}, max|dlogtau|={_dtau:.2e}, "
                   f"departures={'ON' if _nlte else 'OFF'})")
+        elif a.engine_b_deck in ("openmulti3d-nlte", "openmulti3d-1d-lte"):
+            # RYA-1371 -- OpenMULTI3D departures through the SAME Turbospectrum fit, line
+            # list, continuum rule and window as every other leg; only b(level, depth) is
+            # OpenMULTI3D's. Built exactly like the Gerber 1D branch below: MARCS.GES
+            # atmosphere (the deck is solved on the solar MARCS node and paired by layer
+            # index), and a mandatory LTE comparand = the same setup, departures withheld.
+            from pipeline import openmulti3d_nlte as omn
+            from pipeline.abundances_derive import _load_atmosphere
+            _om_key = a.openmulti3d_deck_key or a.element
+            if omn.element_of(_om_key) != a.element:
+                raise SystemExit(f"--openmulti3d-deck-key {_om_key} is not a {a.element} deck")
+            _layers1d = _load_atmosphere(
+                float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
+                float(ctx["vturb"]), model_grid="MARCS.GES")
+            _ax = omn.abundance_axis(_om_key)
+            _dep = omn.for_node(_om_key, float(ctx["teff"]), float(ctx["logg"]),
+                                float(ctx["feh"]), abundance=float(np.mean(_ax)))
+            omn.assert_depth_match(_dep, _layers1d)
+            _fit_kw = dict(atmosphere=_layers1d)
+            if _nlte:
+                _fit_kw.update(nlte_deck="openmulti3d", nlte_deck_key=_om_key)
+            eb_treatment = (taxes.OM1D_NLTE_MARCS if _nlte else taxes.OM1D_LTE_MARCS).token
+            eb_prov = (omn.provenance(_om_key) + f"; deck {_dep['deck_dir']}" if _nlte else
+                       "Turbospectrum LTE flux fit on MARCS.GES with the OpenMULTI3D "
+                       "departures WITHHELD -- the paired comparand for "
+                       f"{taxes.OM1D_NLTE_MARCS.token} (RYA-1371, RYA-542/1045 pattern).")
         elif _nlte or a.engine_b_deck == "gerber-1d-lte":
             from pipeline import gerber_nlte as gnlte
             # 🔴 THE 1D DECK BRINGS ITS OWN ATMOSPHERE, AND THIS LEG WAS NOT LOADING IT.
@@ -2946,7 +2972,7 @@ def main() -> None:
     ap.add_argument("--mpia-cache", help="pre-computed per-line delta_nlte JSON")
     ap.add_argument("--engine-b-deck",
                     choices=["ts-lte", "gerber-nlte", "gerber-1d-lte", "gerber-mean3d",
-                             "gerber-mean3d-lte"],
+                             "gerber-mean3d-lte", "openmulti3d-nlte", "openmulti3d-1d-lte"],
                     default="ts-lte",
                     help="which synthesis is Engine B. 'ts-lte' is the production "
                          "Turbospectrum LTE flux-fit; 'gerber-nlte' is the TS-native "
@@ -2960,6 +2986,11 @@ def main() -> None:
                          "is (<3D>-NLTE minus <3D>-LTE) on ONE atmosphere, because "
                          "differencing against 1D-LTE would report the 1D->mean-3D "
                          "ATMOSPHERE shift as non-LTE physics (RYA-542).")
+    ap.add_argument("--openmulti3d-deck-key", default=None,
+                    help="RYA-1371: OpenMULTI3D deck key (default: the element; e.g. "
+                         "'O@o41j' for the Belyaev H-collision variant). A variant is a "
+                         "systematic leg: give it its own --out so it never overwrites "
+                         "the nominal product.")
     ap.add_argument("--skip-engine-b", action="store_true",
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
@@ -2996,6 +3027,13 @@ def main() -> None:
         # there is no EW file to read and there never will be. Take the synthesis route
         # rather than failing on a missing input that is missing BY DESIGN (RYA-832).
         return synthesis_route(a, pol_early)
+    if a.engine_b_deck.startswith("openmulti3d") and not a.skip_engine_b:
+        # RYA-1371: the OpenMULTI3D deck is wired on the synthesis route only. The EW
+        # route's Engine-B block would not apply it, and an LTE fit under an OpenMULTI3D
+        # label is the one outcome the deck flag exists to prevent. Refuse, never degrade.
+        raise SystemExit(
+            f"--engine-b-deck {a.engine_b_deck} is wired on the synthesis route only "
+            f"(RYA-1371); this band takes the EW route. Add --force-synthesis.")
     if getattr(a, "refit_lines", None) or getattr(a, "reuse_fits_from", None):
         raise SystemExit("--refit-lines / --reuse-fits-from patch the SYNTHESIS route only; "
                          "this invocation takes the profile-fit route and would refit every "

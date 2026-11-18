@@ -174,7 +174,7 @@ def test_the_verifier_passes_and_reports_the_out_of_roster_tokens():
     r = subprocess.run([sys.executable, "scripts/verify_model_registry.py"],
                        cwd=ROOT, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
-    assert ("MODEL_REGISTRY OK: 9 models (7 live, 1 in-dev, 1 not-emitted)"
+    assert ("MODEL_REGISTRY OK: 11 models (9 live, 1 in-dev, 1 not-emitted)"
             in r.stdout)
     assert "1D-LTE-LABGF" in r.stdout and "ENGINE-B" in r.stdout
 

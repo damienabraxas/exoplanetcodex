@@ -154,6 +154,10 @@ DECK_EMITS: dict[str, tuple[str, ...]] = {
     "gerber-nlte": ("ENGINE-B-NLTE",),
     "gerber-mean3d-lte": ("synth-mean3D-LTE-gerber-stagger",),
     "gerber-mean3d": ("synth-mean3D-NLTE-gerber-stagger",),
+    # RYA-1371 (Ryan 2026-11-18): OpenMULTI3D is a publication engine wherever it has a
+    # model atom. Departures from pipeline.openmulti3d_nlte, through the same TS fit.
+    "openmulti3d-1d-lte": ("synth-1D-LTE-openmulti3d",),
+    "openmulti3d-nlte": ("synth-1D-NLTE-openmulti3d",),
 }
 
 #: RYA-1040 -- `gerber-mean3d` and `gerber-mean3d-lte` are a MANDATORY PAIR: the
@@ -161,11 +165,17 @@ DECK_EMITS: dict[str, tuple[str, ...]] = {
 #: differencing against 1D-LTE would report the 1D -> mean-3D ATMOSPHERE shift as
 #: non-LTE physics (RYA-542). Selecting one of them alone is refused.
 DECK_PAIRS: dict[str, str] = {"gerber-mean3d": "gerber-mean3d-lte",
-                              "gerber-mean3d-lte": "gerber-mean3d"}
+                              "gerber-mean3d-lte": "gerber-mean3d",
+                              # RYA-1371: same rule -- model 11 minus model 10, one atmosphere.
+                              "openmulti3d-nlte": "openmulti3d-1d-lte",
+                              "openmulti3d-1d-lte": "openmulti3d-nlte"}
 
 # derive_band_products emits cited/grid 3D corrections from the LTE fit when
 # available. They must survive orchestration/publication like its 1D correction.
 NOT_DISPATCHABLE: dict[str, str] = {}
+
+
+from pipeline.gerber_nlte import is_label as _gn_is_label  # noqa: E402  RYA-1371
 
 
 def _registry_rows() -> list[dict]:
@@ -459,10 +469,30 @@ def _canonical_species(symbol: str, ion: str):
     return _ADAPTERS[key]
 
 
+def _openmulti3d_hold(d: RunDescriptor) -> str:
+    """RYA-1371: '' when an OpenMULTI3D deck exists for the element and the star is the Sun.
+    The deck is solved on the solar MARCS node only (openmulti3d_nlte.for_node refuses any
+    other star), so a non-solar cell is held here rather than failing inside derive."""
+    try:
+        from pipeline import openmulti3d_nlte as omn
+    except Exception as exc:
+        return f"ENGINE: {d.engine_deck} adapter unavailable ({type(exc).__name__})"
+    if d.element not in omn.DECKS:
+        return (f"ENGINE: no OpenMULTI3D deck for {d.element} (decks exist for "
+                f"{', '.join(sorted({k.split('@')[0] for k in omn.DECKS}))}); RYA-1371 adds "
+                f"one per Keeper atom")
+    if str(getattr(d, "star", "sun")).lower() not in ("sun", "solar"):
+        return (f"ENGINE: the OpenMULTI3D deck is solved on the solar MARCS node only; "
+                f"{d.star} needs its own solve")
+    return ""
+
+
 def _deck_hold(d: RunDescriptor) -> str:
     """'' when the cell's deck exists for its element. The Gerber 2023 decks are per element
     (pipeline.gerber_nlte.DECKS: Fe, Al, ...); without this a Si gerber cell resolved fine,
     failed inside derive, and the coverage table counted it as owed work."""
+    if d.engine_deck.startswith("openmulti3d-"):
+        return _openmulti3d_hold(d)
     if not d.engine_deck.startswith("gerber-"):
         return ""
     try:
@@ -501,7 +531,7 @@ def _nlte_label_hold(d: RunDescriptor) -> str:
     itself once a sidecar labels the species. The iSpec GES list is left to derive's own
     per-window/per-pool guard (it labels most species, partially).
     """
-    if d.engine_deck not in ("gerber-nlte", "gerber-mean3d"):
+    if d.engine_deck not in ("gerber-nlte", "gerber-mean3d", "openmulti3d-nlte"):
         return ""
     try:
         import pandas as pd
@@ -516,8 +546,8 @@ def _nlte_label_hold(d: RunDescriptor) -> str:
         key = (str(path), species, d.lo_A, d.hi_A)
         if key not in _LABEL_COUNTS:
             n_lines = n_lab = 0
-            for f, labelled in ((path, lambda t: (t.nlte_label_low.astype(str) != "none")
-                                 & (t.nlte_label_up.astype(str) != "none")),
+            for f, labelled in ((path, lambda t: _gn_is_label(t.nlte_label_low)
+                                 & _gn_is_label(t.nlte_label_up)),
                                 (path.parent / "nlte_labels.tsv",
                                  lambda t: t["nlte"].astype(str) == "T")):
                 if not f.exists():
@@ -548,6 +578,22 @@ def deck_host_ready(d: RunDescriptor) -> str:
     """'' when THIS host holds the deck's data; else NOT_READY's reason. The Gerber decks'
     model atom + aux tables are Sirius-only: on the Mac every gerber cell used to FAIL inside
     derive (RYA-1233 Al, 68 cells). Owed work on another host is NOT_READY, never FAILED."""
+    if d.engine_deck.startswith("openmulti3d-"):
+        # RYA-1371: a built deck is enough; otherwise the atom + the pinned engine build it.
+        try:
+            from pipeline import openmulti3d_nlte as omn
+            if d.element not in omn.DECKS:
+                return ""                      # _deck_hold names it
+            if (omn.deck_dir(d.element) / "deck.json").exists():
+                return ""
+            atom = Path(omn.deck_spec(d.element)["atom_path"])
+            if not atom.exists():
+                return (f"ENGINE: {d.engine_deck} needs the Keeper atom {atom.name} in "
+                        f"engines.openmulti3d_atoms ({atom.parent}) on this host")
+            omn.engine()
+        except Exception as exc:               # noqa: BLE001
+            return f"ENGINE: {d.engine_deck} cannot build its deck on this host ({exc})"
+        return ""
     if not d.engine_deck.startswith("gerber-"):
         return ""
     try:
