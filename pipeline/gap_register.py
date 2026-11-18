@@ -155,6 +155,15 @@ def build(symbol: str, star: str = "solar") -> pd.DataFrame:
         for r in d.itertuples():
             a = pd.to_numeric(getattr(r, "A_1d_lte", None), errors="coerce")
             off = solar is not None and pd.notna(a) and abs(float(a) - solar) > SOLAR_DEX
+            if pd.isna(a):
+                # RYA-470: no fit was made ("not measured: below the depth floor", "absent
+                # from the list"). That is a fact about the line, not a disagreement with
+                # the Sun -- record it as evidence, never as SOLAR_DISCREPANCY.
+                note = str(getattr(r, "note", "") or "").strip()
+                for i in near(c, f"{symbol} {r.ion}", float(r.wavelength_air_A)):
+                    evidence[i].append(f"band diagnostic {r.holding}: not measured"
+                                       + (f" ({note[:120]})" if note else ""))
+                continue
             if bool(r.in_aggregate) and not off:
                 continue
             for i in near(c, f"{symbol} {r.ion}", float(r.wavelength_air_A)):

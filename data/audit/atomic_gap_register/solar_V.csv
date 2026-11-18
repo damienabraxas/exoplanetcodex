@@ -4624,8 +4624,8 @@ gf_138591,pk_ed9fbf77ab83,V I,9196.338,3.921,red-optical,True,UNGRADED_GF,False,
 gf_138592,pk_8e90a5987b48,V I,9197.192,3.868,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138593,pk_9f1e1768ee1a,V I,9197.962,4.367,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138594,pk_38e4a98420e3,V I,9198.149,4.213,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138595,pk_09617e0df2ed,V I,9199.478,3.255,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138596,pk_1720dd0eddd5,V I,9199.545,3.239,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_138595,pk_09617e0df2ed,V I,9199.478,3.255,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,"band diagnostic nan: not measured (not measured: Kurucz K09 log gf -2.715 at 3.26 eV, on the red-optical/NIR edge; the near-IR synthesis list starts at 920)",,candidate
+gf_138596,pk_1720dd0eddd5,V I,9199.545,3.239,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,"band diagnostic nan: not measured (not measured: Kurucz K09 log gf -1.620 at 3.24 eV, on the red-optical/NIR edge; the near-IR synthesis list starts at 920)",,candidate
 gf_138708,pk_cb3616c0fbb5,V II,4204.214,1.704,VIS,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
 gf_138709,pk_460c91f0589a,V II,4205.05,1.686,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138711,pk_86a9fd168a5b,V II,4206.064,1.673,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -6160,7 +6160,7 @@ gf_140244,pk_9a2d198b7674,V II,7323.034,6.317,red-optical,True,UNGRADED_GF,False
 gf_140245,pk_6629941d9e25,V II,7330.805,9.506,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140246,pk_83a6de4e4663,V II,7331.31,4.776,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140247,pk_453edb49402c,V II,7332.057,0.013,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
-gf_140248,pk_f7321b7c0d9d,V II,7332.326,6.317,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_140248,pk_f7321b7c0d9d,V II,7332.326,6.317,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,"band diagnostic solar_kpno_kurucz2005_corrected: not measured (not measured: 738 V II rows in the 6910-9199 A synthesis list (GESv6), every theoretical depth 0.00 at the list's 0.01 p)",,candidate
 gf_140249,pk_3be724f25de2,V II,7332.966,1.071,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140250,pk_890fe53a8318,V II,7333.972,9.011,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140251,pk_e0681f006563,V II,7344.047,0.348,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -7504,7 +7504,7 @@ gf_135872,pk_ab0fd857fbd3,V I,5846.2563,3.131,VIS,False,GRADED_NOT_LAB,False,UNR
 gf_136019,pk_bb3c61258d31,V I,6016.0856,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6016.121 A exists; list row 0.035 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
 gf_136065,pk_b4106ced252b,V I,6063.3517,1.8486,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6063.3882 A exists; list row 0.037 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
 gf_136389,pk_14a62bb33b9d,V I,6343.9029,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6343.9503 A exists; list row 0.047 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
-,,V I,7944.6472,,red-optical,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Lawler+2014 lab gf -1.01; not in canonical_gf; add through the shared add route on Sirius [RYA-470] | no row in canonical_gf,,candidate
+,,V I,7944.6472,,red-optical,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,"Lawler+2014 lab gf -1.01; not in canonical_gf, and our solar hfs-on VALD extract has no component of it (checked 2026-11-17), so the add route cannot place it [RYA-470] | no row in canonical_gf",,candidate
 gf_171144,pk_97b2bd897864,V I,13022.02034687524,3.932999999999998,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_171162,pk_c6790d4bfa9e,V I,13044.05717170048,1.9452000000000005,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_171166,pk_908404771f5e,V I,13051.241868681967,3.9597,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7671,9 +7671,9 @@ gf_176978,pk_42b8e500cdcd,V I,19954.393,4.5861,K,False,UNGRADED_GF,False,UNRATED
 gf_176984,pk_e94d9e1621d4,V I,19958.09778290717,4.6156,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176985,pk_76ebbe65908e,V I,19960.369106132115,4.627399999999999,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_177013,pk_b10f494a9919,V I,19995.101139441736,4.6421,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-,,V I,19998.913,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Holmes+2016 lab gf -2.33 +/- 0.06 (the only lab V I gf in K); not in canonical_gf; add on Sirius [RYA-470] | no row in canonical_gf,,candidate
+,,V I,19998.913,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,"Holmes+2016 lab gf -2.33 +/- 0.06 (the only lab V I gf in K); not in canonical_gf, and our solar hfs-on VALD extract has no component of it (VALD stellar depth cut; checked 2026-11-17) [RYA-470] | no row in canonical_gf",,candidate
 gf_177143,pk_b353bd2290ce,V I,20218.23602347746,4.6156,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-,,V I,20230.568,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Holmes+2016 lab gf -2.41 +/- 0.06; not in canonical_gf; add on Sirius [RYA-470] | no row in canonical_gf,,candidate
+,,V I,20230.568,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,"Holmes+2016 lab gf -2.41 +/- 0.06; not in canonical_gf, and our solar hfs-on VALD extract has no component of it (checked 2026-11-17) [RYA-470] | no row in canonical_gf",,candidate
 gf_177158,pk_a2d3f6f06059,V I,20241.464813352613,2.130299999999999,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_177160,pk_3409894101b8,V I,20241.816741116247,2.1303,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_177193,pk_94aff1a18f44,V I,20318.37582428554,2.616252380952381,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
