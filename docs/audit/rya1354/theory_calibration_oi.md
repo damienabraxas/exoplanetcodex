@@ -119,6 +119,20 @@ For context, Asplund 2021 does not include atomic data in its O budget; Bautista
 - **1589.3 nm** (B; H band)
 - the **1.80 and 1.82 µm 3d–4f multiplets**: depth 2–7%, CF 0.5–1.0, graded as multiplets.
 
+## Our own model on the same yardstick
+
+The RYA-1354 FAC models (sealed v41) computed one quantity end to end: the 3s ³S° lifetime, the upper level of 130.2/130.5/130.6 nm. The scores are in `summary.json → own_model_v41`.
+
+| Model | τ (Babushkin) | τ (Coulomb) | Gauge dT | Class on Li's scale | Δlog A vs experiment |
+|---|---|---|---|---|---|
+| Ours, ground-weighted | 1.50 ns | 1.88 ns | 20% | **C** | +0.080 dex |
+| Ours, equal-weighted | 1.51 ns | 3.06 ns | 51% | E | +0.077 dex |
+| Li 2023 | 1.70 | 1.69 | 0.6% | A | +0.025 dex |
+
+Experiment: 1.80 ± 0.04 ns.
+
+Our current model is class C: about 0.07 dex on the proposed scale, and 3–4× worse than Li on the cleanest O I line. Before it can fill a gap it has to reach class A/B on Li's lines. That target is concrete: gauge agreement within 10%, matching Li's 989 lines and the 13 lifetimes.
+
 ## What this sets up
 
 1. **Our own model:** the RYA-1354 pilot can now be scored against the same three tests. That is the "theoretical lab" check before it is trusted for gaps.

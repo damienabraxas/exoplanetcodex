@@ -83,3 +83,10 @@ def test_key_findings():
     sp = [s['theory_vs_theory']['by_li_class'][c]['per_method_robust_sigma'] for c in 'ACDE']
     assert sp == sorted(sp)
     assert s['status'] == 'CANDIDATE_HOLD_NOT_ADOPTED'
+
+
+def test_own_model_scored_on_the_same_yardstick():
+    s = json.loads((T.OUT / 'summary.json').read_text())['own_model_v41']['cases']
+    best = s['ground_coherent100']
+    assert best['li_scale_class'] == 'C' and 0.15 < best['dT'] < 0.25 and 0.05 < best['dlogA_B_minus_exp'] < 0.1
+    assert s['equal_coherent100']['li_scale_class'] == 'E'

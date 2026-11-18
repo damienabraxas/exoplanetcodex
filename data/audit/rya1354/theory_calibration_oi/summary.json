@@ -692,6 +692,42 @@
   "T3_MEASURABLE_LOW_THEORY_CLASS": 1,
   "T4_TOO_WEAK_IN_SUN": 46
  },
+ "own_model_v41": {
+  "source": "fac_radial_rates_v41.json (sealed exploratory FAC models)",
+  "level": "3s 3S (130.2/130.5/130.6 nm)",
+  "exp_tau_ns": 1.802,
+  "li_tau_ns": 1.702,
+  "cases": {
+   "ground_coherent10": {
+    "tau_B_ns": 1.5,
+    "tau_C_ns": 1.884,
+    "dT": 0.204,
+    "li_scale_class": "C",
+    "dlogA_B_minus_exp": 0.08
+   },
+   "ground_coherent100": {
+    "tau_B_ns": 1.5,
+    "tau_C_ns": 1.884,
+    "dT": 0.204,
+    "li_scale_class": "C",
+    "dlogA_B_minus_exp": 0.08
+   },
+   "equal_coherent10": {
+    "tau_B_ns": 1.509,
+    "tau_C_ns": 3.061,
+    "dT": 0.507,
+    "li_scale_class": "E",
+    "dlogA_B_minus_exp": 0.077
+   },
+   "equal_coherent100": {
+    "tau_B_ns": 1.509,
+    "tau_C_ns": 3.061,
+    "dT": 0.507,
+    "li_scale_class": "E",
+    "dlogA_B_minus_exp": 0.077
+   }
+  }
+ },
  "proposed_sigma_dex_by_class": {
   "rule": "sigma = sqrt(floor^2 + spread^2): floor = extra scatter the experimental LIFETIMES need beyond their own errors (levels whose experiments agree, Birge<=2); spread = per-method Li-vs-NIST robust scatter for the class (strong and weak lines, nf components excluded). CANDIDATE: needs Ryan + RYA-1352 ruling.",
   "floor_dex": 0.0633,

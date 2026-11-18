@@ -319,6 +319,23 @@ def candidates(tr, lifetimes, direct):
     return sorted(out, key=lambda c: (c['tier'], -c['solar_depth']))
 
 
+def own_model_score(life):
+    """Score OUR sealed FAC v41 models (RYA-1354 pilot) with the same yardsticks: Li's dT class from the two
+    gauges, and the experimental 3s 3S lifetime (130 nm upper level), the one quantity they compute end to end."""
+    v41 = json.loads((ROOT / 'data/audit/rya1354/source_curation_v2/fac_radial_rates_v41.json').read_text())
+    exp = next(l for l in life if l['level'] == '2s(2).2p(3).3s 3S')
+    out = {}
+    for case, g in v41['paired_n3_radial_comparison'].items():
+        tb, tc = g['B']['radial_lifetime_ns'], g['C']['radial_lifetime_ns']
+        dT = 1 - min(tb, tc) / max(tb, tc)                # A ~ 1/tau
+        p = 100 * dT
+        cls = 'ABCDE'[0 if p <= 3 else 1 if p <= 10 else 2 if p <= 25 else 3 if p <= 50 else 4]
+        out[case] = dict(tau_B_ns=round(tb, 3), tau_C_ns=round(tc, 3), dT=round(dT, 3), li_scale_class=cls,
+                         dlogA_B_minus_exp=round(math.log10(exp['exp_weighted_mean'] / tb), 3))
+    return dict(source='fac_radial_rates_v41.json (sealed exploratory FAC models)', level='3s 3S (130.2/130.5/130.6 nm)',
+                exp_tau_ns=exp['exp_weighted_mean'], li_tau_ns=exp['li_tau_B'], cases=out)
+
+
 def main():
     lev = levels()
     tr = transitions(lev)
@@ -352,6 +369,7 @@ def main():
                        per_level=[{k: l[k] for k in ('level', 'li_tau_B', 'exp_weighted_mean', 'exp_sigma', 'birge', 'dlogA_li_minus_exp', 'z', 'decay_channels')} for l in life]),
         theory_vs_theory=theory,
         candidates={t: sum(c['tier'] == t for c in cand) for t in sorted({c['tier'] for c in cand})})
+    summary['own_model_v41'] = own_model_score(life)
     floor = summary['lifetimes']['extra_theory_sigma_dex_birge_ok']
     spread = theory['by_li_class']
     summary['proposed_sigma_dex_by_class'] = dict(
