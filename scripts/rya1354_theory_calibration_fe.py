@@ -66,13 +66,13 @@ def half_width(d, q):
     return a[min(len(a) - 1, int(math.ceil(q * len(a))) - 1)]
 
 
-def kurucz():
+def kurucz(path=None):
     rows = []
-    for l in gzip.open(KURUCZ, 'rt'):
+    for l in gzip.open(path or KURUCZ, 'rt'):
         e1, e2 = float(l[24:36]), float(l[52:64])
-        if l[98:101] != 'K17':
-            raise ValueError(f'Non-K17 row in gf2600.pos: {l[:40]!r}')
-        rows.append(dict(wl_nm=float(l[:11]), loggf=float(l[11:18]), elo=min(e1, e2), eup=max(e1, e2),
+        if l[98] != 'K' or (path is None and l[98:101] != 'K17'):
+            raise ValueError(f'Non-Kurucz-calculation row in {path or KURUCZ}: {l[:40]!r}')
+        rows.append(dict(wl_nm=float(l[:11]), loggf=float(l[11:18]), elo=min(e1, e2), eup=max(e1, e2), ref=l[98:102].strip(),
                          lab_lo=(l[42:52] if e1 <= e2 else l[70:80]).strip(), lab_up=(l[70:80] if e1 <= e2 else l[42:52]).strip()))
     idx = defaultdict(list)
     for r in rows:
