@@ -71,25 +71,6 @@ if MODEL_Q != 90.0:
     print(f"  \u26a0\ufe0f  CONTINUUM MODEL-QUANTILE OVERRIDE (RYA-1230 budget leg): q{MODEL_Q:g}")
 #: Minimum selected pixels for a model-guided fit.
 MIN_MODEL_PIX = 20
-#: RYA-470 TEST SWITCHES (CRIRES), env-scoped and loud; unset = the nominal rule above.
-#: At CRIRES sampling (0.050 A/pix in H, 0.068 in K) +/-5 A minus the line window holds
-#: 73-126 pixels, its top decile 7-12, so MIN_MODEL_PIX refuses EVERY CRIRES line
-#: (CONTINUUM_UNCONSTRAINED, shipped continuum kept). Test variants:
-#:   CODEX_CONT_ENV_KMS=v -> half-width max(ENV_HALF_WIDTH_A, centre*v/c) (constant velocity)
-#:   CODEX_CONT_MIN_PIX=n -> minimum selected pixels n instead of MIN_MODEL_PIX
-ENV_KMS = float(_os.environ.get("CODEX_CONT_ENV_KMS") or 0.0)
-if ENV_KMS:
-    print(f"  ⚠️  CONTINUUM WINDOW OVERRIDE (RYA-470 CRIRES test): max({ENV_HALF_WIDTH_A:g} A, {ENV_KMS:g} km/s)")
-if _os.environ.get("CODEX_CONT_MIN_PIX"):
-    MIN_MODEL_PIX = int(_os.environ["CODEX_CONT_MIN_PIX"])
-    print(f"  ⚠️  CONTINUUM MIN-PIXEL OVERRIDE (RYA-470 CRIRES test): {MIN_MODEL_PIX}")
-
-
-def env_half_width_for(centre_A: float) -> float:
-    """The model-guided envelope half-width at `centre_A` (nominal: ENV_HALF_WIDTH_A)."""
-    if not ENV_KMS:
-        return ENV_HALF_WIDTH_A
-    return max(ENV_HALF_WIDTH_A, float(centre_A) * ENV_KMS / 299792.458)
 #: Model-guided anchors whose obs/reference residual exceeds this many MADs are clipped
 #: (iterated); see fit_model_guided.
 CLIP_MAD_MODEL = 3.0
@@ -468,7 +449,7 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
     read (and, off the IAG atlas, synthesised) only when such a level turns up; without
     `wide_flux`, MAX_SHIFT holds.
     """
-    env = env_half_width_for(centre_A)
+    env = ENV_HALF_WIDTH_A
     R = float(ctx["resolving_power"])
     reference = "synthesis"
     if star == "solar" and solar_atlas_reference(centre_A - env - 0.5, centre_A + env + 0.5,
@@ -514,8 +495,7 @@ def place_for_synthesis(wave_A, flux, centre_A: float, ctx: dict, element: str, 
             return neighbourhood_check(ww, wf, centre_A, *wref,
                                        exclude_half_width_A=float(band_half_width_A))(level)
     rec, cont = fit_model_guided(wave_A, flux, centre_A, rw[k], rf[k],
-                                 exclude_half_width_A=float(band_half_width_A),
-                                 env_half_width_A=env, apply=apply,
+                                 exclude_half_width_A=float(band_half_width_A), apply=apply,
                                  reference=reference, corroborate=corroborate)
     out = np.asarray(flux, float) / cont if cont is not None else flux
     return out, rec

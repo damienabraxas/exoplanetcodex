@@ -1324,8 +1324,7 @@ def synthesis_route(a, pol) -> None:
         # still masks to its own window, so the extra flux changes nothing else. A line
         # too near its holding's edge for the envelope keeps the narrow read, and the
         # rule then records CONTINUUM_UNCONSTRAINED for it rather than refusing the line.
-        from pipeline.local_continuum import env_half_width_for
-        _ENV = env_half_width_for(centre)
+        from pipeline.local_continuum import ENV_HALF_WIDTH_A as _ENV
         try:
             win = load_window_ex(a.instrument, centre, max(pad, _ENV + 0.5),
                                  holding=a.holding)
