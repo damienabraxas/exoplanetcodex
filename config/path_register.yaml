@@ -165,6 +165,37 @@ entries:
     rel: bride_mac_checks/rya1371-native-grid-refined2-physical-v1
     kind: dir
     desc: Explicit second native continuum refinement diagnostic; scientific HOLD.
+  experiments.openmulti3d_solar_o_atoms:
+    root: work
+    rel: bride_mac_checks/rya1371-o-solar-inversion-v1/atoms
+    kind: dir
+    desc: >-
+      Mac working copy of the three Keeper O atoms (o41f_ref, o41f, o41j) pulled
+      from grids.keeper_atoms_20261118 for the solar COG; SHA-256 pinned in
+      config/experiments/rya1371_openmulti3d_solar_o_cog.json. Temporary.
+  experiments.openmulti3d_solar_o_cog:
+    root: work
+    rel: bride_mac_checks/rya1371-o-solar-inversion-v1/cog_v1
+    kind: dir
+    desc: >-
+      RYA-1371 OpenMULTI3D 1D LTE+NLTE solar O flux curves of growth (MARCS
+      5777/4.4, 3 atoms x 13 abundances), scripts/run_openmulti3d_cog.py.
+  experiments.openmulti3d_solar_o_corrections:
+    root: work
+    rel: bride_mac_checks/rya1371-o-solar-inversion-v1/corrections_v1
+    kind: dir
+    desc: >-
+      RYA-1371 per-line OpenMULTI3D 1D NLTE corrections at the ORCH 1D-LTE O
+      abundances (IAG, KP Kurucz2005, KP molecfit),
+      scripts/analyze_openmulti3d_nlte_corrections.py.
+  engines.openmulti3d_python:
+    root: work
+    rel: venv_openmulti3d
+    kind: dir
+    desc: >-
+      Python 3.12 venv with tumult's dependencies (numpy/scipy/pandas/numba/
+      astropy/cffi); tumult itself is imported from the pinned checkout via
+      PYTHONPATH, never pip-installed into it.
   experiments.grid_refined_adaptive_replay:
     root: work
     rel: bride_mac_checks/rya1371-hop-grid-refined-adaptive-v1
