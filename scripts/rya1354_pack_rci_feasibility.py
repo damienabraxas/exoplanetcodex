@@ -24,22 +24,22 @@ def producer(rel):
             return d / 'rwfnestimate.stdin'
         if n == 'rci.res':
             return d / 'rci.stdin'
-    raise ValueError('No declared producer for large file ' + rel)
+    return None   # logs and other files without a regenerating input are stored (fragmented), never dropped
 
 
-def main(version, label, out):
-    run = f'runs/rci_feasibility_{version}'
+def main(version, label, out, name='rci_feasibility'):
+    run = f'runs/{name}_{version}'
     receipt = json.loads((ROOT / run / 'receipt.json').read_text())
     off = {}
     for rel, rec in receipt['files'].items():
-        if rec['bytes'] >= CAP:
-            stdin = producer(rel)
+        stdin = producer(rel) if rec['bytes'] >= CAP else None
+        if stdin is not None:
             if stdin.as_posix() not in receipt['files']:
                 raise ValueError('Regeneration input not in receipt: ' + str(stdin))
             off[f'{run}/{rel}'] = dict(sha256=rec['sha256'], bytes=rec['bytes'], regenerate_stdin=f'{run}/{stdin.as_posix()}')
-    pack(ROOT, [Path(f'evidence/rci_feasibility_driver_{version}'), Path(run)], Path(out), off_archive_regenerable=off or None)
+    pack(ROOT, [Path(f'evidence/{name}_driver_{version}'), Path(run)], Path(out), off_archive_regenerable=off or None)
     print(version, label, len(off), sum(v['bytes'] for v in off.values()))
 
 
 if __name__ == '__main__':
-    main(*sys.argv[1:4])
+    main(*sys.argv[1:5])

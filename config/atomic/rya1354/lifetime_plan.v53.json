@@ -1,0 +1,32 @@
+{
+  "schema": "rya1354.mcdhf-eol-plan.v53",
+  "starting_commit": "79698490",
+  "driver": "evidence/mcdhf_eol_driver_v53/rya1354_mcdhf_eol.py",
+  "driver_sha256": "4a541bacacd81667c1ac126c79e7277807085089a945839572cc981fe9364412",
+  "helper_sha256": {
+    "rya1354_li_scheme_sizing.py": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+    "rya1354_rci_feasibility.py": "69f0d762a670f620b34a958c78bfb81de5659cc8f157501694ed7cd863b18987",
+    "rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+    "rya1354_triplet_correlation.py": "6e80963f035078318313b787fb62a0d4d40e3b8f9156bcad483e60c5d0fc0373",
+    "rya1354_two_method_summary.py": "35c07be8fa4da83c0a6db3980bcd12a9cf7009912bc2424ea63498d590852bdb"
+  },
+  "v47_receipt_sha256": "59ae0aa93e4f5782850395947cb860b341bc15c89d45581c1b0d08305daf1dc9",
+  "grasp": "toolchains/grasp/build/bin (pinned 9006157730a82ac839f2b4ff4e938bcba63a539e, serial build)",
+  "strict_rmcdhf": "toolchains/grasp-strict-scf-v1/rmcdhf sha256 a82d7b4083258cd9a65a255f2f0fb5e5cd96dd1df6fc89add209599ac9786599 (no energy-only SCF stop)",
+  "output": "runs/mcdhf_eol_v53",
+  "why": "v48-v52: the Li 2023 RCI MR is affordable to about n6, and going further needs a weight-selected MR from a converged MCDHF. v44 found the O I gauge split is carried by the 2p3 np admixture that Li places in the MR. Build Li's MCDHF-EOL orbitals first, layer by layer, with both gauges tracked.",
+  "scope": "Both parities, separate orbital sets. s0: DF-EOL on Li Table 1 'MR in MCDHF' (0 excitations), all orbitals varied and spectroscopic. Layers n=3,4,5,6: MR-SD from 2p and the outer electron (1s, 2s closed) into the MR orbitals plus every orbital with principal number <= n; vary only the new non-MR orbitals of shell n (correlation), freeze the rest. EOL targets = Li's 45 lowest even (2p4; 2p3(4S)np n=3-6; 2p3(4S)nf n=4,5) and 36 lowest odd (2p3(4S)ns n=3-6; 2p3(4S)nd n=3-5; 2p3(2D)3s) states, standard weights; 2J even 0-10, odd 0-8. After each stage: rbiotransform + rtransition E1, Babushkin and Coulomb, all targeted pairs.",
+  "guards": "Fresh directory; inputs hard-linked. Budgets s: rcsfgenerate 3600, rnucleus 600, rangular 14400, rwfnestimate 1800, rmcdhf 86400 per parity-stage (200 iterations), jj2lsj 3600; every native step under GNU time -v and prlimit --as=12 GiB; disk guard 40 GiB free. Budget/memory/disk stop = measured outcome ending the run. FAILED_RETAINED on: refusal or nonzero exit; strict orbital criterion unmet or iteration limit; CSF blocks differing from the targeted J set or fewer CSFs than targets; n6 J blocks within the v47 2J range differing from the v47 receipt; leading jj2lsj families per J differing from the targeted Li states; missing transition table. Receipt writes a files inventory.",
+  "deviations_from_li": "Li optimise the full MR orbitals then add layers to {12s,12p,11d,11f,9g,7h}; v53 stops at n6 (layers above n6 sized in v47, not run). No RCI, Breit or QED in v53. Li SD 'from the 2p orbital of the target configurations': v53 uses the v47 'mcdhf' definition (SD from 2p and the outer electron of every MR configuration).",
+  "outputs_for_review": "Per stage: native energies, SCF diagnostics, leading LS families, angular bytes, wall/RSS, and E1 B/C rates for every targeted pair. Replay on the Mac reads the key UV/IR lines (2p4-3s 3S 130 nm, 3P2-3s 5S2 135.6 nm, 3s 5S-3p 5P 777 nm, 3s 3S-3p 3P 844.6 nm, 3p-3d and 3p-4s IR) and dT by stage.",
+  "evidence": "Receipt, stdin/stdout/stderr/time, lists, lsj labels, wavefunctions, mixing and transition tables archived; files >= 4 MiB (angular data) stay on Sirius with sha256/bytes in the receipt files list and their archived regeneration stdin.",
+  "declaration": "Linear 260896c1-d2fe-45de-aa30-5d5e80e7655a",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "outcome": "FAILED_RETAINED in s0_even rmcdhf (32 s): 200-iteration limit under the strict orbital criterion. 5f (j=7/2) stuck at self-consistency 1.66e-1 from iteration 2 (method 1 failed for 4f/5f; method 2 fallback, INV=1); 2s frozen at 1.74e-5; EOL energy stationary to 1e-10. 195 CSFs (blocks 0+..5+: 20/47/56/40/22/10). Archive data/audit/rya1354/mcdhf_eol_failed_v53. Superseded by v54 (s0 integration-method controls)."
+}

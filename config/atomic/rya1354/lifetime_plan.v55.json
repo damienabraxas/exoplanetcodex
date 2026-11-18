@@ -1,0 +1,36 @@
+{
+  "schema": "rya1354.mcdhf-s0-controls-plan.v55",
+  "starting_commit": "79698490",
+  "driver": "evidence/mcdhf_s0_controls_driver_v55/rya1354_mcdhf_s0_controls.py",
+  "driver_sha256": "312a8badf4a4879224f1ade13ef2fd6ac09bc6666d8299768feb870d65dcfda7",
+  "helper_sha256": {
+    "rya1354_mcdhf_eol.py": "4a541bacacd81667c1ac126c79e7277807085089a945839572cc981fe9364412",
+    "rya1354_li_scheme_sizing.py": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+    "rya1354_rci_feasibility.py": "69f0d762a670f620b34a958c78bfb81de5659cc8f157501694ed7cd863b18987",
+    "rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+    "rya1354_triplet_correlation.py": "6e80963f035078318313b787fb62a0d4d40e3b8f9156bcad483e60c5d0fc0373",
+    "rya1354_two_method_summary.py": "35c07be8fa4da83c0a6db3980bcd12a9cf7009912bc2424ea63498d590852bdb"
+  },
+  "v53_receipt": "runs/mcdhf_eol_v53/receipt.json sha256 071ba320656252b9aeb3fe287f451041f3af9ecc357e792410d371fe131bbad1",
+  "grasp": "toolchains/grasp/build/bin (pinned 9006157730a82ac839f2b4ff4e938bcba63a539e, serial build)",
+  "strict_rmcdhf": "toolchains/grasp-strict-scf-v1/rmcdhf sha256 a82d7b4083258cd9a65a255f2f0fb5e5cd96dd1df6fc89add209599ac9786599",
+  "output": "runs/mcdhf_s0_controls_v55",
+  "why": "v53 FAILED_RETAINED at s0 even: GRASP method 1 (default for spectroscopic orbitals) could not solve 4f/5f; the method-2 fallback left 5f (j=7/2) frozen at self-consistency 0.166 and 2s at 1.7e-5. Measure the native integration-method control before any correlation layer.",
+  "scope": "Per parity, the identical v53 s0 problem (Li MCDHF MR, 0 excitations, 45 even / 36 odd EOL targets, standard weights, all orbitals varied and spectroscopic, Thomas-Fermi/screened-hydrogenic start, strict rmcdhf, 500 cycles) under three variants in declared order: default (v53 settings); method3_f (non-default mode, method 3 for 4f*/5f* only; not applicable to the odd MR, which has no f); method3_all (method 3 for every varied orbital; the repo's reference_method3 control). All other GETSCD options keep their defaults.",
+  "selection_rule": "Per parity, the first variant in declared order that meets the strict orbital criterion within 500 cycles AND reproduces the targeted leading LS families per J is selected. If both parities select, rbiotransform + rtransition E1 (Babushkin and Coulomb) between the selected s0 sets. The selected variant's method control is carried into the v55 layers.",
+  "guards": "Fresh directory; inputs hard-linked. Budgets as v53; prlimit --as=12 GiB; disk guard 40 GiB. Each variant's convergence is a measured outcome; FAILED_RETAINED on a refusal other than a clean rc=0 iteration-limit stop, a prompt mismatch (GETRSL redo/unable, missing non-default prompts), the even s0 list differing from v53, or a missing file/table.",
+  "evidence": "Receipt, all stdin/stdout/stderr/time, lists, wavefunctions, mixing, lsj labels and transition tables archived.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "retained_failure": [
+    "runs/mcdhf_eol_v53 (plan v53)",
+    "runs/mcdhf_s0_controls_v54 (plan v54)"
+  ],
+  "outcome": "FAILED_RETAINED at even_method3_f: every non-default prompt consumed in order; method 3 solved 4f/5f, then 6p failed methods 1 and 2 and rmcdhf stopped natively (IMPROV Convergence not obtained, rc=1 ERROR STOP), which the declared guard counted as a refusal. even_default replicated v53/v54 (NOT_CONVERGED, identical). Archive data/audit/rya1354/mcdhf_s0_controls_failed_v55. Superseded by v56.",
+  "change_from_v54": "Non-default rmcdhf stdin adds the SETDBG \"Generate debug output?\" answer (n) after \"Default settings?\" and the SCF orthonormalization order (1 = update order, the default-mode LSORT); a test pins it to the lifetime-ladder sequence that ran natively. Scope, variants, selection rule and guards unchanged. even_default is rerun (deterministic replicate of v53/v54)."
+}

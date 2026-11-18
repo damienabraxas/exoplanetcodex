@@ -1,0 +1,37 @@
+{
+  "schema": "rya1354.mcdhf-s0-invariance-plan.v57",
+  "starting_commit": "79698490",
+  "driver": "evidence/mcdhf_s0_invariance_driver_v57/rya1354_mcdhf_s0_invariance.py",
+  "driver_sha256": "9b0fc359831f113c27b603b77b3811323ca5a6cb0158947fa56478d2c995448b",
+  "helper_sha256": {
+    "rya1354_mcdhf_s0_controls.py": "dba133d2e8f9e6c569476799348292d1d67d2aa643569093b44605138709e365",
+    "rya1354_mcdhf_eol.py": "4a541bacacd81667c1ac126c79e7277807085089a945839572cc981fe9364412",
+    "rya1354_li_scheme_sizing.py": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+    "rya1354_rci_feasibility.py": "69f0d762a670f620b34a958c78bfb81de5659cc8f157501694ed7cd863b18987",
+    "rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+    "rya1354_triplet_correlation.py": "6e80963f035078318313b787fb62a0d4d40e3b8f9156bcad483e60c5d0fc0373",
+    "rya1354_two_method_summary.py": "35c07be8fa4da83c0a6db3980bcd12a9cf7009912bc2424ea63498d590852bdb"
+  },
+  "v56_receipt": "runs/mcdhf_s0_controls_v56/receipt.json sha256 af4850202f657a8a45b661bc0e8b66e43d3f1a5f8ee4c090eb5931a5cc6a9822",
+  "rmcdhf": "PINNED STANDARD toolchains/grasp/build/bin/rmcdhf sha256 adccca5d7a89d75121487ad975ef16190a524fb4e66c9756b809b3f6ea44b2d1 (native energy stop; the strict build is this source minus that stop)",
+  "output": "runs/mcdhf_s0_invariance_v57",
+  "why": "v53-v56: no s0 variant meets the strict orbital criterion, and every stalled orbital lies in a set ({1s,2s}; even 3p-6p, 4f-5f; odd 3s-6s, 3d-5d) whose rotations leave the s0 CSF space of each J block, hence every EOL eigenvalue and state, unchanged. If so the strict criterion is ill-posed for s0 and the native energy stop is physically sufficient; if not, s0 is genuinely unconverged. Measure it.",
+  "scope": "Per parity, s0 (Li MCDHF MR, 0 excitations, 45 even / 36 odd EOL targets, standard weights, all orbitals varied and spectroscopic, method 3 for every orbital via the v56 non-default path, 500 cycles) with the standard rmcdhf, from two starts: A Thomas-Fermi then screened hydrogenic (v53); B screened hydrogenic for all. jj2lsj families, energies, native residuals; rbiotransform + rtransition E1 for A and for B.",
+  "verdict_rule": "INVARIANCE_SUPPORTED if both parities x both starts stop natively with the targeted families, every orbital with final residual > ACCY lies in a predicted set, every target eigenvalue agrees A vs B within 5e-7 Hartree, and every E1 pair with S >= 1e-6 au agrees A vs B within 1e-3 relative in both gauges. INVARIANCE_REFUTED if all four runs converge with families but an agreement test fails. INCONCLUSIVE otherwise. Tolerances: 5e-7 Ha is ~100x the native relative energy stop (0.001*ACCY*|E|); 1e-3 in S is far below the gauge differences under study (percent level).",
+  "guards": "Fresh directory; prlimit --as=12 GiB; budgets as v53; disk guard 40 GiB. A clean iteration-limit stop or the native IMPROV stop is a measured run outcome (verdict INCONCLUSIVE); any other refusal, a prompt mismatch, the s0 lists differing from v56, or a missing table is FAILED_RETAINED.",
+  "consequence": "SUPPORTED -> v58 runs the layers with the native energy stop for s0 and records strict residuals per orbital, keeping the strict criterion for the non-redundant correlation orbitals of each layer. REFUTED/INCONCLUSIVE -> sequential spectroscopic optimisation (each Rydberg orbital on its own series) is declared next.",
+  "evidence": "Receipt and every native file archived.",
+  "outcome": "FAILED_RETAINED at even_B (all-hydrogenic start diverged: native IN error, continuum-like state). even_A stopped natively after 7 iterations, most orbitals above ACCY, 4S 4p/5p leading labels permuted (identity failed). Verdict not reached (effectively INCONCLUSIVE). Archive data/audit/rya1354/mcdhf_s0_invariance_failed_v57; receipt sha256 ce365a4b92e8c8591bf6a46a4713689a720d6bcb0bcf689e1a1ad220d2856158. Per the declared consequence, v58 = sequential spectroscopic optimisation.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "retained_failure": [
+    "runs/mcdhf_eol_v53 (plan v53)",
+    "runs/mcdhf_s0_controls_v54 (plan v54)",
+    "runs/mcdhf_s0_controls_v55 (plan v55)"
+  ]
+}
