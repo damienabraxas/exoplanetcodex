@@ -1,0 +1,348 @@
+{
+  "seconds": 2.464010375086218,
+  "completed": true,
+  "schema": "codex.bride_native_ghost_plugin_build/1",
+  "scientific_admission": "HOLD",
+  "method": "full_coupling_ghost",
+  "scheme": "bride_full_coupling_ghost_scalar",
+  "generator": {
+    "name": "build_bride_ghost_operator.py",
+    "bytes": 11303,
+    "sha256": "d72e1451df6087abd187c32f520d4209db3cc10c140b030b050f29daf98e5f68"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "source_git_sha": "d33058f8857acf28d9187e778b6f41e49d3aad95",
+  "source_dirty": "",
+  "source_headers": {
+    "LockLessMultiReadPipe.h": {
+      "name": "LockLessMultiReadPipe.h",
+      "bytes": 11088,
+      "sha256": "d346681dbdd7f6cadbc025341b9c41b14bde072496e9b9cd91677f57501d8eef"
+    },
+    "LwExtraParams.hpp": {
+      "name": "LwExtraParams.hpp",
+      "bytes": 2480,
+      "sha256": "a9733190d3a3414b42f262ace9b8bee66eb970f49c7cac33db499783ef863f40"
+    },
+    "LuSolve.hpp": {
+      "name": "LuSolve.hpp",
+      "bytes": 143,
+      "sha256": "9c629e33146960a9cf3ace1b2950acef888919e5f885c5b9f06ad93c7eac0dca"
+    },
+    "LwContext.hpp": {
+      "name": "LwContext.hpp",
+      "bytes": 890,
+      "sha256": "4dc05933e5035ec2bb3a9472f1a19cf37a33172a7469c4c1b3f8b7f5ead656f6"
+    },
+    "TaskScheduler.h": {
+      "name": "TaskScheduler.h",
+      "bytes": 27215,
+      "sha256": "1563b49a0448c354622ae6b890cefbfb4fa2774a5960a182c194ec1ee4d6fb03"
+    },
+    "Dispatch_intensity_core_opt.ipp": {
+      "name": "Dispatch_intensity_core_opt.ipp",
+      "bytes": 2571,
+      "sha256": "02b5efe7e0bf49bf053179abdc1d5e619b72e35c16d6e11584416c884343fe19"
+    },
+    "FastBackground.cpp": {
+      "name": "FastBackground.cpp",
+      "bytes": 6470,
+      "sha256": "0a9ca1862f6d1d0b4609772d3c6fd6f78da84277e297dfae4c426d17592a6b8d"
+    },
+    "SimdImpl_AVX2FMA.cpp": {
+      "name": "SimdImpl_AVX2FMA.cpp",
+      "bytes": 23717,
+      "sha256": "114002c2bc42e4210d30468d2a108164d1f445072e7d2ddaf3c7adc625eebc41"
+    },
+    "CmoArray.pxd": {
+      "name": "CmoArray.pxd",
+      "bytes": 8439,
+      "sha256": "c15ca6ec38b29a5664c5aa927e3dff8cfc05c8b9aa5ffbf68fb0201bdfaa64ae"
+    },
+    "Dispatch_chi_eta_aux_accum.ipp": {
+      "name": "Dispatch_chi_eta_aux_accum.ipp",
+      "bytes": 2553,
+      "sha256": "7a9258731605d72805807e3bc8cc68450f4960da76a4ced311d1b27a60d5d648"
+    },
+    "LwIterationResult.hpp": {
+      "name": "LwIterationResult.hpp",
+      "bytes": 555,
+      "sha256": "d9d9de8688576908b823e6f8d52ec1c2aa2c60aa869640d66b228ef75567f98e"
+    },
+    "LwAtmosphere.hpp": {
+      "name": "LwAtmosphere.hpp",
+      "bytes": 4673,
+      "sha256": "2efab73514408bba991067828f6425d661fb114d229eb3067cba85e366af27a0"
+    },
+    "TaskSetWrapper.hpp": {
+      "name": "TaskSetWrapper.hpp",
+      "bytes": 854,
+      "sha256": "cb84dc23448c15b4cc04073aa5d5d75a02a1a40401e7792832c3088d486ebe0c"
+    },
+    "Background.hpp": {
+      "name": "Background.hpp",
+      "bytes": 519,
+      "sha256": "bc9ee63f54064b49c04790a9f5791f0b48bfaccf391f81a36e27c3dcb71183a5"
+    },
+    "ThreadStorage.hpp": {
+      "name": "ThreadStorage.hpp",
+      "bytes": 5802,
+      "sha256": "da125abf036f7893b3719746f3f95a6d977685e7f8eb5a511b8e7c21ca99a512"
+    },
+    "UpdatePopulations.cpp": {
+      "name": "UpdatePopulations.cpp",
+      "bytes": 15223,
+      "sha256": "77ef60f8db7f121ec85f47bc0a4e5a610553a6b992bcc03fe76432922a5dcbbe"
+    },
+    "FormalScalar.cpp": {
+      "name": "FormalScalar.cpp",
+      "bytes": 21788,
+      "sha256": "0b3e84bcfd34e61f0210a7151cf37fae1440c16c5c021f771d21c9848ddff74c"
+    },
+    "CmoArrayHelper.pyx": {
+      "name": "CmoArrayHelper.pyx",
+      "bytes": 709,
+      "sha256": "7c6fad1944cf7ff4ecbb93245ca809f6a8e55ed4a0a1e98faca4ccf28fedeb6f"
+    },
+    "PrdTemplates.hpp": {
+      "name": "PrdTemplates.hpp",
+      "bytes": 11023,
+      "sha256": "a48f913e17da837d3aeb13ed5b5967abd28b03e9130c14c52fd2deebd79c0b3d"
+    },
+    "Lightweaver.hpp": {
+      "name": "Lightweaver.hpp",
+      "bytes": 3068,
+      "sha256": "3662b2f4ca9b9f6751e51230ca9c19dd21b419886e774792e44466cd4a331e42"
+    },
+    "FormalInterface.cpp": {
+      "name": "FormalInterface.cpp",
+      "bytes": 2711,
+      "sha256": "22579991bdd7b524a2cd82a39dd7cee221d33ef8ad6019f7e468b5520fdc20bb"
+    },
+    "WinCompile.bat": {
+      "name": "WinCompile.bat",
+      "bytes": 250,
+      "sha256": "c5775e2f48e1f9bb23b96c35b66d9922dadc53c0094c3cec422d9455236f431f"
+    },
+    "CmoArrayHelper.pxd": {
+      "name": "CmoArrayHelper.pxd",
+      "bytes": 293,
+      "sha256": "d9b98a0df8fa1803416f5310519e02db5cb3bc9751ca551fa9243e9caa4d73e7"
+    },
+    "EscapeProbability.cpp": {
+      "name": "EscapeProbability.cpp",
+      "bytes": 8090,
+      "sha256": "996708a2389bef6edc1dd36c29e74e995d23ab7761285325180ad10fc3b0978a"
+    },
+    "CmoArray.hpp": {
+      "name": "CmoArray.hpp",
+      "bytes": 70783,
+      "sha256": "d5773a682ef06b8d5e69344323ddbe57ffb6ae0dfaa38e2a25981ae8bb39d25b"
+    },
+    "SimdImpl_SSE2.cpp": {
+      "name": "SimdImpl_SSE2.cpp",
+      "bytes": 18752,
+      "sha256": "63d51cf1c18df7b4fcf3b50dcb3e1860eec389ce221cce17235e297332818267"
+    },
+    "Bezier.hpp": {
+      "name": "Bezier.hpp",
+      "bytes": 3732,
+      "sha256": "6ad7111744fcdaf556c4f2b0fa53362202dadd070961f149a2a1e29068245466"
+    },
+    "SimdFullIterationTemplates.hpp": {
+      "name": "SimdFullIterationTemplates.hpp",
+      "bytes": 25208,
+      "sha256": "7f3d05bdeaec45d5510b5add2bf3b4e281e71372948f2c7fd59d70de9a6d256c"
+    },
+    "LwTransition.hpp": {
+      "name": "LwTransition.hpp",
+      "bytes": 4843,
+      "sha256": "b3dee8794fa7a38151c7881589a3659cec370a4546adba7a1feb567387b3565c"
+    },
+    "Dispatch_compute_full_operator_rates.ipp": {
+      "name": "Dispatch_compute_full_operator_rates.ipp",
+      "bytes": 939,
+      "sha256": "1e76de9eb92fcd22ede9c2b0387a97e85dc4a95278a3eaaaa2a8865eadc9255c"
+    },
+    "Constants.hpp": {
+      "name": "Constants.hpp",
+      "bytes": 3039,
+      "sha256": "e627c2e1c652ce29309debebe32aa453b71f603f76195ef752f2db66145655e0"
+    },
+    "Background.cpp": {
+      "name": "Background.cpp",
+      "bytes": 73266,
+      "sha256": "d4d0f92e28ebf0dc5f82f4ffa7e6798acee9363023e2727689ca6e875031f048"
+    },
+    "SimdImpl_AVX512.cpp": {
+      "name": "SimdImpl_AVX512.cpp",
+      "bytes": 23246,
+      "sha256": "50c4b04efda42d5f5d6e407c9d72381ab6a19833fd7fb9c4deec3110becc6f2a"
+    },
+    "LwFormalInterfaceWin.hpp": {
+      "name": "LwFormalInterfaceWin.hpp",
+      "bytes": 1238,
+      "sha256": "8a3ef97a4a8f657aadf8a5f6574efc6415279bbc267736caecef2cfb5c90bfc4"
+    },
+    "SimdLinear.cpp": {
+      "name": "SimdLinear.cpp",
+      "bytes": 15213,
+      "sha256": "c7ccd446b58d88bec68d636a9dab2549936571c9de992b0ecfa930f278eb4ce9"
+    },
+    "ThreadStorage.cpp": {
+      "name": "ThreadStorage.cpp",
+      "bytes": 15179,
+      "sha256": "222ddcf523e5b28a398214a1b6c278a5dbf3d3aafd589581ba0feaee0fb54c64"
+    },
+    "Faddeeva.hh": {
+      "name": "Faddeeva.hh",
+      "bytes": 2645,
+      "sha256": "c21f02ba67af33f56eb89eba23286f0c01af3c9a3142b7664fa5303874e6316a"
+    },
+    ".clang-format": {
+      "name": ".clang-format",
+      "bytes": 3473,
+      "sha256": "3b8a1b50c29d393cb2304e9fe17f51ac26e66a8f70e3a33d4446d1fc19b7c07e"
+    },
+    "LwFormalInterfacePosix.hpp": {
+      "name": "LwFormalInterfacePosix.hpp",
+      "bytes": 690,
+      "sha256": "f5df530eb49424db5a401864ce3d59778efd4a5713ae752d4ddade3960f70b15"
+    },
+    "LightweaverAmalgamated.cpp": {
+      "name": "LightweaverAmalgamated.cpp",
+      "bytes": 548,
+      "sha256": "c0ed47eccff291cc1c74aada49202c319400a71a1c1a00170e95ee3365c79924"
+    },
+    "FormalScalar2d.cpp": {
+      "name": "FormalScalar2d.cpp",
+      "bytes": 48039,
+      "sha256": "75070dd08e3a0ab12413ce79de462a18685e69801d9ff901b729e1d32e6fc16b"
+    },
+    "LwMiddleLayer.pyx": {
+      "name": "LwMiddleLayer.pyx",
+      "bytes": 149674,
+      "sha256": "13428eab7aa0e0e2374015895cef73f60482aa30200cf87c09fae3942c5ab57a"
+    },
+    "LwMisc.hpp": {
+      "name": "LwMisc.hpp",
+      "bytes": 2504,
+      "sha256": "4ce6f4b885263dfac7c997951feb36d2cb1b968e9b4c1f607967ae59601919f9"
+    },
+    "WindowsExtensionStub.cpp": {
+      "name": "WindowsExtensionStub.cpp",
+      "bytes": 326,
+      "sha256": "02927b73cbe80465f2e379125ea41e254c646099028fe72b6171305a554a9fdd"
+    },
+    "LwFormalInterface.hpp": {
+      "name": "LwFormalInterface.hpp",
+      "bytes": 4451,
+      "sha256": "2d93ed29c05fc80330cc3341870670ef776febee1e91b14e92d0ffb7506c21dd"
+    },
+    "LwInternal.hpp": {
+      "name": "LwInternal.hpp",
+      "bytes": 3846,
+      "sha256": "a1623e6e73e018a5886a28f797e19b64396d934d26696f2b51bece36120ff60a"
+    },
+    "LwAtom.hpp": {
+      "name": "LwAtom.hpp",
+      "bytes": 3820,
+      "sha256": "7f38fd78c75b26086fef552b984622c39487d0a7d16b64a60cb0b02a76008903"
+    },
+    "Faddeeva.cc": {
+      "name": "Faddeeva.cc",
+      "bytes": 126227,
+      "sha256": "46dc0d4e7d81ddcce5a95953b97d31696ffb424228e751aac10dfd9aeb3430a0"
+    },
+    "TaskScheduler.cpp": {
+      "name": "TaskScheduler.cpp",
+      "bytes": 48624,
+      "sha256": "8de2d05451e48f4fdfb479791cf21c13fc556fe1ca00b1016cf181fd15938f8d"
+    },
+    "LuSolve.cpp": {
+      "name": "LuSolve.cpp",
+      "bytes": 2812,
+      "sha256": "4d7c6389185ea1638b75fccdcca25c73c44bf29d4b8bf93df3df532f72ea67da"
+    },
+    "Utils.hpp": {
+      "name": "Utils.hpp",
+      "bytes": 2406,
+      "sha256": "995c995dfe6b50793e15885b2ba04e62dd204f2d465ebf127187cb780638d2c7"
+    },
+    "FormalStokes.cpp": {
+      "name": "FormalStokes.cpp",
+      "bytes": 25465,
+      "sha256": "31da0685f6e51c262ba5e16bbe68ed298fa8e6c2bbf1a4d7e3dcd8e6f43ce376"
+    },
+    "Atmosphere.cpp": {
+      "name": "Atmosphere.cpp",
+      "bytes": 2389,
+      "sha256": "69a57256afedf0033049ec38c22fa2c65bc2010b75bb27455745e37cf0236fc3"
+    },
+    "FastBackground.hpp": {
+      "name": "FastBackground.hpp",
+      "bytes": 1904,
+      "sha256": "f1acdb3707f5231a48f1f71754f32ffcb4de89d4b6e253c208e098e0ddfad3d7"
+    },
+    "Ng.hpp": {
+      "name": "Ng.hpp",
+      "bytes": 5193,
+      "sha256": "bd329458573ed21ffafebeb35e9858a9eb1ad5c466b44c88fa6c6230f3d3b184"
+    },
+    "JasPP.hpp": {
+      "name": "JasPP.hpp",
+      "bytes": 7228,
+      "sha256": "12e584db27264e688d52f38e2f6d2f077ba9d435a91b5099a497abdf7be7741f"
+    },
+    "Simd.hpp": {
+      "name": "Simd.hpp",
+      "bytes": 1161,
+      "sha256": "3b1577f72cda93ff2f19f8187c3566125bc0ad4ec0c39afdc0cf78e3b8558ec3"
+    },
+    "Prd.cpp": {
+      "name": "Prd.cpp",
+      "bytes": 31622,
+      "sha256": "d8264099e905b0f5df4cf1a52a2b73fe079041c5ebaabbc4bbda9ca6a891a1a7"
+    }
+  },
+  "original_template": {
+    "name": "SimdFullIterationTemplates.hpp",
+    "bytes": 25208,
+    "sha256": "7f3d05bdeaec45d5510b5add2bf3b4e281e71372948f2c7fd59d70de9a6d256c"
+  },
+  "patched_template": {
+    "name": "SimdFullIterationTemplates.hpp",
+    "bytes": 28404,
+    "sha256": "260e25184cbd9df08efec528309511cac5b2169edd8209a9599422b40fca6c63"
+  },
+  "provider": {
+    "name": "overlap_guard.cpp",
+    "bytes": 909,
+    "sha256": "017e57a45d99a24c27822c5b5fd5da05becdc995e16887e0e84356a6a1f75a62"
+  },
+  "plugin": {
+    "name": "bride_overlap_guard.dylib",
+    "bytes": 239784,
+    "sha256": "aaad885f754a836dc51e868dc56bc4d62fe21d6240f3053f2c193d37a8f759d9"
+  },
+  "command": [
+    "clang++",
+    "-std=c++17",
+    "-O2",
+    "-dynamiclib",
+    "-undefined",
+    "dynamic_lookup",
+    "-I",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source",
+    "-I",
+    "/Users/ryanschmitt/bride_rya1118/lw_src/Source",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/overlap_guard.cpp",
+    "-o",
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/bride_overlap_guard.dylib"
+  ],
+  "scope": "Isolated full-coupling native linear zero-ghost fixed-extinction emissivity derivative; physical rates and installed backend unchanged. Source-derived F(tau)/chi, no fitted factor. Numerical response/action and fresh coupled qualification required."
+}

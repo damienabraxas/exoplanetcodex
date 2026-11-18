@@ -1,0 +1,53 @@
+{
+  "schema": "codex.bride_independent_oxygen_populations/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "audit_bride_independent_oxygen_populations.py",
+    "bytes": 6775,
+    "sha256": "1904d343b27f39d1d70ea5f1cc39f319b5f385c75f15923202222f85171e683c"
+  },
+  "source_report": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "atom": {
+    "name": "atom.o41f",
+    "bytes": 187797,
+    "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+  },
+  "source_state_arrays_exact": [
+    "height_m",
+    "temperature_K",
+    "electron_pressure_Pa"
+  ],
+  "independent_local_rate_residual": 2.8762584392581852e-11,
+  "conservation": 1.3322676295501878e-15,
+  "diagnostic_logtau500": [
+    -3,
+    0
+  ],
+  "triplet_levels_1based": [
+    6,
+    8,
+    9,
+    10
+  ],
+  "triplet_diagnostic_max_abs_b_delta": 0.006934745479060034,
+  "all_levels_all_depths_max_abs_b_delta": 8.154625277361149,
+  "foreign_mapping_scale_range": [
+    0.9999999186030272,
+    1.0000000727064011
+  ],
+  "limitations": [
+    "Diagnostic [-3,0] is the original comparison interval, not a measured contribution function.",
+    "Foreign departure coefficients do not supply native LTE populations, actual opacity, rates, J or exact executable identity.",
+    "Foreign b times local LTE needs explicitly recorded number-normalization before any transfer replay; no SE-balance claim for that mapping.",
+    "No tolerance inferred from observed agreement and no physical model admission."
+  ]
+}

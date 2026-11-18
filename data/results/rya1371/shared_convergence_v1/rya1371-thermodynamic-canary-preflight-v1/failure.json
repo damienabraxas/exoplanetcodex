@@ -1,0 +1,6 @@
+{
+  "computational_completed": false,
+  "error": "TypeError: abs(list) in analytic validation",
+  "stage": "before output allocation; no RT/SE or measurement published",
+  "resolution": "Convert collected line arrays to ndarray before reduction; analytic identities/tolerance unchanged"
+}

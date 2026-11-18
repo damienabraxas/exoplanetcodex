@@ -1,0 +1,31 @@
+{
+  "purpose": "fixed-native-oxygen-transfer",
+  "seconds": 600,
+  "native_analysis_resource": "experiments.openmulti3d_oxygen_dense_verified",
+  "native_arrays": {
+    "name": "arrays.npz",
+    "bytes": 85412,
+    "sha256": "7ac776d37e3da02ea6e4a6f3f45593b36817ce64e5c03e6cd82bf7a43a693d58"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 207686,
+    "sha256": "19a95e9c888984353fe90c1d8899681d5855586a1b10548495a16e7ff043d0b5"
+  },
+  "native_report": {
+    "name": "report.json",
+    "bytes": 3992,
+    "sha256": "5e3b26fd7347e351ea987689b11b8f0f63af19c9680e6ee422f5199083346c9e"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "scope": "Prospective pure transfer control with native56-node geometry/T/ne/rho and complete native41-level O n/nstar/totals. Native HOP LTE EOS/continuum and explicit native H/He perturber densities; unchanged LW atomic and broadening formulas, five native Lobatto angles and native-constant background source. No SE/collision/population update. Both nativeNLTE and nativeLTE cases, common native dense vacuum grid, no fitted shift/continuum. Top zero incoming; LW thermalized lower-boundary and native ghost/formal/profile/constants differences remain explicit. Report all six finite-window contrasts with no result-selected input or adopted model.",
+  "native_options": {
+    "name": "rya1371_hop_native_options.json",
+    "bytes": 1512,
+    "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+  }
+}

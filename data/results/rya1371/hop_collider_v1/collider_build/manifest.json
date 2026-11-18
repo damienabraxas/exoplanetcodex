@@ -1,0 +1,35 @@
+{
+  "generator": {
+    "name": "build_hop_trace_provider.py",
+    "bytes": 3256,
+    "sha256": "1960a1e1cfbf2a244114f6d285992e38777175f628cef39093b4f220e0ad2c74"
+  },
+  "upstream_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+  "patch": {
+    "name": "trace_and_ground.patch",
+    "bytes": 6941,
+    "sha256": "8d9f637bdabf4fcb588c09507fbecdeec5d0d12448a909fc8978e22ed70105e6"
+  },
+  "reference": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "source": "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-collider-provider-v4",
+  "completed": false,
+  "seconds_limit": 600,
+  "threads": 1
+}

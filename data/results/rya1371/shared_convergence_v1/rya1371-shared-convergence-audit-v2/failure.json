@@ -1,0 +1,6 @@
+{
+  "computational_completed": false,
+  "error": "TypeError: normalized fine array f shadowed by CSV file handle",
+  "stage": "plotting after CSV creation; no completed report",
+  "resolution": "Use explicit coarse_norm/fine_norm names; no numerical/physical change"
+}

@@ -1,0 +1,105 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 17861,
+    "sha256": "c9751a191d5f90b7ff629eb2d6b49654c863ef80ae978fece946ab97175a09d1"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-v1/collision_canaries.npz",
+      "receipt": {
+        "name": "collision_canaries.npz",
+        "bytes": 991939,
+        "sha256": "14e456300cd3ec100086026baedf07cd027629eca75897ccbc43701d4710ccf0"
+      },
+      "archived": "rya1371-lte-reconstruction-v1/collision_canaries.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 4604,
+        "sha256": "3137613825b0e5e1a59a7232efc8b373ddf7af755bd72ab3a1b8db36acdcb469"
+      },
+      "archived": "rya1371-lte-reconstruction-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-v1/same_stage_ratios.csv",
+      "receipt": {
+        "name": "same_stage_ratios.csv",
+        "bytes": 5711404,
+        "sha256": "24971dc2aeab39952bb4a148903d7c0026af9b187b94f807b706499c4dcfd10e"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-preflight-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 7948,
+        "sha256": "8f07e2bdf0231eb5e7ad038e5463c83ade2144900bec68fc2cd13c459fa834d2"
+      },
+      "archived": "rya1371-lte-reconstruction-preflight-v1/driver_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-preflight-v1/failure.json",
+      "receipt": {
+        "name": "failure.json",
+        "bytes": 318,
+        "sha256": "00ce1a21e9c9bbc29930b9af278fcff0299748cfa05bc33601ca95ed41bc1052"
+      },
+      "archived": "rya1371-lte-reconstruction-preflight-v1/failure.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-preflight-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 8269,
+        "sha256": "df5f365493d337ac77d2fcdbd19a3440a5aee1da531e035aefd6952067a1743e"
+      },
+      "archived": "rya1371-lte-reconstruction-preflight-v2/driver_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-preflight-v2/failure.json",
+      "receipt": {
+        "name": "failure.json",
+        "bytes": 281,
+        "sha256": "9db7b48da60f62296697e703b91cbbedf5206df44ec1b32ed69deb5c6efb7f40"
+      },
+      "archived": "rya1371-lte-reconstruction-preflight-v2/failure.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-preflight-v3/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 8553,
+        "sha256": "f477a39704013e2583c4fe80168e05ebcb5082a181dc09cbb7524329048c43cb"
+      },
+      "archived": "rya1371-lte-reconstruction-preflight-v3/driver_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-lte-reconstruction-preflight-v3/failure.json",
+      "receipt": {
+        "name": "failure.json",
+        "bytes": 260,
+        "sha256": "d23c110bce7e7b1b25e7ea14336cb47ee332ca8f537365bf1b414a9428ed2708"
+      },
+      "archived": "rya1371-lte-reconstruction-preflight-v3/failure.json",
+      "disposition": "invalid"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

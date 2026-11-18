@@ -1,0 +1,7 @@
+{
+  "status": "failed diagnostic assumption corrected; no RT/SE attempted",
+  "error": "AssertionError: BF-only net mesh step differs from full net mesh step; max absolute difference6.82601985e-05",
+  "cause": "Initial audit assumed continuum-selected grid enrichment leaves BB integration unchanged. Shared grid changes BB quadrature too.",
+  "resolution": "Preserve and separately report signed BF and BB mesh steps, do not relax equality assertion into a false BF-only result.",
+  "original_failed_source_snapshot": "not captured; final corrected driver source preserved"
+}

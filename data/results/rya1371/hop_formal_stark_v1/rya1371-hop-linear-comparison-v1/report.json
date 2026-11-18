@@ -1,0 +1,137 @@
+{
+  "generator": {
+    "name": "analyze_bride_hop_fixed_transfer.py",
+    "bytes": 4352,
+    "sha256": "7b05ac702fde0febdb8177a095bfa33e00a48f39f286870a5bc99412f7996d83"
+  },
+  "scientific_admission": "HOLD",
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207697,
+      "sha256": "fc31a5f201164e4fdde494dcd2b607ba0b39141fc9f620a0f324e5e9019c2fe5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-linear-transfer-v1/report.json": {
+      "name": "report.json",
+      "bytes": 199342,
+      "sha256": "655ab8f6b461ed08ba3517c7f9a0c0e4373cd69df84f1aa72c33f9773d417371"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-linear-transfer-v1/native_NLTE.npz": {
+      "name": "native_NLTE.npz",
+      "bytes": 205048,
+      "sha256": "ba4afdb03a87d5e975d0c57493efb0985e77c74ed33103e1625e01f174e3f070"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-linear-transfer-v1/native_LTE.npz": {
+      "name": "native_LTE.npz",
+      "bytes": 204923,
+      "sha256": "8b18ee927545fa9f1d066d1db10b5a89017ebe6ad7cb206a34312d4b1cc04797"
+    }
+  },
+  "transfer_seconds": 5.137064000125974,
+  "windows": [
+    {
+      "centre_air_A": 6158.17,
+      "scope": "finite O-only vertical-intensity window",
+      "native_NLTE_reference_area_mA": 5.26446564755291,
+      "native_NLTE_transfer_area_mA": 5.108715755122406,
+      "native_NLTE_difference_mA": -0.15574989243050474,
+      "native_NLTE_max_normalized_difference": 0.004194689399690477,
+      "native_NLTE_max_relative_continuum_difference": 4.596942286605454e-06,
+      "native_LTE_reference_area_mA": 5.245903524290741,
+      "native_LTE_transfer_area_mA": 5.090137809719143,
+      "native_LTE_difference_mA": -0.15576571457159805,
+      "native_LTE_max_normalized_difference": 0.004175524848240908,
+      "native_LTE_max_relative_continuum_difference": 4.564863706146838e-06
+    },
+    {
+      "centre_air_A": 6300.304,
+      "scope": "finite O-only vertical-intensity window",
+      "native_NLTE_reference_area_mA": 3.184453921327267,
+      "native_NLTE_transfer_area_mA": 3.184566285833009,
+      "native_NLTE_difference_mA": 0.00011236450574214629,
+      "native_NLTE_max_normalized_difference": 0.00011279867862579174,
+      "native_NLTE_max_relative_continuum_difference": 1.5004973638044206e-06,
+      "native_LTE_reference_area_mA": 3.184451010182632,
+      "native_LTE_transfer_area_mA": 3.1845664704919074,
+      "native_LTE_difference_mA": 0.00011546030927522821,
+      "native_LTE_max_normalized_difference": 0.00011279716089551695,
+      "native_LTE_max_relative_continuum_difference": 1.5338545906740109e-06
+    },
+    {
+      "centre_air_A": 6363.776,
+      "scope": "missing-transition control",
+      "native_NLTE_reference_area_mA": 0.0,
+      "native_NLTE_transfer_area_mA": 3.8145187207676285e-06,
+      "native_NLTE_difference_mA": 3.8145187207676285e-06,
+      "native_NLTE_max_normalized_difference": 3.820794014508522e-09,
+      "native_NLTE_max_relative_continuum_difference": 2.7426683898434945e-06,
+      "native_LTE_reference_area_mA": 0.0,
+      "native_LTE_transfer_area_mA": 3.7679478530756902e-06,
+      "native_LTE_difference_mA": 3.7679478530756902e-06,
+      "native_LTE_max_normalized_difference": 3.7741797465074e-09,
+      "native_LTE_max_relative_continuum_difference": 2.7730374281276227e-06
+    },
+    {
+      "centre_air_A": 7771.944,
+      "scope": "finite O-only vertical-intensity window",
+      "native_NLTE_reference_area_mA": 84.59385547942458,
+      "native_NLTE_transfer_area_mA": 83.76925176388514,
+      "native_NLTE_difference_mA": -0.824603715539439,
+      "native_NLTE_max_normalized_difference": 0.001923492745459332,
+      "native_NLTE_max_relative_continuum_difference": 1.8383126283771922e-05,
+      "native_LTE_reference_area_mA": 77.95366770587347,
+      "native_LTE_transfer_area_mA": 77.130336662061,
+      "native_LTE_difference_mA": -0.8233310438124732,
+      "native_LTE_max_normalized_difference": 0.001918102722754611,
+      "native_LTE_max_relative_continuum_difference": 1.8418510157047763e-05
+    },
+    {
+      "centre_air_A": 7774.166,
+      "scope": "finite O-only vertical-intensity window",
+      "native_NLTE_reference_area_mA": 73.58866106750966,
+      "native_NLTE_transfer_area_mA": 72.86643310696131,
+      "native_NLTE_difference_mA": -0.7222279605483521,
+      "native_NLTE_max_normalized_difference": 0.001901868499253223,
+      "native_NLTE_max_relative_continuum_difference": 1.8459506107126877e-05,
+      "native_LTE_reference_area_mA": 68.1579191760302,
+      "native_LTE_transfer_area_mA": 67.43764058541572,
+      "native_LTE_difference_mA": -0.720278590614484,
+      "native_LTE_max_normalized_difference": 0.0018916662214385482,
+      "native_LTE_max_relative_continuum_difference": 1.8494909922783798e-05
+    },
+    {
+      "centre_air_A": 7775.388,
+      "scope": "finite O-only vertical-intensity window",
+      "native_NLTE_reference_area_mA": 58.40957207904129,
+      "native_NLTE_transfer_area_mA": 57.845863894671176,
+      "native_NLTE_difference_mA": -0.5637081843701139,
+      "native_NLTE_max_normalized_difference": 0.001606980506078326,
+      "native_NLTE_max_relative_continuum_difference": 1.8450477068054916e-05,
+      "native_LTE_reference_area_mA": 54.54163723686607,
+      "native_LTE_transfer_area_mA": 53.97997512936098,
+      "native_LTE_difference_mA": -0.5616621075050929,
+      "native_LTE_max_normalized_difference": 0.001595019342245707,
+      "native_LTE_max_relative_continuum_difference": 1.8485898045650373e-05
+    },
+    {
+      "centre_air_A": 8446.4,
+      "scope": "finite O-only vertical-intensity window",
+      "native_NLTE_reference_area_mA": 101.58492687150247,
+      "native_NLTE_transfer_area_mA": 100.96013586020096,
+      "native_NLTE_difference_mA": -0.6247910113015109,
+      "native_NLTE_max_normalized_difference": 0.002276191996473109,
+      "native_NLTE_max_relative_continuum_difference": 1.9472783919449732e-05,
+      "native_LTE_reference_area_mA": 94.52625894421912,
+      "native_LTE_transfer_area_mA": 93.90588823813367,
+      "native_LTE_difference_mA": -0.6203707060854526,
+      "native_LTE_max_normalized_difference": 0.0022553136025255105,
+      "native_LTE_max_relative_continuum_difference": 1.9508425355807546e-05
+    }
+  ],
+  "limitations": [
+    "Fixed native O populations, not independent coupled SE or collision qualification.",
+    "Finite +/-0.5A areas, not complete EWs or abundance corrections; no observed fits.",
+    "Native and LW profile/atomic constants, lower ghost and formal-solver differences remain explicit; no result-selected adjustment.",
+    "6363 transition absent; control cannot validate that diagnostic."
+  ]
+}

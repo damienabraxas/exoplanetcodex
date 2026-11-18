@@ -1,0 +1,295 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 7775,
+    "sha256": "021a8bf9d04bed543da670c83f0d9aa93f202f94503c936f23b80ca7a31d2b96"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-optical-damping-samples-v1/damping.npz",
+      "receipt": {
+        "name": "damping.npz",
+        "bytes": 5754,
+        "sha256": "e06cba77bb99c1a9f218e92adae560f6175aa9bc8051656d253a7760ee7622af"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-optical-damping-samples-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 14373,
+        "sha256": "e5e541f3371d1662daec6214e3dab9c9ece6ccbcbd1c571a514f4c321dccff7a"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-optical-damping-samples-v2/damping.npz",
+      "receipt": {
+        "name": "damping.npz",
+        "bytes": 5754,
+        "sha256": "e06cba77bb99c1a9f218e92adae560f6175aa9bc8051656d253a7760ee7622af"
+      },
+      "archived": "rya1371-optical-damping-samples-v2/damping.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-optical-damping-samples-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 15647,
+        "sha256": "b44ef547b97d7d687fbef84133c858155e2879be95920bf2a64915727d5eee5c"
+      },
+      "archived": "rya1371-optical-damping-samples-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/input.txt",
+      "receipt": {
+        "name": "input.txt",
+        "bytes": 10890880,
+        "sha256": "da216982dca144d14c419936d725827c3a33c1e5819b6953844c7bbded83febd"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 1550,
+        "sha256": "98597f812afe8de207e80b6e817c183d300244bda85d3f3cb024e91504d97fbd"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/profile_probe",
+      "receipt": {
+        "name": "profile_probe",
+        "bytes": 52224,
+        "sha256": "b010283655a10b7e324f296e86023dea8317d0a685dabef0c8bcf2df7f735f87"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/profiles.npz",
+      "receipt": {
+        "name": "profiles.npz",
+        "bytes": 3477615,
+        "sha256": "da97ae8645ee9bb4c73aec1fd70368978a7e02a44714457540ce46dad9c6d6a5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/profiles.txt",
+      "receipt": {
+        "name": "profiles.txt",
+        "bytes": 23354240,
+        "sha256": "0c96ca57e930f9a46b6434c84bfc085e1e490fd2a626a64808ce9f29c846c365"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/qlg.mod",
+      "receipt": {
+        "name": "qlg.mod",
+        "bytes": 2232,
+        "sha256": "0e3570c22762cbc1b4cc31293c637454aa427ceb80894b8d5da215c37098cae6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 3087,
+        "sha256": "8a5ba88a968b0779501d026b45deb74a93d8ed15fc4cb02818f7db223042d5ae"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/input.txt",
+      "receipt": {
+        "name": "input.txt",
+        "bytes": 10890880,
+        "sha256": "da216982dca144d14c419936d725827c3a33c1e5819b6953844c7bbded83febd"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 1788,
+        "sha256": "c149d94e9056a44aeec437950de3343344810e2e128415f822c5329e53af2d8f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/profile_probe",
+      "receipt": {
+        "name": "profile_probe",
+        "bytes": 52224,
+        "sha256": "b010283655a10b7e324f296e86023dea8317d0a685dabef0c8bcf2df7f735f87"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/profiles.npz",
+      "receipt": {
+        "name": "profiles.npz",
+        "bytes": 3477615,
+        "sha256": "da97ae8645ee9bb4c73aec1fd70368978a7e02a44714457540ce46dad9c6d6a5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/profiles.txt",
+      "receipt": {
+        "name": "profiles.txt",
+        "bytes": 23354240,
+        "sha256": "0c96ca57e930f9a46b6434c84bfc085e1e490fd2a626a64808ce9f29c846c365"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/qlg.mod",
+      "receipt": {
+        "name": "qlg.mod",
+        "bytes": 2232,
+        "sha256": "0e3570c22762cbc1b4cc31293c637454aa427ceb80894b8d5da215c37098cae6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 3165,
+        "sha256": "807d165b73048d8fdea1f04a81b59a9ac10508215654caf6798ae6ffb457f850"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": "rya1371-qlg-atmospheric-probe-v3/build.log",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/input.txt",
+      "receipt": {
+        "name": "input.txt",
+        "bytes": 10890880,
+        "sha256": "da216982dca144d14c419936d725827c3a33c1e5819b6953844c7bbded83febd"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 1788,
+        "sha256": "30a76e1d74265f22a4725ac248be79fdf52d499843096f2986fbeac83e1a161e"
+      },
+      "archived": "rya1371-qlg-atmospheric-probe-v3/manifest.json",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/profile_probe",
+      "receipt": {
+        "name": "profile_probe",
+        "bytes": 52224,
+        "sha256": "b010283655a10b7e324f296e86023dea8317d0a685dabef0c8bcf2df7f735f87"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/profiles.npz",
+      "receipt": {
+        "name": "profiles.npz",
+        "bytes": 3477615,
+        "sha256": "da97ae8645ee9bb4c73aec1fd70368978a7e02a44714457540ce46dad9c6d6a5"
+      },
+      "archived": "rya1371-qlg-atmospheric-probe-v3/profiles.npz",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/profiles.txt",
+      "receipt": {
+        "name": "profiles.txt",
+        "bytes": 23354240,
+        "sha256": "0c96ca57e930f9a46b6434c84bfc085e1e490fd2a626a64808ce9f29c846c365"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/qlg.mod",
+      "receipt": {
+        "name": "qlg.mod",
+        "bytes": 2232,
+        "sha256": "0e3570c22762cbc1b4cc31293c637454aa427ceb80894b8d5da215c37098cae6"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-qlg-atmospheric-probe-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 3166,
+        "sha256": "d8b2eb0d734f62d77cf1171224a9a9496472a9795dacaf9756ab4b3fb366edc7"
+      },
+      "archived": "rya1371-qlg-atmospheric-probe-v3/report.json",
+      "disposition": "kernel"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

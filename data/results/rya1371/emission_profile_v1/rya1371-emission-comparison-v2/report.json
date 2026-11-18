@@ -1,0 +1,438 @@
+{
+  "generator": {
+    "name": "compare_oxygen_emission_profiles.py",
+    "bytes": 5292,
+    "sha256": "1cc74b4f4970ad5af9100657739903a63c3599682018c21fb57651a3506cfb2c"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298132,
+      "sha256": "819b8249d28983e50332ef48383df136569052ebc82bbda68d26f9f6a53a0588"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582561,
+      "sha256": "fd64b654cc19b79379c6725ec3380ed0ae254d2a9f32ac3db8a6b68ad8eaa67b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-default-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298171,
+      "sha256": "23f202531ce87553cab3ccad0b9f7f8c17efda8123becb18830e40a666383d60"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-default-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582561,
+      "sha256": "fd64b654cc19b79379c6725ec3380ed0ae254d2a9f32ac3db8a6b68ad8eaa67b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298948,
+      "sha256": "e76e12b70d1ba3df0fbcb726621df75c7f2f7630b82a59173188a80504548f96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582169,
+      "sha256": "c987832da66e9ec4a8a4b75cd993f4c211046e493f8876809ba7f067bccf706a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298978,
+      "sha256": "8298ca5e2929d74cc595445bd465a8539d7d206e660bece5d9ac1b66b26189f1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582550,
+      "sha256": "bfc702bcc1ef0bcdd5ae291416448f34010808a254c54aed5ce4f9209f552029"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-v1/emission_profile_arrays.npz": {
+      "name": "emission_profile_arrays.npz",
+      "bytes": 15955033,
+      "sha256": "b31aa35359c4b11113dc0d4647672ec1dac77b95f2619f16eafe2cbb85975c3a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-v1/emission_profile_arrays.npz": {
+      "name": "emission_profile_arrays.npz",
+      "bytes": 15954879,
+      "sha256": "fb41308031c028ac5ea3acb92dac5c4d2da6148b423c603077e2a84aba364233"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 197267,
+      "sha256": "4bdef6288e88815c7c4bc4be99ede17caf0c763fd8835b42d495e7165a427252"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 197252,
+      "sha256": "786213ccc17d596ce62c295e4bf1bad7b3d2dee8cbb120c2a995636f85045fc2"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "default_exact_arrays": [
+    "native_R_s_inv",
+    "replay_R_s_inv",
+    "native_C_s_inv",
+    "replay_C_s_inv",
+    "populations",
+    "nstar",
+    "wave_vac_nm",
+    "Jnu"
+  ],
+  "profile_identity_arrays": [
+    "native_R_s_inv",
+    "native_C_s_inv",
+    "replay_C_s_inv",
+    "populations",
+    "nstar",
+    "wave_vac_nm",
+    "background_chi",
+    "background_sca",
+    "bottom_total_chi"
+  ],
+  "cases": {
+    "default": {
+      "seconds": 10.185201332904398,
+      "radiation": {
+        "iterations": 9,
+        "final_J_change": 8.623535219243195e-11,
+        "final_boundary_change": 7.367947861068567e-10,
+        "ghost_step_m": 20656.773022242953
+      },
+      "physical_residual": 0.00020041235450489695
+    },
+    "lw": {
+      "seconds": 7.1353348745033145,
+      "radiation": {
+        "iterations": 9,
+        "final_J_change": 8.623302072408023e-11,
+        "final_boundary_change": 7.367425821799969e-10,
+        "ghost_step_m": 20656.773022242953
+      },
+      "physical_residual": 5.59305217018223e-05,
+      "max_relative_J_change": 0.00046944586640051966,
+      "max_relative_positive_rate_change": 0.00046537344238894995,
+      "independent_audit": {
+        "max_relative_directional_difference": 2.9753977059954195e-14,
+        "positive_direction_depths": 31136,
+        "worst_destination_source_depth": [
+          39,
+          21,
+          38
+        ],
+        "positive_sum_FP64_bound": 3.5679903488923983e-10,
+        "max_transition_nodes": 10043,
+        "angular_weight_sum": 1.0000000018626451,
+        "saved_physical_residual": 5.59305217018223e-05,
+        "reconstructed_physical_residual": 5.593052170303586e-05,
+        "within_FP64_bound": true
+      }
+    },
+    "native": {
+      "seconds": 6.1440404169261456,
+      "radiation": {
+        "iterations": 9,
+        "final_J_change": 8.623535219243195e-11,
+        "final_boundary_change": 7.367947861068567e-10,
+        "ghost_step_m": 20656.773022242953
+      },
+      "physical_residual": 0.00020041235450489695,
+      "max_relative_J_change": 9.279669581352401e-05,
+      "max_relative_positive_rate_change": 9.211262425290467e-05,
+      "independent_audit": {
+        "max_relative_directional_difference": 2.930988785010413e-14,
+        "positive_direction_depths": 31136,
+        "worst_destination_source_depth": [
+          39,
+          19,
+          54
+        ],
+        "positive_sum_FP64_bound": 3.5679903488923983e-10,
+        "max_transition_nodes": 10043,
+        "angular_weight_sum": 1.0000000018626451,
+        "saved_physical_residual": 0.00020041235450489695,
+        "reconstructed_physical_residual": 0.00020041235450698618,
+        "within_FP64_bound": true
+      }
+    }
+  },
+  "between_profiles": {
+    "max_relative_background_eta": 0.0004697314502304373,
+    "max_relative_bottom_intensity": 0.00018561059034549743
+  },
+  "scope": "Background thermal emission and lower diffusion profile axis only. Active BB/BF/LTE/collision conventions unchanged; no preferred profile, coupled closure, observational or scientific admission.",
+  "source_snapshots": {
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+      "producing_receipt": {
+        "name": "hop_abi.py",
+        "bytes": 959,
+        "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+      },
+      "snapshot": {
+        "name": "hop_abi_source.py",
+        "bytes": 959,
+        "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/openmulti3d_output.py": {
+      "producing_receipt": {
+        "name": "openmulti3d_output.py",
+        "bytes": 5091,
+        "sha256": "3617d3871bdfab2fec0c718fe4cf9aebf78972789d7dac67da3a689b165f10d0"
+      },
+      "snapshot": {
+        "name": "openmulti3d_output_source.py",
+        "bytes": 5091,
+        "sha256": "3617d3871bdfab2fec0c718fe4cf9aebf78972789d7dac67da3a689b165f10d0"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/native_oxygen_collisions.py": {
+      "producing_receipt": {
+        "name": "native_oxygen_collisions.py",
+        "bytes": 2607,
+        "sha256": "2aff5cec6a670907429bba12459287defc04ddfc6cb9cf6943ceb6726d823368"
+      },
+      "snapshot": {
+        "name": "native_oxygen_collisions_source.py",
+        "bytes": 2607,
+        "sha256": "2aff5cec6a670907429bba12459287defc04ddfc6cb9cf6943ceb6726d823368"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_hop_transfer.py": {
+      "producing_receipt": {
+        "name": "bride_hop_transfer.py",
+        "bytes": 15416,
+        "sha256": "c249decca6d1e61969b35dfc8b6117478617ee09fe4b40eb25389a66c5826eed"
+      },
+      "snapshot": {
+        "name": "bride_hop_transfer_source.py",
+        "bytes": 15416,
+        "sha256": "c249decca6d1e61969b35dfc8b6117478617ee09fe4b40eb25389a66c5826eed"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_collision_binding.py": {
+      "producing_receipt": {
+        "name": "bride_collision_binding.py",
+        "bytes": 5021,
+        "sha256": "af43ecb6b6e20dbdfbc966781d16eb21a88218572e36d6596f2eff24f78854c1"
+      },
+      "snapshot": {
+        "name": "bride_collision_binding_source.py",
+        "bytes": 5021,
+        "sha256": "af43ecb6b6e20dbdfbc966781d16eb21a88218572e36d6596f2eff24f78854c1"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_packet.py": {
+      "producing_receipt": {
+        "name": "hop_packet.py",
+        "bytes": 10517,
+        "sha256": "e102cf1a16ba9b6e59cfb4d833c74809f43fa26ec1306c01341b1497fb1d1820"
+      },
+      "snapshot": {
+        "name": "hop_packet_source.py",
+        "bytes": 10517,
+        "sha256": "e102cf1a16ba9b6e59cfb4d833c74809f43fa26ec1306c01341b1497fb1d1820"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_numerical_validation.py": {
+      "producing_receipt": {
+        "name": "bride_numerical_validation.py",
+        "bytes": 11511,
+        "sha256": "276fd1491690d237a0c66f0057791c9bf25f8226061ee915beaf6b737502426d"
+      },
+      "snapshot": {
+        "name": "bride_numerical_validation_source.py",
+        "bytes": 11511,
+        "sha256": "276fd1491690d237a0c66f0057791c9bf25f8226061ee915beaf6b737502426d"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_top_cap.py": {
+      "producing_receipt": {
+        "name": "bride_top_cap.py",
+        "bytes": 8047,
+        "sha256": "b3151adb66bfd468aa1c651cf5435488d81a6f6c9a8a3c15372e0c3196438f29"
+      },
+      "snapshot": {
+        "name": "bride_top_cap_source.py",
+        "bytes": 8047,
+        "sha256": "b3151adb66bfd468aa1c651cf5435488d81a6f6c9a8a3c15372e0c3196438f29"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_parameter_checks.py": {
+      "producing_receipt": {
+        "name": "bride_parameter_checks.py",
+        "bytes": 6354,
+        "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+      },
+      "snapshot": {
+        "name": "bride_parameter_checks_source.py",
+        "bytes": 6354,
+        "sha256": "1407ef3618267d711d07301ed660e17ce1717be98ca6d7f3baea64ebcc1a7c6b"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_coupled_contract.py": {
+      "producing_receipt": {
+        "name": "bride_coupled_contract.py",
+        "bytes": 483,
+        "sha256": "4c0c60f3e4fcd22bea3880f5ae42420c27d607fdaeb57ceccc1e4ebdbb7229cb"
+      },
+      "snapshot": {
+        "name": "bride_coupled_contract_source.py",
+        "bytes": 483,
+        "sha256": "4c0c60f3e4fcd22bea3880f5ae42420c27d607fdaeb57ceccc1e4ebdbb7229cb"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "producing_receipt": {
+        "name": "multi_atom.py",
+        "bytes": 19706,
+        "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+      },
+      "snapshot": {
+        "name": "multi_atom_source.py",
+        "bytes": 19706,
+        "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_width_law.py": {
+      "producing_receipt": {
+        "name": "multi_width_law.py",
+        "bytes": 4651,
+        "sha256": "3a4a791687c3e32fa66e3275d9c814e3dfd897a9f9095f0fc7ad129e29345121"
+      },
+      "snapshot": {
+        "name": "multi_width_law_source.py",
+        "bytes": 4651,
+        "sha256": "3a4a791687c3e32fa66e3275d9c814e3dfd897a9f9095f0fc7ad129e29345121"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_reference.py": {
+      "producing_receipt": {
+        "name": "bride_reference.py",
+        "bytes": 10407,
+        "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+      },
+      "snapshot": {
+        "name": "bride_reference_source.py",
+        "bytes": 10407,
+        "sha256": "1e6273b120b4a1c1ffea188dd1f4976a3bf0e67fde3cac7ca24e0d8c50a32c85"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/scripts/run_hop_oxygen_coupled_diagnostic.py": {
+      "producing_receipt": {
+        "name": "run_hop_oxygen_coupled_diagnostic.py",
+        "bytes": 14458,
+        "sha256": "c5351eac729e398e4371b80dff8170bee0ccdd54a4a305506cbfb3ffd363b638"
+      },
+      "snapshot": {
+        "name": "run_hop_oxygen_coupled_diagnostic_source.py",
+        "bytes": 14458,
+        "sha256": "c5351eac729e398e4371b80dff8170bee0ccdd54a4a305506cbfb3ffd363b638"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/scripts/replay_hop_oxygen_radiative_rates.py": {
+      "producing_receipt": {
+        "name": "replay_hop_oxygen_radiative_rates.py",
+        "bytes": 25701,
+        "sha256": "0124414968f484d47f802f87f31e2f93af95b2947e2982e96433c4cbea7262fd"
+      },
+      "snapshot": {
+        "name": "replay_hop_oxygen_radiative_rates_source.py",
+        "bytes": 25701,
+        "sha256": "0124414968f484d47f802f87f31e2f93af95b2947e2982e96433c4cbea7262fd"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_overlap_plugin.py": {
+      "producing_receipt": {
+        "name": "bride_overlap_plugin.py",
+        "bytes": 1441,
+        "sha256": "f70c7a6498be1207e1884fb188f46a8420ec999ba869e025eaf78f2cd4a32e8b"
+      },
+      "snapshot": {
+        "name": "bride_overlap_plugin_source.py",
+        "bytes": 1441,
+        "sha256": "f70c7a6498be1207e1884fb188f46a8420ec999ba869e025eaf78f2cd4a32e8b"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/native_ghost_boundary.py": {
+      "producing_receipt": {
+        "name": "native_ghost_boundary.py",
+        "bytes": 3321,
+        "sha256": "d121d29dc2ff5d669b80ab3044200211e0b2f4938f6acec3b4cea740a8aee351"
+      },
+      "snapshot": {
+        "name": "native_ghost_boundary_source.py",
+        "bytes": 3321,
+        "sha256": "d121d29dc2ff5d669b80ab3044200211e0b2f4938f6acec3b4cea740a8aee351"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/native_continuum_control.py": {
+      "producing_receipt": {
+        "name": "native_continuum_control.py",
+        "bytes": 8251,
+        "sha256": "3f4270f1e762d80307ac80a845374363fd8fc52511c6fa7eafd53d3e8b8aef03"
+      },
+      "snapshot": {
+        "name": "native_continuum_control_source.py",
+        "bytes": 8251,
+        "sha256": "3f4270f1e762d80307ac80a845374363fd8fc52511c6fa7eafd53d3e8b8aef03"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_continuum.py": {
+      "producing_receipt": {
+        "name": "multi_continuum.py",
+        "bytes": 1219,
+        "sha256": "de0b3f6e69e05e231247fe986743f3d3c7310b7ebf85fd66d07b1ca4c6470e7e"
+      },
+      "snapshot": {
+        "name": "multi_continuum_source.py",
+        "bytes": 1219,
+        "sha256": "de0b3f6e69e05e231247fe986743f3d3c7310b7ebf85fd66d07b1ca4c6470e7e"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/oxygen_emission_profile.py": {
+      "producing_receipt": {
+        "name": "oxygen_emission_profile.py",
+        "bytes": 4272,
+        "sha256": "da8fd7cffed11512e0cee6d63a6931fe012d3c58e2cf5d1af4ed76c36f822240"
+      },
+      "snapshot": {
+        "name": "oxygen_emission_profile_source.py",
+        "bytes": 4272,
+        "sha256": "da8fd7cffed11512e0cee6d63a6931fe012d3c58e2cf5d1af4ed76c36f822240"
+      },
+      "timing": "after-run, producing input receipt verified"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/rate_semantics.py": {
+      "producing_receipt": {
+        "name": "rate_semantics.py",
+        "bytes": 840,
+        "sha256": "82dfb792c7990bed36edd86d3704bf31bbb33209aec43a9f877d76e087154107"
+      },
+      "snapshot": {
+        "name": "rate_semantics_source.py",
+        "bytes": 840,
+        "sha256": "82dfb792c7990bed36edd86d3704bf31bbb33209aec43a9f877d76e087154107"
+      },
+      "timing": "after-run, producing input receipt verified"
+    }
+  }
+}

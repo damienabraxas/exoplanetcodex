@@ -1,0 +1,6 @@
+{
+  "error": "AssertionError: exact FP64 replay C vs stored native C differs by up to5.95564208e-8 relative",
+  "stage": "preflight before output allocation",
+  "cause": "Diagnostic assumed stored native collision output has FP64 coefficient precision; check native FP32 representation instead",
+  "admitted": false
+}

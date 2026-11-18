@@ -1,0 +1,575 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 20896,
+    "sha256": "a75822764577f1ae9bce0ed555e44431926d3bbbf6fe4fb542c97cd8a3be0ef8"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v1/candidates.csv",
+      "receipt": {
+        "name": "candidates.csv",
+        "bytes": 680,
+        "sha256": "7473e0c608ad1245918d45641755eceedf47c545e2ea93a8713a061515ef47a6"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 8587,
+        "sha256": "6b15d128370760a2cffa0045603afb703192d75a6205d0b67372136827ed99a0"
+      },
+      "archived": "rya1371-uv-panel-trace-v1/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 50405,
+        "sha256": "ce892623c8f3962af2757b44d688a07b0fe909cce1ad16ae82b78fb18978f4f9"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v1/samples.csv",
+      "receipt": {
+        "name": "samples.csv",
+        "bytes": 13507,
+        "sha256": "d914fcb0b5e389ddede0b585115a2aaf1527b6f3fe1e104e35e5bc3d0cd59015"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 2841,
+        "sha256": "20f111e9366704095a301c7ae4815010351014664e4f8eff8a4e00186a45985c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v1/uv_panels.png",
+      "receipt": {
+        "name": "uv_panels.png",
+        "bytes": 338031,
+        "sha256": "7bd23aab600afbc51eb733a98792da66e63b1c0752db4770b1c7968fa4048726"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v2/candidates.csv",
+      "receipt": {
+        "name": "candidates.csv",
+        "bytes": 680,
+        "sha256": "7473e0c608ad1245918d45641755eceedf47c545e2ea93a8713a061515ef47a6"
+      },
+      "archived": "rya1371-uv-panel-trace-v2/candidates.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 10310,
+        "sha256": "ab9c1017ac2b94fee03d98ec2df33fa18986befc8437d58b7ba7de5d03ac30eb"
+      },
+      "archived": "rya1371-uv-panel-trace-v2/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v2/knot_source.py",
+      "receipt": {
+        "name": "knot_source.py",
+        "bytes": 1559,
+        "sha256": "47b4e9c71a19aae1eb6a80063a7c5bc79feb99b0806adf94c6320eb7c5b4a4cf"
+      },
+      "archived": "rya1371-uv-panel-trace-v2/knot_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 53400,
+        "sha256": "03cb48688a7dd7f4f8d596280803d6d79cabbe2592a7d200df22d49b9bfd8b28"
+      },
+      "archived": "rya1371-uv-panel-trace-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v2/samples.csv",
+      "receipt": {
+        "name": "samples.csv",
+        "bytes": 13507,
+        "sha256": "d914fcb0b5e389ddede0b585115a2aaf1527b6f3fe1e104e35e5bc3d0cd59015"
+      },
+      "archived": "rya1371-uv-panel-trace-v2/samples.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v2/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 4255,
+        "sha256": "880f94237678b11e6175a2718fba7eabfb8c7f671e065fb5ea5d8729f2e4e518"
+      },
+      "archived": "rya1371-uv-panel-trace-v2/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-uv-panel-trace-v2/uv_panels.png",
+      "receipt": {
+        "name": "uv_panels.png",
+        "bytes": 352461,
+        "sha256": "cd9e40c67fdbc98097e4c9c728f8026a9894848fa543292dc989f06d52052819"
+      },
+      "archived": "rya1371-uv-panel-trace-v2/uv_panels.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fe-readiness-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 6302,
+        "sha256": "31163ad08b07d82e167c04caf00f3cb8176241c4b46de9502ec026d487dfeb5f"
+      },
+      "archived": "rya1371-fe-readiness-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fe-readiness-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 5362,
+        "sha256": "16157b16c9e6540a7f32fe595ca7f5248d80036c20d7abbe0062fa1b610f5f0e"
+      },
+      "archived": "rya1371-fe-readiness-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-fe-readiness-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1665,
+        "sha256": "3ad9924a705be7dfc865c46440d907812cd36702114c139831a9bcc27fe0c4bc"
+      },
+      "archived": "rya1371-fe-readiness-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knot-grid-v1/background_grid.npz",
+      "receipt": {
+        "name": "background_grid.npz",
+        "bytes": 124388,
+        "sha256": "19bb675d23d80feab24fa1dbd70f6897c51568ddf775475dd4ec8893e02486eb"
+      },
+      "archived": "rya1371-background-knot-grid-v1/background_grid.npz",
+      "disposition": "source-grid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knot-grid-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 3796,
+        "sha256": "3b6316874568b9785da8a2702b38d512265b38e8bd30b3cb8967de3597e20214"
+      },
+      "archived": "rya1371-background-knot-grid-v1/driver_source.py",
+      "disposition": "source-grid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knot-grid-v1/knot_source.py",
+      "receipt": {
+        "name": "knot_source.py",
+        "bytes": 1559,
+        "sha256": "47b4e9c71a19aae1eb6a80063a7c5bc79feb99b0806adf94c6320eb7c5b4a4cf"
+      },
+      "archived": "rya1371-background-knot-grid-v1/knot_source.py",
+      "disposition": "source-grid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knot-grid-v1/packaging_failure.json",
+      "receipt": {
+        "name": "packaging_failure.json",
+        "bytes": 582,
+        "sha256": "984fddfef8cd17cdf3693aae417b92db5008efd56d2d52279936f8fc892a0605"
+      },
+      "archived": "rya1371-background-knot-grid-v1/packaging_failure.json",
+      "disposition": "source-grid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knot-grid-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 64616,
+        "sha256": "ce2089013af6f6802fba5ab2dfcfe9bdad362ef0f96328d0ded9305aa291e7ec"
+      },
+      "archived": "rya1371-background-knot-grid-v1/report.json",
+      "disposition": "source-grid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knots-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 23793,
+        "sha256": "a6a68571b58bba02ce45836461a18f6b4abe026bb6a43aedf26c75a249abee07"
+      },
+      "archived": "rya1371-background-knots-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knots-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129058,
+        "sha256": "62574042dc1c5a48303f5d49470e1b808138d4ea222ffa60989ef6f6ef312b2e"
+      },
+      "archived": "rya1371-background-knots-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knots-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 5104780,
+        "sha256": "42eee0e9d11e198c277efc877dd0490f74aaf895f6092c91bd584e39455f0400"
+      },
+      "archived": "rya1371-background-knots-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knots-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217538,
+        "sha256": "a705b6679a2146cbb39733d42eb3bbfe6c462ca7ad948156197d7d13d61bd084"
+      },
+      "archived": "rya1371-background-knots-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knots-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 670,
+        "sha256": "40dc5588f9d3c21b607cc75785691fada4f3ea9f017f0a1e5ef3415f23b3b84a"
+      },
+      "archived": "rya1371-background-knots-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 23793,
+        "sha256": "a6a68571b58bba02ce45836461a18f6b4abe026bb6a43aedf26c75a249abee07"
+      },
+      "archived": "rya1371-background-midpoint-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129014,
+        "sha256": "d0e37dde7f937ce24b54a26afd6b1bea5b59f2e3f31623d3feddb3c66c9d9fb2"
+      },
+      "archived": "rya1371-background-midpoint-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 8464788,
+        "sha256": "6e61abe9b3e873ffe7b5127350f136509c563d92142ddec46e30cbe45544dc66"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217497,
+        "sha256": "b52f11c4023321be320d3e7796d08ce768ee681686b2ed6b2b4e18b14191599f"
+      },
+      "archived": "rya1371-background-midpoint-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 669,
+        "sha256": "c9b4233e89b07f3dd1159806b542a6cada0217ab5048ced57f99c998a644fe5b"
+      },
+      "archived": "rya1371-background-midpoint-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 495812,
+        "sha256": "7577929107da36e499b3611478cd1e09f7c06e835bb7bd28dc4e974c18bd7b6c"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768760,
+        "sha256": "5139ff561ea72f9af0f37e3164a175642eb00da6bc2d99ed85bfb65f97e6e03e"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 339298,
+        "sha256": "e12dbfeaef1bd08bafbddbe1c55aeccaf82decdcd816a91dd68de0075895d669"
+      },
+      "archived": "rya1371-background-adaptive-plan-v1/adaptive_grid.npz",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 22922,
+        "sha256": "94524075e6bd67cb62932c456899c6a264bae04c3c5c47c21a0e298c27cc5479"
+      },
+      "archived": "rya1371-background-adaptive-plan-v1/driver_source.py",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4725129,
+        "sha256": "7a5ce27899e4299e49ce7b9385d7858bb4f1d334991b1fc3bbc5a73f63832951"
+      },
+      "archived": null,
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/parabolic_rates.npz",
+      "receipt": {
+        "name": "parabolic_rates.npz",
+        "bytes": 249823,
+        "sha256": "5f487948fd2aa8719750361230540afd65324c4583ccd152844d478debeaa370"
+      },
+      "archived": "rya1371-background-adaptive-plan-v1/parabolic_rates.npz",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96594,
+        "sha256": "5592e819af5dfa83d45f285775183c22ba0270711130402e86b46f2c1f532acb"
+      },
+      "archived": "rya1371-background-adaptive-plan-v1/report.json",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1441,
+        "sha256": "8739f858eafafa3376da6024de9422e87ba9eabdb99a46f5c74a16424607aac4"
+      },
+      "archived": "rya1371-background-adaptive-plan-v1/stdout_stderr.log",
+      "disposition": "adaptive-plan"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 23793,
+        "sha256": "a6a68571b58bba02ce45836461a18f6b4abe026bb6a43aedf26c75a249abee07"
+      },
+      "archived": "rya1371-background-adaptive-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129043,
+        "sha256": "410a935926f1088fd9d55a62149ea85c3e1ef96083ef602c05795e0cea1c7310"
+      },
+      "archived": "rya1371-background-adaptive-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 9582505,
+        "sha256": "5ba7d60291dda56c069991b357926995f8e85b372e69a297d0fc19670fbc6503"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217525,
+        "sha256": "834386ce4849ccd737a062ddd00f1af8f4d6a6a29e47fb4ec2059dc605609ebe"
+      },
+      "archived": "rya1371-background-adaptive-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 670,
+        "sha256": "99a70df36a262caec83158ceede11791f03dcdf5dd8d6e13df3502dbdea85926"
+      },
+      "archived": "rya1371-background-adaptive-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/absolute_rates.npz",
+      "receipt": {
+        "name": "absolute_rates.npz",
+        "bytes": 495948,
+        "sha256": "2be876d525e661c8fec874aaa965e2a00187113d1688940f5943002f354a0d88"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/absolute_transition_rates.csv",
+      "receipt": {
+        "name": "absolute_transition_rates.csv",
+        "bytes": 768682,
+        "sha256": "67e8b81ca57c1bc374cf55266486c6f87aafe2eb083247c846486427455c6dff"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/adaptive_grid.npz",
+      "receipt": {
+        "name": "adaptive_grid.npz",
+        "bytes": 350334,
+        "sha256": "82ad3d0812fb72e8187c4adab4e57bd5de1e72d0d1042e440462a993ed8746c6"
+      },
+      "archived": "rya1371-background-final-audit-v1/adaptive_grid.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 22922,
+        "sha256": "94524075e6bd67cb62932c456899c6a264bae04c3c5c47c21a0e298c27cc5479"
+      },
+      "archived": "rya1371-background-final-audit-v1/driver_source.py",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4724650,
+        "sha256": "8b44ed97f3d67349aadcaa96535975f2cda1b95653549078b9c16c1f1e92ff52"
+      },
+      "archived": null,
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/parabolic_rates.npz",
+      "receipt": {
+        "name": "parabolic_rates.npz",
+        "bytes": 249790,
+        "sha256": "b715511d0f6afc1ad488452d9c494ab77d75085949d38fd144eb2313637f1901"
+      },
+      "archived": "rya1371-background-final-audit-v1/parabolic_rates.npz",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 96609,
+        "sha256": "1f094ff5242808fc34149141d9f57b72bf971bf4dd741917302b045d033add44"
+      },
+      "archived": "rya1371-background-final-audit-v1/report.json",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1443,
+        "sha256": "6c2c5402795e807c1f8bfad323239b78bb223ecc6c727c60c65f211a228ef197"
+      },
+      "archived": "rya1371-background-final-audit-v1/stdout_stderr.log",
+      "disposition": "adaptive-audit"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-sequence-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 4550,
+        "sha256": "90ba53d197dddc9154dffbea864cce9a6d778c5b395b19312eb75b12498ad49d"
+      },
+      "archived": "rya1371-background-sequence-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-sequence-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 5448,
+        "sha256": "e33453a64bbfb04364793fd738fda6683e8bc7060d2ed5716045d2e3223d6e86"
+      },
+      "archived": "rya1371-background-sequence-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-sequence-v1/sequence.csv",
+      "receipt": {
+        "name": "sequence.csv",
+        "bytes": 638,
+        "sha256": "7b9b78c0ab4822c7c8ec58d001ba7fd5a1b7e3baedfb99d774a2d35078b2b144"
+      },
+      "archived": "rya1371-background-sequence-v1/sequence.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-sequence-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1397,
+        "sha256": "b9e04ec826dceb46fe10432ed5f064a131a562386f0d60c7bb57abb3ea56e420"
+      },
+      "archived": "rya1371-background-sequence-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

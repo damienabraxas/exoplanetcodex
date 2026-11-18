@@ -1,0 +1,117 @@
+{
+  "generator": {
+    "name": "run_native_gross_rates.py",
+    "bytes": 4160,
+    "sha256": "f12fd1e393c9e439e7b4b50815ec2aa2a496369c988ff1caa382bff824d39cb3"
+  },
+  "plan": {
+    "name": "rya1371_openmulti3d_oxygen_accurate_profile.json",
+    "bytes": 3348,
+    "sha256": "31404ca26e6076f48e42ded7d6cc02a8c78fe56fed83e7c3e24238b4c6b59325"
+  },
+  "engine": {
+    "build": {
+      "name": "receipt.json",
+      "bytes": 2448,
+      "sha256": "d5d38fb846bb54da573c6878035e287522121766a98a2acd25ba2a41b5e79b21"
+    },
+    "original_accurate_engine": {
+      "variant": "accurate-kernel-control",
+      "variant_spec": {
+        "name": "openmulti3d_profile_variant.yaml",
+        "bytes": 363,
+        "sha256": "48cbc06b11dd827ad9e7e94668ffb99c3efb6562179f42c66d9fbae20f0d0303"
+      },
+      "build_receipt": {
+        "name": "receipt.json",
+        "bytes": 1679,
+        "sha256": "5c55b23c8d071887f25f96dae2996f4124ed9db5a75db402b84c9501875b96ec"
+      },
+      "executable": {
+        "name": "dispatch.x",
+        "bytes": 3614120,
+        "sha256": "a1f9441bf21003113bc59d3c0c91a16f5b1e68cdcf2574e7ccd411e70341dbc1"
+      },
+      "source_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+      "patch": {
+        "name": "active_profile.patch",
+        "bytes": 3144,
+        "sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446"
+      },
+      "original_reference": {
+        "registry": {
+          "name": "reference_engines.yaml",
+          "bytes": 877,
+          "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+        },
+        "build_receipt": {
+          "name": "receipt.json",
+          "bytes": 1552,
+          "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+        },
+        "executable": {
+          "name": "dispatch.x",
+          "bytes": 3614040,
+          "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+        },
+        "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+      }
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3630696,
+      "sha256": "775de45b234029a9087582d29828eb5eee795295d4ce7dca198e43b0e6b783b3"
+    }
+  },
+  "inputs": {
+    "atmosphere": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "atom": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "element": "O",
+    "atom_header": {
+      "abundance": 8.7,
+      "mass": 15.999,
+      "levels": 41,
+      "lines": 256,
+      "continua": 22,
+      "fixed": 0
+    },
+    "namelist": {
+      "name": "input.nml",
+      "bytes": 1139,
+      "sha256": "096a7252b645f648d806607dc5a2c55d7d4a7c4a47ce5bd9e6c6ec544d6948e5"
+    },
+    "controls": {
+      "threads": 1,
+      "seconds": 600,
+      "maxiter": 1500,
+      "rtol": 1e-06,
+      "ntheta": 5,
+      "nphi": 1,
+      "angle_quad": "lobatto",
+      "qnorm": 10.0,
+      "nq_fac": 2.0,
+      "output_angle_quad": "disk_center",
+      "freeze_depths": false,
+      "output_solver": "linear",
+      "disable_stark_control": true
+    },
+    "physical_limitations": [
+      "Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.",
+      "Line blanketing and background bound-bound opacity explicitly off in this first reference plan.",
+      "Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.",
+      "Source atom is not silently replaced by the supplied variant; source paths and hashes are checked."
+    ]
+  },
+  "purpose": "stage-matched-physical-rate-observer",
+  "scientific_admission": "HOLD",
+  "computational_completed": false,
+  "dry_run": false
+}

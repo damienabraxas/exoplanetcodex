@@ -1,0 +1,87 @@
+{
+  "schema": "codex.reference_engine_result/1",
+  "scientific_admission": "HOLD",
+  "engine": "openmulti3d",
+  "mode": "1D-NLTE",
+  "scope": "Prospective independent OpenMULTI3D1D O41 solve on the exact5750/4.5/A8.70 source atom/atmosphere of the held MULTI reference. Native EOS/background/rate interpolation and boundary differences must be measured. No background line blanketing in this first continuum-only control; no solar fit, physical parity/admission or replacement of Bride/source/production. Second prospective control requests actual disk-centre output and disables per-depth early freezing (convmax0) so all saved depth rates belong to the same final global iteration. The first run was a departure-only calculation with no output spectrum. The native pressure-graded/interpolated depth grid must be registered explicitly before comparing source-node populations. Prospective dense output-only control: canonical AIR-to-vacuum conversion once before native synthesis; no change to the SE frequency grid or physical inputs. Prospective one-axis numerical refinement: ntheta=7; no physics/input change. Compare against dense baseline, diagnostic 0.1mA window-area stability screen, not scientific admission.",
+  "generator": {
+    "name": "run_reference_engine.py",
+    "bytes": 3520,
+    "sha256": "170111ad21b0f7b71ebb1a5a9b446911a5e9b692bc91796cfbfbf22f85a5abc8"
+  },
+  "adapter": {
+    "name": "reference_engines.py",
+    "bytes": 7871,
+    "sha256": "d5312da8556bf704ea4f9c0089e67fc879e9307f168b8019384b87c57c5d046a"
+  },
+  "plan": {
+    "name": "rya1371_openmulti3d_oxygen_angle_refinement.json",
+    "bytes": 2411,
+    "sha256": "aebb8091e89d9b283d08072efb63d49867a0031c21cd7c1b6af56c21af8501d0"
+  },
+  "engine_receipt": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "inputs": {
+    "atmosphere": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "atom": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "element": "O",
+    "atom_header": {
+      "abundance": 8.7,
+      "mass": 15.999,
+      "levels": 41,
+      "lines": 256,
+      "continua": 22,
+      "fixed": 0
+    },
+    "namelist": {
+      "name": "input.nml",
+      "bytes": 1062,
+      "sha256": "f46526981c68f3abf9614566f99e67701675b6118472d7ce63206cee66f7d451"
+    },
+    "controls": {
+      "threads": 1,
+      "seconds": 600,
+      "maxiter": 1500,
+      "rtol": 1e-06,
+      "ntheta": 7,
+      "nphi": 1,
+      "angle_quad": "lobatto",
+      "qnorm": 10.0,
+      "nq_fac": 2.0,
+      "output_angle_quad": "disk_center",
+      "freeze_depths": false
+    },
+    "physical_limitations": [
+      "Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.",
+      "Line blanketing and background bound-bound opacity explicitly off in this first reference plan.",
+      "Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.",
+      "Source atom is not silently replaced by the supplied variant; source paths and hashes are checked."
+    ]
+  },
+  "dry_run": false,
+  "computational_completed": false
+}

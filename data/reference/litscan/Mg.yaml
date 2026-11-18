@@ -54,3 +54,16 @@ range:
   derivation: best-external-plus-sigma
   is_statistical_spread: false
   basis: Descriptive anchor interval; not a replacement for model-scale and uncertainty checks.
+literature_sweep:
+  # RYA-1371 (2026-11-18): recorded for the two bands the x-label correction re-runs, from the
+  # searches RYA-1250 made 2026-10-21..24 (docs/audit/rya1250_mg_fix.md). The other ion x
+  # bands stay owed until their searches are written down here.
+  bands:
+    - ion: I
+      band: VIS
+      searched: [AGSS21 Table A.1, Bergemann+2017 Table 2, Pehlivan Rhodin+2017 Table 2, Scott+2015, Lodders+2025, Amarsi & Grevesse 2026, NIST ASD, VALD gf references]
+      result: Reference lines 4571 4702 5167 5172 5183 5528 5711 6318 6319. PR17 experimental gf adopted for 5167, 5172, 5183, 5528 (gf_tier LAB, PR2017_exp); 4571 at B17. AG26 adds no line.
+    - ion: I
+      band: red-optical
+      searched: [AGSS21 Table A.1, Bergemann+2017 Table 2, Pehlivan Rhodin+2017 Table 2, Lodders+2025, Amarsi & Grevesse 2026, NIST ASD, VALD gf references]
+      result: Reference lines 7657.6 7659.15 7659.90 8712 8717 8806 8923. PR17 experimental gf adopted for 7657.6, 7659.15, 7659.90, 8806. AG26 adds no line.

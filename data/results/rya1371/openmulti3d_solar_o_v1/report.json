@@ -1,0 +1,84 @@
+{
+  "schema": "codex.openmulti3d_nlte_corrections/1",
+  "generator_sha256": "672d4940242d84c18164ae51b75677c1574717dd76713dfe9e98ee820404a681",
+  "cog_report": {
+    "schema": "codex.openmulti3d_cog/1",
+    "spec": "config/experiments/rya1371_openmulti3d_solar_o_cog.json",
+    "spec_sha256": "e68352e67c26fb44cb4093cfeddc7f7ed07b780031c835c1e3d7307cfc9fb58e",
+    "generator_sha256": "fcc6f53494d1a3fbbc05326cc2fc04961bcacccae27243af5caf6cf006b18a68",
+    "engine_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+    "executable_sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4",
+    "atmosphere": "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/atmos/p5777_g+4.4_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "atmosphere_sha256": "718e9eddc0b7507379bac002e520465c55134d802f774a72d764dd1845591499",
+    "atom_sha256": {
+      "o41f_ref": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57",
+      "o41f": "5cc8a84d7ebc6ba23b22d882e4cf0e7a38c4a707bc441e323350236bfed21af5",
+      "o41j": "9dc06ba050bfa0db2af144bdddd5d796b18add30aff075bf9030be0eefaf749d"
+    },
+    "flux_mus": [
+      1.0,
+      0.87174016,
+      0.5917002,
+      0.20929922
+    ],
+    "ew_definition": "1e3*trapz(1-F/Fc) over integrate_air_A, flux, tumult air axis",
+    "triplet_gf_source": "atom transitions (output_from_line_list=F); background lines from linelist if declared"
+  },
+  "cog_sha256": "34da978aa7fa8e3ebf0c94130d61625eff579f70d1fbba5ef1ef0ffef73471ea",
+  "lte_inputs": {
+    "/Users/ryanschmitt/codex/rya1230_runs/legs6/unit20/nominal/OI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-AGSS21_1D-LTE_lines.csv": "2122765ed3eb4eee1d9b51c5363ba7f3b1e51569a5041714039ab6f67586f883",
+    "/Users/ryanschmitt/codex/rya1230_runs/legs6/unit22/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv": "0cffda33d1074a623624045f552e4717ec5c9aaa22c7f2988761c6a49a23c561",
+    "/Users/ryanschmitt/codex/rya1230_runs/legs6/unit24/nominal/OI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-AGSS21_1D-LTE_lines.csv": "2dac4905059da20e04c6cf6bdf8169767195f36a8bdcffc3de38eb264d4f32a1"
+  },
+  "summary": {
+    "solar_iag:8446": {
+      "n": 3,
+      "A_LTE_mean": 8.7123,
+      "A_engineA_mean": 8.6048,
+      "A_NLTE_o41f_ref_mean": 8.6149,
+      "A_NLTE_o41f_mean": 8.6149,
+      "A_NLTE_o41j_mean": 8.6193
+    },
+    "solar_iag:777": {
+      "n": 3,
+      "A_LTE_mean": 8.934,
+      "A_engineA_mean": 8.7797,
+      "A_NLTE_o41f_ref_mean": 8.8031,
+      "A_NLTE_o41f_mean": 8.8031,
+      "A_NLTE_o41j_mean": 8.7394
+    },
+    "solar_kpno_kurucz2005_corrected:8446": {
+      "n": 3,
+      "A_LTE_mean": 8.722,
+      "A_engineA_mean": 8.6137,
+      "A_NLTE_o41f_ref_mean": 8.6239,
+      "A_NLTE_o41f_mean": 8.6239,
+      "A_NLTE_o41j_mean": 8.6283
+    },
+    "solar_kpno_kurucz2005_corrected:777": {
+      "n": 3,
+      "A_LTE_mean": 8.9357,
+      "A_engineA_mean": 8.7812,
+      "A_NLTE_o41f_ref_mean": 8.8046,
+      "A_NLTE_o41f_mean": 8.8046,
+      "A_NLTE_o41j_mean": 8.7409
+    },
+    "solar_kpno_molecfit_corrected:8446": {
+      "n": 3,
+      "A_LTE_mean": 8.7077,
+      "A_engineA_mean": 8.6005,
+      "A_NLTE_o41f_ref_mean": 8.6106,
+      "A_NLTE_o41f_mean": 8.6106,
+      "A_NLTE_o41j_mean": 8.615
+    },
+    "solar_kpno_molecfit_corrected:777": {
+      "n": 3,
+      "A_LTE_mean": 8.9383,
+      "A_engineA_mean": 8.7837,
+      "A_NLTE_o41f_ref_mean": 8.8072,
+      "A_NLTE_o41f_mean": 8.8072,
+      "A_NLTE_o41j_mean": 8.7433
+    }
+  },
+  "definition": "delta = A_NLTE(EW_LTE(A_LTE)) - A_LTE on OpenMULTI3D flux COGs (log-EW interpolation)"
+}

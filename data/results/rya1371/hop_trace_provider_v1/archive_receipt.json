@@ -1,0 +1,145 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 4954,
+    "sha256": "a4d9b5374dd0e5fed3f006134a5be3066ae8d12b9307e0286dcd484e6b1e9458"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-trace-provider-v1/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 7047,
+        "sha256": "37388c1e2bd808ee5dc559fdab4ad0f93af2cd32a66617c6f8a6beb510c37235"
+      },
+      "archived": "rya1371-hop-trace-provider-v1/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-trace-provider-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 68373,
+        "sha256": "945c3316a8a74ebc2088019eee63bf585e73ae4404a0a1a02080b312a48047b8"
+      },
+      "archived": "rya1371-hop-trace-provider-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-opacity-provider-v2/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 11030,
+        "sha256": "8702eb6fed9cc400a461e0c330265f512d4f80fa3b4d3fc9a982dcad6e18d0fb"
+      },
+      "archived": "rya1371-hop-opacity-provider-v2/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-opacity-provider-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 68842,
+        "sha256": "acb190d872b4ccf5377f8ed15952f222143a1ab09cbe6d998bfe04c2bad5f419"
+      },
+      "archived": "rya1371-hop-opacity-provider-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 2097,
+        "sha256": "37e30e9bafa389094e0884950638be9dde0861ae9c7d41c3debf018ed618d062"
+      },
+      "archived": "provider_build/build.log",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 1118,
+        "sha256": "5b4037b5bb98eac9bb38c9257cc843cd8d02ed027faaf81ecf035067174aad56"
+      },
+      "archived": "provider_build/manifest.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/receipt.json",
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 1591,
+        "sha256": "d4c2e8ab13d1dbff80e0a66db40d643ee11457b8ad63acb91da00251b86d2d6b"
+      },
+      "archived": "provider_build/receipt.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v1/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 1105,
+        "sha256": "1ac9b80d473cb20f45cedaff795ee7118d80adea1c9d812b23906f44a555d4ec"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v1/execution.json",
+      "receipt": {
+        "name": "execution.json",
+        "bytes": 98,
+        "sha256": "accd7dfa304da9efdf53ce5dc1ade7a0bf929f0fa0ae6880e4f38d2265d82fe3"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v2/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 1060,
+        "sha256": "ebae42b5bdbe300d45ed5a6704ff1da492b8cb41784aeca248581f5d95f2d654"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v2/execution.json",
+      "receipt": {
+        "name": "execution.json",
+        "bytes": 91,
+        "sha256": "75f15323f67bc21d36092e155753abe878f3af9dacfe462f129867f524012bfb"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v3/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 87,
+        "sha256": "14cbb6b65b89df58963134635ffc18fd9cd8dc4a2996e6ba1dab4fd40c9de219"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v3/execution.json",
+      "receipt": {
+        "name": "execution.json",
+        "bytes": 90,
+        "sha256": "447073d655a416d11af5d9ee276e502fc58467ae147dbeae9e65ed2b42535832"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

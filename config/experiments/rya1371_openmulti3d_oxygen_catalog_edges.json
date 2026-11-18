@@ -1,0 +1,68 @@
+{
+  "schema": "codex.reference_engine_run/1",
+  "engine": "openmulti3d",
+  "mode": "1D-NLTE",
+  "expected_element": "O",
+  "abundance": 8.7,
+  "atom": {
+    "resource": "experiments.bride_oxygen_atom",
+    "receipt": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    }
+  },
+  "atmosphere": {
+    "resource": "grids.marcs_standard",
+    "filename": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "receipt": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    }
+  },
+  "controls": {
+    "threads": 1,
+    "seconds": 600,
+    "maxiter": 1500,
+    "rtol": 1e-06,
+    "ntheta": 5,
+    "nphi": 1,
+    "angle_quad": "lobatto",
+    "qnorm": 10.0,
+    "nq_fac": 4.0,
+    "output_angle_quad": "disk_center",
+    "freeze_depths": false,
+    "output_solver": "linear",
+    "disable_stark_control": true,
+    "bound_free_in_output": true
+  },
+  "scope": "OUTPUT-ONLY full-BF/BB numerical coverage smoke across registered catalog envelope endpoints90nm and5500nm plus FUV130.2nm/NIR1129nm/IR3099nm. NQFAC4 O41/MARCS5750g4.5A8.70 SE physics and original600s/one-thread/rtol/ray controls unchanged. Explicit vacuum-nm axis, scale10 to native vacuumA; no AIR conversion at/below200nm. Enable bound_free_in_output explicitly for full-source output. Require internal SE/population arrays bit-identical to NQFAC4 baseline. Sparse diagnostic windows, not dense full-band, observed/atomic-data/molecular/chromospheric or instrument/3D validation. No fit or adoption.",
+  "output_grid": {
+    "frame": "vacuum_nm",
+    "step_nm": 0.0005,
+    "windows": [
+      [
+        90.0,
+        90.02
+      ],
+      [
+        130.15,
+        130.25
+      ],
+      [
+        1128.8,
+        1129.3
+      ],
+      [
+        3098.2,
+        3099.0
+      ],
+      [
+        5499.8,
+        5500.0
+      ]
+    ]
+  },
+  "profile_variant": "accurate-kernel-control"
+}

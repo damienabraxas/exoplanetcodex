@@ -1,0 +1,115 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 9629,
+    "sha256": "6d6c9002c20468a99a0d0a8161b84d23e69034abd8840f289f5a01817b05c08f"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 8982,
+        "sha256": "85a471c93533f55545cf181d2d3fed01216ae4a2e2e2fa41adb6af3204b8003d"
+      },
+      "archived": "rya1371-hop-native-vacuum-centres-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/native_LTE.npz",
+      "receipt": {
+        "name": "native_LTE.npz",
+        "bytes": 198835,
+        "sha256": "80664a5b0c3e9be67b7f90832765f27c55d4c5b9663a8c66952dc77c31a7a08a"
+      },
+      "archived": "rya1371-hop-native-vacuum-centres-v1/native_LTE.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/native_NLTE.npz",
+      "receipt": {
+        "name": "native_NLTE.npz",
+        "bytes": 198932,
+        "sha256": "76383c35e75d2f0cddb27117782339381c3f8dfbcd07fa69749a88def31adaee"
+      },
+      "archived": "rya1371-hop-native-vacuum-centres-v1/native_NLTE.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 145581,
+        "sha256": "792be3a5ff5f0dc27048d4cfe4e8ecfb2f3a27ca073a57fba1614486e66be419"
+      },
+      "archived": "rya1371-hop-native-vacuum-centres-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-comparison-v1/comparison.png",
+      "receipt": {
+        "name": "comparison.png",
+        "bytes": 284282,
+        "sha256": "15a88acb77f978393b9ae00d20d8eadbfe494d8a1d853ec51d8340e25110328c"
+      },
+      "archived": "rya1371-hop-native-vacuum-centres-comparison-v1/comparison.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-comparison-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 6830,
+        "sha256": "d6206e0c2a158de2e3e283c67c331023aa54c3da0ba1c2b5cecdca6856fdde52"
+      },
+      "archived": "rya1371-hop-native-vacuum-centres-comparison-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-vacuum-centres-comparison-v1/windows.csv",
+      "receipt": {
+        "name": "windows.csv",
+        "bytes": 2101,
+        "sha256": "cd362fab3a6ab28183e762ded280d29bb52aa64d386838ff54ec6ac8dc4247f7"
+      },
+      "archived": "rya1371-hop-native-vacuum-centres-comparison-v1/windows.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-vacuum-centres-audit-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 1969,
+        "sha256": "253d3a669c01c002636cb9b0379038eabfa1878c0199d1df66d56f2b275d10f5"
+      },
+      "archived": "rya1371-native-vacuum-centres-audit-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-transfer-residuals-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 2245,
+        "sha256": "7eb961ecc4dffe821a4ec5a3471769afc832044ef7fe4fb6d1b39bcbc01629c1"
+      },
+      "archived": "rya1371-oxygen-transfer-residuals-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-transfer-residuals-v2/residuals.png",
+      "receipt": {
+        "name": "residuals.png",
+        "bytes": 412472,
+        "sha256": "cca27bd63252a54aee2d7ff1bf6ab30076a81daf331b63613c0c7730e523e7c0"
+      },
+      "archived": "rya1371-oxygen-transfer-residuals-v2/residuals.png",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

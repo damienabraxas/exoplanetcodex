@@ -1,0 +1,7 @@
+{
+  "stage": "before_output_creation",
+  "error": "TypeError: bad operand type for abs(): list",
+  "cause": "New radiative summary applied builtin abs to list of arrays.",
+  "science_output_written": false,
+  "scope": "Authored after actual failed audit; failed driver bytes preserved before fix. No RT/SE or input writes occurred."
+}

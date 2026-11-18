@@ -1,0 +1,235 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 12114,
+    "sha256": "8848ee7bc91f720597f4b9e9f599d4f43327921883ecf95eab0d999e46e68f7c"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/collision-interpolation-oracle-v1/collision_interpolation_probe",
+      "receipt": {
+        "name": "collision_interpolation_probe",
+        "bytes": 1164768,
+        "sha256": "06f0494b2f01f85bab8ec79369c80cb917a9d1b8867a6903ada492b15fe359e3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/collision-interpolation-oracle-v1/compiler.log",
+      "receipt": {
+        "name": "compiler.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": "collision_oracle_build/compiler.log",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/collision-interpolation-oracle-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 33373,
+        "sha256": "0d922bdbd77cac4aba84f365c678f06d6853bfda170d077b70166c826e24a3d6"
+      },
+      "archived": "collision_oracle_build/manifest.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_inputs/rya1371/collision-interpolation-oracle-v1/receipt.json",
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 33576,
+        "sha256": "febf15bc891f6b018b52daf690c1ae72e4399f1c5974fe3bf92f749156965b08"
+      },
+      "archived": "collision_oracle_build/receipt.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v1/input.txt",
+      "receipt": {
+        "name": "input.txt",
+        "bytes": 373307,
+        "sha256": "c07e9451f576eff7e8042374e4d0313c7931b702773f3ffec53e8f3a6cfb0116"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 76981,
+        "sha256": "5827e25f6aac0d646d1c83768833be84f55dbf84518a822171fcd7097201edf0"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v1/matrices.npz",
+      "receipt": {
+        "name": "matrices.npz",
+        "bytes": 3227315,
+        "sha256": "987895552f40f5f0234e0aefd4725a755d662b2e42bbf543010a15551d8b56ba"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v1/oracle.log",
+      "receipt": {
+        "name": "oracle.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v1/output.txt",
+      "receipt": {
+        "name": "output.txt",
+        "bytes": 2415535,
+        "sha256": "bd19b5e07bd769584bb3e53001c48ad169f663e1e7152845098963242d6d83d1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 78114,
+        "sha256": "750992d580cfd4f3de8043cb9a18a0433c8dfd520bec0223c14d7224d6628be1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v2/input.txt",
+      "receipt": {
+        "name": "input.txt",
+        "bytes": 373307,
+        "sha256": "c07e9451f576eff7e8042374e4d0313c7931b702773f3ffec53e8f3a6cfb0116"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 76981,
+        "sha256": "6752a1e8f2b9b4dcbe879de1f4eba0015387efe9867ed926116a94384f425b6f"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v2/matrices.npz",
+      "receipt": {
+        "name": "matrices.npz",
+        "bytes": 3227315,
+        "sha256": "987895552f40f5f0234e0aefd4725a755d662b2e42bbf543010a15551d8b56ba"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v2/oracle.log",
+      "receipt": {
+        "name": "oracle.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v2/output.txt",
+      "receipt": {
+        "name": "output.txt",
+        "bytes": 2415535,
+        "sha256": "bd19b5e07bd769584bb3e53001c48ad169f663e1e7152845098963242d6d83d1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 78349,
+        "sha256": "2915304e1722740a7ccf8e8f44c8bfc4afc9618978e77773ec91a77bfaab1b7e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v3/input.txt",
+      "receipt": {
+        "name": "input.txt",
+        "bytes": 373307,
+        "sha256": "c07e9451f576eff7e8042374e4d0313c7931b702773f3ffec53e8f3a6cfb0116"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v3/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 76981,
+        "sha256": "d5f46c73f4b05969a42f5c74d5921e49faa89addc36a7adf8fd628b770cc859e"
+      },
+      "archived": "rya1371-native-collision-matrix-v3/manifest.json",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v3/matrices.npz",
+      "receipt": {
+        "name": "matrices.npz",
+        "bytes": 3227315,
+        "sha256": "987895552f40f5f0234e0aefd4725a755d662b2e42bbf543010a15551d8b56ba"
+      },
+      "archived": "rya1371-native-collision-matrix-v3/matrices.npz",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v3/oracle.log",
+      "receipt": {
+        "name": "oracle.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": "rya1371-native-collision-matrix-v3/oracle.log",
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v3/output.txt",
+      "receipt": {
+        "name": "output.txt",
+        "bytes": 2415535,
+        "sha256": "bd19b5e07bd769584bb3e53001c48ad169f663e1e7152845098963242d6d83d1"
+      },
+      "archived": null,
+      "disposition": "kernel"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-collision-matrix-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 78523,
+        "sha256": "eef4490f24038f986f27c52d212168a34f319f66e21d86b3313b92d2197dfe7d"
+      },
+      "archived": "rya1371-native-collision-matrix-v3/report.json",
+      "disposition": "kernel"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

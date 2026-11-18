@@ -1,0 +1,1105 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 14206,
+    "sha256": "313016deac4f4222cf5132a8f30ccf420e990c0d93f8de660385a6ed85463a75"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 10898,
+        "sha256": "95bb8eb3e0f221579e2a0594e4f48f148bda89b10d43b677ab30e1df6e621cd5"
+      },
+      "archived": "rya1371-hop-matched-rates-v1/driver_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 88425,
+        "sha256": "65fd835ed8214e09484340e2a2853e9877389e42bf25369c3ddb3ce56957d463"
+      },
+      "archived": "rya1371-hop-matched-rates-v1/manifest.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4235249,
+        "sha256": "2a9b1b4272ca3c0f097a4ae7ac2a6e50007c2751b66bf4a9117d1aac95e00ac3"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 175939,
+        "sha256": "46545a720fb256cf97fcee55bb1eca997e4ba8ab6626e05e731d7865ce859555"
+      },
+      "archived": "rya1371-hop-matched-rates-v1/report.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 12721,
+        "sha256": "d2d176aab145ed9f77f008626f232456dadb67d951314b384c2d969eb5dc1ca7"
+      },
+      "archived": "rya1371-hop-matched-rates-v2/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 88744,
+        "sha256": "e9a0f4fe18a55b408d45bba86088320b7b2851464ffefe360be94a613c358e07"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v2/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4235249,
+        "sha256": "2a9b1b4272ca3c0f097a4ae7ac2a6e50007c2751b66bf4a9117d1aac95e00ac3"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 176277,
+        "sha256": "b57e4e2ca9a98ef03f7859d3276125ebefc81921230330946a1979fd01fc0791"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v3/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 88744,
+        "sha256": "99b4ce539aadb1748ead8d23f6d9f2a6fe34870a581a6407500ba75f61cb0d43"
+      },
+      "archived": "rya1371-hop-matched-rates-v3/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v3/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4235249,
+        "sha256": "2a9b1b4272ca3c0f097a4ae7ac2a6e50007c2751b66bf4a9117d1aac95e00ac3"
+      },
+      "archived": "rya1371-hop-matched-rates-v3/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-matched-rates-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 177164,
+        "sha256": "ee876654cc202ec4891b76f7175c96bfb6b662fd1afddb8f8a887a637c5e012e"
+      },
+      "archived": "rya1371-hop-matched-rates-v3/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-ghost-rates-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 12725,
+        "sha256": "4dc168b25760b9302fdf7c626c8055ae9824eef5e89f83c510dd64f48ba5ee72"
+      },
+      "archived": "rya1371-hop-native-ghost-rates-v1/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-ghost-rates-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 90092,
+        "sha256": "4ec158f2abf4375f0a177b78d03ea7ebc93950dd61f46bbe2aa94f6a00c052ea"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-ghost-rates-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4235269,
+        "sha256": "c5ef1faf851ee6588516e628b464320b93fc673d02d8d71dd0f63b05e0ff5ab1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-ghost-rates-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 177628,
+        "sha256": "c74ef04143a282c583cccb3ab01e21f8667d07735f4b93070e46ab49f9a91948"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-ghost-rates-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 90092,
+        "sha256": "bf8473ab65234d47c358054632eb69af08537a21989aaf214ecd3036e8d5a2b6"
+      },
+      "archived": "rya1371-hop-native-ghost-rates-v2/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-ghost-rates-v2/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4235269,
+        "sha256": "c5ef1faf851ee6588516e628b464320b93fc673d02d8d71dd0f63b05e0ff5ab1"
+      },
+      "archived": "rya1371-hop-native-ghost-rates-v2/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-native-ghost-rates-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 178514,
+        "sha256": "33fd878a17ac212c7b6376305089c500d49d2b9887007824d4d30ea97e59e850"
+      },
+      "archived": "rya1371-hop-native-ghost-rates-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/.clang-format",
+      "receipt": {
+        "name": ".clang-format",
+        "bytes": 3473,
+        "sha256": "3b8a1b50c29d393cb2304e9fe17f51ac26e66a8f70e3a33d4446d1fc19b7c07e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Atmosphere.cpp",
+      "receipt": {
+        "name": "Atmosphere.cpp",
+        "bytes": 2389,
+        "sha256": "69a57256afedf0033049ec38c22fa2c65bc2010b75bb27455745e37cf0236fc3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Background.cpp",
+      "receipt": {
+        "name": "Background.cpp",
+        "bytes": 73266,
+        "sha256": "d4d0f92e28ebf0dc5f82f4ffa7e6798acee9363023e2727689ca6e875031f048"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Background.hpp",
+      "receipt": {
+        "name": "Background.hpp",
+        "bytes": 519,
+        "sha256": "bc9ee63f54064b49c04790a9f5791f0b48bfaccf391f81a36e27c3dcb71183a5"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Bezier.hpp",
+      "receipt": {
+        "name": "Bezier.hpp",
+        "bytes": 3732,
+        "sha256": "6ad7111744fcdaf556c4f2b0fa53362202dadd070961f149a2a1e29068245466"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/CmoArray.hpp",
+      "receipt": {
+        "name": "CmoArray.hpp",
+        "bytes": 70783,
+        "sha256": "d5773a682ef06b8d5e69344323ddbe57ffb6ae0dfaa38e2a25981ae8bb39d25b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/CmoArray.pxd",
+      "receipt": {
+        "name": "CmoArray.pxd",
+        "bytes": 8439,
+        "sha256": "c15ca6ec38b29a5664c5aa927e3dff8cfc05c8b9aa5ffbf68fb0201bdfaa64ae"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/CmoArrayHelper.pxd",
+      "receipt": {
+        "name": "CmoArrayHelper.pxd",
+        "bytes": 293,
+        "sha256": "d9b98a0df8fa1803416f5310519e02db5cb3bc9751ca551fa9243e9caa4d73e7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/CmoArrayHelper.pyx",
+      "receipt": {
+        "name": "CmoArrayHelper.pyx",
+        "bytes": 709,
+        "sha256": "7c6fad1944cf7ff4ecbb93245ca809f6a8e55ed4a0a1e98faca4ccf28fedeb6f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Constants.hpp",
+      "receipt": {
+        "name": "Constants.hpp",
+        "bytes": 3039,
+        "sha256": "e627c2e1c652ce29309debebe32aa453b71f603f76195ef752f2db66145655e0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Dispatch_chi_eta_aux_accum.ipp",
+      "receipt": {
+        "name": "Dispatch_chi_eta_aux_accum.ipp",
+        "bytes": 2553,
+        "sha256": "7a9258731605d72805807e3bc8cc68450f4960da76a4ced311d1b27a60d5d648"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Dispatch_compute_full_operator_rates.ipp",
+      "receipt": {
+        "name": "Dispatch_compute_full_operator_rates.ipp",
+        "bytes": 939,
+        "sha256": "1e76de9eb92fcd22ede9c2b0387a97e85dc4a95278a3eaaaa2a8865eadc9255c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Dispatch_intensity_core_opt.ipp",
+      "receipt": {
+        "name": "Dispatch_intensity_core_opt.ipp",
+        "bytes": 2571,
+        "sha256": "02b5efe7e0bf49bf053179abdc1d5e619b72e35c16d6e11584416c884343fe19"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/EscapeProbability.cpp",
+      "receipt": {
+        "name": "EscapeProbability.cpp",
+        "bytes": 8090,
+        "sha256": "996708a2389bef6edc1dd36c29e74e995d23ab7761285325180ad10fc3b0978a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Faddeeva.cc",
+      "receipt": {
+        "name": "Faddeeva.cc",
+        "bytes": 126227,
+        "sha256": "46dc0d4e7d81ddcce5a95953b97d31696ffb424228e751aac10dfd9aeb3430a0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Faddeeva.hh",
+      "receipt": {
+        "name": "Faddeeva.hh",
+        "bytes": 2645,
+        "sha256": "c21f02ba67af33f56eb89eba23286f0c01af3c9a3142b7664fa5303874e6316a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/FastBackground.cpp",
+      "receipt": {
+        "name": "FastBackground.cpp",
+        "bytes": 6470,
+        "sha256": "0a9ca1862f6d1d0b4609772d3c6fd6f78da84277e297dfae4c426d17592a6b8d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/FastBackground.hpp",
+      "receipt": {
+        "name": "FastBackground.hpp",
+        "bytes": 1904,
+        "sha256": "f1acdb3707f5231a48f1f71754f32ffcb4de89d4b6e253c208e098e0ddfad3d7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/FormalInterface.cpp",
+      "receipt": {
+        "name": "FormalInterface.cpp",
+        "bytes": 2711,
+        "sha256": "22579991bdd7b524a2cd82a39dd7cee221d33ef8ad6019f7e468b5520fdc20bb"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/FormalScalar.cpp",
+      "receipt": {
+        "name": "FormalScalar.cpp",
+        "bytes": 21788,
+        "sha256": "0b3e84bcfd34e61f0210a7151cf37fae1440c16c5c021f771d21c9848ddff74c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/FormalScalar2d.cpp",
+      "receipt": {
+        "name": "FormalScalar2d.cpp",
+        "bytes": 48039,
+        "sha256": "75070dd08e3a0ab12413ce79de462a18685e69801d9ff901b729e1d32e6fc16b"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/FormalStokes.cpp",
+      "receipt": {
+        "name": "FormalStokes.cpp",
+        "bytes": 25465,
+        "sha256": "31da0685f6e51c262ba5e16bbe68ed298fa8e6c2bbf1a4d7e3dcd8e6f43ce376"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/JasPP.hpp",
+      "receipt": {
+        "name": "JasPP.hpp",
+        "bytes": 7228,
+        "sha256": "12e584db27264e688d52f38e2f6d2f077ba9d435a91b5099a497abdf7be7741f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Lightweaver.hpp",
+      "receipt": {
+        "name": "Lightweaver.hpp",
+        "bytes": 3068,
+        "sha256": "3662b2f4ca9b9f6751e51230ca9c19dd21b419886e774792e44466cd4a331e42"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LightweaverAmalgamated.cpp",
+      "receipt": {
+        "name": "LightweaverAmalgamated.cpp",
+        "bytes": 548,
+        "sha256": "c0ed47eccff291cc1c74aada49202c319400a71a1c1a00170e95ee3365c79924"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LockLessMultiReadPipe.h",
+      "receipt": {
+        "name": "LockLessMultiReadPipe.h",
+        "bytes": 11088,
+        "sha256": "d346681dbdd7f6cadbc025341b9c41b14bde072496e9b9cd91677f57501d8eef"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LuSolve.cpp",
+      "receipt": {
+        "name": "LuSolve.cpp",
+        "bytes": 2812,
+        "sha256": "4d7c6389185ea1638b75fccdcca25c73c44bf29d4b8bf93df3df532f72ea67da"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LuSolve.hpp",
+      "receipt": {
+        "name": "LuSolve.hpp",
+        "bytes": 143,
+        "sha256": "9c629e33146960a9cf3ace1b2950acef888919e5f885c5b9f06ad93c7eac0dca"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwAtmosphere.hpp",
+      "receipt": {
+        "name": "LwAtmosphere.hpp",
+        "bytes": 4673,
+        "sha256": "2efab73514408bba991067828f6425d661fb114d229eb3067cba85e366af27a0"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwAtom.hpp",
+      "receipt": {
+        "name": "LwAtom.hpp",
+        "bytes": 3820,
+        "sha256": "7f38fd78c75b26086fef552b984622c39487d0a7d16b64a60cb0b02a76008903"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwContext.hpp",
+      "receipt": {
+        "name": "LwContext.hpp",
+        "bytes": 890,
+        "sha256": "4dc05933e5035ec2bb3a9472f1a19cf37a33172a7469c4c1b3f8b7f5ead656f6"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwExtraParams.hpp",
+      "receipt": {
+        "name": "LwExtraParams.hpp",
+        "bytes": 2480,
+        "sha256": "a9733190d3a3414b42f262ace9b8bee66eb970f49c7cac33db499783ef863f40"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwFormalInterface.hpp",
+      "receipt": {
+        "name": "LwFormalInterface.hpp",
+        "bytes": 4451,
+        "sha256": "2d93ed29c05fc80330cc3341870670ef776febee1e91b14e92d0ffb7506c21dd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwFormalInterfacePosix.hpp",
+      "receipt": {
+        "name": "LwFormalInterfacePosix.hpp",
+        "bytes": 690,
+        "sha256": "f5df530eb49424db5a401864ce3d59778efd4a5713ae752d4ddade3960f70b15"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwFormalInterfaceWin.hpp",
+      "receipt": {
+        "name": "LwFormalInterfaceWin.hpp",
+        "bytes": 1238,
+        "sha256": "8a3ef97a4a8f657aadf8a5f6574efc6415279bbc267736caecef2cfb5c90bfc4"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwInternal.hpp",
+      "receipt": {
+        "name": "LwInternal.hpp",
+        "bytes": 3846,
+        "sha256": "a1623e6e73e018a5886a28f797e19b64396d934d26696f2b51bece36120ff60a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwIterationResult.hpp",
+      "receipt": {
+        "name": "LwIterationResult.hpp",
+        "bytes": 555,
+        "sha256": "d9d9de8688576908b823e6f8d52ec1c2aa2c60aa869640d66b228ef75567f98e"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwMiddleLayer.pyx",
+      "receipt": {
+        "name": "LwMiddleLayer.pyx",
+        "bytes": 149674,
+        "sha256": "13428eab7aa0e0e2374015895cef73f60482aa30200cf87c09fae3942c5ab57a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwMisc.hpp",
+      "receipt": {
+        "name": "LwMisc.hpp",
+        "bytes": 2504,
+        "sha256": "4ce6f4b885263dfac7c997951feb36d2cb1b968e9b4c1f607967ae59601919f9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/LwTransition.hpp",
+      "receipt": {
+        "name": "LwTransition.hpp",
+        "bytes": 4843,
+        "sha256": "b3dee8794fa7a38151c7881589a3659cec370a4546adba7a1feb567387b3565c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Ng.hpp",
+      "receipt": {
+        "name": "Ng.hpp",
+        "bytes": 5193,
+        "sha256": "bd329458573ed21ffafebeb35e9858a9eb1ad5c466b44c88fa6c6230f3d3b184"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Prd.cpp",
+      "receipt": {
+        "name": "Prd.cpp",
+        "bytes": 31622,
+        "sha256": "d8264099e905b0f5df4cf1a52a2b73fe079041c5ebaabbc4bbda9ca6a891a1a7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/PrdTemplates.hpp",
+      "receipt": {
+        "name": "PrdTemplates.hpp",
+        "bytes": 11023,
+        "sha256": "a48f913e17da837d3aeb13ed5b5967abd28b03e9130c14c52fd2deebd79c0b3d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Simd.hpp",
+      "receipt": {
+        "name": "Simd.hpp",
+        "bytes": 1161,
+        "sha256": "3b1577f72cda93ff2f19f8187c3566125bc0ad4ec0c39afdc0cf78e3b8558ec3"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/SimdFullIterationTemplates.hpp",
+      "receipt": {
+        "name": "SimdFullIterationTemplates.hpp",
+        "bytes": 28404,
+        "sha256": "260e25184cbd9df08efec528309511cac5b2169edd8209a9599422b40fca6c63"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/SimdImpl_AVX2FMA.cpp",
+      "receipt": {
+        "name": "SimdImpl_AVX2FMA.cpp",
+        "bytes": 23717,
+        "sha256": "114002c2bc42e4210d30468d2a108164d1f445072e7d2ddaf3c7adc625eebc41"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/SimdImpl_AVX512.cpp",
+      "receipt": {
+        "name": "SimdImpl_AVX512.cpp",
+        "bytes": 23246,
+        "sha256": "50c4b04efda42d5f5d6e407c9d72381ab6a19833fd7fb9c4deec3110becc6f2a"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/SimdImpl_SSE2.cpp",
+      "receipt": {
+        "name": "SimdImpl_SSE2.cpp",
+        "bytes": 18752,
+        "sha256": "63d51cf1c18df7b4fcf3b50dcb3e1860eec389ce221cce17235e297332818267"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/SimdLinear.cpp",
+      "receipt": {
+        "name": "SimdLinear.cpp",
+        "bytes": 15213,
+        "sha256": "c7ccd446b58d88bec68d636a9dab2549936571c9de992b0ecfa930f278eb4ce9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/TaskScheduler.cpp",
+      "receipt": {
+        "name": "TaskScheduler.cpp",
+        "bytes": 48624,
+        "sha256": "8de2d05451e48f4fdfb479791cf21c13fc556fe1ca00b1016cf181fd15938f8d"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/TaskScheduler.h",
+      "receipt": {
+        "name": "TaskScheduler.h",
+        "bytes": 27215,
+        "sha256": "1563b49a0448c354622ae6b890cefbfb4fa2774a5960a182c194ec1ee4d6fb03"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/TaskSetWrapper.hpp",
+      "receipt": {
+        "name": "TaskSetWrapper.hpp",
+        "bytes": 854,
+        "sha256": "cb84dc23448c15b4cc04073aa5d5d75a02a1a40401e7792832c3088d486ebe0c"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/ThreadStorage.cpp",
+      "receipt": {
+        "name": "ThreadStorage.cpp",
+        "bytes": 15179,
+        "sha256": "222ddcf523e5b28a398214a1b6c278a5dbf3d3aafd589581ba0feaee0fb54c64"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/ThreadStorage.hpp",
+      "receipt": {
+        "name": "ThreadStorage.hpp",
+        "bytes": 5802,
+        "sha256": "da125abf036f7893b3719746f3f95a6d977685e7f8eb5a511b8e7c21ca99a512"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/UpdatePopulations.cpp",
+      "receipt": {
+        "name": "UpdatePopulations.cpp",
+        "bytes": 15223,
+        "sha256": "77ef60f8db7f121ec85f47bc0a4e5a610553a6b992bcc03fe76432922a5dcbbe"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/Utils.hpp",
+      "receipt": {
+        "name": "Utils.hpp",
+        "bytes": 2406,
+        "sha256": "995c995dfe6b50793e15885b2ba04e62dd204f2d465ebf127187cb780638d2c7"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/WinCompile.bat",
+      "receipt": {
+        "name": "WinCompile.bat",
+        "bytes": 250,
+        "sha256": "c5775e2f48e1f9bb23b96c35b66d9922dadc53c0094c3cec422d9455236f431f"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/Source/WindowsExtensionStub.cpp",
+      "receipt": {
+        "name": "WindowsExtensionStub.cpp",
+        "bytes": 326,
+        "sha256": "02927b73cbe80465f2e379125ea41e254c646099028fe72b6171305a554a9fdd"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/bride_overlap_guard.dylib",
+      "receipt": {
+        "name": "bride_overlap_guard.dylib",
+        "bytes": 239784,
+        "sha256": "aaad885f754a836dc51e868dc56bc4d62fe21d6240f3053f2c193d37a8f759d9"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/build.log",
+      "receipt": {
+        "name": "build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archived": "ghost_operator_build/build.log",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 882,
+        "sha256": "2c912f0e47f1a5e3dd2f3223813160aa0d2d7ba3e0cbfab8c0f6c5494e288cc7"
+      },
+      "archived": "ghost_operator_build/manifest.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/overlap_guard.cpp",
+      "receipt": {
+        "name": "overlap_guard.cpp",
+        "bytes": 909,
+        "sha256": "017e57a45d99a24c27822c5b5fd5da05becdc995e16887e0e84356a6a1f75a62"
+      },
+      "archived": null,
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-ghost-operator-build-v1/receipt.json",
+      "receipt": {
+        "name": "receipt.json",
+        "bytes": 12133,
+        "sha256": "19cfafa575b0112bc166768cb9aa26965e000c40c476e88c12a41858bc205ae0"
+      },
+      "archived": "ghost_operator_build/receipt.json",
+      "disposition": "native"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-dry-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 15155,
+        "sha256": "cae50b0bba2b64da11dcb7a97e979326e1b6e46af22e5d24aaf5286ff8c07f9f"
+      },
+      "archived": "rya1371-hop-ghost-coupled-dry-v1/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-dry-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 89415,
+        "sha256": "c57d01d919d1cd6297998a943ca67e2c21c8331f9f905afcc1e68990f985a1ad"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-dry-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54202,
+        "sha256": "1168b1239d5d8d38d9fe04c39530a56527f7ae3d4240b2c0c5f212d342b67ded"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-dry-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 170864,
+        "sha256": "6e1ca56766832d39c59632ca15a62092bf00061b9b9a9b5d7485c678de7aa483"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-v1/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 460797,
+        "sha256": "7e5888928a5b4709be9b5aa87a3982e0929603dde364e3cb660cd4dc4a27d37c"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 90525,
+        "sha256": "9899daf54b4f0ab26028a1570cb1c63783df756155cc0751bca1c7532f6335ce"
+      },
+      "archived": "rya1371-hop-ghost-coupled-v1/manifest.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54212,
+        "sha256": "32192abccd063f8c359f4b782a2580ea45c6e096748ac9ef684b4524b024dcf6"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-coupled-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 171754,
+        "sha256": "75bcace49b30bd794dfa6f4e9407eb7acfbefbfa9cf3a42dc68fd2ca07cfe718"
+      },
+      "archived": "rya1371-hop-ghost-coupled-v1/report.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-dry-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 91009,
+        "sha256": "aa5f12d263090c11f5f8053dcbde2513227ae66e5a4ef435abb904edcaf9a80c"
+      },
+      "archived": "rya1371-hop-ghost-mali-dry-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-dry-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54202,
+        "sha256": "1168b1239d5d8d38d9fe04c39530a56527f7ae3d4240b2c0c5f212d342b67ded"
+      },
+      "archived": "rya1371-hop-ghost-mali-dry-v1/populations.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-dry-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 172504,
+        "sha256": "d5321c83ad71555d5c983433ef829070d5a4849329800eba2123361625c377bb"
+      },
+      "archived": "rya1371-hop-ghost-mali-dry-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-dry-v1/response.npz",
+      "receipt": {
+        "name": "response.npz",
+        "bytes": 351437,
+        "sha256": "41aea066ff4e8387e57626ae49170cc6effb5b9f2a05180af632c342c12a5107"
+      },
+      "archived": "rya1371-hop-ghost-mali-dry-v1/response.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-v1/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 3911,
+        "sha256": "be982541ca82ed02f05b8b9dce75ed69a4fc99ea44f7ec97668e8e01c57c3c88"
+      },
+      "archived": "rya1371-hop-ghost-mali-v1/history.jsonl",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 91010,
+        "sha256": "6eaba85934cf028d55cc54b93e797c48c5cb2436c4724a957b64a362dff8beb4"
+      },
+      "archived": "rya1371-hop-ghost-mali-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54212,
+        "sha256": "e570056ef64ec2a316a6e659c5c60bacee250cbada105827a31fe2226018d0b2"
+      },
+      "archived": "rya1371-hop-ghost-mali-v1/populations.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4216835,
+        "sha256": "bdf079a9a081e22bc967ce0ab96d230e8e54cfe04823e0b5929c0b04889c22bb"
+      },
+      "archived": "rya1371-hop-ghost-mali-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-mali-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 173126,
+        "sha256": "d7cd51ffe29eabc86fc1b66de985c13f5fb5807c9874921fdf6e15652bb57ed7"
+      },
+      "archived": "rya1371-hop-ghost-mali-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-restart-v1/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 1458,
+        "sha256": "becf319985cbd3e9740dc234c3cb1689ac9bac51c04e1cd0678740c76ec937af"
+      },
+      "archived": "rya1371-hop-ghost-restart-v1/history.jsonl",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-restart-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 91485,
+        "sha256": "f90c6e880b443bb10bf29efd0fc28f79a487b5897f6c1eafbc487f02ef0a1f0a"
+      },
+      "archived": "rya1371-hop-ghost-restart-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-restart-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54231,
+        "sha256": "dc1726071c4e810e229a1d6e10f2160c887601587536031e5dd1f8aa50010ee4"
+      },
+      "archived": "rya1371-hop-ghost-restart-v1/populations.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-restart-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4216957,
+        "sha256": "92331d1c2f62314ae7dfc043f8023eb5667f44f5a8cda79cbc5c49989d851c6e"
+      },
+      "archived": "rya1371-hop-ghost-restart-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-restart-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 173602,
+        "sha256": "970c2bf8239529f1a061461a7738b55f214f28458078a14424e3a674b6c35c35"
+      },
+      "archived": "rya1371-hop-ghost-restart-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-independent-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 88672,
+        "sha256": "c7b70f3954824e16f3c4a424a280e5f7b07f0a9afd2c0cf22770da676a723151"
+      },
+      "archived": "rya1371-hop-ghost-independent-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-spectra-v1/comparison.png",
+      "receipt": {
+        "name": "comparison.png",
+        "bytes": 284204,
+        "sha256": "73a596e95e1acc6fa9a13ec97ce16169f99adc10b696e0265d10abac706d0e59"
+      },
+      "archived": "rya1371-hop-ghost-spectra-v1/comparison.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-spectra-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 288644,
+        "sha256": "12151c64e4a56c18eca04cfc137a72034db1bbdcf29e2c366f026709012dba2c"
+      },
+      "archived": "rya1371-hop-ghost-spectra-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-spectra-v1/residuals.png",
+      "receipt": {
+        "name": "residuals.png",
+        "bytes": 261673,
+        "sha256": "e659bd43706ef2067ccd6a06d105ce94c4fdb0f18ba8bf080c050024d218f436"
+      },
+      "archived": "rya1371-hop-ghost-spectra-v1/residuals.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-spectra-v1/spectra.npz",
+      "receipt": {
+        "name": "spectra.npz",
+        "bytes": 193553,
+        "sha256": "0a5bae574166bcdb03fe5cc65e1be603e8732663336fb466fd53baa33f461234"
+      },
+      "archived": "rya1371-hop-ghost-spectra-v1/spectra.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-ghost-spectra-v1/windows.csv",
+      "receipt": {
+        "name": "windows.csv",
+        "bytes": 924,
+        "sha256": "4b922e26e9b6817d5831649a19bbfd6e185970eeb09eeb6274d75754074e7cfd"
+      },
+      "archived": "rya1371-hop-ghost-spectra-v1/windows.csv",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

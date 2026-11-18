@@ -119,7 +119,11 @@ def install() -> bool:
         nd = kw.get("nlte_departures")
         if nd:
             from pipeline import gerber_nlte as _gn
-            if any(_gn.has_abundance_axis(el) for el in nd):
+            # RYA-1371: a provider whose tuple declares abundance dependence (OpenMULTI3D)
+            # is answered by the tuple itself -- never by the Gerber registry keyed on the
+            # element, which would call an OpenMULTI3D Fe deck node-fixed and raise on O.
+            if any(getattr(t, "abundance_dependent", False) or _gn.has_abundance_axis(el)
+                   for el, t in nd.items()):
                 return orig(*a, **k)
             kw["nlte_departures"] = {el: tuple(t[:5]) + (None,) + tuple(t[6:]) for el, t in nd.items()}
         lo = np.floor((w.min() - PAD_NM) / 0.01) * 0.01

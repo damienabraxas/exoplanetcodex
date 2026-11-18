@@ -1,0 +1,36 @@
+{
+  "schema": "codex.reference_engine_run/1",
+  "engine": "openmulti3d",
+  "mode": "1D-NLTE",
+  "expected_element": "O",
+  "abundance": 8.7,
+  "atom": {
+    "resource": "experiments.bride_oxygen_atom",
+    "receipt": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    }
+  },
+  "atmosphere": {
+    "resource": "grids.marcs_standard",
+    "filename": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "receipt": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    }
+  },
+  "controls": {
+    "threads": 1,
+    "seconds": 600,
+    "maxiter": 1500,
+    "rtol": 1e-06,
+    "ntheta": 5,
+    "nphi": 1,
+    "angle_quad": "lobatto",
+    "qnorm": 10.0,
+    "nq_fac": 2.0
+  },
+  "scope": "Prospective independent OpenMULTI3D1D O41 solve on the exact5750/4.5/A8.70 source atom/atmosphere of the held MULTI reference. Native EOS/background/rate interpolation and boundary differences must be measured. No background line blanketing in this first continuum-only control; no solar fit, physical parity/admission or replacement of Bride/source/production."
+}

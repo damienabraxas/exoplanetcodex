@@ -3,6 +3,14 @@ import pytest
 from pipeline.bride_observables import flux_quadrature,integrate_flux,window_integral
 
 
+def test_explicit_gap_guard_refuses_interpolating_across_absent_window():
+    wave=np.array([6300.,6300.01,7771.,7771.01])
+    with pytest.raises(ValueError,match='spectral gap'):
+        window_integral(wave,np.ones(4),6363.,6364.,max_gap=.02)
+    dense=np.linspace(6363.,6364.,201)
+    assert window_integral(dense,np.full(201,.9),6363.,6364.,max_gap=.006)==pytest.approx(.1)
+
+
 @pytest.mark.parametrize('rays',[3,5,10])
 def test_flux_matches_independent_isotropic_and_linear_limb_laws(rays):
     mu,w=flux_quadrature(rays)

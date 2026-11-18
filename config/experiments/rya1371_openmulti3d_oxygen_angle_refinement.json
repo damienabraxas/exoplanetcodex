@@ -1,0 +1,64 @@
+{
+  "schema": "codex.reference_engine_run/1",
+  "engine": "openmulti3d",
+  "mode": "1D-NLTE",
+  "expected_element": "O",
+  "abundance": 8.7,
+  "atom": {
+    "resource": "experiments.bride_oxygen_atom",
+    "receipt": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    }
+  },
+  "atmosphere": {
+    "resource": "grids.marcs_standard",
+    "filename": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+    "receipt": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    }
+  },
+  "controls": {
+    "threads": 1,
+    "seconds": 600,
+    "maxiter": 1500,
+    "rtol": 1e-06,
+    "ntheta": 7,
+    "nphi": 1,
+    "angle_quad": "lobatto",
+    "qnorm": 10.0,
+    "nq_fac": 2.0,
+    "output_angle_quad": "disk_center",
+    "freeze_depths": false
+  },
+  "scope": "Prospective independent OpenMULTI3D1D O41 solve on the exact5750/4.5/A8.70 source atom/atmosphere of the held MULTI reference. Native EOS/background/rate interpolation and boundary differences must be measured. No background line blanketing in this first continuum-only control; no solar fit, physical parity/admission or replacement of Bride/source/production. Second prospective control requests actual disk-centre output and disables per-depth early freezing (convmax0) so all saved depth rates belong to the same final global iteration. The first run was a departure-only calculation with no output spectrum. The native pressure-graded/interpolated depth grid must be registered explicitly before comparing source-node populations. Prospective dense output-only control: canonical AIR-to-vacuum conversion once before native synthesis; no change to the SE frequency grid or physical inputs. Prospective one-axis numerical refinement: ntheta=7; no physics/input change. Compare against dense baseline, diagnostic 0.1mA window-area stability screen, not scientific admission.",
+  "output_grid": {
+    "frame": "air_A",
+    "step_A": 0.005,
+    "windows": [
+      [
+        6154,
+        6162
+      ],
+      [
+        6298,
+        6303
+      ],
+      [
+        6361,
+        6366
+      ],
+      [
+        7770,
+        7777
+      ],
+      [
+        8443,
+        8449
+      ]
+    ]
+  }
+}

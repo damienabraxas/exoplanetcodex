@@ -1,0 +1,17 @@
+{
+  "scope": "Supplemental after-run snapshots; not retroactively inserted into original launch manifest",
+  "components": {
+    "pipeline/native_frequency_grid.py": {
+      "bytes": 3830,
+      "sha256": "ebdb2a733cca3d36a42ababb5cf02d57dc0e1c1942647fad2b301fe972fe0805"
+    },
+    "pipeline/native_reference_controls.py": {
+      "bytes": 3069,
+      "sha256": "e5a1805392a3dcb184b71650d7a904788f23f555815ad1e6b233bb3ed866b6d0"
+    },
+    "pipeline/reference_engines.py": {
+      "bytes": 14480,
+      "sha256": "f05db7d47ef6499e65d4a5c183bcac648f8f7c71886f07dae59ef8b10f34ee3a"
+    }
+  }
+}

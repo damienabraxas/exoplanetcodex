@@ -1,0 +1,65 @@
+{
+  "generator": {
+    "name": "probe_native_wavelength_roundtrip.py",
+    "bytes": 4139,
+    "sha256": "97fa2d846cd27119e1c366ad1db3b4221a6029ad319ca18a204d88fc295a08e5"
+  },
+  "engine": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+      "name": "libhop.so",
+      "bytes": 1164024,
+      "sha256": "8b5c6d60f8d7a2257db50c752e1a809c9b6282e076ad264512dc3f3ecf624a3b"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/standalone/build/handyfuncs_mod.mod": {
+      "name": "handyfuncs_mod.mod",
+      "bytes": 10215,
+      "sha256": "88df2a98dac408345bdae83806457862250379f813783a6782f4ebe7ef177a8c"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/airvac_profile_probe/probe.f90": {
+      "name": "probe.f90",
+      "bytes": 516,
+      "sha256": "a6623852bcc88146cc27decacbe43449e9e446956675bad5e29d5b09837c3e1d"
+    },
+    "/opt/homebrew/bin/gfortran": {
+      "name": "gfortran",
+      "bytes": 3039240,
+      "sha256": "f86a6dc75b07aa490e3789208b2f17f869883af975eb21897d4693d24cc44b73"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-output-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/handyfuncs_mod.f90": {
+      "name": "handyfuncs_mod.f90",
+      "bytes": 39086,
+      "sha256": "e4002d0ccf494c013d4f9c7946f9750b13150aa845ec2433cd48e2bb528f4c40"
+    }
+  },
+  "threads": 1,
+  "seconds_limit": 600,
+  "scientific_admission": "HOLD"
+}

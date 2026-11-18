@@ -1,0 +1,163 @@
+{
+  "generator": {
+    "name": "compare_oxygen_emission_profiles.py",
+    "bytes": 4365,
+    "sha256": "ccfa1886cb0555c4917f1cccf69119e5a4a99c1fff2abacc25cab5b039536fd7"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298132,
+      "sha256": "819b8249d28983e50332ef48383df136569052ebc82bbda68d26f9f6a53a0588"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582561,
+      "sha256": "fd64b654cc19b79379c6725ec3380ed0ae254d2a9f32ac3db8a6b68ad8eaa67b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-default-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298171,
+      "sha256": "23f202531ce87553cab3ccad0b9f7f8c17efda8123becb18830e40a666383d60"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-default-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582561,
+      "sha256": "fd64b654cc19b79379c6725ec3380ed0ae254d2a9f32ac3db8a6b68ad8eaa67b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298948,
+      "sha256": "e76e12b70d1ba3df0fbcb726621df75c7f2f7630b82a59173188a80504548f96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582169,
+      "sha256": "c987832da66e9ec4a8a4b75cd993f4c211046e493f8876809ba7f067bccf706a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298978,
+      "sha256": "8298ca5e2929d74cc595445bd465a8539d7d206e660bece5d9ac1b66b26189f1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582550,
+      "sha256": "bfc702bcc1ef0bcdd5ae291416448f34010808a254c54aed5ce4f9209f552029"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-v1/emission_profile_arrays.npz": {
+      "name": "emission_profile_arrays.npz",
+      "bytes": 15955033,
+      "sha256": "b31aa35359c4b11113dc0d4647672ec1dac77b95f2619f16eafe2cbb85975c3a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-v1/emission_profile_arrays.npz": {
+      "name": "emission_profile_arrays.npz",
+      "bytes": 15954879,
+      "sha256": "fb41308031c028ac5ea3acb92dac5c4d2da6148b423c603077e2a84aba364233"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-lw-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 197267,
+      "sha256": "4bdef6288e88815c7c4bc4be99ede17caf0c763fd8835b42d495e7165a427252"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-emission-native-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 197252,
+      "sha256": "786213ccc17d596ce62c295e4bf1bad7b3d2dee8cbb120c2a995636f85045fc2"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "default_exact_arrays": [
+    "native_R_s_inv",
+    "replay_R_s_inv",
+    "native_C_s_inv",
+    "replay_C_s_inv",
+    "populations",
+    "nstar",
+    "wave_vac_nm",
+    "Jnu"
+  ],
+  "profile_identity_arrays": [
+    "native_R_s_inv",
+    "native_C_s_inv",
+    "replay_C_s_inv",
+    "populations",
+    "nstar",
+    "wave_vac_nm",
+    "background_chi",
+    "background_sca",
+    "bottom_total_chi"
+  ],
+  "cases": {
+    "default": {
+      "seconds": 10.185201332904398,
+      "radiation": {
+        "iterations": 9,
+        "final_J_change": 8.623535219243195e-11,
+        "final_boundary_change": 7.367947861068567e-10,
+        "ghost_step_m": 20656.773022242953
+      },
+      "physical_residual": 0.00020041235450489695
+    },
+    "lw": {
+      "seconds": 7.1353348745033145,
+      "radiation": {
+        "iterations": 9,
+        "final_J_change": 8.623302072408023e-11,
+        "final_boundary_change": 7.367425821799969e-10,
+        "ghost_step_m": 20656.773022242953
+      },
+      "physical_residual": 5.59305217018223e-05,
+      "max_relative_J_change": 0.00046944586640051966,
+      "max_relative_positive_rate_change": 0.00046537344238894995,
+      "independent_audit": {
+        "max_relative_directional_difference": 2.9753977059954195e-14,
+        "positive_direction_depths": 31136,
+        "worst_destination_source_depth": [
+          39,
+          21,
+          38
+        ],
+        "positive_sum_FP64_bound": 3.5679903488923983e-10,
+        "max_transition_nodes": 10043,
+        "angular_weight_sum": 1.0000000018626451,
+        "saved_physical_residual": 5.59305217018223e-05,
+        "reconstructed_physical_residual": 5.593052170303586e-05,
+        "within_FP64_bound": true
+      }
+    },
+    "native": {
+      "seconds": 6.1440404169261456,
+      "radiation": {
+        "iterations": 9,
+        "final_J_change": 8.623535219243195e-11,
+        "final_boundary_change": 7.367947861068567e-10,
+        "ghost_step_m": 20656.773022242953
+      },
+      "physical_residual": 0.00020041235450489695,
+      "max_relative_J_change": 9.279669581352401e-05,
+      "max_relative_positive_rate_change": 9.211262425290467e-05,
+      "independent_audit": {
+        "max_relative_directional_difference": 2.930988785010413e-14,
+        "positive_direction_depths": 31136,
+        "worst_destination_source_depth": [
+          39,
+          19,
+          54
+        ],
+        "positive_sum_FP64_bound": 3.5679903488923983e-10,
+        "max_transition_nodes": 10043,
+        "angular_weight_sum": 1.0000000018626451,
+        "saved_physical_residual": 0.00020041235450489695,
+        "reconstructed_physical_residual": 0.00020041235450698618,
+        "within_FP64_bound": true
+      }
+    }
+  },
+  "between_profiles": {
+    "max_relative_background_eta": 0.0004697314502304373,
+    "max_relative_bottom_intensity": 0.00018561059034549743
+  },
+  "scope": "Background thermal emission and lower diffusion profile axis only. Active BB/BF/LTE/collision conventions unchanged; no preferred profile, coupled closure, observational or scientific admission."
+}

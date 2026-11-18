@@ -1,0 +1,137 @@
+{
+  "schema": "codex.oxygen_reference_spectra/1",
+  "scientific_admission": "HOLD",
+  "generator": {
+    "name": "compare_oxygen_reference_spectra.py",
+    "bytes": 4319,
+    "sha256": "9fd4d53a9fd7987c33707df13149346ded8d813c1007534cbc0dd9405de10162"
+  },
+  "inputs": {
+    "data/results/rya1371/oxygen_reference_v1/rya1371-oxygen-dense-analysis-v3/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207686,
+      "sha256": "19a95e9c888984353fe90c1d8899681d5855586a1b10548495a16e7ff043d0b5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-zero-cap-transfer-v1/local.npz": {
+      "name": "local.npz",
+      "bytes": 186525,
+      "sha256": "488dc0da76b0ef160d448116e5fc7e26541caa3d86d2bb859766d06000737100"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-zero-cap-transfer-v1/held_multi_b.npz": {
+      "name": "held_multi_b.npz",
+      "bytes": 186553,
+      "sha256": "8c1cb527d8e85aead282b365583c1bd61785d04b5a0d2451ee20b449c294040b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bride-zero-cap-transfer-v1/LTE.npz": {
+      "name": "LTE.npz",
+      "bytes": 186438,
+      "sha256": "66bda275408d46163017167cdcf32e3b415a680e4fc219aec3154d1be9952840"
+    }
+  },
+  "windows": [
+    {
+      "centre_air_A": 6158.17,
+      "lo_air_A": 6157.67,
+      "hi_air_A": 6158.67,
+      "coverage": "theoretical O-only window",
+      "local_area_mA": 5.455435818552545,
+      "held_multi_b_area_mA": 5.457197996250596,
+      "LTE_area_mA": 5.437640076763941,
+      "native_NLTE_area_mA": 5.242010281664047,
+      "native_LTE_area_mA": 5.223533186247046,
+      "max_abs_normalized_native_minus_bride": 0.0068210489941159524,
+      "max_abs_normalized_multi_shape_minus_bride": 1.6886654039094395e-05,
+      "max_relative_native_continuum_minus_bride": 0.015059423267375971
+    },
+    {
+      "centre_air_A": 6300.304,
+      "lo_air_A": 6299.804,
+      "hi_air_A": 6300.804,
+      "coverage": "theoretical O-only window",
+      "local_area_mA": 3.419364355767009,
+      "held_multi_b_area_mA": 3.4193651167921835,
+      "LTE_area_mA": 3.419365346729696,
+      "native_NLTE_area_mA": 3.18997760721297,
+      "native_LTE_area_mA": 3.189975531839153,
+      "max_abs_normalized_native_minus_bride": 0.0024400844414507183,
+      "max_abs_normalized_multi_shape_minus_bride": 8.008537499826218e-09,
+      "max_relative_native_continuum_minus_bride": 0.014533601044023348
+    },
+    {
+      "centre_air_A": 6363.776,
+      "lo_air_A": 6363.276,
+      "hi_air_A": 6364.276,
+      "coverage": "absent atomic transition control",
+      "local_area_mA": 4.0866241002125635e-06,
+      "held_multi_b_area_mA": 4.086945590879975e-06,
+      "LTE_area_mA": 4.041582222769092e-06,
+      "native_NLTE_area_mA": 0.0,
+      "native_LTE_area_mA": 0.0,
+      "max_abs_normalized_native_minus_bride": 4.093332339749622e-09,
+      "max_abs_normalized_multi_shape_minus_bride": 3.673727988484643e-13,
+      "max_relative_native_continuum_minus_bride": 0.0131081708768086
+    },
+    {
+      "centre_air_A": 7771.944,
+      "lo_air_A": 7771.444,
+      "hi_air_A": 7772.444,
+      "coverage": "theoretical O-only window",
+      "local_area_mA": 84.8786797917668,
+      "held_multi_b_area_mA": 85.11446702382631,
+      "LTE_area_mA": 78.4147964573745,
+      "native_NLTE_area_mA": 84.33178768848656,
+      "native_LTE_area_mA": 77.70503541943572,
+      "max_abs_normalized_native_minus_bride": 0.004599945722872478,
+      "max_abs_normalized_multi_shape_minus_bride": 0.0017338591676993031,
+      "max_relative_native_continuum_minus_bride": 0.00501853032656796
+    },
+    {
+      "centre_air_A": 7774.166,
+      "lo_air_A": 7773.666,
+      "hi_air_A": 7774.666,
+      "coverage": "theoretical O-only window",
+      "local_area_mA": 73.88932539230201,
+      "held_multi_b_area_mA": 74.07299555268618,
+      "LTE_area_mA": 68.59588495503448,
+      "native_NLTE_area_mA": 73.36774298734771,
+      "native_LTE_area_mA": 67.94524805840787,
+      "max_abs_normalized_native_minus_bride": 0.004595089999955837,
+      "max_abs_normalized_multi_shape_minus_bride": 0.001383314979175987,
+      "max_relative_native_continuum_minus_bride": 0.005003545955297173
+    },
+    {
+      "centre_air_A": 7775.388,
+      "lo_air_A": 7774.888,
+      "hi_air_A": 7775.888,
+      "coverage": "theoretical O-only window",
+      "local_area_mA": 58.74036968994388,
+      "held_multi_b_area_mA": 58.862059680506036,
+      "LTE_area_mA": 54.967137775446,
+      "native_NLTE_area_mA": 58.24401248060051,
+      "native_LTE_area_mA": 54.380081020246955,
+      "max_abs_normalized_native_minus_bride": 0.0043277812825406325,
+      "max_abs_normalized_multi_shape_minus_bride": 0.0009448718170994574,
+      "max_relative_native_continuum_minus_bride": 0.0049954514212080525
+    },
+    {
+      "centre_air_A": 8446.4,
+      "lo_air_A": 8445.9,
+      "hi_air_A": 8446.9,
+      "coverage": "theoretical O-only window",
+      "local_area_mA": 105.57807850028468,
+      "held_multi_b_area_mA": 105.78607422335165,
+      "LTE_area_mA": 98.7288425097128,
+      "native_NLTE_area_mA": 101.29252215504341,
+      "native_LTE_area_mA": 94.23955469416981,
+      "max_abs_normalized_native_minus_bride": 0.007841013701210264,
+      "max_abs_normalized_multi_shape_minus_bride": 0.0008057868065660667,
+      "max_relative_native_continuum_minus_bride": 0.00963566230478119
+    }
+  ],
+  "limitations": [
+    "Finite +/-0.5A areas are not full equivalent widths or abundance corrections.",
+    "Vertical intensity only; no flux/intensity substitution or observation fit.",
+    "Same source atmosphere/atom does not imply identical consumed mesh/EOS/opacity/collisions/boundary.",
+    "6363A transition absent from held atom; continuum/tail signal is not line validation."
+  ]
+}

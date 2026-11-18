@@ -1,0 +1,55 @@
+{
+  "generator": {
+    "name": "probe_multi_width_laws.py",
+    "bytes": 5288,
+    "sha256": "1d5601af10324c9e6e59e176ab11f717621d1347aa4b3bc18776a5f034276cd5"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/multi-width-oracle-v1/multi_width_probe": {
+      "name": "multi_width_probe",
+      "bytes": 52240,
+      "sha256": "bf97fefeec2c4c937d276b74b553c463d73f1b6766b59cc3114192fdbdf1e126"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/multi-width-oracle-v1/receipt.json": {
+      "name": "receipt.json",
+      "bytes": 5499,
+      "sha256": "6068d5604a87fe6c1b17a7521ca974f06cf415fc4bd45402e7bddb1aa39efb09"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-comparison-v1/report.json": {
+      "name": "report.json",
+      "bytes": 17554,
+      "sha256": "6ce2bf50b2febbe91ff8b1a0f143ad729496abf1de48ec3adcebf79c5ebf7401"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-comparison-v1/widths.npz": {
+      "name": "widths.npz",
+      "bytes": 725580,
+      "sha256": "f003a1f6682c48b67e1e959d416c62dc878055f4f333b518667481a30e519cad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-multi-width-comparison-v1/input.txt": {
+      "name": "input.txt",
+      "bytes": 33453,
+      "sha256": "b33ec1a3f24dee6fe15a6152da0a3888224e61c9befe9542dc3f165acac690e4"
+    }
+  },
+  "cases": {
+    "half_neutral_H": {
+      "h_scale": 0.5
+    },
+    "plus_10K_frozen_EOS": {
+      "delta_T": 10.0
+    },
+    "xi_0p25kms": {
+      "vmic_m_s": 250.0
+    },
+    "xi_2kms": {
+      "vmic_m_s": 2000.0
+    },
+    "xi_4kms": {
+      "vmic_m_s": 4000.0
+    }
+  },
+  "seconds_limit": 600,
+  "threads": 1,
+  "scientific_admission": "HOLD",
+  "interpretation": "Frozen-EOS width-component laws only: no new physical atmosphere, RT or SE solve."
+}

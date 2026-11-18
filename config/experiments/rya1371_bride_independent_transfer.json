@@ -1,0 +1,43 @@
+{
+  "source": "data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/baseline",
+  "source_report": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "reference": {
+    "name": "reference-5750-4.5-A8.70-v1.json",
+    "bytes": 72076,
+    "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 130154,
+    "sha256": "82ed1cd7b130d35d3332887086ac32525b1116d6991f79c3721e8c935b313c7f"
+  },
+  "windows_air_A": [
+    [
+      6154,
+      6162
+    ],
+    [
+      6298,
+      6303
+    ],
+    [
+      6361,
+      6366
+    ],
+    [
+      7770,
+      7777
+    ],
+    [
+      8443,
+      8449
+    ]
+  ],
+  "seconds": 600,
+  "endpoint_replay_screen": 1e-06,
+  "scope": "Fixed-population vertical intensity comparison at the exact original5750/4.5/O8.70 node. Current local, independent held-MULTI departure shape mapped to local LTE and conserved total, and local LTE controls. Native OpenMULTI3D wavelengths define the sampling only; no collision/source/abundance fit, SE update, physics-equivalence or all-band admission. Other-species blends absent; observations not fitted. Compare intensities, not the previous flux profile."
+}

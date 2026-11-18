@@ -1,0 +1,144 @@
+{
+  "schema": "codex.reference_engine_result/1",
+  "scientific_admission": "HOLD",
+  "engine": "openmulti3d",
+  "mode": "1D-NLTE",
+  "profile_variant": "accurate-kernel-control",
+  "scope": "OUTPUT-ONLY full-BF/BB numerical coverage smoke across registered catalog envelope endpoints90nm and5500nm plus FUV130.2nm/NIR1129nm/IR3099nm. NQFAC4 O41/MARCS5750g4.5A8.70 SE physics and original600s/one-thread/rtol/ray controls unchanged. Explicit vacuum-nm axis, scale10 to native vacuumA; no AIR conversion at/below200nm. Enable bound_free_in_output explicitly for full-source output. Require internal SE/population arrays bit-identical to NQFAC4 baseline. Sparse diagnostic windows, not dense full-band, observed/atomic-data/molecular/chromospheric or instrument/3D validation. No fit or adoption.",
+  "generator": {
+    "name": "run_reference_engine.py",
+    "bytes": 3565,
+    "sha256": "9d0a01c5f32e00900d1eded95f3415d27c7c85998cdeb24407c846275e815f61"
+  },
+  "adapter": {
+    "name": "reference_engines.py",
+    "bytes": 13742,
+    "sha256": "53f5b6519cbdd41c86326e151019d4dd0b8d0f8c990c539f0e5cdc76c18efe60"
+  },
+  "plan": {
+    "name": "rya1371_openmulti3d_oxygen_catalog_edges.json",
+    "bytes": 2107,
+    "sha256": "62d421361b75f4279f8f5ad76e0bcb67c24702d6ff160420964363eb0ecd6129"
+  },
+  "engine_receipt": {
+    "variant": "accurate-kernel-control",
+    "variant_spec": {
+      "name": "openmulti3d_profile_variant.yaml",
+      "bytes": 363,
+      "sha256": "48cbc06b11dd827ad9e7e94668ffb99c3efb6562179f42c66d9fbae20f0d0303"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1679,
+      "sha256": "5c55b23c8d071887f25f96dae2996f4124ed9db5a75db402b84c9501875b96ec"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614120,
+      "sha256": "a1f9441bf21003113bc59d3c0c91a16f5b1e68cdcf2574e7ccd411e70341dbc1"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+    "patch": {
+      "name": "active_profile.patch",
+      "bytes": 3144,
+      "sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446"
+    },
+    "original_reference": {
+      "registry": {
+        "name": "reference_engines.yaml",
+        "bytes": 877,
+        "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+      },
+      "build_receipt": {
+        "name": "receipt.json",
+        "bytes": 1552,
+        "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+      },
+      "executable": {
+        "name": "dispatch.x",
+        "bytes": 3614040,
+        "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+      },
+      "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+    }
+  },
+  "inputs": {
+    "output_grid": {
+      "requested_frame": "vacuum_nm",
+      "native_frame": "vacuum_A",
+      "points": 3246,
+      "windows": [
+        [
+          90.0,
+          90.02
+        ],
+        [
+          130.15,
+          130.25
+        ],
+        [
+          1128.8,
+          1129.3
+        ],
+        [
+          3098.2,
+          3099.0
+        ],
+        [
+          5499.8,
+          5500.0
+        ]
+      ],
+      "conversion": "nm->A scale10 only; NO air conversion",
+      "scientific_coverage": "Numerical requested samples only; no full-band/model/instrument admission"
+    },
+    "atmosphere": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "atom": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "element": "O",
+    "atom_header": {
+      "abundance": 8.7,
+      "mass": 15.999,
+      "levels": 41,
+      "lines": 256,
+      "continua": 22,
+      "fixed": 0
+    },
+    "namelist": {
+      "name": "input.nml",
+      "bytes": 1139,
+      "sha256": "b698513cdba758b5883ad86e2dc1c87d97a07058ffa0ffa31d0f7d82b9a4b3f1"
+    },
+    "controls": {
+      "threads": 1,
+      "seconds": 600,
+      "maxiter": 1500,
+      "rtol": 1e-06,
+      "ntheta": 5,
+      "nphi": 1,
+      "angle_quad": "lobatto",
+      "qnorm": 10.0,
+      "nq_fac": 4.0,
+      "output_angle_quad": "disk_center",
+      "freeze_depths": false,
+      "output_solver": "linear",
+      "disable_stark_control": true,
+      "bound_free_in_output": true
+    },
+    "physical_limitations": [
+      "Native HOP EOS/continuous opacity and collision interpolation differ from Bride; explicit matched-input audit is required.",
+      "Line blanketing and background bound-bound opacity explicitly off in this first reference plan.",
+      "Output quadrature is explicit; none skips synthesis and disk_center requests vertical intensity, not flux or an abundance fit.",
+      "Source atom is not silently replaced by the supplied variant; source paths and hashes are checked."
+    ]
+  },
+  "dry_run": false,
+  "computational_completed": false
+}

@@ -1,0 +1,675 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 19210,
+    "sha256": "df00105187f7d187a584d598ec3f70fb25d05c15948a3e2df36dcfafdf0e9d8f"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 20517,
+        "sha256": "bebe068a050acfb1f9529b545f112f39b9b265ee431571c7e35997e09a0ebda6"
+      },
+      "archived": "rya1371-frozen-feedback-baseline-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/independent_old_convention_rates.npz",
+      "receipt": {
+        "name": "independent_old_convention_rates.npz",
+        "bytes": 228973,
+        "sha256": "a5de3dc316311a8b8003122816c074c93fa4874d9b8f8a5c07cd0432f3a79ffe"
+      },
+      "archived": "rya1371-frozen-feedback-baseline-v1/independent_old_convention_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128420,
+        "sha256": "f94f018b3c0159fbb07373a460ceea03d47e458f3fb69aadd4e193954dc5b33f"
+      },
+      "archived": "rya1371-frozen-feedback-baseline-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4335439,
+        "sha256": "58cde6fef352c2a5715bfe767b9e5f9a0d2d31a2765dceb1a8f5103c1b0a034a"
+      },
+      "archived": "rya1371-frozen-feedback-baseline-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 218666,
+        "sha256": "ef82c83484d2d86f5d288ef01736bd1b7139753befe4171080eefdbebc247bc2"
+      },
+      "archived": "rya1371-frozen-feedback-baseline-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 671,
+        "sha256": "f963e2657eac09d848b4174749b722221ed05d4f75311abc4aae3a5d0bb61b43"
+      },
+      "archived": "rya1371-frozen-feedback-baseline-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-frozen-feedback-baseline-v1/thermal_source.py",
+      "receipt": {
+        "name": "thermal_source.py",
+        "bytes": 7848,
+        "sha256": "fef84c91489c5c289d112fd2d0cf398eafe394577255451438999d24dcdd2394"
+      },
+      "archived": "rya1371-frozen-feedback-baseline-v1/thermal_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 20256,
+        "sha256": "edcd44bd2c802c4c79b61b9e9bcb260c7a0285860335e7d98c70896e17144fc4"
+      },
+      "archived": "rya1371-thermal-feedback-v1/driver_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128262,
+        "sha256": "68a4474d8f03e6520814ca339f329506972c90be4305406826f35e8ad31823af"
+      },
+      "archived": "rya1371-thermal-feedback-v1/manifest.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 129122,
+        "sha256": "b82bd79be4104eda2668ed30a654ba96f490524b11d4524f6e84adafb3205d48"
+      },
+      "archived": "rya1371-thermal-feedback-v1/report.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 1312,
+        "sha256": "f5223f775f668e6aaea863487152dd37b500ccfbf7c66ed23ace0534bc7394ef"
+      },
+      "archived": "rya1371-thermal-feedback-v1/stdout_stderr.log",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v1/thermal_source.py",
+      "receipt": {
+        "name": "thermal_source.py",
+        "bytes": 5720,
+        "sha256": "b778f4754952c29231cd515528e389fd0bda3a3b19f0821c8c7138271a26febd"
+      },
+      "archived": "rya1371-thermal-feedback-v1/thermal_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 20517,
+        "sha256": "bebe068a050acfb1f9529b545f112f39b9b265ee431571c7e35997e09a0ebda6"
+      },
+      "archived": "rya1371-thermal-feedback-v2/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/independent_old_convention_rates.npz",
+      "receipt": {
+        "name": "independent_old_convention_rates.npz",
+        "bytes": 228909,
+        "sha256": "4a6aae0f800a3fea11dc32ed65ec9f439209e6a61137da30a1003d2962d56e45"
+      },
+      "archived": "rya1371-thermal-feedback-v2/independent_old_convention_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128262,
+        "sha256": "98fada73225eb7c3746426da6b7a295a5c874a11569c672fc2f262ad5cec7b7e"
+      },
+      "archived": "rya1371-thermal-feedback-v2/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4342578,
+        "sha256": "0568af318c3c22d38e8c0b732098f6ecd35ee8c4a58a948f40f3cdad56bf3195"
+      },
+      "archived": "rya1371-thermal-feedback-v2/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 218570,
+        "sha256": "fd492b66a6a1ddc82e8e5d0db09c3d2d6a15e92e388c03285abe4efc3f590fa3"
+      },
+      "archived": "rya1371-thermal-feedback-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 672,
+        "sha256": "1ca0789c3d130ee3dfba6181f1f01821df77177a2a38f33e52f93b031c746c0b"
+      },
+      "archived": "rya1371-thermal-feedback-v2/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-feedback-v2/thermal_source.py",
+      "receipt": {
+        "name": "thermal_source.py",
+        "bytes": 7848,
+        "sha256": "fef84c91489c5c289d112fd2d0cf398eafe394577255451438999d24dcdd2394"
+      },
+      "archived": "rya1371-thermal-feedback-v2/thermal_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21421,
+        "sha256": "00c16f685b7f0383c2ea4da341119d6f25b57cc79b8d58b82d831146f1164012"
+      },
+      "archived": "rya1371-native-strength-feedback-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/independent_old_convention_rates.npz",
+      "receipt": {
+        "name": "independent_old_convention_rates.npz",
+        "bytes": 228974,
+        "sha256": "3ea5ec3c61bef3b7bb09cd536fa3e73da4e92e496f35a7f210965467c06f6a8b"
+      },
+      "archived": "rya1371-native-strength-feedback-v1/independent_old_convention_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128484,
+        "sha256": "d499ce3904669c7dadde0a9d10d8bbe73acd9477346850693f2045c44eb628ba"
+      },
+      "archived": "rya1371-native-strength-feedback-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4335283,
+        "sha256": "7caba2d3691927c49c5df366bbe59009dc9b166b9994daf9d470d848316c10f8"
+      },
+      "archived": "rya1371-native-strength-feedback-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 268768,
+        "sha256": "83ff247ca46ebee289cc2fe99a2ddbc052465e38e7ee53e1c3c04a0294de12d1"
+      },
+      "archived": "rya1371-native-strength-feedback-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 672,
+        "sha256": "ce012690d1d1c7502528f92c6401799d1900a7a60b635df2a262820e19e8996a"
+      },
+      "archived": "rya1371-native-strength-feedback-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-strength-feedback-v1/thermal_source.py",
+      "receipt": {
+        "name": "thermal_source.py",
+        "bytes": 8199,
+        "sha256": "9ef67a04fe3e1039c002e3f33105daa7ecadaa437291560cee748c14d07a9654"
+      },
+      "archived": "rya1371-native-strength-feedback-v1/thermal_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21421,
+        "sha256": "00c16f685b7f0383c2ea4da341119d6f25b57cc79b8d58b82d831146f1164012"
+      },
+      "archived": "rya1371-thermal-strength-feedback-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/independent_old_convention_rates.npz",
+      "receipt": {
+        "name": "independent_old_convention_rates.npz",
+        "bytes": 228971,
+        "sha256": "11a7ef074125d2600cf74941a1222b6d9db38f0ce3ae6fc82165a10d7e60550e"
+      },
+      "archived": "rya1371-thermal-strength-feedback-v1/independent_old_convention_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128486,
+        "sha256": "25a5a91c405ae8990e6202f2f5ef43ba43b00e0030f826cbd6577f6c489911ee"
+      },
+      "archived": "rya1371-thermal-strength-feedback-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4342794,
+        "sha256": "8370b832a1f80034025d571eaa9924075c5a761c3cb711f827bfb9c8cbd8b160"
+      },
+      "archived": "rya1371-thermal-strength-feedback-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 268837,
+        "sha256": "7eea221aa93aa7baaac375f994805e09fc57df3999e9c5aed2d7815d104ddc1e"
+      },
+      "archived": "rya1371-thermal-strength-feedback-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 672,
+        "sha256": "e927b76edd57c9361b80684a655d3c3a8bcd5bee1cfeb71bf90bdadd63850624"
+      },
+      "archived": "rya1371-thermal-strength-feedback-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-thermal-strength-feedback-v1/thermal_source.py",
+      "receipt": {
+        "name": "thermal_source.py",
+        "bytes": 8199,
+        "sha256": "9ef67a04fe3e1039c002e3f33105daa7ecadaa437291560cee748c14d07a9654"
+      },
+      "archived": "rya1371-thermal-strength-feedback-v1/thermal_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21421,
+        "sha256": "00c16f685b7f0383c2ea4da341119d6f25b57cc79b8d58b82d831146f1164012"
+      },
+      "archived": "rya1371-bb-thermal-feedback-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/independent_old_convention_rates.npz",
+      "receipt": {
+        "name": "independent_old_convention_rates.npz",
+        "bytes": 228938,
+        "sha256": "3854f28823819be2c3672ad4bdba1d981bb9936f69aaea177e3d1861743f4006"
+      },
+      "archived": "rya1371-bb-thermal-feedback-v1/independent_old_convention_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128268,
+        "sha256": "b6cba88854bf48c98cd7ef5d4656099c337b88afb342e7a35ff9d842c7b23d85"
+      },
+      "archived": "rya1371-bb-thermal-feedback-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4342605,
+        "sha256": "402fb9b8472128510f8b93a1af0c905d44bb55fb52d5001820a35c8fed442449"
+      },
+      "archived": "rya1371-bb-thermal-feedback-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 218594,
+        "sha256": "ebe342b141fb9595e1fd8795ad7784a42ed6dfdd0063653adba4e65437fdaf41"
+      },
+      "archived": "rya1371-bb-thermal-feedback-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 671,
+        "sha256": "2ab8e84302847b9767270b99f105ff195b5cc228402308b1fb90e8164205b347"
+      },
+      "archived": "rya1371-bb-thermal-feedback-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bb-thermal-feedback-v1/thermal_source.py",
+      "receipt": {
+        "name": "thermal_source.py",
+        "bytes": 8199,
+        "sha256": "9ef67a04fe3e1039c002e3f33105daa7ecadaa437291560cee748c14d07a9654"
+      },
+      "archived": "rya1371-bb-thermal-feedback-v1/thermal_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21421,
+        "sha256": "00c16f685b7f0383c2ea4da341119d6f25b57cc79b8d58b82d831146f1164012"
+      },
+      "archived": "rya1371-bf-thermal-feedback-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/independent_old_convention_rates.npz",
+      "receipt": {
+        "name": "independent_old_convention_rates.npz",
+        "bytes": 228966,
+        "sha256": "4a4e149362664b652326f3740caf7f2af831b8d044966691089f79c0e5810625"
+      },
+      "archived": "rya1371-bf-thermal-feedback-v1/independent_old_convention_rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128268,
+        "sha256": "475fe4f7762df8e0a11cc183f28664b4951783c782c3622d4515a2f800ac3338"
+      },
+      "archived": "rya1371-bf-thermal-feedback-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4335588,
+        "sha256": "ea9d9de9b2837e4851f3fba0ae05bfc6c61b943dedb6b207c86874880eb167b6"
+      },
+      "archived": "rya1371-bf-thermal-feedback-v1/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 218593,
+        "sha256": "50e2cbcabf40ec2175f5c4baaf3f1724fac40d44b5b532751cdcc4c22da6fc9b"
+      },
+      "archived": "rya1371-bf-thermal-feedback-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 670,
+        "sha256": "0d705f5867d9ec66e868a2a74aaececba5f0e291254695a647a9481bf7351bed"
+      },
+      "archived": "rya1371-bf-thermal-feedback-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-bf-thermal-feedback-v1/thermal_source.py",
+      "receipt": {
+        "name": "thermal_source.py",
+        "bytes": 8199,
+        "sha256": "9ef67a04fe3e1039c002e3f33105daa7ecadaa437291560cee748c14d07a9654"
+      },
+      "archived": "rya1371-bf-thermal-feedback-v1/thermal_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-midpoint-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21421,
+        "sha256": "00c16f685b7f0383c2ea4da341119d6f25b57cc79b8d58b82d831146f1164012"
+      },
+      "archived": "rya1371-shared16-midpoint-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-midpoint-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 128977,
+        "sha256": "394bb07f0946dd6f0001551551e4e8305468214561c0b7aaa10142143df2ef57"
+      },
+      "archived": "rya1371-shared16-midpoint-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-midpoint-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 6938735,
+        "sha256": "0c1b40d704eea99dff706c9d2acabd83ff16a5be60c63f8c32831fda4975f295"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-midpoint-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217460,
+        "sha256": "664a73db8b0257069f8876efce4f9a13b87892ed365279889b027ce64c26cafe"
+      },
+      "archived": "rya1371-shared16-midpoint-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-midpoint-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 670,
+        "sha256": "387c48ffe5b146d1315bbf45027f42a8ad99b24d40aa991a8dc35002284b1b40"
+      },
+      "archived": "rya1371-shared16-midpoint-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local1-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21421,
+        "sha256": "00c16f685b7f0383c2ea4da341119d6f25b57cc79b8d58b82d831146f1164012"
+      },
+      "archived": "rya1371-shared16-local1-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local1-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129071,
+        "sha256": "eedc6a72897de8f9eabdaf270a7d8c1b8ec67c5ce70f15f3ddd69d0b5359ce98"
+      },
+      "archived": "rya1371-shared16-local1-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local1-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 6979589,
+        "sha256": "d5a8744aa1a735008759f998a51b9667c6d8b53df52c98a09230f9711f88d04f"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local1-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217550,
+        "sha256": "3b88d38ff7c5fc293e00373f7b72bc1a1de6e6dc0d3978d203f0a964fe119c11"
+      },
+      "archived": "rya1371-shared16-local1-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local1-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 669,
+        "sha256": "b181a809ed59296fbc79f5771870b97be7d7b718288731dac2bf46497ca51f01"
+      },
+      "archived": "rya1371-shared16-local1-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local2-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 21421,
+        "sha256": "00c16f685b7f0383c2ea4da341119d6f25b57cc79b8d58b82d831146f1164012"
+      },
+      "archived": "rya1371-shared16-local2-v1/driver_source.py",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local2-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 129071,
+        "sha256": "2cea6ae00c2fdce85475223f85764aee89739dad3a2e906afc85eeb909c07213"
+      },
+      "archived": "rya1371-shared16-local2-v1/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local2-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 7059606,
+        "sha256": "f503e17c93991e106fa808f65079e2461133f8f40b7470aaca0bd5d6e7b5a65b"
+      },
+      "archived": null,
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local2-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 217555,
+        "sha256": "c1dc3a6e847c52514f8528139889f110c1d398096cbdbf24e5eb41ec29d9edb1"
+      },
+      "archived": "rya1371-shared16-local2-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-shared16-local2-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 671,
+        "sha256": "d22c27c2accb50349f1455d734997f16b6c3315c8d287fcd6bb995409bdd9489"
+      },
+      "archived": "rya1371-shared16-local2-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-feedback-controls-v1/controls.csv",
+      "receipt": {
+        "name": "controls.csv",
+        "bytes": 1586,
+        "sha256": "48c9cddd64d1be5e3e76c336f6952135d3ff401187704b056df764f77c4dafa1"
+      },
+      "archived": "rya1371-feedback-controls-v1/controls.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-feedback-controls-v1/feedback_controls.png",
+      "receipt": {
+        "name": "feedback_controls.png",
+        "bytes": 105820,
+        "sha256": "913cac539f9dfd4af52d00904abfe5713cdd57e98ed09956a1b87592d2960fac"
+      },
+      "archived": "rya1371-feedback-controls-v1/feedback_controls.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-feedback-controls-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 10868,
+        "sha256": "87a3e8d0a5415c2b1bbaa85b0aa13e0305c451f2bba4a36dafe0a6eeda97b65c"
+      },
+      "archived": "rya1371-feedback-controls-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-feedback-controls-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 3683,
+        "sha256": "96942cc4d7ac7cd8474a48cedca6cb57be45da024056d2ee969020541cfd9370"
+      },
+      "archived": "rya1371-feedback-controls-v1/stdout_stderr.log",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

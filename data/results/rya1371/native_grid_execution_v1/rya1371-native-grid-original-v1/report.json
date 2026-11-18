@@ -1,0 +1,34 @@
+{
+  "generator": {
+    "name": "prepare_oxygen_native_grid_controls.py",
+    "bytes": 3059,
+    "sha256": "290489314bc85f830069e51199b2dc7c13d4f5897ab3acd264688a7eb3e9e8e1"
+  },
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "all_original_nodes_exact": true,
+  "proposed_points": 39841,
+  "grid": {
+    "name": "frequency_grid_vac_A.txt",
+    "bytes": 956233,
+    "sha256": "1df26ba514d9d39badc98e8aac00b0e1c431f87d40a3fe1c634be1985aaea565"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 38043,
+      "sha256": "c1386004fbed6596e90d5d37800ddec4f62208cf994e956620a2d4dbeecf7a8d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 318728,
+      "sha256": "3e151054e98401db2bc2e847549cddbbefb06392c3abff712aa25964af354424"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_openmulti3d_oxygen_shared16.json": {
+      "name": "rya1371_openmulti3d_oxygen_shared16.json",
+      "bytes": 1917,
+      "sha256": "a48e691eed49e4a22e087d522086e56784fc7f3f416c19fe6849d333f7777aaa"
+    }
+  },
+  "scope": "Original-grid reproduction prerequisite; no new RT or enriched nodes."
+}

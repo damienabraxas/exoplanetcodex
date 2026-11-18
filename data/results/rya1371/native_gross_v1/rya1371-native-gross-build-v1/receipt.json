@@ -1,0 +1,73 @@
+{
+  "generator": {
+    "name": "build_native_gross_rates.py",
+    "bytes": 3653,
+    "sha256": "bc6cf6d2a5c4363a8d1ee29a69c2982c6ce16a8346e2b72a6220a10be8159156"
+  },
+  "source_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+  "original_reference": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "patch": {
+    "name": "gross_rates.patch",
+    "bytes": 9032,
+    "sha256": "aaf27abdad8acf6694f675a9be3885ef87839e50dbd89041d779e9b7481524f3"
+  },
+  "profile_patch": {
+    "name": "active_profile.patch",
+    "bytes": 3144,
+    "sha256": "c9da6c9d54d245a0178587846703b3c21649f7f3d7ecfc8952ba5dc14e6c9446"
+  },
+  "source": "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-gross-rates-v1",
+  "completed": true,
+  "threads": 1,
+  "seconds_limit": 600,
+  "scientific_admission": "HOLD",
+  "changed_sources": {
+    "experiments/OpenMULTI3D/HOP/qlg_mod.f90": {
+      "name": "qlg_mod.f90",
+      "bytes": 35471,
+      "sha256": "8e5634d407b0798bbcdd1bcfe41ddfa0ae0de11517fa27aa441c2f75a21bf177"
+    },
+    "experiments/OpenMULTI3D/SRC/rt_patch_mod.f90": {
+      "name": "rt_patch_mod.f90",
+      "bytes": 202412,
+      "sha256": "78a750a08df659dcb9f69f59ef89763082f9578731c167d3717b623b501dcfb3"
+    },
+    "experiments/OpenMULTI3D/SRC/nlte_patch_mod.f90": {
+      "name": "nlte_patch_mod.f90",
+      "bytes": 69677,
+      "sha256": "bbd36b930390b0acdaca4d6ee75f97ef6d9aa435a20776234c8f03b7f462513c"
+    }
+  },
+  "tracked_diff_sha256": "1518dcf83c1683a4b01446f3d10a8d7f9cfacc263e5d4dbec3a70a64fc7b4362",
+  "executable": {
+    "name": "dispatch.x",
+    "bytes": 3630696,
+    "sha256": "775de45b234029a9087582d29828eb5eee795295d4ce7dca198e43b0e6b783b3"
+  },
+  "libraries": {
+    "hop": {
+      "name": "libhop.so",
+      "bytes": 1164104,
+      "sha256": "b95bd76312cbeb8815c1d2caf5e57e900d35b4c1683129c0190d87eebbba8236"
+    }
+  },
+  "compiler": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "seconds": 93.76065929187462
+}

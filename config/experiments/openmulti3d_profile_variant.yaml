@@ -1,0 +1,8 @@
+schema: codex.reference_profile_variant/1
+variant: accurate-kernel-control
+status: experimental-reference
+production_admission: HOLD
+source_commit: 32085d26c46e9919a986397b5514a9728abe2074
+checkout_resource: engines.openmulti3d_profile_reference
+build_resource: engines.openmulti3d_profile_reference_build
+patch: native/qlg_profile_reference/active_profile.patch

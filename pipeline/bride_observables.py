@@ -19,13 +19,20 @@ def integrate_flux(intensity,mu,weight):
     return 2*np.pi*np.sum(intensity*(mu*weight),axis=-1)
 
 
-def window_integral(wave,normalized,lo,hi):
+def window_integral(wave,normalized,lo,hi,*,max_gap=None):
     """Bounded residual-flux area, in wavelength units; no extrapolated wings."""
     wave=np.asarray(wave);normalized=np.asarray(normalized)
     if wave.shape!=normalized.shape or not np.all(np.diff(wave)>0):
         raise ValueError('Invalid spectral grid')
     if not np.isfinite(normalized).all() or lo< wave[0] or hi>wave[-1] or not lo<hi:
         raise ValueError('Invalid or uncovered integration window')
+    if max_gap is not None:
+        if not np.isfinite(max_gap) or max_gap<=0:raise ValueError('Invalid maximum spectral gap')
+        # Include the samples bracketing both endpoints: inserted endpoints
+        # cannot disguise interpolation across an absent output window.
+        first=max(0,np.searchsorted(wave,lo,side='right')-1)
+        last=min(len(wave)-1,np.searchsorted(wave,hi,side='left'))
+        if np.any(np.diff(wave[first:last+1])>max_gap):raise ValueError('Uncovered spectral gap in integration window')
     inside=(wave>lo)&(wave<hi)
     x=np.r_[lo,wave[inside],hi]
     return float(np.trapezoid(1-np.interp(x,wave,normalized),x))

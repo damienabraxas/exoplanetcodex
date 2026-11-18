@@ -1,0 +1,106 @@
+diff --git a/experiments/OpenMULTI3D/HOP/standalone/hop_c_api.f90 b/experiments/OpenMULTI3D/HOP/standalone/hop_c_api.f90
+index 73d68da43..5dfecf200 100644
+--- a/experiments/OpenMULTI3D/HOP/standalone/hop_c_api.f90
++++ b/experiments/OpenMULTI3D/HOP/standalone/hop_c_api.f90
+@@ -24,6 +24,7 @@ MODULE hop_c_api
+   USE bbtrans_mod,  only: tolerance, line_reject_frac, disable_rad, disable_stk, &
+                           disable_vdw, molecule_damping_estimates
+   USE bftrans_mod,  only: H_occupation_probability
++  USE element_mod, only: element_type
+   USE ion_mod,      only: debye_shield, particle_type
+   USE molecule_mod, only: irwin_dis
+   USE hprofl_mod,   only: hydrogen_BPO
+@@ -54,6 +55,7 @@ MODULE hop_c_api
+   public :: hop_load_state, hop_set_vmic, hop_get_n, hop_get_field, hop_get_species, &
+             hop_get_grph, hop_opacity, hop_opacity_omp, hop_scattering
+   public :: hop_atmos_read, hop_atmos_get, hop_atmos_free, hop_optical_depth, hop_pchip_integral
++  public :: hop_exclude_model_continua
+ 
+   !> master is the initialized-but-never-loaded composition; each hop_load_state
+   !> solves in a fresh copy of it (comp), mirroring the dispatch pattern
+@@ -108,6 +110,73 @@ MODULE hop_c_api
+ 
+ CONTAINS
+ 
++  ! SPDX-License-Identifier: GPL-3.0-only
++  ! Experimental derivative of SRC/nlte_patch_mod.f90::exclude_double_continua
++  ! at32085d26c. Atomic non-hydrogen subset only; no rate/opacity coefficients
++  ! changed. Call after init and before any EOS state is loaded.
++  FUNCTION hop_exclude_model_continua(id, awgt, ncont, stages, exc, nexcluded) &
++      RESULT(status) BIND(c, name='hop_exclude_model_continua')
++    USE, INTRINSIC :: ieee_arithmetic, only: ieee_is_finite
++    character(kind=c_char), intent(in) :: id(*)
++    real(c_double), value :: awgt
++    integer(c_int), value :: ncont
++    integer(c_int), intent(in) :: stages(*)
++    real(c_double), intent(in) :: exc(*)
++    integer(c_int), intent(out) :: nexcluded
++    integer(c_int) :: status
++    character(len=:), allocatable :: name
++    class(element_type), pointer :: element
++    integer :: i, k, split
++    logical :: same_species, match
++    status=0
++    nexcluded=0
++    if (.not. allocated(master) .or. allocated(comp)) then
++      call fail('trace selection requires initialized, never-loaded master', 3, status)
++      return
++    endif
++    call c2f_string(id, name)
++    if (.not. ieee_is_finite(awgt) .or. awgt<=0 .or. ncont<1 .or. ncont>10000) then
++      call fail('invalid explicit trace identity/count', 3, status)
++      return
++    endif
++    call master%element_by_id(name, element)
++    if (.not. associated(element) .or. lowercase(trim(name))=='h') then
++      call fail('only atomic non-hydrogen trace selection is qualified', 3, status)
++      return
++    endif
++    if (any(stages(1:ncont)<1) .or. any(stages(1:ncont)>element%nion) .or. &
++        any(.not. ieee_is_finite(exc(1:ncont))) .or. any(exc(1:ncont)<0)) then
++      call fail('invalid trace continuum stage/excitation', 3, status)
++      return
++    endif
++    do i=1, size(master%trans)
++      associate(trans=>master%trans(i))
++      if (.not. trans%active .or. .not. associated(trans%ion)) cycle
++      if (trans%molecular .or. trans%level%g<=0) cycle
++      split=index(trans%ion%id,' ')
++      if (split==0) split=len_trim(trans%ion%id)+1
++      same_species=lowercase(trans%ion%id(:split-1))==lowercase(trim(name)) .and. &
++          abs(trans%ion%awgt/awgt-1)<1d-2
++      if (.not. same_species) cycle
++      match=.false.
++      do k=1,ncont
++        if (stages(k)/=trans%ion%j) cycle
++        if (exc(k)==0) then
++          match=trans%level%xion==0
++        else
++          match=abs(trans%level%xion/exc(k)-1)<1d-2
++        endif
++        if (match) exit
++      enddo
++      if (match) then
++        trans%active=.false.
++        nexcluded=nexcluded+1
++        write(*,'(a,1x,a)') 'BRIDE_TRACE_EXCLUDE',trim(trans%label)
++      endif
++      end associate
++    enddo
++  END FUNCTION hop_exclude_model_continua
++
+   !=============================================================================
+   ! Error reporting
+   !=============================================================================
+diff --git a/experiments/OpenMULTI3D/HOP/standalone/libhop.h b/experiments/OpenMULTI3D/HOP/standalone/libhop.h
+index 29cb3ff75..92de973bd 100644
+--- a/experiments/OpenMULTI3D/HOP/standalone/libhop.h
++++ b/experiments/OpenMULTI3D/HOP/standalone/libhop.h
+@@ -1,6 +1,7 @@
+ int hop_atmos_free ();
+ int hop_atmos_get (const char *name, int n, float *out);
+ int hop_atmos_read (const char *atmos_format, const char *atmos_file, int snap, int use_aux, int *dims);
++int hop_exclude_model_continua (const char *id, double awgt, int ncont, const int *stages, const double *exc, int *nexcluded);
+ int hop_free ();
+ int hop_get_field (const char *name, int n, double *out);
+ double hop_get_grph ();

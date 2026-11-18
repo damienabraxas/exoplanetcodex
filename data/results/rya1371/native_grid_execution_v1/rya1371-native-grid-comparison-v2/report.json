@@ -1,0 +1,151 @@
+{
+  "generator": {
+    "name": "compare_oxygen_native_grid_controls.py",
+    "bytes": 6660,
+    "sha256": "43b5e4d4068bf2ff703a1f6127197027616d2f7e93e60d9ca95e03aafc0dd40c"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/compare_oxygen_native_grid_controls.py": {
+      "name": "compare_oxygen_native_grid_controls.py",
+      "bytes": 6660,
+      "sha256": "43b5e4d4068bf2ff703a1f6127197027616d2f7e93e60d9ca95e03aafc0dd40c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-shared16-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 150444,
+      "sha256": "4a876bacd94649ae6410fc8f2470d2a10e0951551175f26e77c724fdf1213378"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-shared16-analysis-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 854641,
+      "sha256": "6abec1a8b102239011873e11bc524c74106f0d80676573f52d0964309ccc6f52"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5108,
+      "sha256": "afeeb5e68652923dddabbc842676cbb4a16a8d0ca1df8004efa56cd7b1ce4411"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207161,
+      "sha256": "5ffd0fa22138dcd286451a8b6f7a9245c986f1d3eb8bd169c59b921366df4c07"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 38043,
+      "sha256": "c1386004fbed6596e90d5d37800ddec4f62208cf994e956620a2d4dbeecf7a8d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 318728,
+      "sha256": "3e151054e98401db2bc2e847549cddbbefb06392c3abff712aa25964af354424"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-grid-refined-physical-v1/report.json": {
+      "name": "report.json",
+      "bytes": 152983,
+      "sha256": "f133e3bd38ca77f6e66afec0a3d9bc86f9f5d9fb947aa214633081b3cf0adcaf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-grid-refined-physical-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 854683,
+      "sha256": "010ce011a4d253ccd3f7dd51554c1579178a446a076e17e45b62352ebf9029b6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5125,
+      "sha256": "d99f46d024e8d0662fcfcc8f4d69fed4aad311584b8beac0d45cd5dfa7f925bc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 207161,
+      "sha256": "25a908306da255e1df5549c5db25d5019e1ba48d5e7e7ac13d32be972bbd4e08"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-v1/report.json": {
+      "name": "report.json",
+      "bytes": 39885,
+      "sha256": "1ad837e00ee976ba75b1474caa09c5b48555ce05e9887debdb19878eb049c01b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 472024,
+      "sha256": "b4c915528b087a43468bbf3dc4428920dfe10b31fb323048f854fb8ec1bdad32"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_openmulti3d_oxygen_shared16.json": {
+      "name": "rya1371_openmulti3d_oxygen_shared16.json",
+      "bytes": 1917,
+      "sha256": "a48e691eed49e4a22e087d522086e56784fc7f3f416c19fe6849d333f7777aaa"
+    }
+  },
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "metrics": {
+    "baseline": {
+      "points": 39841,
+      "max_pre_update_physical_residual": 7.950781846969677e-07,
+      "max_update_relative": 4.690130150919458e-07,
+      "observer_unchanged_original_binaries": 112
+    },
+    "refined": {
+      "points": 59003,
+      "max_pre_update_physical_residual": 2.7650160131419904e-07,
+      "max_update_relative": 4.816315548605843e-07,
+      "observer_unchanged_original_binaries": 112
+    },
+    "n_mesh_change": {
+      "max_relative": 0.00134577236206479,
+      "worst_level_1based": 40,
+      "worst_depth_top_to_bottom": 5,
+      "triplet_levels6_8_9_10_max_relative": 7.616817359767936e-05
+    },
+    "post_mesh_change": {
+      "max_relative": 0.0013457854702630945,
+      "worst_level_1based": 40,
+      "worst_depth_top_to_bottom": 5,
+      "triplet_levels6_8_9_10_max_relative": 7.6140239939404e-05
+    },
+    "spectra": {
+      "max_absolute_normalized_intensity_change": 1.5148347769500248e-06,
+      "max_absolute_finite_window_area_change_mA": 0.0008830545166570067
+    }
+  },
+  "windows": [
+    {
+      "air_min_A": 6154,
+      "air_max_A": 6162,
+      "points": 1600,
+      "max_absolute_normalized_intensity_change": 4.807785148885912e-07,
+      "finite_window_area_change_mA": -1.2819361253118984e-05
+    },
+    {
+      "air_min_A": 6298,
+      "air_max_A": 6303,
+      "points": 1000,
+      "max_absolute_normalized_intensity_change": 0.0,
+      "finite_window_area_change_mA": -0.0
+    },
+    {
+      "air_min_A": 6361,
+      "air_max_A": 6366,
+      "points": 1000,
+      "max_absolute_normalized_intensity_change": 0.0,
+      "finite_window_area_change_mA": -0.0
+    },
+    {
+      "air_min_A": 7770,
+      "air_max_A": 7777,
+      "points": 1400,
+      "max_absolute_normalized_intensity_change": 1.5148347769500248e-06,
+      "finite_window_area_change_mA": -0.0008830545166570067
+    },
+    {
+      "air_min_A": 8443,
+      "air_max_A": 8449,
+      "points": 1200,
+      "max_absolute_normalized_intensity_change": 1.4336948392923432e-06,
+      "finite_window_area_change_mA": -0.0005208133239895751
+    }
+  ],
+  "collision_and_nstar_exact": true,
+  "all_original_nodes_retained": true,
+  "scope": "Two self-consistent native numerical-grid solves with identical atom/atmosphere/physics and exact C/nStar. Physical rates are independently reconstructed at each exact PRE-update state; stored post-update populations and emergent optical windows compared separately. Changed R includes field/population/BB+BF sampling feedback, not a fixed-population quadrature-only attribution. Finite AIR-window areas are not full equivalent widths or observed abundance errors. No canonical-solar/flux/fullband/3D/model admission."
+}

@@ -115,6 +115,16 @@ carried an NLTE level label (`nearuv_linelist` writes 'none'). Al had none there
 and Fe none in K; only RYA-1094's Fe IR/H labels existed. The VIS/red-optical GESv6 list
 ships its own labels (Mg 244/245, Al 84/84).
 
+> **Correction (RYA-1371, 2026-11-18).** The Mg count was wrong. GESv6 labels only 9 Mg I
+> lines. The other 235 are flagged `nlte=T` with the placeholder label `x`, and every guard
+> counted `x` as a label because it tested only for `none`. Turbospectrum finds no level
+> called `x` and applies departure = 1, so 6318.717, 6319.237, 7657.603, 7659.152, 7659.901,
+> 8712.689, 8717.825 and 8923.569 ran in LTE inside the published `ENGINE-B-NLTE` products.
+> The fix is `gerber_nlte.is_label`, under which `x` is no label. The GES sidecar now labels
+> 105 Mg I lines from `atom.mg86d`; it reproduces all 9 GES labels exactly. 8717.825 has no
+> level pair in the atom, so it leaves the NLTE product. The affected cells were patched for
+> these lines only (see `docs/audit/rya1371/openmulti3d_orch_o.md`).
+
 `pipeline/nlte_label_sidecar.py` + `scripts/rya1250_nlte_label_sidecars.py` (Sirius) write
 `nlte_labels.tsv` beside each list for every element with a Gerber deck (Mg, Al, Fe). Two
 routes per level, unioned, both endpoints or neither: (energy, J) as RYA-1094, and VALD's

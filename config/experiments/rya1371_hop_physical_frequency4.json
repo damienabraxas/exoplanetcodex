@@ -1,0 +1,96 @@
+{
+  "purpose": "full-source-O41-HOP-fixed-population-rates",
+  "seconds": 600,
+  "native_analysis_resource": "experiments.openmulti3d_oxygen_frequency4_analysis",
+  "native_arrays": {
+    "name": "arrays.npz",
+    "bytes": 85418,
+    "sha256": "6197176c609fd39f34d8fd3d5305b344e6b07778ff815041f8870464e64f1e5f"
+  },
+  "native_spectra": {
+    "name": "spectra.npz",
+    "bytes": 207150,
+    "sha256": "cf2b08d2dbf43755868b08f657efce5a634c5273eefe5ef6bb2de4dcd1b187cd"
+  },
+  "native_report": {
+    "name": "report.json",
+    "bytes": 5127,
+    "sha256": "90901fddf2076eb276e27a2d609a8aa1fb722ce0d4492b84153fb0be2b76fa3b"
+  },
+  "backend": {
+    "name": "LwCompiled.cpython-312-darwin.so",
+    "bytes": 4127408,
+    "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+  },
+  "scope": "Matched-population full-source UV/BF/radiative-rate replay at EXACT native n/nStar/T/ne/rho, source photon centres/f and source widths. Fixed populations throughout; no statistical-equilibrium update. Compare all source/native transition pairs and target level7/top cell identified in the prior outer-layer audit. No fitted parameters, omitted layers or physical model/solar admission. Source-defined native linear ghost spacing and zero chi/S/I upstream plane; length read from actual consumed native mesh, never fitted. No change to source T/ne/rho/populations or rate coefficients. This fixed-population control does not qualify a coupled boundary preconditioner. Exact pre-update population replay against isolated native physical-rate observer. Native baseline binaries unchanged; no physical adoption. Compare exact PRE-update physical native frequency4 state/field. Own source grid remains inherited qscale2; native NQFAC4 and declared decoupled/shared radiation convention explicit, not assumed identical. No SE update or scientific adoption.",
+  "native_options": {
+    "name": "rya1371_hop_native_options.json",
+    "bytes": 1512,
+    "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+  },
+  "formal_solver": "piecewise_linear_1d",
+  "helium_broadening": false,
+  "vdw_broadening": true,
+  "original_width_law": {
+    "resource": "experiments.original_multi_width_law",
+    "receipt": {
+      "name": "law.json",
+      "bytes": 73892,
+      "sha256": "d5333a701ca53f01dcb84ac2126fe7fb7ad037d5c9157282b2b1802c6b9f2548"
+    },
+    "report_receipt": {
+      "name": "report.json",
+      "bytes": 1840,
+      "sha256": "334d66abe7f43ef563f29d55fc4576320b0a8c6692e49c88d0b625dd13eb3fa9"
+    }
+  },
+  "collision_binding": {
+    "resource": "experiments.native_oxygen_collision_matrix",
+    "report_receipt": {
+      "name": "report.json",
+      "bytes": 78523,
+      "sha256": "eef4490f24038f986f27c52d212168a34f319f66e21d86b3313b92d2197dfe7d"
+    },
+    "matrix_receipt": {
+      "name": "matrices.npz",
+      "bytes": 3227315,
+      "sha256": "987895552f40f5f0234e0aefd4725a755d662b2e42bbf543010a15551d8b56ba"
+    },
+    "atom": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    }
+  },
+  "controls_source": "data/results/rya1281/solar_full_cap_v1/rya1281-solar-full-cap-v1/baseline/report.json",
+  "controls_receipt": {
+    "name": "report.json",
+    "bytes": 23507,
+    "sha256": "1505e54fb04cb122614ff92c26e973f4b7f6207bff8d1d203e895cbf49391240"
+  },
+  "iteration_plugin": {
+    "resource": "experiments.bride_full_cap_plugin",
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 12068,
+      "sha256": "6d1c11c2410f32dc62a36ebf9767c01a6adc9dd5cee4e1db29a7107f932c0eec"
+    }
+  },
+  "native_run_resource": "experiments.openmulti3d_oxygen_frequency4_run",
+  "focus_level_1based": 7,
+  "focus_depth_index": 0,
+  "boundary_control": "native-zero-ghost-linear",
+  "native_physical_control": {
+    "resource": "experiments.openmulti3d_oxygen_frequency4_physical_rates",
+    "report.json": {
+      "name": "report.json",
+      "bytes": 170015,
+      "sha256": "451c74754b190e70692231964027d796fe4d1da5eb32b2c713de2b579fa0ac4f"
+    },
+    "rates.npz": {
+      "name": "rates.npz",
+      "bytes": 854976,
+      "sha256": "4a152ba84ff4fd8b7892fc55192362de582f195e6223ba1477ba87fc15720aee"
+    }
+  }
+}

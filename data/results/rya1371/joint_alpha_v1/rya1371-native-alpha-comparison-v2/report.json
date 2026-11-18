@@ -1,0 +1,100 @@
+{
+  "generator": {
+    "name": "compare_oxygen_joint_alpha.py",
+    "bytes": 3772,
+    "sha256": "043bfbc0bf679827d75f7d99be15cc7a288798b620316989fe3367e376b27a7f"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/compare_oxygen_joint_alpha.py": {
+      "name": "compare_oxygen_joint_alpha.py",
+      "bytes": 3772,
+      "sha256": "043bfbc0bf679827d75f7d99be15cc7a288798b620316989fe3367e376b27a7f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined2-adaptive-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218765,
+      "sha256": "142786d3630b3f00f68c696e2e6d037232fc68818d679c79614d24f099084d68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-grid-refined2-adaptive-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582093,
+      "sha256": "873433b6d6a4d54a4fd45e908a78be17764f5568582435ce45c214227edb8edb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-alpha-default-replay-v1/report.json": {
+      "name": "report.json",
+      "bytes": 218810,
+      "sha256": "191a19d78f551c37b4ca55993bbd392b05f1872e7fd85761cd89887d8de2841e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-alpha-default-replay-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582093,
+      "sha256": "873433b6d6a4d54a4fd45e908a78be17764f5568582435ce45c214227edb8edb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298132,
+      "sha256": "819b8249d28983e50332ef48383df136569052ebc82bbda68d26f9f6a53a0588"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582561,
+      "sha256": "fd64b654cc19b79379c6725ec3380ed0ae254d2a9f32ac3db8a6b68ad8eaa67b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 192939,
+      "sha256": "2dfe74f39857e9e9395368a6575808dcab4410014165478482f5a31cb1881687"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "default_reproduces_prior_arrays": [
+    "Jnu",
+    "native_C_s_inv",
+    "native_R_s_inv",
+    "nstar",
+    "populations",
+    "replay_C_s_inv",
+    "replay_R_s_inv",
+    "wave_vac_nm"
+  ],
+  "held_arrays_exact": [
+    "populations",
+    "nstar",
+    "wave_vac_nm",
+    "native_R_s_inv",
+    "native_C_s_inv",
+    "replay_C_s_inv"
+  ],
+  "wavelength_points": 19963,
+  "source_continua": 22,
+  "compiled_alpha_checks": 44,
+  "default_residual": 0.0002004208891016901,
+  "joint_residual": 0.00020041235450489695,
+  "worst_joint_level_1based": 41,
+  "worst_joint_depth_top_to_bottom": 0,
+  "level41_top_signed": [
+    -0.0002004208891016901,
+    -0.00020041235450489695
+  ],
+  "max_rate_relative_change": 0.0004074605189554603,
+  "max_J_absolute_change": 2.3760724052660807e-15,
+  "max_positive_J_relative_change": 9.105274542296502e-07,
+  "J_changed": true,
+  "absolute_replay": {
+    "max_relative_directional_difference": 2.864375403532904e-14,
+    "positive_direction_depths": 31136,
+    "worst_destination_source_depth": [
+      19,
+      39,
+      41
+    ],
+    "positive_sum_FP64_bound": 3.5679903488923983e-10,
+    "max_transition_nodes": 10043,
+    "angular_weight_sum": 1.0000000018626451,
+    "saved_physical_residual": 0.00020041235450489695,
+    "reconstructed_physical_residual": 0.00020041235450698618,
+    "within_FP64_bound": true
+  },
+  "scope": "Raw-source native frequency-Hermite alpha shared by active opacity/emissivity and rates; fresh radiation at identical fixed populations. Native FP32 alpha output and exact canonical source-knot coordinates are part of this control. Held LW thermal profile, BB, collisions, source grid and background provider unchanged. No SE, full thermal consistency, adopted model, solar abundance or observed UV/VIS/IR qualification."
+}

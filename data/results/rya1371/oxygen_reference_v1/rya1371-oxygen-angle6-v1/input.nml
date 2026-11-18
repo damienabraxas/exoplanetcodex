@@ -1,0 +1,11 @@
+&io_params datadir='native', gb_step=6., do_trace=F /
+&timer_params sec_per_report=1d8, verbose=1 /
+&atmos_params atmos_format='Marcs', atmos_file='/Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod', use_abnd=T, use_ne=T, use_rho=T, prune_top=F, save_atmos=T, save_eos=T /
+&atom_params atom_file='/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f', use_atom_abnd=T, qnorm=10.0, nq_fac=2.0 /
+&nlte_params convlim=1.000000000000e-06, convmax=0.000000000000e+00, premature_finish=F /
+&rt_iteration_params angle_quad='lobatto', ntheta=6, nphi=1, maxiter=1500, include_absmet=F, include_linelist=F /
+&rt_output_params angle_quad='disk_center', include_absmet=F, include_linelist=F /
+&output_params save_populations=T, save_rates=1, save_rate_matrix=T, save_net_rates=T, save_Jnu=T /
+&run_params mem_limit_gb=2. /
+&m3d_debug_params verbose=1, check_NaN=T /
+&spectrum_params lam_file='output_wavelengths_vac_A.txt', in_air=F /

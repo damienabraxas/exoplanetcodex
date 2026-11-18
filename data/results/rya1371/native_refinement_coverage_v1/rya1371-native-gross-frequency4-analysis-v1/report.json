@@ -1,0 +1,3919 @@
+{
+  "generator": {
+    "name": "analyze_native_gross_rates.py",
+    "bytes": 4230,
+    "sha256": "743c1ebda1f5dc4189dcd1707cfedb0a76ca1513ec8432082bb72732e7bc4a83"
+  },
+  "reader": {
+    "name": "native_gross_rates.py",
+    "bytes": 4003,
+    "sha256": "a0d2fb01916ca9017c903aaf78116be4a9757c6f0590953ab862b440556d7b26"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/input.nml": {
+      "name": "input.nml",
+      "bytes": 1139,
+      "sha256": "25a966d6a8c54d52e6bb305848dc4583825aad90da89777d74babbf2e2c711e3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/abund.txt": {
+      "name": "abund.txt",
+      "bytes": 1104,
+      "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/angle_quadrature.txt": {
+      "name": "angle_quadrature.txt",
+      "bytes": 104,
+      "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/atmos_mesh.txt": {
+      "name": "atmos_mesh.txt",
+      "bytes": 928,
+      "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/convergence_report_000.txt": {
+      "name": "convergence_report_000.txt",
+      "bytes": 798,
+      "sha256": "95dbe946178a8464ec5761e0ecd20e07725a9502a5b466de4a63bc6cc6ad183e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/hash.log": {
+      "name": "hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/job.nml": {
+      "name": "job.nml",
+      "bytes": 8760,
+      "sha256": "cfe1649f00652291d2a0d38cfb2b8acd74b0b02937699c2b42b5445dfe780c02"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/linelist_out.txt": {
+      "name": "linelist_out.txt",
+      "bytes": 27406,
+      "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "f1df2ae0c1a68088419b9bc234f9b8b5a0321c8d9a2e6417194bf0d6f550cb2a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.dbg": {
+      "name": "rank_00000.dbg",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.disp": {
+      "name": "rank_00000.disp",
+      "bytes": 179416,
+      "sha256": "f7a7a2d4c864f3bc8e5caa8962ce5003b306992e3564d5aa84fd65448885e9e5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.dump": {
+      "name": "rank_00000.dump",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.log": {
+      "name": "rank_00000.log",
+      "bytes": 58886,
+      "sha256": "b2784f705122a23eaf6349cb696769407829c1d6bcbb36ef8c92e8236b169e7a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.pdat": {
+      "name": "rank_00000.pdat",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.pinf": {
+      "name": "rank_00000.pinf",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.que": {
+      "name": "rank_00000.que",
+      "bytes": 1920,
+      "sha256": "a6c2073b68883a1fdb9db4cbca415bbb4a5d5a34a388e4477678e12d119342a8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/rank_00000.val": {
+      "name": "rank_00000.val",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001001001.bin": {
+      "name": "Jnu_001001001.bin",
+      "bytes": 163072,
+      "sha256": "4dfb83e006b2159e99e1d6480cb9761a997a22d23a2cc8d744881927e343abbf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001001002.bin": {
+      "name": "Jnu_001001002.bin",
+      "bytes": 163072,
+      "sha256": "4dfb83e006b2159e99e1d6480cb9761a997a22d23a2cc8d744881927e343abbf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001002001.bin": {
+      "name": "Jnu_001002001.bin",
+      "bytes": 163044,
+      "sha256": "79b51ce6f8094335643a026debf5ac28ebc5b55e915a409f024fb4687354b4db"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001002002.bin": {
+      "name": "Jnu_001002002.bin",
+      "bytes": 163044,
+      "sha256": "79b51ce6f8094335643a026debf5ac28ebc5b55e915a409f024fb4687354b4db"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001003001.bin": {
+      "name": "Jnu_001003001.bin",
+      "bytes": 7084,
+      "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001003002.bin": {
+      "name": "Jnu_001003002.bin",
+      "bytes": 7084,
+      "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001004001.bin": {
+      "name": "Jnu_001004001.bin",
+      "bytes": 7056,
+      "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_001004002.bin": {
+      "name": "Jnu_001004002.bin",
+      "bytes": 7056,
+      "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002001001.bin": {
+      "name": "Jnu_002001001.bin",
+      "bytes": 163072,
+      "sha256": "fa16ac9be096d493e9b3652ab4602d91bfd2253dd996f5808d9c24ea84d8db6b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002001002.bin": {
+      "name": "Jnu_002001002.bin",
+      "bytes": 163072,
+      "sha256": "fa16ac9be096d493e9b3652ab4602d91bfd2253dd996f5808d9c24ea84d8db6b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002002001.bin": {
+      "name": "Jnu_002002001.bin",
+      "bytes": 163044,
+      "sha256": "641e7cb55afe1a363fd743bc2fb55ca7a3cf06920e79a7120ce602c847aea76b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002002002.bin": {
+      "name": "Jnu_002002002.bin",
+      "bytes": 163044,
+      "sha256": "641e7cb55afe1a363fd743bc2fb55ca7a3cf06920e79a7120ce602c847aea76b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002003001.bin": {
+      "name": "Jnu_002003001.bin",
+      "bytes": 7084,
+      "sha256": "28c5e8037aa37d3e311b3823a368ca3a5fee3dee957af94fd7fede3f2836c83b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002003002.bin": {
+      "name": "Jnu_002003002.bin",
+      "bytes": 7084,
+      "sha256": "28c5e8037aa37d3e311b3823a368ca3a5fee3dee957af94fd7fede3f2836c83b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002004001.bin": {
+      "name": "Jnu_002004001.bin",
+      "bytes": 7056,
+      "sha256": "72a1a7e5a69875931e9e2ee6a43df4f47039018b93c8e207ff917474f7b58b2c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_002004002.bin": {
+      "name": "Jnu_002004002.bin",
+      "bytes": 7056,
+      "sha256": "72a1a7e5a69875931e9e2ee6a43df4f47039018b93c8e207ff917474f7b58b2c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003001001.bin": {
+      "name": "Jnu_003001001.bin",
+      "bytes": 163072,
+      "sha256": "1ef1e828cc6e8b38ead671fefd3befe14fa3b095328ff8c94416fa7fe0a34a30"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003001002.bin": {
+      "name": "Jnu_003001002.bin",
+      "bytes": 163072,
+      "sha256": "1ef1e828cc6e8b38ead671fefd3befe14fa3b095328ff8c94416fa7fe0a34a30"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003002001.bin": {
+      "name": "Jnu_003002001.bin",
+      "bytes": 163044,
+      "sha256": "5c2c34eb38f3d593c73e8c7221cc630e971be923dcc5ac143f4c799bee9405e5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003002002.bin": {
+      "name": "Jnu_003002002.bin",
+      "bytes": 163044,
+      "sha256": "5c2c34eb38f3d593c73e8c7221cc630e971be923dcc5ac143f4c799bee9405e5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003003001.bin": {
+      "name": "Jnu_003003001.bin",
+      "bytes": 7084,
+      "sha256": "5818ac6646513032c200ebf46917de963b0ac014d2c02b5bdb0c2b10eb3790f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003003002.bin": {
+      "name": "Jnu_003003002.bin",
+      "bytes": 7084,
+      "sha256": "5818ac6646513032c200ebf46917de963b0ac014d2c02b5bdb0c2b10eb3790f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003004001.bin": {
+      "name": "Jnu_003004001.bin",
+      "bytes": 7056,
+      "sha256": "f63ae10df5f322e496187fdf13a0ee8c6f3e6a8bc2f01a0d698076a06d730cb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_003004002.bin": {
+      "name": "Jnu_003004002.bin",
+      "bytes": 7056,
+      "sha256": "f63ae10df5f322e496187fdf13a0ee8c6f3e6a8bc2f01a0d698076a06d730cb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004001001.bin": {
+      "name": "Jnu_004001001.bin",
+      "bytes": 163072,
+      "sha256": "c083681f10e9d5ffb7eac503575e15bd5d0f417e5ed300c71ae8512aff5c0aca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004001002.bin": {
+      "name": "Jnu_004001002.bin",
+      "bytes": 163072,
+      "sha256": "c083681f10e9d5ffb7eac503575e15bd5d0f417e5ed300c71ae8512aff5c0aca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004002001.bin": {
+      "name": "Jnu_004002001.bin",
+      "bytes": 163044,
+      "sha256": "78dbfc02148d8faeae4b9e05dcb4c57a6d25af1c272cd75aecc2ceab3c7c8c56"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004002002.bin": {
+      "name": "Jnu_004002002.bin",
+      "bytes": 163044,
+      "sha256": "78dbfc02148d8faeae4b9e05dcb4c57a6d25af1c272cd75aecc2ceab3c7c8c56"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004003001.bin": {
+      "name": "Jnu_004003001.bin",
+      "bytes": 7084,
+      "sha256": "6c26051f07678494be6bee499306459612316e03fbc673ac19f7a4e071d8331c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004003002.bin": {
+      "name": "Jnu_004003002.bin",
+      "bytes": 7084,
+      "sha256": "6c26051f07678494be6bee499306459612316e03fbc673ac19f7a4e071d8331c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004004001.bin": {
+      "name": "Jnu_004004001.bin",
+      "bytes": 7056,
+      "sha256": "3461d863e9a26833be8f8b9d7a92b10f1b680bbcfd9353e184f34aaf122f2732"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_004004002.bin": {
+      "name": "Jnu_004004002.bin",
+      "bytes": 7056,
+      "sha256": "3461d863e9a26833be8f8b9d7a92b10f1b680bbcfd9353e184f34aaf122f2732"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005001001.bin": {
+      "name": "Jnu_005001001.bin",
+      "bytes": 163072,
+      "sha256": "76c023918d1ad2b2f989d22acb3088b0d4156fc78e158575876e30caeab03764"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005001002.bin": {
+      "name": "Jnu_005001002.bin",
+      "bytes": 163072,
+      "sha256": "76c023918d1ad2b2f989d22acb3088b0d4156fc78e158575876e30caeab03764"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005002001.bin": {
+      "name": "Jnu_005002001.bin",
+      "bytes": 163044,
+      "sha256": "d99a1f6b6d89f7e26d6670b10b6812df265323db86bb3d4cac4feb107b70d12e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005002002.bin": {
+      "name": "Jnu_005002002.bin",
+      "bytes": 163044,
+      "sha256": "d99a1f6b6d89f7e26d6670b10b6812df265323db86bb3d4cac4feb107b70d12e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005003001.bin": {
+      "name": "Jnu_005003001.bin",
+      "bytes": 7084,
+      "sha256": "2abf044d7716a3f0b2dda737397b14049a4b446491a271b7d904a8cf7a242640"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005003002.bin": {
+      "name": "Jnu_005003002.bin",
+      "bytes": 7084,
+      "sha256": "2abf044d7716a3f0b2dda737397b14049a4b446491a271b7d904a8cf7a242640"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005004001.bin": {
+      "name": "Jnu_005004001.bin",
+      "bytes": 7056,
+      "sha256": "9a878ec8c56a552ecbb3d3e050a0135ed0221e694cc01317fc6d79ecf594a5f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_005004002.bin": {
+      "name": "Jnu_005004002.bin",
+      "bytes": 7056,
+      "sha256": "9a878ec8c56a552ecbb3d3e050a0135ed0221e694cc01317fc6d79ecf594a5f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006001001.bin": {
+      "name": "Jnu_006001001.bin",
+      "bytes": 163072,
+      "sha256": "a5495ed610da3e2a0d529b4bd827eee2111ee141791b52e9497075a04071c500"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006001002.bin": {
+      "name": "Jnu_006001002.bin",
+      "bytes": 163072,
+      "sha256": "a5495ed610da3e2a0d529b4bd827eee2111ee141791b52e9497075a04071c500"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006002001.bin": {
+      "name": "Jnu_006002001.bin",
+      "bytes": 163044,
+      "sha256": "28b692083eaa1092838877e7e45e551492e193e7c5df8731ee92bda74f8aec4f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006002002.bin": {
+      "name": "Jnu_006002002.bin",
+      "bytes": 163044,
+      "sha256": "28b692083eaa1092838877e7e45e551492e193e7c5df8731ee92bda74f8aec4f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006003001.bin": {
+      "name": "Jnu_006003001.bin",
+      "bytes": 7084,
+      "sha256": "e197b8fb5d541849aac242d3e0ced04df57f18aebd9e28207c882eb6db311d68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006003002.bin": {
+      "name": "Jnu_006003002.bin",
+      "bytes": 7084,
+      "sha256": "e197b8fb5d541849aac242d3e0ced04df57f18aebd9e28207c882eb6db311d68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006004001.bin": {
+      "name": "Jnu_006004001.bin",
+      "bytes": 7056,
+      "sha256": "0895e38a5f795f296356a2c4490132fe5021e875ff3d4528cb2330ec7826ff96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_006004002.bin": {
+      "name": "Jnu_006004002.bin",
+      "bytes": 7056,
+      "sha256": "0895e38a5f795f296356a2c4490132fe5021e875ff3d4528cb2330ec7826ff96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007001001.bin": {
+      "name": "Jnu_007001001.bin",
+      "bytes": 163072,
+      "sha256": "0bfaa887ca2812e134ee54828fc3c9bf79f3718eabef43296b1bfc9f54df642e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007001002.bin": {
+      "name": "Jnu_007001002.bin",
+      "bytes": 163072,
+      "sha256": "0bfaa887ca2812e134ee54828fc3c9bf79f3718eabef43296b1bfc9f54df642e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007002001.bin": {
+      "name": "Jnu_007002001.bin",
+      "bytes": 163044,
+      "sha256": "67e3f27063e386b7a9eae80ffed5f3d9c2af71efbada2864a02002d9de98f556"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007002002.bin": {
+      "name": "Jnu_007002002.bin",
+      "bytes": 163044,
+      "sha256": "67e3f27063e386b7a9eae80ffed5f3d9c2af71efbada2864a02002d9de98f556"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007003001.bin": {
+      "name": "Jnu_007003001.bin",
+      "bytes": 7084,
+      "sha256": "79618e707f1e35f25d03f40c7402a09d469c0610aa130f3b1d83b7162df206dc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007003002.bin": {
+      "name": "Jnu_007003002.bin",
+      "bytes": 7084,
+      "sha256": "79618e707f1e35f25d03f40c7402a09d469c0610aa130f3b1d83b7162df206dc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007004001.bin": {
+      "name": "Jnu_007004001.bin",
+      "bytes": 7056,
+      "sha256": "991b8dfb335036d489ec40b7595eb0cec9f8c76743f4c7be55af0d9fe7a168c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_007004002.bin": {
+      "name": "Jnu_007004002.bin",
+      "bytes": 7056,
+      "sha256": "991b8dfb335036d489ec40b7595eb0cec9f8c76743f4c7be55af0d9fe7a168c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008001001.bin": {
+      "name": "Jnu_008001001.bin",
+      "bytes": 163072,
+      "sha256": "f95823addbddf6c4d7b243d093e8261fd3ec272fec64b31b279e5a6f0f3b2c4d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008001002.bin": {
+      "name": "Jnu_008001002.bin",
+      "bytes": 163072,
+      "sha256": "f95823addbddf6c4d7b243d093e8261fd3ec272fec64b31b279e5a6f0f3b2c4d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008002001.bin": {
+      "name": "Jnu_008002001.bin",
+      "bytes": 163044,
+      "sha256": "1208d11b1a7280c9fb3f2a088462c1224dc4f1dc70020a845a7b0a41816d7ac0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008002002.bin": {
+      "name": "Jnu_008002002.bin",
+      "bytes": 163044,
+      "sha256": "1208d11b1a7280c9fb3f2a088462c1224dc4f1dc70020a845a7b0a41816d7ac0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008003001.bin": {
+      "name": "Jnu_008003001.bin",
+      "bytes": 7084,
+      "sha256": "db9bcb10c1aaec33db7b4273098784f5a97ca72b12f8f5b9a7c88eae3d92d591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008003002.bin": {
+      "name": "Jnu_008003002.bin",
+      "bytes": 7084,
+      "sha256": "db9bcb10c1aaec33db7b4273098784f5a97ca72b12f8f5b9a7c88eae3d92d591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008004001.bin": {
+      "name": "Jnu_008004001.bin",
+      "bytes": 7056,
+      "sha256": "5dec95d8bef52f200f65ce26baf953e4e0283e0b960243c9c2918cf8fda3ce86"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_008004002.bin": {
+      "name": "Jnu_008004002.bin",
+      "bytes": 7056,
+      "sha256": "5dec95d8bef52f200f65ce26baf953e4e0283e0b960243c9c2918cf8fda3ce86"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/Jnu_meta.txt": {
+      "name": "Jnu_meta.txt",
+      "bytes": 72421,
+      "sha256": "e5788f50b4dcc5cc1e73de845849125e8bea0452a2a03f315787aae30047d627"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/O_c_008000.bin": {
+      "name": "O_c_008000.bin",
+      "bytes": 6724,
+      "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/O_c_meta.txt": {
+      "name": "O_c_meta.txt",
+      "bytes": 94,
+      "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/O_w_008000.bin": {
+      "name": "O_w_008000.bin",
+      "bytes": 6724,
+      "sha256": "d9b0527bbb086c4ceee3090019a8b2091d6781dca46ecfbeeee2e49f0793e449"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/O_w_meta.txt": {
+      "name": "O_w_meta.txt",
+      "bytes": 94,
+      "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_001000.bin": {
+      "name": "atmos_001000.bin",
+      "bytes": 392,
+      "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_002000.bin": {
+      "name": "atmos_002000.bin",
+      "bytes": 392,
+      "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_003000.bin": {
+      "name": "atmos_003000.bin",
+      "bytes": 392,
+      "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_004000.bin": {
+      "name": "atmos_004000.bin",
+      "bytes": 392,
+      "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_005000.bin": {
+      "name": "atmos_005000.bin",
+      "bytes": 392,
+      "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_006000.bin": {
+      "name": "atmos_006000.bin",
+      "bytes": 392,
+      "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_007000.bin": {
+      "name": "atmos_007000.bin",
+      "bytes": 392,
+      "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_008000.bin": {
+      "name": "atmos_008000.bin",
+      "bytes": 392,
+      "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/atmos_meta.txt": {
+      "name": "atmos_meta.txt",
+      "bytes": 733,
+      "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00001.bin": {
+      "name": "audit_gross_00000_00001.bin",
+      "bytes": 270600,
+      "sha256": "66869e4a297c9f412bd03b18aca090c40b9a37126213099cafb60d6702aac5f6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00008.bin": {
+      "name": "audit_gross_00000_00008.bin",
+      "bytes": 270600,
+      "sha256": "1408f28c785a2ab336f2a83aa5363ac5d7ca4c121c7c42381dcf45bba090a72e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00015.bin": {
+      "name": "audit_gross_00000_00015.bin",
+      "bytes": 270600,
+      "sha256": "7c60a1408c45d9348bc36f1c1becba9e935769ce3f39b6d7b483bbd751ad155d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00022.bin": {
+      "name": "audit_gross_00000_00022.bin",
+      "bytes": 270600,
+      "sha256": "791711622d85a6a3e5e3a9752828f01ba9c2fe1264ae8f62d3e8682d959b8a00"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00029.bin": {
+      "name": "audit_gross_00000_00029.bin",
+      "bytes": 270600,
+      "sha256": "f38aa5280dbb05c18c7cca70b3d7b65fb846a89114a5ce41505ddfefe2d7d540"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00036.bin": {
+      "name": "audit_gross_00000_00036.bin",
+      "bytes": 270600,
+      "sha256": "b7192c6e0c53cb126270e6010b03b7edab2f02271a80de16829235aef5c0a7cd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00043.bin": {
+      "name": "audit_gross_00000_00043.bin",
+      "bytes": 270600,
+      "sha256": "8a695a8f01b971f569b4aa51ce0c09557925a78ab072f230dc373b16b7d6d3cf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00000_00050.bin": {
+      "name": "audit_gross_00000_00050.bin",
+      "bytes": 270600,
+      "sha256": "5ffde42f383844e4bfc0f7a7cf701550cec1c0145e4be0453443b9102984a698"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00001.bin": {
+      "name": "audit_gross_00001_00001.bin",
+      "bytes": 270600,
+      "sha256": "35462ddf02d7dfe94f533c538213b622c01889155a33a4b3c556df26c578f717"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00008.bin": {
+      "name": "audit_gross_00001_00008.bin",
+      "bytes": 270600,
+      "sha256": "619e967f4b3299acd67a5e1cc69ed0fae3590b89f70ad2452e5fba62a6a70b94"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00015.bin": {
+      "name": "audit_gross_00001_00015.bin",
+      "bytes": 270600,
+      "sha256": "0aaea7e380fbd04e188561fd4ce73e41816a60d34dad3a2aa0fb1f485b3e9538"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00022.bin": {
+      "name": "audit_gross_00001_00022.bin",
+      "bytes": 270600,
+      "sha256": "b02a899d4f28836003de79392f22868c124e91eea24e9b897491480c2000b184"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00029.bin": {
+      "name": "audit_gross_00001_00029.bin",
+      "bytes": 270600,
+      "sha256": "f08e0103854feed214eced849a881afe48b329a4d044b36d007cbcee4b2e6dce"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00036.bin": {
+      "name": "audit_gross_00001_00036.bin",
+      "bytes": 270600,
+      "sha256": "c29b0e566a2993faec635755b48c32b069d2dcf138d1135b9721660fd6f9ab74"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00043.bin": {
+      "name": "audit_gross_00001_00043.bin",
+      "bytes": 270600,
+      "sha256": "ff3adcd3d25c3e66e443c8a04b31ed580c11985bb33c2f560d6896f33100b14b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00001_00050.bin": {
+      "name": "audit_gross_00001_00050.bin",
+      "bytes": 270600,
+      "sha256": "7ddeac6ae666ecda89d940e706609e32fe1088e04be5dae40441bc86031d7162"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00001.bin": {
+      "name": "audit_gross_00002_00001.bin",
+      "bytes": 270600,
+      "sha256": "94784535d9ecc68f9bcc2dd33ced5c959d1b0ad54d486f636552745a50e866e9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00008.bin": {
+      "name": "audit_gross_00002_00008.bin",
+      "bytes": 270600,
+      "sha256": "04a975bfa8f92f22050ca29b4b44c9852fe5b07639d7657fac817ae2cd0926ff"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00015.bin": {
+      "name": "audit_gross_00002_00015.bin",
+      "bytes": 270600,
+      "sha256": "a8af573f9c2eac632bdcf12af659028390324092ec2c598ab10b10a316b8a077"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00022.bin": {
+      "name": "audit_gross_00002_00022.bin",
+      "bytes": 270600,
+      "sha256": "0d3ffc43e68fa16444d5cc174d2b3233f259b21b3d37deeea9360c7e1da0c07e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00029.bin": {
+      "name": "audit_gross_00002_00029.bin",
+      "bytes": 270600,
+      "sha256": "7926c6c57ff7efb77367a35f34c2f6533933208bd0e943394418c7b568fa7d55"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00036.bin": {
+      "name": "audit_gross_00002_00036.bin",
+      "bytes": 270600,
+      "sha256": "49adf531661b26c5e7f4e4fcf9c45d3fc3b0209375840fd159d17c71e171f3dc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00043.bin": {
+      "name": "audit_gross_00002_00043.bin",
+      "bytes": 270600,
+      "sha256": "022df93ad913509233a4b085097af80cc85e02dd895e5fad3cc845da2e2047f4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00002_00050.bin": {
+      "name": "audit_gross_00002_00050.bin",
+      "bytes": 270600,
+      "sha256": "8954d60e3a7adde43e458592f7ea1f6bfce6830fd8487181ae231f0bbc4072d0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00001.bin": {
+      "name": "audit_gross_00003_00001.bin",
+      "bytes": 270600,
+      "sha256": "dad8c93eded4d51f3082b647a632a8c9c7b7908fd36c30a3d8843559a1eaa290"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00008.bin": {
+      "name": "audit_gross_00003_00008.bin",
+      "bytes": 270600,
+      "sha256": "67bb88fd461721784f14797e0df89ab86b33ac6a9ef5a90a5ab20a09c155f3c4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00015.bin": {
+      "name": "audit_gross_00003_00015.bin",
+      "bytes": 270600,
+      "sha256": "b02d1f0274ccef1b56de39d419d4934f8dc673f47a365da6c46eb5736267bd72"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00022.bin": {
+      "name": "audit_gross_00003_00022.bin",
+      "bytes": 270600,
+      "sha256": "453376e738ff07cc0f83ee0787f43b6af38004878c65ad0b57c7fcb9ba4e1a60"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00029.bin": {
+      "name": "audit_gross_00003_00029.bin",
+      "bytes": 270600,
+      "sha256": "a426dbfaede533209ae7eb398f8e4aeb1a1588412999f7a16b3854d8cf7d66bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00036.bin": {
+      "name": "audit_gross_00003_00036.bin",
+      "bytes": 270600,
+      "sha256": "e1662d4674eb940e120cae7ec10cb5df58b8bcc5160466372738ce60346104c6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00043.bin": {
+      "name": "audit_gross_00003_00043.bin",
+      "bytes": 270600,
+      "sha256": "c5554763f9bf13b52ab7981ae16b66f563e9e845e5b1689730129cb04ec80d16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00003_00050.bin": {
+      "name": "audit_gross_00003_00050.bin",
+      "bytes": 270600,
+      "sha256": "5a287ff7218780837b15324d7145b97ebe572991bbe664179a5165d827da1583"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00001.bin": {
+      "name": "audit_gross_00004_00001.bin",
+      "bytes": 270600,
+      "sha256": "b4fa0a24511f1c24c0928c4e92a2d041f7619664bc032ea5b69f2563601bf9d5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00008.bin": {
+      "name": "audit_gross_00004_00008.bin",
+      "bytes": 270600,
+      "sha256": "a632ced7d7848e8098cea139e0be22d9877228da124669ddbee84771cd05231e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00015.bin": {
+      "name": "audit_gross_00004_00015.bin",
+      "bytes": 270600,
+      "sha256": "a03472732d30948380b98c7eb2230216e04c60ba45b2cf78060cb3c8c12b458e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00022.bin": {
+      "name": "audit_gross_00004_00022.bin",
+      "bytes": 270600,
+      "sha256": "2bc46da22938cdd4def2cc73967a54bf86e9bf0155c2f6986a50edd0524fe335"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00029.bin": {
+      "name": "audit_gross_00004_00029.bin",
+      "bytes": 270600,
+      "sha256": "8b629616bc12bf4fc72c2bce60c8b89d79361c255aa98c9496a09008a3065e2d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00036.bin": {
+      "name": "audit_gross_00004_00036.bin",
+      "bytes": 270600,
+      "sha256": "02cf3c2b7c1d614facbc21c95a5f0ea101d205c737368d43a1cc3aa2f05bbec8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00043.bin": {
+      "name": "audit_gross_00004_00043.bin",
+      "bytes": 270600,
+      "sha256": "eefe57c8b16d7051992c35f5488b5ce00739c280da2211dca81dfcea21106b58"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00004_00050.bin": {
+      "name": "audit_gross_00004_00050.bin",
+      "bytes": 270600,
+      "sha256": "7ecb89dd189924cd2bce8ac246f16aca5f8efe806b65ceeda0b0c7b5828ead8c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00001.bin": {
+      "name": "audit_gross_00005_00001.bin",
+      "bytes": 270600,
+      "sha256": "35f0c2131b1690fc1035b7e1a07b57c99938d9e9de39a64bf826f99de13eef89"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00008.bin": {
+      "name": "audit_gross_00005_00008.bin",
+      "bytes": 270600,
+      "sha256": "df0e7651f55fbe5da3b370780b4bc7e297bcc7178ee14f7d9c8f0f1d2be424cf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00015.bin": {
+      "name": "audit_gross_00005_00015.bin",
+      "bytes": 270600,
+      "sha256": "27ee54021afea04b4e54649ce1c5044160c99c871d777aae8ab2880bf97d4123"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00022.bin": {
+      "name": "audit_gross_00005_00022.bin",
+      "bytes": 270600,
+      "sha256": "853614c034d636de0be4766f01d98dd740bc144e7712a249f5eb1e2908818500"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00029.bin": {
+      "name": "audit_gross_00005_00029.bin",
+      "bytes": 270600,
+      "sha256": "6fcece545f1ada4f32fb072a134b2c73f22639a2ee5e0beff31aa08e9250e825"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00036.bin": {
+      "name": "audit_gross_00005_00036.bin",
+      "bytes": 270600,
+      "sha256": "6e09e3b716e76f18d8c8b7b428c4ff48b1e63deb1b0e3a4d0a1e23ece813edbc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00043.bin": {
+      "name": "audit_gross_00005_00043.bin",
+      "bytes": 270600,
+      "sha256": "0b0ed13cd4703d4304cf6886e2deccbbfeeb88c7da08e650d0049b1d7cad4a0c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00005_00050.bin": {
+      "name": "audit_gross_00005_00050.bin",
+      "bytes": 270600,
+      "sha256": "7afb22d9ff0fbc01038539256678f87c58c792a3351b37f9ea34fc9c76becb9e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00001.bin": {
+      "name": "audit_gross_00006_00001.bin",
+      "bytes": 270600,
+      "sha256": "78f276e31111e93d97794cd60fe2e17c59bb40e07453d348b6de23d28fe63b9b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00008.bin": {
+      "name": "audit_gross_00006_00008.bin",
+      "bytes": 270600,
+      "sha256": "d4806c8638a9c187dcbac58de38c9f907773574d2d802bfd43cfb8194612b5ec"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00015.bin": {
+      "name": "audit_gross_00006_00015.bin",
+      "bytes": 270600,
+      "sha256": "0af5574c07c760de08cd35307dd19985ffc8e4698c4cbcb6fda0d79fdf1d38ab"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00022.bin": {
+      "name": "audit_gross_00006_00022.bin",
+      "bytes": 270600,
+      "sha256": "f9f0e0eddf6c83dd045726289f14a3bddd5814dbb1a851a185eee215c5860162"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00029.bin": {
+      "name": "audit_gross_00006_00029.bin",
+      "bytes": 270600,
+      "sha256": "cb36f698f629b952474c8cccaf50e1492debe267145aa3bb9ae3ca7fe9d5577e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00036.bin": {
+      "name": "audit_gross_00006_00036.bin",
+      "bytes": 270600,
+      "sha256": "9ebf19d45a4bfb90b7770732e21867ac3c78c6edb7598a76f2fa2bf9316659cd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00043.bin": {
+      "name": "audit_gross_00006_00043.bin",
+      "bytes": 270600,
+      "sha256": "047e477d960dd2f43521e5aa3baa640d2d2636e06dbf25520e0945073b536b37"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00006_00050.bin": {
+      "name": "audit_gross_00006_00050.bin",
+      "bytes": 270600,
+      "sha256": "656df5dd3e443c62a84d6c52cc025d2efe728f5c6711939a063c1d82c5ecdd54"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00001.bin": {
+      "name": "audit_gross_00007_00001.bin",
+      "bytes": 270600,
+      "sha256": "d6352dc6d7feb0348855f39da42fb690b5f39a720b4d32c62cfc3ec7a2fb2ba1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00008.bin": {
+      "name": "audit_gross_00007_00008.bin",
+      "bytes": 270600,
+      "sha256": "f2cecb759b0f7e1830a9c5411625ecb94b1bdabd8c1f87eab723f6b09a5acc3d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00015.bin": {
+      "name": "audit_gross_00007_00015.bin",
+      "bytes": 270600,
+      "sha256": "5934699d16cb0c1564990a618cc4fd927fb140a642b9ed8c95fbb6f475151161"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00022.bin": {
+      "name": "audit_gross_00007_00022.bin",
+      "bytes": 270600,
+      "sha256": "b52fe91b6d879f577b7c767430eae5d3c92a901483147c62e0db8536475966f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00029.bin": {
+      "name": "audit_gross_00007_00029.bin",
+      "bytes": 270600,
+      "sha256": "b87d7a3744b34665fc9171011c8e2a0bef49d50434f8d60845d0dfaac76738f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00036.bin": {
+      "name": "audit_gross_00007_00036.bin",
+      "bytes": 270600,
+      "sha256": "b1eee9ec1e7aa47d8d07ab94c162fe0da664a4503b9d060b86a553798ceadd86"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00043.bin": {
+      "name": "audit_gross_00007_00043.bin",
+      "bytes": 270600,
+      "sha256": "5a3f94b7c88d69e59fd5cc845182cd3665b15d8469912b9490e8e33ae281c59c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00007_00050.bin": {
+      "name": "audit_gross_00007_00050.bin",
+      "bytes": 270600,
+      "sha256": "b0a8801e0005922b0d0faf3a931c8625d0c00a4a16720a572e213890dda2e8af"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00001.bin": {
+      "name": "audit_gross_00008_00001.bin",
+      "bytes": 270600,
+      "sha256": "2b8bf422dcd89fbdd214cec48a420af50b61e6192ec963bfb92621e56289f653"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00008.bin": {
+      "name": "audit_gross_00008_00008.bin",
+      "bytes": 270600,
+      "sha256": "f1bdab8a437dbaeb9a2d2b005129f9e02fa9ab3e0bee4e7f6c0deee9452b9f7b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00015.bin": {
+      "name": "audit_gross_00008_00015.bin",
+      "bytes": 270600,
+      "sha256": "e121d41201b793488d7d212e2da5b0603704b7d133960d35254d10ce1ff0decc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00022.bin": {
+      "name": "audit_gross_00008_00022.bin",
+      "bytes": 270600,
+      "sha256": "a059d3fc7eef020a906a199f6753d2c3d001cd3624dc4af31113551d76779b79"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00029.bin": {
+      "name": "audit_gross_00008_00029.bin",
+      "bytes": 270600,
+      "sha256": "d14dd3578e1b686f08c29ae02a7d6ab88e33d66a91d21507e124750eb4b5ff36"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00036.bin": {
+      "name": "audit_gross_00008_00036.bin",
+      "bytes": 270600,
+      "sha256": "5cdd72e64cba74f6daa80e37933c19104d70de4908b004652ad582f7feeead67"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00043.bin": {
+      "name": "audit_gross_00008_00043.bin",
+      "bytes": 270600,
+      "sha256": "b84d23e326034cf92a48a990af27cbc8fa2489ef7549547fa73399b05ef06295"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00008_00050.bin": {
+      "name": "audit_gross_00008_00050.bin",
+      "bytes": 270600,
+      "sha256": "c7450f0bc5214e66f1de7ad7cb7de025fa973389e956d393a89a83b284e289be"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00001.bin": {
+      "name": "audit_gross_00009_00001.bin",
+      "bytes": 270600,
+      "sha256": "58c7bfbfd17e95ce97c23fe9b8f4366c407f38b4995b2aff122af1baa2367f49"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00008.bin": {
+      "name": "audit_gross_00009_00008.bin",
+      "bytes": 270600,
+      "sha256": "b8eb22ce4744ee0a1cad5b18baefacb38f22a30fc4180399f8881a737af07abe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00015.bin": {
+      "name": "audit_gross_00009_00015.bin",
+      "bytes": 270600,
+      "sha256": "a789feb67325843c9434fda6749d9974266fe34fbbbafb317a8e050001038550"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00022.bin": {
+      "name": "audit_gross_00009_00022.bin",
+      "bytes": 270600,
+      "sha256": "16205cb0bf551eca525557689e9f40c7031ddfb279fc4cd563e73d81b800c0f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00029.bin": {
+      "name": "audit_gross_00009_00029.bin",
+      "bytes": 270600,
+      "sha256": "beb0e134e5f217eee6d87a63ccc5aa82f497defb542d5002bd5b3a70e25bded8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00036.bin": {
+      "name": "audit_gross_00009_00036.bin",
+      "bytes": 270600,
+      "sha256": "ee35ad506a4e639823a0b02619df483d20c9149114d3b3bf0621740c95bf6448"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00043.bin": {
+      "name": "audit_gross_00009_00043.bin",
+      "bytes": 270600,
+      "sha256": "52af87025a6239b9442c555faa85ec3dcb42742f90d2b44e255a726d60b4cd51"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00009_00050.bin": {
+      "name": "audit_gross_00009_00050.bin",
+      "bytes": 270600,
+      "sha256": "693eebe91fc8453edc3f9b10941716bd12ff53b706840ac587129abc97ce8d31"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00001.bin": {
+      "name": "audit_gross_00010_00001.bin",
+      "bytes": 270600,
+      "sha256": "0d8fa506c4e19d09d4cd59ab5f7dbb2ad2c4d05668eb531690810dec2ea7b8d7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00008.bin": {
+      "name": "audit_gross_00010_00008.bin",
+      "bytes": 270600,
+      "sha256": "f747d6ce16d0c22214e873d4f96ef014a9e1697e4aef686afc0ee3b449506a3c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00015.bin": {
+      "name": "audit_gross_00010_00015.bin",
+      "bytes": 270600,
+      "sha256": "edbbcf0cf460473b7e9d58a7f2ee92e49aed9aee196972511080103f1d4b78bd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00022.bin": {
+      "name": "audit_gross_00010_00022.bin",
+      "bytes": 270600,
+      "sha256": "fd892e54236da162f86c371e7fa6571f53d4038db659db5a3a8d65a14c6b8802"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00029.bin": {
+      "name": "audit_gross_00010_00029.bin",
+      "bytes": 270600,
+      "sha256": "e19827305df6b407c190ca893529dc8c5d43b268d39d763bce737825e119a522"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00036.bin": {
+      "name": "audit_gross_00010_00036.bin",
+      "bytes": 270600,
+      "sha256": "e98a0a5fd64c8f9f3eb8e3f09c2da2ec40c3c82a193bc26f3c6230c0760fda81"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00043.bin": {
+      "name": "audit_gross_00010_00043.bin",
+      "bytes": 270600,
+      "sha256": "5bf601f90070b8183e8cca17c184953ec96506cd5b26ab6af2055acf91e685b0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00010_00050.bin": {
+      "name": "audit_gross_00010_00050.bin",
+      "bytes": 270600,
+      "sha256": "3e3090b55f302d0ea352a842045d90910fe81bfcdc90ca1b62d7491ff7b27ced"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00001.bin": {
+      "name": "audit_gross_00011_00001.bin",
+      "bytes": 270600,
+      "sha256": "ff15fd1bb3709f24458ddf69053cd0dedea4f8ecef715c2aca6124c58863f856"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00008.bin": {
+      "name": "audit_gross_00011_00008.bin",
+      "bytes": 270600,
+      "sha256": "7943d2b22c5f00f090234090ba2ac0bf5b2e80b2b814f0c5634dbadd99b29e04"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00015.bin": {
+      "name": "audit_gross_00011_00015.bin",
+      "bytes": 270600,
+      "sha256": "09b2b71e36ba12b7e9969cb9dd860ab48e3ebc486b5f1dbf21abd3b340389792"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00022.bin": {
+      "name": "audit_gross_00011_00022.bin",
+      "bytes": 270600,
+      "sha256": "8bdbcff33c357c25b9558120060ecfa99c19ef799d87fd8d7725f69e0109a096"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00029.bin": {
+      "name": "audit_gross_00011_00029.bin",
+      "bytes": 270600,
+      "sha256": "2fa0ea6581887a7b762680a05c6f117a0576c2d6d6b44948bc5e240512605c3e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00036.bin": {
+      "name": "audit_gross_00011_00036.bin",
+      "bytes": 270600,
+      "sha256": "8e1f83b99f7444a79e4672c0a1ca61cc05d54b520e289b634174e570663b768e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00043.bin": {
+      "name": "audit_gross_00011_00043.bin",
+      "bytes": 270600,
+      "sha256": "33fae969e0ebdc2621da76cf90161e22e3b113bf46ea1170462c774aaa9e4854"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00011_00050.bin": {
+      "name": "audit_gross_00011_00050.bin",
+      "bytes": 270600,
+      "sha256": "6937f5cbbeb3353d7fe8e6fd18604e449c976da3cf1e874fd06dfffcc830ab07"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00001.bin": {
+      "name": "audit_gross_00012_00001.bin",
+      "bytes": 270600,
+      "sha256": "91a4202f019f19c173dca95a989a50416fca6a758482e271876cede1b1172dc8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00008.bin": {
+      "name": "audit_gross_00012_00008.bin",
+      "bytes": 270600,
+      "sha256": "40cb84bb4347efb50ca3c2382baa71afc0937b17aa3647aa212a04c598fef858"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00015.bin": {
+      "name": "audit_gross_00012_00015.bin",
+      "bytes": 270600,
+      "sha256": "64ba8de036458d5267b490c475af59bf50b34ad81fd1f01ef2d29f7cbf998520"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00022.bin": {
+      "name": "audit_gross_00012_00022.bin",
+      "bytes": 270600,
+      "sha256": "ef484279ced82ae8cc367d7700efa1fb1884edd1344b218047667800861dd84f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00029.bin": {
+      "name": "audit_gross_00012_00029.bin",
+      "bytes": 270600,
+      "sha256": "cca65d5108c5d548b913588a04f7eab46bd451b0ba590c228524d240a9b1d976"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00036.bin": {
+      "name": "audit_gross_00012_00036.bin",
+      "bytes": 270600,
+      "sha256": "493217f0c8695a875be57ad8244f83633f6e15f55a11ad603e9c393e4b22e302"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00043.bin": {
+      "name": "audit_gross_00012_00043.bin",
+      "bytes": 270600,
+      "sha256": "d73001122818fcf8b42f50735d5da2c0ec5cb478162e556cf595190914fb6df5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_gross_00012_00050.bin": {
+      "name": "audit_gross_00012_00050.bin",
+      "bytes": 270600,
+      "sha256": "173e754689392f6315467ab0814fb71c047943c0d29a2de45327da43e2890dcf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00001.bin": {
+      "name": "audit_state_00001_00001.bin",
+      "bytes": 15324,
+      "sha256": "0bef5dbd741757704d32807076ed5aa372a1531610d40cabcfd7aba24502aaff"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00008.bin": {
+      "name": "audit_state_00001_00008.bin",
+      "bytes": 15324,
+      "sha256": "e18bbb92bda8a4a7bb2546aa9032cd9695f5e987c090e93db641967cb204b7f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00015.bin": {
+      "name": "audit_state_00001_00015.bin",
+      "bytes": 15324,
+      "sha256": "b7596a98632c8e4adbd42df4c58ce7beb74be121e9ebd1a8964dcfd4b59d1abd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00022.bin": {
+      "name": "audit_state_00001_00022.bin",
+      "bytes": 15324,
+      "sha256": "eb1a49417a92b720288af83ccf7a0f9fdffb6bacf1df1c5434592aa356e388f6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00029.bin": {
+      "name": "audit_state_00001_00029.bin",
+      "bytes": 15324,
+      "sha256": "4a85c230d3cda40c6b13ea7e218125a87d2ca417e6f6bd3cb11aa7def4619e49"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00036.bin": {
+      "name": "audit_state_00001_00036.bin",
+      "bytes": 15324,
+      "sha256": "6ea912493b7ca08de3a549d68e83c2739e2063f988eb3c7f968646542943d0a2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00043.bin": {
+      "name": "audit_state_00001_00043.bin",
+      "bytes": 15324,
+      "sha256": "08aa0774bb7310994f0759e56a1cf2a83bfa52cb98641e6521481c1cc4e2d939"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00001_00050.bin": {
+      "name": "audit_state_00001_00050.bin",
+      "bytes": 15324,
+      "sha256": "229193f47be50d149ca0103a3cf9136c6643115de1e99d77ad615cfc16069dde"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00001.bin": {
+      "name": "audit_state_00002_00001.bin",
+      "bytes": 15324,
+      "sha256": "0ec59b97a4784abffee7e1a13f57888ceb49ecf28caf9a1506888799e72750c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00008.bin": {
+      "name": "audit_state_00002_00008.bin",
+      "bytes": 15324,
+      "sha256": "3ed7dade3162993712286db9e8fcb11103a7a214e1ad3f85596d692e51a5a7ad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00015.bin": {
+      "name": "audit_state_00002_00015.bin",
+      "bytes": 15324,
+      "sha256": "60d11e7a342ac12877ed98dd43617fbee5d4156bb5d6d6c54249088040c60a02"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00022.bin": {
+      "name": "audit_state_00002_00022.bin",
+      "bytes": 15324,
+      "sha256": "856215aabadcc29d557e197322d487b237ed60d38b62491f5c032907bdd4c328"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00029.bin": {
+      "name": "audit_state_00002_00029.bin",
+      "bytes": 15324,
+      "sha256": "1c714fcd8779e7af4cb0d98daa4571ba290e130eeeb050396f2d395b58594851"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00036.bin": {
+      "name": "audit_state_00002_00036.bin",
+      "bytes": 15324,
+      "sha256": "0b55dd523fd1f2661f165db02104bde370dc50b17e8880f94510d08ac96ec990"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00043.bin": {
+      "name": "audit_state_00002_00043.bin",
+      "bytes": 15324,
+      "sha256": "fc5785d5a4a01b805c54266d54762fb56041c86299901a6275eeb20bc87535f6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00002_00050.bin": {
+      "name": "audit_state_00002_00050.bin",
+      "bytes": 15324,
+      "sha256": "ab640de9e9064935604a5fd25986843b5d107e633d45ee54e56479e2cdade263"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00001.bin": {
+      "name": "audit_state_00003_00001.bin",
+      "bytes": 15324,
+      "sha256": "4f23b8c0b1419f23ffc2d377f0859a81ff81eef75dcca42d183b7fed9dd2af09"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00008.bin": {
+      "name": "audit_state_00003_00008.bin",
+      "bytes": 15324,
+      "sha256": "8c984c29383b3b5f04516edc1bb279e256be1c8cdacd93976cbae5f47fa7aebd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00015.bin": {
+      "name": "audit_state_00003_00015.bin",
+      "bytes": 15324,
+      "sha256": "8cd9a51ccfa9ad7cdda8bff526edd72305fa9cea89ebf1fda43f3f3874a84460"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00022.bin": {
+      "name": "audit_state_00003_00022.bin",
+      "bytes": 15324,
+      "sha256": "af1ecd7ee2a2802c5759bb6a860d607ad374c452f0073745b9759681922663d9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00029.bin": {
+      "name": "audit_state_00003_00029.bin",
+      "bytes": 15324,
+      "sha256": "d8258561066454d99d3a4d07f86203fe2f9592a00dd0dbbdf1616b9e4815485d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00036.bin": {
+      "name": "audit_state_00003_00036.bin",
+      "bytes": 15324,
+      "sha256": "7fa06973f0e0bd4e8ef2390895a8c78ccb1af37654a434ba4c34d7e7f9811360"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00043.bin": {
+      "name": "audit_state_00003_00043.bin",
+      "bytes": 15324,
+      "sha256": "ccc86fd5a01a3f16502c01219fc07595fdedaaf38db194e1996fa5e18532c729"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00003_00050.bin": {
+      "name": "audit_state_00003_00050.bin",
+      "bytes": 15324,
+      "sha256": "0118dc0fd421e94dd355f5c36aaaaf0eeca6093475b51b1f3d65b17f5f1a7046"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00001.bin": {
+      "name": "audit_state_00004_00001.bin",
+      "bytes": 15324,
+      "sha256": "20bbadcba12d7159c85ce5c737abb00419d1e7bda7432eae118e0ecfca90535d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00008.bin": {
+      "name": "audit_state_00004_00008.bin",
+      "bytes": 15324,
+      "sha256": "22f321d438ae57e4bdaf0aaf8b6d3f08344500f7bbbe7e2d6e88e99cfce87400"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00015.bin": {
+      "name": "audit_state_00004_00015.bin",
+      "bytes": 15324,
+      "sha256": "4846232398390a2b2340b59029329ac8bbfa4a49b56c05b402f45e4b8f6ea79e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00022.bin": {
+      "name": "audit_state_00004_00022.bin",
+      "bytes": 15324,
+      "sha256": "7eb36fbcfc4b71d803a8a2fb5d4fe9933c181ad889cf4c1d8094ffdd6cb46962"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00029.bin": {
+      "name": "audit_state_00004_00029.bin",
+      "bytes": 15324,
+      "sha256": "dfd542ea83aa59530aab7afd8a2a0d23c8320a9e3219ce64934263b9902cd782"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00036.bin": {
+      "name": "audit_state_00004_00036.bin",
+      "bytes": 15324,
+      "sha256": "a6e648ead905d98ea33d24012e4e2ed36faf593a2c97ce66169ee0881d6c7f38"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00043.bin": {
+      "name": "audit_state_00004_00043.bin",
+      "bytes": 15324,
+      "sha256": "2d5a68d6ad7dc7f8f3b09c9430ee16c79128836ac6e0b42a0a7d272c020c0854"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00004_00050.bin": {
+      "name": "audit_state_00004_00050.bin",
+      "bytes": 15324,
+      "sha256": "1af48e5c47c7445fefd7545995a297aafe9d7430a22b43ae01cee74ab88d4d18"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00001.bin": {
+      "name": "audit_state_00005_00001.bin",
+      "bytes": 15324,
+      "sha256": "358be1cedf58d92f9d88e938c5b9bc8a066c8cf2dc07b6a38f9b838ce871f00e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00008.bin": {
+      "name": "audit_state_00005_00008.bin",
+      "bytes": 15324,
+      "sha256": "f5ee12f120429781e9394b0cc0d4d1094e2d3c8fb851e5a060fd15696f0f8467"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00015.bin": {
+      "name": "audit_state_00005_00015.bin",
+      "bytes": 15324,
+      "sha256": "71be429ea0c27a39caa7c88397f308c41eaf6b9ab9cbe63869de0d6d8cf02d26"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00022.bin": {
+      "name": "audit_state_00005_00022.bin",
+      "bytes": 15324,
+      "sha256": "8d33ed5ab7069d6af84fbf7fca2e2f1d9eaf52dfa13f51881b5e693cc82ddf95"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00029.bin": {
+      "name": "audit_state_00005_00029.bin",
+      "bytes": 15324,
+      "sha256": "714b2b28d86c49099675271e28672b7c1729a6417e1670f8f4bee0d4d612da6b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00036.bin": {
+      "name": "audit_state_00005_00036.bin",
+      "bytes": 15324,
+      "sha256": "30af364f682aaca7f860b6a7031c4cef5334d040a74b37cc6ab90bf3023a98c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00043.bin": {
+      "name": "audit_state_00005_00043.bin",
+      "bytes": 15324,
+      "sha256": "4163b21b17dd08fe1039f8ea49df860a3e07f5dd97c0db4a825b05e914e3ca1c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00005_00050.bin": {
+      "name": "audit_state_00005_00050.bin",
+      "bytes": 15324,
+      "sha256": "8aa2c95123b97ebbd5cd46b53633632119633b358ad555bb27b0ecff4ef9238e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00001.bin": {
+      "name": "audit_state_00006_00001.bin",
+      "bytes": 15324,
+      "sha256": "20c7f2daa55b440954154d348ba3fa582773d299b3ce65be932ed4f9ba50184c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00008.bin": {
+      "name": "audit_state_00006_00008.bin",
+      "bytes": 15324,
+      "sha256": "fa1bd3977b41f71e76d4a8a3d13464639cd0dbfb9bf6730ed1282e3caf873165"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00015.bin": {
+      "name": "audit_state_00006_00015.bin",
+      "bytes": 15324,
+      "sha256": "5cc665e7a30cba88ea0d5461f54ba391924972b9f962aab2046dd10910214e50"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00022.bin": {
+      "name": "audit_state_00006_00022.bin",
+      "bytes": 15324,
+      "sha256": "dc6712da9ccdb348a983973d187e55a166011db8c9b0d6e650586e48a0bc08c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00029.bin": {
+      "name": "audit_state_00006_00029.bin",
+      "bytes": 15324,
+      "sha256": "9b0270f983ce0745b84d698d48d345f3d207a349cf411bae1ab9cadc8d66535c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00036.bin": {
+      "name": "audit_state_00006_00036.bin",
+      "bytes": 15324,
+      "sha256": "1481001fb191c1b7e2560dcb48cefeb81b0b55a3cde8cecbef692a1f267715bd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00043.bin": {
+      "name": "audit_state_00006_00043.bin",
+      "bytes": 15324,
+      "sha256": "87e1069e48731b351d37f389c2defd759cdf229b4cbc47e9f3434cf1799c355a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00006_00050.bin": {
+      "name": "audit_state_00006_00050.bin",
+      "bytes": 15324,
+      "sha256": "87b2cf5bd927b8baa9a42e82c72f0820af798f1f07abc7164cff4887b207dca6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00001.bin": {
+      "name": "audit_state_00007_00001.bin",
+      "bytes": 15324,
+      "sha256": "8b673ad0d107eeb7ffcc97437ce5c5389945eca0e0bbeb6757d512c693d5cf91"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00008.bin": {
+      "name": "audit_state_00007_00008.bin",
+      "bytes": 15324,
+      "sha256": "fe436b23e994281aa9074e5edfbeb1432b7cb3d240a8b9b1f01748f82f63acd0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00015.bin": {
+      "name": "audit_state_00007_00015.bin",
+      "bytes": 15324,
+      "sha256": "09391988452d33cd757cd680ffdcded261f5659ad9e75d5fcb4ec919dd9ccf35"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00022.bin": {
+      "name": "audit_state_00007_00022.bin",
+      "bytes": 15324,
+      "sha256": "87715772437e83e3b65f2b0bb262962ab59f2564e1fe8d569f1423de57d2b3ad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00029.bin": {
+      "name": "audit_state_00007_00029.bin",
+      "bytes": 15324,
+      "sha256": "4ec93349bc6bb0947720dfcf03e653ec0861d90731d4269f8c5880c5098a5849"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00036.bin": {
+      "name": "audit_state_00007_00036.bin",
+      "bytes": 15324,
+      "sha256": "035fb9ba4515f88743f39fdd9e2dd251a9051e6257f6fe47cfac6d4b03d897bd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00043.bin": {
+      "name": "audit_state_00007_00043.bin",
+      "bytes": 15324,
+      "sha256": "9ebbfe40ae5158d360f66faf5f4c2353f63d3cb85df632fbc27a441ef2e54c81"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00007_00050.bin": {
+      "name": "audit_state_00007_00050.bin",
+      "bytes": 15324,
+      "sha256": "963cc43f391b0878cb75c9a80bcdc615e3efd54e9f5d41229a705e64b922115a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00001.bin": {
+      "name": "audit_state_00008_00001.bin",
+      "bytes": 15324,
+      "sha256": "203f9591f5981c2473a7e566929e9dd9800327c2599d661c2a494afc3967ca73"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00008.bin": {
+      "name": "audit_state_00008_00008.bin",
+      "bytes": 15324,
+      "sha256": "37f8310e8164429a6a1f6b458dcc8de00434ed88ce4c55458a36b9f1e9402394"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00015.bin": {
+      "name": "audit_state_00008_00015.bin",
+      "bytes": 15324,
+      "sha256": "8a18d98a262d4abb6a6787712f90964bddf0b21a6445bfcb2f18f26e5134de5a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00022.bin": {
+      "name": "audit_state_00008_00022.bin",
+      "bytes": 15324,
+      "sha256": "4e499d649de62039b246c5b4186d64dbdb8cdc3755414df662c5160b0e4f60af"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00029.bin": {
+      "name": "audit_state_00008_00029.bin",
+      "bytes": 15324,
+      "sha256": "777ecb584cfbcd172421c14fa7422f2be083febc3d7c81fcc79583936cc65a47"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00036.bin": {
+      "name": "audit_state_00008_00036.bin",
+      "bytes": 15324,
+      "sha256": "ab1e6e8ec2490806afbf5ded6ccb3e83c86411e3d61e37eacd3a62e1239dcdbb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00043.bin": {
+      "name": "audit_state_00008_00043.bin",
+      "bytes": 15324,
+      "sha256": "7ddb9124ed0e97075d7f36d8c5ed6bf7a13662baac96b4baea7d9c20607693aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00008_00050.bin": {
+      "name": "audit_state_00008_00050.bin",
+      "bytes": 15324,
+      "sha256": "b47d71ba60d462825ea7aef2adaca976e8ac2b80b0fdab1ef4fa71771ae6eeea"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00001.bin": {
+      "name": "audit_state_00009_00001.bin",
+      "bytes": 15324,
+      "sha256": "47cde5cf246c68cb1a598098159f9132f2055035a8765846deeab3a3fe0090ef"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00008.bin": {
+      "name": "audit_state_00009_00008.bin",
+      "bytes": 15324,
+      "sha256": "53578624ee6b185dfe939d150599c5556abf0cba221c405a89900039cd19684c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00015.bin": {
+      "name": "audit_state_00009_00015.bin",
+      "bytes": 15324,
+      "sha256": "7a11c10a4e5667e179dbc49aed0cc5d4d90a320234393c6cb45e5772ffbe6f98"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00022.bin": {
+      "name": "audit_state_00009_00022.bin",
+      "bytes": 15324,
+      "sha256": "3c05410341ad4f011513691a3d4894e140d0b64f5d2683feda6349e6b6e272cb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00029.bin": {
+      "name": "audit_state_00009_00029.bin",
+      "bytes": 15324,
+      "sha256": "a08bf4b42890bf68b2abec94eac324d59da027c526141b24791e46889bb45330"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00036.bin": {
+      "name": "audit_state_00009_00036.bin",
+      "bytes": 15324,
+      "sha256": "5b37c70f723ce9aa744df9bf3d8f7d691f71980eb68aedaf8a21b13d7d20519c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00043.bin": {
+      "name": "audit_state_00009_00043.bin",
+      "bytes": 15324,
+      "sha256": "0630bfedf09d332fe6cb149d80b96b33b435893f77324c449bd0916f924a53ef"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00009_00050.bin": {
+      "name": "audit_state_00009_00050.bin",
+      "bytes": 15324,
+      "sha256": "80f9e261609de006eb585ed3f02ff1bf365ee70c88216934817b4764055af6f4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00001.bin": {
+      "name": "audit_state_00010_00001.bin",
+      "bytes": 15324,
+      "sha256": "afa897cddd3945215910e5fc7dd38a4156bc0043ac0a4fdf23d6764bdf2c4d95"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00008.bin": {
+      "name": "audit_state_00010_00008.bin",
+      "bytes": 15324,
+      "sha256": "de3a555cb7915583317a8d6bc98af5bce310972e2509c7e9db07fbf229ecb263"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00015.bin": {
+      "name": "audit_state_00010_00015.bin",
+      "bytes": 15324,
+      "sha256": "6c8d69a3ce27cfabec803b98b83b8605573cd63eb05c9f3ed58e419f94d24b70"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00022.bin": {
+      "name": "audit_state_00010_00022.bin",
+      "bytes": 15324,
+      "sha256": "a745947eeaa8043df7d00cb8927cabb9c9593acb659e439d702ea23079c164c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00029.bin": {
+      "name": "audit_state_00010_00029.bin",
+      "bytes": 15324,
+      "sha256": "de71d567f5aef6837e67b5cbd39c2d14887e752fb21273fe1eb61c862d316cd5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00036.bin": {
+      "name": "audit_state_00010_00036.bin",
+      "bytes": 15324,
+      "sha256": "83a3b2dfa19fd033a8f99e614e3bc3281a2310cba5696e762030e692c15067b3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00043.bin": {
+      "name": "audit_state_00010_00043.bin",
+      "bytes": 15324,
+      "sha256": "b8602ce73a058bdf29b16d33363103438dd236d7f4b34727c0ad6b75b8c0af96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00010_00050.bin": {
+      "name": "audit_state_00010_00050.bin",
+      "bytes": 15324,
+      "sha256": "b9f9798a4d75b025a83f79ab7eb72387ab4c6a16ba5afe66d75edd42c92917c6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00001.bin": {
+      "name": "audit_state_00011_00001.bin",
+      "bytes": 15324,
+      "sha256": "76a2f2f5ada2cfe3bd6d321b0e738ede2363957d53fbb032dc810283f7e413c4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00008.bin": {
+      "name": "audit_state_00011_00008.bin",
+      "bytes": 15324,
+      "sha256": "828f680de691cbda366d6f0d51bb87548f993e7fc9982ad8d1185e4de6862446"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00015.bin": {
+      "name": "audit_state_00011_00015.bin",
+      "bytes": 15324,
+      "sha256": "cf7626723a770c669579ff0b219712e5e4d520091efc8c8fa92dead0af25d992"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00022.bin": {
+      "name": "audit_state_00011_00022.bin",
+      "bytes": 15324,
+      "sha256": "f598e7ecdfcbf8c48c13ee1af55a47c1376ec123562033f5bc2fd6486cbef6af"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00029.bin": {
+      "name": "audit_state_00011_00029.bin",
+      "bytes": 15324,
+      "sha256": "b6091ab862c32fc719d7aba4999b9d620b0a4471e0eb11f7ddd9242b37dc13b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00036.bin": {
+      "name": "audit_state_00011_00036.bin",
+      "bytes": 15324,
+      "sha256": "9e82938b4d8015e16bcafcdf44598b3c4edcb9723689756fc8f37983c0458a34"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00043.bin": {
+      "name": "audit_state_00011_00043.bin",
+      "bytes": 15324,
+      "sha256": "5597697761cd6f88a89b6cd64902c43fe87fd5e00cabe577741c25ca5d36ce72"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00011_00050.bin": {
+      "name": "audit_state_00011_00050.bin",
+      "bytes": 15324,
+      "sha256": "897ed94377b67bca3642cfeff51d20793dc64b8eaec21ef561cb40cf5889a1dd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00001.bin": {
+      "name": "audit_state_00012_00001.bin",
+      "bytes": 15324,
+      "sha256": "6b700e346f63cf497fd2b3a4cee33ab26d7aaede2216884feeff0e6624ba7234"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00008.bin": {
+      "name": "audit_state_00012_00008.bin",
+      "bytes": 15324,
+      "sha256": "57266dfe3ed0a9beff5e1c8eeca708f5009846196a26503493b7777029818807"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00015.bin": {
+      "name": "audit_state_00012_00015.bin",
+      "bytes": 15324,
+      "sha256": "963d389cb42b6f886644278c3f139723d36938d8e03387a9aecbcfe7e3b6004d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00022.bin": {
+      "name": "audit_state_00012_00022.bin",
+      "bytes": 15324,
+      "sha256": "f70af1d975aa9dda1b496188efa976fdaef48a4d746a7d40750462c8fbd9e779"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00029.bin": {
+      "name": "audit_state_00012_00029.bin",
+      "bytes": 15324,
+      "sha256": "4ec0015991b61c1b5cd36c1d9b21451e300bc5544825b8626a8a748a09da62fd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00036.bin": {
+      "name": "audit_state_00012_00036.bin",
+      "bytes": 15324,
+      "sha256": "5efe9b67f12375fdad0865a6660a727ae7c30170a47393e9726805280dc4c4cb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00043.bin": {
+      "name": "audit_state_00012_00043.bin",
+      "bytes": 15324,
+      "sha256": "91d902e173a80521a4617a5a0bf791497d5ddf6ccf13848c8ac6e9e6696b6fdb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00012_00050.bin": {
+      "name": "audit_state_00012_00050.bin",
+      "bytes": 15324,
+      "sha256": "5ddab1ed74888f105a2fe0c732b6c607dd37459c3bffe15f5d6447092b8b6c89"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00001.bin": {
+      "name": "audit_state_00013_00001.bin",
+      "bytes": 15324,
+      "sha256": "6f72129eb69c5f4df63d31de66238cb300c890361a978ab8bc9bbb03452b7e80"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00008.bin": {
+      "name": "audit_state_00013_00008.bin",
+      "bytes": 15324,
+      "sha256": "aaa8faa5df8a8cee806dd769ca2ec0a3e34ea3dc750c86c34244b887ef4fbb5a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00015.bin": {
+      "name": "audit_state_00013_00015.bin",
+      "bytes": 15324,
+      "sha256": "51a5be98109ff4bde0a5cda641a84681454397ba6bfe02b8391fee6129c957bc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00022.bin": {
+      "name": "audit_state_00013_00022.bin",
+      "bytes": 15324,
+      "sha256": "ec7bc5784940bbde0adad4ffae12322b4168e529a09f6b5eb5f5fb4989f6e7a2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00029.bin": {
+      "name": "audit_state_00013_00029.bin",
+      "bytes": 15324,
+      "sha256": "2cde5479ec105a3efcd03de63f19c6f1fca4934192007d04af757f73045bfec4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00036.bin": {
+      "name": "audit_state_00013_00036.bin",
+      "bytes": 15324,
+      "sha256": "4b7e970327fa72e2ce85ce41ff0cb126130b111b77a6a5f546e5d06a7102a905"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00043.bin": {
+      "name": "audit_state_00013_00043.bin",
+      "bytes": 15324,
+      "sha256": "847dbc3f69b3aef3b17c5554a6384f8915d0fdfa143df53817c6208a53ee48ec"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/audit_state_00013_00050.bin": {
+      "name": "audit_state_00013_00050.bin",
+      "bytes": 15324,
+      "sha256": "b2df2f985cbd1377eef289a900789c2257ae27ac8eece3d1950e4d7f22796a08"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/bb_lam.bin": {
+      "name": "bb_lam.bin",
+      "bytes": 93176,
+      "sha256": "94b1f781800b60245a44450763b70e533f6d6a8536d37837819932b2f50c046e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/bf_lam.bin": {
+      "name": "bf_lam.bin",
+      "bytes": 4040,
+      "sha256": "89e6e52ba53252a92f43c8c86302d0b61b92236252dc7fab79bcfa6778d9c3d4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_001000.bin": {
+      "name": "cij_001000.bin",
+      "bytes": 28,
+      "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_002000.bin": {
+      "name": "cij_002000.bin",
+      "bytes": 28,
+      "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_003000.bin": {
+      "name": "cij_003000.bin",
+      "bytes": 28,
+      "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_004000.bin": {
+      "name": "cij_004000.bin",
+      "bytes": 28,
+      "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_005000.bin": {
+      "name": "cij_005000.bin",
+      "bytes": 28,
+      "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_006000.bin": {
+      "name": "cij_006000.bin",
+      "bytes": 28,
+      "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_007000.bin": {
+      "name": "cij_007000.bin",
+      "bytes": 28,
+      "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_008000.bin": {
+      "name": "cij_008000.bin",
+      "bytes": 28,
+      "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cij_meta.txt": {
+      "name": "cij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_001000.bin": {
+      "name": "cji_001000.bin",
+      "bytes": 28,
+      "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_002000.bin": {
+      "name": "cji_002000.bin",
+      "bytes": 28,
+      "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_003000.bin": {
+      "name": "cji_003000.bin",
+      "bytes": 28,
+      "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_004000.bin": {
+      "name": "cji_004000.bin",
+      "bytes": 28,
+      "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_005000.bin": {
+      "name": "cji_005000.bin",
+      "bytes": 28,
+      "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_006000.bin": {
+      "name": "cji_006000.bin",
+      "bytes": 28,
+      "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_007000.bin": {
+      "name": "cji_007000.bin",
+      "bytes": 28,
+      "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_008000.bin": {
+      "name": "cji_008000.bin",
+      "bytes": 28,
+      "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/cji_meta.txt": {
+      "name": "cji_meta.txt",
+      "bytes": 7005,
+      "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_001000.bin": {
+      "name": "eos_001000.bin",
+      "bytes": 56,
+      "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_002000.bin": {
+      "name": "eos_002000.bin",
+      "bytes": 56,
+      "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_003000.bin": {
+      "name": "eos_003000.bin",
+      "bytes": 56,
+      "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_004000.bin": {
+      "name": "eos_004000.bin",
+      "bytes": 56,
+      "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_005000.bin": {
+      "name": "eos_005000.bin",
+      "bytes": 56,
+      "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_006000.bin": {
+      "name": "eos_006000.bin",
+      "bytes": 56,
+      "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_007000.bin": {
+      "name": "eos_007000.bin",
+      "bytes": 56,
+      "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_008000.bin": {
+      "name": "eos_008000.bin",
+      "bytes": 56,
+      "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/eos_meta.txt": {
+      "name": "eos_meta.txt",
+      "bytes": 653,
+      "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/flux_008001.bin": {
+      "name": "flux_008001.bin",
+      "bytes": 37236,
+      "sha256": "a65ba54c639c763fc15509f40057271df6fef705dbbe05ad22c2055ffbdd23b3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/flux_008002.bin": {
+      "name": "flux_008002.bin",
+      "bytes": 37224,
+      "sha256": "7bad3ec6b5e72f196c5dfd98b5141a76c0e2f302e20aa8d8a1bc44ec86124f63"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/flux_meta.txt": {
+      "name": "flux_meta.txt",
+      "bytes": 211,
+      "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/ie_008001.bin": {
+      "name": "ie_008001.bin",
+      "bytes": 37236,
+      "sha256": "16ca6f28b9a13895c19f1c1eb150b1fea211a8709089eba4faa99de33f4b9a7a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/ie_008002.bin": {
+      "name": "ie_008002.bin",
+      "bytes": 37224,
+      "sha256": "f1ee8070e49d9a8b23b50890aec82f8e813ddcd21c21b23b9556847f70f87fd7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/ie_meta.txt": {
+      "name": "ie_meta.txt",
+      "bytes": 211,
+      "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/out_lam.bin": {
+      "name": "out_lam.bin",
+      "bytes": 49640,
+      "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_001000.bin": {
+      "name": "pop_O_001000.bin",
+      "bytes": 2296,
+      "sha256": "1bc444314fcdd9b538c85e866fb51efc409ead30d78d9f74e676e42d5e20da92"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_002000.bin": {
+      "name": "pop_O_002000.bin",
+      "bytes": 2296,
+      "sha256": "f0be4d423c94cca0c2458bdf5ea30d554bc0625fca42d4e64a100e2e2563a908"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_003000.bin": {
+      "name": "pop_O_003000.bin",
+      "bytes": 2296,
+      "sha256": "437c83fa331eec8c31853c97806f466a9c39ee002189909573f6e22e9d1d75de"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_004000.bin": {
+      "name": "pop_O_004000.bin",
+      "bytes": 2296,
+      "sha256": "69a04d56b6c59fdf1fbc5431b088c5a9f3511f44cb2d9cd4525a4930de16ff1e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_005000.bin": {
+      "name": "pop_O_005000.bin",
+      "bytes": 2296,
+      "sha256": "309fad5af5003e4f3b6447b15c23354c3192b6c0cbfbff25724689f2f3b32f51"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_006000.bin": {
+      "name": "pop_O_006000.bin",
+      "bytes": 2296,
+      "sha256": "bca8715e00f632974a4a790ac3149430c2777bb3e5da25fda361325fdab9d8de"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_007000.bin": {
+      "name": "pop_O_007000.bin",
+      "bytes": 2296,
+      "sha256": "1d365ab2cdc26e2dd667e23f59de93bf37bd3d344e60c47eb88d31e4d9211310"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_008000.bin": {
+      "name": "pop_O_008000.bin",
+      "bytes": 2296,
+      "sha256": "6c129d625f89998c089694cee189f81ec2ae2205f7812d94c38d69bd1d002fbe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/pop_O_meta.txt": {
+      "name": "pop_O_meta.txt",
+      "bytes": 813,
+      "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "86da083cb04b7b311748394e86e32038efe575e062da219be93496b3aa960220"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "9c5820f35cdfa08f8e3c5fda210ea5be9a69a0ef86f1f5f33b8eef5102092006"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "5fcc08670440047018bf19e3e936c131f8481f3ffa770509fe4a9c16e8b44591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "53550e3cf9c97e0fe5c504b21bb0229c2b20c21217a5b016562aeed9843acdcc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "f962ad4238a7ca3dddd95aae2d2b0477d9bdc58f8a3460c21895489f00025232"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "db0b7f466bc15d85e5d709d98c609b1ed595a35b693dfe5049421175312e0dd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "5515d6bb54f90a79bc33f933cf33ea8f39ec050fdb6b58a2756ebbc58b8fa364"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "0c97f75c82ddce4293cf5f255e3356418bf38ef6c5fdb37785c90e5f89d55c00"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_001000.bin": {
+      "name": "rij_001000.bin",
+      "bytes": 28,
+      "sha256": "eb59f276e802db45df5d3b07390364ca020078d4ffa953fd5bf9748d64852200"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_002000.bin": {
+      "name": "rij_002000.bin",
+      "bytes": 28,
+      "sha256": "5ddddf3638a4608235f8b8fd92c6fec259e503f65593277bb6049de4357c5f9d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_003000.bin": {
+      "name": "rij_003000.bin",
+      "bytes": 28,
+      "sha256": "177c1c4760bf8b7f6f9bc0671c64b06a01ba9e318112325008f3b9a731de37d8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_004000.bin": {
+      "name": "rij_004000.bin",
+      "bytes": 28,
+      "sha256": "8053688b8ba730e46aba0645ee009b107097250636a0f69b271e424a73ac70c0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_005000.bin": {
+      "name": "rij_005000.bin",
+      "bytes": 28,
+      "sha256": "1503f5da5808d7df9e2bb67b656c5020141fa51c80f2ea877c199dbdcca04bfe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_006000.bin": {
+      "name": "rij_006000.bin",
+      "bytes": 28,
+      "sha256": "898b42a4a14cbb10d2a830c2bcb829b525aeff40c14c5c692e5ef35de1c84f9e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_007000.bin": {
+      "name": "rij_007000.bin",
+      "bytes": 28,
+      "sha256": "31647bf7ae9c82724401855261d6850ecedabd9b5e89a8b8f7cf4709bad969c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_008000.bin": {
+      "name": "rij_008000.bin",
+      "bytes": 28,
+      "sha256": "f6f1d3ba3a2debac2874aca0dba8ba518300540505ff2ccf97a92540931642d4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rij_meta.txt": {
+      "name": "rij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_001000.bin": {
+      "name": "rji_001000.bin",
+      "bytes": 28,
+      "sha256": "31204794ace98e1fb8cceef331952adec816390fd2cd0b8be7d12e6ee7768d4c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_002000.bin": {
+      "name": "rji_002000.bin",
+      "bytes": 28,
+      "sha256": "a8c8f10cefb62edfd4654ee435c3d56e776628c8e8185e8348ebfcce2b1f0ce0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_003000.bin": {
+      "name": "rji_003000.bin",
+      "bytes": 28,
+      "sha256": "838a02707889e59251a1ed51103a4cb8605a83332f119d1a9c8c047b2cfdedfb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_004000.bin": {
+      "name": "rji_004000.bin",
+      "bytes": 28,
+      "sha256": "7213f2d6e6669fb129f5bdba68b9024a7412ac6142dde70593b85d124e2b3f7a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_005000.bin": {
+      "name": "rji_005000.bin",
+      "bytes": 28,
+      "sha256": "be9d3960d6690411c38d2fe8aca03aec8b13ed50c537fa6ca51072f0a406f7ae"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_006000.bin": {
+      "name": "rji_006000.bin",
+      "bytes": 28,
+      "sha256": "c5acf070c645af7212110c631c945c18c7f9246d47af35bd02fed9f9441c970b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_007000.bin": {
+      "name": "rji_007000.bin",
+      "bytes": 28,
+      "sha256": "3b91ece9bfda3effadf72366674f7b9ed8814ed7220c401eee63f5404807cbb8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_008000.bin": {
+      "name": "rji_008000.bin",
+      "bytes": 28,
+      "sha256": "d4503e86f8013cdba1bb828a5fdde56a69e8187a7e36df2c28d069962becc16a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/save/rji_meta.txt": {
+      "name": "rji_meta.txt",
+      "bytes": 7005,
+      "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native/sets.txt": {
+      "name": "sets.txt",
+      "bytes": 135,
+      "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/native.log": {
+      "name": "native.log",
+      "bytes": 3197,
+      "sha256": "b2231e15badbcf9116f806fda4e4c1784d418c51f8c136c1318c39ef344710f6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/output_wavelengths_vac_A.txt": {
+      "name": "output_wavelengths_vac_A.txt",
+      "bytes": 111690,
+      "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/rank.lock": {
+      "name": "rank.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-frequency4-v1/report.json": {
+      "name": "report.json",
+      "bytes": 97561,
+      "sha256": "e5285cdb2468f7626752df694a3d91caa2245deb45eeb41a58d7e024b53d0fab"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/input.nml": {
+      "name": "input.nml",
+      "bytes": 1139,
+      "sha256": "25a966d6a8c54d52e6bb305848dc4583825aad90da89777d74babbf2e2c711e3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/abund.txt": {
+      "name": "abund.txt",
+      "bytes": 1104,
+      "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/angle_quadrature.txt": {
+      "name": "angle_quadrature.txt",
+      "bytes": 104,
+      "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/atmos_mesh.txt": {
+      "name": "atmos_mesh.txt",
+      "bytes": 928,
+      "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/convergence_report_000.txt": {
+      "name": "convergence_report_000.txt",
+      "bytes": 798,
+      "sha256": "95dbe946178a8464ec5761e0ecd20e07725a9502a5b466de4a63bc6cc6ad183e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/hash.log": {
+      "name": "hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/job.nml": {
+      "name": "job.nml",
+      "bytes": 8760,
+      "sha256": "15faa1651e313bd2095df9778066ee29f91b58b4e4efc23497dd11f63442cd9c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/linelist_out.txt": {
+      "name": "linelist_out.txt",
+      "bytes": 27406,
+      "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "f1df2ae0c1a68088419b9bc234f9b8b5a0321c8d9a2e6417194bf0d6f550cb2a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.dbg": {
+      "name": "rank_00000.dbg",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.disp": {
+      "name": "rank_00000.disp",
+      "bytes": 179416,
+      "sha256": "7d2b52067d29595e5538d782d408a19ab4898659f90df1abcf3e2024f18fb805"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.dump": {
+      "name": "rank_00000.dump",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.log": {
+      "name": "rank_00000.log",
+      "bytes": 58991,
+      "sha256": "152330e5de4d7cfa877055155ac3d689f8b4507c50f74349468db55c33bda1c5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.pdat": {
+      "name": "rank_00000.pdat",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.pinf": {
+      "name": "rank_00000.pinf",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.que": {
+      "name": "rank_00000.que",
+      "bytes": 1920,
+      "sha256": "a6c2073b68883a1fdb9db4cbca415bbb4a5d5a34a388e4477678e12d119342a8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/rank_00000.val": {
+      "name": "rank_00000.val",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001001001.bin": {
+      "name": "Jnu_001001001.bin",
+      "bytes": 163072,
+      "sha256": "4dfb83e006b2159e99e1d6480cb9761a997a22d23a2cc8d744881927e343abbf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001001002.bin": {
+      "name": "Jnu_001001002.bin",
+      "bytes": 163072,
+      "sha256": "4dfb83e006b2159e99e1d6480cb9761a997a22d23a2cc8d744881927e343abbf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001002001.bin": {
+      "name": "Jnu_001002001.bin",
+      "bytes": 163044,
+      "sha256": "79b51ce6f8094335643a026debf5ac28ebc5b55e915a409f024fb4687354b4db"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001002002.bin": {
+      "name": "Jnu_001002002.bin",
+      "bytes": 163044,
+      "sha256": "79b51ce6f8094335643a026debf5ac28ebc5b55e915a409f024fb4687354b4db"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001003001.bin": {
+      "name": "Jnu_001003001.bin",
+      "bytes": 7084,
+      "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001003002.bin": {
+      "name": "Jnu_001003002.bin",
+      "bytes": 7084,
+      "sha256": "69a6f2d9c202b7fda0834a3a694d00cb4c3dedd102e1d9d6e04697ab91ee198f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001004001.bin": {
+      "name": "Jnu_001004001.bin",
+      "bytes": 7056,
+      "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_001004002.bin": {
+      "name": "Jnu_001004002.bin",
+      "bytes": 7056,
+      "sha256": "30143e7434afef7d11de8a8bdba547dc8a95d8843510ad8dcb533853e26ff10a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002001001.bin": {
+      "name": "Jnu_002001001.bin",
+      "bytes": 163072,
+      "sha256": "fa16ac9be096d493e9b3652ab4602d91bfd2253dd996f5808d9c24ea84d8db6b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002001002.bin": {
+      "name": "Jnu_002001002.bin",
+      "bytes": 163072,
+      "sha256": "fa16ac9be096d493e9b3652ab4602d91bfd2253dd996f5808d9c24ea84d8db6b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002002001.bin": {
+      "name": "Jnu_002002001.bin",
+      "bytes": 163044,
+      "sha256": "641e7cb55afe1a363fd743bc2fb55ca7a3cf06920e79a7120ce602c847aea76b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002002002.bin": {
+      "name": "Jnu_002002002.bin",
+      "bytes": 163044,
+      "sha256": "641e7cb55afe1a363fd743bc2fb55ca7a3cf06920e79a7120ce602c847aea76b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002003001.bin": {
+      "name": "Jnu_002003001.bin",
+      "bytes": 7084,
+      "sha256": "28c5e8037aa37d3e311b3823a368ca3a5fee3dee957af94fd7fede3f2836c83b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002003002.bin": {
+      "name": "Jnu_002003002.bin",
+      "bytes": 7084,
+      "sha256": "28c5e8037aa37d3e311b3823a368ca3a5fee3dee957af94fd7fede3f2836c83b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002004001.bin": {
+      "name": "Jnu_002004001.bin",
+      "bytes": 7056,
+      "sha256": "72a1a7e5a69875931e9e2ee6a43df4f47039018b93c8e207ff917474f7b58b2c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_002004002.bin": {
+      "name": "Jnu_002004002.bin",
+      "bytes": 7056,
+      "sha256": "72a1a7e5a69875931e9e2ee6a43df4f47039018b93c8e207ff917474f7b58b2c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003001001.bin": {
+      "name": "Jnu_003001001.bin",
+      "bytes": 163072,
+      "sha256": "1ef1e828cc6e8b38ead671fefd3befe14fa3b095328ff8c94416fa7fe0a34a30"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003001002.bin": {
+      "name": "Jnu_003001002.bin",
+      "bytes": 163072,
+      "sha256": "1ef1e828cc6e8b38ead671fefd3befe14fa3b095328ff8c94416fa7fe0a34a30"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003002001.bin": {
+      "name": "Jnu_003002001.bin",
+      "bytes": 163044,
+      "sha256": "5c2c34eb38f3d593c73e8c7221cc630e971be923dcc5ac143f4c799bee9405e5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003002002.bin": {
+      "name": "Jnu_003002002.bin",
+      "bytes": 163044,
+      "sha256": "5c2c34eb38f3d593c73e8c7221cc630e971be923dcc5ac143f4c799bee9405e5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003003001.bin": {
+      "name": "Jnu_003003001.bin",
+      "bytes": 7084,
+      "sha256": "5818ac6646513032c200ebf46917de963b0ac014d2c02b5bdb0c2b10eb3790f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003003002.bin": {
+      "name": "Jnu_003003002.bin",
+      "bytes": 7084,
+      "sha256": "5818ac6646513032c200ebf46917de963b0ac014d2c02b5bdb0c2b10eb3790f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003004001.bin": {
+      "name": "Jnu_003004001.bin",
+      "bytes": 7056,
+      "sha256": "f63ae10df5f322e496187fdf13a0ee8c6f3e6a8bc2f01a0d698076a06d730cb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_003004002.bin": {
+      "name": "Jnu_003004002.bin",
+      "bytes": 7056,
+      "sha256": "f63ae10df5f322e496187fdf13a0ee8c6f3e6a8bc2f01a0d698076a06d730cb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004001001.bin": {
+      "name": "Jnu_004001001.bin",
+      "bytes": 163072,
+      "sha256": "c083681f10e9d5ffb7eac503575e15bd5d0f417e5ed300c71ae8512aff5c0aca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004001002.bin": {
+      "name": "Jnu_004001002.bin",
+      "bytes": 163072,
+      "sha256": "c083681f10e9d5ffb7eac503575e15bd5d0f417e5ed300c71ae8512aff5c0aca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004002001.bin": {
+      "name": "Jnu_004002001.bin",
+      "bytes": 163044,
+      "sha256": "78dbfc02148d8faeae4b9e05dcb4c57a6d25af1c272cd75aecc2ceab3c7c8c56"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004002002.bin": {
+      "name": "Jnu_004002002.bin",
+      "bytes": 163044,
+      "sha256": "78dbfc02148d8faeae4b9e05dcb4c57a6d25af1c272cd75aecc2ceab3c7c8c56"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004003001.bin": {
+      "name": "Jnu_004003001.bin",
+      "bytes": 7084,
+      "sha256": "6c26051f07678494be6bee499306459612316e03fbc673ac19f7a4e071d8331c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004003002.bin": {
+      "name": "Jnu_004003002.bin",
+      "bytes": 7084,
+      "sha256": "6c26051f07678494be6bee499306459612316e03fbc673ac19f7a4e071d8331c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004004001.bin": {
+      "name": "Jnu_004004001.bin",
+      "bytes": 7056,
+      "sha256": "3461d863e9a26833be8f8b9d7a92b10f1b680bbcfd9353e184f34aaf122f2732"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_004004002.bin": {
+      "name": "Jnu_004004002.bin",
+      "bytes": 7056,
+      "sha256": "3461d863e9a26833be8f8b9d7a92b10f1b680bbcfd9353e184f34aaf122f2732"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005001001.bin": {
+      "name": "Jnu_005001001.bin",
+      "bytes": 163072,
+      "sha256": "76c023918d1ad2b2f989d22acb3088b0d4156fc78e158575876e30caeab03764"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005001002.bin": {
+      "name": "Jnu_005001002.bin",
+      "bytes": 163072,
+      "sha256": "76c023918d1ad2b2f989d22acb3088b0d4156fc78e158575876e30caeab03764"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005002001.bin": {
+      "name": "Jnu_005002001.bin",
+      "bytes": 163044,
+      "sha256": "d99a1f6b6d89f7e26d6670b10b6812df265323db86bb3d4cac4feb107b70d12e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005002002.bin": {
+      "name": "Jnu_005002002.bin",
+      "bytes": 163044,
+      "sha256": "d99a1f6b6d89f7e26d6670b10b6812df265323db86bb3d4cac4feb107b70d12e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005003001.bin": {
+      "name": "Jnu_005003001.bin",
+      "bytes": 7084,
+      "sha256": "2abf044d7716a3f0b2dda737397b14049a4b446491a271b7d904a8cf7a242640"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005003002.bin": {
+      "name": "Jnu_005003002.bin",
+      "bytes": 7084,
+      "sha256": "2abf044d7716a3f0b2dda737397b14049a4b446491a271b7d904a8cf7a242640"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005004001.bin": {
+      "name": "Jnu_005004001.bin",
+      "bytes": 7056,
+      "sha256": "9a878ec8c56a552ecbb3d3e050a0135ed0221e694cc01317fc6d79ecf594a5f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_005004002.bin": {
+      "name": "Jnu_005004002.bin",
+      "bytes": 7056,
+      "sha256": "9a878ec8c56a552ecbb3d3e050a0135ed0221e694cc01317fc6d79ecf594a5f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006001001.bin": {
+      "name": "Jnu_006001001.bin",
+      "bytes": 163072,
+      "sha256": "a5495ed610da3e2a0d529b4bd827eee2111ee141791b52e9497075a04071c500"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006001002.bin": {
+      "name": "Jnu_006001002.bin",
+      "bytes": 163072,
+      "sha256": "a5495ed610da3e2a0d529b4bd827eee2111ee141791b52e9497075a04071c500"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006002001.bin": {
+      "name": "Jnu_006002001.bin",
+      "bytes": 163044,
+      "sha256": "28b692083eaa1092838877e7e45e551492e193e7c5df8731ee92bda74f8aec4f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006002002.bin": {
+      "name": "Jnu_006002002.bin",
+      "bytes": 163044,
+      "sha256": "28b692083eaa1092838877e7e45e551492e193e7c5df8731ee92bda74f8aec4f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006003001.bin": {
+      "name": "Jnu_006003001.bin",
+      "bytes": 7084,
+      "sha256": "e197b8fb5d541849aac242d3e0ced04df57f18aebd9e28207c882eb6db311d68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006003002.bin": {
+      "name": "Jnu_006003002.bin",
+      "bytes": 7084,
+      "sha256": "e197b8fb5d541849aac242d3e0ced04df57f18aebd9e28207c882eb6db311d68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006004001.bin": {
+      "name": "Jnu_006004001.bin",
+      "bytes": 7056,
+      "sha256": "0895e38a5f795f296356a2c4490132fe5021e875ff3d4528cb2330ec7826ff96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_006004002.bin": {
+      "name": "Jnu_006004002.bin",
+      "bytes": 7056,
+      "sha256": "0895e38a5f795f296356a2c4490132fe5021e875ff3d4528cb2330ec7826ff96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007001001.bin": {
+      "name": "Jnu_007001001.bin",
+      "bytes": 163072,
+      "sha256": "0bfaa887ca2812e134ee54828fc3c9bf79f3718eabef43296b1bfc9f54df642e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007001002.bin": {
+      "name": "Jnu_007001002.bin",
+      "bytes": 163072,
+      "sha256": "0bfaa887ca2812e134ee54828fc3c9bf79f3718eabef43296b1bfc9f54df642e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007002001.bin": {
+      "name": "Jnu_007002001.bin",
+      "bytes": 163044,
+      "sha256": "67e3f27063e386b7a9eae80ffed5f3d9c2af71efbada2864a02002d9de98f556"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007002002.bin": {
+      "name": "Jnu_007002002.bin",
+      "bytes": 163044,
+      "sha256": "67e3f27063e386b7a9eae80ffed5f3d9c2af71efbada2864a02002d9de98f556"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007003001.bin": {
+      "name": "Jnu_007003001.bin",
+      "bytes": 7084,
+      "sha256": "79618e707f1e35f25d03f40c7402a09d469c0610aa130f3b1d83b7162df206dc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007003002.bin": {
+      "name": "Jnu_007003002.bin",
+      "bytes": 7084,
+      "sha256": "79618e707f1e35f25d03f40c7402a09d469c0610aa130f3b1d83b7162df206dc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007004001.bin": {
+      "name": "Jnu_007004001.bin",
+      "bytes": 7056,
+      "sha256": "991b8dfb335036d489ec40b7595eb0cec9f8c76743f4c7be55af0d9fe7a168c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_007004002.bin": {
+      "name": "Jnu_007004002.bin",
+      "bytes": 7056,
+      "sha256": "991b8dfb335036d489ec40b7595eb0cec9f8c76743f4c7be55af0d9fe7a168c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008001001.bin": {
+      "name": "Jnu_008001001.bin",
+      "bytes": 163072,
+      "sha256": "f95823addbddf6c4d7b243d093e8261fd3ec272fec64b31b279e5a6f0f3b2c4d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008001002.bin": {
+      "name": "Jnu_008001002.bin",
+      "bytes": 163072,
+      "sha256": "f95823addbddf6c4d7b243d093e8261fd3ec272fec64b31b279e5a6f0f3b2c4d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008002001.bin": {
+      "name": "Jnu_008002001.bin",
+      "bytes": 163044,
+      "sha256": "1208d11b1a7280c9fb3f2a088462c1224dc4f1dc70020a845a7b0a41816d7ac0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008002002.bin": {
+      "name": "Jnu_008002002.bin",
+      "bytes": 163044,
+      "sha256": "1208d11b1a7280c9fb3f2a088462c1224dc4f1dc70020a845a7b0a41816d7ac0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008003001.bin": {
+      "name": "Jnu_008003001.bin",
+      "bytes": 7084,
+      "sha256": "db9bcb10c1aaec33db7b4273098784f5a97ca72b12f8f5b9a7c88eae3d92d591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008003002.bin": {
+      "name": "Jnu_008003002.bin",
+      "bytes": 7084,
+      "sha256": "db9bcb10c1aaec33db7b4273098784f5a97ca72b12f8f5b9a7c88eae3d92d591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008004001.bin": {
+      "name": "Jnu_008004001.bin",
+      "bytes": 7056,
+      "sha256": "5dec95d8bef52f200f65ce26baf953e4e0283e0b960243c9c2918cf8fda3ce86"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_008004002.bin": {
+      "name": "Jnu_008004002.bin",
+      "bytes": 7056,
+      "sha256": "5dec95d8bef52f200f65ce26baf953e4e0283e0b960243c9c2918cf8fda3ce86"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/Jnu_meta.txt": {
+      "name": "Jnu_meta.txt",
+      "bytes": 72421,
+      "sha256": "e5788f50b4dcc5cc1e73de845849125e8bea0452a2a03f315787aae30047d627"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/O_c_008000.bin": {
+      "name": "O_c_008000.bin",
+      "bytes": 6724,
+      "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/O_c_meta.txt": {
+      "name": "O_c_meta.txt",
+      "bytes": 94,
+      "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/O_w_008000.bin": {
+      "name": "O_w_008000.bin",
+      "bytes": 6724,
+      "sha256": "d9b0527bbb086c4ceee3090019a8b2091d6781dca46ecfbeeee2e49f0793e449"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/O_w_meta.txt": {
+      "name": "O_w_meta.txt",
+      "bytes": 94,
+      "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_001000.bin": {
+      "name": "atmos_001000.bin",
+      "bytes": 392,
+      "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_002000.bin": {
+      "name": "atmos_002000.bin",
+      "bytes": 392,
+      "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_003000.bin": {
+      "name": "atmos_003000.bin",
+      "bytes": 392,
+      "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_004000.bin": {
+      "name": "atmos_004000.bin",
+      "bytes": 392,
+      "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_005000.bin": {
+      "name": "atmos_005000.bin",
+      "bytes": 392,
+      "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_006000.bin": {
+      "name": "atmos_006000.bin",
+      "bytes": 392,
+      "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_007000.bin": {
+      "name": "atmos_007000.bin",
+      "bytes": 392,
+      "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_008000.bin": {
+      "name": "atmos_008000.bin",
+      "bytes": 392,
+      "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/atmos_meta.txt": {
+      "name": "atmos_meta.txt",
+      "bytes": 733,
+      "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/bb_lam.bin": {
+      "name": "bb_lam.bin",
+      "bytes": 93176,
+      "sha256": "94b1f781800b60245a44450763b70e533f6d6a8536d37837819932b2f50c046e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/bf_lam.bin": {
+      "name": "bf_lam.bin",
+      "bytes": 4040,
+      "sha256": "89e6e52ba53252a92f43c8c86302d0b61b92236252dc7fab79bcfa6778d9c3d4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_001000.bin": {
+      "name": "cij_001000.bin",
+      "bytes": 28,
+      "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_002000.bin": {
+      "name": "cij_002000.bin",
+      "bytes": 28,
+      "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_003000.bin": {
+      "name": "cij_003000.bin",
+      "bytes": 28,
+      "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_004000.bin": {
+      "name": "cij_004000.bin",
+      "bytes": 28,
+      "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_005000.bin": {
+      "name": "cij_005000.bin",
+      "bytes": 28,
+      "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_006000.bin": {
+      "name": "cij_006000.bin",
+      "bytes": 28,
+      "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_007000.bin": {
+      "name": "cij_007000.bin",
+      "bytes": 28,
+      "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_008000.bin": {
+      "name": "cij_008000.bin",
+      "bytes": 28,
+      "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cij_meta.txt": {
+      "name": "cij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_001000.bin": {
+      "name": "cji_001000.bin",
+      "bytes": 28,
+      "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_002000.bin": {
+      "name": "cji_002000.bin",
+      "bytes": 28,
+      "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_003000.bin": {
+      "name": "cji_003000.bin",
+      "bytes": 28,
+      "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_004000.bin": {
+      "name": "cji_004000.bin",
+      "bytes": 28,
+      "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_005000.bin": {
+      "name": "cji_005000.bin",
+      "bytes": 28,
+      "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_006000.bin": {
+      "name": "cji_006000.bin",
+      "bytes": 28,
+      "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_007000.bin": {
+      "name": "cji_007000.bin",
+      "bytes": 28,
+      "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_008000.bin": {
+      "name": "cji_008000.bin",
+      "bytes": 28,
+      "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/cji_meta.txt": {
+      "name": "cji_meta.txt",
+      "bytes": 7005,
+      "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_001000.bin": {
+      "name": "eos_001000.bin",
+      "bytes": 56,
+      "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_002000.bin": {
+      "name": "eos_002000.bin",
+      "bytes": 56,
+      "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_003000.bin": {
+      "name": "eos_003000.bin",
+      "bytes": 56,
+      "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_004000.bin": {
+      "name": "eos_004000.bin",
+      "bytes": 56,
+      "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_005000.bin": {
+      "name": "eos_005000.bin",
+      "bytes": 56,
+      "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_006000.bin": {
+      "name": "eos_006000.bin",
+      "bytes": 56,
+      "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_007000.bin": {
+      "name": "eos_007000.bin",
+      "bytes": 56,
+      "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_008000.bin": {
+      "name": "eos_008000.bin",
+      "bytes": 56,
+      "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/eos_meta.txt": {
+      "name": "eos_meta.txt",
+      "bytes": 653,
+      "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/flux_008001.bin": {
+      "name": "flux_008001.bin",
+      "bytes": 37236,
+      "sha256": "a65ba54c639c763fc15509f40057271df6fef705dbbe05ad22c2055ffbdd23b3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/flux_008002.bin": {
+      "name": "flux_008002.bin",
+      "bytes": 37224,
+      "sha256": "7bad3ec6b5e72f196c5dfd98b5141a76c0e2f302e20aa8d8a1bc44ec86124f63"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/flux_meta.txt": {
+      "name": "flux_meta.txt",
+      "bytes": 211,
+      "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/ie_008001.bin": {
+      "name": "ie_008001.bin",
+      "bytes": 37236,
+      "sha256": "16ca6f28b9a13895c19f1c1eb150b1fea211a8709089eba4faa99de33f4b9a7a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/ie_008002.bin": {
+      "name": "ie_008002.bin",
+      "bytes": 37224,
+      "sha256": "f1ee8070e49d9a8b23b50890aec82f8e813ddcd21c21b23b9556847f70f87fd7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/ie_meta.txt": {
+      "name": "ie_meta.txt",
+      "bytes": 211,
+      "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/out_lam.bin": {
+      "name": "out_lam.bin",
+      "bytes": 49640,
+      "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_001000.bin": {
+      "name": "pop_O_001000.bin",
+      "bytes": 2296,
+      "sha256": "1bc444314fcdd9b538c85e866fb51efc409ead30d78d9f74e676e42d5e20da92"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_002000.bin": {
+      "name": "pop_O_002000.bin",
+      "bytes": 2296,
+      "sha256": "f0be4d423c94cca0c2458bdf5ea30d554bc0625fca42d4e64a100e2e2563a908"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_003000.bin": {
+      "name": "pop_O_003000.bin",
+      "bytes": 2296,
+      "sha256": "437c83fa331eec8c31853c97806f466a9c39ee002189909573f6e22e9d1d75de"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_004000.bin": {
+      "name": "pop_O_004000.bin",
+      "bytes": 2296,
+      "sha256": "69a04d56b6c59fdf1fbc5431b088c5a9f3511f44cb2d9cd4525a4930de16ff1e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_005000.bin": {
+      "name": "pop_O_005000.bin",
+      "bytes": 2296,
+      "sha256": "309fad5af5003e4f3b6447b15c23354c3192b6c0cbfbff25724689f2f3b32f51"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_006000.bin": {
+      "name": "pop_O_006000.bin",
+      "bytes": 2296,
+      "sha256": "bca8715e00f632974a4a790ac3149430c2777bb3e5da25fda361325fdab9d8de"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_007000.bin": {
+      "name": "pop_O_007000.bin",
+      "bytes": 2296,
+      "sha256": "1d365ab2cdc26e2dd667e23f59de93bf37bd3d344e60c47eb88d31e4d9211310"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_008000.bin": {
+      "name": "pop_O_008000.bin",
+      "bytes": 2296,
+      "sha256": "6c129d625f89998c089694cee189f81ec2ae2205f7812d94c38d69bd1d002fbe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/pop_O_meta.txt": {
+      "name": "pop_O_meta.txt",
+      "bytes": 813,
+      "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "86da083cb04b7b311748394e86e32038efe575e062da219be93496b3aa960220"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "9c5820f35cdfa08f8e3c5fda210ea5be9a69a0ef86f1f5f33b8eef5102092006"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "5fcc08670440047018bf19e3e936c131f8481f3ffa770509fe4a9c16e8b44591"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "53550e3cf9c97e0fe5c504b21bb0229c2b20c21217a5b016562aeed9843acdcc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "f962ad4238a7ca3dddd95aae2d2b0477d9bdc58f8a3460c21895489f00025232"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "db0b7f466bc15d85e5d709d98c609b1ed595a35b693dfe5049421175312e0dd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "5515d6bb54f90a79bc33f933cf33ea8f39ec050fdb6b58a2756ebbc58b8fa364"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "0c97f75c82ddce4293cf5f255e3356418bf38ef6c5fdb37785c90e5f89d55c00"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_001000.bin": {
+      "name": "rij_001000.bin",
+      "bytes": 28,
+      "sha256": "eb59f276e802db45df5d3b07390364ca020078d4ffa953fd5bf9748d64852200"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_002000.bin": {
+      "name": "rij_002000.bin",
+      "bytes": 28,
+      "sha256": "5ddddf3638a4608235f8b8fd92c6fec259e503f65593277bb6049de4357c5f9d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_003000.bin": {
+      "name": "rij_003000.bin",
+      "bytes": 28,
+      "sha256": "177c1c4760bf8b7f6f9bc0671c64b06a01ba9e318112325008f3b9a731de37d8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_004000.bin": {
+      "name": "rij_004000.bin",
+      "bytes": 28,
+      "sha256": "8053688b8ba730e46aba0645ee009b107097250636a0f69b271e424a73ac70c0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_005000.bin": {
+      "name": "rij_005000.bin",
+      "bytes": 28,
+      "sha256": "1503f5da5808d7df9e2bb67b656c5020141fa51c80f2ea877c199dbdcca04bfe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_006000.bin": {
+      "name": "rij_006000.bin",
+      "bytes": 28,
+      "sha256": "898b42a4a14cbb10d2a830c2bcb829b525aeff40c14c5c692e5ef35de1c84f9e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_007000.bin": {
+      "name": "rij_007000.bin",
+      "bytes": 28,
+      "sha256": "31647bf7ae9c82724401855261d6850ecedabd9b5e89a8b8f7cf4709bad969c1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_008000.bin": {
+      "name": "rij_008000.bin",
+      "bytes": 28,
+      "sha256": "f6f1d3ba3a2debac2874aca0dba8ba518300540505ff2ccf97a92540931642d4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rij_meta.txt": {
+      "name": "rij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_001000.bin": {
+      "name": "rji_001000.bin",
+      "bytes": 28,
+      "sha256": "31204794ace98e1fb8cceef331952adec816390fd2cd0b8be7d12e6ee7768d4c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_002000.bin": {
+      "name": "rji_002000.bin",
+      "bytes": 28,
+      "sha256": "a8c8f10cefb62edfd4654ee435c3d56e776628c8e8185e8348ebfcce2b1f0ce0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_003000.bin": {
+      "name": "rji_003000.bin",
+      "bytes": 28,
+      "sha256": "838a02707889e59251a1ed51103a4cb8605a83332f119d1a9c8c047b2cfdedfb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_004000.bin": {
+      "name": "rji_004000.bin",
+      "bytes": 28,
+      "sha256": "7213f2d6e6669fb129f5bdba68b9024a7412ac6142dde70593b85d124e2b3f7a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_005000.bin": {
+      "name": "rji_005000.bin",
+      "bytes": 28,
+      "sha256": "be9d3960d6690411c38d2fe8aca03aec8b13ed50c537fa6ca51072f0a406f7ae"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_006000.bin": {
+      "name": "rji_006000.bin",
+      "bytes": 28,
+      "sha256": "c5acf070c645af7212110c631c945c18c7f9246d47af35bd02fed9f9441c970b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_007000.bin": {
+      "name": "rji_007000.bin",
+      "bytes": 28,
+      "sha256": "3b91ece9bfda3effadf72366674f7b9ed8814ed7220c401eee63f5404807cbb8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_008000.bin": {
+      "name": "rji_008000.bin",
+      "bytes": 28,
+      "sha256": "d4503e86f8013cdba1bb828a5fdde56a69e8187a7e36df2c28d069962becc16a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/save/rji_meta.txt": {
+      "name": "rji_meta.txt",
+      "bytes": 7005,
+      "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native/sets.txt": {
+      "name": "sets.txt",
+      "bytes": 135,
+      "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/native.log": {
+      "name": "native.log",
+      "bytes": 3302,
+      "sha256": "b16474ede6a1b81bb4af71c062bd740cd4f6816d937e8f71e564b2f74dd1ceb4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/output_wavelengths_vac_A.txt": {
+      "name": "output_wavelengths_vac_A.txt",
+      "bytes": 111690,
+      "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/rank.lock": {
+      "name": "rank.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-frequency4-accurate-v1/report.json": {
+      "name": "report.json",
+      "bytes": 45331,
+      "sha256": "a79115942c12ab72c1aaba7ce95856235639758dfdc9f3b4836cb96cdc2a88e4"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "original_binary_files_bit_identical": 145,
+  "final_stage": [
+    {
+      "zs": 1,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 1.9849975291750583e-08,
+      "post_update_max_population_change": 5.218048215738236e-15,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 8,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 3.4959823052967064e-08,
+      "post_update_max_population_change": 1.554312234475219e-14,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 15,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 5.287952426780961e-08,
+      "post_update_max_population_change": 7.049916206369744e-14,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 22,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 4.262964256133803e-08,
+      "post_update_max_population_change": 9.178272586396474e-10,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 29,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 6.164354565239434e-08,
+      "post_update_max_population_change": 3.743449550341893e-09,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 36,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 6.857586214758839e-08,
+      "post_update_max_population_change": 2.1498729352309454e-08,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 43,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 5.934866477344349e-08,
+      "post_update_max_population_change": 6.414726927417291e-08,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 50,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 5.9179549257621845e-08,
+      "post_update_max_population_change": 4.642774131813354e-07,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            1,
+            5825,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            2,
+            254,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            1,
+            5825,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            2,
+            254,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    }
+  ],
+  "records": 192,
+  "max_physical_residual": 6.857586214758839e-08,
+  "max_update_relative": 4.642774131813354e-07,
+  "semantics": "Unpreconditioned rate integrations at exact PRE-update radiation populations; not a new formal solve at post-update populations. FP32 native contributions accumulated in FP64; physical conventions and source data remain independently unvalidated."
+}

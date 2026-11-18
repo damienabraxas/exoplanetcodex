@@ -1,0 +1,82 @@
+{
+  "generator": {
+    "name": "prepare_oxygen_native_continuum_grid.py",
+    "bytes": 5391,
+    "sha256": "feaddda76599788812fea8fca9a3428ffdd1ddcd1452245009b81c3ead170531"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/prepare_oxygen_native_continuum_grid.py": {
+      "name": "prepare_oxygen_native_continuum_grid.py",
+      "bytes": 5391,
+      "sha256": "feaddda76599788812fea8fca9a3428ffdd1ddcd1452245009b81c3ead170531"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_background_knots.py": {
+      "name": "hop_background_knots.py",
+      "bytes": 1680,
+      "sha256": "84b55c66998317e133f378b292e39e01450527d480a2899badbf285baf19c39a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 38043,
+      "sha256": "c1386004fbed6596e90d5d37800ddec4f62208cf994e956620a2d4dbeecf7a8d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 318728,
+      "sha256": "3e151054e98401db2bc2e847549cddbbefb06392c3abff712aa25964af354424"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/spectrum_mod.f90": {
+      "name": "spectrum_mod.f90",
+      "bytes": 27962,
+      "sha256": "73992dbd6d8c1b5a1b24a44d5fac1681d4999dab06c130b3b3e7d243a43a9cf1"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/op_math_mod.f90": {
+      "name": "op_math_mod.f90",
+      "bytes": 23200,
+      "sha256": "b080255a656b324e752a3075536d2013e4f05763552a076607c6eb6bd74a8610"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/SRC/atom_mod.f90": {
+      "name": "atom_mod.f90",
+      "bytes": 114257,
+      "sha256": "3074db53793c8683e9770d20392316174ad7abb94d109752d27226a858a0be7a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/SRC/ray_patch_mod.f90": {
+      "name": "ray_patch_mod.f90",
+      "bytes": 17678,
+      "sha256": "0018539bb3f98c76a4aff1928bc2ce52ed95bf18f371dcdfeb091843a414a798"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "7e8866f844de54399e7201b776899600f404e79b3b7ff3c85d48e96786dae7f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-shared16-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+      "name": "TS_absdat.txt",
+      "bytes": 397207,
+      "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+    }
+  },
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "original_points": 39841,
+  "proposed_points": 59003,
+  "added_points": 19162,
+  "continuum_panels_with_midpoint_proposals": 26229,
+  "source_background_tables": 56,
+  "in_support_background_knots": 1838,
+  "rejected_close_candidates": 8905,
+  "source_merge_tolerance_A": 0.0010000000474974513,
+  "all_original_nodes_exact": true,
+  "grid": {
+    "name": "frequency_grid_vac_A.txt",
+    "bytes": 1416154,
+    "sha256": "2bbc723b3b700f70a52ec0df3ae9d0f5bb9dba8e69c521a7cb85870bbcce9ddf"
+  },
+  "point_count_ratio": 1.4809618232474084,
+  "scope": "Dry proposal only, not an executable native plan or RT/SE packet. All original39841nodes/endpoints plus all56table opacity-knot and all22BF midpoint candidates, respecting native0.001A merging. No source atom/cross sections/atmosphere/data edit. Intended source line_grid_file hook replaces line grid; using the full original union avoids silently removing BB nodes, but actual native reproduction/memory/window invariance must still be tested. Native original600s/one-thread/2GB/tolerance controls remain required; point ratio is not measured memory/runtime. Existing HOP20000 packet cap is unchanged; this native grid is not sent to HOP and no engine guard is bypassed. Before execution, add a strictly validated opt-in adapter/control and verify emitted native grid retains originals. No adopted physical/numerical result."
+}

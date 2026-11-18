@@ -1,0 +1,271 @@
+{
+  "generator": {
+    "name": "audit_oxygen_full_lte_contract.py",
+    "bytes": 9858,
+    "sha256": "5b7909a06ef43b4b161d13c4bc91ac7579c0b69831df88298e8ba7a3bfb93b68"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_grid_refined2_native_alpha.json": {
+      "name": "rya1371_hop_grid_refined2_native_alpha.json",
+      "bytes": 5901,
+      "sha256": "bbccf0ba2b5d0591f782dc713063d6c1c35d7ad5456f3f1d4745c525f9bf3a97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 298132,
+      "sha256": "819b8249d28983e50332ef48383df136569052ebc82bbda68d26f9f6a53a0588"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-alpha-joint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582561,
+      "sha256": "fd64b654cc19b79379c6725ec3380ed0ae254d2a9f32ac3db8a6b68ad8eaa67b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85435,
+      "sha256": "489adde4f50d335383e0010573343648b22f82aba92f0f5747a85784acb83264"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-analysis-v1/report.json": {
+      "name": "report.json",
+      "bytes": 5126,
+      "sha256": "b1baaffcd18639481eee1a5e7d404bb9218fe5f2ccd066968f4febb3754d25a1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/report.json": {
+      "name": "report.json",
+      "bytes": 40126,
+      "sha256": "d5cbe9f22d894b303ea8c6521ac5fb856203e731b529d96e555c33463d4fa92b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "cc42e7dc44e41c7b9504a680a850227c84d375cae896008a8452dfc0d84804cc"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+      "name": "const_mod.f90",
+      "bytes": 5473,
+      "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/HOP/composition_mod.f90": {
+      "name": "composition_mod.f90",
+      "bytes": 183334,
+      "sha256": "fdedde65cfb0ff665677e2e060495d42c4016013bbf744fb1a1440ade991a46e"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-profile-reference-v3/experiments/OpenMULTI3D/SRC/atom_mod.f90": {
+      "name": "atom_mod.f90",
+      "bytes": 114257,
+      "sha256": "3074db53793c8683e9770d20392316174ad7abb94d109752d27226a858a0be7a"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_full_lte_contract.py": {
+      "name": "audit_oxygen_full_lte_contract.py",
+      "bytes": 9858,
+      "sha256": "5b7909a06ef43b4b161d13c4bc91ac7579c0b69831df88298e8ba7a3bfb93b68"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/oxygen_lte_contract.py": {
+      "name": "oxygen_lte_contract.py",
+      "bytes": 3493,
+      "sha256": "993f1024e5914a409b161858871de592e5668a3957770b0b241d321d00a0cf12"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/thermal_profile_contract.py": {
+      "name": "thermal_profile_contract.py",
+      "bytes": 2219,
+      "sha256": "99c5b63793229bca8494ff2711e4b6acdb0052bb2eb5a7db40b3775c419df68a"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/thermodynamic_canary.py": {
+      "name": "thermodynamic_canary.py",
+      "bytes": 3808,
+      "sha256": "7a2cbbe09795a7d4918aafa0c58901480d20d4b2e45967f8a504995b5187e2a9"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/constants.py": {
+      "name": "constants.py",
+      "bytes": 941,
+      "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/atomic_set.py": {
+      "name": "atomic_set.py",
+      "bytes": 48032,
+      "sha256": "ffccbfc61413ea11347fa30e68f6893f2c214ca6d7a9773c52059cc808d4b5f7"
+    }
+  },
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "levels": 41,
+  "depths": 56,
+  "stages": [
+    1,
+    2
+  ],
+  "all_stage_native_reconstruction_max_relative": 1.0769163338864018e-14,
+  "all_ground_ratio_reconstruction_max_relative": 1.0325074129013956e-14,
+  "held_LW_independent_formula_max_relative": 3.552713678800501e-15,
+  "source_auxiliary_ranges": {
+    "e_kT": [
+      1.1877843141555786,
+      2.8682126998901367
+    ],
+    "lsaha": [
+      13.57953929901123,
+      24.16486930847168
+    ],
+    "dxi_eV": [
+      9.254016185877845e-05,
+      0.022941607981920242
+    ]
+  },
+  "candidate_statistics": {
+    "native_FP32": {
+      "max_relative_population_change": 1.0769163338864018e-14,
+      "max_relative_ground_ratio_change": 1.0325074129013956e-14,
+      "collision_with_unchanged_C": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 7.397604013792792e-15,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      },
+      "algebraic_reverse_projection_only": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 1.069310264298756e-16,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      }
+    },
+    "native_FP64": {
+      "max_relative_population_change": 2.7954786703254797e-06,
+      "max_relative_ground_ratio_change": 2.7980618462208895e-06,
+      "collision_with_unchanged_C": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 1.2145540363406723e-06,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      },
+      "algebraic_reverse_projection_only": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 1.0881677058219699e-16,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      }
+    },
+    "native_no_shield": {
+      "max_relative_population_change": 0.02601527694737593,
+      "max_relative_ground_ratio_change": 0.02688175901916634,
+      "collision_with_unchanged_C": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 0.013623998025482871,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      },
+      "algebraic_reverse_projection_only": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 1.0989643472648415e-16,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      }
+    },
+    "held_LW": {
+      "max_relative_population_change": 0.0006129184587049252,
+      "max_relative_ground_ratio_change": 0.0006138907657269321,
+      "collision_with_unchanged_C": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 0.0002491358253697263,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      },
+      "algebraic_reverse_projection_only": {
+        "pair_depths": 43680,
+        "one_way_pair_depths": 0,
+        "max_absolute_signed_defect": 1.0581560660621109e-16,
+        "levels_without_collision_edges_1based": [
+          41
+        ]
+      }
+    }
+  },
+  "active_inverse_inputs": {
+    "native_FP32": {
+      "BB_transitions": 256,
+      "BF_transitions": 22,
+      "max_relative_inverse_LTE_factor_change": {
+        "BB": 1.454392162258955e-14,
+        "BF": 1.1102230246251565e-14
+      },
+      "max_BB_held_LW_line_centre_thermal_defect": 0.0002254745629211126,
+      "scope": "Actual candidate populations and source graph; BB line-centre canary only, not finite-profile or actual RT. BF LTE-factor response requires joint inverse-opacity/emissivity/rate updates, not a standalone BF correctness claim."
+    },
+    "native_FP64": {
+      "BB_transitions": 256,
+      "BF_transitions": 22,
+      "max_relative_inverse_LTE_factor_change": {
+        "BB": 1.4425019557728902e-06,
+        "BF": 2.5796991609539077e-06
+      },
+      "max_BB_held_LW_line_centre_thermal_defect": 0.00022506535580629774,
+      "scope": "Actual candidate populations and source graph; BB line-centre canary only, not finite-profile or actual RT. BF LTE-factor response requires joint inverse-opacity/emissivity/rate updates, not a standalone BF correctness claim."
+    },
+    "native_no_shield": {
+      "BB_transitions": 256,
+      "BF_transitions": 22,
+      "max_relative_inverse_LTE_factor_change": {
+        "BB": 1.4654943925052066e-14,
+        "BF": 0.027624350142765763
+      },
+      "max_BB_held_LW_line_centre_thermal_defect": 0.0002254745629211126,
+      "scope": "Actual candidate populations and source graph; BB line-centre canary only, not finite-profile or actual RT. BF LTE-factor response requires joint inverse-opacity/emissivity/rate updates, not a standalone BF correctness claim."
+    },
+    "held_LW": {
+      "BB_transitions": 256,
+      "BF_transitions": 22,
+      "max_relative_inverse_LTE_factor_change": {
+        "BB": 0.0004508474711986121,
+        "BF": 0.0005453206972633184
+      },
+      "max_BB_held_LW_line_centre_thermal_defect": 5.491672523277042e-15,
+      "scope": "Actual candidate populations and source graph; BB line-centre canary only, not finite-profile or actual RT. BF LTE-factor response requires joint inverse-opacity/emissivity/rate updates, not a standalone BF correctness claim."
+    }
+  },
+  "source_constants_cgs": {
+    "hh": 6.626176e-27,
+    "bk": 1.380662e-16,
+    "ee": 1.602189e-12,
+    "em": 9.109534e-28,
+    "ec": 4.80325e-10,
+    "pi": 3.14159265359
+  },
+  "held_LW_constants_SI": {
+    "h": 6.6260755e-34,
+    "k": 1.380658e-23,
+    "m": 9.1093897e-31,
+    "q": 1.60217733e-19,
+    "epsilon": 8.854187817e-12
+  },
+  "normalization": "Each diagnostic keeps the measured native total at each depth; complete finite-level shape reconstructed, absolute EOS/element normalization/partition function NOT independently validated. Actual run LEVEL_PARTF=F uses external partition functions; their common normalization cancels in level ratios.",
+  "scope": "Read-only all-level Saha/Boltzmann/Debye/precision and collision inverse-input contract. Both native and held-LW formulas audited; no preferred profile, RT, SE, solver population/collision/opacity change or physical closure/admission.",
+  "seconds": 0.6026685833930969
+}

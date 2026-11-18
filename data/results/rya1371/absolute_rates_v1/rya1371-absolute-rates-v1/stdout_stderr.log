@@ -1,0 +1,23 @@
+/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/config.py:75: UserWarning: No config file found, using defaults. For optimised vectorised code, please run `lightweaver.benchmark()`, otherwise the most advanced instruction set supported by your machine will be picked, which may not be the fastest (due to e.g. aggressive AVX offsets).
+  warnings.warn('No config file found, using defaults. For optimised vectorised code,'
+Traceback (most recent call last):
+  File "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_integrated_thermal_rates.py", line 164, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_integrated_thermal_rates.py", line 160, in main
+    print(json.dumps(report['absolute_replay']))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable
+BRIDE_TRACE_EXCLUDE O_I     OP/DK 65 LEV
+BRIDE_TRACE_EXCLUDE O_I     OP/DK 65 LEV

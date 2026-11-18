@@ -1,0 +1,35 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 4322,
+    "sha256": "31d9d8bfbc61f7bb0a751c84c03db155a605f9a7b5537fb0669dc4e4ac7284af"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-state-provider-v2/arrays.npz",
+      "receipt": {
+        "name": "arrays.npz",
+        "bytes": 7047,
+        "sha256": "b5f50db318342e64cd689e91cfc635e938d3c60e49cebbc3833bf0f7f3ef5e04"
+      },
+      "archived": "rya1371-hop-state-provider-v2/arrays.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-state-provider-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 64292,
+        "sha256": "65f63eb76cbdf5541d4648ea9d276623cf52bc22d984618ebdecfdc7449e2852"
+      },
+      "archived": "rya1371-hop-state-provider-v2/report.json",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "generator": {
+    "name": "probe_native_qlg_profiles.py",
+    "bytes": 4637,
+    "sha256": "137d6faa3f8f52f9fd7389e1b5dca20a5e31a224095b6d135af775fd529ea4f9"
+  },
+  "reference": {
+    "registry": {
+      "name": "reference_engines.yaml",
+      "bytes": 877,
+      "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+    },
+    "build_receipt": {
+      "name": "receipt.json",
+      "bytes": 1552,
+      "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+    },
+    "executable": {
+      "name": "dispatch.x",
+      "bytes": 3614040,
+      "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+    },
+    "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/HOP/qlg_mod.f90": {
+      "name": "qlg_mod.f90",
+      "bytes": 34977,
+      "sha256": "b9332dca475018b8efae038b4ac69c05e52f77a27c2d7c116eb11053f84e7ea1"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/qlg_profile_probe/probe.f90": {
+      "name": "probe.f90",
+      "bytes": 585,
+      "sha256": "b0bbaa28c50215a57bb19f27595b15993e65f684275cd59fac147bc7a657b428"
+    },
+    "/opt/homebrew/bin/gfortran": {
+      "name": "gfortran",
+      "bytes": 3039240,
+      "sha256": "f86a6dc75b07aa490e3789208b2f17f869883af975eb21897d4693d24cc44b73"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-optical-damping-samples-v2/damping.npz": {
+      "name": "damping.npz",
+      "bytes": 5754,
+      "sha256": "e06cba77bb99c1a9f218e92adae560f6175aa9bc8051656d253a7760ee7622af"
+    }
+  },
+  "compiler": "GNU Fortran (Homebrew GCC 16.1.0) 16.1.0",
+  "seconds_limit": 600,
+  "threads": 1,
+  "scientific_admission": "HOLD",
+  "finite_v_integral_max_relative_difference": 0.0002418524404775857,
+  "relative_error_floor_H": 1e-08,
+  "seconds": 1.5812723343260586,
+  "executable": {
+    "name": "profile_probe",
+    "bytes": 52224,
+    "sha256": "b010283655a10b7e324f296e86023dea8317d0a685dabef0c8bcf2df7f735f87"
+  },
+  "profiles": {
+    "name": "profiles.txt",
+    "bytes": 23354240,
+    "sha256": "0c96ca57e930f9a46b6434c84bfc085e1e490fd2a626a64808ce9f29c846c365"
+  },
+  "shape": [
+    560,
+    401
+  ],
+  "a_range": [
+    3.507421174056288e-05,
+    0.1315007556758059
+  ],
+  "damping_samples": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-optical-damping-samples-v2/damping.npz",
+  "v_range": [
+    -20,
+    20
+  ],
+  "bot_max_abs_error": 0.0032657853423001537,
+  "bot_max_relative_above_floor": 0.006511430814871932,
+  "native_fp64_ref_max_abs_error": 1.7322998153339667e-08,
+  "native_fp64_ref_max_relative_above_floor": 5.1497936384148346e-05,
+  "limitations": [
+    "Kernel sampled on actual matched LW damping support; native stored damping parity and emergent-intensity error remain unqualified.",
+    "Actual upstream QLG-bot fp32 and upstream fp64 reference compared with independent SciPy wofz. RT frequency Jacobians, profile normalization and broadening inputs require separate accounting.",
+    "No source, native binary, profile default, atom, population or production change."
+  ]
+}

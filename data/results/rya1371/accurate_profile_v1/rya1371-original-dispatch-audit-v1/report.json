@@ -1,0 +1,53 @@
+{
+  "generator": {
+    "name": "check_original_reference_replay.py",
+    "bytes": 1249,
+    "sha256": "3e86faf20721f44d7db409e16de3056c67eb3352bbde8308ca547ef0986c3e1e"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85405,
+      "sha256": "434ee0ddcc074db866e8b80bdcf54006861315c2fc237aa65a8b87dc062928a8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-original-profile-replay-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85405,
+      "sha256": "434ee0ddcc074db866e8b80bdcf54006861315c2fc237aa65a8b87dc062928a8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-linear-no-stark-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 206843,
+      "sha256": "f30e9c32d98d119b114badf2416bfc5d9d1962be59ec672416095a468e46f314"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-original-profile-replay-analysis-v1/spectra.npz": {
+      "name": "spectra.npz",
+      "bytes": 206843,
+      "sha256": "f30e9c32d98d119b114badf2416bfc5d9d1962be59ec672416095a468e46f314"
+    }
+  },
+  "checked": {
+    "arrays.npz": [
+      "height_m",
+      "native_populations_cm3",
+      "native_nstar_cm3",
+      "native_b",
+      "held_multi_b_on_native_height",
+      "bride_b_on_native_height",
+      "consumed_state_cgs",
+      "source_logtau500_on_native_height"
+    ],
+    "spectra.npz": [
+      "wave_vac_A",
+      "wave_air_A",
+      "Ilambda_cgs_per_A",
+      "LTE_Ilambda_cgs_per_A",
+      "continuum_Ilambda_cgs_per_A",
+      "Inu_cgs",
+      "LTE_Inu_cgs",
+      "continuum_Inu_cgs"
+    ]
+  },
+  "all_arrays_bit_identical": true,
+  "scientific_admission": "HOLD"
+}

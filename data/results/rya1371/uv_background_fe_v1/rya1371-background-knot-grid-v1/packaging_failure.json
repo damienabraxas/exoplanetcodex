@@ -1,0 +1,7 @@
+{
+  "stage": "archive orchestration before archiver flag installation",
+  "error": "FileNotFoundError for /private/tmp/rya1371-background-knot-grid-v1.log; subsequent archiver invocation refused unknown --uv-background-fe-supplement",
+  "cause": "Builder initially ran with stdout returned by the tool, not redirected to a log; copy loop assumed all runs had redirected logs",
+  "resolution": "Copy only actually existing stdout files; preserve original builder report and this actual failure metadata; install archive group before invocation",
+  "scientific_run_affected": false
+}

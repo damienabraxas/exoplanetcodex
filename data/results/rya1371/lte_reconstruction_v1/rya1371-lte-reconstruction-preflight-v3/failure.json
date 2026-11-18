@@ -1,0 +1,6 @@
+{
+  "error": "AssertionError: inverse-rate reconstruction differs4.42e-16 after SI density conversion",
+  "stage": "preflight before allocation",
+  "cause": "Reader computes ratio from original cgs nStar, not rounded SI converted nStar",
+  "admitted": false
+}

@@ -1,0 +1,3599 @@
+{
+  "generator": {
+    "name": "analyze_native_gross_rates.py",
+    "bytes": 4230,
+    "sha256": "743c1ebda1f5dc4189dcd1707cfedb0a76ca1513ec8432082bb72732e7bc4a83"
+  },
+  "reader": {
+    "name": "native_gross_rates.py",
+    "bytes": 4003,
+    "sha256": "a0d2fb01916ca9017c903aaf78116be4a9757c6f0590953ab862b440556d7b26"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/frequency_grid_vac_A.txt": {
+      "name": "frequency_grid_vac_A.txt",
+      "bytes": 2065234,
+      "sha256": "48d4837fb93f3bfa4096b501c2edf68c800f4adebab51a24c0714bc88ac508f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/input.nml": {
+      "name": "input.nml",
+      "bytes": 1205,
+      "sha256": "a792ffc33124ca98ec6cc81bb93a6935e5be04c1856555670cd31602c2e285b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/abund.txt": {
+      "name": "abund.txt",
+      "bytes": 1104,
+      "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/angle_quadrature.txt": {
+      "name": "angle_quadrature.txt",
+      "bytes": 104,
+      "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/atmos_mesh.txt": {
+      "name": "atmos_mesh.txt",
+      "bytes": 928,
+      "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/convergence_report_000.txt": {
+      "name": "convergence_report_000.txt",
+      "bytes": 798,
+      "sha256": "a3bba29551ffe84f0a973d52206c36530cf473420e9fbd7ffd4ed87aeb45d71e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/hash.log": {
+      "name": "hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/job.nml": {
+      "name": "job.nml",
+      "bytes": 8760,
+      "sha256": "9ba1a4b2a36857b6fd5547c16bab05eb859adcc8b10f1aeb21c868c83f6a8f09"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/linelist_out.txt": {
+      "name": "linelist_out.txt",
+      "bytes": 27406,
+      "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "cc42e7dc44e41c7b9504a680a850227c84d375cae896008a8452dfc0d84804cc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.dbg": {
+      "name": "rank_00000.dbg",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.disp": {
+      "name": "rank_00000.disp",
+      "bytes": 102336,
+      "sha256": "382d25d721ff70b718685b135ed6584e90c13c23be91dca91894c286a654f71e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.dump": {
+      "name": "rank_00000.dump",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.log": {
+      "name": "rank_00000.log",
+      "bytes": 38997,
+      "sha256": "f1373990ea9d94ca732797c1339f29ab9850b03531d984d773adf8bbc7e457c7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.pdat": {
+      "name": "rank_00000.pdat",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.pinf": {
+      "name": "rank_00000.pinf",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.que": {
+      "name": "rank_00000.que",
+      "bytes": 1688,
+      "sha256": "0a9aab395d4464e8793431df8c8c4e74e1248dba543dbf29db02bffe420cbbe2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/rank_00000.val": {
+      "name": "rank_00000.val",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_001001001.bin": {
+      "name": "Jnu_001001001.bin",
+      "bytes": 1204672,
+      "sha256": "1a0077a2f99533122a68439b5da9f917e95806b4e006a0731276c73ae1238e32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_001001002.bin": {
+      "name": "Jnu_001001002.bin",
+      "bytes": 1204672,
+      "sha256": "1a0077a2f99533122a68439b5da9f917e95806b4e006a0731276c73ae1238e32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_001002001.bin": {
+      "name": "Jnu_001002001.bin",
+      "bytes": 1204672,
+      "sha256": "377f1c3f19460681eab2d1eefcd26cd450e84d12977c8846ec3db1ee91e754f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_001002002.bin": {
+      "name": "Jnu_001002002.bin",
+      "bytes": 1204672,
+      "sha256": "377f1c3f19460681eab2d1eefcd26cd450e84d12977c8846ec3db1ee91e754f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_002001001.bin": {
+      "name": "Jnu_002001001.bin",
+      "bytes": 1204672,
+      "sha256": "fdbc5c7c9020757d32bf3f48c9d6ec8d71eeaba5cfa32ce3a6a857d2619db397"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_002001002.bin": {
+      "name": "Jnu_002001002.bin",
+      "bytes": 1204672,
+      "sha256": "fdbc5c7c9020757d32bf3f48c9d6ec8d71eeaba5cfa32ce3a6a857d2619db397"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_002002001.bin": {
+      "name": "Jnu_002002001.bin",
+      "bytes": 1204672,
+      "sha256": "5d18338ed6e29539c35daff448095de885b3a24c03cb6785e4651f617e12b115"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_002002002.bin": {
+      "name": "Jnu_002002002.bin",
+      "bytes": 1204672,
+      "sha256": "5d18338ed6e29539c35daff448095de885b3a24c03cb6785e4651f617e12b115"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_003001001.bin": {
+      "name": "Jnu_003001001.bin",
+      "bytes": 1204672,
+      "sha256": "fda9f8c43f43db3ecf4b9dddff00afd1091ec4087a84ab72c849e855e2da4c32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_003001002.bin": {
+      "name": "Jnu_003001002.bin",
+      "bytes": 1204672,
+      "sha256": "fda9f8c43f43db3ecf4b9dddff00afd1091ec4087a84ab72c849e855e2da4c32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_003002001.bin": {
+      "name": "Jnu_003002001.bin",
+      "bytes": 1204672,
+      "sha256": "f02dc694ca0d2110994da35b6c7708c7905f5dabe3b30dec35b226a3fedd0995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_003002002.bin": {
+      "name": "Jnu_003002002.bin",
+      "bytes": 1204672,
+      "sha256": "f02dc694ca0d2110994da35b6c7708c7905f5dabe3b30dec35b226a3fedd0995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_004001001.bin": {
+      "name": "Jnu_004001001.bin",
+      "bytes": 1204672,
+      "sha256": "6ca7e92bbd9eb2081c3f50211cff01d0fce5f025c04e0d7e5b8b1123da0470a0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_004001002.bin": {
+      "name": "Jnu_004001002.bin",
+      "bytes": 1204672,
+      "sha256": "6ca7e92bbd9eb2081c3f50211cff01d0fce5f025c04e0d7e5b8b1123da0470a0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_004002001.bin": {
+      "name": "Jnu_004002001.bin",
+      "bytes": 1204672,
+      "sha256": "abd3d5504454a477cf232a4ed756e683d606b2d5488a97cdc6d220fc90b9503e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_004002002.bin": {
+      "name": "Jnu_004002002.bin",
+      "bytes": 1204672,
+      "sha256": "abd3d5504454a477cf232a4ed756e683d606b2d5488a97cdc6d220fc90b9503e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_005001001.bin": {
+      "name": "Jnu_005001001.bin",
+      "bytes": 1204672,
+      "sha256": "ba357fb8616b4b9999a870d37e7716d5e54654a2ee0adac7f69aa01cb97279e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_005001002.bin": {
+      "name": "Jnu_005001002.bin",
+      "bytes": 1204672,
+      "sha256": "ba357fb8616b4b9999a870d37e7716d5e54654a2ee0adac7f69aa01cb97279e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_005002001.bin": {
+      "name": "Jnu_005002001.bin",
+      "bytes": 1204672,
+      "sha256": "f4f391a48e2cfc8ed5fcc7ec51c05865e4242667ee1365fa0dcec9806e4b1686"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_005002002.bin": {
+      "name": "Jnu_005002002.bin",
+      "bytes": 1204672,
+      "sha256": "f4f391a48e2cfc8ed5fcc7ec51c05865e4242667ee1365fa0dcec9806e4b1686"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_006001001.bin": {
+      "name": "Jnu_006001001.bin",
+      "bytes": 1204672,
+      "sha256": "df1f57d4f28bcab20fe3dc510aa15aca9eac2fb8331de98277786c52a90cb41b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_006001002.bin": {
+      "name": "Jnu_006001002.bin",
+      "bytes": 1204672,
+      "sha256": "df1f57d4f28bcab20fe3dc510aa15aca9eac2fb8331de98277786c52a90cb41b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_006002001.bin": {
+      "name": "Jnu_006002001.bin",
+      "bytes": 1204672,
+      "sha256": "6cd07ecd726f27e5f449eafa1cdac3b65f595dc37b31e1712a8542f885cee952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_006002002.bin": {
+      "name": "Jnu_006002002.bin",
+      "bytes": 1204672,
+      "sha256": "6cd07ecd726f27e5f449eafa1cdac3b65f595dc37b31e1712a8542f885cee952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_007001001.bin": {
+      "name": "Jnu_007001001.bin",
+      "bytes": 1204672,
+      "sha256": "94197ea9eed889d0195dc4d0457698de9bc96b014db4a791400346577685e2f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_007001002.bin": {
+      "name": "Jnu_007001002.bin",
+      "bytes": 1204672,
+      "sha256": "94197ea9eed889d0195dc4d0457698de9bc96b014db4a791400346577685e2f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_007002001.bin": {
+      "name": "Jnu_007002001.bin",
+      "bytes": 1204672,
+      "sha256": "702f65752844aa0b9c6442da3da360e8d42789bf415700f0e4534e53eade497b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_007002002.bin": {
+      "name": "Jnu_007002002.bin",
+      "bytes": 1204672,
+      "sha256": "702f65752844aa0b9c6442da3da360e8d42789bf415700f0e4534e53eade497b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_008001001.bin": {
+      "name": "Jnu_008001001.bin",
+      "bytes": 1204672,
+      "sha256": "849e4b46cf6123fd5820a5a0255ca02e1c33e6fbe6bd2b751e370bcab0dc8d4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_008001002.bin": {
+      "name": "Jnu_008001002.bin",
+      "bytes": 1204672,
+      "sha256": "849e4b46cf6123fd5820a5a0255ca02e1c33e6fbe6bd2b751e370bcab0dc8d4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_008002001.bin": {
+      "name": "Jnu_008002001.bin",
+      "bytes": 1204672,
+      "sha256": "61bd6d2bdb1d36b77a6c39fe6e810f4cb4888642aa9decdd00dc3f56ef562ed6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_008002002.bin": {
+      "name": "Jnu_008002002.bin",
+      "bytes": 1204672,
+      "sha256": "61bd6d2bdb1d36b77a6c39fe6e810f4cb4888642aa9decdd00dc3f56ef562ed6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/Jnu_meta.txt": {
+      "name": "Jnu_meta.txt",
+      "bytes": 36229,
+      "sha256": "fadba00ceda12aa729ed1fe73ae87fe1aba55da2813aa35be29f1a72cd5bf9d0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/O_c_008000.bin": {
+      "name": "O_c_008000.bin",
+      "bytes": 6724,
+      "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/O_c_meta.txt": {
+      "name": "O_c_meta.txt",
+      "bytes": 94,
+      "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/O_w_008000.bin": {
+      "name": "O_w_008000.bin",
+      "bytes": 6724,
+      "sha256": "5eba03e58a1511305ef2bddd4a3c11b657b076c4b281af87405bd643447cfabb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/O_w_meta.txt": {
+      "name": "O_w_meta.txt",
+      "bytes": 94,
+      "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 688384,
+      "sha256": "56a87db22a71148b7ea0f723cee36dd7bc7b7763f73ed3956cd8ba98855ac75e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_001000.bin": {
+      "name": "atmos_001000.bin",
+      "bytes": 392,
+      "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_002000.bin": {
+      "name": "atmos_002000.bin",
+      "bytes": 392,
+      "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_003000.bin": {
+      "name": "atmos_003000.bin",
+      "bytes": 392,
+      "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_004000.bin": {
+      "name": "atmos_004000.bin",
+      "bytes": 392,
+      "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_005000.bin": {
+      "name": "atmos_005000.bin",
+      "bytes": 392,
+      "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_006000.bin": {
+      "name": "atmos_006000.bin",
+      "bytes": 392,
+      "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_007000.bin": {
+      "name": "atmos_007000.bin",
+      "bytes": 392,
+      "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_008000.bin": {
+      "name": "atmos_008000.bin",
+      "bytes": 392,
+      "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/atmos_meta.txt": {
+      "name": "atmos_meta.txt",
+      "bytes": 733,
+      "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00001.bin": {
+      "name": "audit_gross_00000_00001.bin",
+      "bytes": 320880,
+      "sha256": "6c5d0a1e6eddc9e7abe3654ca8896265849181473f5b4b565e982d541fa3ce0e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00008.bin": {
+      "name": "audit_gross_00000_00008.bin",
+      "bytes": 320880,
+      "sha256": "e3791fe03283cfbea984ff7adeb911650e70178912c0976d33a056c75f022565"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00015.bin": {
+      "name": "audit_gross_00000_00015.bin",
+      "bytes": 320880,
+      "sha256": "9fe0efcaf2260bd1faad49062ac2682b3bf2e4e53e4cc72b9cd9e5b905c944e8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00022.bin": {
+      "name": "audit_gross_00000_00022.bin",
+      "bytes": 320880,
+      "sha256": "a0b58ef95846a390550c4d717b39e8d3daffacdb6cb2fc199b111ee3fc1ca8a0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00029.bin": {
+      "name": "audit_gross_00000_00029.bin",
+      "bytes": 320880,
+      "sha256": "2f02d496d1e58f2d54fada70308b46a175c177a4841b6a819bf0224504330242"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00036.bin": {
+      "name": "audit_gross_00000_00036.bin",
+      "bytes": 320880,
+      "sha256": "e95b30d9d355bca2b5da5d89a913de0fe7a4e3cface2d37f05b1d99132912e82"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00043.bin": {
+      "name": "audit_gross_00000_00043.bin",
+      "bytes": 320880,
+      "sha256": "c60e15953d061e1d6c4d46105b8e658c2af6f0e183e8cdc3d8841470bd918b47"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00000_00050.bin": {
+      "name": "audit_gross_00000_00050.bin",
+      "bytes": 320880,
+      "sha256": "54a31be5cdc52800107406e8e02d1b18d01a1f5da7523945f7732a967c90a649"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00001.bin": {
+      "name": "audit_gross_00001_00001.bin",
+      "bytes": 320880,
+      "sha256": "2e4331f4fd4cdcb4d576518317fb00d9d411740f6623878d5423edaf164f92e9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00008.bin": {
+      "name": "audit_gross_00001_00008.bin",
+      "bytes": 320880,
+      "sha256": "6eab0c18730bb212e81d080550ebde03580ed0b8d70b686c285429870180e4ad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00015.bin": {
+      "name": "audit_gross_00001_00015.bin",
+      "bytes": 320880,
+      "sha256": "d842ac3629df2f2fb89dd78a0f857b0af593cc4009972a00dd151e3683d5b115"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00022.bin": {
+      "name": "audit_gross_00001_00022.bin",
+      "bytes": 320880,
+      "sha256": "c5aec39e03674a5769be23a47b3c913c3fd3153e4ddaeb972252db7d0641f1fc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00029.bin": {
+      "name": "audit_gross_00001_00029.bin",
+      "bytes": 320880,
+      "sha256": "c9f81788e99fcc886523f096f7deea83d85b5ed5ce6584b7c8643836bd3c1af0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00036.bin": {
+      "name": "audit_gross_00001_00036.bin",
+      "bytes": 320880,
+      "sha256": "2cf7c4043785bc52b0d9a7d8d3d4801a89241b41a9aca4ce2969145a172c41c4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00043.bin": {
+      "name": "audit_gross_00001_00043.bin",
+      "bytes": 320880,
+      "sha256": "4aa64a32c0287d8f2ff0573da8adea36176fccf0f6018579bc2d66b7447b1937"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00001_00050.bin": {
+      "name": "audit_gross_00001_00050.bin",
+      "bytes": 320880,
+      "sha256": "0b9ef269808aab04550306301ede0691cb3cfe63817e89096bd494cdf8485824"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00001.bin": {
+      "name": "audit_gross_00002_00001.bin",
+      "bytes": 320880,
+      "sha256": "3eb07cbbdaf0af7df897434a7bfa71751fdbc37153a25b9b13da386708c42063"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00008.bin": {
+      "name": "audit_gross_00002_00008.bin",
+      "bytes": 320880,
+      "sha256": "33cd4aa61d6ca58f11369cfa362c232c00e81ba584dfd4c49774201cbef33dc1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00015.bin": {
+      "name": "audit_gross_00002_00015.bin",
+      "bytes": 320880,
+      "sha256": "d87b7193bd5a8371a0f4a8590b91933d29b0951e41d2c816b9d6b7144fa488a2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00022.bin": {
+      "name": "audit_gross_00002_00022.bin",
+      "bytes": 320880,
+      "sha256": "8abdef397f2951e38858d22a9676ed36776c91b17044419bc1a6e132b2729b5e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00029.bin": {
+      "name": "audit_gross_00002_00029.bin",
+      "bytes": 320880,
+      "sha256": "23d1f1f8e632d843209b65dca723697bfab6c1bc73982e8514fa56590b00e463"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00036.bin": {
+      "name": "audit_gross_00002_00036.bin",
+      "bytes": 320880,
+      "sha256": "982663c5801d0bd087270c7e12624046caeea9b4c12e33b6127639002315036c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00043.bin": {
+      "name": "audit_gross_00002_00043.bin",
+      "bytes": 320880,
+      "sha256": "fb596158edba91551bb99adb0920949eed388e5e13a5b23ff81ef92c5db2e9a0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00002_00050.bin": {
+      "name": "audit_gross_00002_00050.bin",
+      "bytes": 320880,
+      "sha256": "a5c2f512c650c9271b878a4c4e0343c362375b3df35fa06ba022eacd78dbdaff"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00001.bin": {
+      "name": "audit_gross_00003_00001.bin",
+      "bytes": 320880,
+      "sha256": "b2dcb2e303083fcfa4adfe4ffec3f38f63f092cbe2ddf08ea447da17ee2aa837"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00008.bin": {
+      "name": "audit_gross_00003_00008.bin",
+      "bytes": 320880,
+      "sha256": "6890404ff61c4db970cb4e50a0a11c52a02d3bfee48903673de04121101b14af"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00015.bin": {
+      "name": "audit_gross_00003_00015.bin",
+      "bytes": 320880,
+      "sha256": "ea147376f236e92b8c68786f1f3d426660caf862ee9d110c150c090c545653fd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00022.bin": {
+      "name": "audit_gross_00003_00022.bin",
+      "bytes": 320880,
+      "sha256": "6a8c749eb4c4d82966453bc2cbcf536d580801a54dc26cebcb0996910c9851af"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00029.bin": {
+      "name": "audit_gross_00003_00029.bin",
+      "bytes": 320880,
+      "sha256": "2b26da405718c6ac2d75a16016596985bfc9df1bc98b743b067d97303e5ea1a7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00036.bin": {
+      "name": "audit_gross_00003_00036.bin",
+      "bytes": 320880,
+      "sha256": "2237c1d91afa14f609013eef0a7dd55941732e0bc658d4210a29d10572b0bbc5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00043.bin": {
+      "name": "audit_gross_00003_00043.bin",
+      "bytes": 320880,
+      "sha256": "0a02cf38f5c40f7eceef796392d46a5e6be642524b934cec8ba3114b9664c4c5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00003_00050.bin": {
+      "name": "audit_gross_00003_00050.bin",
+      "bytes": 320880,
+      "sha256": "95553e90b904dee7bf7f15315cd730a6a0f20f642f94e194bd3b5f628f25cc3a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00001.bin": {
+      "name": "audit_gross_00004_00001.bin",
+      "bytes": 320880,
+      "sha256": "162eee0e85eb38b69ce6a897e003c6ade5934371045b90250f1d2dc35ba9c01b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00008.bin": {
+      "name": "audit_gross_00004_00008.bin",
+      "bytes": 320880,
+      "sha256": "da6e1d38057de36145858e73041474179cf8e81d59bf249300681da3a0484353"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00015.bin": {
+      "name": "audit_gross_00004_00015.bin",
+      "bytes": 320880,
+      "sha256": "2a3885b35c11a5eefb48cf3c80a1b452c3d5c012c2b91ed90737afe41592e367"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00022.bin": {
+      "name": "audit_gross_00004_00022.bin",
+      "bytes": 320880,
+      "sha256": "7567b434498b77d9febb1087fbe53c81f3c3e1d0545d4052b7572bf178a531be"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00029.bin": {
+      "name": "audit_gross_00004_00029.bin",
+      "bytes": 320880,
+      "sha256": "852a29e9b347556371ffdeac84c96a75da60ffce3750ea8c4beab6cdbcfc7fa9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00036.bin": {
+      "name": "audit_gross_00004_00036.bin",
+      "bytes": 320880,
+      "sha256": "87ffa1f34ded18abc0ed1d20c3ebebf97fc65b5007310134553d63af0fb46f83"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00043.bin": {
+      "name": "audit_gross_00004_00043.bin",
+      "bytes": 320880,
+      "sha256": "f4d10c08ba151d35bf6e2d217271c4789456eff5ef145eb3781e14f23cde1f5d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00004_00050.bin": {
+      "name": "audit_gross_00004_00050.bin",
+      "bytes": 320880,
+      "sha256": "e4a0576f7d17ceeeff763f6623caabcc0bb132fcc0463aa21a15336a0deec6a3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00001.bin": {
+      "name": "audit_gross_00005_00001.bin",
+      "bytes": 320880,
+      "sha256": "d087310278472d19dd8d755a02785209667269fc3aa819c66b22004d85f94f81"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00008.bin": {
+      "name": "audit_gross_00005_00008.bin",
+      "bytes": 320880,
+      "sha256": "e8aada5926840dbb1c325bc58eee7337b975aaa56808dfcb6d3bfa635452fe11"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00015.bin": {
+      "name": "audit_gross_00005_00015.bin",
+      "bytes": 320880,
+      "sha256": "855043463d53ac8fbe973a25ab3cafdd3ad511a6346cae93828d17b47f891731"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00022.bin": {
+      "name": "audit_gross_00005_00022.bin",
+      "bytes": 320880,
+      "sha256": "5d92660dd7cd5d57e731f3e2d23de184282362bd649ad3738c085e74a81adbbb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00029.bin": {
+      "name": "audit_gross_00005_00029.bin",
+      "bytes": 320880,
+      "sha256": "48c4d598b74893818a40449a99853c3f89becc99aadf86c5e78774eef3a18a61"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00036.bin": {
+      "name": "audit_gross_00005_00036.bin",
+      "bytes": 320880,
+      "sha256": "ab4de0b8b7109008960c21151477ed28d55f3b7fd1ad84ce12350fa5ef11756b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00043.bin": {
+      "name": "audit_gross_00005_00043.bin",
+      "bytes": 320880,
+      "sha256": "f03c9cc30f135f94f17528e911e249fa4b1f3923100dd4f42813eb1b100efe73"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00005_00050.bin": {
+      "name": "audit_gross_00005_00050.bin",
+      "bytes": 320880,
+      "sha256": "b685d4ec8eb5b5c058615f81a63f7d049ac99dc0a7a1d687baf2d5d7fd2948fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00001.bin": {
+      "name": "audit_gross_00006_00001.bin",
+      "bytes": 320880,
+      "sha256": "1e28b8f34417b3cda370315f511b40174d7fb42ecdc4a6f4ae001dbcf6319466"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00008.bin": {
+      "name": "audit_gross_00006_00008.bin",
+      "bytes": 320880,
+      "sha256": "bb750c8eab4074e1a8942d5a037fecc27eed6582ef18bbac63cb373fb722a3f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00015.bin": {
+      "name": "audit_gross_00006_00015.bin",
+      "bytes": 320880,
+      "sha256": "f02eef763d6f2ab28a4bdefb041431d6fcf5950fd5de89df8dd42edc2ba624aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00022.bin": {
+      "name": "audit_gross_00006_00022.bin",
+      "bytes": 320880,
+      "sha256": "4d693ca2a878d9631d4aba54b5f52b829593ed85742c84d0c1359b40e6bd10a5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00029.bin": {
+      "name": "audit_gross_00006_00029.bin",
+      "bytes": 320880,
+      "sha256": "24327c9a45efddd6325218e6ca0b8eb0106824996d84138ad746bac31ccd8859"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00036.bin": {
+      "name": "audit_gross_00006_00036.bin",
+      "bytes": 320880,
+      "sha256": "d820e29e3daea4c81d4711ab4bcc69693edb8e823f5d9b2bed444c7c4abe8259"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00043.bin": {
+      "name": "audit_gross_00006_00043.bin",
+      "bytes": 320880,
+      "sha256": "e183a03afbef05c4411ba787cd4f0fd37cce56489c6cfd2ac18c2d98dad84e1d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00006_00050.bin": {
+      "name": "audit_gross_00006_00050.bin",
+      "bytes": 320880,
+      "sha256": "2cceef44d51b5119f1ebd61100e4be8452618ddee05aba11fa82a69337be0433"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00001.bin": {
+      "name": "audit_gross_00007_00001.bin",
+      "bytes": 320880,
+      "sha256": "29a9b97ef33d4b136b3243486537538224e6ed1bc6380541abdf51411161fbdf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00008.bin": {
+      "name": "audit_gross_00007_00008.bin",
+      "bytes": 320880,
+      "sha256": "c354e9506dd25ac97d338054f75309b7259e9290c32335aa2debb7e0f4677e94"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00015.bin": {
+      "name": "audit_gross_00007_00015.bin",
+      "bytes": 320880,
+      "sha256": "9ce953aa0f2e4d453fa879f07c3122a9a30a9105f625501fe914aae544dbcc55"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00022.bin": {
+      "name": "audit_gross_00007_00022.bin",
+      "bytes": 320880,
+      "sha256": "fcc0f8b8e9702dfb51c688881e5536a8361add6c7b9121786521ea0a4f0a9ede"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00029.bin": {
+      "name": "audit_gross_00007_00029.bin",
+      "bytes": 320880,
+      "sha256": "577c7acbfaf9313e06fe337d959e6826e4006402ad165374c6a6a7b833b00d0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00036.bin": {
+      "name": "audit_gross_00007_00036.bin",
+      "bytes": 320880,
+      "sha256": "f51ecb442bfdfe4ace42c5728fa47c8ea5b6b553051c5a1209d2ccd63bbf2572"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00043.bin": {
+      "name": "audit_gross_00007_00043.bin",
+      "bytes": 320880,
+      "sha256": "e3c4e8cdf08774b637d2b26f364fe6ce172a7e0c14233f3322ef6ba839dc9866"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00007_00050.bin": {
+      "name": "audit_gross_00007_00050.bin",
+      "bytes": 320880,
+      "sha256": "20e6877c1989f33e6813dc0ad1198cec4914a3fd1460acdabcf9ddc0d72755b4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00001.bin": {
+      "name": "audit_gross_00008_00001.bin",
+      "bytes": 320880,
+      "sha256": "4d9414bb68ce7c124568a9b0994a15ac3e9b648dccde5c4a574a5e94bcc6e4d9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00008.bin": {
+      "name": "audit_gross_00008_00008.bin",
+      "bytes": 320880,
+      "sha256": "9a4538f56f9773b5680020fd61a616976597df4d55c7563c9aef5accc09435df"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00015.bin": {
+      "name": "audit_gross_00008_00015.bin",
+      "bytes": 320880,
+      "sha256": "2b3ff4844881502fdb04924a240788772b5b0889d88bf11026aecf207ed2d9c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00022.bin": {
+      "name": "audit_gross_00008_00022.bin",
+      "bytes": 320880,
+      "sha256": "023d83a8c903e0953dce378998b7faf97f67a8ec885c64fab8a7acef0a123894"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00029.bin": {
+      "name": "audit_gross_00008_00029.bin",
+      "bytes": 320880,
+      "sha256": "586138489eb830b264396b492b6cf6359c955cc36d8a6c8194569ba388c7c457"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00036.bin": {
+      "name": "audit_gross_00008_00036.bin",
+      "bytes": 320880,
+      "sha256": "0c34932ceaea3464a31b3fdb6a86c1cb316490f01cb9970f49f67fdbce5e10ad"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00043.bin": {
+      "name": "audit_gross_00008_00043.bin",
+      "bytes": 320880,
+      "sha256": "a4fafdc9877ca8d76a31e2ec71a43c8ca32892024537fe949d101200fbb0b3d1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00008_00050.bin": {
+      "name": "audit_gross_00008_00050.bin",
+      "bytes": 320880,
+      "sha256": "820f276dd870258b236eeaec8a9e97a3ed0c3be134181248aa9380f2581f191f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00001.bin": {
+      "name": "audit_gross_00009_00001.bin",
+      "bytes": 320880,
+      "sha256": "ce72f6ce4e83cf4658b77a790d8984d63437eefff2262533d557bc6b9cca6eef"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00008.bin": {
+      "name": "audit_gross_00009_00008.bin",
+      "bytes": 320880,
+      "sha256": "3c0932c52a9533676f820263329ce0b6150ea2a35597824274b2cd145969acb7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00015.bin": {
+      "name": "audit_gross_00009_00015.bin",
+      "bytes": 320880,
+      "sha256": "8dd6c3a8c94566f682b5c1c9ab80005043985870ba681b2f510bc6b805803cdf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00022.bin": {
+      "name": "audit_gross_00009_00022.bin",
+      "bytes": 320880,
+      "sha256": "43214fd70ae36dbfa5bc07557a1af1736977132de016025aa728249fb6abfb62"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00029.bin": {
+      "name": "audit_gross_00009_00029.bin",
+      "bytes": 320880,
+      "sha256": "362de8dc023ca331d9d4bc57384d269c5932228e5a157efb79069f1c89e1ce3a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00036.bin": {
+      "name": "audit_gross_00009_00036.bin",
+      "bytes": 320880,
+      "sha256": "ac28c7a666e3866a0b08abf6c2a136d514bda4351bb9cfb1d12edabe01392f83"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00043.bin": {
+      "name": "audit_gross_00009_00043.bin",
+      "bytes": 320880,
+      "sha256": "63cfec3fd705906c100e4c032980f955c498391dc733379d017a1fd897ef2d10"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00009_00050.bin": {
+      "name": "audit_gross_00009_00050.bin",
+      "bytes": 320880,
+      "sha256": "a629642e8e7128c02fbd4835c83c211de20f5f424914f5c13f5033a0a8415251"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00001.bin": {
+      "name": "audit_gross_00010_00001.bin",
+      "bytes": 320880,
+      "sha256": "43572fcc5d8a9190ea42151c36ee234b7f267014d14f5c0c402095c7ad3217d5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00008.bin": {
+      "name": "audit_gross_00010_00008.bin",
+      "bytes": 320880,
+      "sha256": "765bad8f7126ecc9321da59d61f9865e132d6deb34a96cd2b8872fbd521b5009"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00015.bin": {
+      "name": "audit_gross_00010_00015.bin",
+      "bytes": 320880,
+      "sha256": "57ec250d613adfbd88605060fcbbc14702c930418b1b99b3e4cfc273a6902fbb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00022.bin": {
+      "name": "audit_gross_00010_00022.bin",
+      "bytes": 320880,
+      "sha256": "802f2ccf7b6ba351c21c5751a579ac16ca38d5523b67f8db44f1e75533530df9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00029.bin": {
+      "name": "audit_gross_00010_00029.bin",
+      "bytes": 320880,
+      "sha256": "50e0e052a413a6006fa7979a96266c0656823c3664977786a66fe644ee27ea1c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00036.bin": {
+      "name": "audit_gross_00010_00036.bin",
+      "bytes": 320880,
+      "sha256": "e1e8134336f487d5048c157736153c9a898ec443ae710b46dff9dbd8e11cf3a3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00043.bin": {
+      "name": "audit_gross_00010_00043.bin",
+      "bytes": 320880,
+      "sha256": "1ef9286a93793144eafa166e64243594e5c3ea491e50b1cd90a0ad78b67f1666"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00010_00050.bin": {
+      "name": "audit_gross_00010_00050.bin",
+      "bytes": 320880,
+      "sha256": "5c5661b6f6ba820b2163d300a5e1a1a70d2ed1aa56e9443fec10830f79d75b05"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00001.bin": {
+      "name": "audit_gross_00011_00001.bin",
+      "bytes": 320880,
+      "sha256": "0b4cfd29bc1ded0ec9f7a43195464734b0c18db714d526356421c07cf9386389"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00008.bin": {
+      "name": "audit_gross_00011_00008.bin",
+      "bytes": 320880,
+      "sha256": "79dfdc908d3900f3dbff0ba80958744f8038043e56867e5012fca1fda5f4d150"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00015.bin": {
+      "name": "audit_gross_00011_00015.bin",
+      "bytes": 320880,
+      "sha256": "903a6b0daf8ea6147653c8daea9b917281e172610da7099cfe474434a2b72e01"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00022.bin": {
+      "name": "audit_gross_00011_00022.bin",
+      "bytes": 320880,
+      "sha256": "576c1512b5c98f51450a2613a0f106bd8736012c882d75316856c125b3e4fb6d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00029.bin": {
+      "name": "audit_gross_00011_00029.bin",
+      "bytes": 320880,
+      "sha256": "23fc311f90261b6356828901feaf91cd287135974b992a7cf0855f113ca0d968"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00036.bin": {
+      "name": "audit_gross_00011_00036.bin",
+      "bytes": 320880,
+      "sha256": "596e8bab81d0992cc448c0b0973fa51ccef1674656484b02bc088272a783a814"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00043.bin": {
+      "name": "audit_gross_00011_00043.bin",
+      "bytes": 320880,
+      "sha256": "5534ab6ddef8d5c070f7fa9e22e535c2c086d4cc1701ec698444493204775097"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00011_00050.bin": {
+      "name": "audit_gross_00011_00050.bin",
+      "bytes": 320880,
+      "sha256": "9e6bcb710f898144d476cb9057bdeac9051786858a2478aedb5b7893942e0476"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00001.bin": {
+      "name": "audit_gross_00012_00001.bin",
+      "bytes": 320880,
+      "sha256": "d308d14eda41613c88e2d3d473df342cfd2e517d8022f396160b260e1e24b737"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00008.bin": {
+      "name": "audit_gross_00012_00008.bin",
+      "bytes": 320880,
+      "sha256": "39ba1d6f7fe80bd4a5119519542a30bfbd4e3da59d09f4860fea547ef4cbc687"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00015.bin": {
+      "name": "audit_gross_00012_00015.bin",
+      "bytes": 320880,
+      "sha256": "d8d23a14424058e9f507fe3c0ce073c4314f640ae7f2754fab1fa60a9eb006dd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00022.bin": {
+      "name": "audit_gross_00012_00022.bin",
+      "bytes": 320880,
+      "sha256": "cd960f8d2cc54162bf44eb08258f389b0f8b208b35b3352c05b2a86864cd2c4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00029.bin": {
+      "name": "audit_gross_00012_00029.bin",
+      "bytes": 320880,
+      "sha256": "8a8f6483c2e395c01b5549302609cf3d78289ed5903eab38f4ebd48a89f153fd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00036.bin": {
+      "name": "audit_gross_00012_00036.bin",
+      "bytes": 320880,
+      "sha256": "52f6adbbdb973152f83dbdf6c087c3c2d79746d70e3ca5756d7954eaf406c9cb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00043.bin": {
+      "name": "audit_gross_00012_00043.bin",
+      "bytes": 320880,
+      "sha256": "4757d0ff87b4bf7e9cf5b3ef58fcb7c9478e57473d0f3c74755f387d01a9fdea"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_gross_00012_00050.bin": {
+      "name": "audit_gross_00012_00050.bin",
+      "bytes": 320880,
+      "sha256": "2257a3762094f82d9c3ed07945e1c8b83c937c7c5257a09dc8a9e8975765f4aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00001.bin": {
+      "name": "audit_state_00001_00001.bin",
+      "bytes": 15324,
+      "sha256": "edc0b4993381ebf8b93d1df69849905b7d02b1f76144f410ae9ebdfe63fb3a5f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00008.bin": {
+      "name": "audit_state_00001_00008.bin",
+      "bytes": 15324,
+      "sha256": "6ed2e7fe5834aef4ac9a0ddd209262bd3173efb90e33fbdf147070e20ef01f99"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00015.bin": {
+      "name": "audit_state_00001_00015.bin",
+      "bytes": 15324,
+      "sha256": "1e2cf13cc41b8ec2f2cc31937869cb3107a4530ddd0f9d59f3b0f8259a312dbe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00022.bin": {
+      "name": "audit_state_00001_00022.bin",
+      "bytes": 15324,
+      "sha256": "6478d73e10b6a8691d2ce3b6c580a399768b019f01b16c1a3a6eb4765e5f3013"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00029.bin": {
+      "name": "audit_state_00001_00029.bin",
+      "bytes": 15324,
+      "sha256": "44626f61247187f7a1d3f8880473010630d4401c95490fa9b5d84782cf3ffc63"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00036.bin": {
+      "name": "audit_state_00001_00036.bin",
+      "bytes": 15324,
+      "sha256": "5636aaccbe317c3264bd6210ef679d78d11eeb53bdaf561a6097a325cef7d6f1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00043.bin": {
+      "name": "audit_state_00001_00043.bin",
+      "bytes": 15324,
+      "sha256": "a28a7d973feb5c6fd75718fac1f72f7d1d83a32b394ea3676934bff30ec5de16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00001_00050.bin": {
+      "name": "audit_state_00001_00050.bin",
+      "bytes": 15324,
+      "sha256": "733ac67e5378c3c4a2fc0548faaf2f7d2579869e752c1bb7e975f422008b4d11"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00001.bin": {
+      "name": "audit_state_00002_00001.bin",
+      "bytes": 15324,
+      "sha256": "c2e41e31af42f744c33bd3071541b4d30532d4d93e29263072a28b000b8a7afd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00008.bin": {
+      "name": "audit_state_00002_00008.bin",
+      "bytes": 15324,
+      "sha256": "6c1fa9494921e03acb3077234885037d72a68010045e127c73ae3bf837ca6168"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00015.bin": {
+      "name": "audit_state_00002_00015.bin",
+      "bytes": 15324,
+      "sha256": "a847809156a3b127e40d264721415a55fd0595005fe0d026ec79e9f4d89502e0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00022.bin": {
+      "name": "audit_state_00002_00022.bin",
+      "bytes": 15324,
+      "sha256": "a16c0b30adf5f3b719cc50751fe46b892e47e937306fd67b893d787926a0c42e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00029.bin": {
+      "name": "audit_state_00002_00029.bin",
+      "bytes": 15324,
+      "sha256": "71b74621742b2454693f028f2d6f464d5ad483632708b341654dd21b1f5f2264"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00036.bin": {
+      "name": "audit_state_00002_00036.bin",
+      "bytes": 15324,
+      "sha256": "322254eea1b8f87ad8f8b0d578e7cd54d06d9bb8abd67ba27cb32e63d0d0ba2e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00043.bin": {
+      "name": "audit_state_00002_00043.bin",
+      "bytes": 15324,
+      "sha256": "94e443bc3b74c7f2d3823995bad22f4cf88e26ded3e748a54f74872948626df2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00002_00050.bin": {
+      "name": "audit_state_00002_00050.bin",
+      "bytes": 15324,
+      "sha256": "0b055962b6f77559cad2e8e3a42b3f9d36dbb4f1ebffd38f77eae455b0fc6238"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00001.bin": {
+      "name": "audit_state_00003_00001.bin",
+      "bytes": 15324,
+      "sha256": "a7c7c7d141876ff65375dcdd09eefa85eda74f92696e6cd252637ce2ab36fd49"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00008.bin": {
+      "name": "audit_state_00003_00008.bin",
+      "bytes": 15324,
+      "sha256": "95bf4d8cfd4b902ce220505091fb3a948b1117cc7aa8797c52e2daf94f4d986a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00015.bin": {
+      "name": "audit_state_00003_00015.bin",
+      "bytes": 15324,
+      "sha256": "2a359ff94863e4af4579c7661dd66ae225ddb765db19b9541c6d73d082c2b97a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00022.bin": {
+      "name": "audit_state_00003_00022.bin",
+      "bytes": 15324,
+      "sha256": "b35dea2912f1922144fcc09ff3bd1cb30f31466633fe6e173231ac096fd0b578"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00029.bin": {
+      "name": "audit_state_00003_00029.bin",
+      "bytes": 15324,
+      "sha256": "ed83f44e99f48277a9705847cf2caaffad03b707858aeef4fb62fa6afd92a238"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00036.bin": {
+      "name": "audit_state_00003_00036.bin",
+      "bytes": 15324,
+      "sha256": "4e11b0c2852ac94bb58e24feb524cbfbb6c6db85b34010bbc719cce915c68537"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00043.bin": {
+      "name": "audit_state_00003_00043.bin",
+      "bytes": 15324,
+      "sha256": "b077c49a15e4f3513d0db49b78e36d0516de413414711c16dd07bd9335327fe1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00003_00050.bin": {
+      "name": "audit_state_00003_00050.bin",
+      "bytes": 15324,
+      "sha256": "a9105b1b129d585811dbf4f483166ddef40eeda661ec02056af19d945c703a25"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00001.bin": {
+      "name": "audit_state_00004_00001.bin",
+      "bytes": 15324,
+      "sha256": "b744bde713cd5cc74db73f90649ac8a2484fad60f00a646cb7936097cfd1471f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00008.bin": {
+      "name": "audit_state_00004_00008.bin",
+      "bytes": 15324,
+      "sha256": "412bf53faf8990a1264d46cda84633fdcfad1737561a858c6462dbbf3b9ca40c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00015.bin": {
+      "name": "audit_state_00004_00015.bin",
+      "bytes": 15324,
+      "sha256": "b75b9bbbf34b0e7cf2cf2cc6b02a2c38a61000fd6bbb6861455eb3042a066a8a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00022.bin": {
+      "name": "audit_state_00004_00022.bin",
+      "bytes": 15324,
+      "sha256": "e2462bb720c5b4c6a5b45a60c80f87f1943ddb7811ec0e17acc8c0819f4b0d92"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00029.bin": {
+      "name": "audit_state_00004_00029.bin",
+      "bytes": 15324,
+      "sha256": "ee81cbe7f99201fc017f1a6006697432410a960e8da9029a227273d6a84b65a0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00036.bin": {
+      "name": "audit_state_00004_00036.bin",
+      "bytes": 15324,
+      "sha256": "ee944fa5bf43a084a9ab7b4fbbe6064d6f1877a9b4fdced831700a951e812713"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00043.bin": {
+      "name": "audit_state_00004_00043.bin",
+      "bytes": 15324,
+      "sha256": "7dff920a6ba7c912224604a8947ec6a675a5b57c43f3ae120a72fe1c9bba7467"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00004_00050.bin": {
+      "name": "audit_state_00004_00050.bin",
+      "bytes": 15324,
+      "sha256": "865d948bf278d27872c9432a5196662c6af371b940aca2454e6cf2468f0febe9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00001.bin": {
+      "name": "audit_state_00005_00001.bin",
+      "bytes": 15324,
+      "sha256": "219979c1ea4424c3fc91b58d900c580b03c4b4a710487d0e602cdc8641cd66d4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00008.bin": {
+      "name": "audit_state_00005_00008.bin",
+      "bytes": 15324,
+      "sha256": "4e6d99689d344a5988acb49241a95cf4b13929f8e6aade2e983b05a45924cc47"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00015.bin": {
+      "name": "audit_state_00005_00015.bin",
+      "bytes": 15324,
+      "sha256": "592c9772d98a64651534cf0505de0c0fd459718f6ba07abfca3e908bbb2a839a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00022.bin": {
+      "name": "audit_state_00005_00022.bin",
+      "bytes": 15324,
+      "sha256": "6375fd8c74042d8148137573361dc8b52627440acc7950adca43bda0fe507f5f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00029.bin": {
+      "name": "audit_state_00005_00029.bin",
+      "bytes": 15324,
+      "sha256": "38527ce6de128cadfddec60a3d9682777c734892bd2abfa02c5fbec0665a4647"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00036.bin": {
+      "name": "audit_state_00005_00036.bin",
+      "bytes": 15324,
+      "sha256": "adb510dafd05fada90b3af823798d181ecbe3c018ffab33873a8a1c093727e62"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00043.bin": {
+      "name": "audit_state_00005_00043.bin",
+      "bytes": 15324,
+      "sha256": "9d80b70ffe0a4eb6ceda18de47b991ad78e70e29df8e0b35f47071974730d150"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00005_00050.bin": {
+      "name": "audit_state_00005_00050.bin",
+      "bytes": 15324,
+      "sha256": "a8e8a27b835b263c79f4b1f58a4451ea14e0be29a960078def1167c17dfa9058"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00001.bin": {
+      "name": "audit_state_00006_00001.bin",
+      "bytes": 15324,
+      "sha256": "42b9d89001aaaf0dac7f08ac9bb4a856aedc915c5bf69d0cc638946a451d7557"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00008.bin": {
+      "name": "audit_state_00006_00008.bin",
+      "bytes": 15324,
+      "sha256": "d8f66ceeccd8b8caf0ad8766cc0b0bd3b49488eac6e053f051f93b9e4cbe7d52"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00015.bin": {
+      "name": "audit_state_00006_00015.bin",
+      "bytes": 15324,
+      "sha256": "c320ba36c85fb36e33953a6ad19d1ff4de65cdc86c0bb8a2723d647ca64104f6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00022.bin": {
+      "name": "audit_state_00006_00022.bin",
+      "bytes": 15324,
+      "sha256": "1ed6628908334ea4eaa29a75ff2f21fccbf8e2c758fd0e8938f5876f5f2a7630"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00029.bin": {
+      "name": "audit_state_00006_00029.bin",
+      "bytes": 15324,
+      "sha256": "cfa23961c9fa05705729cc841175f612b02c3ac7705600b699716c646bf7ce8f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00036.bin": {
+      "name": "audit_state_00006_00036.bin",
+      "bytes": 15324,
+      "sha256": "0a7a45acb6f6590d76314cb441bcdb888815a76f59f60010b1736929bbb21179"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00043.bin": {
+      "name": "audit_state_00006_00043.bin",
+      "bytes": 15324,
+      "sha256": "b342519c0391b1c36ec9c11c81f6631e132066d190afcaf1887b773bccd5e78b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00006_00050.bin": {
+      "name": "audit_state_00006_00050.bin",
+      "bytes": 15324,
+      "sha256": "07a10d286413fefff1c31251000d4fdcefd252e02cb931a414827f2f8e35d73d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00001.bin": {
+      "name": "audit_state_00007_00001.bin",
+      "bytes": 15324,
+      "sha256": "62a2e2a75244e8ccb22b84473e761b85737e71d1af768f064368b1191947977d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00008.bin": {
+      "name": "audit_state_00007_00008.bin",
+      "bytes": 15324,
+      "sha256": "a67b300d9b5963ddf50c2604b34e360b1262a366f66b5fa22c4df143c1ddf941"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00015.bin": {
+      "name": "audit_state_00007_00015.bin",
+      "bytes": 15324,
+      "sha256": "1feed8c2eb6665130c7cc9decd4d1fe62fe52fbd3a0a030a06c37886e2e626cb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00022.bin": {
+      "name": "audit_state_00007_00022.bin",
+      "bytes": 15324,
+      "sha256": "8fae5081576d3b2ce27956673ed8567a8bb91c21389122b431f6dfec2ebdfa59"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00029.bin": {
+      "name": "audit_state_00007_00029.bin",
+      "bytes": 15324,
+      "sha256": "a66af5b374e99011efc350c6a87e417eaf380a0620d6660c168f04b34e2efd42"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00036.bin": {
+      "name": "audit_state_00007_00036.bin",
+      "bytes": 15324,
+      "sha256": "5c0c675832bd20e24f2b7c1301260013441c814780a48a74705ec6fdb2bfe1e1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00043.bin": {
+      "name": "audit_state_00007_00043.bin",
+      "bytes": 15324,
+      "sha256": "b353e8b8c6ab377a8386b81d7d8e534edb55d509b0991053a04450d2ee944a5c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00007_00050.bin": {
+      "name": "audit_state_00007_00050.bin",
+      "bytes": 15324,
+      "sha256": "a674c3ed6ed616359328c0f5c61d86ce1dcb2e1aae3fb7fa99adf8f6e9a4fba1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00001.bin": {
+      "name": "audit_state_00008_00001.bin",
+      "bytes": 15324,
+      "sha256": "27a5316364f07b3926e581cab91ddea59140104e8c7998eb6791fed18bfcc44a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00008.bin": {
+      "name": "audit_state_00008_00008.bin",
+      "bytes": 15324,
+      "sha256": "ac446e1fc2e4410e9bb54c47d07efb1d1beb8666a601adc0cba9f490fe74f28f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00015.bin": {
+      "name": "audit_state_00008_00015.bin",
+      "bytes": 15324,
+      "sha256": "e0def7fc0e8d18a305c25b005863db233ffd47788f088e93fd61f5d65ba16274"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00022.bin": {
+      "name": "audit_state_00008_00022.bin",
+      "bytes": 15324,
+      "sha256": "3ece48f3feb73bec406706e5d08f9aa0cd8d512ff9722336d9eed85d1814dcf5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00029.bin": {
+      "name": "audit_state_00008_00029.bin",
+      "bytes": 15324,
+      "sha256": "78186aad833035f943a80f8549c721559ed18772a0b3cfb1030d09fc75c1867a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00036.bin": {
+      "name": "audit_state_00008_00036.bin",
+      "bytes": 15324,
+      "sha256": "93d11097a3d549d9652515354f08d47414c4e6585366d3b9032464a40ad7668a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00043.bin": {
+      "name": "audit_state_00008_00043.bin",
+      "bytes": 15324,
+      "sha256": "33ae1af975645bbbeaefdf3af6dcb875ad6fae7e520f410f914d62c48782e0df"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00008_00050.bin": {
+      "name": "audit_state_00008_00050.bin",
+      "bytes": 15324,
+      "sha256": "a2d918826e50da6e464b77d1c66fca49aad1d2345df8dbf5eddecab1b6bb08e9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00001.bin": {
+      "name": "audit_state_00009_00001.bin",
+      "bytes": 15324,
+      "sha256": "a7fd31534408737eec722b7aefa205fbe3a930f530d7529bcfd69d57a606e653"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00008.bin": {
+      "name": "audit_state_00009_00008.bin",
+      "bytes": 15324,
+      "sha256": "a3dd755db489908b3f1fe9dc5e71d62f9150df9127c5d83771961106b6428038"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00015.bin": {
+      "name": "audit_state_00009_00015.bin",
+      "bytes": 15324,
+      "sha256": "221aecf35d3aa634707104bb0e59ebeb066b740722d61e696026d48bfffc7630"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00022.bin": {
+      "name": "audit_state_00009_00022.bin",
+      "bytes": 15324,
+      "sha256": "f8ada1a9d20c80e03629f28395d2f743b83a5033058fad1dbe0c9faac37a130d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00029.bin": {
+      "name": "audit_state_00009_00029.bin",
+      "bytes": 15324,
+      "sha256": "1db2b3bb6ea51c8e2df305399d8f31a0689dc4aa0a884f30030d4d18f38be4ec"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00036.bin": {
+      "name": "audit_state_00009_00036.bin",
+      "bytes": 15324,
+      "sha256": "624a84fc2dc0f605fcef10ac935c597d8b1073910060ee3e02e1e3d7b144322b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00043.bin": {
+      "name": "audit_state_00009_00043.bin",
+      "bytes": 15324,
+      "sha256": "bc72a11b79ca440ef86e90285adbe8a1db5b8f8cd82e83f9a92cf60e5359f290"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00009_00050.bin": {
+      "name": "audit_state_00009_00050.bin",
+      "bytes": 15324,
+      "sha256": "fa0ae652551e464cb366d79797e9d65558881ad21b4168724e7e2775e2fc18a4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00001.bin": {
+      "name": "audit_state_00010_00001.bin",
+      "bytes": 15324,
+      "sha256": "2b76f1f4b6c81c6260552bf4d925d94fda245c5ac21d64d5461f8926bd951c43"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00008.bin": {
+      "name": "audit_state_00010_00008.bin",
+      "bytes": 15324,
+      "sha256": "641f694d8e342058f2ea15b02b53db04484f44412037a459d741a4a8cef61576"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00015.bin": {
+      "name": "audit_state_00010_00015.bin",
+      "bytes": 15324,
+      "sha256": "5f28633ec67d12e9abc49340efb44103e988ec8d8c3a65128b9cbb98b80fc6ec"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00022.bin": {
+      "name": "audit_state_00010_00022.bin",
+      "bytes": 15324,
+      "sha256": "9413bb2cadaac70ec2e5390dd82ede0a17c4be0665ca3a3d3a99030ed7150b42"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00029.bin": {
+      "name": "audit_state_00010_00029.bin",
+      "bytes": 15324,
+      "sha256": "f5a6e91f50375b044ba168794b7d7ba1fae4f483342d7ce5699b5632dba82d1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00036.bin": {
+      "name": "audit_state_00010_00036.bin",
+      "bytes": 15324,
+      "sha256": "5af78d16bbb961a1ccd592ef54e7b3521e2d8446ededf012743a1f9b8242a3d0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00043.bin": {
+      "name": "audit_state_00010_00043.bin",
+      "bytes": 15324,
+      "sha256": "5e6e5e3ac53e231c2171c8c0714aebbbac40fb3b6be0ed1f23a2938197b4e2b6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00010_00050.bin": {
+      "name": "audit_state_00010_00050.bin",
+      "bytes": 15324,
+      "sha256": "8439a4692b9042472d76eebdc7894ddc072cacb2b639db9ace906741e88e1325"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00001.bin": {
+      "name": "audit_state_00011_00001.bin",
+      "bytes": 15324,
+      "sha256": "7271642de19490c9e546dcd4ec20ad6ee8f61014988436e805fbbc007dd9b38c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00008.bin": {
+      "name": "audit_state_00011_00008.bin",
+      "bytes": 15324,
+      "sha256": "464520c98dca12ab21032750aa7384305b65bd56ec0ee730bc4556ef1e487cd5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00015.bin": {
+      "name": "audit_state_00011_00015.bin",
+      "bytes": 15324,
+      "sha256": "9e0f7a178e2ba9a9ff6a9274770550814784ae379c562f0bbfecfabe485e373e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00022.bin": {
+      "name": "audit_state_00011_00022.bin",
+      "bytes": 15324,
+      "sha256": "c702a308549b259ba28cb394660e1af546ee15a449959adb5c233920dc3e1cb2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00029.bin": {
+      "name": "audit_state_00011_00029.bin",
+      "bytes": 15324,
+      "sha256": "67c352e920da82eab7563520390e029b674b91779fb5a20c16fb6f18d659a0f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00036.bin": {
+      "name": "audit_state_00011_00036.bin",
+      "bytes": 15324,
+      "sha256": "455ba00dfd9326ea81ea383c8fa32befd2de655e44a8da2dde1815571b951d77"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00043.bin": {
+      "name": "audit_state_00011_00043.bin",
+      "bytes": 15324,
+      "sha256": "68ebde029d24c1c38d014f680c1369258c45d3359ac5fd05c151afb5729918c7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00011_00050.bin": {
+      "name": "audit_state_00011_00050.bin",
+      "bytes": 15324,
+      "sha256": "a6cc086cf91980c5fbc77cd0e0db9d2c029a4048817f29f79a69dc97fea1d569"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00001.bin": {
+      "name": "audit_state_00012_00001.bin",
+      "bytes": 15324,
+      "sha256": "55254bd1c647178239d4c82114dd567e3c559a50a30fcb5d083d576d37b66b76"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00008.bin": {
+      "name": "audit_state_00012_00008.bin",
+      "bytes": 15324,
+      "sha256": "32c9ebb4b0c7df7a11284902c6354e5fb996109e8bbf0e643de2399131863207"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00015.bin": {
+      "name": "audit_state_00012_00015.bin",
+      "bytes": 15324,
+      "sha256": "baa6f751ecff7b4f28f82bd37f9ea040202c24b5dd56b8f818eb4b1c742b38a4"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00022.bin": {
+      "name": "audit_state_00012_00022.bin",
+      "bytes": 15324,
+      "sha256": "28fb3ba2c7ea08eb1741b1e2c88040c52ed0a78e688ed15da2d231953e9bcd23"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00029.bin": {
+      "name": "audit_state_00012_00029.bin",
+      "bytes": 15324,
+      "sha256": "dbfba5e59bf76b6d2776a45ad0086538df352b15697b7e38f4c41ca6af80c96a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00036.bin": {
+      "name": "audit_state_00012_00036.bin",
+      "bytes": 15324,
+      "sha256": "1bb5014b986974839a75fde3f07ca921911a133f2f8a430aa770815c9ea15cde"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00043.bin": {
+      "name": "audit_state_00012_00043.bin",
+      "bytes": 15324,
+      "sha256": "41657c51a913bf407ed73fcd845626e3d27d68807dcafe9941f8354614403739"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00012_00050.bin": {
+      "name": "audit_state_00012_00050.bin",
+      "bytes": 15324,
+      "sha256": "7b8155128a40b313d8f862c41dc9c356f29ea2ba7d9988da5c2802ef086a2955"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00001.bin": {
+      "name": "audit_state_00013_00001.bin",
+      "bytes": 15324,
+      "sha256": "76dbf6381e258f634c257e5dabfdb1346490e2509425272e3dab7be7b5fa4b12"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00008.bin": {
+      "name": "audit_state_00013_00008.bin",
+      "bytes": 15324,
+      "sha256": "734cff1e1dd4f479fd1abdeaf2e68dcc3692399884da0405ed5d4cf1a7dc671f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00015.bin": {
+      "name": "audit_state_00013_00015.bin",
+      "bytes": 15324,
+      "sha256": "e9ca21a738319ab8aa20604b624eaf7ccae16b1e576509cf16d17a313d702e3c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00022.bin": {
+      "name": "audit_state_00013_00022.bin",
+      "bytes": 15324,
+      "sha256": "d3e8ad0dbebf140f8d55cdb42df35663a4678ef2c40839fb92a3f1fcb1174c85"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00029.bin": {
+      "name": "audit_state_00013_00029.bin",
+      "bytes": 15324,
+      "sha256": "78659f4ae5a3d9cc02e4b2665b368496c0eb8ab8247f3bc25f4d2b9fb25519df"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00036.bin": {
+      "name": "audit_state_00013_00036.bin",
+      "bytes": 15324,
+      "sha256": "64fd30d073e73a963aa6b3df622f7934f0ec3ffd2dd13bb940a6681eae682cac"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00043.bin": {
+      "name": "audit_state_00013_00043.bin",
+      "bytes": 15324,
+      "sha256": "810931a2812e73c9d6f9fae3cc51f30533173e55aad650bb951af5a73636d702"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/audit_state_00013_00050.bin": {
+      "name": "audit_state_00013_00050.bin",
+      "bytes": 15324,
+      "sha256": "012adb9f7c7e8e802701e6bbf5dbd1ec454503d263956c82614aeded9e254662"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_001000.bin": {
+      "name": "cij_001000.bin",
+      "bytes": 28,
+      "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_002000.bin": {
+      "name": "cij_002000.bin",
+      "bytes": 28,
+      "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_003000.bin": {
+      "name": "cij_003000.bin",
+      "bytes": 28,
+      "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_004000.bin": {
+      "name": "cij_004000.bin",
+      "bytes": 28,
+      "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_005000.bin": {
+      "name": "cij_005000.bin",
+      "bytes": 28,
+      "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_006000.bin": {
+      "name": "cij_006000.bin",
+      "bytes": 28,
+      "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_007000.bin": {
+      "name": "cij_007000.bin",
+      "bytes": 28,
+      "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_008000.bin": {
+      "name": "cij_008000.bin",
+      "bytes": 28,
+      "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cij_meta.txt": {
+      "name": "cij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_001000.bin": {
+      "name": "cji_001000.bin",
+      "bytes": 28,
+      "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_002000.bin": {
+      "name": "cji_002000.bin",
+      "bytes": 28,
+      "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_003000.bin": {
+      "name": "cji_003000.bin",
+      "bytes": 28,
+      "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_004000.bin": {
+      "name": "cji_004000.bin",
+      "bytes": 28,
+      "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_005000.bin": {
+      "name": "cji_005000.bin",
+      "bytes": 28,
+      "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_006000.bin": {
+      "name": "cji_006000.bin",
+      "bytes": 28,
+      "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_007000.bin": {
+      "name": "cji_007000.bin",
+      "bytes": 28,
+      "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_008000.bin": {
+      "name": "cji_008000.bin",
+      "bytes": 28,
+      "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/cji_meta.txt": {
+      "name": "cji_meta.txt",
+      "bytes": 7005,
+      "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_001000.bin": {
+      "name": "eos_001000.bin",
+      "bytes": 56,
+      "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_002000.bin": {
+      "name": "eos_002000.bin",
+      "bytes": 56,
+      "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_003000.bin": {
+      "name": "eos_003000.bin",
+      "bytes": 56,
+      "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_004000.bin": {
+      "name": "eos_004000.bin",
+      "bytes": 56,
+      "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_005000.bin": {
+      "name": "eos_005000.bin",
+      "bytes": 56,
+      "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_006000.bin": {
+      "name": "eos_006000.bin",
+      "bytes": 56,
+      "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_007000.bin": {
+      "name": "eos_007000.bin",
+      "bytes": 56,
+      "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_008000.bin": {
+      "name": "eos_008000.bin",
+      "bytes": 56,
+      "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/eos_meta.txt": {
+      "name": "eos_meta.txt",
+      "bytes": 653,
+      "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/flux_008001.bin": {
+      "name": "flux_008001.bin",
+      "bytes": 37236,
+      "sha256": "c561c845d4de336ae69d724282dffb0e293aa38a912f7e19d20975a2abb7ef68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/flux_008002.bin": {
+      "name": "flux_008002.bin",
+      "bytes": 37224,
+      "sha256": "1d75c3e3aea9f211173c0fbf36623f7e0a9f25d83ec47767d2e0b00e46680424"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/flux_meta.txt": {
+      "name": "flux_meta.txt",
+      "bytes": 211,
+      "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/ie_008001.bin": {
+      "name": "ie_008001.bin",
+      "bytes": 37236,
+      "sha256": "eb63a2122c9d0f7f2b530da53fc5a92990273c5541c7e6711c8f6b2b62d915d3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/ie_008002.bin": {
+      "name": "ie_008002.bin",
+      "bytes": 37224,
+      "sha256": "64b42d633eac3a291bc35a4b5fa52ade313c6d8507bb3b862616b6084184a3ef"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/ie_meta.txt": {
+      "name": "ie_meta.txt",
+      "bytes": 211,
+      "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/out_lam.bin": {
+      "name": "out_lam.bin",
+      "bytes": 49640,
+      "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_001000.bin": {
+      "name": "pop_O_001000.bin",
+      "bytes": 2296,
+      "sha256": "2dc19f2361723e00868e7cb53cb9cd791077bc252bba0439c1f861f0dad900c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_002000.bin": {
+      "name": "pop_O_002000.bin",
+      "bytes": 2296,
+      "sha256": "e6514aca20e66d57ae2e07c6c8bd91b952785bce830a02a8bbb8a937394edc40"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_003000.bin": {
+      "name": "pop_O_003000.bin",
+      "bytes": 2296,
+      "sha256": "b26be7759dd99ffb72f72481dc1bd84e4a65bda4a309d3992764f60b403aee11"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_004000.bin": {
+      "name": "pop_O_004000.bin",
+      "bytes": 2296,
+      "sha256": "aeeca16d379bb4e1932f51b75eb32fb378353e0a76a532bf3b3625147088d5d5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_005000.bin": {
+      "name": "pop_O_005000.bin",
+      "bytes": 2296,
+      "sha256": "0d17000609a31966097e3293c8663de4b00d866ba81490109b2640fddc94b274"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_006000.bin": {
+      "name": "pop_O_006000.bin",
+      "bytes": 2296,
+      "sha256": "d56e6d72c23e15415cc53ccdf7120f9819266b3cde00cf57b0854da6bf5dae75"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_007000.bin": {
+      "name": "pop_O_007000.bin",
+      "bytes": 2296,
+      "sha256": "205a24db541b0bae7cba4e5213c9c7b09e1c0ff3a87e60f29ed0be2227f96c91"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_008000.bin": {
+      "name": "pop_O_008000.bin",
+      "bytes": 2296,
+      "sha256": "53ba928b32bf6b98b471f478e0a295e3051aaa97099b9375cd32c918801d0017"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/pop_O_meta.txt": {
+      "name": "pop_O_meta.txt",
+      "bytes": 813,
+      "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "8e909b7d34b4ef93f299802318a59064fe8e204fa36fb97cef0b651d1da937b5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "f185a4bd6b5fbbe78a4ca32d5d886e87b69367f8efe079df86a830989bac610e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "a376148479a1f96bc6a1bf1d202687a4a58e8be390f634e2cf4e33c0bb16076c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "de48874e7d885b4f589816d9dd5974362b8863c7e88396278305f6fd143d8aa9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "5c339150cf238823a89e58e99a030fe740d823a152491bd193587ce52c8722ca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "10d485d8813c7075bb1ea741ba98dc502cc1764876bad0d3466e45859d4b47cf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "b2c377eb14ef08bbaadc8002e7b2575bde3d9c873d5db79e856d563cabf9cbef"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "f346a44d1772e1b2c04a3a22c0f301744ee89b95756bad75baf11340fc71b862"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_001000.bin": {
+      "name": "rij_001000.bin",
+      "bytes": 28,
+      "sha256": "3570aefcbc0805bd71760807cc93abd3ad2f65035dc351572ca8a35c7efc7f3f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_002000.bin": {
+      "name": "rij_002000.bin",
+      "bytes": 28,
+      "sha256": "38ce3a90e5fca838e269f955270ab057146a49bbe1a400005a0a2442c9dc1628"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_003000.bin": {
+      "name": "rij_003000.bin",
+      "bytes": 28,
+      "sha256": "554a8a3eb7aa42c67398f5f784dc1ce6d86a5063ea5bd0ce981cf4bca9100f5a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_004000.bin": {
+      "name": "rij_004000.bin",
+      "bytes": 28,
+      "sha256": "9f484bc0cf5f73af9150db25553cadc8ad81c986374f417d5042de3e2c7a9eb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_005000.bin": {
+      "name": "rij_005000.bin",
+      "bytes": 28,
+      "sha256": "c4de560e8952aeb303b715aa88fac8a0fa5f1858866644cf5d66f7f4139bbdf1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_006000.bin": {
+      "name": "rij_006000.bin",
+      "bytes": 28,
+      "sha256": "2ec915396094a49b4336d0deedaf21b2ed559c99d0dc4d444c0174304d2b4970"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_007000.bin": {
+      "name": "rij_007000.bin",
+      "bytes": 28,
+      "sha256": "306887d439cd8a3257efc6639a89e8d3bf8bba507585df173701a8e245594925"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_008000.bin": {
+      "name": "rij_008000.bin",
+      "bytes": 28,
+      "sha256": "80fb1a0bd513380f0789f8388f388b20a1f28e0a50503fac580cb544ce9fa71d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rij_meta.txt": {
+      "name": "rij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_001000.bin": {
+      "name": "rji_001000.bin",
+      "bytes": 28,
+      "sha256": "331ba5ccdce14836f08405d7be24949568b9159312f82fa6c30d64e0ff900584"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_002000.bin": {
+      "name": "rji_002000.bin",
+      "bytes": 28,
+      "sha256": "2c8f4a71a8d579515587f96c720126a57ad6fb86e6c939e38b5700026ceb4388"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_003000.bin": {
+      "name": "rji_003000.bin",
+      "bytes": 28,
+      "sha256": "4daf0a39012a874ed91682f920babbe528c393d9079e3de2755b172b929cc33e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_004000.bin": {
+      "name": "rji_004000.bin",
+      "bytes": 28,
+      "sha256": "0d72650a2cefa336dd67c7e01c544084208ab47d3399a0d5e2d0ef6b777c7f5a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_005000.bin": {
+      "name": "rji_005000.bin",
+      "bytes": 28,
+      "sha256": "405ec9b538e5fc21b475f459d53b44290fd15402f080f322dfa52a84b8fd80dd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_006000.bin": {
+      "name": "rji_006000.bin",
+      "bytes": 28,
+      "sha256": "2ad25e95af933142777ef7079e0d7466e85349f4a8ec73437830550f34d23d0c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_007000.bin": {
+      "name": "rji_007000.bin",
+      "bytes": 28,
+      "sha256": "04b61705b5f142c2eb76a2d1a0b67b8cf7f5849acfc264d804ef1157c0fc319d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_008000.bin": {
+      "name": "rji_008000.bin",
+      "bytes": 28,
+      "sha256": "e5489c6ecddfeb5a2fe9a6f7688d6a2749d4efc400904715a7d0d7de6a4eeefb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/save/rji_meta.txt": {
+      "name": "rji_meta.txt",
+      "bytes": 7005,
+      "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native/sets.txt": {
+      "name": "sets.txt",
+      "bytes": 135,
+      "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/native.log": {
+      "name": "native.log",
+      "bytes": 3534,
+      "sha256": "03761b5276efde932958ea1d0dacc94a4ff4d93e586e2ef35df4ff3225b50893"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/output_wavelengths_vac_A.txt": {
+      "name": "output_wavelengths_vac_A.txt",
+      "bytes": 111690,
+      "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/rank.lock": {
+      "name": "rank.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-native-gross-grid-refined2-v1/report.json": {
+      "name": "report.json",
+      "bytes": 92182,
+      "sha256": "4e5f7e331bcd2453eb8e1a1fc45cd0048e807baa0020cffffb96762fe54d1d38"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/frequency_grid_vac_A.txt": {
+      "name": "frequency_grid_vac_A.txt",
+      "bytes": 2065234,
+      "sha256": "48d4837fb93f3bfa4096b501c2edf68c800f4adebab51a24c0714bc88ac508f2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/input.nml": {
+      "name": "input.nml",
+      "bytes": 1205,
+      "sha256": "a792ffc33124ca98ec6cc81bb93a6935e5be04c1856555670cd31602c2e285b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/abund.txt": {
+      "name": "abund.txt",
+      "bytes": 1104,
+      "sha256": "dfe0f31d137bb2a1f3afe126416435edd03c7a25f38a246a0f6c99a65eb97c68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/angle_quadrature.txt": {
+      "name": "angle_quadrature.txt",
+      "bytes": 104,
+      "sha256": "8880298dbc874f67aefdd2622021fa7901afe374900812d14642ffdc6c33ac6e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/atmos_mesh.txt": {
+      "name": "atmos_mesh.txt",
+      "bytes": 928,
+      "sha256": "3585dd9be33eaafeea82553e8510eb5755aa0f1fc636b90e7b712c60436d21c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/atoms/O.txt": {
+      "name": "O.txt",
+      "bytes": 246913,
+      "sha256": "362c6f8c5b173e845469999014ae01c05e4cf0f63699fec134209340645b12e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/convergence_report_000.txt": {
+      "name": "convergence_report_000.txt",
+      "bytes": 798,
+      "sha256": "a3bba29551ffe84f0a973d52206c36530cf473420e9fbd7ffd4ed87aeb45d71e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/hash.log": {
+      "name": "hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/job.nml": {
+      "name": "job.nml",
+      "bytes": 8760,
+      "sha256": "80b3a80762e966adfb4cee41ff493b3428c3085235ce71bcc407b5c4de6c9a72"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/linelist_out.txt": {
+      "name": "linelist_out.txt",
+      "bytes": 27406,
+      "sha256": "a0d8fd2db5909709b036f5587af8f8780289b22cdf485d3ded6ddc404fbce384"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/params.nml": {
+      "name": "params.nml",
+      "bytes": 81451,
+      "sha256": "cc42e7dc44e41c7b9504a680a850227c84d375cae896008a8452dfc0d84804cc"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.dbg": {
+      "name": "rank_00000.dbg",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.disp": {
+      "name": "rank_00000.disp",
+      "bytes": 102336,
+      "sha256": "6d4a099ae262f6a896783e85df18183f928137c51b5e7270ab93da28a9118393"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.dump": {
+      "name": "rank_00000.dump",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.log": {
+      "name": "rank_00000.log",
+      "bytes": 39971,
+      "sha256": "e7d4a896f0c9775483e587329d56b7b6a0729e82b762e9929201c62d81e4efd7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.pdat": {
+      "name": "rank_00000.pdat",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.pinf": {
+      "name": "rank_00000.pinf",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.que": {
+      "name": "rank_00000.que",
+      "bytes": 1688,
+      "sha256": "0a9aab395d4464e8793431df8c8c4e74e1248dba543dbf29db02bffe420cbbe2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/rank_00000.val": {
+      "name": "rank_00000.val",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_001001001.bin": {
+      "name": "Jnu_001001001.bin",
+      "bytes": 1204672,
+      "sha256": "1a0077a2f99533122a68439b5da9f917e95806b4e006a0731276c73ae1238e32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_001001002.bin": {
+      "name": "Jnu_001001002.bin",
+      "bytes": 1204672,
+      "sha256": "1a0077a2f99533122a68439b5da9f917e95806b4e006a0731276c73ae1238e32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_001002001.bin": {
+      "name": "Jnu_001002001.bin",
+      "bytes": 1204672,
+      "sha256": "377f1c3f19460681eab2d1eefcd26cd450e84d12977c8846ec3db1ee91e754f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_001002002.bin": {
+      "name": "Jnu_001002002.bin",
+      "bytes": 1204672,
+      "sha256": "377f1c3f19460681eab2d1eefcd26cd450e84d12977c8846ec3db1ee91e754f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_002001001.bin": {
+      "name": "Jnu_002001001.bin",
+      "bytes": 1204672,
+      "sha256": "fdbc5c7c9020757d32bf3f48c9d6ec8d71eeaba5cfa32ce3a6a857d2619db397"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_002001002.bin": {
+      "name": "Jnu_002001002.bin",
+      "bytes": 1204672,
+      "sha256": "fdbc5c7c9020757d32bf3f48c9d6ec8d71eeaba5cfa32ce3a6a857d2619db397"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_002002001.bin": {
+      "name": "Jnu_002002001.bin",
+      "bytes": 1204672,
+      "sha256": "5d18338ed6e29539c35daff448095de885b3a24c03cb6785e4651f617e12b115"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_002002002.bin": {
+      "name": "Jnu_002002002.bin",
+      "bytes": 1204672,
+      "sha256": "5d18338ed6e29539c35daff448095de885b3a24c03cb6785e4651f617e12b115"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_003001001.bin": {
+      "name": "Jnu_003001001.bin",
+      "bytes": 1204672,
+      "sha256": "fda9f8c43f43db3ecf4b9dddff00afd1091ec4087a84ab72c849e855e2da4c32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_003001002.bin": {
+      "name": "Jnu_003001002.bin",
+      "bytes": 1204672,
+      "sha256": "fda9f8c43f43db3ecf4b9dddff00afd1091ec4087a84ab72c849e855e2da4c32"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_003002001.bin": {
+      "name": "Jnu_003002001.bin",
+      "bytes": 1204672,
+      "sha256": "f02dc694ca0d2110994da35b6c7708c7905f5dabe3b30dec35b226a3fedd0995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_003002002.bin": {
+      "name": "Jnu_003002002.bin",
+      "bytes": 1204672,
+      "sha256": "f02dc694ca0d2110994da35b6c7708c7905f5dabe3b30dec35b226a3fedd0995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_004001001.bin": {
+      "name": "Jnu_004001001.bin",
+      "bytes": 1204672,
+      "sha256": "6ca7e92bbd9eb2081c3f50211cff01d0fce5f025c04e0d7e5b8b1123da0470a0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_004001002.bin": {
+      "name": "Jnu_004001002.bin",
+      "bytes": 1204672,
+      "sha256": "6ca7e92bbd9eb2081c3f50211cff01d0fce5f025c04e0d7e5b8b1123da0470a0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_004002001.bin": {
+      "name": "Jnu_004002001.bin",
+      "bytes": 1204672,
+      "sha256": "abd3d5504454a477cf232a4ed756e683d606b2d5488a97cdc6d220fc90b9503e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_004002002.bin": {
+      "name": "Jnu_004002002.bin",
+      "bytes": 1204672,
+      "sha256": "abd3d5504454a477cf232a4ed756e683d606b2d5488a97cdc6d220fc90b9503e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_005001001.bin": {
+      "name": "Jnu_005001001.bin",
+      "bytes": 1204672,
+      "sha256": "ba357fb8616b4b9999a870d37e7716d5e54654a2ee0adac7f69aa01cb97279e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_005001002.bin": {
+      "name": "Jnu_005001002.bin",
+      "bytes": 1204672,
+      "sha256": "ba357fb8616b4b9999a870d37e7716d5e54654a2ee0adac7f69aa01cb97279e6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_005002001.bin": {
+      "name": "Jnu_005002001.bin",
+      "bytes": 1204672,
+      "sha256": "f4f391a48e2cfc8ed5fcc7ec51c05865e4242667ee1365fa0dcec9806e4b1686"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_005002002.bin": {
+      "name": "Jnu_005002002.bin",
+      "bytes": 1204672,
+      "sha256": "f4f391a48e2cfc8ed5fcc7ec51c05865e4242667ee1365fa0dcec9806e4b1686"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_006001001.bin": {
+      "name": "Jnu_006001001.bin",
+      "bytes": 1204672,
+      "sha256": "df1f57d4f28bcab20fe3dc510aa15aca9eac2fb8331de98277786c52a90cb41b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_006001002.bin": {
+      "name": "Jnu_006001002.bin",
+      "bytes": 1204672,
+      "sha256": "df1f57d4f28bcab20fe3dc510aa15aca9eac2fb8331de98277786c52a90cb41b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_006002001.bin": {
+      "name": "Jnu_006002001.bin",
+      "bytes": 1204672,
+      "sha256": "6cd07ecd726f27e5f449eafa1cdac3b65f595dc37b31e1712a8542f885cee952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_006002002.bin": {
+      "name": "Jnu_006002002.bin",
+      "bytes": 1204672,
+      "sha256": "6cd07ecd726f27e5f449eafa1cdac3b65f595dc37b31e1712a8542f885cee952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_007001001.bin": {
+      "name": "Jnu_007001001.bin",
+      "bytes": 1204672,
+      "sha256": "94197ea9eed889d0195dc4d0457698de9bc96b014db4a791400346577685e2f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_007001002.bin": {
+      "name": "Jnu_007001002.bin",
+      "bytes": 1204672,
+      "sha256": "94197ea9eed889d0195dc4d0457698de9bc96b014db4a791400346577685e2f3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_007002001.bin": {
+      "name": "Jnu_007002001.bin",
+      "bytes": 1204672,
+      "sha256": "702f65752844aa0b9c6442da3da360e8d42789bf415700f0e4534e53eade497b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_007002002.bin": {
+      "name": "Jnu_007002002.bin",
+      "bytes": 1204672,
+      "sha256": "702f65752844aa0b9c6442da3da360e8d42789bf415700f0e4534e53eade497b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_008001001.bin": {
+      "name": "Jnu_008001001.bin",
+      "bytes": 1204672,
+      "sha256": "849e4b46cf6123fd5820a5a0255ca02e1c33e6fbe6bd2b751e370bcab0dc8d4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_008001002.bin": {
+      "name": "Jnu_008001002.bin",
+      "bytes": 1204672,
+      "sha256": "849e4b46cf6123fd5820a5a0255ca02e1c33e6fbe6bd2b751e370bcab0dc8d4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_008002001.bin": {
+      "name": "Jnu_008002001.bin",
+      "bytes": 1204672,
+      "sha256": "61bd6d2bdb1d36b77a6c39fe6e810f4cb4888642aa9decdd00dc3f56ef562ed6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_008002002.bin": {
+      "name": "Jnu_008002002.bin",
+      "bytes": 1204672,
+      "sha256": "61bd6d2bdb1d36b77a6c39fe6e810f4cb4888642aa9decdd00dc3f56ef562ed6"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/Jnu_meta.txt": {
+      "name": "Jnu_meta.txt",
+      "bytes": 36229,
+      "sha256": "fadba00ceda12aa729ed1fe73ae87fe1aba55da2813aa35be29f1a72cd5bf9d0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/O_c_008000.bin": {
+      "name": "O_c_008000.bin",
+      "bytes": 6724,
+      "sha256": "2536e29cf0f7539b2ab76e50ac7f2c09c9a23a7179eedd41db5b7193393d211d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/O_c_meta.txt": {
+      "name": "O_c_meta.txt",
+      "bytes": 94,
+      "sha256": "1e76096315851850fdb5b03536d7cb3b20957947e3693bf5a8d56f716d90b952"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/O_w_008000.bin": {
+      "name": "O_w_008000.bin",
+      "bytes": 6724,
+      "sha256": "5eba03e58a1511305ef2bddd4a3c11b657b076c4b281af87405bd643447cfabb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/O_w_meta.txt": {
+      "name": "O_w_meta.txt",
+      "bytes": 94,
+      "sha256": "d8b04d5b176631e6a9fd6af92a9c88745aebf6796f7d162e0dd50be8f57395fe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/all_lam.bin": {
+      "name": "all_lam.bin",
+      "bytes": 688384,
+      "sha256": "56a87db22a71148b7ea0f723cee36dd7bc7b7763f73ed3956cd8ba98855ac75e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_001000.bin": {
+      "name": "atmos_001000.bin",
+      "bytes": 392,
+      "sha256": "79b0292116abcee513d60984200ed22f57de17375bc86af4b023bfbef28bcfc8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_002000.bin": {
+      "name": "atmos_002000.bin",
+      "bytes": 392,
+      "sha256": "531ad0335a86508e22f3ce3b01ab5739ea39b8a02a0b362fc99c07e05859209d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_003000.bin": {
+      "name": "atmos_003000.bin",
+      "bytes": 392,
+      "sha256": "ce21c684139e03263c52e600cc8ca4b40e65432a95556126e0431cceb550ba80"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_004000.bin": {
+      "name": "atmos_004000.bin",
+      "bytes": 392,
+      "sha256": "42d5692ee81b363a3702c0f1d854ec4c61e741a58d73adc2ef7507e2707d88ce"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_005000.bin": {
+      "name": "atmos_005000.bin",
+      "bytes": 392,
+      "sha256": "3ae7b3d1d1c58d45676c76b2eccf753ddb9990b949eb07a53b38980b2894bd24"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_006000.bin": {
+      "name": "atmos_006000.bin",
+      "bytes": 392,
+      "sha256": "c8009baed4575be225420cf55b2cdd74e7253f296e0298b5156ccc48673f54cd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_007000.bin": {
+      "name": "atmos_007000.bin",
+      "bytes": 392,
+      "sha256": "1d42c350689215cbea8def1e250ae566ce5da806c59a4e18f440c4274698526e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_008000.bin": {
+      "name": "atmos_008000.bin",
+      "bytes": 392,
+      "sha256": "49afbf221a29cbb6e091401e81657c17a24e3eff9de3a1aeb9f229ec20792f9c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/atmos_meta.txt": {
+      "name": "atmos_meta.txt",
+      "bytes": 733,
+      "sha256": "9e659b7d34af195caa6510ddee1c587f1af3164c124b33c818a897338c4edc71"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_001000.bin": {
+      "name": "cij_001000.bin",
+      "bytes": 28,
+      "sha256": "0deabd712d7318a8e4bbaede1944efe7df32b3a1713a54e83aac5a1824b596ac"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_002000.bin": {
+      "name": "cij_002000.bin",
+      "bytes": 28,
+      "sha256": "9986f38a5006a948d78b4d4c5c0cb5bd2740dacfd16f9e86c28e8ea6245a21f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_003000.bin": {
+      "name": "cij_003000.bin",
+      "bytes": 28,
+      "sha256": "8160ce718ec641697dfac4a2b700d4908817df678e6e1b414cd154a8164656f0"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_004000.bin": {
+      "name": "cij_004000.bin",
+      "bytes": 28,
+      "sha256": "a9e01d52b77eee2cd3d17e8a107be85da0748982bb9dad977cf66724eb7b8638"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_005000.bin": {
+      "name": "cij_005000.bin",
+      "bytes": 28,
+      "sha256": "0745f37e73241263651877bd321ea9a12e528bfc38007f9878d7c51c66a9f6a1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_006000.bin": {
+      "name": "cij_006000.bin",
+      "bytes": 28,
+      "sha256": "e2bb4f2bba6cd43b63f7f68d91c33b20ab7d6ef8f2456928e04f346f4a316a08"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_007000.bin": {
+      "name": "cij_007000.bin",
+      "bytes": 28,
+      "sha256": "77cc2e9784a54aacf5c87cf939e6a8774f5b9b683d61ca95c4811a73c9419309"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_008000.bin": {
+      "name": "cij_008000.bin",
+      "bytes": 28,
+      "sha256": "8e0643dc9772155ab29dad6b19c97e1e8b62ef4ee5e8f7c80df22e0a8ce8608e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cij_meta.txt": {
+      "name": "cij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0c1e250e9030e87fcd8c7742dab6fe9341ae695e85f7c0ec6f468af87b900c25"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_001000.bin": {
+      "name": "cji_001000.bin",
+      "bytes": 28,
+      "sha256": "ea1f1e9b0a5bf87284ef318e1c87b559d9b0ad8580b7480ad94692295bcae854"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_002000.bin": {
+      "name": "cji_002000.bin",
+      "bytes": 28,
+      "sha256": "ea1643502036b66af63dc2af226704e7bd04dde594220b1ecb8876a0950a64eb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_003000.bin": {
+      "name": "cji_003000.bin",
+      "bytes": 28,
+      "sha256": "34fb4ccea8319868bc917e8847a101eb5e7dbe43bd6ee0a34140fe21800b5d1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_004000.bin": {
+      "name": "cji_004000.bin",
+      "bytes": 28,
+      "sha256": "8168d070f3359498f4158eba10edca92a0b0bc05d0285cde601bf9503d4d8c2a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_005000.bin": {
+      "name": "cji_005000.bin",
+      "bytes": 28,
+      "sha256": "a61689c06775c5acb18a6a2c2adc1a52cb4b9c3d9fa19a0ab4ea272a774eeac8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_006000.bin": {
+      "name": "cji_006000.bin",
+      "bytes": 28,
+      "sha256": "dbe412d4f941866db09c5e861c088399056e615bef9f30fd06b16efec5ebf221"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_007000.bin": {
+      "name": "cji_007000.bin",
+      "bytes": 28,
+      "sha256": "ba6b066be160ba3606f1331fdf839f0ed9aa2eb0496378cd892034dc6f57b18c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_008000.bin": {
+      "name": "cji_008000.bin",
+      "bytes": 28,
+      "sha256": "57da6d5c21f9fc608479de0dbd5fd50f75634098fec9be49848c65a323246d96"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/cji_meta.txt": {
+      "name": "cji_meta.txt",
+      "bytes": 7005,
+      "sha256": "210754fe52605eca81162c20d1f34fdb0312e738a7d40fd35afe6a1fdc04c3bf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00001.bin": {
+      "name": "colrates_O_00001.bin",
+      "bytes": 22976,
+      "sha256": "761b5fb1f857b21d7b0b352970b151522e6327bbd914fb64dee19ffa9ebda7fb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00008.bin": {
+      "name": "colrates_O_00008.bin",
+      "bytes": 22976,
+      "sha256": "894c65260e045fb30680459b01222ac41fa516457814e7e930d11cc19b1cef16"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00015.bin": {
+      "name": "colrates_O_00015.bin",
+      "bytes": 22976,
+      "sha256": "91a17c70368494d95ff664eef5ea60858a2b30195475942d8cfad86238a0b7c2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00022.bin": {
+      "name": "colrates_O_00022.bin",
+      "bytes": 22976,
+      "sha256": "18b4ee911d95d443fc9a718473547f8a3edbe3337ef9a58b0bc72582442d5b0d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00029.bin": {
+      "name": "colrates_O_00029.bin",
+      "bytes": 22976,
+      "sha256": "0ce2a63f107c32d9e8f56942646ef5b5da3f77a8b38ffcf255bda66b8c4f1fd2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00036.bin": {
+      "name": "colrates_O_00036.bin",
+      "bytes": 22976,
+      "sha256": "aaf693d241ff1c2ed12b33e45428d3380a542a6a9ae2a67817c1eeca4ee9e4f7"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00043.bin": {
+      "name": "colrates_O_00043.bin",
+      "bytes": 22976,
+      "sha256": "20fe96cb680f8d3c503434b9216e3d44dc9b99308f145d4b2d08e9d6d42c9f97"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/colrates_O_00050.bin": {
+      "name": "colrates_O_00050.bin",
+      "bytes": 22976,
+      "sha256": "fd78412d2b1fe2b89571a727471280346f50528033bec6bcef5ce9e1a70814bb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_001000.bin": {
+      "name": "eos_001000.bin",
+      "bytes": 56,
+      "sha256": "14828b7aaf50ddefc2327c83ef208af0522ced3a0e09bcea8b2fa99cd4e2d0aa"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_002000.bin": {
+      "name": "eos_002000.bin",
+      "bytes": 56,
+      "sha256": "aae8e5cf2fe7b3bba312c7a2ff79c0d27e800fc67a18ad855f017f3aacb6802c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_003000.bin": {
+      "name": "eos_003000.bin",
+      "bytes": 56,
+      "sha256": "57ca8061d6e13ece6db014dbd2e965a74d1593a3df2d1a7882d55970c7b6e847"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_004000.bin": {
+      "name": "eos_004000.bin",
+      "bytes": 56,
+      "sha256": "103be4f010a4870931225f3f647e6255906bfeee04883018204ba6f4adc44f1b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_005000.bin": {
+      "name": "eos_005000.bin",
+      "bytes": 56,
+      "sha256": "d24c3bca3fa42dea7f7e973cef532d4142ead83b203d849b51dd7148762a10c9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_006000.bin": {
+      "name": "eos_006000.bin",
+      "bytes": 56,
+      "sha256": "baf125ad20719ce34d18f151374d108183c074888d9dd49fc9661b9a79ec7c88"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_007000.bin": {
+      "name": "eos_007000.bin",
+      "bytes": 56,
+      "sha256": "0a456d3461302f2eb3ee3c893322ae11b33737c13a67ac87898ee82128e7f808"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_008000.bin": {
+      "name": "eos_008000.bin",
+      "bytes": 56,
+      "sha256": "075443ad930cf1a2057d7f241038d885e97b36e3c13ca88b4396d350072571f5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/eos_meta.txt": {
+      "name": "eos_meta.txt",
+      "bytes": 653,
+      "sha256": "36ff65f76c7550944eb936aa68d95283e1c7d0dadf9d711294a1c1269ed379b2"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/flux_008001.bin": {
+      "name": "flux_008001.bin",
+      "bytes": 37236,
+      "sha256": "c561c845d4de336ae69d724282dffb0e293aa38a912f7e19d20975a2abb7ef68"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/flux_008002.bin": {
+      "name": "flux_008002.bin",
+      "bytes": 37224,
+      "sha256": "1d75c3e3aea9f211173c0fbf36623f7e0a9f25d83ec47767d2e0b00e46680424"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/flux_meta.txt": {
+      "name": "flux_meta.txt",
+      "bytes": 211,
+      "sha256": "1e4371ffb9ee888bc446314950faa803c83b93963081a52b41b79d6cb024b995"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/ie_008001.bin": {
+      "name": "ie_008001.bin",
+      "bytes": 37236,
+      "sha256": "eb63a2122c9d0f7f2b530da53fc5a92990273c5541c7e6711c8f6b2b62d915d3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/ie_008002.bin": {
+      "name": "ie_008002.bin",
+      "bytes": 37224,
+      "sha256": "64b42d633eac3a291bc35a4b5fa52ade313c6d8507bb3b862616b6084184a3ef"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/ie_meta.txt": {
+      "name": "ie_meta.txt",
+      "bytes": 211,
+      "sha256": "fecd0bb7eed998e3dd3b530c5e5b01f4d0fff3637cd017d578a54107762fd341"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/out_lam.bin": {
+      "name": "out_lam.bin",
+      "bytes": 49640,
+      "sha256": "22a06b6701420ef40943c53e5ee46dc4ba25eb4783ddcf233d3c4dc1fb0f3abf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_001000.bin": {
+      "name": "pop_O_001000.bin",
+      "bytes": 2296,
+      "sha256": "2dc19f2361723e00868e7cb53cb9cd791077bc252bba0439c1f861f0dad900c8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_002000.bin": {
+      "name": "pop_O_002000.bin",
+      "bytes": 2296,
+      "sha256": "e6514aca20e66d57ae2e07c6c8bd91b952785bce830a02a8bbb8a937394edc40"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_003000.bin": {
+      "name": "pop_O_003000.bin",
+      "bytes": 2296,
+      "sha256": "b26be7759dd99ffb72f72481dc1bd84e4a65bda4a309d3992764f60b403aee11"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_004000.bin": {
+      "name": "pop_O_004000.bin",
+      "bytes": 2296,
+      "sha256": "aeeca16d379bb4e1932f51b75eb32fb378353e0a76a532bf3b3625147088d5d5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_005000.bin": {
+      "name": "pop_O_005000.bin",
+      "bytes": 2296,
+      "sha256": "0d17000609a31966097e3293c8663de4b00d866ba81490109b2640fddc94b274"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_006000.bin": {
+      "name": "pop_O_006000.bin",
+      "bytes": 2296,
+      "sha256": "d56e6d72c23e15415cc53ccdf7120f9819266b3cde00cf57b0854da6bf5dae75"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_007000.bin": {
+      "name": "pop_O_007000.bin",
+      "bytes": 2296,
+      "sha256": "205a24db541b0bae7cba4e5213c9c7b09e1c0ff3a87e60f29ed0be2227f96c91"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_008000.bin": {
+      "name": "pop_O_008000.bin",
+      "bytes": 2296,
+      "sha256": "53ba928b32bf6b98b471f478e0a295e3051aaa97099b9375cd32c918801d0017"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/pop_O_meta.txt": {
+      "name": "pop_O_meta.txt",
+      "bytes": 813,
+      "sha256": "cef52fef4caad3c54c9a8e74ed4f99ad1191b0cc6e66912011044e76db1a025e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00001.bin": {
+      "name": "rates_O_00001.bin",
+      "bytes": 23624,
+      "sha256": "8e909b7d34b4ef93f299802318a59064fe8e204fa36fb97cef0b651d1da937b5"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00008.bin": {
+      "name": "rates_O_00008.bin",
+      "bytes": 23624,
+      "sha256": "f185a4bd6b5fbbe78a4ca32d5d886e87b69367f8efe079df86a830989bac610e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00015.bin": {
+      "name": "rates_O_00015.bin",
+      "bytes": 23624,
+      "sha256": "a376148479a1f96bc6a1bf1d202687a4a58e8be390f634e2cf4e33c0bb16076c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00022.bin": {
+      "name": "rates_O_00022.bin",
+      "bytes": 23624,
+      "sha256": "de48874e7d885b4f589816d9dd5974362b8863c7e88396278305f6fd143d8aa9"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00029.bin": {
+      "name": "rates_O_00029.bin",
+      "bytes": 23624,
+      "sha256": "5c339150cf238823a89e58e99a030fe740d823a152491bd193587ce52c8722ca"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00036.bin": {
+      "name": "rates_O_00036.bin",
+      "bytes": 23624,
+      "sha256": "10d485d8813c7075bb1ea741ba98dc502cc1764876bad0d3466e45859d4b47cf"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00043.bin": {
+      "name": "rates_O_00043.bin",
+      "bytes": 23624,
+      "sha256": "b2c377eb14ef08bbaadc8002e7b2575bde3d9c873d5db79e856d563cabf9cbef"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rates_O_00050.bin": {
+      "name": "rates_O_00050.bin",
+      "bytes": 23624,
+      "sha256": "f346a44d1772e1b2c04a3a22c0f301744ee89b95756bad75baf11340fc71b862"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_001000.bin": {
+      "name": "rij_001000.bin",
+      "bytes": 28,
+      "sha256": "3570aefcbc0805bd71760807cc93abd3ad2f65035dc351572ca8a35c7efc7f3f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_002000.bin": {
+      "name": "rij_002000.bin",
+      "bytes": 28,
+      "sha256": "38ce3a90e5fca838e269f955270ab057146a49bbe1a400005a0a2442c9dc1628"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_003000.bin": {
+      "name": "rij_003000.bin",
+      "bytes": 28,
+      "sha256": "554a8a3eb7aa42c67398f5f784dc1ce6d86a5063ea5bd0ce981cf4bca9100f5a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_004000.bin": {
+      "name": "rij_004000.bin",
+      "bytes": 28,
+      "sha256": "9f484bc0cf5f73af9150db25553cadc8ad81c986374f417d5042de3e2c7a9eb3"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_005000.bin": {
+      "name": "rij_005000.bin",
+      "bytes": 28,
+      "sha256": "c4de560e8952aeb303b715aa88fac8a0fa5f1858866644cf5d66f7f4139bbdf1"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_006000.bin": {
+      "name": "rij_006000.bin",
+      "bytes": 28,
+      "sha256": "2ec915396094a49b4336d0deedaf21b2ed559c99d0dc4d444c0174304d2b4970"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_007000.bin": {
+      "name": "rij_007000.bin",
+      "bytes": 28,
+      "sha256": "306887d439cd8a3257efc6639a89e8d3bf8bba507585df173701a8e245594925"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_008000.bin": {
+      "name": "rij_008000.bin",
+      "bytes": 28,
+      "sha256": "80fb1a0bd513380f0789f8388f388b20a1f28e0a50503fac580cb544ce9fa71d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rij_meta.txt": {
+      "name": "rij_meta.txt",
+      "bytes": 7005,
+      "sha256": "0f03e39337fbb7702c0b197657e7553d1ad51bf8b46c43452d8de40e42294943"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_001000.bin": {
+      "name": "rji_001000.bin",
+      "bytes": 28,
+      "sha256": "331ba5ccdce14836f08405d7be24949568b9159312f82fa6c30d64e0ff900584"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_002000.bin": {
+      "name": "rji_002000.bin",
+      "bytes": 28,
+      "sha256": "2c8f4a71a8d579515587f96c720126a57ad6fb86e6c939e38b5700026ceb4388"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_003000.bin": {
+      "name": "rji_003000.bin",
+      "bytes": 28,
+      "sha256": "4daf0a39012a874ed91682f920babbe528c393d9079e3de2755b172b929cc33e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_004000.bin": {
+      "name": "rji_004000.bin",
+      "bytes": 28,
+      "sha256": "0d72650a2cefa336dd67c7e01c544084208ab47d3399a0d5e2d0ef6b777c7f5a"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_005000.bin": {
+      "name": "rji_005000.bin",
+      "bytes": 28,
+      "sha256": "405ec9b538e5fc21b475f459d53b44290fd15402f080f322dfa52a84b8fd80dd"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_006000.bin": {
+      "name": "rji_006000.bin",
+      "bytes": 28,
+      "sha256": "2ad25e95af933142777ef7079e0d7466e85349f4a8ec73437830550f34d23d0c"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_007000.bin": {
+      "name": "rji_007000.bin",
+      "bytes": 28,
+      "sha256": "04b61705b5f142c2eb76a2d1a0b67b8cf7f5849acfc264d804ef1157c0fc319d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_008000.bin": {
+      "name": "rji_008000.bin",
+      "bytes": 28,
+      "sha256": "e5489c6ecddfeb5a2fe9a6f7688d6a2749d4efc400904715a7d0d7de6a4eeefb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/save/rji_meta.txt": {
+      "name": "rji_meta.txt",
+      "bytes": 7005,
+      "sha256": "624e333bdea6e76421b6f6cde1309ef0728fb65df2dfbf01c28fae8f4806b44d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native/sets.txt": {
+      "name": "sets.txt",
+      "bytes": 135,
+      "sha256": "fe49e81629809a50c49030ec1a7c95c22164f617aeca9a34bcb5ddf4617e1b4b"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/native.log": {
+      "name": "native.log",
+      "bytes": 3324,
+      "sha256": "2f9f2407520f6f7183dbda5e85b41ad81045d87c713ee1aab16f1b44bee14ac8"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/output_wavelengths_vac_A.txt": {
+      "name": "output_wavelengths_vac_A.txt",
+      "bytes": 111690,
+      "sha256": "275b423372c0b39a92817865eaacdc9bf6316db12671529c6c69bb0cc19f1435"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/rank.lock": {
+      "name": "rank.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-grid-refined2-v1/report.json": {
+      "name": "report.json",
+      "bytes": 40126,
+      "sha256": "d5cbe9f22d894b303ea8c6521ac5fb856203e731b529d96e555c33463d4fa92b"
+    }
+  },
+  "scientific_admission": "HOLD",
+  "computational_completed": true,
+  "original_binary_files_bit_identical": 112,
+  "final_stage": [
+    {
+      "zs": 1,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 5.201130261532685e-08,
+      "post_update_max_population_change": 2.731148640577885e-14,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 8,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 3.0555995946965406e-08,
+      "post_update_max_population_change": 2.842170943040401e-14,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 15,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 6.893809681609926e-08,
+      "post_update_max_population_change": 3.3465008542066244e-11,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 22,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 4.689688971226416e-08,
+      "post_update_max_population_change": 3.780249113738421e-09,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 29,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 8.962659904023499e-07,
+      "post_update_max_population_change": 6.1460518896439e-09,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 36,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 9.770698952202579e-07,
+      "post_update_max_population_change": 3.860521990972643e-08,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 43,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 6.45666603719872e-08,
+      "post_update_max_population_change": 5.189710094999356e-08,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    },
+    {
+      "zs": 50,
+      "iteration": 13,
+      "physical_residual_at_actual_radiation_population": 8.816145373585848e-08,
+      "post_update_max_population_change": 4.8133370866843e-07,
+      "integrals": {
+        "records": 24,
+        "kind_window_direction": [
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            2,
+            1,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            1,
+            43025,
+            1
+          ],
+          [
+            2,
+            43025,
+            1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            1,
+            1,
+            -1
+          ],
+          [
+            2,
+            1,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            1,
+            43025,
+            -1
+          ],
+          [
+            2,
+            43025,
+            -1
+          ]
+        ],
+        "accumulation": "float64 sum of source float32 contributions; not source summation-order replay"
+      }
+    }
+  ],
+  "records": 192,
+  "max_physical_residual": 9.770698952202579e-07,
+  "max_update_relative": 4.8133370866843e-07,
+  "semantics": "Unpreconditioned rate integrations at exact PRE-update radiation populations; not a new formal solve at post-update populations. FP32 native contributions accumulated in FP64; physical conventions and source data remain independently unvalidated."
+}

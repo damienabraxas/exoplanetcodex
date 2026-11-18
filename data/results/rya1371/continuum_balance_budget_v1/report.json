@@ -1,0 +1,363 @@
+{
+  "generator": {
+    "name": "audit_oxygen_continuum_balance_budget.py",
+    "bytes": 8027,
+    "sha256": "03334daf682f955d064ec23eb8bf5aa2e3e15f542131daf8c648269f2064ed07"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_oxygen_continuum_balance_budget.py": {
+      "name": "audit_oxygen_continuum_balance_budget.py",
+      "bytes": 8027,
+      "sha256": "03334daf682f955d064ec23eb8bf5aa2e3e15f542131daf8c648269f2064ed07"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217497,
+      "sha256": "b52f11c4023321be320d3e7796d08ce768ee681686b2ed6b2b4e18b14191599f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 8464788,
+      "sha256": "6e61abe9b3e873ffe7b5127350f136509c563d92142ddec46e30cbe45544dc66"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96594,
+      "sha256": "5592e819af5dfa83d45f285775183c22ba0270711130402e86b46f2c1f532acb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249823,
+      "sha256": "5f487948fd2aa8719750361230540afd65324c4583ccd152844d478debeaa370"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217525,
+      "sha256": "834386ce4849ccd737a062ddd00f1af8f4d6a6a29e47fb4ec2059dc605609ebe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582505,
+      "sha256": "5ba7d60291dda56c069991b357926995f8e85b372e69a297d0fc19670fbc6503"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96609,
+      "sha256": "1f094ff5242808fc34149141d9f57b72bf971bf4dd741917302b045d033add44"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249790,
+      "sha256": "b715511d0f6afc1ad488452d9c494ab77d75085949d38fd144eb2313637f1901"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    }
+  },
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "nodes": [
+    17263,
+    19963
+  ],
+  "peak_balance": {
+    "level_1based": 40,
+    "depth_top_to_bottom": 3,
+    "signed_residual": -0.0008570426364037779,
+    "signed_native_rate_gap": -0.000857050880783168,
+    "signed_BF_native_gap": -0.000857050880783168,
+    "signed_BB_native_gap": 0.0,
+    "signed_mesh_step": -4.3979023073488397e-07,
+    "signed_BF_mesh_step": -4.3979023073488397e-07,
+    "signed_BB_mesh_step": 0.0,
+    "BF_pair_L1_mesh_step": 5.372702320237474e-07
+  },
+  "peak_BF_pairs": [
+    {
+      "lower_1based": 6,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": -1.3752587895191078e-06,
+      "down_relative_mesh_step": -1.959499519522867e-08,
+      "signed_upper_mesh_balance_step": -3.3926290021659127e-07,
+      "signed_lower_mesh_balance_step": 2.4888126018762787e-09,
+      "signed_upper_native_gap": -0.0006814166436924085,
+      "signed_lower_native_gap": 4.998832259192506e-06,
+      "signed_peak_native_gap": -0.0006814166436924085,
+      "signed_peak_mesh_step": -3.3926290021659127e-07
+    },
+    {
+      "lower_1based": 7,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": -7.549112010558833e-08,
+      "down_relative_mesh_step": -1.0762698936507035e-09,
+      "signed_upper_mesh_balance_step": -9.42987900427708e-09,
+      "signed_lower_mesh_balance_step": 9.82001453624494e-13,
+      "signed_upper_native_gap": -0.00021617592982466045,
+      "signed_lower_native_gap": 2.2511961948839188e-08,
+      "signed_peak_native_gap": -0.00021617592982466045,
+      "signed_peak_mesh_step": -9.42987900427708e-09
+    },
+    {
+      "lower_1based": 5,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 1.9451972964339607e-05,
+      "down_relative_mesh_step": -2.1973049901869913e-07,
+      "signed_upper_mesh_balance_step": 4.564625590225993e-08,
+      "signed_lower_mesh_balance_step": -1.0795446841504605e-13,
+      "signed_upper_native_gap": 6.234946018258196e-05,
+      "signed_lower_native_gap": -1.474579392532931e-10,
+      "signed_peak_native_gap": 6.234946018258196e-05,
+      "signed_peak_mesh_step": 4.564625590225993e-08
+    },
+    {
+      "lower_1based": 38,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 1.9419320352809137e-08,
+      "down_relative_mesh_step": 9.76029738354504e-10,
+      "signed_upper_mesh_balance_step": 4.2023724414969226e-10,
+      "signed_lower_mesh_balance_step": -5.805384516212921e-10,
+      "signed_upper_native_gap": -1.535922460055774e-05,
+      "signed_lower_native_gap": 2.1218063348367255e-05,
+      "signed_peak_native_gap": -1.535922460055774e-05,
+      "signed_peak_mesh_step": 4.2023724414969226e-10
+    },
+    {
+      "lower_1based": 9,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 1.045147126102998e-07,
+      "down_relative_mesh_step": -2.692938448560908e-09,
+      "signed_upper_mesh_balance_step": 1.0054654062641218e-09,
+      "signed_lower_mesh_balance_step": -2.2713233928158945e-11,
+      "signed_upper_native_gap": -5.838757338011774e-06,
+      "signed_lower_native_gap": 1.3189619497777065e-07,
+      "signed_peak_native_gap": -5.838757338011774e-06,
+      "signed_peak_mesh_step": 1.0054654062641218e-09
+    },
+    {
+      "lower_1based": 1,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 1.4343541583336138e-08,
+      "down_relative_mesh_step": -1.990582138181054e-09,
+      "signed_upper_mesh_balance_step": 1.5524524309924162e-10,
+      "signed_lower_mesh_balance_step": -4.307888319245617e-21,
+      "signed_upper_native_gap": -4.775375539007806e-06,
+      "signed_lower_native_gap": 1.325115288160701e-16,
+      "signed_peak_native_gap": -4.775375539007806e-06,
+      "signed_peak_mesh_step": 1.5524524309924162e-10
+    },
+    {
+      "lower_1based": 8,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 1.1350949568706504e-07,
+      "down_relative_mesh_step": -5.8085961785970305e-09,
+      "signed_upper_mesh_balance_step": 5.770836728425881e-10,
+      "signed_lower_mesh_balance_step": -2.0007254079325127e-11,
+      "signed_upper_native_gap": -3.3117657118707025e-06,
+      "signed_lower_native_gap": 1.1481755794998526e-07,
+      "signed_peak_native_gap": -3.3117657118707025e-06,
+      "signed_peak_mesh_step": 5.770836728425881e-10
+    },
+    {
+      "lower_1based": 2,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": -2.4261114592695278e-05,
+      "down_relative_mesh_step": -5.2473998872789646e-09,
+      "signed_upper_mesh_balance_step": -9.862804115298693e-08,
+      "signed_lower_mesh_balance_step": 2.73571624525156e-18,
+      "signed_upper_native_gap": 2.483393890957914e-06,
+      "signed_lower_native_gap": -6.888366565360198e-17,
+      "signed_peak_native_gap": 2.483393890957914e-06,
+      "signed_peak_mesh_step": -9.862804115298693e-08
+    },
+    {
+      "lower_1based": 3,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": -2.4274295234045837e-05,
+      "down_relative_mesh_step": -6.968689058382112e-09,
+      "signed_upper_mesh_balance_step": -4.120941100546047e-08,
+      "signed_lower_mesh_balance_step": 1.1568106341902489e-18,
+      "signed_upper_native_gap": 2.126883792313608e-06,
+      "signed_lower_native_gap": -5.970485208607447e-17,
+      "signed_peak_native_gap": 2.126883792313608e-06,
+      "signed_peak_mesh_step": -4.120941100546047e-08
+    },
+    {
+      "lower_1based": 36,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 1.8780579313510484e-08,
+      "down_relative_mesh_step": 7.431076574541563e-10,
+      "signed_upper_mesh_balance_step": 4.6052572544010433e-10,
+      "signed_lower_mesh_balance_step": -7.129688220702116e-10,
+      "signed_upper_native_gap": 1.8311404093192127e-06,
+      "signed_lower_native_gap": -2.8349035646810627e-06,
+      "signed_peak_native_gap": 1.8311404093192127e-06,
+      "signed_peak_mesh_step": 4.6052572544010433e-10
+    },
+    {
+      "lower_1based": 15,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 9.370159750211054e-09,
+      "down_relative_mesh_step": 8.990215145532675e-11,
+      "signed_upper_mesh_balance_step": 3.820441278640295e-11,
+      "signed_lower_mesh_balance_step": -6.402077046351429e-12,
+      "signed_upper_native_gap": -1.0457485808740093e-06,
+      "signed_lower_native_gap": 1.7524056771396917e-07,
+      "signed_peak_native_gap": -1.0457485808740093e-06,
+      "signed_peak_mesh_step": 3.820441278640295e-11
+    },
+    {
+      "lower_1based": 11,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 5.789117407413304e-08,
+      "down_relative_mesh_step": -7.498061076375131e-10,
+      "signed_upper_mesh_balance_step": 2.1577441892019697e-10,
+      "signed_lower_mesh_balance_step": -1.5121589417413843e-11,
+      "signed_upper_native_gap": -1.0262303196335148e-06,
+      "signed_lower_native_gap": 7.191878267524716e-08,
+      "signed_peak_native_gap": -1.0262303196335148e-06,
+      "signed_peak_mesh_step": 2.1577441892019697e-10
+    },
+    {
+      "lower_1based": 25,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 4.922940436881118e-08,
+      "down_relative_mesh_step": 1.7114711795419597e-09,
+      "signed_upper_mesh_balance_step": 4.709509064907605e-11,
+      "signed_lower_mesh_balance_step": -1.061997446100559e-10,
+      "signed_upper_native_gap": 1.0150266996765676e-06,
+      "signed_lower_native_gap": -2.2888920011061535e-06,
+      "signed_peak_native_gap": 1.0150266996765676e-06,
+      "signed_peak_mesh_step": 4.709509064907605e-11
+    },
+    {
+      "lower_1based": 27,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 3.4802182512886915e-08,
+      "down_relative_mesh_step": 1.1531857180290408e-09,
+      "signed_upper_mesh_balance_step": 1.6545731056841068e-11,
+      "signed_lower_mesh_balance_step": -7.342949377923363e-11,
+      "signed_upper_native_gap": 7.382625344625874e-07,
+      "signed_lower_native_gap": -3.2763885739184556e-06,
+      "signed_peak_native_gap": 7.382625344625874e-07,
+      "signed_peak_mesh_step": 1.6545731056841068e-11
+    },
+    {
+      "lower_1based": 32,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 2.8630708113277617e-08,
+      "down_relative_mesh_step": 1.2793728064610465e-09,
+      "signed_upper_mesh_balance_step": 5.693861040796701e-12,
+      "signed_lower_mesh_balance_step": -6.016822656441372e-12,
+      "signed_upper_native_gap": 7.263247326182502e-07,
+      "signed_lower_native_gap": -7.675226135374255e-07,
+      "signed_peak_native_gap": 7.263247326182502e-07,
+      "signed_peak_mesh_step": 5.693861040796701e-12
+    },
+    {
+      "lower_1based": 29,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 3.630160982443719e-08,
+      "down_relative_mesh_step": 1.1947846303307205e-09,
+      "signed_upper_mesh_balance_step": 8.133293856476828e-12,
+      "signed_lower_mesh_balance_step": -1.060904339781669e-10,
+      "signed_upper_native_gap": 5.347701225750875e-07,
+      "signed_lower_native_gap": -6.975524969796741e-06,
+      "signed_peak_native_gap": 5.347701225750875e-07,
+      "signed_peak_mesh_step": 8.133293856476828e-12
+    },
+    {
+      "lower_1based": 13,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 4.476643373107944e-08,
+      "down_relative_mesh_step": -1.233842430557446e-09,
+      "signed_upper_mesh_balance_step": 8.659846269703236e-11,
+      "signed_lower_mesh_balance_step": -1.7562472622881862e-11,
+      "signed_upper_native_gap": -3.404524202804742e-07,
+      "signed_lower_native_gap": 6.904494750083592e-08,
+      "signed_peak_native_gap": -3.404524202804742e-07,
+      "signed_peak_mesh_step": 8.659846269703236e-11
+    },
+    {
+      "lower_1based": 22,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 7.308889755683322e-09,
+      "down_relative_mesh_step": 6.185245463940368e-11,
+      "signed_upper_mesh_balance_step": 1.7899956336648077e-11,
+      "signed_lower_mesh_balance_step": -7.105636263606858e-13,
+      "signed_upper_native_gap": 3.2631992541817346e-07,
+      "signed_lower_native_gap": -1.295372263473944e-08,
+      "signed_peak_native_gap": 3.2631992541817346e-07,
+      "signed_peak_mesh_step": 1.7899956336648077e-11
+    },
+    {
+      "lower_1based": 24,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 3.64767841986743e-08,
+      "down_relative_mesh_step": 1.2761672605938914e-09,
+      "signed_upper_mesh_balance_step": 1.7270600990699643e-11,
+      "signed_lower_mesh_balance_step": -5.899313128352763e-11,
+      "signed_upper_native_gap": 1.925796074314946e-07,
+      "signed_lower_native_gap": -6.578157916944694e-07,
+      "signed_peak_native_gap": 1.925796074314946e-07,
+      "signed_peak_mesh_step": 1.7270600990699643e-11
+    },
+    {
+      "lower_1based": 21,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 7.593771034728377e-09,
+      "down_relative_mesh_step": 6.52058073676431e-11,
+      "signed_upper_mesh_balance_step": 1.1652979292927104e-11,
+      "signed_lower_mesh_balance_step": -7.698854921484966e-13,
+      "signed_upper_native_gap": -1.099261841078853e-07,
+      "signed_lower_native_gap": 7.262569702090943e-09,
+      "signed_peak_native_gap": -1.099261841078853e-07,
+      "signed_peak_mesh_step": 1.1652979292927104e-11
+    },
+    {
+      "lower_1based": 20,
+      "upper_1based": 40,
+      "depth_top_to_bottom": 3,
+      "up_relative_mesh_step": 7.888942091283563e-09,
+      "down_relative_mesh_step": 6.510236342033895e-11,
+      "signed_upper_mesh_balance_step": 1.0318642748888841e-11,
+      "signed_lower_mesh_balance_step": -7.698545745053376e-13,
+      "signed_upper_native_gap": 2.5011530890047085e-08,
+      "signed_lower_native_gap": -1.8660633902804515e-09,
+      "signed_peak_native_gap": 2.5011530890047085e-08,
+      "signed_peak_mesh_step": 1.0318642748888841e-11
+    }
+  ],
+  "max_L1_BF_mesh_balance_step": 1.0255226697617927e-05,
+  "max_absolute_mesh_balance_step": 6.826021794451264e-05,
+  "max_absolute_BB_mesh_balance_step": 6.826019852814003e-05,
+  "max_absolute_BF_native_balance_gap": 0.000857050880783168,
+  "max_absolute_BB_native_balance_gap": 4.5542475877209693e-05,
+  "scope": "Fixed exact n/nStar/C/native rates; inherited J bit-identical. Same-node positive parabolic BF with compiled BB from each corresponding grid. Both BF and BB mesh changes are accounted separately; adding continuum nodes also changes line sampling. All 22 continua/56 depths/41 levels accounted. One final-step difference is not a numerical error bound, convergence certificate or isolated physics cause. Normalization uses final own gross R+C throughout; native own residual uses a different denominator. No RT, SE, abundance or production change."
+}

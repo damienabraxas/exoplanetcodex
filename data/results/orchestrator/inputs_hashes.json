@@ -437278,7 +437278,7 @@
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
-        "sha256": "80699159b229afad6313352aef4274ab26c2785fe7b2436e9382b2d978cb2a19"
+        "sha256": "4d32c9a6924f0af48081c077e5a7353f2fc6bb9e3534573f1251a522715235f9"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_budgets.txt",
@@ -437286,7 +437286,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "6b38a0183f0ac74fcc3c07f9c9e0fc45fc4eef92a073ca97a52ad069347a54fc"
+        "sha256": "f0b715b403ed9529faef9e96a70b0f80f966709003165cea5aaf86a0ef5e9cdd"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_products.csv",
@@ -437302,7 +437302,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
-        "sha256": "69998719a0be72c145e6902273d6a851b53541eaad1a4fef4ba6bd01a7a28cab"
+        "sha256": "ea96ec04cac2c9fd0be7de4f6d328ddc9c1c77b9ee8a8f26a7371f7bb6eb5df4"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
@@ -437314,23 +437314,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "30735c7caaa98d8c08f95b3ec11aeb3d67167dcecc622246ab75fd4e09d3dc01"
+        "sha256": "9484066356ab813e4a5488847dcafced7cbb6b5df8a42b0cef31b2aecca416b8"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
-        "sha256": "292094324930c806c983c3c6f4dcb1362c3733b8131f8a5e45231cc53e72607d"
+        "sha256": "713a8ddc5f34002af0f74c48a0598a78225d64cb0ee5fd166a03899cc32cd422"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
-        "sha256": "a12a97967a15113ab4dcdea20785987f1286e5c4231f978b565b289e1a88c392"
+        "sha256": "16b6b7769f90c8ac9ba7974a63413f90890b65cb6dddc256e658b036ed18179c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "051a15c87856e9dd2e1d25968ce87fd3f64eea76bacd2d8d8439d7c537fe8870"
+        "sha256": "99b6d742680b2c165cc24149527a17d1d0f928fe7b62ac8f8d6ccf80f92404ab"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_budgets.txt",
         "sha256": "e52aa8a646897f3b8e2df6f1ac067b2ab4bce1cca39581759d8abd71c0bf2f12"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_patch.json",
+        "sha256": "58e9c8930ced244a2685168f015286d5c7a48be3f143542ac4fc980e656f96ee"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv",
@@ -437341,7 +437345,7 @@
         "sha256": "79227a055adb8a468e4cd8d8b9c7dfddd55efd67ce2287af7d37b536ae253718"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "7341c1c24300abd99724172cb3b93bc54585a3c7f74b402255d92ff631145ea3",
@@ -437354,7 +437358,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -437369,27 +437373,37 @@
         "name": "solar_normalized_tellcorr.csv"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "048a91d6cd6e81dc2ff27fe7193d6342ed69bb11ee2b70067f0266345e88c83a",
+        "digest": "a4021c22edfc505df7475c5be5fd15fb40461ab429494f4d7e2f335ffcc7cb27",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3773-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3773-6920]"
+      },
+      {
+        "digest": "f38576a3cae824c5f4629b287fcce3f4c76e8a981fe0b9d415e1d8ce6591f700",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3773-6920]"
       },
@@ -437399,9 +437413,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3773-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -437414,20 +437428,27 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3773-6920]"
       }
     ],
-    "inputs_hash": "945b22f62053f38f6b9d0d602bec7c4c58b474ae37f987aa9aa167c5e50abf57",
-    "products": [],
-    "recorded_at": "2026-10-25T06:29:47Z"
+    "inputs_hash": "6e93539ce29266ecbecb917bc53a5df4b5b8aed10e7c73a76c963bdc46105e0a",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_vis_lines.csv",
+      "refit_lines_sha256": "0442087b3baf7351465d3876edbbfc89afc05c344af0bdb8a7b188c6c4d18853",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded"
+    ],
+    "recorded_at": "2026-11-18T21:52:34Z"
   },
   "solar|Mg|I|VIS|harps|solar_harps_molecfit_corrected|gerber-nlte|SYNTH|REFERENCE": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
-        "sha256": "cfc2e70b8faffdca94e66cfa715c32228bbb0b0160c99ca5bdc861d841581bf9"
+        "sha256": "513c240934f7bae62fdc8f89347a9799483434886786c86555ab1d9a0b48806a"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
@@ -437435,7 +437456,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
-        "sha256": "0a72d3cc420b90ab9db38bf240af4873847e857abc4d13be6f65776b4e9c3d5e"
+        "sha256": "4f12bf9ef929c09243d35dddce867677816959b529ea711bcf63e7ab3fb6e468"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
@@ -437447,23 +437468,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "fdd8432154f8253159887cf19e7b1a5ec93ab2c5bd5e475eac26e927dc0cd733"
+        "sha256": "7a283982da9b1b5e3746621874dc2663fc5b62e632c42584811f26d3692e4639"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv",
-        "sha256": "77f222a1c645ebc39e32752808b66ff4ff4fda680363a663d98cbf8cda36c0e9"
+        "sha256": "982f221f6f159cbfcec2cbd16579ab5b38e3c95e29d810d9eb64329ee85d0878"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv",
-        "sha256": "ea91d8df925ab67077709f602c4c0792ae5feedd1d0fd93b51c91c608aae019c"
+        "sha256": "8a3b2e3769c43766fda1b6bb372fbaf41d2416d1770ae11257c4723e7ca06e66"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "4a0814855c85686dea8b46cb2b7ef68da5bb8a49aade18fd6ba23160abf27d0d"
+        "sha256": "46b215a3b0c4b7a4df364b6427cf5b90d6f076284c2b88c063390210c548313a"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_budgets.txt",
         "sha256": "0bc4d5710061d7b049246c1ef06161d48aedc6dc24dc85429a5bb358e3076e67"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_patch.json",
+        "sha256": "a5418c625bde1d74369eac5ff1c8db80a908ae7b327343567c8ef1e314ba2353"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_products.csv",
@@ -437474,7 +437499,7 @@
         "sha256": "3ff2eb3ee7008fe3c693cd56a0deeb2a3884302d2e37f04f95fbcf777b8128da"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "5bbca729aab1d751c7af6070860952ddfd2f3266a664ba4d09875f9d1786f382",
@@ -437487,7 +437512,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -437502,27 +437527,37 @@
         "name": "solar_normalized_tellcorr.csv"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "048a91d6cd6e81dc2ff27fe7193d6342ed69bb11ee2b70067f0266345e88c83a",
+        "digest": "a4021c22edfc505df7475c5be5fd15fb40461ab429494f4d7e2f335ffcc7cb27",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3773-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3773-6920]"
+      },
+      {
+        "digest": "f38576a3cae824c5f4629b287fcce3f4c76e8a981fe0b9d415e1d8ce6591f700",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3773-6920]"
       },
@@ -437532,9 +437567,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3773-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -437547,20 +437582,25 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3773-6920]"
       }
     ],
-    "inputs_hash": "38a2e75c5d4036e623bb6763b4b175370b02d9f4559e9cf8c3b482c925a485e4",
+    "inputs_hash": "94c9c605e45363148941b4255ad59577d2e1f6cbe35c354bb0d96a6a8a1f5bc6",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T06:38:06Z"
+    "recorded_at": "2026-11-18T20:45:39Z"
   },
   "solar|Mg|I|VIS|harps|solar_harps_molecfit_corrected|gerber-nlte|SYNTH|SET-MG_AGSS21": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_1D-LTE_lines.csv",
-        "sha256": "77131997cae65cd804da6b816d92c8def3343257873b0eb696684f20660a511d"
+        "sha256": "a60003685705f7f2884afaf8a243862532bbfdc3d6bed8143acf0ee9791a60c5"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_budgets.txt",
@@ -437568,7 +437608,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "889965008af505cfde5f4477462570617becbb881e56b5262f39426a2859747e"
+        "sha256": "35cac0cd1669a0cea8c7a72a165193cff2a08d3684450de37ad0786406173e33"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_products.csv",
@@ -437584,7 +437624,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_lines.csv",
-        "sha256": "9fd3ce6f5df4299e06d810b036d70b320a920a1ddc197f0e4504c916cbed872d"
+        "sha256": "88ca779d9c56d345da3b9307641dfc28e2533a83e4626d9208c2dc0614433623"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_products.csv",
@@ -437596,23 +437636,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "b65d605dfa93d37fa5862461e28567ce269ea6fb4233bc27fd6f8cdb0f07928f"
+        "sha256": "8747b6a8e3589e25467631043e820c6610e8135c49dfe17704a67d8381ec005f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_lines.csv",
-        "sha256": "7dd74c0122269e0561684c7046751ab88720b09fcb3f4f7aa0d8a00bc6e666e6"
+        "sha256": "6a77d72de16266e45da80eb1b6214b18505abc005fd5f2d0fe387bce70314b01"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_products.csv",
-        "sha256": "2a6331d126a89398a7cde2f6847fe4f2a8e94e1b0822204aa95885352e9325ff"
+        "sha256": "c21a61ebf22a45d8859959ad4400b570e82ad37dc76b07134d1d6381260061cb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "0e1a7cbe08832dbc86c5e0269b2e239f77057ccb21e8e9b9bcd1f7b3d1f3890f"
+        "sha256": "141dc67c9a7cb45e6962403a5eebdc5bde9c24e2c42a2672d3de66ba59b36f9e"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_budgets.txt",
         "sha256": "f1942aedf3174220cbd64f08ab8c176db7908889c784b23dd37d34168e924bbf"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_patch.json",
+        "sha256": "932e08de32fb603036a4717dd0280d2498bfd413451ce88b828710e947e202c1"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_AGSS21_products.csv",
@@ -437623,7 +437667,7 @@
         "sha256": "e50eb94bb41a6897e182add4274ba1207a51720c6d4b26c52be473d66711e4f2"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "243ffd194addf2b4c05151e2734bffd42a8efb367f10286aee8a07f1048b9a8f",
@@ -437636,7 +437680,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -437661,27 +437705,37 @@
         "name": "solar_normalized_tellcorr.csv"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "048a91d6cd6e81dc2ff27fe7193d6342ed69bb11ee2b70067f0266345e88c83a",
+        "digest": "a4021c22edfc505df7475c5be5fd15fb40461ab429494f4d7e2f335ffcc7cb27",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3773-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3773-6920]"
+      },
+      {
+        "digest": "f38576a3cae824c5f4629b287fcce3f4c76e8a981fe0b9d415e1d8ce6591f700",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3773-6920]"
       },
@@ -437691,9 +437745,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3773-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -437706,32 +437760,39 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3773-6920]"
       }
     ],
-    "inputs_hash": "e005def5481a4f1815528742eee3be8d92c6c2a2e76afd2287e680726b34b9bd",
-    "products": [],
-    "recorded_at": "2026-10-25T06:37:20Z"
+    "inputs_hash": "134f8b1d2cfdcf5e78e69df60cde416763151e874b8c71df6716e28e4f19b3d4",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-MG_AGSS21|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T20:42:21Z"
   },
   "solar|Mg|I|VIS|harps|solar_harps_molecfit_corrected|gerber-nlte|SYNTH|SET-MG_BERGEMANN2017": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv",
-        "sha256": "3a39c2a900ccd410ce3a036828304b17baabf786bb9a0a8b794a3a83d3795a7c"
+        "sha256": "b77fe2974e7dceef9601415592de0f655ebbcfa48910b3e8ae4e92f62903f8e7"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_budgets.txt",
-        "sha256": "e7c2e2a157f1e267ad33e877e4818af4f84ec5c57c12903df0076ec59f09c828"
+        "sha256": "9f89e16ddb670a5d263dff44830d09ee8005660c95d05ed2676c6608d9f238f5"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_lines.csv",
-        "sha256": "5c2b28c70a9ffdc8753b1c66fdd710c3f6ff31bdbcd414afcc5500f8a6a78cf2"
+        "sha256": "6b999c90610b98bd9313811ea1046988646a5430793cac9f06b01c77e06613e9"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_products.csv",
-        "sha256": "58cefccec0eb97eaf11ecfa841c197354344e6e1c1ad9afdbdfe40f278f48836"
+        "sha256": "6a34e443bd064b8f45fe9dedac7a3aaa9b02f77ad8f3de507da950cf605c7f15"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_provenance.txt",
@@ -437739,34 +437800,38 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "a6feb9f58a99cc61c1e74dbdb163ac9358343d3c991555e31541b471e39e2a3b"
+        "sha256": "32974ab8917e8916b6f6ffc2f0f926b98ea2ddcdd9515de40f4e70e16bafb9a5"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_lines.csv",
-        "sha256": "18eb8da71f4cabd8a53b6e0e03dd28441d5ee886d5748bfef098ad6b91560601"
+        "sha256": "a80323e5ae363b0cd4049be4166fb59972bb0b68d7fdc1b57c7178ad055e0a12"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_products.csv",
-        "sha256": "f6ea7c4d427a5fe8d7c72f03effa0ed8ddd021021efe3f44867fb53920b14086"
+        "sha256": "6ec3421b07574344dfc561ea35d03b7363555a52ab415b515ddbc2698b8db881"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "488eb41ab61704dc8d5e8380b2f30fbb5384c030b24df0dbe6d3cdc181c4cebd"
+        "sha256": "51a405bc7b53a11c97b67be2c5daba77a89c9636fb11deb91f5f0d70fdd454ee"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_budgets.txt",
-        "sha256": "09f627cf750e34554a6acdadce43b926576dbe3ead2226db43df92a0536016c9"
+        "sha256": "cb9a5625c8c43ec47b3b5c7e6fe21d00e59596816650be65f321ca2692281e4d"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_patch.json",
+        "sha256": "4f3a4b7b3a7d9e7e3c6305f12c627d9532ddc3407ac4b5775b71d3d6cfc9af9d"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_products.csv",
-        "sha256": "1943e95bead15c54b3f0c2771f04c1c382ff040112d635072ad8a6a575215db9"
+        "sha256": "8a0c1671e931f9825cb62756e2a81a806a58046d0390f4a4890124b7586ba7b1"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_provenance.txt",
         "sha256": "b32f6784f7c77476bd3261e6012066b0aafd22e3349efbc82e6107ac5dfb54ec"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "ca28a7e62f80c9b6adc6866c94740521910a25935c193ba41cca32f549d5b413",
@@ -437779,7 +437844,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -437804,27 +437869,37 @@
         "name": "solar_normalized_tellcorr.csv"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "048a91d6cd6e81dc2ff27fe7193d6342ed69bb11ee2b70067f0266345e88c83a",
+        "digest": "a4021c22edfc505df7475c5be5fd15fb40461ab429494f4d7e2f335ffcc7cb27",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3773-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3773-6920]"
+      },
+      {
+        "digest": "f38576a3cae824c5f4629b287fcce3f4c76e8a981fe0b9d415e1d8ce6591f700",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3773-6920]"
       },
@@ -437834,9 +437909,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3773-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -437849,14 +437924,19 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3773-6920]"
       }
     ],
-    "inputs_hash": "0a5fa06c9e91b89c93a35c0c003ad851ca699baf2879d9f0211041795a78c804",
+    "inputs_hash": "2b1355e57157a71306f0c5318896397a0f2cb5dee57637aa67582460b7b291c6",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_vis_lines.csv",
+      "refit_lines_sha256": "0442087b3baf7351465d3876edbbfc89afc05c344af0bdb8a7b188c6c4d18853",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T07:25:52Z"
+    "recorded_at": "2026-11-18T21:57:15Z"
   },
   "solar|Mg|I|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|DEEPGRADED": {
     "artifacts": [
@@ -442408,7 +442488,7 @@
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
-        "sha256": "8ff40a51540e6bfc03fc51299b0a70442ddfc2fbc9ceb762da22fbb8c3a54cb6"
+        "sha256": "cdcec2ce8f9e4217cf886572f29942d2837ef4efac15fc029bd0134089375a15"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_budgets.txt",
@@ -442416,7 +442496,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "18a55a4e94ca08095e613b65055b7ec00de44a831cd49a7512f92a05688b900a"
+        "sha256": "d953ff67d119aa22268499f08747fcfb38a780cec857e6eaa9f17849199127d1"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_products.csv",
@@ -442428,15 +442508,15 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt",
-        "sha256": "4cbb3e73e6436387db297453e9b2bd308ec6743be3fcadc7a2d8c0fcb5d6e613"
+        "sha256": "50e966a9215c7f5d9f7b3b868c9d9b2250f70fe166d2286c1cefef5ce93f449f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
-        "sha256": "7b58e2895bc62c66a6de7c5d75d504fa03d9440b1e76b7d8c772af6325640124"
+        "sha256": "4ee6eec1a2641194604b4ac51067b82e1a1451bc6c306d29d142767694dcc77e"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
-        "sha256": "37e17a5d05227bea65d93e8b4eaf14ea99fe20fc54dd0548a550326661491a75"
+        "sha256": "ed084ab5ce05c3b9021a71a72cf21c9bcf953c734edb59d68c83b8a0b12214a6"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt",
@@ -442444,34 +442524,38 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "53764164fb8a3e3bc71dcca9e7561b5ad98e3f8818a8480e92104e8eb929c09b"
+        "sha256": "cf6e43fc96891110d4d7bf3d837559c4e57720437a1f1b9f17f84ce90c94e089"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
-        "sha256": "e93fe197d10a8e14f00fd196bd38c0f7dbb0cce951f4044a54d6d1e2aac0e1e2"
+        "sha256": "2d08efdc5ac5acee9511df7bf21395f4aaccd005c93bf7ab18cd9c2a80b34ad4"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
-        "sha256": "1177273764fb2c2fbfb5706165c6bf2ad6c3615717f88ab3c930cae97c35e20b"
+        "sha256": "106abebe3b55ff132ecf36e32192cc33c948ae52cf8b619d2b2ffb8b0148ccae"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "3ca2d473ef2ac7f19ae3f27e4c8382a8378c5d255535fa87fe590b8c2b71983e"
+        "sha256": "e46795fb8fbc0eec0269c8108e5717ad21fef80239446c50384ada7a1d7d41eb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_budgets.txt",
-        "sha256": "f1067610fb92d1b7a4ddfc3baee6fe6f8dcbfe9c57a29357d6d432e69abaa41a"
+        "sha256": "cb7d7f000056fe810433a3659e2b914842714b68831f770bbbe9879273292187"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_patch.json",
+        "sha256": "ca1702bc9a8aabca810a1ddcefc69a0acf9c8c19a7bd71c35315c2500e1494ee"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv",
-        "sha256": "13bec2f7f6d1c271ee918c014bc2eab9bc919cfa4a65a683f1a3aa95e836762f"
+        "sha256": "43e1b3dc3ad73504509c6fcada1d0efc04011d17456b615b2f13dae450b9ca66"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_provenance.txt",
         "sha256": "a3f028949fe7c26bad8b91eb7bd5bdac48759426632f02254a214d8da516b5a5"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "bd40c61bc5a474d7147806f37a12ab2a3c8c6b97e3cb09a0ae2eb42e8f42870d",
@@ -442484,7 +442568,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -442499,27 +442583,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -442529,9 +442623,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -442544,20 +442638,27 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "ddc1ae70ff27ac54cb8aac4b3169915b8b334be9b64330042f27e899a361d798",
-    "products": [],
-    "recorded_at": "2026-10-25T01:42:30Z"
+    "inputs_hash": "2c3a2a04a1aa6651a04b5e4bcf2a7c47ecadd96457a11674e9b626b4d2ad1814",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_vis_lines.csv",
+      "refit_lines_sha256": "0442087b3baf7351465d3876edbbfc89afc05c344af0bdb8a7b188c6c4d18853",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded"
+    ],
+    "recorded_at": "2026-11-18T21:46:18Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|REFERENCE": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
-        "sha256": "1bfa7119f2ac12a5156a701b832d36f9ec805cfa7f1e12da6f24cf2307e97c50"
+        "sha256": "e4e6879f81a9ca90d1f881499d50a07ab5d4d736a8849ebeac0d2b854ca03979"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
@@ -442565,7 +442666,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
-        "sha256": "3d2b66418af435c7d4daf06b2c409fcaca7bacb749961e5af4a010772a724b06"
+        "sha256": "43178f93a3021feb756b292788364f92e605e4cdecdad8e6b2a93bf57f51f3f1"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
@@ -442577,23 +442678,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "d233c976665f3681ae1960f4ab0b3f36ce20c8992744207d1f790c19933ae18f"
+        "sha256": "8d893116427840e4b6767a406af0794f468a09d7d65f6c24518a68d893697e08"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv",
-        "sha256": "f433e702625e835ddd0f29e42769467bc53f73c2ab495fc57fe46dd5c8fb0140"
+        "sha256": "3b3f54dc9d9a9e0172571f617628a07b70293fb693ad7ad7b0b0b2f929b69d57"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv",
-        "sha256": "2cfe667fc1fc6cb40aa1487e124e09eab740521440508a001ac3371709f2e2c2"
+        "sha256": "fe6da1c4e7b547731f2455bfc3e111d2932029e9d799b7a658b29406a3827605"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "00170cafb92704bedb8223e3c4734fa46ac80d8b21c3170045757ce02e175dba"
+        "sha256": "526266225cabb44030048905309fd190e1f61f6d29827b1fbd18751f4a1c4246"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_budgets.txt",
         "sha256": "6cee5e63f97570bfd0eb1d728a099e922e0de18947ed6ef4e28b856a61955957"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_patch.json",
+        "sha256": "b4282c40c646473aecd428e4508851f73dd9447bd3864d7dc92b7970dbe2e822"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_products.csv",
@@ -442604,7 +442709,7 @@
         "sha256": "b36756b1185a00e5ee459584d3ef1d9c3f027ddf36d62afa1bced7726e2636cd"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "46155dc30f2cda7afd92acdbad0487559ca5ce15d2045b32472bcb73bd0156d0",
@@ -442617,7 +442722,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -442632,27 +442737,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -442662,9 +442777,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -442677,20 +442792,25 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "019d7f3e176745e2d33134f578314fe26147184a52bc9f2e42945a34ed1b81d1",
+    "inputs_hash": "9b56c000f19fa9f11976b085dbaf686addd7ea6decc24c236cad16f1cb288ea1",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T02:20:04Z"
+    "recorded_at": "2026-11-18T20:30:11Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|SET-MG_AGSS21": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_1D-LTE_lines.csv",
-        "sha256": "a76c96dc9489b50aca7cd634f5c03afd1cd3ea716c975d7307fa6caf13ea0974"
+        "sha256": "fad9d3f8db94f641c31ce9f89484e428042f7636174c23465fcf0a34f8267f23"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_budgets.txt",
@@ -442698,7 +442818,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "25bbba29d3f1145f18ff775a01a850ac2f51bd249780e2d827063b7c2af4d0e7"
+        "sha256": "1642b9fdb8942bf8980558f060c90d5c72ceb9f47a6326886532a736d86b1442"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_products.csv",
@@ -442714,7 +442834,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_lines.csv",
-        "sha256": "b92fa987d78174ffc21fba3cb0fdbeb20dd9fe87db30eb854b1b505fa888d8eb"
+        "sha256": "68c59354ad9e3a1c9b9d09899ed80db733a0c1425aab8036577a951043d8cfaf"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_products.csv",
@@ -442726,23 +442846,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "ebe6fc26cfab45cffb937e5a13d6bf8232b907e50dd90e295629e2ecc67d68a9"
+        "sha256": "ececa2578e45929e470463d2f109df50adb82874330afd3eb8b1be49be1c2b91"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_lines.csv",
-        "sha256": "2f89da052b9994516400cb18a45673090f718bf3dbb74559583116caf31f75ee"
+        "sha256": "624b5c73d6426e49d743c9477dcdc8a74ee6bf44ae607dc1ca1e4db6834bc15e"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_products.csv",
-        "sha256": "57e693a538ccd09084470f4ff1bf46522f732625382b3cad6323cf3f4f429a97"
+        "sha256": "3ae8cdfaef35e5614440705b3931f990f16ca77fc74b278f6d99fa76f2d5eeb6"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "dc2aaefb6bd021f162c52ad098abd1685facb87eafd575fd7ee37b44ef23d319"
+        "sha256": "4161901be16423b3901cd32186df36880744dc325b619bc7488caaae35c31486"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_budgets.txt",
         "sha256": "8747b6a8e3589e25467631043e820c6610e8135c49dfe17704a67d8381ec005f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_patch.json",
+        "sha256": "1db2eb093bd82abd92c1f1055eac5dae9704af301e28dd860871703b6c5f16ce"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_products.csv",
@@ -442753,7 +442877,7 @@
         "sha256": "ce6af7c03c41ba309c8cbb005475bcf577e159232390264eeb84e26eb182830f"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "10e11613cd56f01c60d61e628e077f10b6b02b6f42ffc986372219b3ce0d2f4e",
@@ -442766,7 +442890,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -442791,27 +442915,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -442821,9 +442955,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -442836,32 +442970,39 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "e7d12af13de9a3c8ad07398e0bea91efd8481ae62e81f8ffc34dac4da01db1e9",
-    "products": [],
-    "recorded_at": "2026-10-25T02:05:55Z"
+    "inputs_hash": "629414eb7d730d5679e4cd057ea977d81c165bb92e86924efdbd584468f751a4",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-MG_AGSS21|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T20:21:59Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|SET-MG_BERGEMANN2017": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv",
-        "sha256": "455cb56ca71f94e42bc09612c483da79c9d69614ea2c81e5eac20e1af3e03ce2"
+        "sha256": "29753d9f7d833b2a811b08176975e0b84d2eb13e01556b56afaf968c96d4803d"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_budgets.txt",
-        "sha256": "62175592f5f493804b763c257cc719fdaff82ff64442233160e620e284913bd6"
+        "sha256": "ed95c47e5b6e4ed8db0ca7fdc5e730831c0ea89ab1fc440a032248d928542ca0"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_lines.csv",
-        "sha256": "752ac5f279a2d9a50ffd0f5cff1f4e8a264baae77b8e63f410b6074724316514"
+        "sha256": "714064672dd8508a862b3013a46cab11243d9a9127b4e1f42f0a3aec72357fc1"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_products.csv",
-        "sha256": "c3c14441815062eef3b7d6c6db6687331b8b58c5fd32a80b436f32559a2f975f"
+        "sha256": "29309d20dcb2238e0f8466c45b83e03b900af5c6aa7375c43e674764f852792b"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_provenance.txt",
@@ -442869,34 +443010,38 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "dd6f2cfcfc8cf5c572aa44fcf5969c0483ad83213c0db96f167683af0edbb574"
+        "sha256": "bc924a0a6cc9ff7110cef1c49b5e66cceb8cfce9b463981c7742e9ec88363510"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_lines.csv",
-        "sha256": "db72a262a3a6cd8381d24895838ecdd6270a5eb7ef0522b056bb98b9a6a104f4"
+        "sha256": "a03fe0d0a340d29c6a943f497d1e4ffe942dfbfdbbd5fa1402cddc87fb8c6400"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_products.csv",
-        "sha256": "af109e64fabc3b0bebf47beaeb8153edf66d330b703bac287ceee70b0ae112df"
+        "sha256": "b38eadb9a9b7dd936c84eb493b866bd78c75d7c913502f27ebbfd680164b19e3"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "d05d208cbf2d4d4c2474371004b9916054e22b824921a3add40aad5c8c586d0e"
+        "sha256": "4ebf503964823915397f6de0ca8df11ecd27d0a03b8d52bb7bc64bedb86cd0e5"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_budgets.txt",
-        "sha256": "7fae1bb83e42db5ced0996f9df5e3fa2b7650133b0485849f851bd5ad0f82e33"
+        "sha256": "d9fd9da6cb4d1509c4223eff06259dab7178d8a257628b792028558b9c9c7dab"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_patch.json",
+        "sha256": "92c2873c5c90c5eb1c145021b67f63069bac6b7cdcce1b0b1440a0899c854c1f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_products.csv",
-        "sha256": "ea1370956e74616f43dd0c90241f89b630f59450091ff8a780175ff6d580ac29"
+        "sha256": "08beb2a9ded9b8e5abb866dde3d2ff251fc75695650814029f50718ae3243829"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_provenance.txt",
         "sha256": "75849aae445eae033de148e6995230ab6e5dac2e7bfe3feb73365b6398dd222a"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "8961b1247c8e8a9c6eb085a3015b94ef9934281e62a0d282966398ae89e7d587",
@@ -442909,7 +443054,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -442934,27 +443079,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -442964,9 +443119,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -442979,14 +443134,19 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "2b41d54542c7e0e89bb88ecf1fe915612500872a5d61adc66216b2ba26ea7648",
+    "inputs_hash": "e640be7390bef13808759319e9b3bd4e420ab09ddb0394389a4d681b7b76f985",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_vis_lines.csv",
+      "refit_lines_sha256": "0442087b3baf7351465d3876edbbfc89afc05c344af0bdb8a7b188c6c4d18853",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T02:43:35Z"
+    "recorded_at": "2026-11-18T21:48:39Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|DEEPGRADED": {
     "artifacts": [
@@ -452299,7 +452459,7 @@
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
-        "sha256": "d3758d574949f86c62efc945481fbdca44db432292df7381a0e21131f768cf83"
+        "sha256": "06a05d782fb0afdcc7d21be03f9cc5ee389a9b49ad54c88de1b227d99dce03ff"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_budgets.txt",
@@ -452307,7 +452467,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "a8c4f7d987191d7ed2fd5fd4e574e198c7fc23ea8e6eab91b76a4b145b5fe414"
+        "sha256": "97b98c88e097cce920d6dd3fb37b137151a6050eb50c4c50f19d1b191d0e2a9c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_products.csv",
@@ -452323,7 +452483,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
-        "sha256": "d0204749dc1afc1d5ccb9b0df63bda79c4803d010f9865e0df2b8bbccbd7b149"
+        "sha256": "5846f59ee97e9cdbbfb9c7bada3a96b7e2c71cb3615fa700a3f91e59e37056eb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
@@ -452335,23 +452495,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "e0e4fb1f6a5bcd2b05d9ea9687e9c91a12f716bbadfcedfbf7c11325621b2a23"
+        "sha256": "337e0a7db868cb719d962bc99efe68ed5d1a8851de19bde8546ee4cf2e2b5a25"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
-        "sha256": "63dfd85e2d48e8d90e673e30586e2f0915d1abb357724886fdf649203fe350ac"
+        "sha256": "fd04de08ea878e24bf2361dea4069559a4344718c1bd2c4ce8917f268627bc01"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
-        "sha256": "ff14b9d0ac284ef96149cacf9b2fe8992ab0c88d353d7bebafdbeb7e4b06a073"
+        "sha256": "2165594c403a6c1e6c88ca7013c89471da810a7ea7b38abd721ca823a9d653a7"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "3ca2d473ef2ac7f19ae3f27e4c8382a8378c5d255535fa87fe590b8c2b71983e"
+        "sha256": "e46795fb8fbc0eec0269c8108e5717ad21fef80239446c50384ada7a1d7d41eb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt",
         "sha256": "9a582f303446542a69cf48c779432b692cb1df2abb46f062fbdec93e2475c06f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_patch.json",
+        "sha256": "c3b1d4fd00a388221804022b8577ece37b8aa4dad633432b05a9dc2c3087a5cf"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv",
@@ -452362,7 +452526,7 @@
         "sha256": "d7ffead97d3fa976964324e4e62ac63055ee7e197c55099fee1fc5b3701d1afe"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "5c45dd540b3c67bec7d975a99846a858d70ca56dccffee34872a5206f31b113a",
@@ -452375,7 +452539,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -453680,27 +453844,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -453710,9 +453884,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -453725,20 +453899,27 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "b3635e8d6889bfc234e8a38f58da8bdfedc17b87fd31e1281943aa1b498da96e",
-    "products": [],
-    "recorded_at": "2026-10-25T04:04:43Z"
+    "inputs_hash": "c5d859d6bbbe2f745dc611f9a4e6fde275e5d6afa36a3c4a0b7d235b02c893bf",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_vis_lines.csv",
+      "refit_lines_sha256": "0442087b3baf7351465d3876edbbfc89afc05c344af0bdb8a7b188c6c4d18853",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded"
+    ],
+    "recorded_at": "2026-11-18T21:49:11Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|REFERENCE": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
-        "sha256": "2db31b1de23d3e60bcf6296e301e70e89e3e86980452a36d06cba5ada2c78ef7"
+        "sha256": "5e81afe1134c33f379847a6459f6047c554309c5a2df7e0574f9f81b1fdd8d67"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
@@ -453746,7 +453927,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
-        "sha256": "1c5474ff34867695b2ade508307c02783905401e220af0b71b266cdfe12fe335"
+        "sha256": "2004ef7031d7f04f385715ef66fe8e33749d9285e484fbddbe2693ff55aef3f6"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
@@ -453758,23 +453939,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "546bb3ba43fcd65b9e603173eefb1aef5009f75c8125d2f2a83e27c0291f2030"
+        "sha256": "85b7f9eba36cfd77e1454f33d48d54014082e6f00de518df4018367fa0ce3c9f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv",
-        "sha256": "03fd6fb6138dc0b92553478e9224a9266ff02d5a25be41cabcaf2d3c3d847f4e"
+        "sha256": "c18747483da417f9bbc542462c45df94036cac796e595b3cd4977934bbc32a23"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv",
-        "sha256": "c019282b3200abd7ce6ef52b826c8987b5a6890f9bd97739922194fb2837b788"
+        "sha256": "c701916c333856625812074350b29b411639db34e8556c82c2d827ff0ef2c251"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "00170cafb92704bedb8223e3c4734fa46ac80d8b21c3170045757ce02e175dba"
+        "sha256": "526266225cabb44030048905309fd190e1f61f6d29827b1fbd18751f4a1c4246"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_budgets.txt",
         "sha256": "bc8a079f33b0329a9d2417e3d98ae7106d3b0fd0c128d8f28f6464098cc686c7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_patch.json",
+        "sha256": "eaf9b01f47139df7ce5ba430f6cdcef7314856fa4473d702c72acbab0eebd9e7"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_products.csv",
@@ -453785,7 +453970,7 @@
         "sha256": "1ba3ef0c495a65af252084c1f3b6930db72758a19ec84b3e49ba267b63ed0e88"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "2654a96adebe3e1c15578917202bb3dd7bdcfd3b4e72d09be751819a8c475215",
@@ -453798,7 +453983,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -455103,27 +455288,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -455133,9 +455328,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -455148,20 +455343,25 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "90a94cb841172dc080c9ae325713cc1f0956e52c42b68f56c6783b87718d1867",
+    "inputs_hash": "1d4c54151f45a6e99f9102c827cf9c740578621c161251684bb142e94bdf4531",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T04:41:36Z"
+    "recorded_at": "2026-11-18T20:32:26Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|SET-MG_AGSS21": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_1D-LTE_lines.csv",
-        "sha256": "6567a584265f23a9bec21b678c3a03a052dbebdbe7472825d64519d89e6ef4a1"
+        "sha256": "5b026c1a2a8055d7d4bf27179b940b5da1e16fbaae5be0e6e7e36f564716cc00"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_budgets.txt",
@@ -455169,7 +455369,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "1fbfbb90277d9b0cd5d4e852da95fb8b056dd434ef6076231c91118db593d6eb"
+        "sha256": "077beecde0a677d1662d14b3e8514ef1e5d3173f465fe3613cce94998ca2a0ca"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_products.csv",
@@ -455185,7 +455385,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_lines.csv",
-        "sha256": "bc9c8ae4655b134b614954cd9b675888f6c1cdb3b1958216068ce74789527248"
+        "sha256": "d2fdc42ca01bbc3b4cb5bb5ede16b41d26ab785dea241de5d8dceb982e5e12d9"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_products.csv",
@@ -455197,23 +455397,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "de549fc88689c174d29d7f16bf2f0ada2915d3099dd53e0aa95ceec8798a604b"
+        "sha256": "a5d729cc0eb01f17dac67b077022a65e590e93a0b613ded45bd11e1e03676d0f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_lines.csv",
-        "sha256": "dbab9b8d23cf6774da9bd689b21ab3517ec49b0e2b1f9655506b83b5b4df67a4"
+        "sha256": "b9020f099b52b8cf8e0e5dcb65005650d3bb611a8c5edba61f1bc89334e8cacc"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_products.csv",
-        "sha256": "e02a0882a3215093f46a23a74f2d4308cbb09aa1d130fcaf41dd4355e8522435"
+        "sha256": "7802f65cc30db174ca97d5bf1810db400b20a2b0b05ce3c2f92d9c0d15c382c6"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "dc2aaefb6bd021f162c52ad098abd1685facb87eafd575fd7ee37b44ef23d319"
+        "sha256": "4161901be16423b3901cd32186df36880744dc325b619bc7488caaae35c31486"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_budgets.txt",
         "sha256": "ab84cc549114a010dd0d46b48ab8df6befc538865e988ae72b0c31ac75e46739"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_patch.json",
+        "sha256": "b9ddb68a8a115db882b43f8f39569b681048c636b1a4f1d701ed97e1e2d37b9e"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_products.csv",
@@ -455224,7 +455428,7 @@
         "sha256": "517299ea2b4cc3e8f127875c8ded035fe10eaa143b3e4fd522540c8961f7553e"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "16cf0bc259e81dc1a5382611ab0efd53cf7b898a224273331f110a6d84cd454f",
@@ -455237,7 +455441,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -456552,27 +456756,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -456582,9 +456796,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -456597,32 +456811,39 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "1f471465635ba12cd90cb3eed47601eb60aa7474768323d3d3712cb94c6786c1",
-    "products": [],
-    "recorded_at": "2026-10-25T04:41:47Z"
+    "inputs_hash": "fffd65a8664ad6d56796b802f00788b87b3da5e3603c2c12a42bcfff10a5967e",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-MG_AGSS21|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T20:34:01Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|SET-MG_BERGEMANN2017": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv",
-        "sha256": "b6c9332ae3024aa83d8f410482860a37d1af31b7c18b34e442623b66ed80d469"
+        "sha256": "215a8b730bdc3a1e65253fb3754b9ee0b7a2145414ca0903ce1df9e630b36d22"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_budgets.txt",
-        "sha256": "f5f156e355f4d430635982cc17e3f12346b53ff2c8efd081a558c21b55b9d315"
+        "sha256": "2df802aaf500ca511368b5afaf1d601539c6c210a58711af75d9d1c717538fc4"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_lines.csv",
-        "sha256": "3ffa2accbecfb9a4ae142ecc9c821c5c1997f8ddb5ac6d3790ba5cd0e16ffd21"
+        "sha256": "d337cec590a74affe29bc2cfad2f465bc2a6ad1e1ffcc5a8f194b8a7d658fddc"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_products.csv",
-        "sha256": "b860a0328ab46620af4f92ee3ff7cb7766af67a10e7479ab691417f45d51dae8"
+        "sha256": "38765a86da76c1c3586b759147eb4e673f6089a1a8ce814aa918a1d74aafeadf"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_provenance.txt",
@@ -456630,34 +456851,38 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "d9b1389be2944e15d13a8fed04f1c82cffc05c6025e7d7e6cdab26b070ba0db0"
+        "sha256": "32901648288c21585f5324e9612de3653a4c94f46de1c9ef8b20301cdac693aa"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_lines.csv",
-        "sha256": "f7bb16047c9d54b3cb9fa9ff2654ee226ce6922d31eb62534a95440828dd0caa"
+        "sha256": "500f806089ab930563d494c1b1424876977cbb36b94033527a46de92fce734c0"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_products.csv",
-        "sha256": "50409f0a74191eedd4092a1cfbd411dd414167b592467fd5b21324b4cee6576c"
+        "sha256": "dadfffe602b4db2106b7d5a89f27f1308813834704f0fd31e4ae6b97917af3a2"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "d05d208cbf2d4d4c2474371004b9916054e22b824921a3add40aad5c8c586d0e"
+        "sha256": "4ebf503964823915397f6de0ca8df11ecd27d0a03b8d52bb7bc64bedb86cd0e5"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_budgets.txt",
-        "sha256": "93ef30405c4ba2a7157296b58a2732642e7399899e3b415911ff79d6a1430c2a"
+        "sha256": "6410936dd8a13496f7d00c21a6da34da4f758b5d1f15691d7c9ce98c0de16200"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_patch.json",
+        "sha256": "f54a0428ad20819f6e4a291ba801a24e1cc4bc48a7d368bebe793e22a13b0b26"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_products.csv",
-        "sha256": "8022f3c569dc8e1d03a50c25519dc498619276bd6b954b9ebb188bf8173d17be"
+        "sha256": "b0ffda039723280c55543394dd4b57b0fdf2a7c288dc3324985b34a15bf5a9f4"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_provenance.txt",
         "sha256": "8862935a71e3e15435c6981cb0ba69d24617f5d1cb761fbadaa0f0b95333f411"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "e54dd4e71d90a5b8b299bb3b9a32fbd1b4e8b5b5388dfc2622c28fc2855bbe8c",
@@ -456670,7 +456895,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -457985,27 +458210,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "ed31439c9134b0c99f443d20ca43c4148373105a62cde6a6f0eeeb4a648d4f83",
+        "digest": "c03e0807e41138f2bc9a5166718b9205957cc49c268b4e425d767096b3e98b4a",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[3770-6920]"
       },
       {
-        "digest": "2eca9ed766f6cc53b427d75ab68c4d90f00bf4ef502f5edf48addf907d8227c4",
+        "digest": "b68291d12062d39f773813714c371a746e1adea8f64a23490111a2e034b86d62",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[3770-6920]"
+      },
+      {
+        "digest": "dbb295b9d4e89cdfc2cd4a56a2c08370cba9390792419351ddcc5d1d3073104f",
+        "kind": "synthesis_list",
+        "name": "data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]"
+      },
+      {
+        "digest": "e65735c53e2d42d4fd8b3f1eb5ca040017759fffbd14090605b142f8103820ff",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[3770-6920]"
       },
@@ -458015,9 +458250,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[3770-6920]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -458030,14 +458265,19 @@
         "name": "data/catalog/instrument_catalog.csv"
       },
       {
-        "digest": "b5100a02003c2cb4eb061e347ecd4d4cbbfce0cbdd7e655cc7d28dae2d97e8da",
+        "digest": "360916a7123d66f078c6ef8aa488038ac1bd9e02329167c835a16b1befa4c298",
         "kind": "registry_scoped",
         "name": "data/registry/problem_children.csv[3770-6920]"
       }
     ],
-    "inputs_hash": "5e3ab61566312e7e379f899e03830dd25f16f516b7cc3de561ae3d2478175d67",
+    "inputs_hash": "b29c746a0d40781b5bb0c35b1d5a1e24966f874e2843f2a4d3a9749fc8c12ef8",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_vis_lines.csv",
+      "refit_lines_sha256": "0442087b3baf7351465d3876edbbfc89afc05c344af0bdb8a7b188c6c4d18853",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T05:32:32Z"
+    "recorded_at": "2026-11-18T21:53:36Z"
   },
   "solar|Mg|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|DEEPGRADED": {
     "artifacts": [
@@ -465988,7 +466228,7 @@
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv",
-        "sha256": "bc78211c72045e4f3b96047e492866d748cc0cb90cadcc3c974d33037fb02910"
+        "sha256": "ee6b5810364f66eb98d6086f20a92d90d3331c889cd2071c6e5b285564a0c0ac"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A-3DNLTE_budgets.txt",
@@ -465996,7 +466236,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "b15533eb06127af98f8a907487c585cfc0ce3c7335dda1a5f6f31a34fb1526f4"
+        "sha256": "90f56a0cd5d3c724ffbee2b4995d8ba4e2d1c48f8528f6a55d31c1aaaed55514"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A-3DNLTE_products.csv",
@@ -466008,50 +466248,54 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_budgets.txt",
-        "sha256": "e4a2944ec61f2fb67d1ae725275884c3bc095eba95eb7dfabf36f157a9022dd1"
+        "sha256": "0f74f52e155ee886517360d000985d21e2ab7050573045158c368e42015c6728"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv",
-        "sha256": "fa429510c9d503ff77b58fbef898a0f22281517c63f8e5428f5f51c46daa4441"
+        "sha256": "3cf38f6f77158c65d8abd107ca346f8a00819684b5c3fd67d768aec8b0aa259c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
-        "sha256": "b290067a79b4dbd654654a64226cac09ce4da439641ebf926707e9d5a4e7ef23"
+        "sha256": "173b6056d61f0646277d921a1a7bb781fdbc502037915266fa0c43e52cfe712c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_provenance.txt",
-        "sha256": "e0bdaeaae5f219ab1e7979f803bdd2c15567089dd8d87e4e776d8546b4bf91ce"
+        "sha256": "5f0e3b54a94768d3d72865603f82854a08951f017a9ac38420d44a4fc0ca34be"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "4d4da60e6cfc5782a50bdb64fe2da5b7993001b16bf4df97fc194ce1d0d878a2"
+        "sha256": "9ffb8352b66ce65ff45430246e3ab3b76ad2426d765690fc910cc3318bad8c35"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
-        "sha256": "3b4a9f7e662820b5de97f3d6319937c3e9f35ba7e4ec7e6d9e9539581223c9b9"
+        "sha256": "cff4c0e07bb3b758d0593f96301f1f5edca9375304a33c4545a4ff472a2a6529"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
-        "sha256": "f3dcdba7f38a9fe6ee0df31db15e69670d247e2f2a62da1167555d8587ec102a"
+        "sha256": "f0edf052f59e2d354ef4303317a4e3121a54a61f6725bf0f613aecd2df493a98"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "2a25972ef9f7372aafabd182b65dbdbc1cc175921a49e78813f1095bdd8e5eb4"
+        "sha256": "603d46b087771ef882c9449cf451d37a9d9faf77a4db18723c7185c273cd2e4c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_budgets.txt",
-        "sha256": "ea0dec7505f795c932a1689aecca4621716528904a46f1aeb2a28057388224b3"
+        "sha256": "5022c81608f57cf7fb3cb2664485075bdf2db40a1176720addf32ed139808adc"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_patch.json",
+        "sha256": "2bdf83eebe29ccbd037495f3070d2df70fcc487bfdf5ffcd18f921418593a999"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
-        "sha256": "65a6d3ff01db8c906820783246c456a80b113f916952ba6110b010d858e356f7"
+        "sha256": "312062e2d469350b3b52a7934223675f16b5997d50d260ad8c48cca0ad1fa96f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_provenance.txt",
-        "sha256": "3855a002cc02a45215cc8849f875b914fafed17f6cdda8c3795a051548c9e50b"
+        "sha256": "5db273cef0ac221d46ac48a763d8a5a1684d48d75460039ff8c598295448d3e4"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "b7914336d2581576c5f09075342ba9b8b60bedd66dee76b7fad176a986d3ca41",
@@ -466064,7 +466308,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -466079,32 +466323,37 @@
         "name": "iag_telfree_solaratlas.fits"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -466114,9 +466363,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -466134,46 +466383,73 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "7a992ed4107429de790d39bf540404143e4369488df86a4acbac1008c3d877ec",
-    "products": [],
-    "recorded_at": "2026-10-25T10:41:04Z"
+    "inputs_hash": "fb10c240bde04e626216da3904e313bf60975f493b96302dc50aded5215cf5b4",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded"
+    ],
+    "recorded_at": "2026-11-18T21:09:43Z"
   },
   "solar|Mg|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|REFERENCE": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_1D-LTE_lines.csv",
-        "sha256": "c7475eec4cc4b579398b4b5e1cc5e05b64db44db4aa5d8feec8299e25058966c"
+        "sha256": "c04c24bd0862f2295815c66e65810f45730359c5a961c24d536221bfb047e35f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
+        "sha256": "3c142660c19a0c082a4a8d2157ef8374d540ff926cbe5c149ab5df17e9176bc4"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_lines.csv",
+        "sha256": "60cdd50f9e8061149aa168db23989e11d31f1c888ad6a415355e316449759e79"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_products.csv",
+        "sha256": "7082e50052828c80c5167a94a2caf791f87ad5472f8aff743ec0f4d76a8620c5"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-A_provenance.txt",
+        "sha256": "400fedae6ba25091cb73127d53f094897a831080b75298bcab498153207fc260"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "ea46f5d728cc00bf649d5bd744b3eb56f9ec5af6d92cb046ac058d5502a3eab7"
+        "sha256": "f36c9ae65af6fe5002fd8b993742d999edd63240e47561a3dc5dad40a961f8bc"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv",
-        "sha256": "1e4f8324953580cc0578215a04fccc4fa2acf0a9b8d7555897e11118aff3acf7"
+        "sha256": "9a387ffbafd95dd7c71a43cfffea14efaffa6eac3087d9bc0f16c223f74f4a0c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv",
-        "sha256": "2bbf3c8e9f37ab5bb60f20178e02d28abd6baa21d940e84dfbb21e29da630f94"
+        "sha256": "20fcd70c68989ec145b8918a770c10f1f242bf6e48f45d1db1425ccdef2c3e22"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "3d64781a4943f542fd9836119909495fa247bcf5fdea122aa701de338c09dbfa"
+        "sha256": "d7ea88ce91a4b3c0b35a3360f72eda1701e78fedb48d714d2015678c4ab907e2"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_budgets.txt",
-        "sha256": "3a049237bd55ed0b58f4fde5949c3a091ca38493d8de0487c880a08d684af068"
+        "sha256": "b0dbf8c77b1e11f07afd9ddcd578f62cee2bd26b738bffaee56ca88e76cc5b18"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_patch.json",
+        "sha256": "bdbba23bea705733f31d4d901877dbc0f6a9336be7f0f87daa31cb4914af29fb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_products.csv",
-        "sha256": "1ddceec55782ec942921d8af9a607ee9c9f4d720ee4e37272a70d2ba400b8b62"
+        "sha256": "9e96921546cee82b7b6a4604c98a5bd05507dae4ca9452408c2636c37e6b0b13"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_REFERENCE_provenance.txt",
         "sha256": "d0308fb28841d839d74d60d18c09baf926f7a85235eb8cb0cd1584142a325e6d"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "da66ccf6ca0fbda65d5c6c04eed51d3a43833fc137bd92cdff767e565fdf170a",
@@ -466186,7 +466462,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -466201,32 +466477,37 @@
         "name": "iag_telfree_solaratlas.fits"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -466236,9 +466517,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -466256,15 +466537,20 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "30820a31f10d04f71ea4df43ca756ddeb9e723a8239cd35a6a1eb87a2a32c139",
+    "inputs_hash": "84c3857cce4d45e20429816b054e0e4df0da8edea54e873c32d3cd8b77c5c4e9",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T10:36:07Z"
+    "recorded_at": "2026-11-18T21:03:30Z"
   },
   "solar|Mg|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|SET-MG_AGSS21": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_1D-LTE_lines.csv",
-        "sha256": "420cf1ed4f7fab985cc4b7c1b1136579064e2386e9f07f4dd436c5a15db36946"
+        "sha256": "8fd91935aae42b7fabc73775465405fc29cc22390a559cd901318df427de942d"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_budgets.txt",
@@ -466272,7 +466558,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "eed71952655414d31f34a416e0be7dee7711271a5ef7b9bef87202c75cd6a9b8"
+        "sha256": "a4b32c6eba713108948f9275ba2ba95d3efa722f98d1123c5959c5c7126185db"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_products.csv",
@@ -466288,7 +466574,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-A_lines.csv",
-        "sha256": "a80e4baec6166eb7157e225c4e18442f9f5acbab0c8a9bcf15b2f05833ab6d5c"
+        "sha256": "a3ed5ef44e84a419b6612f015a5a175d43511b9c45745109b885fdbbb0e4d149"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-A_products.csv",
@@ -466300,23 +466586,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "5321001ffcb02dea060a4564da4b6bb6608d61e388ddbb88cc592f3ee9b9ee35"
+        "sha256": "afe0fe73ba015abad1d7e17ccc204e75d6fcbc573c49da837cc8d7ad80f5b55c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_lines.csv",
-        "sha256": "799912cba4773c0b4bb32294b039f113cefed6725bdd1cd11956200283bffaa7"
+        "sha256": "e4fcbc4b208ba60a5d4dc32068181415879b2888839970d6ae477a858a94dd31"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_products.csv",
-        "sha256": "b3f5bb6ee3b0bc25945b56f3dc836404514561cc4e391bb691fa2940ec318736"
+        "sha256": "65dadcd832ebabca06dfb56aab8a81fa9e4754f9794befbddf92db638a0ffaba"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "be2de8725eed133d0e7aa22e4ce1633019a3c0cdc94fb6b3828148955ea810a4"
+        "sha256": "259fd94b3f68d72fd91f50e7c104431c1f4c703fca49cfb6d77d5a04f13ffb03"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_budgets.txt",
         "sha256": "e9843c94c18d26a6921afdea488b7b19a5e88538e2fe1d78338dc37b1651613a"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_patch.json",
+        "sha256": "2e98f74f10cdd5aa2b9df07d9cdefb6f4dc2fd9abf91c72732a57527784df807"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_products.csv",
@@ -466324,10 +466614,10 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_AGSS21_provenance.txt",
-        "sha256": "f279bd94a3cc513b202cb3016a2f2a2c0a72befd629a326e2888f9fd0ff96379"
+        "sha256": "1e5c3a163e536af087feaa568d410fcffbe9161ab3a1d5e3743d84b4193682b4"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "93ea158c9c4ad3d3de54df09356644f9a145964e1d634eac6a704e95cf2d360d",
@@ -466340,7 +466630,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -466365,32 +466655,37 @@
         "name": "iag_telfree_solaratlas.fits"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -466400,9 +466695,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -466420,15 +466715,38 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "80f7c56a5aaa22f1f960a49b27e15f04f72e8e607830762bd6b0a10e9cd124fd",
-    "products": [],
-    "recorded_at": "2026-10-25T10:29:59Z"
+    "inputs_hash": "6346a2605eafa87022b9ab78d4bb07aec79207f1fb5474353451bc86f16965a1",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-MG_AGSS21|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T21:09:05Z"
   },
   "solar|Mg|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|SET-MG_BERGEMANN2017": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv",
-        "sha256": "f14e14dee1d21fecd5c4a3de3bf5bd31ec12b1401c6bc9a164f0500fa27a2081"
+        "sha256": "7f2f4c9c928ae1a8cdb51eddf7ab75f763c4744e3f05c4719c052dbe9138822e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_budgets.txt",
+        "sha256": "d843ef9153fb3901f3fe550c52fe5d7275e133354d4a2430b1783f94818bd0ae"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_lines.csv",
+        "sha256": "f061fc47bbbe2c79c2421abad0983963d95a82592c232b7c5ae4c8ef53c08e55"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_products.csv",
+        "sha256": "8612bce8ec4066e5a4bd010ccaa874d214d3b6b25df3571a4199e073d166090b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_provenance.txt",
+        "sha256": "116c28740b744c6df213dabab0c68fb5e41964c59494d82302137104fbf3ed0e"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_budgets.txt",
@@ -466436,7 +466754,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_lines.csv",
-        "sha256": "92189eaa64594f8727e46618dc0ad739f23e717047297163dc79f37e722964b2"
+        "sha256": "57934c27245d33c15e2eff5402f2c61b690f41da7921b96a4c8394cb3be93be8"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_products.csv",
@@ -466444,11 +466762,15 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "b76963dd3fbb053c426376e8033b55e9feec547868b69395237a70ff0779ae99"
+        "sha256": "a668895e1d00558fefc31d81650fd7fd2f39f13d6d457acc8f4c9a2b919502cc"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_budgets.txt",
         "sha256": "d843ef9153fb3901f3fe550c52fe5d7275e133354d4a2430b1783f94818bd0ae"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_patch.json",
+        "sha256": "98ac54e583da50e5cf90ea7d17c9fb447c31b19f75b9dd1e99c814e03ea88afb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_SET-MG_BERGEMANN2017_products.csv",
@@ -466459,7 +466781,7 @@
         "sha256": "65f703c4ab9be1ae947b596eede954a20aed5c3a193f55c162bf0050e6611562"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "fa7390aca4ef484a59d389bc50d14a2f3154a3b3401def27e5f30d36950799b2",
@@ -466472,7 +466794,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -466497,32 +466819,37 @@
         "name": "iag_telfree_solaratlas.fits"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -466532,9 +466859,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -466552,9 +466879,16 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "d94c5a244d0142fbbfd52185a290aaa80ea46a43595ef0e2b2115410fc233203",
-    "products": [],
-    "recorded_at": "2026-10-25T10:26:05Z"
+    "inputs_hash": "99249219266d6cfe49010d4179cb623dd50e3bdb253ac57086173282c2b0d36e",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-MG_BERGEMANN2017|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T21:10:20Z"
   },
   "solar|Mg|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED": {
     "artifacts": [
@@ -468017,7 +468351,7 @@
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
-        "sha256": "446e14c299da4da55a32a3795d9acd2d641ff298c87a44f54fdc202dcae83992"
+        "sha256": "d574b0946404c2e41d06b0c2cf22a26569fb7f705d15771f3c3e5da0f6760373"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_budgets.txt",
@@ -468025,7 +468359,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "67f09e2053c5bfca2004ca2ae1bfe7a8d166cdbb30da2c8084262ed7affdd9e9"
+        "sha256": "de1b12a905a079598dcab7a4f35bfeccd74959450772a4f37b45ace78e36724a"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_products.csv",
@@ -468037,39 +468371,43 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt",
-        "sha256": "5d9090371ce59f369f6f8db4e08e36fe386b6af253475e2c98b474cf8b6f5d85"
+        "sha256": "ef15663e5fc56cedfe38ac2ed87a3c6d07ff68eb198acf8f26f8f9f191dfde20"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
-        "sha256": "d5abb5dd0e732104febac8a7b3884606ff7cb5a783ed6ae494412df232a3f68d"
+        "sha256": "f27c4272460d76b188091a4ba998a526801cc384002387c88f0e4d7eb51da6bc"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
-        "sha256": "6aa91c5a34920f3f176aec77c9a87befdf58aa2186eff489bd6d875f19f8a6f7"
+        "sha256": "f201ae6c6974495d746005770cbaf6da85c911fc25405497c4f8eb85b746d655"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt",
-        "sha256": "e0bdaeaae5f219ab1e7979f803bdd2c15567089dd8d87e4e776d8546b4bf91ce"
+        "sha256": "5f0e3b54a94768d3d72865603f82854a08951f017a9ac38420d44a4fc0ca34be"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "c91fb5b010ac08d2877d3165d79bae92c782285fa746c94160cdb2e1f54e9416"
+        "sha256": "9f0c67bf3d40adc1879298acb4ddd97d7999631d8143552ad006f81a984be6ea"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
-        "sha256": "4155db4e7b0486ec9b78df224ba960f2841e39bed331a7d898501de4cb7edb73"
+        "sha256": "cfdd47fa98a2d27c630de0e6c58d41ef760342c1809053444292a59eb098756a"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
-        "sha256": "39a97d1735d349c1702dad5b045ddb3dcf743a35928415ea2c3928f7b9b4ad73"
+        "sha256": "36382f4d6d2135578714c557dd9dbdbc0ad0440a17b625e0101c308fc52b70db"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "2a25972ef9f7372aafabd182b65dbdbc1cc175921a49e78813f1095bdd8e5eb4"
+        "sha256": "603d46b087771ef882c9449cf451d37a9d9faf77a4db18723c7185c273cd2e4c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_budgets.txt",
         "sha256": "7a9d31b439baae145ac5b727f1e5049c151e2f78ae5b2e69e8d25185aa9e4ecb"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_patch.json",
+        "sha256": "c7dc68f49a1627fa6f3e9c715a57255377639ce6c9a399941d6c84d3081ff968"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv",
@@ -468077,10 +468415,10 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_provenance.txt",
-        "sha256": "16216b1a9122b564eca67906891e38b63ea8c2073e94ee76be2b20262d752156"
+        "sha256": "3884db9774ac38bf5127e5ee709a9dbb441f479e4bc7fc1d94cd0f5abda56cbd"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "23a830cc43adddd0afc112ca8ddf7cc0bbd4ca5ac8573ead065246dfaa0322ee",
@@ -468093,7 +468431,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -468108,32 +468446,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -468143,9 +468486,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -468163,35 +468506,62 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "868e872835976ad8d2a0685b6c8ba1bdbc16e2e0b75386178d395485fb883278",
-    "products": [],
-    "recorded_at": "2026-10-25T13:58:18Z"
+    "inputs_hash": "1a776df8f4fd39ed32d73685e1cebaac21bac7d4379bcf3389bba1ab6ce9276c",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded"
+    ],
+    "recorded_at": "2026-11-18T21:20:38Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|REFERENCE": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
-        "sha256": "0078ebd3e22c40425b4a7fb1d0b50ce7ba3cc6b6e327921de9f75f761b0c5c57"
+        "sha256": "3c22ed53614500f4ebe5e0e27b9d8d2f12bc773f5af5530fb5620a3b3311c903"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
+        "sha256": "55b72ab5d7f587e90a43dbcf2908d8a89b80d544337e1e06f1a099b290d9bea5"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
+        "sha256": "e72a17df772930300683cf8171ac9e5e42d5e243613c8628fb904e9d4bae87c8"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
+        "sha256": "483af0c3268af07a93546cfe664ff9431fa23b2287aa491ab0a84789241f5da7"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt",
+        "sha256": "400fedae6ba25091cb73127d53f094897a831080b75298bcab498153207fc260"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "ba6887e5dd86eefee9108eb5786d241baf0b54edce433ae9fbb65fec60a0375b"
+        "sha256": "9001c7ec4033afb46951030c294426434613061d832e5660cb1f2f10a2f60230"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv",
-        "sha256": "987ffd8c4ab470f3b7842b280acd281424709160f1a2f3e22dc09b1d0959b4f4"
+        "sha256": "32f2a456c1ff856c4e3a01063448d6496a5900373a8b0d95d871733f81fc18c7"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv",
-        "sha256": "4dfff0bfcaa11166a45eaf0a1cb05edbd2246db6c85661129c3b05d747bd92ae"
+        "sha256": "1b9908e8f1125c0b237f3a3a7b61a40c0166e106bf393480c8d4a4ecf1d48a9b"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "3d64781a4943f542fd9836119909495fa247bcf5fdea122aa701de338c09dbfa"
+        "sha256": "d7ea88ce91a4b3c0b35a3360f72eda1701e78fedb48d714d2015678c4ab907e2"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_budgets.txt",
         "sha256": "f59d02f24d9c6bb834d2947dab6d13aba94d8af5cec4289d044b244dcb9b09fa"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_patch.json",
+        "sha256": "588677ac314068693078e238b997408b502f6e609e930d437bd761a07eac481f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_products.csv",
@@ -468202,7 +468572,7 @@
         "sha256": "20a4686f4f321bb08880647a027182365a17b62082e5c0d6d10054e00b8c3568"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "55f6e7c5d52bfad2c16548956a4159a5d2fa5b79f6771186e3d75189d1150d93",
@@ -468215,7 +468585,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -468230,32 +468600,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -468265,9 +468640,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -468285,15 +468660,20 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "8c825bdebba21227b517366b6284e72f4563320994042d91040e99ebf7c92146",
+    "inputs_hash": "bb70a63627d1972c60d16a5b227ea08785206b86f87694927784d9c775adaf3d",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T13:57:26Z"
+    "recorded_at": "2026-11-18T21:19:06Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|SET-MG_AGSS21": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_1D-LTE_lines.csv",
-        "sha256": "3de0a6d129c0293baafecf99a19e5a252f5c1d74d3d12576c0da173f021e18f8"
+        "sha256": "ef225ba47c349ca36a754317c7d0aa6253f5218366ef98cfdd9ddc405aed8c3a"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_budgets.txt",
@@ -468329,23 +468709,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "5329957381a9bce981fb3837378dfd5ad4de700ca62281e33c9d36293d916b27"
+        "sha256": "f6faccabb6632971854056160ad3b62025351008763fef1820237e13858014b1"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_lines.csv",
-        "sha256": "aeedcc983ef02b8f8bfde50c5e2314c918f8d6d2aa7f71acb8a5d096c2fa6b4d"
+        "sha256": "b87abfaf4f3ffe293f3288f09523948ab8b214846f63ebeb75282d1c8bd61b69"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_products.csv",
-        "sha256": "629d8cf361318074d103f8e023055ddec7f1e0028c2b4b116a9c6a93ede00ab0"
+        "sha256": "59031dbb6414c18e33ae54a2d2c74651f909e79b828814c08815c7c84d506626"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "be2de8725eed133d0e7aa22e4ce1633019a3c0cdc94fb6b3828148955ea810a4"
+        "sha256": "259fd94b3f68d72fd91f50e7c104431c1f4c703fca49cfb6d77d5a04f13ffb03"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_budgets.txt",
         "sha256": "3653034db97ba8902e94f38e264c7f18df51427e0503d3e8cb194e8c9898545e"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_patch.json",
+        "sha256": "689c74d760b8c48728d641acd7197550878094cca7c5e48e63107ab950f1c3ad"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_products.csv",
@@ -468353,10 +468737,10 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_AGSS21_provenance.txt",
-        "sha256": "9a8da192e4576650521eaddcae87e809ceead70cce7902557c28e2fb66201dfb"
+        "sha256": "e9093bd024c54a14bbca34e287fa68850ca2d988dce26645bcf9858a0b24f6c5"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "400d5f261dea8c7a7ed564a2c4812bf06666075f4b773a31ade07ccb2dc6b8c4",
@@ -468369,7 +468753,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -468394,32 +468778,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -468429,9 +468818,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -468449,15 +468838,38 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "5f8ab01331f4411196c7a4350c639fe3a84d4d389d9cade10d53b39e508af7fd",
-    "products": [],
-    "recorded_at": "2026-10-25T13:59:23Z"
+    "inputs_hash": "6a29abfa81865c7cadaf3a6a3c0604b0ed48986ab7f04320c7b67d92d26a8d54",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-MG_AGSS21|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T21:24:37Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|SET-MG_BERGEMANN2017": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv",
-        "sha256": "8456c28d31a7283d21c0477f1afc70ad430e967394543d0379325ad60fa918d2"
+        "sha256": "bda22d01c07614826d717cdd2c8eec3afab4b095de8109335326f933b2c35b60"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_budgets.txt",
+        "sha256": "d843ef9153fb3901f3fe550c52fe5d7275e133354d4a2430b1783f94818bd0ae"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_lines.csv",
+        "sha256": "64c4f4ce8b1f83edf787e8c87ec839d0f8e1a30b381ded121485c5c34139c961"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_products.csv",
+        "sha256": "6189b2219f4b5d993e5ca1dff1150df21417758ef50a1bd395a074363549a928"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_provenance.txt",
+        "sha256": "116c28740b744c6df213dabab0c68fb5e41964c59494d82302137104fbf3ed0e"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_budgets.txt",
@@ -468465,7 +468877,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_lines.csv",
-        "sha256": "de7122886b8634e072561cc0e1f70ce735c59306d6fc5951f27df80a16b43dd4"
+        "sha256": "5fed741b22dc9a9dbbbe9ac7446386487dbc5b283d7e8268a55487f23fd48ce4"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_products.csv",
@@ -468473,11 +468885,15 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "b76963dd3fbb053c426376e8033b55e9feec547868b69395237a70ff0779ae99"
+        "sha256": "a668895e1d00558fefc31d81650fd7fd2f39f13d6d457acc8f4c9a2b919502cc"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_budgets.txt",
         "sha256": "d843ef9153fb3901f3fe550c52fe5d7275e133354d4a2430b1783f94818bd0ae"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_patch.json",
+        "sha256": "08966700fb9aa100b808d10635d95a25b43b615c3929171a6a18f943543c34a6"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-MG_BERGEMANN2017_products.csv",
@@ -468488,7 +468904,7 @@
         "sha256": "dc5c6f6c0abf8ffdb3020ee555929495fd8c0e131871a681d488026a66e256bf"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "a04b67db033d1c84bd796d6473ec933e7ba2315b693916bb759819bc7cd4afe0",
@@ -468501,7 +468917,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -468526,32 +468942,37 @@
         "name": "irradrelwl.dat"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -468561,9 +468982,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -468581,9 +469002,16 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "c7860301fc7016fce1fe31d9ab55bab8c9f5ed46d2b9aa89f4be7adc5ffe5de5",
-    "products": [],
-    "recorded_at": "2026-10-25T13:53:11Z"
+    "inputs_hash": "17c0ebefea253ab72d3eb8f979964df7c9ff6e89f8a3a99e4a14a7c17955bd97",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-MG_BERGEMANN2017|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T21:22:01Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED": {
     "artifacts": [
@@ -477790,7 +478218,7 @@
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
-        "sha256": "f2495a693249a301492af95eb1fa888811c4ab092766c3e4f96e9e5b2b3a1d2f"
+        "sha256": "ad5ee8b0190f389255ccd9e9ab46a74122ce8db51361e01bfe95a2208dfdb654"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_budgets.txt",
@@ -477798,7 +478226,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "d6f0d854e711e05a4b6521d46d0725a985b1d428f5e9bbc568b8113207990967"
+        "sha256": "125b7f3eb1b4ecb2a0702ee7b598755576a8aba41770bd999bdfd946a3d3ac5c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A-3DNLTE_products.csv",
@@ -477810,39 +478238,43 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt",
-        "sha256": "c9a79f2a2a4aa163312c02819b42b07f760f6daa1c69763f5d2233a044a53d21"
+        "sha256": "106dcd0e5491fbb8701afb50c69ffeddd4032268b5c160b952fb5e640358e449"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv",
-        "sha256": "fe478ecd79cce37026f5012eaa486577b2dffe9e8f69a397f309dbc7b52b2416"
+        "sha256": "8144b8b2eaaf2a8674dd29cf562e37b04543ae7ceee323b2de6e8b1efd500560"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
-        "sha256": "bae759ad0a88692e98a12eadee1129edcdf91c2b68597888acfd60faa51ce33d"
+        "sha256": "a0240347bef8b41b786b87bb526b6842f168653ee92aaaf9a5799d10afab78d5"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt",
-        "sha256": "e0bdaeaae5f219ab1e7979f803bdd2c15567089dd8d87e4e776d8546b4bf91ce"
+        "sha256": "5f0e3b54a94768d3d72865603f82854a08951f017a9ac38420d44a4fc0ca34be"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "5b12488b5e9386fc53f7d06dcf4d1d77a1b463d7465d7c620ec69afa9dca96f2"
+        "sha256": "69967f6c5fa60292d2f3f6606f6dd3cdb77dc12a27b98d8fe7645a998365a875"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv",
-        "sha256": "e03734ccf0cda98e278f0ae1826a0538818040153e4951526bc0192e9a19a49b"
+        "sha256": "bddc6d56eae73317bf9343f5b36329019729c6012e6e84ee3752178856002965"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
-        "sha256": "2d261fe7496ccb3f46edc4d39f17cf9d36e423bdd2e52e5145f65e81a74c635b"
+        "sha256": "f472e129fb519cb7c9a4e9bacadb2b30db645d529749ae99c4e74698933ee470"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "2a25972ef9f7372aafabd182b65dbdbc1cc175921a49e78813f1095bdd8e5eb4"
+        "sha256": "603d46b087771ef882c9449cf451d37a9d9faf77a4db18723c7185c273cd2e4c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt",
         "sha256": "38db18158a00666fd19f8f34eefc026fe3fe36c489fdf788fc9298a1b1832186"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_patch.json",
+        "sha256": "438616f1b9f53b93bd5734965e02eb0032f7a2417816a861bc0a31b89b184bf4"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv",
@@ -477850,10 +478282,10 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_provenance.txt",
-        "sha256": "d79dcc1761e43043afe1f21c5c7e7f1bfd2ccfa792a9f5e92a571fc862a520b2"
+        "sha256": "724228b160a78703d171abcaf968dbde102074f49f7c959576aa825f2cf0cacf"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "ea74fa2b9d189e244465946b4b37a0e503d6d0ec141b2e2ec325926562d75fd4",
@@ -477866,7 +478298,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -479171,32 +479603,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -479206,9 +479643,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -479226,35 +479663,62 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "ccad6f1408805d3094ca8d8712a01f0a1ddcbda4fcbe3676539dafe1410c1b07",
-    "products": [],
-    "recorded_at": "2026-10-25T15:44:34Z"
+    "inputs_hash": "2c24c7420bd635edbd6d69b65be95c3a7b4f9e6a5ba895abf96e51c563c80003",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded"
+    ],
+    "recorded_at": "2026-11-18T21:32:42Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|REFERENCE": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
-        "sha256": "8ce7696f7484c1d85bf83846ca31b3b8c8432ab3c4bdf2079debb4428293e549"
+        "sha256": "d31ce00e44b243b8a20a6ab673eac1878f0a48f34285098353110392ebb4401c"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_budgets.txt",
+        "sha256": "d8adf56699a2c3c0d50a7b31ab240e496a3d134b166bc83a34f9c981c21b5a0f"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv",
+        "sha256": "2c0bc83f913604c0ac5e0b3d327b6a116144a0d1f27697124e256d4cbdddd521"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
+        "sha256": "82fd01665e7fcbd7265a3280e096bd912a7e12ca255e783609b08db9b30fa18b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_provenance.txt",
+        "sha256": "400fedae6ba25091cb73127d53f094897a831080b75298bcab498153207fc260"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "313339733fbce1a84c365c37a1581eed57a4d6354ec036c09834216314596401"
+        "sha256": "28a247627da4d2ec1bafb3fbc96cda313b68a885b0d468b9f59532ae5d87333c"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_lines.csv",
-        "sha256": "37ca94b6f56f04330a367e52c6723524ce482b8938ac2789f46d412e7a8f083f"
+        "sha256": "fb835988da9f86636caa65016263f421859bdaf4c1bd94943b2beb34d40032e2"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_products.csv",
-        "sha256": "45486dbbecf49b7b4ff5bf54fa29468b57bc9f4951919b00313ea85ad82d21be"
+        "sha256": "e5259d45cf4e07f7fe474230fda59bebc439af656c52497c7988235c05d63879"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "3d64781a4943f542fd9836119909495fa247bcf5fdea122aa701de338c09dbfa"
+        "sha256": "d7ea88ce91a4b3c0b35a3360f72eda1701e78fedb48d714d2015678c4ab907e2"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_budgets.txt",
         "sha256": "b59eeef7edf2dc09e6b3b7924daa9e81cee4f237965ad4aa2897c07184411a22"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_patch.json",
+        "sha256": "612638000092dd5d35ef537ea63a782aaa7c7c8eeabadd85ca0dc8d36ff5f8bb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_products.csv",
@@ -479265,7 +479729,7 @@
         "sha256": "361a3d769f39426b36b76844177a8b7c4e11c019e820a0bc1684cc733ad45c68"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "9f1a358f24c836709a6eaab4b914640f034049e221c8cb1f21deee6db581b565",
@@ -479278,7 +479742,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -480583,32 +481047,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -480618,9 +481087,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -480638,15 +481107,20 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "f565a4664dc92f7fe14044081c58bc8b5dbbeecbb697266ee7f76f6a444716de",
+    "inputs_hash": "41d9071cc2d0c5dd920b867693c8b9ed2ee6b41d789ad0586e4fe881aac4917c",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
     "products": [],
-    "recorded_at": "2026-10-25T15:56:01Z"
+    "recorded_at": "2026-11-18T21:33:24Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|SET-MG_AGSS21": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_1D-LTE_lines.csv",
-        "sha256": "1360b526b1fda82af2bdaba8447281f1c46f2cf8a11a1d15309643d0ed3937e4"
+        "sha256": "23a7d47255c792cdf1725181585fbfd1188f7a6addfccc0619916e95f13e7bb4"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_budgets.txt",
@@ -480654,7 +481128,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_lines.csv",
-        "sha256": "75095ac419fe3b41376ff6e4a78734977cc439c05176bf83ca88c9524aecfa0a"
+        "sha256": "4d97a7522776a15378a29d37768eb72af3481ee851393ea1c6147c8a878e89ec"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A-3DNLTE_products.csv",
@@ -480670,7 +481144,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_lines.csv",
-        "sha256": "82c716626cc864903d1c69767a6fe24a0880a925fd1a46c70d84c9806c05dd15"
+        "sha256": "7dd08b58c2c2b3b50d85e92a8ecd1db9d9f72ffe747b1f0fd4bf3ef4cddbec18"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-A_products.csv",
@@ -480682,23 +481156,27 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_budgets.txt",
-        "sha256": "3039af056ad3ae3000c15039d2cd4464b7e83de3a8add308b124dd255196c491"
+        "sha256": "58ac2d057dc91313f93e1c296343bda654a9fd7c18e9d25fd584792d8e27b4d7"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_lines.csv",
-        "sha256": "9cfeb27ad1bd1b2ea921e99359be37b2687180b5f533178f79a791a9a250978e"
+        "sha256": "713f40219e413ef234250e554faccb0ff09c289fe60be854b474dae89663272f"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_products.csv",
-        "sha256": "297ec6a3a7ba700898889ae78fa09aa2cd0116bb224174180bcca4604aaf2eb8"
+        "sha256": "903a6e58200b14a1637144e88e86df8b3812c6fa97eb017b2caf2433d0c35e7a"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "be2de8725eed133d0e7aa22e4ce1633019a3c0cdc94fb6b3828148955ea810a4"
+        "sha256": "259fd94b3f68d72fd91f50e7c104431c1f4c703fca49cfb6d77d5a04f13ffb03"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_budgets.txt",
         "sha256": "3c2531e3e9824af3f728fa4ddf59ac2ba046873ce5962fb8c4663c85319f0b9d"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_patch.json",
+        "sha256": "d0fd172442e6d607a10caa6704dca723c88c6349aa5b811d72fb0027d1eacfeb"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_products.csv",
@@ -480706,10 +481184,10 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_AGSS21_provenance.txt",
-        "sha256": "f0617e5fbc6121ae708d815e779cbb35511dd4710e929eb8e44889eef91b13a0"
+        "sha256": "277bae30d54afec649ca3eb731e74b1719e75ff9b8d24a79b6bdfa8c46b8c289"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "9b5c4f6e959b9a8e9329ea26f803208c44f090148fecf3ef3f3b49a4177bae2b",
@@ -480722,7 +481200,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -482037,32 +482515,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -482072,9 +482555,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -482092,15 +482575,38 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "ecf8f9ecbdfe7ca9238d609093d7a868499a9c4ce42ee78d322b6f2c06b4dca7",
-    "products": [],
-    "recorded_at": "2026-10-25T15:52:09Z"
+    "inputs_hash": "d428d55854e9c88c6c648540bd9be9f5e075b8fcf95e077a8672f9ac42a1e329",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-MG_AGSS21|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T21:37:05Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|SET-MG_BERGEMANN2017": {
     "artifacts": [
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv",
-        "sha256": "9cb40e728c8de7e63fe8fcf261db0f4962204f625573f85938b37b4a3f5eb060"
+        "sha256": "62ef2a4b9302976bcbc9aefcd83c114bc48ee9bbcfd50c1be0892f8a153240cd"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_budgets.txt",
+        "sha256": "d843ef9153fb3901f3fe550c52fe5d7275e133354d4a2430b1783f94818bd0ae"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_lines.csv",
+        "sha256": "cfcee1a0fb4f3d8106d02b4dc2f6ff713cddbf976d7b9c5ba68fc1c3327d269b"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_products.csv",
+        "sha256": "47c93ea10f5c2e00c8911531c7ae3819096f51db6d7a07436c5fa80baeae4985"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-A_provenance.txt",
+        "sha256": "116c28740b744c6df213dabab0c68fb5e41964c59494d82302137104fbf3ed0e"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_budgets.txt",
@@ -482108,7 +482614,7 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_lines.csv",
-        "sha256": "24e0de23eaa4ee26b1a16a35cea8361c6b4c700cd55c26cc298062cd0ccc3268"
+        "sha256": "f9756fbd996cf8567d1590f4acd0ac561d30008c0be71b3bc8f9a051c3512804"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_products.csv",
@@ -482116,11 +482622,15 @@
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_ENGINE-B-NLTE_provenance.txt",
-        "sha256": "b76963dd3fbb053c426376e8033b55e9feec547868b69395237a70ff0779ae99"
+        "sha256": "a668895e1d00558fefc31d81650fd7fd2f39f13d6d457acc8f4c9a2b919502cc"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_budgets.txt",
         "sha256": "d843ef9153fb3901f3fe550c52fe5d7275e133354d4a2430b1783f94818bd0ae"
+      },
+      {
+        "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_patch.json",
+        "sha256": "049f0e36c58d41b1db8208447f063d46e85ff2c8cd647e9cbe05056604741dea"
       },
       {
         "path": "data/results/band_products/deck_gerber-nlte/MgI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_products.csv",
@@ -482131,7 +482641,7 @@
         "sha256": "c7d813f1a7aa041883ca5641946dff0c8a23918b5d1c9c839ee2dbe16ee6e9e2"
       }
     ],
-    "code_commit": "c0010faaf4aa79e578ea64a10874bc164a03c505-dirty",
+    "code_commit": "4052553e396de43668431d967501248a0f67cb21-dirty",
     "inputs": [
       {
         "digest": "d421b4715489455ee1a251b90168f974ad25bca934567a6270f9d7b6ae808c9a",
@@ -482144,7 +482654,7 @@
         "name": "resolved_method"
       },
       {
-        "digest": "1bc9b25c4f4bbe30a210bd9efee28a7e246b189c874b97c51e0b9a2e27d19c8a",
+        "digest": "561f6235116ff241066c4851366f077a7d2b024ebad88e89bd41fc003e658e56",
         "kind": "stage_script",
         "name": "scripts/derive_band_products.py"
       },
@@ -483459,32 +483969,37 @@
         "name": "lm1296"
       },
       {
-        "digest": "7e92e6239b08ba832965eec6cd41ac5095a98533758564b6dec79db22f21942b",
+        "digest": "326ce6c996e56913f9efc64700b119d00550b82e756803c258dfa338473a0f2e",
         "kind": "cited_nlte",
         "name": "data/reference/solar_nlte_tables.yaml"
       },
       {
-        "digest": "94f22da057fddd36e94ace2e11494c9e47e3ac896398aa3839ef10e43e6c9d27",
+        "digest": "5b880f51b65dd67ebec48949c60a9c16cf64de1dd13471e93736c63812f06852",
         "kind": "cited_nlte",
         "name": "pipeline/solar_nlte_tables.py"
       },
       {
-        "digest": "cba38cd952b50c3d521485f7f6ef0491f6abb87dffd9bce5a1f7d54723645037",
+        "digest": "32171870688a1d811433cdfeb15e23df703cae34bcb265fbae65c627f5a8a08b",
         "kind": "cited_nlte",
         "name": "data/reference/mg_agss21/mg_agss21_lines.csv"
       },
       {
-        "digest": "5c53a45c075b0b6d1888d967ea08fd4104335bebe398b84a13524b00d36f49da",
+        "digest": "d4b8d4515caa380ea081cd250af6e32946454d752b9dfd54e7b9b2cec8481839",
         "kind": "ledger_scoped",
         "name": "data/linelists/canonical_gf.csv[6900-9209]"
       },
       {
-        "digest": "5e6155eb37e4175c2a787b525b86a431fc529c25999e7442b7acd95c1eb70bd3",
+        "digest": "1af92afa6dd8b05a92d4a16a933c34fa3cd06d47e5cb401acd2dee4986d5b742",
+        "kind": "nlte_labels",
+        "name": "data/linelists/ges_v6_nlte_labels/nlte_labels.tsv[6900-9209]"
+      },
+      {
+        "digest": "f9b66cc983f6ba0547c8d49a5abd26d94209590a7e156adfdcd364f2f38509cb",
         "kind": "synthesis_list",
         "name": "data/linelists/ispec_ir_9200_13000/atomic_lines.tsv[6900-9209]"
       },
       {
-        "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "digest": "95edbd8beecf25f76c1df3750410e4bf90d1c3329efa2da62561a7db7776ca70",
         "kind": "nlte_scoped",
         "name": "data/nlte_grids/Mg_Amarsi2020_PySME.csv[6900-9209]"
       },
@@ -483494,9 +484009,9 @@
         "name": "data/nlte_grids/Mg_Bergemann_MPIA.csv[6900-9209]"
       },
       {
-        "digest": "97225f8687ea3cc041389d2ea5454dc606a90513dd23cef97cf27954bf6f1bb7",
-        "kind": "ledger",
-        "name": "data/catalog/model_registry.csv"
+        "digest": "de74782bf863979e6f1ba84e675bd0c1ad690404d5074b6e3ca95cfa082964c6",
+        "kind": "ledger_scoped",
+        "name": "data/catalog/model_registry.csv[emitting]"
       },
       {
         "digest": "4498f11d539efa251eb50be8851ca45de2a96b4e0634f293df55d279c23be13d",
@@ -483514,9 +484029,16 @@
         "name": "data/registry/problem_children.csv[6900-9209]"
       }
     ],
-    "inputs_hash": "5f585f27ca19fba750251bde1a33810a13eced0ba5ed18f897fe453fbba907fe",
-    "products": [],
-    "recorded_at": "2026-10-25T15:47:56Z"
+    "inputs_hash": "a38f09016f062bddfb2b661ca59f997a2f90110f57feae0081de77a40ff60299",
+    "patch": {
+      "refit_lines": "/home/damienabraxas/scratch/rya1371_mg_logs/mg_x_lines.csv",
+      "refit_lines_sha256": "96c47d9fe6d3cd88bc79f2ec6b51a93ed697b1e64014875df44581b961b55a66",
+      "reused_from": "/home/damienabraxas/scratch/rya1371_mg/data/results/orchestrator/budget/solar_Mg/stage"
+    },
+    "products": [
+      "Mg|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-MG_BERGEMANN2017|SYNTH|ENGINE-B-NLTE|our-all"
+    ],
+    "recorded_at": "2026-11-18T21:34:34Z"
   },
   "solar|Mg|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
     "artifacts": [

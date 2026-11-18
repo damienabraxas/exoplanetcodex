@@ -1,0 +1,525 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 13315,
+    "sha256": "28f7602888ae38288ff78c2ffca09bb3555e123f0a1ad060fb8b5550080be5fc"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-dry-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 86016,
+        "sha256": "4adcc4564f3aa49b48e077d04a3c3fa466c5209b61e900b9e033ff35c41f989c"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-dry-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54202,
+        "sha256": "1168b1239d5d8d38d9fe04c39530a56527f7ae3d4240b2c0c5f212d342b67ded"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-dry-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 167223,
+        "sha256": "4055e8e82514f9ef15bc3824ddcfeb91f18463bc59874c2a3b9e2f9a76bb3539"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 10573,
+        "sha256": "c672da64498b479ce815b1eca3f33bba7cf483dede9a0fec2000789d4cf1049f"
+      },
+      "archived": "rya1371-hop-coupled-source-v1/driver_source.py",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-v1/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 681280,
+        "sha256": "1015efcecb5a5ec91d855c546cf85ddc31c35a9075b89dbf703e5ab00b908955"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 86017,
+        "sha256": "be9031471271992fbe45d182420b9fa4502dd44dc190571304cde53fab9d241b"
+      },
+      "archived": "rya1371-hop-coupled-source-v1/manifest.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54228,
+        "sha256": "50ddc1d9da787855695bcea69175f64eee1be556b5fa28388220cb4696d887d1"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 167269,
+        "sha256": "c5e0b181198da2f2d29ba566ac795125287a217dc9795956261042ecce747605"
+      },
+      "archived": "rya1371-hop-coupled-source-v1/report.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-dry-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 88018,
+        "sha256": "4d52fb95f817f4f52fa3ccbee4d6242e4ca62645c8a322e215560de3f0e21236"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-dry-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54202,
+        "sha256": "1168b1239d5d8d38d9fe04c39530a56527f7ae3d4240b2c0c5f212d342b67ded"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-dry-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 169106,
+        "sha256": "ebe44749dbc2496a7b0e8ba5797c79383114983edf48fbee17d1d0bb3cc66c0b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 12155,
+        "sha256": "39e171a64b4014c846ff2df2e12a46b9e903a161d0b048681b3b105460a90036"
+      },
+      "archived": "rya1371-hop-coupled-source-mali-v1/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v1/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 5521,
+        "sha256": "e1d1cdd656944b4b45eecd1eced70384d376571cb88f6a4528a2a062e837a5f5"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 88019,
+        "sha256": "cec512bd16fbb7fe3b1e1b38e421bc1ce76b5719568e2708d9d4c114881d769e"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54217,
+        "sha256": "41eb79afa0eab658c6e7519a15afd89773a078acc3b0c04dbf6842a9f7ebd857"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 3991481,
+        "sha256": "ddd352be2f178e6484214ebd3dbb368aeb2f744694b1699d45369d19b294c115"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 170040,
+        "sha256": "3f7192f5061070af31d2edfb6da8d6436ea20fbb4b602fd992888d93df210af1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 13644,
+        "sha256": "201f863e2e6b7b427a65fbf09e7619bbcfb4dccb55a02305b3eb24e29a83f952"
+      },
+      "archived": "rya1371-hop-coupled-source-mali-v2/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v2/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 5520,
+        "sha256": "737f45fc244fb3dc1b26697695999027a8b05b5f1c0535e30888b703edd37305"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 88249,
+        "sha256": "62865073dbeabbc5caa4574487bff9d40f383218d7b0a748008a5b2a7aaab283"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v2/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54217,
+        "sha256": "41eb79afa0eab658c6e7519a15afd89773a078acc3b0c04dbf6842a9f7ebd857"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v2/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4216734,
+        "sha256": "f5cb664a3d81266ec161a2a0d5532704cb63ac451d8f57ad2c9efb13f8a12241"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 170334,
+        "sha256": "06516cf078402b50d6db9f420d102cf924952e2105d9c1d34a1052f9cd364eb9"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v3/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 5524,
+        "sha256": "b73f4703ce06e96676ca18345a91c82cc9303b12ee81273c8c0a1cc7a2e07516"
+      },
+      "archived": "rya1371-hop-coupled-source-mali-v3/history.jsonl",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v3/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 89630,
+        "sha256": "895abd60a789c18bf7d4605b86d172187762fad481567306b57ba368f25236a7"
+      },
+      "archived": "rya1371-hop-coupled-source-mali-v3/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v3/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54217,
+        "sha256": "41eb79afa0eab658c6e7519a15afd89773a078acc3b0c04dbf6842a9f7ebd857"
+      },
+      "archived": "rya1371-hop-coupled-source-mali-v3/populations.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v3/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4216734,
+        "sha256": "f5cb664a3d81266ec161a2a0d5532704cb63ac451d8f57ad2c9efb13f8a12241"
+      },
+      "archived": "rya1371-hop-coupled-source-mali-v3/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-source-mali-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 171715,
+        "sha256": "61faeef6a0e4b260a75e6539063884cf594c749c1ccd0b4909c28d4a78536377"
+      },
+      "archived": "rya1371-hop-coupled-source-mali-v3/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 13644,
+        "sha256": "201f863e2e6b7b427a65fbf09e7619bbcfb4dccb55a02305b3eb24e29a83f952"
+      },
+      "archived": "rya1371-hop-coupled-restart-v1/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v1/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 1489,
+        "sha256": "40b17cbb2c73ee67bf4d9128bf692f63b7f60c06e8ad24319bf4a156d6859f0b"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v1/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 88818,
+        "sha256": "b033ce76b6c46a54e03ee68608dfe0f2c7afb4928900866bcd7bd100819733e2"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v1/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54239,
+        "sha256": "bf51806c0ca674e7466cb9fce35befdc58528c551cdba6d0a179df42f58a3dd3"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v1/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4216777,
+        "sha256": "6110739f466ac9ce3b883d0a17c7ebc97c9d48625b675907a3d0c5976a5cd3d1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 170912,
+        "sha256": "388e01e4df936920fb600d956e2858667ed8b06084b52e9dd3dd5447a1a6f6e7"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v2/history.jsonl",
+      "receipt": {
+        "name": "history.jsonl",
+        "bytes": 1489,
+        "sha256": "944ff405e3ac5a61dfa5185f7daf310104910688d97fdc090e67e79abdd4d71f"
+      },
+      "archived": "rya1371-hop-coupled-restart-v2/history.jsonl",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v2/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 90211,
+        "sha256": "78e17cff877156786bea03c8d1b7e40f55dd10bddb52b4fb2f405d091aa12226"
+      },
+      "archived": "rya1371-hop-coupled-restart-v2/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v2/populations.npz",
+      "receipt": {
+        "name": "populations.npz",
+        "bytes": 54239,
+        "sha256": "bf51806c0ca674e7466cb9fce35befdc58528c551cdba6d0a179df42f58a3dd3"
+      },
+      "archived": "rya1371-hop-coupled-restart-v2/populations.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v2/rates.npz",
+      "receipt": {
+        "name": "rates.npz",
+        "bytes": 4216777,
+        "sha256": "6110739f466ac9ce3b883d0a17c7ebc97c9d48625b675907a3d0c5976a5cd3d1"
+      },
+      "archived": "rya1371-hop-coupled-restart-v2/rates.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-restart-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 172305,
+        "sha256": "f06c214f5d5f703924317d991bde7da465c6839834c5a47444ac17fd8780e866"
+      },
+      "archived": "rya1371-hop-coupled-restart-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-independent-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 85216,
+        "sha256": "547cad28f3a29727df39b3fb2d8a95193403414dbc358ba64da2bf00b79977a8"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-independent-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 87165,
+        "sha256": "0b4d9513b12d0ee145c906556c2fcdf3cb45a51f09363ec352ee1e5bae40d3b6"
+      },
+      "archived": "rya1371-hop-coupled-independent-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v1/comparison.png",
+      "receipt": {
+        "name": "comparison.png",
+        "bytes": 277237,
+        "sha256": "af41b170934d7e6bc13d5ad3c14b5c591bd8ab1958718bb043808f70029ca115"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 285723,
+        "sha256": "1ccbfff87893e1694bdca27055c523c155f1c9a077ece61f8f288d48570219d4"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v1/residuals.png",
+      "receipt": {
+        "name": "residuals.png",
+        "bytes": 253866,
+        "sha256": "eb6a66e7c4537c606c351b294808854a062b36327c4e46807045d10aaabf13e1"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v1/spectra.npz",
+      "receipt": {
+        "name": "spectra.npz",
+        "bytes": 193519,
+        "sha256": "b0a83330e29190e5af44a4c1660ef69caf047f1379e8b9b50e6c0b250e22c3e3"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v1/windows.csv",
+      "receipt": {
+        "name": "windows.csv",
+        "bytes": 923,
+        "sha256": "20bcff9d0284f678c657b80109feb9bf5fb75137d5b66dcb74e4f5dc41b8b8cc"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v2/comparison.png",
+      "receipt": {
+        "name": "comparison.png",
+        "bytes": 277237,
+        "sha256": "af41b170934d7e6bc13d5ad3c14b5c591bd8ab1958718bb043808f70029ca115"
+      },
+      "archived": "rya1371-hop-coupled-spectra-v2/comparison.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 287105,
+        "sha256": "efdb5403a705a054e612a1dfccf7f2607273f37ff2c8e4f280273d00d578f489"
+      },
+      "archived": "rya1371-hop-coupled-spectra-v2/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v2/residuals.png",
+      "receipt": {
+        "name": "residuals.png",
+        "bytes": 253866,
+        "sha256": "eb6a66e7c4537c606c351b294808854a062b36327c4e46807045d10aaabf13e1"
+      },
+      "archived": "rya1371-hop-coupled-spectra-v2/residuals.png",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v2/spectra.npz",
+      "receipt": {
+        "name": "spectra.npz",
+        "bytes": 193519,
+        "sha256": "b0a83330e29190e5af44a4c1660ef69caf047f1379e8b9b50e6c0b250e22c3e3"
+      },
+      "archived": "rya1371-hop-coupled-spectra-v2/spectra.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-coupled-spectra-v2/windows.csv",
+      "receipt": {
+        "name": "windows.csv",
+        "bytes": 923,
+        "sha256": "20bcff9d0284f678c657b80109feb9bf5fb75137d5b66dcb74e4f5dc41b8b8cc"
+      },
+      "archived": "rya1371-hop-coupled-spectra-v2/windows.csv",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

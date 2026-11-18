@@ -1,0 +1,123 @@
+{
+  "generator": {
+    "name": "audit_background_knot_sequence.py",
+    "bytes": 4550,
+    "sha256": "90ba53d197dddc9154dffbea864cce9a6d778c5b395b19312eb75b12498ad49d"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/rya1371/scripts/audit_background_knot_sequence.py": {
+      "name": "audit_background_knot_sequence.py",
+      "bytes": 4550,
+      "sha256": "90ba53d197dddc9154dffbea864cce9a6d778c5b395b19312eb75b12498ad49d"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/report.json": {
+      "name": "report.json",
+      "bytes": 216428,
+      "sha256": "76236747b9043f05bc01fd98af57c8c1c9724acebca4f161dd54b63eb019e59e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-physical-shared16-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 4335463,
+      "sha256": "66c57b0db2a10de2aae3a4a3efed4947a85bab308cb0a2735f2d96e1b37f3450"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knots-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217538,
+      "sha256": "a705b6679a2146cbb39733d42eb3bbfe6c462ca7ad948156197d7d13d61bd084"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-knots-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 5104780,
+      "sha256": "42eee0e9d11e198c277efc877dd0490f74aaf895f6092c91bd584e39455f0400"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217497,
+      "sha256": "b52f11c4023321be320d3e7796d08ce768ee681686b2ed6b2b4e18b14191599f"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-midpoint-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 8464788,
+      "sha256": "6e61abe9b3e873ffe7b5127350f136509c563d92142ddec46e30cbe45544dc66"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96594,
+      "sha256": "5592e819af5dfa83d45f285775183c22ba0270711130402e86b46f2c1f532acb"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-plan-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249823,
+      "sha256": "5f487948fd2aa8719750361230540afd65324c4583ccd152844d478debeaa370"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/report.json": {
+      "name": "report.json",
+      "bytes": 217525,
+      "sha256": "834386ce4849ccd737a062ddd00f1af8f4d6a6a29e47fb4ec2059dc605609ebe"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-adaptive-v1/rates.npz": {
+      "name": "rates.npz",
+      "bytes": 9582505,
+      "sha256": "5ba7d60291dda56c069991b357926995f8e85b372e69a297d0fc19670fbc6503"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/report.json": {
+      "name": "report.json",
+      "bytes": 96609,
+      "sha256": "1f094ff5242808fc34149141d9f57b72bf971bf4dd741917302b045d033add44"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-background-final-audit-v1/parabolic_rates.npz": {
+      "name": "parabolic_rates.npz",
+      "bytes": 249790,
+      "sha256": "b715511d0f6afc1ad488452d9c494ab77d75085949d38fd144eb2313637f1901"
+    }
+  },
+  "cases": [
+    {
+      "case": "hop-physical-shared16-v1",
+      "points": 6795,
+      "max_physical_residual": 0.0002211660670029669,
+      "seconds": 2.0262135420925915,
+      "radiation_iterations": 8,
+      "max_inherited_J_relative": null,
+      "max_BF_coefficient_relative_step": null,
+      "parabolic_BF_max_residual": null,
+      "max_parabolic_BF_coefficient_relative_step": null
+    },
+    {
+      "case": "background-knots-v1",
+      "points": 8632,
+      "max_physical_residual": 0.0007733019100501976,
+      "seconds": 3.275194624904543,
+      "radiation_iterations": 9,
+      "max_inherited_J_relative": 1.454392162258955e-12,
+      "max_BF_coefficient_relative_step": 0.003707773078766019,
+      "parabolic_BF_max_residual": null,
+      "max_parabolic_BF_coefficient_relative_step": null
+    },
+    {
+      "case": "background-midpoint-v1",
+      "points": 17263,
+      "max_physical_residual": 0.0008351544993882268,
+      "seconds": 4.96415500016883,
+      "radiation_iterations": 9,
+      "max_inherited_J_relative": 0.0,
+      "max_BF_coefficient_relative_step": 0.00143997735727186,
+      "parabolic_BF_max_residual": 0.0008566024612000107,
+      "max_parabolic_BF_coefficient_relative_step": null
+    },
+    {
+      "case": "background-adaptive-v1",
+      "points": 19963,
+      "max_physical_residual": 0.0008515703272560386,
+      "seconds": 5.576202207710594,
+      "radiation_iterations": 9,
+      "max_inherited_J_relative": 0.0,
+      "max_BF_coefficient_relative_step": 0.0003734275039176671,
+      "parabolic_BF_max_residual": 0.0008570426364037779,
+      "max_parabolic_BF_coefficient_relative_step": 0.00016547009317657846
+    }
+  ],
+  "computational_completed": true,
+  "scientific_admission": "HOLD",
+  "scope": "Independent source-feature branch retains original O nodes and all native opacity knots. Initial inherited-J difference is1.46e-12 with radiation iterations8->9; subsequent grids retain inherited J exactly. No physical data change or certified numerical convergence. The residual at native reference populations is not an abundance error; full coupled/solar/flux/Fe qualification remains owed."
+}

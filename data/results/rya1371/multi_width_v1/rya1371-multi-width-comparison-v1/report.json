@@ -1,0 +1,416 @@
+{
+  "generator": {
+    "name": "audit_multi_width_oracle.py",
+    "bytes": 7675,
+    "sha256": "4e379368aef6762634bd00884d0bf99880c21da87bebf23996702ff90e0b7edb"
+  },
+  "inputs": {
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/multi-width-oracle-v1/receipt.json": {
+      "name": "receipt.json",
+      "bytes": 5499,
+      "sha256": "6068d5604a87fe6c1b17a7521ca974f06cf415fc4bd45402e7bddb1aa39efb09"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1371/multi-width-oracle-v1/multi_width_probe": {
+      "name": "multi_width_probe",
+      "bytes": 52240,
+      "sha256": "bf97fefeec2c4c937d276b74b553c463d73f1b6766b59cc3114192fdbdf1e126"
+    },
+    "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_accurate_profile_transfer.json": {
+      "name": "rya1371_hop_accurate_profile_transfer.json",
+      "bytes": 3269,
+      "sha256": "bb3340f9fa52b66f8642d8e8eb7e94399aaee821dc75ae0b296b39fba88bf9dd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/mul23_sub.f": {
+      "name": "mul23_sub.f",
+      "bytes": 232334,
+      "sha256": "2cbfae6420d362ee4561d3c455a8d32f404b49f4b2b0f8f30ca797931eb9f3bd"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/mul23_bconst.f": {
+      "name": "mul23_bconst.f",
+      "bytes": 1018,
+      "sha256": "c33bcb3655be323c3f95a9224cd130729bb0feaf2003dbf46671fc2ba623d546"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/make_mul23_dbl.csh": {
+      "name": "make_mul23_dbl.csh",
+      "bytes": 2157,
+      "sha256": "65a624ed17641ae1d6cd0ec51352077893b0d397993f2cfa730017249b71e64c"
+    },
+    "/Users/ryanschmitt/codex/rya1371/native/multi_width_oracle/driver.f": {
+      "name": "driver.f",
+      "bytes": 2182,
+      "sha256": "fd4c876aeeb50780aafeac98e5edc1b804a040b24641a237744c5d071b215c12"
+    },
+    "/opt/homebrew/bin/gfortran": {
+      "name": "gfortran",
+      "bytes": 3039240,
+      "sha256": "f86a6dc75b07aa490e3789208b2f17f869883af975eb21897d4693d24cc44b73"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CATOM": {
+      "name": "CATOM",
+      "bytes": 674,
+      "sha256": "e705cccab786433ac446842d9ec30957a3f787a2d90ef7e612b7274ed4c62034"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CATMOS": {
+      "name": "CATMOS",
+      "bytes": 270,
+      "sha256": "9971db7ad384e442b2892c72eb88a37d177ac5268da1d5d8199b112f1b10bfb2"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CATMO2": {
+      "name": "CATMO2",
+      "bytes": 83,
+      "sha256": "44ef581ddc174dd9f41f046b77ffe61b1199b0efedc34aa79c515d56264c76e7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CCONST": {
+      "name": "CCONST",
+      "bytes": 59,
+      "sha256": "b0ffcb577ca46311ddf8072edb0c356c104acc4358a99714e423c06ac381d4d2"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CINPUT": {
+      "name": "CINPUT",
+      "bytes": 397,
+      "sha256": "a24a98b36c5bf39021648799aa89a2cf812a3b5f44f516f0e2dc24ee97982e4d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CLU": {
+      "name": "CLU",
+      "bytes": 168,
+      "sha256": "1eb4f06b4db286a6b0511ba594d1ebc1be5cdfa1722d91a4ffcbbad54abe1d92"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CTERM": {
+      "name": "CTERM",
+      "bytes": 198,
+      "sha256": "e68ba2c7e8ac9451797568ec9cd82eafe794fe7570afbc2fcc71094e6c4056cf"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CTRAN": {
+      "name": "CTRAN",
+      "bytes": 134,
+      "sha256": "01db559147600152256b88869d9184c271a9238176c4cefef0fa67be22c03c8d"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CSLINE": {
+      "name": "CSLINE",
+      "bytes": 475,
+      "sha256": "77165c427526914d1b301fb0ae5f723ec4c12603e61c3e0bd978fed5d4dd7373"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/CBCNST": {
+      "name": "CBCNST",
+      "bytes": 88,
+      "sha256": "4b673d526aef1ae1504e2e12bfac698933f624a5d04e8404dfeef10f53ed2cb4"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/C3D": {
+      "name": "C3D",
+      "bytes": 435,
+      "sha256": "c0e8e401d7fe178fabe0131e83d60c827ccbeeb104f0fce44aaac67e0a603038"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/PREC.dp": {
+      "name": "PREC.dp",
+      "bytes": 33,
+      "sha256": "dd292d38b942229483393353391790de98e975092f3fb656de2dd6e7b0b814f7"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/PARAM": {
+      "name": "PARAM",
+      "bytes": 101,
+      "sha256": "5b9f501701bbeb0156dd1b8ff885dc9b9ee65e1c71637f204ad53c74695ffe6e"
+    },
+    "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-accurate-profile-analysis-v1/arrays.npz": {
+      "name": "arrays.npz",
+      "bytes": 85404,
+      "sha256": "a76996b75c92ab40f0cff7b10f048ca3777f5fc4cfd8bd4bbe38b0ec84548acf"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f": {
+      "name": "atom.o41f",
+      "bytes": 187797,
+      "sha256": "d058b75bdec80c5317523a6d7f185a64ca59144d3d494a17eeabee5f10d04b57"
+    },
+    "/Users/ryanschmitt/codex/bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json": {
+      "name": "reference-5750-4.5-A8.70-v1.json",
+      "bytes": 72076,
+      "sha256": "c3113efdb21e3f40d79c1836b0ddb0ebb41dbceecaf04d622af6b7a8d8c080ec"
+    },
+    "/Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod": {
+      "name": "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+      "bytes": 24227,
+      "sha256": "f4132841a18b0fc62a144d06b1f5ef20e462bf548ca06339a904adae9e84c480"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/LwCompiled.cpython-312-darwin.so": {
+      "name": "LwCompiled.cpython-312-darwin.so",
+      "bytes": 4127408,
+      "sha256": "b86652aecb2b1979e62bcfa4c3fa9095eb3ef6616b77ced9e3c9d22e4af2a952"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/broadening.py": {
+      "name": "broadening.py",
+      "bytes": 19184,
+      "sha256": "384ca635657a000f7af3f2a5a9b31fa284fcbf7911eb8611fbf9fc0647f2d171"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/atomic_model.py": {
+      "name": "atomic_model.py",
+      "bytes": 26863,
+      "sha256": "73d09fad67859c11f55f8fae98ce5b00b5143ba6764f84cbeef8e47ca55e1497"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/constants.py": {
+      "name": "constants.py",
+      "bytes": 941,
+      "sha256": "c24e466a710ba8119a1ae2182f4170f3efe57369b40214c5a593bfbcb95be8bb"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/multi_atom.py": {
+      "name": "multi_atom.py",
+      "bytes": 19706,
+      "sha256": "b6174ce2ea253aa4f824c800cc1f8b3713c2f4126e169063f147df8f99276b7d"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/hop_packet.py": {
+      "name": "hop_packet.py",
+      "bytes": 9256,
+      "sha256": "b1210b71e56c0d174692cc2674dd5019dbc48a6c051a463f140b3a36374614f0"
+    },
+    "/Users/ryanschmitt/codex/rya1371/pipeline/bride_hop_transfer.py": {
+      "name": "bride_hop_transfer.py",
+      "bytes": 10147,
+      "sha256": "fcdd021c55992d53160ce9e4484c06ff4269dd6afb5b84540b889577c5810c60"
+    }
+  },
+  "packet": {
+    "reference": {
+      "registry": {
+        "name": "reference_engines.yaml",
+        "bytes": 877,
+        "sha256": "993aca91c402a6ea2fa51c8389720af52cf1bcf4bf9e9b7d4d9de64ab6ecd42d"
+      },
+      "build_receipt": {
+        "name": "receipt.json",
+        "bytes": 1552,
+        "sha256": "d4df5e562f6ab0c93bcdfe04528678df9bdb8324e947ce7524dbb499718706ae"
+      },
+      "executable": {
+        "name": "dispatch.x",
+        "bytes": 3614040,
+        "sha256": "7cefed6ecadb563c1e519fd4ace116fa680d8aa64ed42128f818466950494bf4"
+      },
+      "source_commit": "32085d26c46e9919a986397b5514a9728abe2074"
+    },
+    "inputs": {
+      "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/standalone/build/libhop.so": {
+        "name": "libhop.so",
+        "bytes": 1164328,
+        "sha256": "306e3cf806ab335e29a1b685a8de05e708942e9ac588ec385f44ad90d41df2d0"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/hopacity/libhop.h": {
+        "name": "libhop.h",
+        "bytes": 2102,
+        "sha256": "2732074eb71f1c58ea908276b7fad061458bf95f74854805708f9cb76475476d"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1371/hop-provider-build-v4/receipt.json": {
+        "name": "receipt.json",
+        "bytes": 1591,
+        "sha256": "d4c2e8ab13d1dbff80e0a66db40d643ee11457b8ad63acb91da00251b86d2d6b"
+      },
+      "/Users/ryanschmitt/codex/rya1371/native/hop_trace_provider/trace_continua.patch": {
+        "name": "trace_continua.patch",
+        "bytes": 4874,
+        "sha256": "3148e0f98fb21c3f4d5a421827da88f10ccfbbfaaea6c7eaee9c59d380274c74"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1371/openmulti3d-hop-provider-v2/experiments/OpenMULTI3D/HOP/const_mod.f90": {
+        "name": "const_mod.f90",
+        "bytes": 5473,
+        "sha256": "af997aaeb48e38bda816c34732fe921bbe6672e278d48dcf0924fdad19c5ce88"
+      },
+      "/Users/ryanschmitt/codex/rya1371/pipeline/hop_abi.py": {
+        "name": "hop_abi.py",
+        "bytes": 959,
+        "sha256": "c2e85accba315422707404517c70f9e9da207d4a7ce306304e312427e53dfb21"
+      },
+      "/Users/ryanschmitt/codex/rya1371/config/experiments/rya1371_hop_native_options.json": {
+        "name": "rya1371_hop_native_options.json",
+        "bytes": 1512,
+        "sha256": "9a86322788c654336af8c2434e3c0ed6b0b2dc08f9b7846e3d60f5a26bb99a2d"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/absdat/TS_absdat.txt": {
+        "name": "TS_absdat.txt",
+        "bytes": 397207,
+        "sha256": "c211540cafd9a872983d717f8709edaf01e86f6694d9ad97cc32cdcaea36dc4e"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/abund/abund_magg22.txt": {
+        "name": "abund_magg22.txt",
+        "bytes": 912,
+        "sha256": "def6f5f5b41277e2795f82f0324c455b6480db982617405799d7386d2b852f17"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/isotopes/isotopes_blp.txt": {
+        "name": "isotopes_blp.txt",
+        "bytes": 8960,
+        "sha256": "838db5bf489e9fe98f5a5d5b4ef2b84937ad16708b1d85c4fb18ccef020fd5d8"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/molec/molec_data_BC.txt": {
+        "name": "molec_data_BC.txt",
+        "bytes": 5993,
+        "sha256": "7826842b8f151b2ab52785f60fb51073b65ff23d8d709c98c60424badc476822"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/Anstee-1802-2014.txt": {
+        "name": "Anstee-1802-2014.txt",
+        "bytes": 4766137,
+        "sha256": "44cc8b80589ecca6831f713061752472965004931eb0694e0e1d9c23dd50299e"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_paschen.txt": {
+        "name": "stehle_paschen.txt",
+        "bytes": 374761,
+        "sha256": "87b5fe38b1097fae32848320f93c40c1b1928ccac77dfa064491f74295ca4038"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_balmer.txt": {
+        "name": "vcs_balmer.txt",
+        "bytes": 1373161,
+        "sha256": "073230eb93c00af046ff937a1148c2d800d9c5073b8931437a87ba4d8ea22426"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_paschen.txt": {
+        "name": "vcs_paschen.txt",
+        "bytes": 312313,
+        "sha256": "2cbea9b0913d60bc1d1e02ac0efd449e57abf9a9102d333b6f0952f2aafe93e0"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/vcs_bracket.txt": {
+        "name": "vcs_bracket.txt",
+        "bytes": 331828,
+        "sha256": "fc36af1c3681519e4b7d4d0c8c96cdc17a451e7f7a45301567cec980175f82ef"
+      },
+      "/Users/ryanschmitt/codex/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/vcs/stehle_balmer.txt": {
+        "name": "stehle_balmer.txt",
+        "bytes": 374761,
+        "sha256": "66f53ec090715245b05845f16c82a79e8887a079764add69cc71db72b9dd88d3"
+      }
+    },
+    "module_options_reset": {
+      "ref_lam": 5000.0,
+      "debug_opac": 0.0,
+      "tolerance": 9.99999975e-05,
+      "opac_table_vmic": 1.0,
+      "eosmet": 0.5,
+      "lam_tolerance": 0.0010000000474974513,
+      "mhd_eos": true,
+      "helium_scattering": true,
+      "relative_abundances": false,
+      "line_scattering": false,
+      "sample_linelist": false,
+      "h_occupation_probability": true,
+      "debye_shield": true,
+      "irwin_dis": true,
+      "disable_rad": false,
+      "disable_stk": false,
+      "disable_vdw": false,
+      "molecule_damping_estimates": true,
+      "hydrogen_bpo": true,
+      "hydrogen_profiles": "stehle",
+      "ll_profile": false,
+      "voigt_kernel": 0,
+      "line_reject_frac": 0.0,
+      "exclude_elements": "",
+      "only_elements": ""
+    },
+    "source_constants_cgs": {
+      "hh": 6.626176e-27,
+      "bk": 1.380662e-16,
+      "cc": 29979245800.0
+    },
+    "atom_trace_selection": {
+      "symbol": "O",
+      "abundance": 8.7,
+      "weight": 15.999,
+      "stages": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "excitation_eV": [
+        0.0,
+        0.019622358307079604,
+        0.028141560177335535,
+        1.9673640648993322,
+        4.189746133053594,
+        9.146090746964331,
+        9.521363374721485,
+        10.740224575718,
+        10.740475147772079,
+        10.988791805394698,
+        10.988880578076895,
+        11.930385047826697,
+        12.078662951586121,
+        12.087017874400637,
+        12.087026553294148,
+        12.28596167066612,
+        12.286045112028019,
+        12.358864376157308,
+        12.358906654767125,
+        12.541673365480955,
+        12.75370369331888,
+        12.766435258146725
+      ]
+    },
+    "excluded_O_records": 1,
+    "frame": "vacuum_nm",
+    "opacity": "total extinction m-1 including scattering exactly once",
+    "source": "native HOP historical-constant LTE I_nu; scattering source added by RT backend",
+    "molecular_equilibrium": "native HOP, LTE; no molecular line-list opacity",
+    "scientific_admission": "HOLD"
+  },
+  "scientific_admission": "HOLD",
+  "scope": "Original exact DAMP with aggregate neutral-H storage only; actual source O41,56 matched states, all256 lines; no RT/SE or physical width default adoption.",
+  "seconds": 0.4752579997293651,
+  "native_constants": {
+    "BK_cgs": 1.3806619834888354e-16,
+    "UU_g": 1.6605654189103923e-24,
+    "HH_cgs": 6.626175840359885e-27,
+    "CC_cgs": 29979246592.0,
+    "EE_erg_per_eV": 1.6021889761089203e-12,
+    "PI": 3.1415927410125732
+  },
+  "source_atomic_mass_amu": 15.999,
+  "LW_atomic_mass_amu": 15.9994,
+  "statistics": {
+    "LW_He_off": {
+      "Unsold": {
+        "n_lines": 253,
+        "LW_over_original_min": 0.9652890314998253,
+        "LW_over_original_max": 0.9652890791989909
+      },
+      "ABO": {
+        "n_lines": 3,
+        "LW_over_original_min": 0.9999844340033002,
+        "LW_over_original_max": 0.9999844340033011
+      }
+    },
+    "LW_He_on": {
+      "Unsold": {
+        "n_lines": 253,
+        "LW_over_original_min": 1.0223317769194002,
+        "LW_over_original_max": 1.0245011145287326
+      },
+      "ABO": {
+        "n_lines": 3,
+        "LW_over_original_min": 1.032620827802455,
+        "LW_over_original_max": 1.034354674946486
+      }
+    }
+  },
+  "output": {
+    "name": "widths.npz",
+    "bytes": 725580,
+    "sha256": "f003a1f6682c48b67e1e959d416c62dc878055f4f333b518667481a30e519cad"
+  },
+  "limitations": [
+    "Original source comments name fixed He/H0.1 in legacy Unsold recipe; runtime total-H input is not proof of helium-free physical coefficients.",
+    "Modern LW and legacy prescriptions are compared without rescaling or selecting by agreement; no physical width uncertainty/adoption inferred solely from equality.",
+    "Native H aggregate slot is solely for O DAMP reduction, not a collider-level H population packet. Fresh balance/EOS/collider/solar/3D/all-band gates stay open."
+  ]
+}

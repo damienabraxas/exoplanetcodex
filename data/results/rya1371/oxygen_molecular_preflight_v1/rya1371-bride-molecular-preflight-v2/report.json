@@ -1,0 +1,364 @@
+{
+  "generator": {
+    "name": "preflight_bride_molecular_equilibrium.py",
+    "bytes": 5169,
+    "sha256": "ea00d991333d82c4d44e835b06b45c1584a2823e16673b5057ff1e10ddbcc0e5"
+  },
+  "scientific_admission": "HOLD",
+  "source_state": {
+    "name": "report.json",
+    "bytes": 9641,
+    "sha256": "e1a3b7735e5d017cecca7a86ddb927f9ad8756c7f5dc4e1a11a101e680e45f8a"
+  },
+  "inventory": [
+    {
+      "name": "C2",
+      "source": {
+        "name": "C2.molecule",
+        "bytes": 428,
+        "sha256": "8ab4c5f19d48d3854a38c1fcba431e61eb687bebdca90a01385759f50e2b6cd7"
+      },
+      "range_K": [
+        1000.0,
+        16000.0
+      ],
+      "unsupported_depths": 0
+    },
+    {
+      "name": "CH",
+      "source": {
+        "name": "CH.molecule",
+        "bytes": 665,
+        "sha256": "411ec739321a81abc8e8a8a59635972126dce22b0f248ef19db498922033ac3f"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "CN",
+      "source": {
+        "name": "CN.molecule",
+        "bytes": 539,
+        "sha256": "57905cd786ffc5bb26caa9244d4a44e031641ffded7a7a1f82d5c00ddd5601c2"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "CO",
+      "source": {
+        "name": "CO.molecule",
+        "bytes": 563,
+        "sha256": "3c3e3e36b64d930ce2c6e2efa5eea590cdec36269982bfe5267ee3b068a2064b"
+      },
+      "range_K": [
+        1000.0,
+        12000.0
+      ],
+      "unsupported_depths": 0
+    },
+    {
+      "name": "CAH",
+      "source": {
+        "name": "CaH.molecule",
+        "bytes": 477,
+        "sha256": "1915e064146139d579affd454035dc5082b121c64760cc3fab55b9a85c09d649"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "H2+",
+      "source": {
+        "name": "H2+.molecule",
+        "bytes": 400,
+        "sha256": "6738b4bb371e3ca7e710f7dedf59f2617614a3c5b65be1dede7386ce7623dd58"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "H2",
+      "source": {
+        "name": "H2.molecule",
+        "bytes": 504,
+        "sha256": "f73b214e8babba19b6da0cd18d49fb24e65c4011e765a0fb43c54d6aebcc5f5c"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "H2O",
+      "source": {
+        "name": "H2O.molecule",
+        "bytes": 410,
+        "sha256": "06796d27ec9ca121ed8fea7d7de33888345d63219abea9473c200744a652a602"
+      },
+      "range_K": [
+        1000.0,
+        6000.0
+      ],
+      "unsupported_depths": 24
+    },
+    {
+      "name": "HF",
+      "source": {
+        "name": "HF.molecule",
+        "bytes": 521,
+        "sha256": "b392584458f5f6b0fa48b7e1304c0650c6925a8ff2085071e693335b12610a69"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "LIH",
+      "source": {
+        "name": "LiH.molecule",
+        "bytes": 429,
+        "sha256": "2c7965e07e0c4c8ec35301baba28774bf29218d03c9db1a5bee8fa7bec805a3c"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "MGH",
+      "source": {
+        "name": "MgH.molecule",
+        "bytes": 693,
+        "sha256": "95568d0480d6125d3142567a7e741a23e2603fafdb748763ee8f894ed911f23f"
+      },
+      "range_K": [
+        1000.0,
+        15000.0
+      ],
+      "unsupported_depths": 0
+    },
+    {
+      "name": "N2",
+      "source": {
+        "name": "N2.molecule",
+        "bytes": 428,
+        "sha256": "38d0a44facbc84e1c255d15a89c7a312332a30be5328342c9740bd14e5a85f1a"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "NH",
+      "source": {
+        "name": "NH.molecule",
+        "bytes": 415,
+        "sha256": "c9d5f08a5ec3b66efb8dd171f5e5a703d2c10c8c1c1d177b5ceffd1b36f6d5b1"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "NO",
+      "source": {
+        "name": "NO.molecule",
+        "bytes": 416,
+        "sha256": "c59d188a602b2a793f4af386eedd810062f3cd4c919f4c6e75d7c7b8753b9e1f"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "O2",
+      "source": {
+        "name": "O2.molecule",
+        "bytes": 418,
+        "sha256": "fc3a8e58d28ec40323a4dbd05f5af04976c2e5991655da2ccec5b1f6d6363c07"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "OH",
+      "source": {
+        "name": "OH.molecule",
+        "bytes": 477,
+        "sha256": "fb065c4e9c7571dfc8f4974ef76e4a5536ebfcb8911e37209e92697dcf23b6b7"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "SiO",
+      "source": {
+        "name": "SiO.molecule",
+        "bytes": 389,
+        "sha256": "5f860adf665c16eef55c5178cd550972d520b3c23f0586c8a6168a0ee4120900"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    },
+    {
+      "name": "TiO",
+      "source": {
+        "name": "TiO.molecule",
+        "bytes": 571,
+        "sha256": "4505ae57b004269eaa9703a6c7624ef9d9980b1c1b81ab1de356843afa1bb448"
+      },
+      "range_K": [
+        1000.0,
+        9000.0
+      ],
+      "unsupported_depths": 5
+    }
+  ],
+  "inputs": {
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/C2.molecule": {
+      "name": "C2.molecule",
+      "bytes": 428,
+      "sha256": "8ab4c5f19d48d3854a38c1fcba431e61eb687bebdca90a01385759f50e2b6cd7"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/CH.molecule": {
+      "name": "CH.molecule",
+      "bytes": 665,
+      "sha256": "411ec739321a81abc8e8a8a59635972126dce22b0f248ef19db498922033ac3f"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/CN.molecule": {
+      "name": "CN.molecule",
+      "bytes": 539,
+      "sha256": "57905cd786ffc5bb26caa9244d4a44e031641ffded7a7a1f82d5c00ddd5601c2"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/CO.molecule": {
+      "name": "CO.molecule",
+      "bytes": 563,
+      "sha256": "3c3e3e36b64d930ce2c6e2efa5eea590cdec36269982bfe5267ee3b068a2064b"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/CaH.molecule": {
+      "name": "CaH.molecule",
+      "bytes": 477,
+      "sha256": "1915e064146139d579affd454035dc5082b121c64760cc3fab55b9a85c09d649"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/H2+.molecule": {
+      "name": "H2+.molecule",
+      "bytes": 400,
+      "sha256": "6738b4bb371e3ca7e710f7dedf59f2617614a3c5b65be1dede7386ce7623dd58"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/H2.molecule": {
+      "name": "H2.molecule",
+      "bytes": 504,
+      "sha256": "f73b214e8babba19b6da0cd18d49fb24e65c4011e765a0fb43c54d6aebcc5f5c"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/H2O.molecule": {
+      "name": "H2O.molecule",
+      "bytes": 410,
+      "sha256": "06796d27ec9ca121ed8fea7d7de33888345d63219abea9473c200744a652a602"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/HF.molecule": {
+      "name": "HF.molecule",
+      "bytes": 521,
+      "sha256": "b392584458f5f6b0fa48b7e1304c0650c6925a8ff2085071e693335b12610a69"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/LiH.molecule": {
+      "name": "LiH.molecule",
+      "bytes": 429,
+      "sha256": "2c7965e07e0c4c8ec35301baba28774bf29218d03c9db1a5bee8fa7bec805a3c"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/MgH.molecule": {
+      "name": "MgH.molecule",
+      "bytes": 693,
+      "sha256": "95568d0480d6125d3142567a7e741a23e2603fafdb748763ee8f894ed911f23f"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/N2.molecule": {
+      "name": "N2.molecule",
+      "bytes": 428,
+      "sha256": "38d0a44facbc84e1c255d15a89c7a312332a30be5328342c9740bd14e5a85f1a"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/NH.molecule": {
+      "name": "NH.molecule",
+      "bytes": 415,
+      "sha256": "c9d5f08a5ec3b66efb8dd171f5e5a703d2c10c8c1c1d177b5ceffd1b36f6d5b1"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/NO.molecule": {
+      "name": "NO.molecule",
+      "bytes": 416,
+      "sha256": "c59d188a602b2a793f4af386eedd810062f3cd4c919f4c6e75d7c7b8753b9e1f"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/O2.molecule": {
+      "name": "O2.molecule",
+      "bytes": 418,
+      "sha256": "fc3a8e58d28ec40323a4dbd05f5af04976c2e5991655da2ccec5b1f6d6363c07"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/OH.molecule": {
+      "name": "OH.molecule",
+      "bytes": 477,
+      "sha256": "fb065c4e9c7571dfc8f4974ef76e4a5536ebfcb8911e37209e92697dcf23b6b7"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/SiO.molecule": {
+      "name": "SiO.molecule",
+      "bytes": 389,
+      "sha256": "5f860adf665c16eef55c5178cd550972d520b3c23f0586c8a6168a0ee4120900"
+    },
+    "/Users/ryanschmitt/bride_rya1118/.venv/lib/python3.12/site-packages/lightweaver/Data/DefaultMolecules/TiO.molecule": {
+      "name": "TiO.molecule",
+      "bytes": 571,
+      "sha256": "4505ae57b004269eaa9703a6c7624ef9d9980b1c1b81ab1de356843afa1bb448"
+    }
+  },
+  "excluded_original_depth_indices": [
+    51,
+    52,
+    53,
+    54,
+    55
+  ],
+  "included_states": 51,
+  "full_network_range_admission": "HOLD",
+  "explicit_control": "CO+H2 LTE on supported independent EOS states; not fallback full chemistry or truncated RT",
+  "element_conservation_max_relative": {
+    "O(Z=8)": 8.881784197001252e-16,
+    "C(Z=6)": 5.551115123125783e-16
+  },
+  "CO_O_reservoir_fraction_range": [
+    5.311176089048954e-07,
+    0.16997745398166245
+  ],
+  "limitations": [
+    "No RT/SE update, molecular line opacity or molecular NLTE.",
+    "Incomplete CO+H2 network is not a scientifically complete EOS.",
+    "Unsupported states explicitly excluded only from the independent EOS diagnostic; no coefficient extrapolation or full-column claim."
+  ]
+}

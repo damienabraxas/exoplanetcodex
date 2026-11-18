@@ -1375,9 +1375,15 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
     _gn = None
     _dep_per_abundance = False
     if nlte_deck is not None:
-        from pipeline import gerber_nlte as _gn
-        if nlte_deck != 'gerber':
-            raise ValueError(f"unknown NLTE deck {nlte_deck!r} (only 'gerber' is wired)")
+        # RYA-1371: the deck PROVIDER is named by the caller. `openmulti3d_nlte` exposes the
+        # same surface as `gerber_nlte`, so everything below is provider-blind; only where
+        # b(level, depth) came from differs.
+        if nlte_deck == 'gerber':
+            from pipeline import gerber_nlte as _gn
+        elif nlte_deck == 'openmulti3d':
+            from pipeline import openmulti3d_nlte as _gn
+        else:
+            raise ValueError(f"unknown NLTE deck {nlte_deck!r} (wired: 'gerber', 'openmulti3d')")
         # 🔴 RYA-1050 RESIDUAL. This was the FOURTH call site and the only one that
         # could not ask the stage question -- not because it forgot, but because this
         # function had no `ion` to pass. The three driver sites were fixed to pass

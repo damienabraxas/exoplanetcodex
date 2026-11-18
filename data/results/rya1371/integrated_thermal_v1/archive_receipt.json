@@ -1,0 +1,125 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 18189,
+    "sha256": "ac18b9393c6a7ab970c54b74ae9362bf2c05f5a715a2463bb010e7b9253c2f03"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v3/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4728492,
+        "sha256": "4f98e1c9dce8e574146c317d22547adad699b4315ab706f741aa0cf89d0f4592"
+      },
+      "archived": "rya1371-integrated-thermal-v3/integrated_defects.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 89542,
+        "sha256": "6869a0bb1e9588df31d53b4ae4cf117a9e631301162553925c11fcb9511c777c"
+      },
+      "archived": "rya1371-integrated-thermal-v3/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v3/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 969,
+        "sha256": "2b1a27f07ee40becbaad975cf52f727aa6da482f635546c7f02e65d617fa3854"
+      },
+      "archived": "rya1371-integrated-thermal-v3/stdout_stderr.log",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v1/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 9158,
+        "sha256": "6f988ac6af2c2dfcb32ba7dd00089ffaf9b99cab894fa73a094984794da89924"
+      },
+      "archived": "rya1371-integrated-thermal-v1/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v1/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 3128833,
+        "sha256": "a3b54c5ea0e179688eeb91d234a0957439f8766750b45b3a776328dda7728eab"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 87541,
+        "sha256": "78a84f696d23a0ad2d4af38aa6224551d37365a9df8e9bd4b2db388f2b99516d"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v1/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 845,
+        "sha256": "12538cf285d4b66af5743ebd141f28fa9889ff5c55fa243a725a130520179fa8"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v2/driver_source.py",
+      "receipt": {
+        "name": "driver_source.py",
+        "bytes": 9859,
+        "sha256": "78bb55bebc62aeb51d0f20439009674a12c54a885dd416ce91b760af113dbdc3"
+      },
+      "archived": "rya1371-integrated-thermal-v2/driver_source.py",
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v2/integrated_defects.csv",
+      "receipt": {
+        "name": "integrated_defects.csv",
+        "bytes": 4728492,
+        "sha256": "4f98e1c9dce8e574146c317d22547adad699b4315ab706f741aa0cf89d0f4592"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 88224,
+        "sha256": "01b93de9c43234fa7261f5a11b85478d33c6a5f51507995e4cbe388ab3710701"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-integrated-thermal-v2/stdout_stderr.log",
+      "receipt": {
+        "name": "stdout_stderr.log",
+        "bytes": 969,
+        "sha256": "2b1a27f07ee40becbaad975cf52f727aa6da482f635546c7f02e65d617fa3854"
+      },
+      "archived": null,
+      "disposition": "receipt-only"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

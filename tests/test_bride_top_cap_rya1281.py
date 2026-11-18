@@ -82,7 +82,8 @@ def test_actual_backend_isothermal_cap_matches_independent_slab():
     assert max(result['final_J_change'],result['final_boundary_change'])<1e-12
 
 
-def test_native_cap_constructor_and_diagnostic_ray_grid():
+@pytest.mark.parametrize('ray_count',[1,3])
+def test_native_cap_constructor_and_diagnostic_ray_grid(ray_count):
     import json
     from config.constants import codex_path,require_codex_path
     from pipeline.bride_reference import read_marcs_structure,make_reference_context
@@ -103,9 +104,9 @@ def test_native_cap_constructor_and_diagnostic_ray_grid():
         cap.update_from_context(ctx,old)
     before=cap.chi.copy()
     from pipeline.bride_observables import flux_quadrature
-    mu,weight=flux_quadrature(3)
+    mu,weight=(np.array([1.]),np.array([1.]))if ray_count==1 else flux_quadrature(ray_count)
     grid,outer=emergent_rays(ctx,np.linspace(777.2,777.3,7),mu,weight)
-    assert grid.shape==outer.shape==(7,3)
+    assert grid.shape==outer.shape==(7,ray_count)
     assert np.isfinite(outer).all() and np.all(outer>0)
     assert np.any(outer!=grid)
     np.testing.assert_array_equal(cap.chi,before)

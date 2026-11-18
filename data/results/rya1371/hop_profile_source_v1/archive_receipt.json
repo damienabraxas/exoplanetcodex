@@ -1,0 +1,105 @@
+{
+  "generator": {
+    "name": "archive_oxygen_reference_checks.py",
+    "bytes": 6534,
+    "sha256": "64aa05f78b84fffaaca9c40fceb5c26d2dabf892c77087df56abaa654645e9d2"
+  },
+  "scientific_admission": "HOLD",
+  "files": [
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v3/manifest.json",
+      "receipt": {
+        "name": "manifest.json",
+        "bytes": 5359,
+        "sha256": "bfa3681d4b31ce7d00a7d7fda24dfd23e965a086798d8f3cb966240ab61f8810"
+      },
+      "archived": "rya1371-hop-no-he-transfer-v3/manifest.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v3/native_LTE.npz",
+      "receipt": {
+        "name": "native_LTE.npz",
+        "bytes": 204870,
+        "sha256": "728f2fa34ac6a4aa652ea6fc4ede62c92969f2faab174aed913837536f6ff6ea"
+      },
+      "archived": "rya1371-hop-no-he-transfer-v3/native_LTE.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v3/native_NLTE.npz",
+      "receipt": {
+        "name": "native_NLTE.npz",
+        "bytes": 204980,
+        "sha256": "ddf4ca6c87a502a91451c143a0f9e2567dfb05baecd32078525a357f585f0f16"
+      },
+      "archived": "rya1371-hop-no-he-transfer-v3/native_NLTE.npz",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-no-he-transfer-v3/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 203062,
+        "sha256": "2864d95f757535ae2f0663e5fcfddc157ee65004b098478830b78d62221bc00a"
+      },
+      "archived": "rya1371-hop-no-he-transfer-v3/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-hop-he-guard-replay-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 1065,
+        "sha256": "3ec7d12f90af07446a8295e3f755b56c1e3356267b797657f22750ee0b0cf61a"
+      },
+      "archived": "rya1371-hop-he-guard-replay-v1/report.json",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-native-table-audit-v1/lines.csv",
+      "receipt": {
+        "name": "lines.csv",
+        "bytes": 32894,
+        "sha256": "6c7183ae55c10e44cda3d3ce7ecb9512d4b037de25b54cbb56f73b5333b8fb8e"
+      },
+      "archived": null,
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-native-table-audit-v1/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 5494,
+        "sha256": "2b5ac29ea5b170dd2544931a268522fc9eff376ffd5b343071a9cdb60beb11cf"
+      },
+      "archived": "rya1371-oxygen-native-table-audit-v1/report.json",
+      "disposition": "invalid"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-native-table-audit-v2/lines.csv",
+      "receipt": {
+        "name": "lines.csv",
+        "bytes": 34139,
+        "sha256": "d88ea25e32ed569b4bfce0ffbabe198eeeaba9525764218462715dcf86d3fc3f"
+      },
+      "archived": "rya1371-oxygen-native-table-audit-v2/lines.csv",
+      "disposition": "analysis"
+    },
+    {
+      "raw": "/Users/ryanschmitt/codex/bride_mac_checks/rya1371-oxygen-native-table-audit-v2/report.json",
+      "receipt": {
+        "name": "report.json",
+        "bytes": 6474,
+        "sha256": "9051004b0688a4a87dbff4c2f0ffc7ec8b9653c5f054278c1149a46d4372ed23"
+      },
+      "archived": "rya1371-oxygen-native-table-audit-v2/report.json",
+      "disposition": "analysis"
+    }
+  ],
+  "limitations": [
+    "Invalid single-ray v1 arrays remain external and inadmissible; receipts do not validate them.",
+    "Native binary/raw output remains external with byte receipts; compact analysis copied exactly.",
+    "Older exploratory readers mislabeled native per-Angstrom intensity as per-Hz; only dense-analysis-v3 and later qualified readers used here."
+  ]
+}

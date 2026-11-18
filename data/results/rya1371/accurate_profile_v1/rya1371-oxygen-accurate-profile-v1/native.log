@@ -1,0 +1,56 @@
+ This version was compiled with default real KIND = 4
+ MPI is not enabled!
+ C-binding call created directory native/00000/           1
+ ===============================================================================
+ DISPATCH code framework, branch:main, hash:32085d26c
+ SOLVER=None OPTS=hoppe
+ GCC version 16.1.0                                                                                                              
+ ================================ mpi_t%info ====================================
+ n_sockets =   1
+   n_cores =   0
+ n_threads =   1
+  n_places =   0
+   n_ranks =   1
+ Stacksize =   256MB
+ This version was compiled with default real KIND = 4
+ ================================= io_t%init ====================================
+ parameters from: input.nml
+ output directory: native/
+ ============================ read_external_t%ini ===============================
+ C-binding call created directory native/save           1
+ C-binding call created directory native/atoms           1
+Reading marcs atmosphere from /Users/ryanschmitt/Documents/Exoplanet Codex/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod
+FeH was overwritten by Marcs model: [Fe/H] =  0.00
+Vmic from the model, mean: Vmic =  1.00
+Reading atom file: /Users/ryanschmitt/codex/bride_inputs/rya1281/atom.o41f
+Changing abundance of O from  8.66 to  8.70
+NLTE frequency grid (bound-free): 505 frequencies
+NLTE frequency grid (bound-bound): 6072 frequencies
+excluding all O lines from line list
+Memory estimate: peak 0.0703 GiB (rank 0)
+ ======================= dispatcher0: begin execution ===========================
+    iter    global  lvl           pos
+  0 /***    0.00 %    0 [   0   0   0]
+  1 /***    0.00 %   40 [   1   1  55]
+  2 /***  664.84 %   40 [   1   1  54]
+  3 /***    4.83 %   40 [   1   1  54]
+  4 /***    1.17 %   40 [   1   1  54]
+  5 /***    0.36 %   40 [   1   1  54]
+  6 /***    0.12 %   40 [   1   1  54]
+  7 /***    0.04 %   40 [   1   1  55]
+  8 /***    0.01 %   40 [   1   1  55]
+  9 /***    0.01 %   40 [   1   1  55]
+ 10 /***    0.00 %   40 [   1   1  55]
+ 11 /***    0.00 %   40 [   1   1  55]
+ 12 /***    0.00 %   40 [   1   1  55]
+ 13 /***    0.00 %   40 [   1   1  55]
+                               procedure       calls          time       time(%)      s/call  locks(%)
+                           patch_t%save5      1.676E+03      0.149           2.5    0.000089       0.0  
+                        rt_patch%execute       848.          7.188E-02       1.2    0.000085       0.0  
+      rt_patch%add_bound_bound_opacities      2.112E+03       2.39          40.6    0.001130       0.0  
+               rt_patch%long_char_linear      4.208E+03      0.214           3.6    0.000051       0.0  
+              rt_patch%bound_bound_rates      2.080E+03       2.61          44.4    0.001256       0.0  
+            TOTAL updates, thread time           1.00         5.88         100.             0.0     time advance       0.00 core-mus/cell-upd      5.9 wall sec
+ MPI recv:      0.0 MB/s     0.000 MB/mesg  mean latency: 0.000  max: 0.000  nq_send_max:   0  f_unpk: 0.00  f_mem: 1.00  f_que: 1.00  f_cheap: 0.00
+Peak memory: 0.070 GiB (rank 0), estimate 0.070 GiB
+OpenMULTI3D terminated successfully.
