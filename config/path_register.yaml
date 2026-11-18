@@ -956,6 +956,15 @@ entries:
       Atoms staged: Ba Ca Co Cr Fe Mg Mn Na Ni O Si Sr Ti. Not staged: Al Y Eu
       (RYA-801/802/803 in flight); H present via RYA-804. STAGED != WIRED --
       an element is `wired` only once its RYA-534 anchor gate passes.
+  grids.keeper_atoms_20261118:
+    root: grids
+    rel: nlte/keeper_atoms_2026-11-18
+    kind: dir
+    desc: >-
+      RYA-1371 snapshot of every model atom on the MPG Keeper share
+      6eaecbf95b88448f98a4 /dep-grids/*/ fetched 2026-11-18T07:31Z (mutable,
+      unversioned share -> SHA256SUMS in dir; files read-only). Sirius only.
+      Inventory: docs/audit/rya1371/keeper_atom_inventory.md.
   grids.amarsi_galah:
     root: grids
     rel: nlte/amarsi_galah
