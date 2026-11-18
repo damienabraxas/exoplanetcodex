@@ -1,0 +1,64 @@
+{
+  "purpose": "RYA-1371 Phase 0 direct triplet fit: OpenMULTI3D 1D LTE+NLTE solar flux with the engine's SIU background line list over +/-60 A (ORCH continuum neighbourhood), for profile fits and blend EWs.",
+  "engine_app": "$CODEX_WORK_ROOT/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D",
+  "engine_commit": "32085d26c46e9919a986397b5514a9728abe2074",
+  "atmosphere_rel": "input/atmos/p5777_g+4.4_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod",
+  "atmosphere_sha256": "718e9eddc0b7507379bac002e520465c55134d802f774a72d764dd1845591499",
+  "atoms": {
+    "o41f": "$CODEX_WORK_ROOT/bride_mac_checks/rya1371-o-solar-inversion-v1/atoms/atom.o41f",
+    "o41j": "$CODEX_WORK_ROOT/bride_mac_checks/rya1371-o-solar-inversion-v1/atoms/atom.o41j"
+  },
+  "atom_sha256": {
+    "o41f": "5cc8a84d7ebc6ba23b22d882e4cf0e7a38c4a707bc441e323350236bfed21af5",
+    "o41j": "9dc06ba050bfa0db2af144bdddd5d796b18add30aff075bf9030be0eefaf749d"
+  },
+  "abundances": [
+    8.55,
+    8.6,
+    8.65,
+    8.7,
+    8.75,
+    8.8,
+    8.85,
+    8.9,
+    8.95,
+    9.0,
+    9.05
+  ],
+  "convlim": 0.0001,
+  "threads": 4,
+  "windows_air_A": [
+    [
+      7700.0,
+      7845.0
+    ]
+  ],
+  "step_air_A": 0.005,
+  "lines": [
+    {
+      "name": "O7772",
+      "wavelength_air_A": 7771.944,
+      "integrate_air_A": [
+        7768.5,
+        7773.055
+      ]
+    },
+    {
+      "name": "O7774",
+      "wavelength_air_A": 7774.166,
+      "integrate_air_A": [
+        7773.055,
+        7774.777
+      ]
+    },
+    {
+      "name": "O7775",
+      "wavelength_air_A": 7775.388,
+      "integrate_air_A": [
+        7774.777,
+        7778.5
+      ]
+    }
+  ],
+  "linelist": "$CODEX_WORK_ROOT/bride_inputs/rya1281/openmulti3d-reference-v1/experiments/OpenMULTI3D/input/linelists/SIU_masterline_Bergemann2026.txt"
+}

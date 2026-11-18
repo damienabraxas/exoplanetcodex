@@ -188,6 +188,22 @@ entries:
       RYA-1371 per-line OpenMULTI3D 1D NLTE corrections at the ORCH 1D-LTE O
       abundances (IAG, KP Kurucz2005, KP molecfit),
       scripts/analyze_openmulti3d_nlte_corrections.py.
+  experiments.openmulti3d_solar_o_wide:
+    root: work
+    rel: bride_mac_checks/rya1371-o-solar-inversion-v1/wide_v1
+    kind: dir
+    desc: >-
+      RYA-1371 OpenMULTI3D 1D LTE+NLTE solar O flux 7700-7845 A with the SIU
+      background line list (o41f, o41j x 11 abundances), full spectra for the
+      direct triplet fit; spectra_cache.npz holds the normalised grid.
+  experiments.openmulti3d_solar_o_fit:
+    root: work
+    rel: bride_mac_checks/rya1371-o-solar-inversion-v1/fit_v1
+    kind: dir
+    desc: >-
+      RYA-1371 direct triplet fit (profile + EW, three continuum legs, IAG + two
+      KP holdings), scripts/fit_openmulti3d_solar_lines.py; compact copy in
+      data/results/rya1371/openmulti3d_solar_o_fit_v1.
   engines.openmulti3d_python:
     root: work
     rel: venv_openmulti3d

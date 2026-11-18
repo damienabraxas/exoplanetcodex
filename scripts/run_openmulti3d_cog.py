@@ -21,6 +21,8 @@ def sha(path):
 
 def namelist(spec, atom, abundance, lam_file, atmos):
     ll = spec.get('linelist')
+    if ll:
+        ll = ll.replace('$CODEX_WORK_ROOT', os.environ.get('CODEX_WORK_ROOT', str(Path.home() / 'codex')))
     lines = [
         "&io_params datadir='data' gb_step=6.0 do_trace=F /",
         "&timer_params sec_per_report=1d8 verbose=1 /",
@@ -119,6 +121,7 @@ def main():
         schema='codex.openmulti3d_cog/1', spec=str(a.spec), spec_sha256=sha(a.spec), generator_sha256=sha(__file__),
         engine_commit=head, executable_sha256=sha(exe), atmosphere=str(atmos), atmosphere_sha256=sha(atmos),
         atom_sha256=receipts, flux_mus=mus, ew_definition='1e3*trapz(1-F/Fc) over integrate_air_A, flux, tumult air axis',
+        linelist=spec.get('linelist'), linelist_sha256=(sha(spec['linelist'].replace('$CODEX_WORK_ROOT', str(work))) if spec.get('linelist') else None),
         triplet_gf_source='atom transitions (output_from_line_list=F); background lines from linelist if declared'), indent=2) + '\n')
 
 
