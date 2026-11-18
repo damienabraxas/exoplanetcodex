@@ -646,6 +646,20 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() <= WTOL)
               & ((g.excitation_potential_eV - l.ep_eV).abs() <= EPTOL)]
         if m.empty:
+            # RYA-470: a hyperfine line is reported at the list row the fit keyed on (V I
+            # 5737.031, the first of 4 GES components) while canonical stores the physical
+            # line at its gf-weighted centroid (5737.062), which is what the synthesis
+            # priced (gf_resolver.apply_to_synth_array). Join it the way the synthesis
+            # clustered it: same lower level (EP_CLUSTER_TOL), within HFS_GAP, onto a
+            # canonical row that IS a multi-component line -- and only when exactly one
+            # such row qualifies.
+            from pipeline.gf_resolver import EP_CLUSTER_TOL, HFS_GAP
+            h = g[((g.wavelength_air_A - l.wavelength_air_A).abs() <= HFS_GAP)
+                  & ((g.excitation_potential_eV - l.ep_eV).abs() <= EP_CLUSTER_TOL)
+                  & (pd.to_numeric(g.hfs_n_components, errors="coerce") > 1)]
+            if len(h) == 1:
+                m = h
+        if m.empty:
             return {"row": row, "skip": f"{l.wavelength_air_A}: 0 canonical_gf rows "
                                         f"on lambda+EP -- refusing a lambda-only join (RYA-1037)"}
         m = m.loc[(m.wavelength_air_A - l.wavelength_air_A).abs().idxmin()]
