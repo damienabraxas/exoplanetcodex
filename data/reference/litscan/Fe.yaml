@@ -177,3 +177,17 @@ verification_owed:
   - >-
     Keep this file in sync when RYA-714 § 2 gains entries. The dossier is the
     source of truth; this projection must never drift ahead of it.
+
+#: RYA-728 per-band sweep record, transcribed 2026-11-15 (RYA-1388) from RYA-714 § 2.2 and the
+#: lab gf canonical_gf adopts in 3780-6910 A. VIS only: the other bands stay owed until their
+#: search is recorded from the dossier (§ 2.1 UV, § 2.3 IR).
+literature_sweep:
+  bands:
+    - ion: I
+      band: VIS
+      searched: [Amarsi+2021 (A&A 653 A141), Scott+2015a, Asplund+2009, Caffau+2011, Lind+2017, Ramirez et al. (project file Oxygen Abudances.pdf), Den Hartog+2014, Ruffoni+2014, Belmonte+2017]
+      result: A(Fe I) 7.45-7.52 across the VIS literature; Amarsi+2021 3D-NLTE 7.46 +/- 0.04 is the best external (RYA-714 § 4). 243 Fe I lab gf adopted in 3780-6910 A (Den Hartog+2014 111, Ruffoni+2014 87, Belmonte+2017 45).
+    - ion: II
+      band: VIS
+      searched: [Amarsi+2021 (A&A 653 A141), Scott+2015a, Ramirez et al. (project file Oxygen Abudances.pdf), Den Hartog+2019]
+      result: A(Fe II) 7.44-7.51 across the VIS literature; Amarsi+2021 3D-NLTE 7.47 +/- 0.04 is the best external (RYA-714 § 4). 10 Fe II lab gf adopted in 3780-6910 A (Den Hartog+2019).

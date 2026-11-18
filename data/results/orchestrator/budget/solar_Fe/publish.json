@@ -3,26 +3,26 @@
  "products": [
   {
    "unit": 0,
-   "stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_lines.csv",
-   "A": 7.4,
+   "stem": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_lines.csv",
+   "A": 7.366,
    "key_treatment": "synth-1D-LTE-gerber",
    "holding": "solar_harps_molecfit_corrected",
-   "selector": "SET-FE_AGSS21",
+   "selector": "DEEPGRADED",
    "element": "Fe",
    "band": "VIS",
    "holds": [],
    "verdict": null,
    "notes": [],
-   "prod_stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-1D-LTE-gerber_products.csv",
-   "sigma_reported": 0.036240259285278645,
+   "prod_stem": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_synth-1D-LTE-gerber_products.csv",
+   "sigma_reported": 0.056627925627383176,
    "components": {
     "measurement": [
      "MEASURED",
-     0.014072799462450655
+     0.04963454862546676
     ],
     "transition_data": [
-     "N/A",
-     null
+     "MEASURED",
+     0.016542059014709287
     ],
     "stellar.logg": [
      "DEFINED",
@@ -38,11 +38,11 @@
     ],
     "model_atmosphere": [
      "MEASURED",
-     0.03339610986808178
+     0.02166780623783799
     ],
     "telluric": [
      "MEASURED",
-     0.00011204478070998798
+     0.0
     ],
     "blends": [
      "N/A",
@@ -83,1663 +83,187 @@
    },
    "telluric_per_line": [
     {
-     "wavelength_air_A": 4445.471,
-     "dA_df": -2.000000000000668,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.10816170762216049,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 4574.216,
-     "dA_df": -1.9999999999997797,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.1316421783079823,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5247.05,
+     "wavelength_air_A": 4233.162,
      "dA_df": -2.9999999999992255,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.05598530041048022,
+     "max_depth": 0.167426342825429,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5379.574,
-     "dA_df": -3.9999999999995595,
+     "wavelength_air_A": 4351.762,
+     "dA_df": -2.9999999999992255,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.03636096252865295,
+     "max_depth": 0.15283520298872788,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5483.099,
-     "dA_df": -3.0000000000001137,
+     "wavelength_air_A": 4352.784,
+     "dA_df": 3.9999999999995595,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.02823800425738221,
+     "max_depth": 0.16683376698427366,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5538.516,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.0192083819978901,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5600.224,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.017399856730303087,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5618.632,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02803838486950161,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5661.345,
-     "dA_df": -7.000000000000561,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011137649324741705,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5705.464,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.033520388826666636,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5775.081,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021249324323421304,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5778.453,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.008679971393269481,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5784.658,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.013877786664014513,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5855.076,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.009404461384323048,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5956.694,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.04919039296295524,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6151.617,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024504184474592572,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6240.646,
+     "wavelength_air_A": 4385.377,
      "dA_df": -4.999999999999893,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.024404633662432507,
+     "max_depth": 0.14384688186334949,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 6311.499,
+     "wavelength_air_A": 4416.819,
+     "dA_df": -3.9999999999995595,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.1378169054071886,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 4491.397,
      "dA_df": -4.000000000000448,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.011147659165143042,
+     "max_depth": 0.11610555492543517,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 6498.938,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024773223501470598,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6518.366,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.08475217042066863,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6574.227,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.003025209079169675,
-     "n_telluric_px": 7,
-     "max_depth": 0.19434840259070674,
-     "residual_basis": "solar_harps_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
-     "residual_flux": 0.0007563022697923341
-    },
-    {
-     "wavelength_air_A": 6699.141,
-     "dA_df": -14.000000000000234,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005192090826275031,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6793.258,
-     "dA_df": -9.000000000000341,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005034254111617065,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6837.006,
-     "dA_df": -7.000000000000561,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.006193001053694802,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6843.655,
+     "wavelength_air_A": 4508.28,
      "dA_df": -4.999999999999893,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.021523631661846898,
+     "max_depth": 0.1471697870352371,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 6854.823,
+     "wavelength_air_A": 4515.333,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.12354650045370408,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 4522.628,
+     "dA_df": -5.999999999999339,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.16487329582839172,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 4549.466,
      "dA_df": -6.999999999999673,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.02483799418312993,
+     "max_depth": 0.13720962117016722,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 6858.148,
+     "wavelength_air_A": 4555.887,
      "dA_df": -4.000000000000448,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.018620911570081278,
-     "residual_flux": 0.0
-    }
-   ]
-  },
-  {
-   "unit": 1,
-   "stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_lines.csv",
-   "A": 7.515,
-   "key_treatment": "synth-mean3D-NLTE-gerber-stagger",
-   "holding": "solar_harps_molecfit_corrected",
-   "selector": "SET-FE_AGSS21",
-   "element": "Fe",
-   "band": "VIS",
-   "holds": [],
-   "verdict": null,
-   "notes": [],
-   "prod_stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-NLTE-gerber-stagger_products.csv",
-   "sigma_reported": 0.0376186041964456,
-   "components": {
-    "measurement": [
-     "MEASURED",
-     0.017315877445034763
-    ],
-    "transition_data": [
-     "N/A",
-     null
-    ],
-    "stellar.logg": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.metallicity": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.teff": [
-     "DEFINED",
-     0.0
-    ],
-    "model_atmosphere": [
-     "MEASURED",
-     0.03339610986808178
-    ],
-    "telluric": [
-     "MEASURED",
-     0.0001400559758874663
-    ],
-    "blends": [
-     "N/A",
-     null
-    ],
-    "nlte": [
-     "N/A",
-     null
-    ],
-    "pseudo_continuum": [
-     "N/A",
-     null
-    ],
-    "hfs_isotopes": [
-     "N/A",
-     null
-    ],
-    "molecular_coupling": [
-     "N/A",
-     null
-    ],
-    "holding_instrument": [
-     "MEASURED",
-     0.0
-    ],
-    "stellar.xi": [
-     "N/A",
-     null
-    ],
-    "continuum": [
-     "N/A",
-     null
-    ],
-    "profile_ew": [
-     "N/A",
-     null
-    ]
-   },
-   "telluric_per_line": [
-    {
-     "wavelength_air_A": 4445.471,
-     "dA_df": -1.9999999999997797,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.10816170762216049,
+     "max_depth": 0.16210892811184008,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 4574.216,
-     "dA_df": -2.9999999999992255,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.1316421783079823,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5247.05,
+     "wavelength_air_A": 4576.333,
      "dA_df": -4.000000000000448,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.05598530041048022,
+     "max_depth": 0.11379355847519335,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5379.574,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.03636096252865295,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5483.099,
+     "wavelength_air_A": 4582.83,
      "dA_df": -3.0000000000001137,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.02823800425738221,
+     "max_depth": 0.09070771953863377,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5538.516,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.0192083819978901,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5600.224,
+     "wavelength_air_A": 4583.829,
      "dA_df": -3.0000000000001137,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.017399856730303087,
+     "max_depth": 0.11475701273078553,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5618.632,
+     "wavelength_air_A": 4923.921,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.043017053362122804,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 5022.789,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.05218615219073297,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 5096.905,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.04253339503763187,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 5107.542,
      "dA_df": -3.0000000000001137,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.02803838486950161,
+     "max_depth": 0.06123637266109139,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5661.345,
-     "dA_df": -7.000000000000561,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011137649324741705,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5705.464,
+     "wavelength_air_A": 5169.028,
      "dA_df": -4.000000000000448,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.033520388826666636,
+     "max_depth": 0.05631007957943179,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5775.081,
+     "wavelength_air_A": 5194.886,
+     "dA_df": -4.999999999999893,
+     "sigma_line_dex": 0.0,
+     "n_telluric_px": 0,
+     "max_depth": 0.059457598810883305,
+     "residual_flux": 0.0
+    },
+    {
+     "wavelength_air_A": 5197.568,
      "dA_df": -3.9999999999995595,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.021249324323421304,
+     "max_depth": 0.04027020877476295,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5778.453,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.008679971393269481,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5784.658,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.013877786664014513,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5855.076,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.009404461384323048,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5956.694,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.04919039296295524,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6151.617,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024504184474592572,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6240.646,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024404633662432507,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6311.499,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011147659165143042,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6498.938,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024773223501470598,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6518.366,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.08475217042066863,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6574.227,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.00378151134896159,
-     "n_telluric_px": 7,
-     "max_depth": 0.19434840259070674,
-     "residual_basis": "solar_harps_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
-     "residual_flux": 0.0007563022697923341
-    },
-    {
-     "wavelength_air_A": 6699.141,
-     "dA_df": -14.99999999999968,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005192090826275031,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6793.258,
-     "dA_df": -8.000000000000007,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005034254111617065,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6837.006,
-     "dA_df": -7.000000000000561,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.006193001053694802,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6843.655,
-     "dA_df": -6.000000000000227,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021523631661846898,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6854.823,
-     "dA_df": -6.000000000000227,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02483799418312993,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6858.148,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.018620911570081278,
-     "residual_flux": 0.0
-    }
-   ]
-  },
-  {
-   "unit": 2,
-   "stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_lines.csv",
-   "A": 7.48,
-   "key_treatment": "synth-mean3D-LTE-gerber-stagger",
-   "holding": "solar_harps_molecfit_corrected",
-   "selector": "SET-FE_AGSS21",
-   "element": "Fe",
-   "band": "VIS",
-   "holds": [],
-   "verdict": null,
-   "notes": [],
-   "prod_stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_synth-mean3D-LTE-gerber-stagger_products.csv",
-   "sigma_reported": 0.03692557938648852,
-   "components": {
-    "measurement": [
-     "MEASURED",
-     0.015753686648860805
-    ],
-    "transition_data": [
-     "N/A",
-     null
-    ],
-    "stellar.logg": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.metallicity": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.teff": [
-     "DEFINED",
-     0.0
-    ],
-    "model_atmosphere": [
-     "MEASURED",
-     0.03339610986808178
-    ],
-    "telluric": [
-     "MEASURED",
-     0.0001400559758874663
-    ],
-    "blends": [
-     "N/A",
-     null
-    ],
-    "nlte": [
-     "N/A",
-     null
-    ],
-    "pseudo_continuum": [
-     "N/A",
-     null
-    ],
-    "hfs_isotopes": [
-     "N/A",
-     null
-    ],
-    "molecular_coupling": [
-     "N/A",
-     null
-    ],
-    "holding_instrument": [
-     "MEASURED",
-     0.0
-    ],
-    "stellar.xi": [
-     "N/A",
-     null
-    ],
-    "continuum": [
-     "N/A",
-     null
-    ],
-    "profile_ew": [
-     "N/A",
-     null
-    ]
-   },
-   "telluric_per_line": [
-    {
-     "wavelength_air_A": 4445.471,
-     "dA_df": -1.9999999999997797,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.10816170762216049,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 4574.216,
+     "wavelength_air_A": 5273.364,
      "dA_df": -3.0000000000001137,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.1316421783079823,
+     "max_depth": 0.04688548109955637,
      "residual_flux": 0.0
     },
     {
-     "wavelength_air_A": 5247.05,
-     "dA_df": -4.000000000000448,
+     "wavelength_air_A": 5275.997,
+     "dA_df": -9.999999999999787,
      "sigma_line_dex": 0.0,
      "n_telluric_px": 0,
-     "max_depth": 0.05598530041048022,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5379.574,
-     "dA_df": -5.000000000000782,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.03636096252865295,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5483.099,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02823800425738221,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5538.516,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.0192083819978901,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5600.224,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.017399856730303087,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5618.632,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02803838486950161,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5661.345,
-     "dA_df": -6.999999999999673,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011137649324741705,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5705.464,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.033520388826666636,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5775.081,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021249324323421304,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5778.453,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.008679971393269481,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5784.658,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.013877786664014513,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5855.076,
-     "dA_df": -5.000000000000782,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.009404461384323048,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5956.694,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.04919039296295524,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6151.617,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024504184474592572,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6240.646,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024404633662432507,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6311.499,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011147659165143042,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6498.938,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024773223501470598,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6518.366,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.08475217042066863,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6574.227,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.00378151134896159,
-     "n_telluric_px": 7,
-     "max_depth": 0.19434840259070674,
-     "residual_basis": "solar_harps_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
-     "residual_flux": 0.0007563022697923341
-    },
-    {
-     "wavelength_air_A": 6699.141,
-     "dA_df": -14.000000000000234,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005192090826275031,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6793.258,
-     "dA_df": -9.000000000000341,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005034254111617065,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6837.006,
-     "dA_df": -7.000000000000561,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.006193001053694802,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6843.655,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021523631661846898,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6854.823,
-     "dA_df": -7.000000000000561,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02483799418312993,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6858.148,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.018620911570081278,
-     "residual_flux": 0.0
-    }
-   ]
-  },
-  {
-   "unit": 3,
-   "stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_lines.csv",
-   "A": 7.452,
-   "key_treatment": "ENGINE-B-NLTE",
-   "holding": "solar_harps_molecfit_corrected",
-   "selector": "SET-FE_AGSS21",
-   "element": "Fe",
-   "band": "VIS",
-   "holds": [],
-   "verdict": null,
-   "notes": [],
-   "prod_stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_ENGINE-B-NLTE_products.csv",
-   "sigma_reported": 0.03685547597330859,
-   "components": {
-    "measurement": [
-     "MEASURED",
-     0.015588887095147401
-    ],
-    "transition_data": [
-     "N/A",
-     null
-    ],
-    "stellar.logg": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.metallicity": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.teff": [
-     "DEFINED",
-     0.0
-    ],
-    "model_atmosphere": [
-     "MEASURED",
-     0.03339610986808178
-    ],
-    "telluric": [
-     "MEASURED",
-     0.0001120447807099631
-    ],
-    "blends": [
-     "N/A",
-     null
-    ],
-    "nlte": [
-     "N/A",
-     null
-    ],
-    "pseudo_continuum": [
-     "N/A",
-     null
-    ],
-    "hfs_isotopes": [
-     "N/A",
-     null
-    ],
-    "molecular_coupling": [
-     "N/A",
-     null
-    ],
-    "holding_instrument": [
-     "MEASURED",
-     0.0
-    ],
-    "stellar.xi": [
-     "N/A",
-     null
-    ],
-    "continuum": [
-     "N/A",
-     null
-    ],
-    "profile_ew": [
-     "N/A",
-     null
-    ]
-   },
-   "telluric_per_line": [
-    {
-     "wavelength_air_A": 4445.471,
-     "dA_df": -2.000000000000668,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.10816170762216049,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 4574.216,
-     "dA_df": -2.9999999999992255,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.1316421783079823,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5247.05,
-     "dA_df": -2.9999999999992255,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.05598530041048022,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5379.574,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.03636096252865295,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5483.099,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02823800425738221,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5538.516,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.0192083819978901,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5600.224,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.017399856730303087,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5618.632,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02803838486950161,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5661.345,
-     "dA_df": -6.000000000000227,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011137649324741705,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5705.464,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.033520388826666636,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5775.081,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021249324323421304,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5778.453,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.008679971393269481,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5784.658,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.013877786664014513,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5855.076,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.009404461384323048,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5956.694,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.04919039296295524,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6151.617,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024504184474592572,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6240.646,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024404633662432507,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6311.499,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011147659165143042,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6498.938,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024773223501470598,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6518.366,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.08475217042066863,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6574.227,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0030252090791690034,
-     "n_telluric_px": 7,
-     "max_depth": 0.19434840259070674,
-     "residual_basis": "solar_harps_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
-     "residual_flux": 0.0007563022697923341
-    },
-    {
-     "wavelength_air_A": 6699.141,
-     "dA_df": -14.99999999999968,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005192090826275031,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6793.258,
-     "dA_df": -8.999999999999453,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005034254111617065,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6837.006,
-     "dA_df": -6.000000000000227,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.006193001053694802,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6843.655,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021523631661846898,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6854.823,
-     "dA_df": -6.999999999999673,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02483799418312993,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6858.148,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.018620911570081278,
-     "residual_flux": 0.0
-    }
-   ]
-  },
-  {
-   "unit": 4,
-   "stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_1D-LTE_lines.csv",
-   "A": 7.398,
-   "key_treatment": "1D-LTE",
-   "holding": "solar_harps_molecfit_corrected",
-   "selector": "SET-FE_AGSS21",
-   "element": "Fe",
-   "band": "VIS",
-   "holds": [],
-   "verdict": null,
-   "notes": [],
-   "prod_stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_products.csv",
-   "sigma_reported": 0.03608283871990242,
-   "components": {
-    "measurement": [
-     "MEASURED",
-     0.013662303675903842
-    ],
-    "transition_data": [
-     "N/A",
-     null
-    ],
-    "stellar.logg": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.metallicity": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.teff": [
-     "DEFINED",
-     0.0
-    ],
-    "model_atmosphere": [
-     "MEASURED",
-     0.03339610986808178
-    ],
-    "telluric": [
-     "MEASURED",
-     0.00011204478070998798
-    ],
-    "blends": [
-     "N/A",
-     null
-    ],
-    "nlte": [
-     "N/A",
-     null
-    ],
-    "pseudo_continuum": [
-     "N/A",
-     null
-    ],
-    "hfs_isotopes": [
-     "N/A",
-     null
-    ],
-    "molecular_coupling": [
-     "N/A",
-     null
-    ],
-    "holding_instrument": [
-     "MEASURED",
-     0.0
-    ],
-    "stellar.xi": [
-     "N/A",
-     null
-    ],
-    "continuum": [
-     "N/A",
-     null
-    ],
-    "profile_ew": [
-     "N/A",
-     null
-    ]
-   },
-   "telluric_per_line": [
-    {
-     "wavelength_air_A": 4445.471,
-     "dA_df": -1.9999999999997797,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.10816170762216049,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 4574.216,
-     "dA_df": -2.9999999999992255,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.1316421783079823,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5247.05,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.05598530041048022,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5379.574,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.03636096252865295,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5483.099,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02823800425738221,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5538.516,
-     "dA_df": -2.9999999999992255,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.0192083819978901,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5600.224,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.017399856730303087,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5618.632,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02803838486950161,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5661.345,
-     "dA_df": -6.000000000000227,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011137649324741705,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5705.464,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.033520388826666636,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5775.081,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021249324323421304,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5778.453,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.008679971393269481,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5784.658,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.013877786664014513,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5855.076,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.009404461384323048,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5956.694,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.04919039296295524,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6151.617,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024504184474592572,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6240.646,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024404633662432507,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6311.499,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011147659165143042,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6498.938,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024773223501470598,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6518.366,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.08475217042066863,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6574.227,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.003025209079169675,
-     "n_telluric_px": 7,
-     "max_depth": 0.19434840259070674,
-     "residual_basis": "solar_harps_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
-     "residual_flux": 0.0007563022697923341
-    },
-    {
-     "wavelength_air_A": 6699.141,
-     "dA_df": -13.999999999999346,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005192090826275031,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6793.258,
-     "dA_df": -8.999999999999453,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.005034254111617065,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6837.006,
-     "dA_df": -6.000000000000227,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.006193001053694802,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6843.655,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021523631661846898,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6854.823,
-     "dA_df": -6.999999999999673,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02483799418312993,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6858.148,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.018620911570081278,
-     "residual_flux": 0.0
-    }
-   ]
-  },
-  {
-   "unit": 4,
-   "stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_ENGINE-A_lines.csv",
-   "A": 7.417,
-   "key_treatment": "ENGINE-A",
-   "holding": "solar_harps_molecfit_corrected",
-   "selector": "SET-FE_AGSS21",
-   "element": "Fe",
-   "band": "VIS",
-   "holds": [],
-   "verdict": null,
-   "notes": [],
-   "prod_stem": "FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-FE_AGSS21_ENGINE-A_products.csv",
-   "sigma_reported": 0.04869152275336142,
-   "components": {
-    "measurement": [
-     "MEASURED",
-     0.016747662837731006
-    ],
-    "transition_data": [
-     "N/A",
-     null
-    ],
-    "stellar.logg": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.metallicity": [
-     "DEFINED",
-     0.0
-    ],
-    "stellar.teff": [
-     "DEFINED",
-     0.0
-    ],
-    "model_atmosphere": [
-     "MEASURED",
-     0.03450188657906691
-    ],
-    "telluric": [
-     "MEASURED",
-     0.0
-    ],
-    "blends": [
-     "N/A",
-     null
-    ],
-    "nlte": [
-     "MEASURED",
-     0.03
-    ],
-    "pseudo_continuum": [
-     "N/A",
-     null
-    ],
-    "hfs_isotopes": [
-     "N/A",
-     null
-    ],
-    "molecular_coupling": [
-     "N/A",
-     null
-    ],
-    "holding_instrument": [
-     "MEASURED",
-     0.0
-    ],
-    "stellar.xi": [
-     "N/A",
-     null
-    ],
-    "continuum": [
-     "N/A",
-     null
-    ],
-    "profile_ew": [
-     "N/A",
-     null
-    ]
-   },
-   "telluric_per_line": [
-    {
-     "wavelength_air_A": 4445.471,
-     "dA_df": -1.9999999999997797,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.10816170762216049,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 4574.216,
-     "dA_df": -2.9999999999992255,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.1316421783079823,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5247.05,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.05598530041048022,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5379.574,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.03636096252865295,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5483.099,
-     "dA_df": -3.0000000000001137,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02823800425738221,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5600.224,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.017399856730303087,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5618.632,
-     "dA_df": -3.9999999999995595,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02803838486950161,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5661.345,
-     "dA_df": -6.000000000000227,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011137649324741705,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5705.464,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.033520388826666636,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5775.081,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021249324323421304,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5778.453,
-     "dA_df": -5.000000000000782,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.008679971393269481,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5784.658,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.013877786664014513,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 5956.694,
-     "dA_df": -2.9999999999992255,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.04919039296295524,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6240.646,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024404633662432507,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6311.499,
-     "dA_df": -4.000000000001336,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.011147659165143042,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6498.938,
-     "dA_df": -4.000000000000448,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.024773223501470598,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6837.006,
-     "dA_df": -6.0000000000011156,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.006193001053694802,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6843.655,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.021523631661846898,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6854.823,
-     "dA_df": -6.999999999999673,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.02483799418312993,
-     "residual_flux": 0.0
-    },
-    {
-     "wavelength_air_A": 6858.148,
-     "dA_df": -4.999999999999893,
-     "sigma_line_dex": 0.0,
-     "n_telluric_px": 0,
-     "max_depth": 0.018620911570081278,
+     "max_depth": 0.0394745354962972,
      "residual_flux": 0.0
     }
    ]

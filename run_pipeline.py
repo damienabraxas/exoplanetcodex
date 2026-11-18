@@ -60,6 +60,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -294,6 +295,14 @@ def main() -> None:
                         'current -- the one-off for a change inputs_hash cannot see (a library '
                         'module). Needs a narrowing filter; with --publish, only those cells '
                         'are priced, published and (if held) withdrawn.')
+    m.add_argument('--lines', metavar='CSV',
+                   help='RYA-1388: a line list (`wavelength_air_A`, optional `species`/`ep_eV`; '
+                        'atomic data in it is ignored -- ours is used). With --patch: refit '
+                        'only these lines of each selected synthesis cell and reuse every '
+                        'other line from the published stage. Each line must be in the pool.')
+    m.add_argument('--patch', action='store_true',
+                   help='RYA-1388: run --lines as a patch of the published products (needs '
+                        '--route synthesis and a narrowing filter).')
     m.add_argument('--publish', action='store_true',
                    help='RYA-1233: after the run, governing-process steps 11-16 -- RYA-587 '
                         'budget legs, assemble, publish through publish_product, literature '
@@ -313,6 +322,9 @@ def main() -> None:
     m.add_argument('--coverage', action='store_true',
                    help='RYA-1233: print the definition-of-done table (every band x holding x '
                         'ion x grade x treatment: PUBLISHED / HELD / NOT_RUN) and exit.')
+    m.add_argument('--asplund-mu1', action='store_true',
+                   help='RYA-1350: measure the element\'s Asplund line set the way Asplund does '
+                        '(disk-centre intensity, mu=1, Liege atlas) and record it for --coverage.')
     m.add_argument('--gap-register', action='store_true',
                    help='RYA-1378: write the element\'s Atomic Data Gap Register (every line the '
                         'grading keeps out of the reference pool, for future lab/theory study) '
@@ -390,6 +402,15 @@ def main() -> None:
             print(element_prepare.render(rep))
         sys.exit(0 if rep["ready"] else 3)
 
+    if args.element and args.asplund_mu1:
+        import subprocess
+        interp, ispec = _resolve_engine_env(args)
+        env = {**os.environ, 'CODEX_SYNTH_CACHE': '0'}
+        if ispec:
+            env['ISPEC_DIR'] = ispec
+        sys.exit(subprocess.run([interp or sys.executable, str(Path(__file__).parent / 'scripts/asplund_mu1.py'),
+                                 args.element.split()[0]], env=env).returncode)
+
     if args.element and args.coverage:
         from pipeline import coverage_report
         cov = coverage_report.coverage(star_id, args.element)
@@ -421,7 +442,8 @@ def main() -> None:
                 star=star_id, element=args.element,
                 mode="select" if any(sel.values()) else "full", **sel,
                 force=args.force, publish=args.publish and not args.dry_run,
-                dry_run=args.dry_run, jobs=args.jobs))
+                dry_run=args.dry_run, jobs=args.jobs,
+                lines=args.lines or "", patch=args.patch))
         try:
             out = run_request.execute(req, interpreter=interp or None,
                                       ispec_dir=ispec or None)

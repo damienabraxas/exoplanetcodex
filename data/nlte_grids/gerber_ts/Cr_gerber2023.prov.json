@@ -1,0 +1,55 @@
+{
+  "ticket": "RYA-800",
+  "element": "Cr",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg [Cr] \u2014 the CONFIG is the authority; the Gerber 2023 ABSTRACT omits Cr (RYA-710 warns not to trust the abstract over the config).",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540).",
+  "sirius_only": "Sirius only (RYA-526/567). NOTE THE DRIVE: /mnt/codex-data/grids is a SYMLINK to /srv/codex/grids on sdb2 (the OS drive), so the nominal path is NOT the data drive. The two large payloads are therefore placed in /mnt/codex-data/gerber_overflow (real sda) and symlinked back into gerber_ts \u2014 the store's existing convention, already used by Fe/Ni/Si/Sr/H.",
+  "files": {
+    "model_atom": {
+      "name": "atom.cr374",
+      "url": "https://keeper.mpdl.mpg.de/f/5a56173314c64a2683f8/?dl=1",
+      "md5": "a3bc476deafdbd750d9065bb971d4f0d",
+      "bytes": 7308616,
+      "note": "374 levels (Cr I + Cr II), 5879 transitions. Header line 2 declares A(Cr)=5.74 and mass 52.000. CAUTION (Fe/RYA-785 precedent): the atom header abundance is not necessarily the abundance the DEPARTURE GRID was computed at \u2014 bsyn hard-STOPs on a mismatch and its message is the authority."
+    },
+    "grid_1d_aux": {
+      "name": "auxData_Cr_MARCS_Dec-16-2024.dat",
+      "url": "https://keeper.mpdl.mpg.de/f/54a0c57b393f422b9e5e/?dl=1",
+      "md5": "e6221157b9ce5f26f09350377fe58770",
+      "bytes": 53204437
+    },
+    "grid_1d_bin_zip": {
+      "name": "NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/c16fe047208d402a955c/?dl=1",
+      "md5": "aae18a72ec03eee744ea74b68a1e9b34",
+      "bytes": 25373799364,
+      "note": "Key name is grid_1d_bin_zip, NOT 1d_bin \u2014 the loader reads this key (RYA-772). The ZIP IS TRANSIENT and has been reclaimed after extraction, matching the store convention (no .zip is retained for any element). Its md5 above IS the provenance pin. Unpacks to NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin, 54134375556 bytes (50.4167 GiB, ratio 2.13x), CRC-32 9ac2b26f \u2014 both read from the archive's own ZIP64 central directory and verified against the extracted payload BEFORE the zip was reclaimed, and re-verified after the cross-drive move to gerber_overflow."
+    },
+    "grid_3d_bin": {
+      "name": "NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin",
+      "url": "https://keeper.mpdl.mpg.de/f/6e3fbaeb3c6d402b8164/?dl=1",
+      "md5": "9b36b99a35544bf8c2f5a9fa5feb6ad6",
+      "bytes": 1312673100
+    },
+    "grid_3d_aux": {
+      "name": "auxData_Cr_STAGGERmean3D_Dec-12-2024_marcs_names.txt",
+      "url": "https://keeper.mpdl.mpg.de/f/f34e5b594ae746948adc/?dl=1",
+      "md5": "0f73207ed14763230f2c6ec60d0b9774",
+      "bytes": 735341
+    }
+  },
+  "gate": {
+    "status": "PASS (RYA-728): departures engaged",
+    "ticket": "RYA-728",
+    "lines": "Cr I 4801.025/5241.458/5304.180/5312.856, Asplund-set lines with both levels term-joined (nlte_ges_cr_identified_rya818.list)",
+    "result": "per-line +0.0846/+0.0433/+0.0582/+0.0596; median +0.0589, sd 0.0171, at A(Cr)=5.65, MARCS solar node",
+    "anchor": "+0.0705 (Cr_Bergemann2010_MPIA solar median) as a CROSS-ENGINE DIAGNOSTIC only, per RYA-785/712; tol 0.06",
+    "departures_engaged": true,
+    "unresolved": "atom.cr374 records no lineage. Scott+2015a Sect. 6.4.3 has +0.02..+0.04 on <3D> with S_H=1 at disk centre; Bergemann & Cescutti 2010 use S_H=0 in flux. This gate compares different geometry and atmosphere and does not settle which reading applies.",
+    "term_resolved_approximation": "every fine-structure component shares its term's departure coefficient (RYA-818)"
+  },
+  "registered": "pipeline/gerber_nlte.DECKS['Cr'] and ['Cr@mean3D'] (RYA-728)"
+}

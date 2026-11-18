@@ -186,8 +186,8 @@
       "verdict": "PASS"
     },
     {
-      "atom_citation": "no RYA-534 Engine-B grid provenance on record for Cr",
-      "blocker": "gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Cr); gate 2: |A - ref| = 0.402 > 0.1; gate 3: |dCE| = 1.058 > 0.1",
+      "atom_citation": "Cr_gerber2023.prov.json: no verdict recorded",
+      "blocker": "gate 1: Engine-B atom not RYA-534-validated (Cr_gerber2023.prov.json: no verdict recorded); gate 2: |A - ref| = 0.402 > 0.1; gate 3: |dCE| = 1.058 > 0.1",
       "channel": "EW: 7 line(s)",
       "cross_engine_delta": -1.058,
       "element": "Cr",
@@ -198,7 +198,7 @@
       "owed_reason": "EW-pool",
       "plan": "a plain EW pool sitting at the gf floor \u2014 a TIER question (owed vs gf_floor), adjudicated against Ti/Cr/Si, not a measurement gap.",
       "promoted": false,
-      "promotion_reason": "HELD: gate1 NLTE atom not 534-validated (no RYA-534 Engine-B grid provenance on record for Cr); gate2 |d_ref|=0.402 > 0.1; gate3 |dCE|=1.058 > 0.1",
+      "promotion_reason": "HELD: gate1 NLTE atom not 534-validated (Cr_gerber2023.prov.json: no verdict recorded); gate2 |d_ref|=0.402 > 0.1; gate3 |dCE|=1.058 > 0.1",
       "provisional": true,
       "reference": 5.62,
       "remedy": "REGENERATE-then-ADJUDICATE",

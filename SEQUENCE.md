@@ -1,3 +1,8 @@
+## 2026-11-18 — Main integration and Claude handoff
+
+- **RYA-1388** — Main78ab9eb0/PR626 integrates ORCH line-subset patch/publish and Fe1.612; main bytes retained, no Bride remeasurement.
+- **RYA-1371** — Resolve main/branch register and bibliography conflicts, retain all v298 science holds, prepare Claude resume record (v299).
+
 ## 2026-11-16 — Actual interior radiation probe
 
 - **RYA-1371** — 32new samples expose2.55percent interpolation mismatch; all ancestors retained under cap, global convergence remains open (v298).
@@ -104,6 +109,29 @@
 - **RYA-1278** — `d1728c92` PR #619 integrates the completed foundation; Done records software/roadmap integration, not science admission.
 - **RYA-1281** — same landing closes the reviewed checkpoint; scientific HOLD remains and newer1371 work is excluded.
 - **RYA-1371** — clean main-based continuation preserves independent spectra, chemistry and trace-provider checks; branch v244-246 map253-255; v267 exact original DAMP oracle and density/T10K/xi.25-4 width laws measured; source full-width component next, physical collider/EOS/SE/solar gates HOLD.
+## 2026-11-15 — RYA-728 landed; RYA-1350 Ti republished, Fe/Ca gate checked
+
+> **Current as of `main` 4994897f** (PR #622).
+
+- **RYA-728** — `4994897f` PR #622: solar Cr published through the ORCH (coverage DONE); Ward+2023 / Tozzi+1985 lab gf; model registry fingerprinted by its emitting rows.
+- **RYA-1350** (this branch) — Ti republished through the continuum gate: feed v1.685, 342 products, coverage DONE; only Ti I NIR KP-molecfit moves > 0.05 (-0.09 to -0.11, 7 lines). mu=1 step reads Liege in the rest frame (+0.43 km/s observed frame) and now covers C/N/O against AGSS21 Table 3 (C -0.084 +/- 0.019; N has no shared indicator; O unconstraining); per line vs A21 1D MARCS Al +0.064, Na +0.069, Mg +0.033, Si +0.035, Ca +0.054, Ti +0.023, Fe +0.026. Gate scan: 0 ungated levels in any element. Ca HARPS VIS rerun identical to published; Fe HARPS VIS moves +0.01 to +0.06 (small pools) and is owed through a line-subset ORCH input (new ticket), not this branch.
+
+## 2026-11-10 — RYA-1378 landed; RYA-1350 branch reconciled
+
+> **Current as of `main` 45901e76** (PR #621).
+
+- **RYA-1378** — `45901e76` PR #621: Atomic Data Gap Register (`pipeline/gap_register.py`, `run_pipeline --gap-register`, run at the end of every element run); 27 solar registers in data/audit/atomic_gap_register/.
+
+## 2026-11-09 — RYA-1278 merge reconciled; RYA-1350 continuum-gate sweep
+
+> **Current as of `main` d1728c92** (PR #619).
+
+- **RYA-1278** — `d1728c92` PR #619: Bride foundation and oxygen research checkpoint integrated; physical model gates remain HOLD.
+- **RYA-1350** (this branch) — Asplund-geometry step `run_pipeline --asplund-mu1` measures every element's AGSS21 set at mu=1 on Liege: per line vs A21 1D MARCS Al +0.063, Na +0.068, Mg +0.043, Si +0.047, Ca +0.051, Ti +0.004, Fe +0.023. Continuum-gate sweep: Na/Mg/K clean (pre-10-31); Ti rerun; Fe HARPS VIS (108 lines, up to +0.054) and Ca HARPS VIS (17 lines) queued; Cr rebased by its session.
+## 2026-11-14 — RYA-728 solar Cr through the ORCH
+
+- **RYA-728** (this branch) — solar Cr published: 199 products, coverage DONE, 0 owed. Ward+2023 Cr II and Tozzi+1985 Cr I lab gf adopted; a line already held for a >0.5 dex lab move stays held unless `data/reference/gf_hold_releases.csv` releases it. Derive's unlabelled-NLTE refusal is HELD, not FAILED. The model registry is fingerprinted by its emitting rows only (a Bride-row edit no longer makes every built cell stale); `scripts/rya728_rescope_model_registry_fingerprint.py --element <El> --apply` re-stamps an element's records. VIS Cr I/II 5.55-5.60 (Asplund 5.62); NIR Cr I 6.11 on the a5G-z5F multiplet, published as measured, cause open.
+
 ## 2026-11-09 — RYA-1378 Atomic Data Gap Register; #618/#619 reconciled
 
 > **Current as of `main` 10f0dc95** (PR #618).

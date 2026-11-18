@@ -256,6 +256,53 @@ def unit_signature(command: str, inputs_hash: str | None) -> str:
     return f"{command}\n# {inputs_hash}"
 
 
+def _derive_args(cmd: str) -> tuple:
+    """A derive command's arguments with where it writes and any patch removed: a leg runs
+    its unit's command with `--out <leg dir>` in place of the unit's own `--out`."""
+    import shlex
+    a = shlex.split(cmd)
+    a = a[a.index("scripts/derive_band_products.py") + 1:] \
+        if "scripts/derive_band_products.py" in a else []
+    drop = {"--out", "--refit-lines", "--reuse-fits-from"}
+    out, i = [], 0
+    while i < len(a):
+        if a[i] in drop:
+            i += 2
+            continue
+        out.append(a[i])
+        i += 1
+    return tuple(out)
+
+
+def leg_priors(store: Path, units: list, kept: list[int]) -> dict[int, str]:
+    """RYA-1388: for each unit whose legs were NOT kept, the filed leg directory of an earlier
+    build of the SAME derive command (`legs.store/<sig>/`), matched on each leg's recorded
+    argv with its `--out` and leg-specific arguments removed. A patch then refits only its
+    listed lines in each leg too; a unit with no filed match, or two, runs its legs in full."""
+    from scripts.rya1230_cno_budget_legs import LEGS
+    seen: dict[tuple, list[Path]] = {}
+    for d in sorted(store.glob("*")) if store.is_dir() else []:
+        for leg_dir in d.glob("*"):
+            argv = leg_dir / "argv.txt"
+            if not ((leg_dir / "DONE").exists() and argv.exists()):
+                continue
+            out = _derive_args(argv.read_text().splitlines()[0])
+            extra = LEGS.get(leg_dir.name, ({}, []))[1]
+            if extra and out[-len(extra):] == tuple(extra):
+                out = out[:-len(extra)]
+            seen.setdefault(out, [])
+            if d not in seen[out]:
+                seen[out].append(d)
+    priors = {}
+    for i, u in enumerate(units):
+        if i in kept:
+            continue
+        hit = seen.get(_derive_args(u[1]), [])
+        if len(hit) == 1:
+            priors[i] = str(hit[0])
+    return priors
+
+
 def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
     """Keep each unit's legs while its signature is unchanged, renumbered to the unit's new
     index. Returns the new indices whose legs were kept.
@@ -304,8 +351,49 @@ def reuse_legs(legs: Path, prev_file: Path, sigs: list[str]) -> list[int]:
     return kept
 
 
+#: RYA-1388: an element whose feed is packaged after the publisher writes it, in order. Fe's
+#: feed is enriched by its own emitter (grade / atlas / line_set_resolved / xi / the Fe II NLTE
+#: stamp, and the RYA-587 systematic in place of the 0.17 blanket; it refuses to write if any
+#: published A moves), and the audits that read the feed are rerun on the result. RYA-1315 and
+#: RYA-1388 each republished Fe rows without these and ran them by hand (28f3e442, e25e43af).
+PACKAGERS = {"Fe": (
+    ("scripts/rya1178_emit_fe_schema.py",),
+    ("scripts/rya1055_fe2_label_audit.py",),
+    ("scripts/rya935_live_status.py",),
+)}
+#: Derived from the COMMITTED feed and stage: the per-line product stamps the commit it was
+#: built from and refuses uncommitted inputs, so these run after the publish is committed.
+#: The publish summary names them as owed rather than leaving them to memory.
+AFTER_COMMIT = {"Fe": (
+    ("scripts/generate_perline_product.py", "--star", "solar", "--element", "Fe"),
+    ("scripts/rya870_reproduce_perline.py",),
+)}
+
+
+def package_feed(element: str, py: str) -> dict | None:
+    """Run the element's packagers over the just-published feed, stopping at the first that
+    fails, and name what is owed once the publish is committed; None if it has neither."""
+    steps, owed = PACKAGERS.get(element), AFTER_COMMIT.get(element, ())
+    if steps is None and not owed:
+        return None
+    done = []
+    for argv in steps or ():
+        res = subprocess.run([py, *argv], cwd=ROOT, capture_output=True, text=True)
+        done.append({"argv": list(argv), "rc": res.returncode,
+                     "tail": (res.stdout + res.stderr).strip().splitlines()[-3:]})
+        if res.returncode:
+            print(f"PACKAGING FAILED ({argv[0]}, rc={res.returncode}): the {element} feed is "
+                  f"published but its packaging stopped here -- " + " | ".join(done[-1]["tail"]))
+            break
+    if owed:
+        print(f"OWED after the {element} publish is committed: "
+              + "; ".join(" ".join(a) for a in owed))
+    return {"ran": done, "after_commit": [list(a) for a in owed]}
+
+
 def publish(star: str, element: str, *, report: dict, jobs: int = 8,
-            interpreter: str | None = None, reason: str | None = None) -> dict:
+            interpreter: str | None = None, reason: str | None = None,
+            patch_lines: str | None = None) -> dict:
     py = interpreter or sys.executable
     # RYA-1250: a one-band report once made publish treat 132 of 172 Mg units as gone.
     # RYA-1315: a NARROWED report publishes its own cells only -- legs are filed by signature
@@ -337,8 +425,18 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     # or synthesis-list change re-built the cells and then priced them from stale legs.
     # RYA-1250: keyed on the whole element, culling one K line re-priced all 172 Mg units.
     ledger = json.loads(rm.LEDGER.read_text()) if rm.LEDGER.exists() else {}
-    reuse_legs(legs, work / "units.prev.json",
-               [unit_signature(u[1], _built_from(ledger.get(u[3]))) for u in units])
+    kept = reuse_legs(legs, work / "units.prev.json",
+                      [unit_signature(u[1], _built_from(ledger.get(u[3]))) for u in units])
+    patch_argv = []
+    if patch_lines:
+        priors = leg_priors(work / "legs.store", units, kept)
+        (work / "leg_priors.json").write_text(json.dumps(priors, indent=1) + "\n")
+        patch_argv = ["--patch-refit", str(Path(patch_lines).resolve()),
+                      "--leg-priors", str(work / "leg_priors.json")]
+        summary["patch"] = {"refit_lines": str(Path(patch_lines).resolve()),
+                            "units_with_leg_priors": sorted(priors),
+                            "units_legs_in_full": sorted(set(range(len(units))) - set(kept)
+                                                         - set(priors))}
     # RYA-1251: a leg whose every line failed SYNTHESIS measured nothing -- an engine failure
     # the signature above cannot see (a library module is not in `inputs_hash`). Re-run it.
     for done in legs.glob("unit*/*/DONE"):
@@ -350,7 +448,8 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
     # still missing is RECORDED, never silently assembled around.
     for _attempt in range(2):
         subprocess.run([py, "scripts/rya1230_cno_budget_legs.py", "--units", str(ufile),
-                        "--out", str(legs), "--jobs", str(jobs)], cwd=ROOT, check=True)
+                        "--out", str(legs), "--jobs", str(jobs), *patch_argv],
+                       cwd=ROOT, check=True)
         missing = sorted(str(d.relative_to(legs)) for d in legs.glob("unit*/*")
                          if d.is_dir() and not (d / "DONE").exists())
         if not missing:
@@ -430,6 +529,7 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         summary["scope"] = report["scope"]
     summary["preserved"] = _preserve_history(star, element, work=work, prev_stage=prev_stage)
     shutil.rmtree(prev_stage, ignore_errors=True)
+    summary["packaging"] = package_feed(element, py)
     from pipeline import coverage_report, element_verdict
     summary["verdict"] = {k: v for k, v in element_verdict.judge_feed(star, element).items() if k != "cells"}
     cov = coverage_report.coverage(star, element)

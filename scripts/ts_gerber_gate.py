@@ -56,6 +56,15 @@ ELEMENTS = {
                grid='NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin',
                waves=[6122.217, 6162.173], anchor=+0.02, tol=0.05,
                ref='Ca I 6122/6162, solar NLTE small+ (our Ca_Mashonkina2017 +0.017; same atom lineage)'),
+    # RYA-728: the bundled GES list tags Cr LTE, so the gate reads RYA-818's term-joined list.
+    # The anchor is a CROSS-ENGINE DIAGNOSTIC only (Bergemann & Cescutti 2010 via MPIA: S_H=0, flux;
+    # Scott+2015a got +0.02..+0.04 with S_H=1 at disk centre; RYA-785/712): CHECK does not refute the
+    # deck. What must hold is that departures engage, which the run below raises on if they do not.
+    'Cr': dict(Z=24, a_sun=5.65, atom='atom.cr374', aux='auxData_Cr_MARCS_Dec-16-2024.dat',
+               grid='NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin',
+               lines_file='nlte_ges_cr_identified_rya818.list',
+               waves=[4801.025, 5241.458, 5304.180, 5312.856], anchor=+0.0705, tol=0.06,
+               ref='Cr I Asplund-set lines, both levels term-joined (RYA-818); anchor = Cr_Bergemann2010_MPIA solar median, DIAGNOSTIC only'),
     'Ti': dict(Z=22, a_sun=4.90, atom='atom.ti503b', aux='auxData_TI_MARCS_Feb-21-2022.dat',
                grid='NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin',
                waves=[5689.460, 5648.565, 5662.150], anchor=+0.107, tol=0.06,
@@ -244,6 +253,21 @@ def ges_lines(Z, ion, waves, tol=0.02):
     return hdr_species, rows
 
 
+def identified_lines(el, Z, ion, waves, name, tol=0.02):
+    """RYA-728: rows from a term-joined list (RYA-818's format has no species header)."""
+    roman = 'II' if ion else 'I'
+    path = os.path.join(os.path.dirname(GES), name)
+    with open(path) as f:
+        body = [ln.rstrip("\n") for ln in f if f"'{el} {roman} LS:" in ln]
+    rows = []
+    for w in waves:
+        best = min(body, key=lambda ln: abs(float(ln.split()[0]) - w))
+        if abs(float(best.split()[0]) - w) > tol:
+            raise SystemExit(f"{el}: no identified line within {tol} A of {w}")
+        rows.append(best)
+    return f"'{Z:>6}.000  '  {ion + 1}  {len(rows)}", rows
+
+
 def make_departure(el, cfg):
     dep = f"{W}/Testout/sun_{el}_coef.dat"
     if os.path.exists(dep):
@@ -337,7 +361,8 @@ def main():
         os.symlink(str(codex_path('engines.ts_data')), dsl)
 
     ion = ION.get(el, 0)
-    hdr, rows = ges_lines(cfg['Z'], ion, cfg['waves'])
+    hdr, rows = (identified_lines(el, cfg['Z'], ion, cfg['waves'], cfg['lines_file'])
+                 if cfg.get('lines_file') else ges_lines(cfg['Z'], ion, cfg['waves']))
     linelist = f"{W}/work/{el}.lines"
     m = re.match(r"^('\s*\d+\.\d\d\d\s*')\s+(\d+)\s+(\d+)", hdr)
     ion_roman = 'II' if ion else 'I'

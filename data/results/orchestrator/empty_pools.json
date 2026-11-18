@@ -99,6 +99,121 @@
     "inputs_hash": "fc8174393e5e118f4d8998fd9aea5b0e30517751b59e6e593f4944e9bf15e368",
     "why": "derive_products: exit 1: --lines-tier reference selected 1 Al 1 line(s) in 9203-12976 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
   },
+  "solar|Cr|II|VIS|harps|solar_harps_molecfit_corrected|gerber-mean3d|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T19:51:09Z",
+    "inputs_hash": "2da4eab51a1306da16a037b3dab8736068e18fcc5f73cce4d3bf548446ef6d5f",
+    "why": "derive_products: exit 1: NLTE was requested for Cr II but NOT ONE of the 1 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 2354 labelled Cr II lines, which is why a window"
+  },
+  "solar|Cr|II|VIS|harps|solar_harps_molecfit_corrected|gerber-nlte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T21:06:35Z",
+    "inputs_hash": "43fb6bb19bc1251b551f0ab8d9151880c31d79d9f1108180c05cc44bf37a17a7",
+    "why": "derive_products: exit 1: NLTE was requested for Cr II but NOT ONE of the 1 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 2354 labelled Cr II lines, which is why a window"
+  },
+  "solar|Cr|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-1d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T10:38:28Z",
+    "inputs_hash": "d8dd695a1edda2ae1e905c7a4628791ebf300eaf0133cbc4b4c5a1b885b90a9b",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-mean3d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T10:52:22Z",
+    "inputs_hash": "5fdb0b226e17089eedbcda3ee9545a3d2d9a2874477c894c76f26d93c2772fca",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-mean3d|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T22:44:25Z",
+    "inputs_hash": "ecf860fdee95f113f47135a28c1a9b3a59feb7bde3c9fd2634b4a0114330da92",
+    "why": "derive_products: exit 1: NLTE was requested for Cr I but NOT ONE of the 2 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 662 labelled Cr I lines, which is why a window-le"
+  },
+  "solar|Cr|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-mean3d|SYNTH|REFERENCE": {
+    "at": "2026-11-12T10:50:38Z",
+    "inputs_hash": "6ed6f36b56a687f9072790078680ada00f49a8968dd2fa565e06be1ed9ff6587",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-nlte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T23:00:53Z",
+    "inputs_hash": "a34f4ea0e542c0fd57bc29e1ddb3267ad36cbbab746a151096eaab560991b66e",
+    "why": "derive_products: exit 1: NLTE was requested for Cr I but NOT ONE of the 2 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 662 labelled Cr I lines, which is why a window-le"
+  },
+  "solar|Cr|I|red-optical|iag_fts_solar_atlas|solar_iag|gerber-nlte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:01:00Z",
+    "inputs_hash": "8f51a0a4242000150e1d60a48749d1d30d3166a3eb41c6c7da1157c76713040c",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:06:05Z",
+    "inputs_hash": "efb3df2a3cc005145d1049a2229a16c28be850fce5d6cb36921eb4ec818744f4",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-1d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:07:51Z",
+    "inputs_hash": "dd3886dad64ba526797719e26f828a152a5989482cb16cb8a0d3a6458d5d3786",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:15:13Z",
+    "inputs_hash": "84b9737ab36ecf5dfe0548737debd36fd9ed8f60d89f9fb2646a0d2a1e2be455",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T23:18:14Z",
+    "inputs_hash": "e475405a4e0dffab6f733e8518f51bdcd649df2f0b4e9dfa283f58adea923b76",
+    "why": "derive_products: exit 1: NLTE was requested for Cr I but NOT ONE of the 2 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 662 labelled Cr I lines, which is why a window-le"
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-mean3d|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:10:30Z",
+    "inputs_hash": "05e477967596f29330a2b4d874b4a8cacdef84b67cecae1cb31b74c0804ae6d1",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T23:30:13Z",
+    "inputs_hash": "59a432177f5768accdfc0e27332ebb42d5badd768256615941690f54a034b455",
+    "why": "derive_products: exit 1: NLTE was requested for Cr I but NOT ONE of the 2 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 662 labelled Cr I lines, which is why a window-le"
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|gerber-nlte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:17:03Z",
+    "inputs_hash": "8ae2d3a29b2a94c0d2fb3ab772bfdd38437e9592fe88da6651d47054030e997e",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:22:22Z",
+    "inputs_hash": "34009eeba946b008571ce6ee15e294b0a50a3e69d43539b09e92a1fce50300ec",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:25:47Z",
+    "inputs_hash": "902133536899b7f02c7632862441afd73ba71d0dd2a115585354b70922ceba63",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:32:49Z",
+    "inputs_hash": "6483cadf69f9132394814af4f78ad6a27f7a971688543932d26c6cdd04ade393",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T23:48:10Z",
+    "inputs_hash": "9bf192330213ebfac4b6a7a41803e5c0d46a1a5ef7efe36d24260665f57e5849",
+    "why": "derive_products: exit 1: NLTE was requested for Cr I but NOT ONE of the 2 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 662 labelled Cr I lines, which is why a window-le"
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:28:05Z",
+    "inputs_hash": "b56a80bacb81fd055f69f120f25d37f1389d2870ffcbd40244f2fc76d9766e1c",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T23:59:44Z",
+    "inputs_hash": "7af41afa204ca3e07bdfe3d3f84b9ee47d4a60d4255f024c4284bde27b5c6600",
+    "why": "derive_products: exit 1: NLTE was requested for Cr I but NOT ONE of the 2 pooled lines carries an NLTE label, so bsyn would apply departure = 1 to every one of them and the product would be LTE under an NLTE label (RYA-764/RYA-1050). The window holds 662 labelled Cr I lines, which is why a window-le"
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:35:17Z",
+    "inputs_hash": "ef385ec42d4088ff1bea5eb23fd3f5163d300a1527b833feb928e0ac6ae8df78",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Cr|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-12T11:41:00Z",
+    "inputs_hash": "b56fb5ee6f9e423cfdc2480b3e6098a4684cca6d045c071ae7a9adb92d6f1e9d",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
   "solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
     "at": "2026-11-08T16:14:16Z",
     "inputs_hash": "bd2195fd2adaa2c5e4ca6bb25f4a67bdf5dfe90f17df7c274efdd632d2691a93",
@@ -143,5 +258,80 @@
     "at": "2026-11-08T21:51:36Z",
     "inputs_hash": "3063f361ae9e4899ede76e5b9d9dc40775261d6253c874a80ccc42b75e758a79",
     "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Ti|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-1d-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T16:06:57Z",
+    "inputs_hash": "0a03e449601d5ebdc7c45afdbb49fe9fa58f068e94d74342dcb8fd10a20a110b",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 2 in-aggregate lines in TiII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is"
+  },
+  "solar|Ti|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T16:37:59Z",
+    "inputs_hash": "dd9b0fc9e63d45d33dfcabd52e34a528922793226c137b602223e32240369e10",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 2 in-aggregate lines in TiII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is"
+  },
+  "solar|Ti|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-mean3d|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T16:17:42Z",
+    "inputs_hash": "3c0b88d4b2f64b17ff8acd4681a194507a2edbe9b0676917f9b7e1d5b37e0211",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 2 in-aggregate lines in TiII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is"
+  },
+  "solar|Ti|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|gerber-nlte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T16:52:46Z",
+    "inputs_hash": "0c3253687a1b18a637189d58e3c64f0450a0a454eb3d8e9a907375ec39421ce4",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 2 in-aggregate lines in TiII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is"
+  },
+  "solar|Ti|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-14T17:18:09Z",
+    "inputs_hash": "20488c675f5f9a6e1e5efea788c8850fce1e5951c11c5ab8f61a17e555400000",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 2 in-aggregate lines in TiII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is"
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-1d-lte|SYNTH|GRADED": {
+    "at": "2026-11-14T23:38:33Z",
+    "inputs_hash": "ae495754d0940e26592a99bdd492a39753b84fadd69d5926a2ce6f8810baec40",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-1d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-14T23:38:31Z",
+    "inputs_hash": "8cfc9e9f527323dc25f6c561196819a132459ac1a56a1e5efa469844e6d48dc9",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Ti 1 line(s) in 9802-10794 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d-lte|SYNTH|GRADED": {
+    "at": "2026-11-15T00:11:13Z",
+    "inputs_hash": "e78b28c9bcae2e1d65104c826f21ea2b609f83ee16ace1e410d3741ca1610b93",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-15T00:12:27Z",
+    "inputs_hash": "d760441a720abd0bb5df46ccecc760f7c3628a6beb571d83574aa88bf2d33998",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Ti 1 line(s) in 9802-10794 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d|SYNTH|GRADED": {
+    "at": "2026-11-14T23:54:31Z",
+    "inputs_hash": "3bafc21eeca021634169719a9a9e0549d7846fee0c7f1c4339985082e7503659",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-mean3d|SYNTH|REFERENCE": {
+    "at": "2026-11-14T23:55:35Z",
+    "inputs_hash": "12078816c27a5c010806106557e2f8780b870e7e428f3284289f19b451b7ee38",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Ti 1 line(s) in 9802-10794 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-nlte|SYNTH|GRADED": {
+    "at": "2026-11-15T00:16:30Z",
+    "inputs_hash": "87c3830ee824e44a517dfdf5b6beac8984add687aac39ce625d08ec96f026693",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|gerber-nlte|SYNTH|REFERENCE": {
+    "at": "2026-11-15T00:16:31Z",
+    "inputs_hash": "3e1761ccde18be3440166451eb90640c7a7e1b538454a6b4c7f3c44ebcc088ce",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Ti 1 line(s) in 9802-10794 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-10T08:18:16Z",
+    "inputs_hash": "4284f4a934e65fbaaa5b6818ed5fbe3ec6d43d1d1052106cf450eaa45bf251e7",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 1 |   at/below the 0.6 gate : 1   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|Ti|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|ts-lte|SYNTH|REFERENCE": {
+    "at": "2026-11-10T08:18:10Z",
+    "inputs_hash": "27eead52ae2b8c38b028e793737aaadc355a43343aeef394bb4b71cb2ecc43ff",
+    "why": "derive_products: exit 1: --lines-tier reference selected 1 Ti 1 line(s) in 9802-10794 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
   }
 }

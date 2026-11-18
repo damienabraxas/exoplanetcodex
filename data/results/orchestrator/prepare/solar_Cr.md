@@ -1,15 +1,33 @@
-PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
-  F literature: litscan yes; set bibliography keys ['scott2015']
-  A published sets: 39 lines; adopt authors' gf on 0; missing from canonical_gf: 0
-  B gf source sobeck2007: 192 graded lines, classified
+PREPARE solar Cr  -> READY to measure
+  F literature: litscan yes; set bibliography keys ['elgueta2026', 'scott2015']
+  F3 literature sweep: 12 ion x band recorded, 0 owed (owed cells are HELD until the search is recorded in the litscan)
+  I line inventory (in list / set / reference / codex / ungraded / lab table):
+      Cr I   H               64 /   0 /    0 /    0 /    64 /    0
+      Cr I   K               66 /   0 /    0 /    0 /    66 /    0
+      Cr I   NIR             41 /   7 /    9 /    9 /    32 /    9
+      Cr I   VIS           6432 /  29 /  165 /  205 /  6227 /  221  lab not adopted [4026.21, 4039.09, 4048.779, 4058.769]
+      Cr I   near-UV       1629 /   0 /   38 /   45 /  1584 /   46  lab not adopted [3148.449, 3155.154, 3163.76]
+      Cr I   red-optical   2644 /   0 /    4 /    7 /  2637 /    4
+      Cr II  H                0 /   0 /    0 /    0 /     0 /    0
+      Cr II  K                0 /   0 /    0 /    0 /     0 /    0
+      Cr II  NIR              2 /   0 /    0 /    0 /     2 /    0
+      Cr II  VIS           3507 /  10 /   64 /   64 /  3443 /   77  lab not adopted [4891.4948, 6421.7063]  lab ABSENT from list [4627.654]
+      Cr II  near-UV        826 /   0 /  151 /  151 /   675 /  235  lab not adopted [3077.5886, 3077.589, 3179.4493, 3179.45, 3183.3297, 3183.33, 3421.591, 3421.614, 3421.6158, 3658.155, 3658.1605, 3665.979]
+      Cr II  red-optical   2807 /   0 /    0 /    0 /  2807 /    0
+  A published sets: 46 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
+  B gf source sobeck2007: 206 graded lines, classified
   B gf source lawler2017_cr2: 128 graded lines, classified
+  B gf source ward2023_cr2: 76 graded lines, NOT in gf_error_model (UNREVIEWED)
   B gf source NIST_ASD: 32 graded lines, classified
   B gf source CR_AGSS21: 18 graded lines, classified
+  B gf source tozzi1985_cr1: 10 graded lines, NOT in gf_error_model (UNREVIEWED)
+  B gf source gurell2010_cr2: 8 graded lines, classified
+  B gf source nilsson2006_cr2: 3 graded lines, classified
   F2 literature need: 2807 Cr II lines in the red-optical band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 2 Cr II lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 64 Cr I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 66 Cr I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
-  C cull candidates (saturated, not a solar-literature line): 261
+  C saturated, not a solar-literature line (measured, reported, NOT culled): 351
       Cr I 3883.2869: rew -3.917 depth 0.889
       Cr I 3885.2137: rew -4.017 depth 0.84
       Cr I 3886.7953: rew -3.86 depth 0.831
@@ -35,6 +53,7 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr I 4027.0952: rew -4.5 depth 0.488
       Cr I 4039.0898: rew -4.45 depth 0.489
       Cr I 4048.7795: rew -4.293 depth 0.87
+      Cr I 4049.7737: rew -4.47 depth 0.427
       Cr I 4058.7689: rew -4.201 depth 0.804
       Cr I 4126.512: rew -4.312 depth 0.564
       Cr I 4254.352: rew -4.084 depth 0.954
@@ -53,6 +72,7 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr I 4351.762: rew -3.992 depth 0.86
       Cr I 4359.624: rew -4.208 depth 0.825
       Cr I 4364.141: rew -4.485 depth 0.51
+      Cr I 4371.2748: rew -4.174 depth 0.811
       Cr I 4374.154: rew -4.165 depth 0.656
       Cr I 4384.975: rew -3.998 depth 0.78
       Cr I 4391.751: rew -4.232 depth 0.588
@@ -80,6 +100,7 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr I 4646.162: rew -4.413 depth 0.846
       Cr I 4651.284: rew -4.618 depth 0.76
       Cr I 4652.157: rew -4.586 depth 0.817
+      Cr I 4654.724: rew -4.315 depth 0.469
       Cr I 4663.312: rew -4.524 depth 0.392
       Cr I 4663.816: rew -4.559 depth 0.433
       Cr I 4664.781: rew -4.695 depth 0.531
@@ -114,12 +135,14 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr I 5204.498: rew -4.357 depth 0.874
       Cr I 5206.023: rew -4.255 depth 0.885
       Cr I 5208.409: rew -4.167 depth 0.895
+      Cr I 5224.925: rew -4.65 depth 0.494
       Cr I 5225.02: rew -4.701 depth 0.36
       Cr I 5247.565: rew -4.644 depth 0.699
       Cr I 5254.904: rew -4.471 depth 0.616
       Cr I 5255.114: rew -4.447 depth 0.357
       Cr I 5264.153: rew -4.359 depth 0.772
       Cr I 5265.714: rew -4.271 depth 0.677
+      Cr I 5273.425: rew -4.379 depth 0.661
       Cr I 5296.691: rew -4.717 depth 0.736
       Cr I 5297.376: rew -4.703 depth 0.627
       Cr I 5298.271: rew -4.32 depth 0.767
@@ -133,8 +156,10 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr II 4054.0788: rew -4.312 depth 0.4
       Cr II 4072.5564: rew -4.287 depth 0.618
       Cr II 4086.1279: rew -4.279 depth 0.418
+      Cr II 4098.4306: rew -4.127 depth 0.348
       Cr II 4110.9818: rew -4.361 depth 0.453
       Cr II 4132.411: rew -4.04 depth 0.376
+      Cr II 4145.7788: rew -4.27 depth 0.528
       Cr II 4171.9104: rew -4.119 depth 0.792
       Cr II 4179.421: rew -4.29 depth 0.761
       Cr II 4207.363: rew -4.413 depth 0.495
@@ -161,7 +186,9 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr II 4876.4891: rew -4.664 depth 0.332
       Cr II 5274.964: rew -4.476 depth 0.432
       Cr I 3000.887: rew -3.733 depth 0.951
+      Cr II 3003.916: rew -3.852 depth 0.785
       Cr I 3005.061: rew -4.023 depth 0.923
+      Cr II 3011.42: rew -3.944 depth 0.68
       Cr I 3013.029: rew -4.092 depth 0.867
       Cr I 3013.712: rew -4.021 depth 0.925
       Cr I 3014.765: rew -3.962 depth 0.929
@@ -173,53 +200,122 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr I 3020.668: rew -3.698 depth 0.979
       Cr I 3021.559: rew -3.767 depth 0.962
       Cr I 3024.348: rew -3.886 depth 0.95
+      Cr II 3026.83: rew -3.976 depth 0.663
       Cr I 3029.161: rew -3.91 depth 0.89
       Cr I 3030.245: rew -3.98 depth 0.944
       Cr I 3031.352: rew -3.798 depth 0.911
       Cr II 3032.919: rew -4.178 depth 0.885
       Cr I 3034.188: rew -4.056 depth 0.914
+      Cr II 3034.537: rew -3.999 depth 0.906
+      Cr II 3034.981: rew -4.235 depth 0.577
       Cr I 3037.045: rew -3.802 depth 0.935
       Cr I 3040.84: rew -3.863 depth 0.934
+      Cr II 3042.774: rew -3.851 depth 0.817
+      Cr II 3043.87: rew -3.976 depth 0.834
       Cr II 3047.607: rew -3.728 depth 0.981
       Cr II 3047.759: rew -3.741 depth 0.906
+      Cr II 3053.652: rew -3.872 depth 0.783
       Cr I 3053.878: rew -3.933 depth 0.938
+      Cr II 3055.452: rew -3.92 depth 0.62
+      Cr II 3058.34: rew -3.846 depth 0.812
       Cr II 3059.369: rew -3.769 depth 0.848
       Cr II 3059.51: rew -3.797 depth 0.893
+      Cr II 3061.569: rew -4.076 depth 0.623
+      Cr II 3063.834: rew -3.856 depth 0.62
       Cr II 3067.148: rew -3.77 depth 0.942
+      Cr II 3071.564: rew -4.123 depth 0.53
+      Cr II 3072.467: rew -3.957 depth 0.825
+      Cr II 3073.225: rew -3.975 depth 0.753
+      Cr II 3083.601: rew -3.816 depth 0.762
+      Cr II 3084.458: rew -4.333 depth 0.551
+      Cr II 3085.336: rew -4.014 depth 0.7
+      Cr II 3093.948: rew -3.851 depth 0.691
+      Cr II 3094.928: rew -4.033 depth 0.827
+      Cr II 3108.655: rew -4.159 depth 0.666
+      Cr II 3111.946: rew -3.871 depth 0.627
+      Cr II 3115.283: rew -4.097 depth 0.607
+      Cr II 3117.254: rew -3.996 depth 0.734
+      Cr II 3118.143: rew -3.932 depth 0.748
       Cr II 3118.649: rew -3.909 depth 0.939
       Cr II 3120.369: rew -3.925 depth 0.942
+      Cr II 3121.052: rew -3.966 depth 0.508
+      Cr II 3121.811: rew -3.904 depth 0.803
+      Cr II 3121.966: rew -3.914 depth 0.616
+      Cr II 3122.601: rew -3.923 depth 0.861
       Cr II 3124.978: rew -3.848 depth 0.95
+      Cr II 3125.475: rew -3.873 depth 0.603
       Cr II 3128.7: rew -3.935 depth 0.932
       Cr II 3132.057: rew -3.918 depth 0.939
       Cr II 3136.686: rew -3.863 depth 0.935
+      Cr II 3137.546: rew -4.031 depth 0.494
+      Cr II 3139.905: rew -3.92 depth 0.891
+      Cr II 3142.744: rew -3.934 depth 0.513
       Cr II 3145.104: rew -3.872 depth 0.892
+      Cr II 3145.763: rew -3.933 depth 0.828
+      Cr II 3147.211: rew -3.877 depth 0.918
       Cr II 3147.227: rew -3.878 depth 0.931
       Cr I 3148.449: rew -4.061 depth 0.871
+      Cr II 3149.834: rew -3.989 depth 0.841
+      Cr II 3150.107: rew -3.891 depth 0.749
+      Cr II 3152.215: rew -3.93 depth 0.892
       Cr I 3155.154: rew -4.051 depth 0.81
+      Cr II 3158.027: rew -3.853 depth 0.849
       Cr II 3159.103: rew -3.783 depth 0.848
+      Cr II 3160.101: rew -3.871 depth 0.621
+      Cr I 3160.611: rew -3.836 depth 0.852
+      Cr II 3162.431: rew -3.91 depth 0.69
       Cr I 3163.76: rew -3.998 depth 0.735
+      Cr I 3169.575: rew -3.943 depth 0.629
+      Cr II 3173.558: rew -3.998 depth 0.755
       Cr II 3180.696: rew -3.915 depth 0.93
       Cr II 3181.422: rew -3.81 depth 0.883
       Cr II 3196.925: rew -3.839 depth 0.958
       Cr II 3197.076: rew -3.867 depth 0.945
+      Cr II 3203.509: rew -4.09 depth 0.565
       Cr II 3208.589: rew -3.932 depth 0.872
       Cr II 3209.179: rew -3.918 depth 0.922
       Cr II 3217.399: rew -3.973 depth 0.94
+      Cr II 3219.776: rew -3.888 depth 0.938
+      Cr II 3225.453: rew -3.917 depth 0.568
+      Cr II 3234.058: rew -3.883 depth 0.816
+      Cr II 3238.499: rew -4.164 depth 0.444
+      Cr II 3238.762: rew -3.945 depth 0.761
+      Cr II 3250.779: rew -3.938 depth 0.918
+      Cr II 3264.265: rew -4.04 depth 0.641
+      Cr II 3268.464: rew -4.276 depth 0.358
+      Cr II 3270.134: rew -4.177 depth 0.719
+      Cr II 3288.031: rew -4.127 depth 0.495
+      Cr II 3295.425: rew -4.213 depth 0.76
+      Cr II 3307.046: rew -4.001 depth 0.835
+      Cr II 3311.933: rew -4.107 depth 0.778
+      Cr II 3312.183: rew -3.995 depth 0.805
+      Cr II 3315.295: rew -4.032 depth 0.838
+      Cr II 3322.704: rew -3.894 depth 0.505
+      Cr II 3323.537: rew -4.069 depth 0.615
       Cr II 3324.058: rew -3.995 depth 0.869
+      Cr II 3324.341: rew -4.013 depth 0.805
       Cr II 3328.35: rew -4.209 depth 0.861
+      Cr II 3335.297: rew -3.935 depth 0.784
+      Cr II 3335.428: rew -3.892 depth 0.673
       Cr II 3336.122: rew -3.948 depth 0.614
       Cr II 3336.325: rew -3.916 depth 0.906
       Cr II 3339.801: rew -4.037 depth 0.913
+      Cr II 3339.88: rew -4.035 depth 0.754
       Cr II 3342.581: rew -4.019 depth 0.917
       Cr II 3347.831: rew -4.037 depth 0.897
       Cr II 3349.351: rew -3.777 depth 0.936
       Cr I 3351.963: rew -4.084 depth 0.743
       Cr II 3353.124: rew -4.106 depth 0.849
+      Cr II 3357.4: rew -4.182 depth 0.697
       Cr II 3358.5: rew -3.947 depth 0.92
       Cr II 3360.291: rew -3.827 depth 0.905
       Cr II 3361.765: rew -3.84 depth 0.858
       Cr II 3363.711: rew -4.041 depth 0.781
+      Cr II 3367.435: rew -3.98 depth 0.64
       Cr II 3368.049: rew -3.924 depth 0.934
+      Cr II 3368.709: rew -4.001 depth 0.604
+      Cr II 3372.106: rew -3.88 depth 0.925
+      Cr II 3376.268: rew -4.114 depth 0.628
       Cr II 3378.33: rew -4.143 depth 0.85
       Cr I 3379.17: rew -3.957 depth 0.748
       Cr II 3379.368: rew -4.071 depth 0.853
@@ -229,6 +325,8 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr II 3392.982: rew -3.816 depth 0.967
       Cr II 3393.836: rew -4.059 depth 0.852
       Cr II 3394.291: rew -3.967 depth 0.85
+      Cr II 3395.606: rew -4.077 depth 0.523
+      Cr II 3399.518: rew -4.072 depth 0.411
       Cr II 3402.397: rew -4.076 depth 0.877
       Cr II 3403.256: rew -4.068 depth 0.865
       Cr II 3403.32: rew -4.071 depth 0.923
@@ -236,7 +334,11 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr II 3408.932: rew -3.966 depth 0.714
       Cr II 3421.21: rew -4.162 depth 0.908
       Cr II 3422.739: rew -3.921 depth 0.927
+      Cr II 3428.922: rew -4.266 depth 0.301
       Cr II 3433.309: rew -3.84 depth 0.909
+      Cr II 3475.116: rew -3.93 depth 0.797
+      Cr II 3495.373: rew -4.036 depth 0.815
+      Cr II 3511.824: rew -4.101 depth 0.823
       Cr I 3578.704: rew -3.839 depth 0.969
       Cr II 3585.294: rew -3.794 depth 0.948
       Cr II 3585.504: rew -3.782 depth 0.851
@@ -246,13 +348,18 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr I 3605.345: rew -3.84 depth 0.967
       Cr II 3613.17: rew -4.005 depth 0.86
       Cr I 3615.645: rew -4.292 depth 0.833
+      Cr II 3617.273: rew -4.075 depth 0.588
       Cr II 3631.467: rew -3.787 depth 0.969
       Cr II 3631.683: rew -3.798 depth 0.837
       Cr I 3635.278: rew -3.968 depth 0.456
       Cr II 3677.676: rew -3.883 depth 0.9
       Cr II 3677.857: rew -3.931 depth 0.847
+      Cr II 3684.223: rew -4.159 depth 0.45
+      Cr II 3686.673: rew -4.232 depth 0.364
+      Cr II 3697.996: rew -4.313 depth 0.498
       Cr II 3712.936: rew -4.237 depth 0.835
       Cr II 3715.172: rew -4.233 depth 0.728
+      Cr II 3727.375: rew -3.85 depth 0.807
       Cr I 3730.802: rew -4.02 depth 0.795
       Cr I 3732.028: rew -4.108 depth 0.784
       Cr II 3738.359: rew -4.026 depth 0.865
@@ -262,6 +369,7 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr I 3744.491: rew -4.12 depth 0.616
       Cr I 3748.605: rew -3.83 depth 0.711
       Cr I 3748.995: rew -3.829 depth 0.911
+      Cr II 3750.525: rew -3.95 depth 0.501
       Cr II 3754.569: rew -4.223 depth 0.71
       Cr I 3757.169: rew -4.042 depth 0.552
       Cr I 3757.661: rew -3.908 depth 0.858
@@ -271,5 +379,5 @@ PREPARE solar Cr  -> NOT READY -- blocking: cull_candidates 261
       Cr II 3767.198: rew -3.845 depth 0.967
       Cr I 3768.238: rew -4.087 depth 0.719
       Cr I 3768.733: rew -4.183 depth 0.589
-  D NLTE: 370 graded line(s) not in None
-  E holdings: 19 windows; 0 not serving / frame off rest
+  D NLTE: 481 graded line(s) not in a PySME table (none exists for Cr)
+  E holdings: 17 windows; 0 not serving / frame off rest

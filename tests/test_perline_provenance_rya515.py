@@ -99,7 +99,15 @@ def test_no_live_fe2_vis_product_stands_on_a_curated_out_line(reach):
     assert disagree.empty, (
         "these products publish a line pool their own committed evidence does not contain: "
         + ", ".join(f"{r.holding}/{r.treatment} (A={r.A})" for _, r in disagree.iterrows()))
-    assert (vis2.n_lines == 8).sum() == 6, "the six 8-line legs are 1D-LTE + Gerber-LTE"
+    #: RYA-1388: the HARPS Deep 1D-LTE leg was rebuilt on the RYA-1233 Deep pool
+    #: (ae521da8: any published gf sigma, not lab only) and is 23 lines; its row was updated
+    #: to the artifact that now backs it. The HARPS Gerber row stays the snapshot of the
+    #: top-level artifact it names (the ORCH writes Gerber output under deck_<deck>/).
+    legs = vis2[vis2.treatment.isin(["1D-LTE", "synth-1D-LTE-gerber"])]
+    harps = (legs.holding == "solar_harps_molecfit_corrected") & (legs.treatment == "1D-LTE")
+    assert len(legs) == 6 and (legs[~harps].n_lines == 8).all(), \
+        "the other 1D-LTE + Gerber-LTE legs are the 8-line lab pool"
+    assert legs[harps].n_lines.tolist() == [23]
 
 
 

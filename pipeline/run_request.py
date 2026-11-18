@@ -39,6 +39,8 @@ class RunRequest:
     routes: tuple[str, ...] = ()            # 'profile-fit' / 'synthesis'
     pools: tuple[str, ...] = ()             # 'set' / 'reference' / 'codex' / 'deep'
     force: bool = False
+    lines: str = ""                         # RYA-1388: a line-list CSV
+    patch: bool = False                     # ...run as a patch of the published products
     publish: bool = False
     dry_run: bool = False
     jobs: int = 1
@@ -80,6 +82,15 @@ class RunRequest:
                        "never the whole element")
         if self.mode == "select" and not self.selection():
             out.append("mode 'select' needs at least one of " + ", ".join(AXES))
+        if self.lines and not self.patch:
+            out.append("a line list runs as a patch (lines + patch); a standalone line-list "
+                       "product is not wired yet")
+        if self.patch and not self.lines:
+            out.append("patch needs a line list (lines)")
+        if self.patch and tuple(self.routes) != ("synthesis",):
+            out.append("patch reuses synthesis fits; routes must be ['synthesis']")
+        if self.patch and self.mode != "select":
+            out.append("patch needs mode 'select' with the cells to patch")
         if self.publish and self.dry_run:
             out.append("a dry run builds nothing, so it cannot publish")
         if opts:
@@ -123,10 +134,12 @@ def execute(req: RunRequest, *, interpreter: str | None = None,
                     instruments=sel.get("instruments"), engines=sel.get("engines"),
                     methods=sel.get("routes"), pools=sel.get("pools"),
                     dry_run=req.dry_run, interpreter=interpreter, ispec_dir=ispec_dir,
-                    jobs=req.jobs, prepare_first=True, force=req.force)
+                    jobs=req.jobs, prepare_first=True, force=req.force,
+                    lines=req.lines or None, patch=req.patch)
     report["request"] = req.to_dict()
     pub = None
     if req.publish and not req.dry_run:
         pub = element_publish.publish(req.star, req.element, report=report,
-                                      jobs=max(req.jobs, 1), interpreter=interpreter)
+                                      jobs=max(req.jobs, 1), interpreter=interpreter,
+                                      patch_lines=req.lines if req.patch else None)
     return {"report": report, "publish": pub}
