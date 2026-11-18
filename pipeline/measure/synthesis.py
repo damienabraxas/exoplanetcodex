@@ -400,6 +400,9 @@ class SynthesisHandler(MeasurementHandler):
             # (scripts/rya783_nlte_engagement_probe.py), where no other stage-aware check
             # runs -- so the stage has to travel with the fit, not be re-derived.
                 ion=ion,
+            # RYA-470: the IR-HFS special case (Ryan 2026-11-18) -- a continuum scale fitted
+            # jointly with A(X). Absent from the context = False = the standard fit.
+                free_continuum=bool(context.get("free_continuum")),
                 tmp_dir=self._tmp_dir)
             # RYA-847 — carry what the fitter measured about whether A(X) was pinned.
             # Placed immediately after the fit and BEFORE any gate, so a rejected line
@@ -439,7 +442,10 @@ class SynthesisHandler(MeasurementHandler):
                   f"red_chi2={res['red_chi2']}; n_pix={res['n_pix']}; window "
                   f"+/-{hw_A:.3f} A wing-wide from EW {ew_hint:.0f} mA; "
                   f"R={context['resolving_power']:.0f}, vmac={context['macroturbulence']}, "
-                  f"vsini={context['vsini']}; EW is the SYNTHETIC target-line EW over "
+                  f"vsini={context['vsini']}; "
+                  + (f"FREE CONTINUUM (RYA-470 IR-HFS special case): fitted scale "
+                     f"{res.get('continuum_scale')}; " if context.get("free_continuum") else "")
+                  + f"EW is the SYNTHETIC target-line EW over "
                   f"+/-{ew_hw:.2f} A, not the measurement"
                   + (f" | SYSTEMATIC: {PSEUDO_CONTINUUM_SYSTEMATIC_NOTE}" if pseudo else ""))
 

@@ -163,7 +163,7 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
 def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
             load=None, *, nlte_deck=None, nlte_deck_key=None,
             atmosphere_layers_file=None, atmosphere=None,
-            use_molecules=None) -> dict:
+            use_molecules=None, free_continuum=None) -> dict:
     """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window.
 
     🔴 `load` — RYA-904. THE OBSERVED SPECTRUM WAS HARD-PINNED TO KITT PEAK HERE.
@@ -219,7 +219,9 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
     _extra = {k: v for k, v in (
         ("nlte_deck", nlte_deck), ("nlte_deck_key", nlte_deck_key),
         ("atmosphere_layers_file", atmosphere_layers_file),
-        ("use_molecules", use_molecules)) if v is not None}
+        ("use_molecules", use_molecules),
+        # RYA-470: the IR-HFS free-continuum special case; None = not passed = unchanged.
+        ("free_continuum", free_continuum)) if v is not None}
     r = _fit_synth_flux(
         ow_A / 10.0, np.asarray(of, dtype=float),
         ctx['atmosphere'] if atmosphere is None else atmosphere,
@@ -266,6 +268,7 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
             'a_synth': float(r.get('A_X', np.nan)),
             'red_chi2': float(r.get('red_chi2', np.nan)),
             'n_pix': int(r.get('n_pix', 0)), 'cont_ratio': cont,
+            'continuum_scale': r.get('continuum_scale'),
             # RYA-847: pass the constraint metrics straight through. `_fit_synth_flux`
             # measures them; this harness is the only thing between the fitter and the
             # band product, and anything it does not forward is a quantity nobody

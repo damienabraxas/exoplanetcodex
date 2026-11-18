@@ -1279,6 +1279,19 @@ def _load_observed_spectrum(star_id: str, norm_path=None) -> tuple:
     return wave_nm, flux
 
 
+def _profile_continuum_scale(obs: np.ndarray, synth: np.ndarray) -> float:
+    """RYA-470: the continuum scale c minimising sum (obs - c*synth)^2, clipped to
+    |c - 1| <= local_continuum.MAX_SHIFT_MODEL (the bound the ORCH already holds a
+    model-guided continuum to). Closed form: c = sum(obs*synth) / sum(synth^2)."""
+    from pipeline.local_continuum import MAX_SHIFT_MODEL
+    ok = np.isfinite(obs) & np.isfinite(synth)
+    den = float(np.sum(synth[ok] ** 2))
+    if den <= 0:
+        return 1.0
+    c = float(np.sum(obs[ok] * synth[ok]) / den)
+    return float(np.clip(c, 1.0 - MAX_SHIFT_MODEL, 1.0 + MAX_SHIFT_MODEL))
+
+
 def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                     atmosphere: np.ndarray,
                     teff: float, logg: float, feh: float, vturb: float,
@@ -1292,8 +1305,17 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                     atmosphere_layers_file: str | None = None,
                     ion=None,
                     use_molecules: bool = False,
+                    free_continuum: bool = False,
                     tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
     """
+    `free_continuum` (RYA-470, Ryan 2026-11-18 -- the IR HFS special case): fit a
+    continuum SCALE jointly with A(X), as Takeda (1995) / Elgueta et al. 2024 fit a
+    "continuum normalization factor" per line. For each trial A(X) the scale c that
+    minimises sum (obs - c*synth)^2 is solved in closed form (no extra synthesis), bounded
+    to |c - 1| <= local_continuum.MAX_SHIFT_MODEL; chi2(A) is then the profile over c and
+    dof loses one. The fitted scale is returned as `continuum_scale`. Off by default: the
+    standard route fits on the frozen holding continuum.
+
     v2 blend-aware abundance: fit the broadened synthetic spectrum directly to
     observed normalized flux over [wave_base, wave_top] (nm) by minimizing reduced
     χ² over the single free abundance. Blends are synthesized in-window, never
@@ -1434,9 +1456,14 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
             return 1e30
         interp = interp1d(sw, sf, bounds_error=False, fill_value=1.0)
         sf_i = interp(ow)
+        if free_continuum:
+            c = _profile_continuum_scale(of, sf_i)
+            scale[0] = c
+            sf_i = c * sf_i
         r = (of - sf_i) / sig_scalar
         return float(np.nansum(r * r))
 
+    scale = [1.0]
     res = minimize_scalar(chi2, bounds=(a_lo, a_hi), method='bounded',
                           options={'xatol': 1e-3})
     if fail[0] is not None:
@@ -1444,8 +1471,9 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                 'A_X': np.nan, 'red_chi2': np.nan, 'n_pix': int(of.size)}
 
     a_best   = float(res.x)
-    dof      = max(of.size - 1, 1)
+    dof      = max(of.size - (2 if free_continuum else 1), 1)
     chi2_min = chi2(a_best)
+    c_best   = float(scale[0])
     red_chi2 = chi2_min / dof
 
     # RYA-847 — MEASURE whether the objective actually pinned A(X), and carry it.
@@ -1466,6 +1494,7 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
     edge_pinned = cm.edge_distance_dex < 1e-2
     return {'status': 'edge_pinned' if edge_pinned else 'ok',
             'A_X': round(a_best, 3), 'red_chi2': round(float(red_chi2), 3),
+            'continuum_scale': round(c_best, 5) if free_continuum else None,
             'n_pix': int(of.size), 'n_eval': int(n_eval[0]),
             'constraint': cm.as_dict(),
             # Promoted to top level because every consumer wants them and a dict-in-dict
