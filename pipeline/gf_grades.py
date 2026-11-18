@@ -121,6 +121,10 @@ GRADE_MISMATCH = "systematic:K07/SCALE-MISMATCH"
 #: a COMPILATION, not a primary laboratory measurement. Kept distinct from GF-LAB for that
 #: reason (see this module's RYA-822 note).
 GRADE_NIST = "GF-NIST"
+#: RYA-470. A gf adopted into `canonical_gf` from a NON-laboratory source that states its own
+#: per-line uncertainty (`gf_sigma_dex`). Graded under Ryan's RYA-1233 ruling (graded = ANY
+#: published uncertainty), kept distinct from GF-LAB because it is not a lab measurement.
+GRADE_CITED = "GF-CITED"
 
 #: NIST's accuracy ladder, worst-case percentage on the transition probability.
 #: ⚠️ ENUMERATED IN FULL, '+' TIERS INCLUDED. Omitting them once put a B+ line (<=7%)
@@ -212,7 +216,7 @@ class GradeVerdict:
     def has_cited_sigma(self) -> bool:
         """Carries a citable per-line sigma — a lab measurement OR a NIST accuracy class.
         This is what an error budget can consume instead of the blanket systematic."""
-        return self.gf_grade in (GRADE_LAB, GRADE_NIST)
+        return self.gf_grade in (GRADE_LAB, GRADE_NIST, GRADE_CITED)
 
 
 _cache: dict = {}
@@ -451,6 +455,32 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
                 f"canonical_gf carries a NIST-graded ({ngrade}) gf for this line but it "
                 f"differs from the value used by {d_nist:+.3f} dex — the NIST accuracy "
                 f"does NOT describe this measurement, so the systematic stands")
+
+    # 🔴 RYA-470 — THE ADOPTED ROW'S OWN PUBLISHED SIGMA. `rya1268_adopt_lab_gf` writes every
+    # laboratory gf it adopts (Lawler, Holmes, Wood, Sobeck, ...) into canonical_gf with
+    # gf_tier LAB and the paper's per-line sigma in `gf_sigma_dex`. This function only
+    # consulted the per-species LAB_TABLES (Fe/Al/Si), so those lines fell through to the
+    # K07 systematic: the first V I VIS Codex pool -- 171 Lawler lines + 11 NIST classes,
+    # every one carrying a published sigma -- was graded "152 x K07" and marked NOT
+    # PUBLISHABLE. Same shape as RYA-953/1002/1214: the data was in canonical_gf and the
+    # gate asked the wrong question. Still bound to THE VALUE USED (RYA-799): a sigma
+    # describes only the gf it was published with.
+    _csig = pd.to_numeric(cgf.get("gf_sigma_dex"), errors="coerce") if cgf is not None else np.nan
+    if cgf is not None and pd.notna(_csig) and np.isfinite(ref_loggf):
+        d_c = ref_loggf - float(log_gf_used)
+        _is_lab = "LAB" in str(cgf.get("gf_tier", ""))
+        _doi = str(cgf.get("gf_source_doi", "") or "").strip()
+        _src = tag + (f" (DOI {_doi})" if _doi and _doi.lower() != "nan" else "")
+        if abs(d_c) <= LOGGF_MATCH_TOL:
+            return GradeVerdict(
+                GRADE_LAB if _is_lab else GRADE_CITED, _src, float(_csig), tag,
+                ref_loggf, d_c,
+                ("adopted laboratory gf with the paper's own per-line sigma" if _is_lab
+                 else "adopted gf with its source's own per-line sigma (RYA-1233: graded)"))
+        return GradeVerdict(
+            GRADE_MISMATCH, NO_TIE_SOURCE, K07_SYSTEMATIC_DEX, tag, ref_loggf, d_c,
+            f"canonical_gf carries a {tag!r} gf with a published sigma for this line but "
+            f"it differs from the value the pool used by {d_c:+.3f} dex")
 
     if cgf is not None and tag and tag != K07_TAG:
         d_ref = ref_loggf - float(log_gf_used)

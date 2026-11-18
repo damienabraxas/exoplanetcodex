@@ -288,6 +288,18 @@ def resolve_lines(element: str, ion: str, wavelengths, linelist,
         n = int(m.sum())
         key = ("wavelength alone" if ep is None
                else f"wavelength+EP ({ep:.4f} eV)")
+        # 🔴 RYA-470 — HYPERFINE COMPONENTS ARE ONE TRANSITION. The solar list is hfs-on
+        # (VALD), so a V/Mn/Co/Cu line is 2-8 rows at one EP inside the window, and the
+        # rule below called that "ambiguous" -- 19 of 182 V I VIS Codex lines went
+        # UNRESOLVED and forced the pool to rung 1. Only with the EP key (the components
+        # share a lower level exactly); the pool used their SUM, so that is the gf graded.
+        if n > 1 and ep is not None:
+            _c = ll.iloc[np.flatnonzero(m)]
+            if float(_c.ep_eV.max() - _c.ep_eV.min()) <= EP_MATCH_TOL_EV:
+                rows.append({"wavelength_air_A": w, "ep_eV": float(_c.ep_eV.mean()),
+                             "log_gf": float(np.log10(np.sum(10.0 ** _c.log_gf.to_numpy()))),
+                             "resolved": True, "unresolved_why": ""})
+                continue
         if n == 1:
             r = ll.iloc[int(np.flatnonzero(m)[0])]
             rows.append({"wavelength_air_A": w, "ep_eV": float(r.ep_eV),
@@ -301,65 +313,6 @@ def resolve_lines(element: str, ion: str, wavelengths, linelist,
                              if n == 0 else
                              f"ambiguous: {n} same-species rows within {tol} A on {key}")})
     return pd.DataFrame(rows)
-
-
-def _nist_rung(element: str, ion: str, lines: pd.DataFrame,
-               wave_tol_A: float | None) -> GfRung:
-    """The rung for a species with NO primary-laboratory table — RYA-1214.
-
-    Caps at 2. Rung 3 is the LABORATORY rung and is not reachable without a laboratory
-    table; `GfRung.nist_class` is what tells `budget_kwargs` to charge the compilation
-    term (`error_budget.nist_class_gf_term`) rather than the laboratory one, so a
-    critically-evaluated theoretical gf is never described as a measured one (RYA-1172).
-
-    The mixed-pool refusal is the same one `decide` applies to a laboratory pool and for
-    the same reason (RYA-855): a grade describes the pool that was measured, so one
-    ungraded line returns the whole pool to rung 1 rather than letting it inherit a
-    pedigree a subset earned.
-    """
-    n = int(len(lines))
-    species = f"{element} {ion}"
-    resolved = lines.get("resolved")
-    unresolved = int((~resolved.astype(bool)).sum()) if resolved is not None else 0
-
-    grades, sigmas, cites = [], [], []
-    for r in lines.itertuples():
-        if resolved is not None and not bool(getattr(r, "resolved")):
-            grades.append("UNRESOLVED")
-            continue
-        v = gf_grades.grade_line(float(r.wavelength_air_A), float(r.ep_eV),
-                                 float(r.log_gf), species=species, wave_tol_A=wave_tol_A)
-        grades.append(v.gf_grade)
-        if v.gf_grade == gf_grades.GRADE_NIST and np.isfinite(v.gf_sigma_dex):
-            sigmas.append(float(v.gf_sigma_dex))
-            cites.append(v.gf_grade_source)
-    counts = dict(sorted(Counter(grades).items()))
-    n_graded = counts.get(gf_grades.GRADE_NIST, 0)
-    ladder = sorted(" ".join(t) for t in LAB_GRADED_SPECIES)
-
-    if n_graded < n or not sigmas:
-        other = ", ".join(f"{k} x{v}" for k, v in counts.items()
-                          if k != gf_grades.GRADE_NIST) or "none"
-        return GfRung(
-            1, False, None, "", n, n_graded, unresolved, 0.0, counts,
-            f"no primary-laboratory gf table exists for {species} (the laboratory ladder "
-            f"covers {ladder}), so the best rung available is the NIST compilation — and "
-            f"this pool does not reach it either: {n_graded} of {n} lines carry a NIST "
-            f"accuracy class, the rest are {other}. A pool is graded only if every line "
-            f"in it is")
-
-    coverage = len(sigmas) / n
-    sig = float(np.sqrt(np.mean(np.asarray(sigmas, dtype=float) ** 2)))
-    classes = ", ".join(sorted({c.split("class ")[-1].split(" ")[0] for c in cites}))
-    return GfRung(
-        2, True, sig, f"NIST ASD accuracy classes ({classes})",
-        n, n_graded, unresolved, coverage, counts,
-        f"all {n} {species} lines carry a NIST ASD accuracy class (RMS {sig:.4f} dex over "
-        f"classes {classes}). ⚠️ COMPILATION, NOT LABORATORY: no primary-laboratory gf "
-        f"table exists for {species} and none will — the accepted standard for the light "
-        f"elements is critically-evaluated theory (Opacity Project / MCHF, RYA-1172) — so "
-        f"rung 3 is structurally unreachable and this is the pool's true ceiling",
-        nist_class=True)
 
 
 def decide(element: str, ion: str, lines: pd.DataFrame,
@@ -382,29 +335,14 @@ def decide(element: str, ion: str, lines: pd.DataFrame,
         return GfRung(1, False, None, "", 0, 0, 0, 0.0, {},
                       "empty pool — no line to grade, so the ungraded systematic stands")
 
-    if (str(element), str(ion)) not in LAB_GRADED_SPECIES:
-        # 🔴 RYA-1214 — "NO LAB TABLE" BOUNDS THE RUNG AT 2, IT DOES NOT FORCE RUNG 1.
-        #
-        # This returned rung 1 unconditionally, and for the pre-CNO repo that was the same
-        # answer either way: nothing outside Fe/Al carried a per-line grade at all. It is
-        # not the same answer now. RYA-1214 adjudicated 842 C/N/O lines onto NIST
-        # accuracy classes, and the first C I red-optical product still came out charging
-        # the 0.17 UNGRADED blanket — over six lines every one of which is NIST-graded,
-        # with the budget printing "🔴 NOT PUBLISHABLE" beneath a pool that had just been
-        # graded. The gate was asking about the LABORATORY ladder and answering a
-        # question about the GRADED one.
-        #
-        # ⚠️ THE REFUSAL IN THE ORIGINAL IS KEPT, INTACT. Rung 3 is the LABORATORY rung and
-        # stays unreachable here: `_nist_rung` never returns 3, and `gf_grades.grade_line`
-        # cannot return GF-LAB for a species with no table (it has none to match against).
-        # So a C I line can never acquire an Fe I laboratory pedigree by wavelength and EP
-        # coincidence, which is what this branch was written to prevent. What it may now
-        # acquire is its OWN compilation grade, which it earned.
-        #
-        # And the mixed-pool rule below applies here too, unchanged: one ungraded line
-        # sends the whole pool back to rung 1.
-        return _nist_rung(element, ion, lines, wave_tol_A)
-
+    # 🔴 RYA-470 — ONE PATH FOR EVERY SPECIES, GRADED = ANY PUBLISHED PER-LINE SIGMA.
+    # Two paths lived here: a lab-table species (Fe/Al/Si) counted ONLY GF-LAB, so one
+    # NIST-classed line sent the pool to rung 1; every other species went to a NIST-only
+    # path, so adopted laboratory gf (Lawler, Holmes, Wood, Sobeck) could never grade.
+    # Ryan's RYA-1233 ruling is that a graded line is one whose gf carries ANY published
+    # uncertainty -- lab, literature or a NIST class -- and that is the rule now, once.
+    # The refusals are unchanged: a mixed pool is rung 1, the grade describes the gf the
+    # pool USED (gf_grades), and an unresolvable line is ungradeable.
     resolved = lines.get("resolved")
     unresolved = int((~resolved.astype(bool)).sum()) if resolved is not None else 0
 
@@ -417,44 +355,53 @@ def decide(element: str, ion: str, lines: pd.DataFrame,
                                  float(r.log_gf), species=species,
                                  wave_tol_A=wave_tol_A)
         grades.append(v.gf_grade)
-        if v.is_graded:
+        if v.has_cited_sigma:
             if np.isfinite(v.gf_sigma_dex):
                 sigmas.append(float(v.gf_sigma_dex))
             cites.append(v.gf_grade_source)
     counts = dict(sorted(Counter(grades).items()))
-    n_graded = counts.get(gf_grades.GRADE_LAB, 0)
+    cited_kinds = (gf_grades.GRADE_LAB, gf_grades.GRADE_NIST, gf_grades.GRADE_CITED)
+    n_graded = sum(counts.get(k, 0) for k in cited_kinds)
 
     if n_graded < n:
         other = ", ".join(f"{k} x{v}" for k, v in counts.items()
-                          if k != gf_grades.GRADE_LAB)
+                          if k not in cited_kinds) or "none"
         return GfRung(
             1, False, None, "", n, n_graded, unresolved, 0.0, counts,
-            f"MIXED POOL: {n_graded} of {n} {species} lines are {gf_grades.GRADE_LAB} "
-            f"(primary laboratory gf); the rest are {other}. A pool is graded only if "
-            f"every line in it is — inheriting the best rung a subset carries would "
-            f"attribute a laboratory pedigree to lines that do not have one")
+            f"MIXED POOL: {n_graded} of {n} {species} lines carry a published per-line gf "
+            f"sigma (lab, literature or NIST class); the rest are {other}. A pool is "
+            f"graded only if every line in it is")
 
     coverage = len(sigmas) / n
+    if counts.get(gf_grades.GRADE_NIST, 0) == n:
+        # All compilation: the NIST channel, never described as a measurement (RYA-1172).
+        sig = float(np.sqrt(np.mean(np.asarray(sigmas, dtype=float) ** 2)))
+        classes = ", ".join(sorted({c.split("class ")[-1].split(" ")[0] for c in cites}))
+        return GfRung(
+            2, True, sig, f"NIST ASD accuracy classes ({classes})",
+            n, n_graded, unresolved, coverage, counts,
+            f"all {n} {species} lines carry a NIST ASD accuracy class (RMS {sig:.4f} dex "
+            f"over classes {classes}). COMPILATION, NOT LABORATORY",
+            nist_class=True)
+
     if coverage < CITED_COVERAGE_MIN or not sigmas:
         return GfRung(
             2, True, None, "", n, n_graded, unresolved, coverage, counts,
-            f"every one of the {n} {species} lines is {gf_grades.GRADE_LAB}, but only "
-            f"{len(sigmas)} ({coverage:.0%} < {CITED_COVERAGE_MIN:.0%}) carry a citable "
-            f"per-line sigma — an RMS over part of a pool does not describe the pool, so "
-            f"the graded BOUND stands")
+            f"every one of the {n} {species} lines is graded, but only {len(sigmas)} "
+            f"({coverage:.0%} < {CITED_COVERAGE_MIN:.0%}) carry a numeric per-line sigma — "
+            f"an RMS over part of a pool does not describe the pool, so the graded BOUND "
+            f"stands")
 
     sig = float(np.sqrt(np.mean(np.asarray(sigmas, dtype=float) ** 2)))
-    # NAME THE PAPERS. `error_budget.cited_gf_term` refuses an unsourced sigma, and the
-    # citation is built from the lines actually in this pool rather than from a constant
-    # list, so it cannot name a paper the pool did not use.
-    source = "; ".join(sorted(set(cites)))
+    # NAME THE SOURCES, counted, built from the lines actually in this pool.
+    source = "; ".join(f"{c} x{k}" for c, k in sorted(Counter(cites).items()))
+    mix = ", ".join(f"{k} x{counts[k]}" for k in cited_kinds if counts.get(k))
     return GfRung(
         3, True, sig, source, n, n_graded, unresolved, coverage, counts,
-        f"every one of the {n} {species} lines is {gf_grades.GRADE_LAB} and "
-        f"{coverage:.0%} carry a published per-line sigma; RMS {sig:.4f} dex "
-        f"({sig / GRADED_GF_SYSTEMATIC_DEX:.2f}x the generic bound "
-        f"{GRADED_GF_SYSTEMATIC_DEX}) MEASURES the same quantity the bound only "
-        f"estimates, so it supersedes it — larger or smaller (RYA-850)")
+        f"every one of the {n} {species} lines carries a published per-line gf sigma "
+        f"({mix}); RMS {sig:.4f} dex ({sig / GRADED_GF_SYSTEMATIC_DEX:.2f}x the generic "
+        f"bound {GRADED_GF_SYSTEMATIC_DEX}) MEASURES the quantity the bound only "
+        f"estimates, so it supersedes it — larger or smaller (RYA-850, RYA-1233)")
 
 
 def pool_cited_sigma_rms(element: str, ion: str, lines: pd.DataFrame,
