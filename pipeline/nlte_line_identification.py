@@ -85,6 +85,10 @@ FIRST_IP_EV = {
     "Ti": 6.828120,
     "Mn": 7.4340380,
     "Co": 7.881010,
+    # RYA-1371: NIST ASD 61671.05 cm-1. atom.mg86d puts its Mg II ground at 61508.02 cm-1
+    # (0.020 eV low, the known mg86d energy offset); NIST is the rule here. Mg I labels
+    # do not use this value.
+    "Mg": 7.646236,
 }
 
 #: A quoted species header inside the linelist, e.g. `'Cr I    LTE'`.

@@ -51,9 +51,8 @@ Three things are worth noting:
   in NLTE they spread over 0.015.
 - **The NLTE effect matches the direct fit.** On IAG the paired triplet effect is −0.150
   dex; the direct OpenMULTI3D fit (`openmulti3d_solar_o_direct_fit.md`) gave −0.149. The
-  absolute levels differ by about 0.045 dex (ORCH 8.74 vs direct 8.79). That gap comes from
-  where the continuum is placed — the ORCH synthesis reference versus the observed upper
-  envelope — not from the departures.
+  direct fit's absolute level (8.79) sits 0.045 dex higher because it places the continuum
+  on the observed upper envelope. The product is the ORCH value, on the ORCH continuum rule.
 - **The H-collision systematic is 0.08 dex** (o41f − o41j). The direct fit gave 0.07.
 
 ## 8446 is excluded, and why the guard missed it at first
@@ -69,7 +68,7 @@ every label check (`gerber_nlte`, `nlte_label_sidecar`, `run_matrix`). 8446 is n
 dropped from the NLTE aggregate and kept in the per-line record. The window coverage
 report changed from 21/46 labelled O I lines to 3/46.
 
-### The same defect affects published Mg products (finished element; not rerun)
+### The same defect affected published Mg products (fixed 11-18)
 
 GESv6 has 235 Mg I lines flagged `nlte=T` with `x` labels. Mg I lines from that set sit
 inside the published Gerber `ENGINE-B-NLTE` aggregates:
@@ -81,8 +80,23 @@ In KP kurucz2005 6910-9199 GRADED:
   `synth-1D-LTE-gerber`. They are LTE lines under the NLTE label.
 - The labelled line 8806.757 shifts by −0.077 dex, for comparison.
 
-Whether to re-derive is Ryan's call. The guard is fixed, so any future Mg run excludes
-these lines.
+Ryan, 11-18: such a line gets an NLTE run, or it leaves the NLTE product. Done:
+
+- The Mg atom (mg86d) has level pairs for 7 of the 8 lines. The GES sidecar now carries
+  them (114 Mg rows: the 9 GES labels plus 105 that fill `x` rows, all from
+  `nlte_line_identification`; the IP is from NIST). Those 7 lines were refitted in NLTE:
+  - 6318.717 / 6319.237 (4s3S-6p3P*);
+  - 7657.603 / 7659.152 / 7659.901 (4s3S-5p3P*);
+  - 8712.689 (4p3P*-7d3D);
+  - 8923.569 (4s1S-5p1P*).
+  They now shift by −0.006 to −0.065 dex from 1D-LTE.
+- 8717.825 has no level pair in mg86d. It leaves every NLTE aggregate (`NO-NLTE-LABEL`)
+  and stays in the per-line record.
+- Only those lines were refit (`run_pipeline --lines --patch`), in the 24 Mg I
+  gerber-nlte VIS and red-optical synthesis cells. In VIS, the patch guard also found 5
+  reused 1D-LTE fits whose continuum level had drifted, by up to 0.0017. Those were 4571.096,
+  4702.991, 5172.684, 5528.405 and 5711.088. The guard requires a refit, so they were refit.
+  See `docs/audit/rya1250_mg_fix.md`.
 
 ## Artifacts
 
@@ -93,6 +107,5 @@ these lines.
 
 ## Open
 
-- **Headline continuum.** The ORCH rule gives 8.74; the envelope gives 8.79. This is Ryan's call.
 - **Other run elements.** Na, Mg, Al, Si, Ca, Ti, Cr and Fe still need decks. Their Keeper
   atoms have to be copied to `engines.openmulti3d_atoms` first.
