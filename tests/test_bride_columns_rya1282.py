@@ -43,7 +43,7 @@ def _homogeneous_cube(structure, nx=2, ny=3):
     col = marcs_column(structure)
     nz = col['ndep']
     tile = lambda a: np.broadcast_to(a[:, None, None], (nz, ny, nx)).copy()
-    return dict(z=-col['height_m'], temperature=tile(col['temperature_K']),
+    return dict(z=col['height_m'].copy(), temperature=tile(col['temperature_K']),
                 electron_density=tile(col['ne_m3']),
                 hydrogen_density=tile(col['nHtot_m3'] * 0.75), proton_density=tile(col['nHtot_m3'] * 0.25),
                 vz=tile(np.zeros(nz)))
@@ -65,15 +65,32 @@ def test_a_snapshot_on_a_height_axis_or_upside_down_is_refused(solar):
     structure, _ = solar
     cube = _homogeneous_cube(structure)
     flipped = dict(cube, z=cube['z'][::-1])
-    with pytest.raises(ValueError, match='increase inward'):
+    with pytest.raises(ValueError, match='top first'):
         stagger_column(flipped, 0, 0)
     upside = {k: (v[::-1] if k in ('temperature',) else v) for k, v in cube.items()}
     with pytest.raises(ValueError, match='hotter at depth'):
         stagger_column(upside, 0, 0)
 
 
-def test_a_downflow_in_the_snapshot_is_a_negative_upward_velocity(solar):
+def test_an_upflow_in_the_snapshot_stays_a_positive_upward_velocity(solar):
     structure, _ = solar
     cube = _homogeneous_cube(structure)
-    cube['vz'][:] = 1000.  # Multi3D +z is inward: a 1 km/s downflow
-    assert np.all(stagger_column(cube, 0, 0)['vlos_m_s'] == -1000.)
+    cube['vz'][:] = 1000.  # +z is up in the held snapshot: a 1 km/s upflow
+    assert np.all(stagger_column(cube, 0, 0)['vlos_m_s'] == 1000.)
+
+
+def test_the_held_snapshot_reads_as_height_with_rising_hot_gas():
+    import os
+    base = os.path.expanduser('~/bride_rya1118/')
+    stem = 't5777g44m0005_00091_80x80x240'
+    if not os.path.exists(base + 'atm3d.' + stem):
+        pytest.skip('STAGGER snapshot not held on this host')
+    import sys
+    sys.path.insert(0, base)
+    from multi3d_read import read_atmos_multi3d
+    cube = read_atmos_multi3d(base + 'mesh.' + stem, base + 'atm3d.' + stem)
+    k = int(np.argmin(abs(cube['z'])))
+    corr = np.corrcoef(cube['temperature'][k].ravel(), cube['vz'][k].ravel())[0, 1]
+    assert corr > 0.3            # hot granules rise: +vz is up
+    col = stagger_column(cube, 0, 0)
+    assert col['height_m'][0] > 0 > col['height_m'][-1]

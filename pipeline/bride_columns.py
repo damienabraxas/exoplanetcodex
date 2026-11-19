@@ -27,22 +27,24 @@ from pipeline.bride_reference import PASSIVE_ATOM_FACTORIES
 def stagger_column(cube: dict, ix: int, iy: int) -> dict:
     """One vertical column, top first, in Lightweaver's geometric convention.
 
-    Multi3D z is DEPTH (increases inward) and vz is positive along +z, i.e. downward.
-    Lightweaver's 1D geometric scale is HEIGHT (decreasing with index, top first) and
-    its vlos is positive along +height (upward). Both flips happen here and nowhere else.
+    The held Multi3D snapshot already uses HEIGHT for z (z[0] = +871 km at the top,
+    decreasing inward) and vz positive along +z, i.e. upward: near z = 0 the hot gas
+    rises (corr(T, vz) = +0.54 at z = 0, +0.70 at -50 km on t5777g44m0005_00091).
+    That is Lightweaver's convention, so nothing is flipped. The guards refuse a cube
+    in any other orientation rather than guess.
     """
     z = np.asarray(cube['z'], dtype=float)
-    if not np.all(np.diff(z) > 0):
-        raise ValueError('Multi3D z must increase inward (depth); refusing an unknown orientation')
+    if not np.all(np.diff(z) < 0):
+        raise ValueError('Snapshot z must be height, top first (decreasing); refusing an unknown orientation')
     sl = (slice(None), int(iy), int(ix))
     temperature = cube['temperature'][sl].copy()
     if not temperature[-1] > temperature[0]:
         raise ValueError('Column is not hotter at depth; the axis order is wrong')
     n_htot = cube['hydrogen_density'][sl] + cube['proton_density'][sl]
     col = dict(source='stagger', ix=int(ix), iy=int(iy), ndep=z.size,
-               height_m=-z.copy(), temperature_K=temperature,
+               height_m=z.copy(), temperature_K=temperature,
                ne_m3=cube['electron_density'][sl].copy(), nHtot_m3=n_htot.copy(),
-               vlos_m_s=-cube['vz'][sl].copy())
+               vlos_m_s=cube['vz'][sl].copy())
     for key in ('temperature_K', 'ne_m3', 'nHtot_m3'):
         if not (np.isfinite(col[key]).all() and np.all(col[key] > 0)):
             raise ValueError(f'Nonpositive or nonfinite {key} in column ({ix},{iy})')
@@ -135,7 +137,9 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
             raise ValueError('Particle conservation failed')
         if iteration >= 2 and max(delta, rate, float(update.dJMax)) < rtol:
             return n, history, time.perf_counter() - start
-    raise RuntimeError('Joint convergence not reached')
+    err = RuntimeError('Joint convergence not reached')
+    err.history = history
+    raise err
 
 
 def converge_continuum(ctx, *, tol: float = 1e-8, maxiter: int = 1000) -> int:
@@ -143,3 +147,52 @@ def converge_continuum(ctx, *, tol: float = 1e-8, maxiter: int = 1000) -> int:
         if ctx.formal_sol_gamma_matrices().dJMax < tol:
             return j + 1
     raise RuntimeError('Continuum J convergence failed')
+
+
+def extend_collisions(atom, t_top: float, mode: str):
+    """A copy of the atom whose collision tables reach `t_top`, by a DECLARED rule.
+
+    The held O atom's tables stop at 10000 K; STAGGER granules pass that just below
+    the surface. Rates there are not in the atomic data, so any solve on those layers
+    extends it. Two bracketing rules, never a silent default:
+      'clamp'  - hold every rate at its last tabulated value;
+      'loglin' - continue log(rate) linearly in log(T) from the last two nodes
+                 (a zero rate stays zero).
+    Measure the observable under both; adopt neither without that measurement.
+    """
+    import copy
+    if mode not in ('clamp', 'loglin'):
+        raise ValueError(f'Unknown collision extension {mode!r}')
+    out = copy.deepcopy(atom)
+    for c in out.collisions:
+        grid = out.temperature if c.temperature is None else c.temperature
+        if t_top <= grid[-1]:
+            continue
+        r = np.asarray(c.rates, dtype=float)
+        if mode == 'clamp' or len(grid) < 2 or r[-1] <= 0 or r[-2] <= 0:
+            new = r[-1]
+        else:
+            slope = np.log(r[-1] / r[-2]) / np.log(grid[-1] / grid[-2])
+            new = r[-1] * (t_top / grid[-1]) ** slope
+        c.temperature = np.append(grid, t_top)
+        c.rates = np.append(r, new)
+    if out.temperature[-1] < t_top:
+        out.temperature = np.append(out.temperature, t_top)
+    return out
+
+
+def mu1_spectrum(col, atom, *, abundances_dex, logg_cgs, wave_vac_nm, rays=3, vturb_m_s=0.,
+                 rtol=1e-6, maxiter=1500, seconds=900.):
+    """Solve one column in NLTE and return disk-centre (mu = 1) line and continuum
+    intensity on `wave_vac_nm`, the populations, the history and timings."""
+    t0 = time.perf_counter()
+    kw = dict(abundances_dex=abundances_dex, logg_cgs=logg_cgs, vturb_m_s=vturb_m_s, rays=rays)
+    ctx = column_context(col, atom, ng=True, **kw)
+    n, history, t_solve = solve_column(ctx, rtol=rtol, maxiter=maxiter, seconds=seconds)
+    line = np.asarray(ctx.compute_rays(wavelengths=wave_vac_nm, mus=1.0)).ravel()
+    cont_ctx = column_context(col, atom, ng=False, fixed_populations=n, continuum_only=True, **kw)
+    j = converge_continuum(cont_ctx)
+    cont = np.asarray(cont_ctx.compute_rays(wavelengths=wave_vac_nm, mus=1.0)).ravel()
+    return dict(line=line, continuum=cont, populations=n, nstar=ctx.activeAtoms[0].nStar.copy(),
+                history=history, iterations=len(history), continuum_iterations=j,
+                seconds_solve=t_solve, seconds_total=time.perf_counter() - t0)
