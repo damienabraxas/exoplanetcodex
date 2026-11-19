@@ -73,6 +73,13 @@ SPECIES_ION = {("Fe", "II"): "Fe II"}
 
 
 def _selector(args: list[str]) -> str | None:
+    """The product's selector, from the pool the unit measured, suffixed for the RYA-470 IR
+    hyperfine special case so it publishes BESIDE the standard product, never over it."""
+    from pipeline import free_continuum as _fc
+    return _fc.selector(_pool_selector(args), _fc.FLAG in args)
+
+
+def _pool_selector(args: list[str]) -> str | None:
     """The product's selector, from the pool the unit measured (RYA-1233: Codex and Deep pools
     published with NO selector, so the two grades shared one identity and coverage could not
     see either -- Fe's convention is selector = tier = GRADED / DEEPGRADED)."""
@@ -91,7 +98,7 @@ def _selector(args: list[str]) -> str | None:
 
 
 def _tier(args: list[str]) -> str:
-    sel = _selector(args)
+    sel = _pool_selector(args)
     return sel if sel in ("GRADED", "DEEPGRADED", "REFERENCE") else "ALL"
 
 

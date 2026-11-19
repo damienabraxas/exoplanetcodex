@@ -42,3 +42,4 @@ def test_the_special_case_gets_its_own_stem():
     std = d.synthesis_stem(SimpleNamespace(**base))
     fc = d.synthesis_stem(SimpleNamespace(**base, free_continuum=True))
     assert fc == std + "_FREECONT"
+

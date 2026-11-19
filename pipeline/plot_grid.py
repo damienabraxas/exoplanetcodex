@@ -84,7 +84,10 @@ def display_section_of(p: dict) -> tuple:
     (selector DEEPGRADED-LOCALRENORM) -- and one bucket would silently keep only one of them.
     """
     from pipeline.reference_lineset import line_set_for_product
-    variant = "local continuum" if str(p.get("selector") or "").endswith("-LOCALRENORM") else ""
+    from pipeline.free_continuum import SELECTOR_SUFFIX
+    _sel = str(p.get("selector") or "")
+    variant = ("local continuum" if _sel.endswith("-LOCALRENORM")
+               else "free continuum (IR hyperfine)" if _sel.endswith(SELECTOR_SUFFIX) else "")
     return section_of(p) + (line_set_for_product(p), variant)
 
 

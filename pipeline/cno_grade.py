@@ -40,7 +40,9 @@ def grade_for(row: dict) -> str | None:
     """`grade` for a published row, or None for an element that stamps its own (Fe)."""
     if str(row.get("element")) in SELF_STAMPING:
         return None
-    sel = str(row.get("selector") or "")
+    # RYA-470: the IR hyperfine special case grades as the pool it measured.
+    from pipeline.free_continuum import base_selector
+    sel = str(base_selector(row.get("selector")) or "")
     # RYA-1351: an adopted Theoretical Codex set is its own grade. Checked before the SET-
     # rule, which would otherwise stamp theoretical gf "Reference Grade".
     if sel.startswith("SET-"):

@@ -862,15 +862,24 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
                         lab_pools = [k for k, v in POOLS.items()
                                      if (m is None or m in v["methods"])]
                         set_pools = sets_here if m in (None, "synthesis") else []
+                        # RYA-470 (Ryan 2026-11-18): in the IR, a species with a hyperfine
+                        # multiplet in the window ALSO gets the free-continuum special case,
+                        # as a second cell beside the standard one -- never instead of it.
+                        from pipeline import band_policy, free_continuum as _fc
+                        conts = [None]
+                        if m == "synthesis" and _fc.applies(
+                                symbol, ion, band_policy.resolve(0.5 * (lo + hi)).name, lo, hi):
+                            conts.append(_fc.FREE)
                         for pool in [p for p in set_pools + lab_pools
                                      if not pools or p in pools
                                      or (p.startswith(SET_POOL_PREFIX) and "set" in pools)]:
-                            out.append(RunDescriptor(
-                                element=symbol, ion=ion, instrument=inst, holding=hid,
-                                lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool,
-                                star=star))
+                            for cont in conts:
+                                out.append(RunDescriptor(
+                                    element=symbol, ion=ion, instrument=inst, holding=hid,
+                                    lo_A=lo, hi_A=hi, engine_deck=deck, method=m, pool=pool,
+                                    star=star, continuum=cont))
     out.sort(key=lambda d: (d.lo_A, d.instrument, d.holding, d.ion, d.engine_deck,
-                            d.method or "", d.pool or ""))
+                            d.method or "", d.pool or "", d.continuum or ""))
     return out
 
 
@@ -1180,10 +1189,15 @@ def route_of(descriptor: RunDescriptor) -> str:
 def pool_tier(descriptor: RunDescriptor) -> str:
     """The feed's `tier` / `selector` token for this cell's pool ('' if none). A published
     line set's token is its set name -- the selector its products are published under."""
+    from pipeline import free_continuum as _fc
     if descriptor.pool and descriptor.pool.startswith(SET_POOL_PREFIX):
         # The publish path's own token (rya1230 budget assembler `_selector`): SET-<NAME>.
-        return "SET-" + descriptor.pool[len(SET_POOL_PREFIX):]
-    return POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
+        base = "SET-" + descriptor.pool[len(SET_POOL_PREFIX):]
+    else:
+        base = POOLS[descriptor.pool]["tier"] if descriptor.pool in POOLS else ""
+    # RYA-470: the IR hyperfine special case publishes beside the standard product, under
+    # its own selector, so the two can never share an identity, a ledger key or a cell.
+    return (_fc.selector(base or None, descriptor.continuum == _fc.FREE) or "")
 
 
 def line_sets_for(symbol: str, ion: str, star: str = "solar") -> list[dict]:
@@ -1362,13 +1376,20 @@ def artifacts_written(d: RunDescriptor, since: float) -> list[dict]:
     cell started. The lo/hi are globbed because a synthesis cell may be clipped to its
     line list (`--clip-to-synthesis-list`), which renames the stem to the real range.
     """
+    from pipeline import free_continuum as _fc
     out = ARTIFACT_ROOT / deck_out_dir(d.engine_deck)
-    tag = pool_tier(d)
+    free = d.continuum == _fc.FREE
+    tag = _fc.base_selector(pool_tier(d)) or ""
+    if tag == "ALL" and free:
+        tag = ""                              # no selector: derive writes no selector tag
     if d.pool and d.pool.startswith(SET_POOL_PREFIX):
         tag = tag.upper()                     # derive's stem tag for --lines-from-set: SET-<NAME>
     pat = (f"{d.element}{d.ion}_*_*_{d.instrument}_{d.holding}_{route_of(d)}"
            f"{'_' + tag if tag else ''}_*")
-    hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1]
+    # RYA-470: the standard cell's glob also matches the special case's `_FREECONT` stem;
+    # each cell takes only its own files.
+    hits = [f for f in out.glob(pat) if f.is_file() and f.stat().st_mtime >= since - 1
+            and _fc.is_free_stem(f.name) == free]
     return [{"path": str(f.relative_to(ARTIFACT_ROOT)), "sha256": _file_fingerprint(f)}
             for f in sorted(hits)]
 

@@ -40,6 +40,7 @@ from dataclasses import dataclass, field, asdict
 from typing import Literal
 
 from pipeline import band_policy
+from pipeline import free_continuum as _FC
 
 #: RYA-682. Above this, `ispec/abundances.py:132` fails and synthesis writes a
 #: ZERO-ROW artifact while exiting 0 -- a control run reports success on no data.
@@ -93,6 +94,11 @@ class RunDescriptor:
     #: star CULLS live in data/registry/problem_children.csv, and a set pool dispatches that
     #: star's graded file (`star_graded_csv`). Not in `key`: one star per results tree.
     star: str = "solar"
+    #: RYA-470 (Ryan 2026-11-18): None = the standard frozen-continuum fit. "free" = the IR
+    #: hyperfine special case (`pipeline.free_continuum`), a SECOND cell beside the standard
+    #: one, never instead of it. Not in `key`: the stem tag and the published selector suffix
+    #: carry it, and a None default leaves every existing cell's identity unchanged.
+    continuum: str | None = None
 
     @property
     def band(self) -> str:
@@ -469,7 +475,9 @@ def resolve(descriptor: RunDescriptor, *, interpreter: str | None = None,
                 # A band's synthesis list can start inside the band (VIS: the GES v6 list
                 # starts at 4200 A, the band at 3780). Narrow to it, named in the stem and
                 # provenance, rather than fail the cell.
-                + (["--clip-to-synthesis-list"] if method == "synthesis" else []),
+                + (["--clip-to-synthesis-list"] if method == "synthesis" else [])
+                # RYA-470: the IR hyperfine special case (pipeline.free_continuum).
+                + ([_FC.FLAG] if descriptor.continuum == _FC.FREE else []),
         "env": env, "interpreter": interpreter,
         "produces": f"{out_dir}/{descriptor.key}_"
                     f"{ROUTE_TOKEN[method]}_products.csv",

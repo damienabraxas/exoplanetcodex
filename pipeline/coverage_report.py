@@ -365,7 +365,9 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
         # no depth gate. Both are expected cells.
         for d in rm.expand(star, symbol, ions=[ion], methods=["synthesis"],
                            pools=["set", "reference", "codex", "deep"]):
-            sel = _selector(d.pool)
+            # RYA-470: the IR hyperfine special case is its own cell under its own selector.
+            from pipeline import free_continuum as _fc
+            sel = _fc.selector(_selector(d.pool) or None, d.continuum == _fc.FREE) or ""
             hold = rm.cell_process_hold(d)
             # The run report stores the pool as the feed token (pool_tier: GRADED / DEEPGRADED /
             # SET-<NAME>), not the orchestrator's pool name.
@@ -420,6 +422,7 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
                     out, why = "NOT_RUN", ""
                 rows.append({"band": d.band, "holding": d.holding, "ion": ion,
                              "grade": _grade(d.pool), "pool": d.pool, "treatment": t,
+                             "continuum": d.continuum or "standard",
                              "outcome": out, "reason": why,
                              "A": p.get("A") if p else None,
                              "sigma": p.get("sigma_reported") if p else None,
