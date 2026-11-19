@@ -103,7 +103,7 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
                       conserveCharge=False, ngOptions=options)
 
 
-def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float = 900.):
+def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float = 900., monitor=None, every: int = 50):
     """Joint RT + SE iteration, the G4 convergence rule: population change, normalised
     rate residual and J change all below rtol (after >= 3 iterations). Returns the
     populations and the full history. Raises on non-convergence; nothing is clipped."""
@@ -135,6 +135,8 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
                             rejected_invalid_ng=bool(rejected)))
         if conservation > 1e-10:
             raise ValueError('Particle conservation failed')
+        if monitor is not None and (iteration + 1) % every == 0:
+            history[-1]['monitor'] = monitor(ctx)
         if iteration >= 2 and max(delta, rate, float(update.dJMax)) < rtol:
             return n, history, time.perf_counter() - start
     err = RuntimeError('Joint convergence not reached')
@@ -182,12 +184,14 @@ def extend_collisions(atom, t_top: float, mode: str):
 
 
 def mu1_spectrum(col, atom, *, abundances_dex, logg_cgs, wave_vac_nm, rays=3, vturb_m_s=0.,
-                 rtol=1e-6, maxiter=1500, seconds=900.):
+                 rtol=1e-6, maxiter=1500, seconds=900., departures=None):
     """Solve one column in NLTE and return disk-centre (mu = 1) line and continuum
     intensity on `wave_vac_nm`, the populations, the history and timings."""
     t0 = time.perf_counter()
     kw = dict(abundances_dex=abundances_dex, logg_cgs=logg_cgs, vturb_m_s=vturb_m_s, rays=rays)
     ctx = column_context(col, atom, ng=True, **kw)
+    if departures is not None:
+        set_departures(ctx, departures)
     n, history, t_solve = solve_column(ctx, rtol=rtol, maxiter=maxiter, seconds=seconds)
     line = np.asarray(ctx.compute_rays(wavelengths=wave_vac_nm, mus=1.0)).ravel()
     cont_ctx = column_context(col, atom, ng=False, fixed_populations=n, continuum_only=True, **kw)
@@ -196,3 +200,61 @@ def mu1_spectrum(col, atom, *, abundances_dex, logg_cgs, wave_vac_nm, rays=3, vt
     return dict(line=line, continuum=cont, populations=n, nstar=ctx.activeAtoms[0].nStar.copy(),
                 history=history, iterations=len(history), continuum_iterations=j,
                 seconds_solve=t_solve, seconds_total=time.perf_counter() - t0)
+
+
+def continuum_logtau(col, atom, *, abundances_dex, logg_cgs, wavelength_nm: float = 500.):
+    """log10 of the LTE background continuum optical depth at `wavelength_nm`, per layer,
+    integrated down from the top (first layer: half its own thickness). Diagnostic for
+    choosing a depth cut, computed from the column's own background opacity."""
+    ctx = column_context(col, atom, abundances_dex=abundances_dex, logg_cgs=logg_cgs,
+                         vturb_m_s=0., rays=3, lte=True, ng=False)
+    wave = np.asarray(ctx.spect.wavelength)
+    k = int(np.argmin(abs(wave - wavelength_nm)))
+    chi = np.asarray(ctx.background.chi)[k]
+    h = col['height_m']
+    dtau = 0.5 * (chi[1:] + chi[:-1]) * np.abs(np.diff(h))
+    tau = np.concatenate(([chi[0] * abs(h[1] - h[0]) * 0.5], chi[0] * abs(h[1] - h[0]) * 0.5 + np.cumsum(dtau)))
+    return np.log10(tau)
+
+
+def trim_column(col, keep) -> dict:
+    """Column restricted to a contiguous top-first slice `keep` (a boolean mask)."""
+    idx = np.flatnonzero(keep)
+    if idx.size < 10 or not np.all(np.diff(idx) == 1) or idx[0] != 0:
+        raise ValueError('Depth cut must keep a contiguous top slice of >= 10 layers')
+    out = dict(col)
+    for key in ('height_m', 'temperature_K', 'ne_m3', 'nHtot_m3', 'vlos_m_s'):
+        out[key] = col[key][idx].copy()
+    out['ndep'] = idx.size
+    return out
+
+
+def set_departures(ctx, b) -> None:
+    """Warm start: initial populations n = b * nStar (b per level and depth), then
+    renormalised to the column's own total so particle conservation holds."""
+    active = ctx.activeAtoms[0]
+    n = np.asarray(b) * active.nStar
+    n *= active.nTotal / n.sum(axis=0)
+    if not (np.isfinite(n).all() and np.all(n > 0)):
+        raise ValueError('Invalid warm-start populations')
+    active.n[:] = n
+
+
+def resample_logtau(col, logtau, grid) -> dict:
+    """The column on a fixed log tau500 grid (top first): height and T linear,
+    ne and nHtot log-linear, vlos linear in log tau. An interpolation of the snapshot,
+    declared as such; its effect on the observable is measured against the native grid."""
+    logtau = np.asarray(logtau)
+    grid = np.asarray(grid, dtype=float)
+    if not np.all(np.diff(logtau) > 0):
+        raise ValueError('Column log tau500 is not monotonic; cannot resample')
+    if grid[0] < logtau[0] or grid[-1] > logtau[-1] or not np.all(np.diff(grid) > 0):
+        raise ValueError('Resampling grid outside the column or not increasing')
+    f = lambda y: np.interp(grid, logtau, y)
+    out = dict(col, ndep=grid.size, logtau500=grid.copy(),
+               height_m=f(col['height_m']), temperature_K=f(col['temperature_K']),
+               ne_m3=np.exp(f(np.log(col['ne_m3']))), nHtot_m3=np.exp(f(np.log(col['nHtot_m3']))),
+               vlos_m_s=f(col['vlos_m_s']))
+    if not np.all(np.diff(out['height_m']) < 0):
+        raise ValueError('Resampled heights not top-first decreasing')
+    return out
