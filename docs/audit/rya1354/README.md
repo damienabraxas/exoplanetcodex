@@ -1,4 +1,4 @@
-Latest: [Theoretical Codex candidates for 15 species, screened in the observed Sun](theory_candidates_multi_element.md); [Fe I (Kurucz K17 vs 493 lab gf)](theory_calibration_fe.md); [O I (Li 2023 vs experiment vs NIST)](theory_calibration_oi.md).
+Latest: [Na I: our own atomic model fills the gf gaps (v61 FAC, v62 model potential)](na_model_v62.md); [Theoretical Codex candidates for 15 species, screened in the observed Sun](theory_candidates_multi_element.md); [Fe I (Kurucz K17 vs 493 lab gf)](theory_calibration_fe.md); [O I (Li 2023 vs experiment vs NIST)](theory_calibration_oi.md).
 Previous: [Li-scheme MCDHF-EOL spectroscopic stage, v53-v60](mcdhf_s0_v53_v60.md); [RCI reduction and cost feasibility, v48-v51 retained failures](rci_feasibility_v48_v52.md); [literature check, candidate theoretical grade and Li-scheme sizing](li_scheme_sizing_v47.md); [full-eigenvector mixing-cut control and retained v45 review failure](fac_mixcut_control_v46.md); [signed native E1 component audit](fac_e1_components_v44.md).
 Previous: [radial E1 frequency consistency and retained floor failure](fac_radial_operator_v43.md).
 Previous: [expanded radial rates and lifetime sensitivity](fac_radial_rates_v41.md).
@@ -33,7 +33,7 @@ Previous: [n4 multireference and orbital-relaxation work](mr_continuation_v5.md)
 # RYA-1354 — O I atomic-structure pilot checkpoint
 
 **Status: exploratory candidates and benchmark infrastructure; scientific HOLD.**
-Latest: [balanced lifetime, core and orbital-model continuation](lifetime_continuation_v4.md).
+Latest: [Na I: our own atomic model fills the gf gaps (v61 FAC, v62 model potential)](na_model_v62.md); [balanced lifetime, core and orbital-model continuation](lifetime_continuation_v4.md).
 Previous: [numerical stopping and physical-model error investigation](error_resolution_v3.md).
 Previous: [two-method, core/Hamiltonian, forbidden-line and primary-lifetime continuation](research_continuation_v2.md).
 This is not a completed blind benchmark. Calibrated uncertainty, reviewed two-method convergence and adoption criteria remain owed.
