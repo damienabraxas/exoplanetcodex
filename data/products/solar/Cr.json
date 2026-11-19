@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Cr",
   "star": "solar",
-  "version": "1.232",
-  "updated_at": "2026-11-16T05:10:15Z",
+  "version": "1.233",
+  "updated_at": "2026-11-19T14:53:13Z",
   "products": [
     {
       "element": "Cr",
@@ -223866,7 +223866,7 @@
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
       "A": 5.528,
-      "sigma_stat": 0.054,
+      "sigma_stat": 0.0353,
       "sigma_syst": 0.1726,
       "n_lines": 2,
       "n_excluded": 0,
@@ -223884,15 +223884,20 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.053999999999999826,
-            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "sigma_dex": 0.035328683318938674,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_1D-LTE_lines.csv (RYA-470)",
             "evidence": {
-              "method": "line_scatter",
-              "independent": true,
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1,
               "n_lines": 2,
-              "n_components": 2,
-              "raw_sigma": 0.07636753236814689,
-              "pool_sha256": "6b2920c730b40f64f1baade52b976e6f4a67540242008618646a6df12e57ce91"
+              "line_sigma_dex": [
+                0.0087087032324611,
+                0.0701186276834362
+              ],
+              "replaced_scatter_dex": 0.053999999999999826,
+              "lines_file": "data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_1D-LTE_lines.csv"
             }
           },
           {
@@ -224107,7 +224112,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.002915999999999981,
+            0.0012481158650498557,
             0.0,
             0.0,
             0.0,
@@ -224167,15 +224172,15 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.06112843927330772,
-        "sigma_measured_partial": 0.06112843927330772
+        "sigma_reported": 0.04548408461253612,
+        "sigma_measured_partial": 0.04548408461253612
       },
       "uncertainty_indicator_ids": [
         "pk_21ff434e8897",
         "pk_0961a3297345"
       ],
       "grade": "Theoretical Codex",
-      "sigma_reported": 0.0611284392733077,
+      "sigma_reported": 0.04548408461253612,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya728/data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_products.csv",
@@ -224185,10 +224190,12 @@
         "ingested_at": "2026-11-16T05:10:10Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.06809321616718123,
-      "sigma_asplund_stat": 0.053999999999999826,
+      "sigma_asplund": 0.05448671354596774,
+      "sigma_asplund_stat": 0.035328683318938674,
       "sigma_asplund_syst": 0.04148115340718588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "restamped_at": "2026-11-19T14:53:13Z",
+      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
     },
     {
       "element": "Cr",
@@ -224201,7 +224208,7 @@
       "treatment": "ENGINE-B-NLTE",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "A": 5.51,
-      "sigma_stat": 0.0125,
+      "sigma_stat": 0.0898,
       "sigma_syst": 0.1726,
       "n_lines": 2,
       "n_excluded": 0,
@@ -224219,15 +224226,20 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.012500000000000178,
-            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "sigma_dex": 0.08979341392317972,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_ENGINE-B-NLTE_lines.csv (RYA-470)",
             "evidence": {
-              "method": "line_scatter",
-              "independent": true,
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1,
               "n_lines": 2,
-              "n_components": 2,
-              "raw_sigma": 0.01767766952966394,
-              "pool_sha256": "6b2920c730b40f64f1baade52b976e6f4a67540242008618646a6df12e57ce91"
+              "line_sigma_dex": [
+                0.1604124561280856,
+                0.0807420129478635
+              ],
+              "replaced_scatter_dex": 0.012500000000000178,
+              "lines_file": "data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_ENGINE-B-NLTE_lines.csv"
             }
           },
           {
@@ -224442,7 +224454,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.00015625000000000445,
+            0.008062857183979484,
             0.0,
             0.0,
             0.0,
@@ -224502,15 +224514,15 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.031255976836286746,
-        "sigma_measured_partial": 0.031255976836286746
+        "sigma_reported": 0.09425255047992057,
+        "sigma_measured_partial": 0.09425255047992057
       },
       "uncertainty_indicator_ids": [
         "pk_21ff434e8897",
         "pk_0961a3297345"
       ],
       "grade": "Theoretical Codex",
-      "sigma_reported": 0.0312559768362867,
+      "sigma_reported": 0.09425255047992057,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya728/data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_ENGINE-B-NLTE_products.csv",
@@ -224520,10 +224532,12 @@
         "ingested_at": "2026-11-16T05:10:07Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.04332362043955345,
-      "sigma_asplund_stat": 0.012500000000000178,
+      "sigma_asplund": 0.0989117954137421,
+      "sigma_asplund_stat": 0.08979341392317972,
       "sigma_asplund_syst": 0.04148115340718588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "restamped_at": "2026-11-19T14:53:13Z",
+      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
     },
     {
       "element": "Cr",
@@ -224536,7 +224550,7 @@
       "treatment": "synth-1D-LTE-gerber",
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 5.537,
-      "sigma_stat": 0.0545,
+      "sigma_stat": 0.0353,
       "sigma_syst": 0.1726,
       "n_lines": 2,
       "n_excluded": 0,
@@ -224554,15 +224568,20 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.05449999999999999,
-            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "sigma_dex": 0.035260224576995465,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-1D-LTE-gerber_lines.csv (RYA-470)",
             "evidence": {
-              "method": "line_scatter",
-              "independent": true,
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1,
               "n_lines": 2,
-              "n_components": 2,
-              "raw_sigma": 0.07707463914933367,
-              "pool_sha256": "6b2920c730b40f64f1baade52b976e6f4a67540242008618646a6df12e57ce91"
+              "line_sigma_dex": [
+                0.0086837496064994,
+                0.0699837569844049
+              ],
+              "replaced_scatter_dex": 0.05449999999999999,
+              "lines_file": "data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-1D-LTE-gerber_lines.csv"
             }
           },
           {
@@ -224777,7 +224796,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0029702499999999994,
+            0.001243283437220155,
             0.0,
             0.0,
             0.0,
@@ -224837,15 +224856,15 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.06157057810342931,
-        "sigma_measured_partial": 0.06157057810342931
+        "sigma_reported": 0.045430931370715306,
+        "sigma_measured_partial": 0.045430931370715306
       },
       "uncertainty_indicator_ids": [
         "pk_21ff434e8897",
         "pk_0961a3297345"
       ],
       "grade": "Theoretical Codex",
-      "sigma_reported": 0.0615705781034293,
+      "sigma_reported": 0.045430931370715306,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya728/data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-1D-LTE-gerber_products.csv",
@@ -224855,10 +224874,12 @@
         "ingested_at": "2026-11-16T05:09:57Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.0684904087299126,
-      "sigma_asplund_stat": 0.05449999999999999,
+      "sigma_asplund": 0.054442350474705296,
+      "sigma_asplund_stat": 0.035260224576995465,
       "sigma_asplund_syst": 0.04148115340718588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "restamped_at": "2026-11-19T14:53:13Z",
+      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
     },
     {
       "element": "Cr",
@@ -224871,7 +224892,7 @@
       "treatment": "synth-mean3D-LTE-gerber-stagger",
       "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
       "A": 5.596,
-      "sigma_stat": 0.0525,
+      "sigma_stat": 0.0284,
       "sigma_syst": 0.1726,
       "n_lines": 2,
       "n_excluded": 0,
@@ -224889,15 +224910,20 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.05250000000000021,
-            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "sigma_dex": 0.02840771967230302,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-mean3D-LTE-gerber-stagger_lines.csv (RYA-470)",
             "evidence": {
-              "method": "line_scatter",
-              "independent": true,
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1,
               "n_lines": 2,
-              "n_components": 2,
-              "raw_sigma": 0.0742462120245878,
-              "pool_sha256": "6b2920c730b40f64f1baade52b976e6f4a67540242008618646a6df12e57ce91"
+              "line_sigma_dex": [
+                0.0087300700083592,
+                0.0561407162901379
+              ],
+              "replaced_scatter_dex": 0.05250000000000021,
+              "lines_file": "data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-mean3D-LTE-gerber-stagger_lines.csv"
             }
           },
           {
@@ -225112,7 +225138,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0027562500000000226,
+            0.000806998536980152,
             0.0,
             0.0,
             0.0,
@@ -225172,15 +225198,15 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.059807491905199565,
-        "sigma_measured_partial": 0.059807491905199565
+        "sigma_reported": 0.04034457367441923,
+        "sigma_measured_partial": 0.04034457367441923
       },
       "uncertainty_indicator_ids": [
         "pk_21ff434e8897",
         "pk_0961a3297345"
       ],
       "grade": "Theoretical Codex",
-      "sigma_reported": 0.0598074919051995,
+      "sigma_reported": 0.04034457367441923,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya728/data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-mean3D-LTE-gerber-stagger_products.csv",
@@ -225191,10 +225217,12 @@
       },
       "star": "solar",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.06690991023750152,
-      "sigma_asplund_stat": 0.05250000000000021,
+      "sigma_asplund": 0.050276084025813315,
+      "sigma_asplund_stat": 0.02840771967230302,
       "sigma_asplund_syst": 0.04148115340718588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "restamped_at": "2026-11-19T14:53:13Z",
+      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
     },
     {
       "element": "Cr",
@@ -225207,7 +225235,7 @@
       "treatment": "synth-mean3D-NLTE-gerber-stagger",
       "display": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
       "A": 5.615,
-      "sigma_stat": 0.05,
+      "sigma_stat": 0.1967,
       "sigma_syst": 0.1726,
       "n_lines": 2,
       "n_excluded": 0,
@@ -225225,15 +225253,20 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.04999999999999982,
-            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "sigma_dex": 0.1966539803324924,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-mean3D-NLTE-gerber-stagger_lines.csv (RYA-470)",
             "evidence": {
-              "method": "line_scatter",
-              "independent": true,
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1,
               "n_lines": 2,
-              "n_components": 2,
-              "raw_sigma": 0.0707106781186545,
-              "pool_sha256": "6b2920c730b40f64f1baade52b976e6f4a67540242008618646a6df12e57ce91"
+              "line_sigma_dex": [
+                0.3878066726497843,
+                0.0655525481636851
+              ],
+              "replaced_scatter_dex": 0.04999999999999982,
+              "lines_file": "data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-mean3D-NLTE-gerber-stagger_lines.csv"
             }
           },
           {
@@ -225448,7 +225481,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0024999999999999823,
+            0.03867278798061231,
             0.0,
             0.0,
             0.0,
@@ -225508,15 +225541,15 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.05762539447145218,
-        "sigma_measured_partial": 0.05762539447145218
+        "sigma_reported": 0.1987296507031671,
+        "sigma_measured_partial": 0.1987296507031671
       },
       "uncertainty_indicator_ids": [
         "pk_21ff434e8897",
         "pk_0961a3297345"
       ],
       "grade": "Theoretical Codex",
-      "sigma_reported": 0.0576253944714521,
+      "sigma_reported": 0.1987296507031671,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya728/data/results/orchestrator/budget/solar_Cr/stage/CrI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_SET-CR_ELGUETA2026_synth-mean3D-NLTE-gerber-stagger_products.csv",
@@ -225527,10 +225560,12 @@
       },
       "star": "solar",
       "adoption": "EXPERIMENTAL-NOT-ADOPTED",
-      "sigma_asplund": 0.06496680758657047,
-      "sigma_asplund_stat": 0.04999999999999982,
+      "sigma_asplund": 0.2009812779056865,
+      "sigma_asplund_stat": 0.1966539803324924,
       "sigma_asplund_syst": 0.04148115340718588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "restamped_at": "2026-11-19T14:53:13Z",
+      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
     },
     {
       "element": "Cr",
@@ -691354,7 +691389,7 @@
       "treatment": "1D-LTE",
       "display": "Synth \u00b7 1D-LTE",
       "A": 5.843,
-      "sigma_stat": 0.049,
+      "sigma_stat": 0.044,
       "sigma_syst": 0.1972,
       "n_lines": 2,
       "n_excluded": 4,
@@ -691372,15 +691407,20 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.04900000000000037,
-            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "sigma_dex": 0.044036786175610895,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Cr/stage/CrI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv (RYA-470)",
             "evidence": {
-              "method": "line_scatter",
-              "independent": true,
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1,
               "n_lines": 2,
-              "n_components": 2,
-              "raw_sigma": 0.06929646455628219,
-              "pool_sha256": "74ff5d3b174c775eda1929aeae32d57586642210138150e31d751e8f2f4316ad"
+              "line_sigma_dex": [
+                0.0623606373736844,
+                0.0621940917857455
+              ],
+              "replaced_scatter_dex": 0.04900000000000037,
+              "lines_file": "data/results/orchestrator/budget/solar_Cr/stage/CrI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv"
             }
           },
           {
@@ -691608,7 +691648,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0024010000000000364,
+            0.0019392385366764748,
             0.0,
             0.0,
             0.0,
@@ -691684,15 +691724,15 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.06079760347242748,
-        "sigma_measured_partial": 0.06079760347242748
+        "sigma_reported": 0.05687343074465408,
+        "sigma_measured_partial": 0.05687343074465408
       },
       "uncertainty_indicator_ids": [
         "pk_b106cdaff628",
         "pk_cfa43bed9506"
       ],
       "grade": "Codex Grade",
-      "sigma_reported": 0.0607976034724274,
+      "sigma_reported": 0.05687343074465408,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya728/data/results/orchestrator/budget/solar_Cr/stage/CrI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv",
@@ -691702,10 +691742,12 @@
         "ingested_at": "2026-11-15T00:45:02Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.06420035893973276,
-      "sigma_asplund_stat": 0.04900000000000037,
+      "sigma_asplund": 0.06049731088789785,
+      "sigma_asplund_stat": 0.044036786175610895,
       "sigma_asplund_syst": 0.04148115340718588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "restamped_at": "2026-11-19T14:53:13Z",
+      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
     },
     {
       "element": "Cr",
@@ -692095,7 +692137,7 @@
       "treatment": "synth-1D-LTE-gerber",
       "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
       "A": 5.894,
-      "sigma_stat": 0.035,
+      "sigma_stat": 0.0432,
       "sigma_syst": 0.1972,
       "n_lines": 2,
       "n_excluded": 4,
@@ -692113,15 +692155,20 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.035000000000000135,
-            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "sigma_dex": 0.04315864444315611,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Cr/stage/CrI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv (RYA-470)",
             "evidence": {
-              "method": "line_scatter",
-              "independent": true,
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1,
               "n_lines": 2,
-              "n_components": 2,
-              "raw_sigma": 0.049497474683058526,
-              "pool_sha256": "74ff5d3b174c775eda1929aeae32d57586642210138150e31d751e8f2f4316ad"
+              "line_sigma_dex": [
+                0.0596056738821323,
+                0.0624326677448591
+              ],
+              "replaced_scatter_dex": 0.035000000000000135,
+              "lines_file": "data/results/orchestrator/budget/solar_Cr/stage/CrI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv"
             }
           },
           {
@@ -692349,7 +692396,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0012250000000000095,
+            0.00186266859017077,
             0.0,
             0.0,
             0.0,
@@ -692425,15 +692472,15 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.05020307349147558,
-        "sigma_measured_partial": 0.05020307349147558
+        "sigma_reported": 0.05619623811396328,
+        "sigma_measured_partial": 0.05619623811396328
       },
       "uncertainty_indicator_ids": [
         "pk_b106cdaff628",
         "pk_cfa43bed9506"
       ],
       "grade": "Codex Grade",
-      "sigma_reported": 0.0502030734914755,
+      "sigma_reported": 0.05619623811396328,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya728/data/results/orchestrator/budget/solar_Cr/stage/CrI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
@@ -692443,10 +692490,12 @@
         "ingested_at": "2026-11-15T00:44:54Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.05427417514795133,
-      "sigma_asplund_stat": 0.035000000000000135,
+      "sigma_asplund": 0.05986112827337336,
+      "sigma_asplund_stat": 0.04315864444315611,
       "sigma_asplund_syst": 0.04148115340718588,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "restamped_at": "2026-11-19T14:53:13Z",
+      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
     },
     {
       "element": "Cr",
