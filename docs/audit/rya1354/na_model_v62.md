@@ -161,3 +161,39 @@ Mg II has no class A lines.
 **Next:**
 - K I, once NIST's line server is back (it returned errors on 2026-11-19).
 - Ca II: referees are Hettrich 2015 and the Safronova Ca II paper in the local reference folder.
+
+## v64: Ca II, where the one-electron model reaches its limit
+
+Declared on RYA-1354 before the run.
+
+**Inputs.**
+- Core 3p⁶, α_d(Ca²⁺) = 3.26(3) (Safronova & Safronova 2011, Sect. VI).
+- Lowest valence n per l taken from the NIST levels: 4s, 4p, 3d, 4f. The fitted potential reproduces the NIST terms to 4×10⁻⁵.
+
+**Referees.**
+- **Experiment:** Hettrich et al. 2015, a single trapped ion. The H line (4s–4p₁/₂) has A = 2π × 21.57(8) MHz; the 8662 Å IR-triplet line (3d₃/₂–4p₁/₂) has A = 2π × 1.482(8) MHz.
+- **Theory:** Safronova 2011 Table V (all-order relativistic; 55 lines, each with an uncertainty of 0.1–2.6%), in place of a Froese Fischer collection, which does not exist for Ca II.
+
+**Score.**
+
+| Anchor | Our model | Without polarization operator | Safronova |
+|---|---|---|---|
+| H line | **−0.051 dex** | | |
+| 8662 Å | **+0.078 dex** | +0.033 | +0.006 |
+
+The experimental floor is therefore 0.065 dex. **No Ca II line reaches class A or B.**
+- Against Safronova, our class C lines agree to a robust 0.013 dex.
+- The IR triplet (3d–4p) sits +0.072 above Safronova and is class D (σ 0.10). H & K are class C (σ 0.083).
+- Asplund's Ca II lines (5001, 8249, 8255 Å) are within 0.012 dex of Safronova.
+
+**Interpretation.** Ca⁺ 3d is a compact orbital that penetrates the core, and the 4s–4p rate is sensitive to core-valence correlation that a single polarization term only approximates. This is where a multi-electron calculation (GRASP, from the O pilot) would have to take over. The grade reports the limit instead of hiding it.
+
+**Fill:** all 90 Ca II features in the solar line list (`data/audit/rya1354/ca2_model_v64/solar_fill.csv`); 26 measurable features have no Safronova value.
+
+| Features | Class | σ (dex) | vs line list |
+|---|---|---|---|
+| **H band 6p–6d:** 16561.1, 16649.9, 16662.7 Å (depths 0.10, 0.13, 0.03) | C | 0.070 | −0.016 |
+| 5p–nd and 4d–nf series, 2898–4110 Å | C/D | | |
+| UV 3d–5p (2129–2132 Å) | E | | +0.68; near-cancelling line |
+
+**Sparse-referee rule:** with only 55 referee lines, empty CF bins fall back to the other n regime, then to the overall referee scatter (flagged `fallback`).

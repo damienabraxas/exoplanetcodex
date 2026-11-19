@@ -1,0 +1,251 @@
+{
+ "schema": "rya1354.onevalence-model.v1",
+ "species": "Ca II",
+ "status": "CANDIDATE_HOLD_NOT_ADOPTED",
+ "alpha_d": 3.26,
+ "floor_dex": 0.065,
+ "potential_fit": {
+  "s": {
+   "n_terms": 6,
+   "max_rel_err_start": 0.11446446481304123,
+   "max_rel_err_fit": 9.713593076430536e-06,
+   "params": [
+    9.54068565,
+    2.63328945,
+    -7.47808022,
+    -7.71607431,
+    0.45489422
+   ]
+  },
+  "p": {
+   "n_terms": 3,
+   "max_rel_err_start": 0.03310937534936314,
+   "max_rel_err_fit": 8.11360213931531e-07,
+   "params": [
+    6.79564951,
+    2.25081437,
+    -4.71967671,
+    -3.79746086,
+    0.45798739
+   ]
+  },
+  "d": {
+   "n_terms": 7,
+   "max_rel_err_start": 0.14212183749478696,
+   "max_rel_err_fit": 4.253218421010459e-05,
+   "params": [
+    5.29657631,
+    2.34315378,
+    -3.21158375,
+    -3.95114783,
+    0.71875312
+   ]
+  },
+  "f": {
+   "n_terms": 6,
+   "max_rel_err_start": 10.978784538390148,
+   "max_rel_err_fit": 4.407811529437555e-05,
+   "params": [
+    2.43482241,
+    1.8461643,
+    1.59023455,
+    -0.43670184,
+    0.71875312
+   ]
+  }
+ },
+ "experiment": {
+  "4s_1/2-4p_1/2": {
+   "A_exp": 135528307.0758637,
+   "frac_sigma": 0.0037,
+   "A_model": 120539561.34922363,
+   "dlogA": -0.0509,
+   "dlogA_without_polarization_operator": 0.052
+  },
+  "3d_3/2-4p_1/2": {
+   "A_exp": 9311680.625240147,
+   "frac_sigma": 0.0054,
+   "A_model": 11153862.570110025,
+   "dlogA": 0.0784,
+   "dlogA_without_polarization_operator": 0.0328
+  }
+ },
+ "vs_ff9_all": {
+  "n": 55,
+  "median": 0.0006,
+  "robust_sigma": 0.0187,
+  "frac_within_0p05": 0.75
+ },
+ "vs_ff9_by_class": {
+  "A": {
+   "n": 0
+  },
+  "B": {
+   "n": 0
+  },
+  "C": {
+   "n": 46,
+   "median": 0.0001,
+   "robust_sigma": 0.0125,
+   "frac_within_0p05": 0.85
+  },
+  "D": {
+   "n": 9,
+   "median": 0.0736,
+   "robust_sigma": 0.0451,
+   "frac_within_0p05": 0.22
+  },
+  "E": {
+   "n": 0
+  }
+ },
+ "vs_ff9_by_cf": {
+  "cf>=0.5": {
+   "n": 33,
+   "median": 0.0,
+   "robust_sigma": 0.0107,
+   "frac_within_0p05": 0.85
+  },
+  "0.1-0.5": {
+   "n": 22,
+   "median": 0.0272,
+   "robust_sigma": 0.0574,
+   "frac_within_0p05": 0.59
+  },
+  "0.02-0.1": {
+   "n": 0
+  },
+  "<0.02": {
+   "n": 0
+  }
+ },
+ "n_lines": 462,
+ "referee": "data/reference/onevalence_nist/safronova2011_ca2/table5_ca2_A_f.csv",
+ "nmin": {
+  "0": 4,
+  "2": 3,
+  "1": 4,
+  "3": 4
+ },
+ "class_counts": {
+  "A": 0,
+  "B": 0,
+  "C": 215,
+  "D": 226,
+  "E": 21
+ },
+ "sigma68_by_cf": {
+  "n<=7": [
+   {
+    "cf_lo": 0.5,
+    "cf_hi": 9.0,
+    "n": 33,
+    "sigma68_vs_ff9": 0.0084
+   },
+   {
+    "cf_lo": 0.2,
+    "cf_hi": 0.5,
+    "n": 12,
+    "sigma68_vs_ff9": 0.0569
+   },
+   {
+    "cf_lo": 0.1,
+    "cf_hi": 0.2,
+    "n": 0,
+    "sigma68_vs_ff9": 0.0323,
+    "fallback": true
+   },
+   {
+    "cf_lo": 0.05,
+    "cf_hi": 0.1,
+    "n": 0,
+    "sigma68_vs_ff9": 0.0323,
+    "fallback": true
+   },
+   {
+    "cf_lo": 0.0,
+    "cf_hi": 0.05,
+    "n": 0,
+    "sigma68_vs_ff9": 0.0323,
+    "fallback": true
+   }
+  ],
+  "n8-9": [
+   {
+    "cf_lo": 0.5,
+    "cf_hi": 9.0,
+    "n": 0,
+    "sigma68_vs_ff9": 0.0084,
+    "fallback": true
+   },
+   {
+    "cf_lo": 0.2,
+    "cf_hi": 0.5,
+    "n": 6,
+    "sigma68_vs_ff9": 0.0569,
+    "fallback": true
+   },
+   {
+    "cf_lo": 0.1,
+    "cf_hi": 0.2,
+    "n": 2,
+    "sigma68_vs_ff9": 0.0323,
+    "fallback": true
+   },
+   {
+    "cf_lo": 0.05,
+    "cf_hi": 0.1,
+    "n": 0,
+    "sigma68_vs_ff9": 0.0323,
+    "fallback": true
+   },
+   {
+    "cf_lo": 0.0,
+    "cf_hi": 0.05,
+    "n": 0,
+    "sigma68_vs_ff9": 0.0323,
+    "fallback": true
+   }
+  ],
+  "family": {
+   "d-f": {
+    "n": 6,
+    "abs68": 0.0003
+   },
+   "d-p": {
+    "n": 6,
+    "abs68": 0.0716
+   },
+   "p-d": {
+    "n": 12,
+    "abs68": 0.0253
+   },
+   "p-s": {
+    "n": 12,
+    "abs68": 0.0416
+   },
+   "s-p": {
+    "n": 6,
+    "abs68": 0.0083
+   }
+  }
+ },
+ "sigma_coverage_vs_ff9": {
+  "n": 45,
+  "frac_within_1sigma": 0.956,
+  "frac_within_2sigma": 1.0,
+  "median_z": 0.14
+ },
+ "fill": {
+  "n_lines": 90,
+  "n_filled": 89,
+  "n_measurable": 65,
+  "n_measurable_filled": 64,
+  "n_measurable_not_in_ff9": 26,
+  "asplund_lines_vs_ff9": {
+   "5001.479": -0.0117,
+   "8248.796": -0.0076,
+   "8254.721": -0.0084
+  }
+ }
+}

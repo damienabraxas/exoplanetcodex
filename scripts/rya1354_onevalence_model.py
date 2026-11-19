@@ -45,14 +45,22 @@ SPECIES = {
                  levels=REF / 'na_mchf_ff2002/raw/nist_asd_na1_levels.csv',
                  ff9=REF / 'na_mchf_ff2002/raw/Na_11.9.U.lsj.db.gz', ff16=REF / 'na_mchf_ff2002/raw/Na_11.16.mchf_cv.lsj.db.gz',
                  exp={('3s', 1, '3p', 3): (6.16e7, 0.005), ('3s', 1, '3p', 1): (6.14e7, 0.005)},   # KP08 Table 4, AA
-                 linelist=('Na', 'I'), out='na_model_v62', asplund=(4752, 5149, 6154, 6161, 10746)),
+                 linelist=('Na', 'I'), out='na_model_v62', asplund=(4752, 5149, 6154, 6161, 10746), core='2p6'),
     # Mg II: alpha_d(Mg2+) 0.4814 a.u. (Safronova-type MBPT value); anchor = KP08 Table 44 3s-3p A (class A,
     # FF/Siegel/Ansbacher-lifetime/Johnson); start = the Na shape, re-fitted.
     'Mg II': dict(Z=12, zc=2, alpha=0.4814, mass=24.305, ip=121267.61, sigma=-2.2, start=START_NA,
                   levels=REF / 'onevalence_nist/MgII_levels.csv',
                   ff9=REF / 'onevalence_nist/mchf_mg2/Na_12.9.U.lsj.db.gz', ff16=REF / 'onevalence_nist/mchf_mg2/Na_12.16.mchf_cv.lsj.db.gz',
                   exp={('3s', 1, '3p', 3): (2.60e8, 0.03), ('3s', 1, '3p', 1): (2.57e8, 0.03)},
-                  linelist=('Mg', 'II'), out='mg2_model_v63', asplund=(4481, 7877, 7896, 9218, 9244, 10915, 10952)),
+                  linelist=('Mg', 'II'), out='mg2_model_v63', asplund=(4481, 7877, 7896, 9218, 9244, 10915, 10952), core='2p6'),
+    # Ca II (v64): alpha_d(Ca2+) 3.26(3) a.u. (Safronova & Safronova 2011 Sect. VI); anchors = Hettrich+2015 single-ion
+    # rates (H line 2pi x 21.57(8) MHz; 8662 A 3d3/2-4p1/2 2pi x 1.482(8) MHz); referee = Safronova 2011 Table V
+    # (all-order relativistic, 55 lines with stated uncertainty) in place of an FF collection (none exists for Ca II).
+    'Ca II': dict(Z=20, zc=2, alpha=3.26, mass=40.078, ip=95751.87, sigma=-1.8, start=START_NA,
+                  levels=REF / 'onevalence_nist/CaII_levels.csv',
+                  ff9=REF / 'onevalence_nist/safronova2011_ca2/table5_ca2_A_f.csv', ff16=None,
+                  exp={('4s', 1, '4p', 1): (2 * math.pi * 21.57e6, 0.0037), ('3d', 3, '4p', 1): (2 * math.pi * 1.482e6, 0.0054)},
+                  linelist=('Ca', 'II'), out='ca2_model_v64', asplund=(5001, 6457, 7324, 8249, 8255), core='3p6'),
 }
 SP = None   # the active species config (set by use())
 NMAX = 15
@@ -74,7 +82,7 @@ def nist_levels():
     lev = {}
     for r in csv.DictReader(open(SP['levels'])):
         clean = {k: (v or '').strip('="[]') for k, v in r.items() if k}
-        m = re.fullmatch(r'2p6\.(\d+)([spdf])', clean['Configuration'])
+        m = re.fullmatch(re.escape(SP['core']) + r'\.(\d+)([spdf])', clean['Configuration'])
         if not m or not re.fullmatch(r'\d+/2', clean['J']) or not clean['Level (cm-1)']:
             continue
         lev[(f'{m[1]}{m[2]}', int(clean['J'].split('/')[0]))] = float(clean['Level (cm-1)'])
@@ -82,7 +90,27 @@ def nist_levels():
 
 
 def parse_ff(path):
+    """Referee table -> {(lo_nl, 2J, up_nl, 2J): dict(gf_L, sigma_th)} so gf_L * dE_exp / sigma_th is the referee gf on
+    experimental energies. NIST MCHF .lsj.db (FF) or a transcribed A/f CSV (Safronova: gf = g_lo f, already on NIST energies)."""
+    if path is None:
+        return {}
+    if str(path).endswith('.csv'):
+        out = {}
+        for r in csv.DictReader(open(path)):
+            lo, up = (re.fullmatch(r'(\d+[spdf])(\d)/2', x).groups() for x in (r['lower'], r['upper']))
+            out[(lo[0], int(lo[1]), up[0], int(up[1]))] = dict(gf_L=(int(lo[1]) + 1) * float(r['f']), sigma_th=1e8 / float(r['wl_vac_A']),
+                                                               unc_pct=float(r['unc_pct']))
+        return out
     return V61.parse_ff(path)
+
+
+def nmin_by_l(levels):
+    """Lowest valence n per l from the NIST levels (Na: 3,3,3,4; Ca II: 4,4,3,4)."""
+    out = {}
+    for nl, _ in levels:
+        l = 'spdf'.index(nl[-1])
+        out[l] = min(out.get(l, 99), int(nl[:-1]))
+    return out
 
 
 def grid():
@@ -141,7 +169,7 @@ def fit(levels, nfit=9):
     params, report = {}, {}
     for l in range(4):
         ns = [n for (n, ll) in terms if ll == l and n <= nfit]
-        nmin = 3 if l <= 2 else 4
+        nmin = NMIN[l]
         target = np.array([terms[(n, l)] for n in sorted(ns)])
         idx = [n - nmin for n in sorted(ns)]
 
@@ -161,7 +189,7 @@ def states(params):
     """(n, l) -> z vector. Lowest valence n: 3 for s,p,d; 4 for f. States below it are core-like and skipped."""
     out = {}
     for l in range(4):
-        nmin = 3 if l <= 2 else 4
+        nmin = NMIN[l]
         w, v, k0 = solve(l, params[l], NMAX - nmin + 1)
         off = (nmin - l - 1) - k0
         for i in range(off, v.shape[1]):
@@ -245,6 +273,8 @@ def lines(params, levels):
 
 def main():
     levels = nist_levels()
+    global NMIN
+    NMIN = nmin_by_l(levels)
     ff9, ff16 = parse_ff(SP['ff9']), parse_ff(SP['ff16'])
     params, fitrep = fit(levels)
     L = lines(params, levels)
@@ -271,7 +301,7 @@ def main():
     exp = {}
     for k, (a, s) in SP['exp'].items():
         g = L[k]['gf']
-        exp[f'{k[2]}_{k[3]}/2'] = dict(A_exp=a, frac_sigma=s, A_model=V61.rate(g, k, levels), dlogA=round(math.log10(V61.rate(g, k, levels) / a), 4),
+        exp[f'{k[0]}_{k[1]}/2-{k[2]}_{k[3]}/2'] = dict(A_exp=a, frac_sigma=s, A_model=V61.rate(g, k, levels), dlogA=round(math.log10(V61.rate(g, k, levels) / a), 4),
                                        dlogA_without_polarization_operator=round(math.log10(V61.rate(L[k]['gf_noop'], k, levels) / a), 4))
 
     def stats(sel):
@@ -313,6 +343,7 @@ def main():
     meas = [x for x in fill if x['max_depth'] >= 0.01]
     summary = dict(schema='rya1354.onevalence-model.v1', species=SP['name'], status=STATUS, alpha_d=ALPHA_D, floor_dex=FLOOR, potential_fit=fitrep, experiment=exp,
                    vs_ff9_all=stats(rows), vs_ff9_by_class=by_cls, vs_ff9_by_cf=by_cf, n_lines=len(rows),
+                   referee=str(SP['ff9'].relative_to(ROOT)), nmin=NMIN,
                    class_counts={c: sum(r['cls'] == c for r in rows) for c in 'ABCDE'},
                    sigma68_by_cf=sig, sigma_coverage_vs_ff9=coverage(rows),
                    fill=dict(n_lines=len(fill), n_filled=sum(x['model_loggf'] is not None for x in fill), n_measurable=len(meas),
@@ -348,6 +379,14 @@ def calibrate(rows):
             if b[k]['sigma68_vs_ff9'] is None:
                 b[k]['sigma68_vs_ff9'] = b[min(k + 1, len(b) - 1)]['sigma68_vs_ff9']
         out[reg] = b
+    # sparse referees (Ca II: 55 lines) leave whole regimes empty: fall back to the other regime, then to all lines
+    alld = sorted(abs(r['d_ff9']) for r in rows if 'd_ff9' in r)
+    overall = round(alld[int(0.68 * (len(alld) - 1))], 4) if alld else 0.1
+    for reg, other in (('n<=7', 'n8-9'), ('n8-9', 'n<=7')):
+        for k, b in enumerate(out[reg]):
+            if b['sigma68_vs_ff9'] is None:
+                b['sigma68_vs_ff9'] = out[other][k]['sigma68_vs_ff9'] or overall
+                b['fallback'] = True
     # transition family (l_lower-l_upper): 68th percentile of |model - FF| on the FF-converged lines (n <= 7);
     # includes any family bias (we do NOT shift our model toward FF, which is theory, not lab)
     fam = {}

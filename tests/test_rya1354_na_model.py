@@ -71,3 +71,19 @@ def test_mg2_committed_score_is_consistent():
     # the near-cancelling 3s-4p line must not set the s-p family sigma (h & k stay better than class C)
     rows = {r['air_A']: r for r in csv.DictReader(open(ROOT / 'data/audit/rya1354/mg2_model_v63/solar_fill.csv'))}
     assert rows['2795.528']['model_class'] in 'AB'
+
+
+def test_ca2_grade_carries_the_experimental_miss():
+    s = json.load(open(ROOT / 'data/audit/rya1354/ca2_model_v64/summary.json'))
+    assert s['species'] == 'Ca II' and set(s['experiment']) == {'4s_1/2-4p_1/2', '3d_3/2-4p_1/2'}   # both anchors kept
+    # the floor must cover the model's measured miss on the Hettrich anchors (no class A/B on a 0.05-0.08 dex miss)
+    assert s['floor_dex'] >= sum(abs(v['dlogA']) for v in s['experiment'].values()) / 2 - 1e-9
+    assert s['class_counts']['A'] == 0 and s['class_counts']['B'] == 0
+    rows = {r['air_A']: r for r in csv.DictReader(open(ROOT / 'data/audit/rya1354/ca2_model_v64/solar_fill.csv'))}
+    assert rows['8542.091']['model_class'] in 'DE'     # IR triplet: our model misses 8662 by +0.078 dex
+
+
+def test_one_valence_species_reproduce_their_nist_levels():
+    for f in ('na_model_v62', 'mg2_model_v63', 'ca2_model_v64'):
+        s = json.load(open(ROOT / f'data/audit/rya1354/{f}/summary.json'))
+        assert max(v['max_rel_err_fit'] for v in s['potential_fit'].values()) < 1e-3, f
