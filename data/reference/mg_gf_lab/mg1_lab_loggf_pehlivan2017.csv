@@ -1,0 +1,33 @@
+# Pehlivan Rhodin, Hartman, Nilsson & Jonsson 2017, A&A 598 A102, Table 2 (pp. 9-10 of the local proof
+# "Reference documents/Pehlivan_Rhodin_2017_MgI_IR_full.pdf"). Transcribed RYA-1354 2026-11-19.
+# loggf_exp = lab branching fraction x lifetime; tau_theory=True where the paper marks the lifetime with * (their own
+# calculated value used for the scale) -> those rows are NOT independent of loggf_calc (their MCHF/ATSP2K).
+# 15886.183 / 15886.261 omitted: the authors advise their theoretical values (blended, >20% uncertain).
+# 5f rows (no calc value) omitted. wavelength_A: air unless vac=True.
+wavelength_A,vac,lower,upper,loggf_exp,e_loggf_dex,loggf_calc,tau_ns,tau_theory
+5167.321,False,3p 3P0,4s 3S1,-0.854,0.05,-0.865,9.6,True
+5172.684,False,3p 3P1,4s 3S1,-0.363,0.04,-0.387,9.6,True
+5183.604,False,3p 3P2,4s 3S1,-0.168,0.04,-0.166,9.6,True
+11828.185,False,3p 1P1,4s 1S0,-0.350,0.03,-0.343,47,False
+8806.756,False,3p 1P1,3d 1D2,-0.144,0.03,-0.128,81,False
+15047.705,False,4s 3S1,4p 3P0,-0.364,0.04,-0.360,78.5,True
+15040.246,False,4s 3S1,4p 3P1,0.113,0.04,0.117,78.5,True
+15024.992,False,4s 3S1,4p 3P2,0.334,0.03,0.339,78.5,True
+5711.088,False,3p 1P1,5s 1S0,-1.842,0.05,-1.742,100,False
+31157.72,True,4p 1P1,5s 1S0,0.012,0.02,-0.052,100,False
+5528.405,False,3p 1P1,4d 1D2,-0.547,0.02,-0.513,57,False
+26399.76,True,4p 1P1,4d 1D2,0.430,0.04,0.444,57,False
+7659.901,False,4s 3S1,5p 3P0,-1.948,0.05,-1.986,267.6,True
+15889.485,False,3d 3D1,5p 3P0,-1.876,0.08,-1.817,267.6,True
+42082.53,True,5s 3S1,5p 3P0,-0.252,0.05,-0.236,267.6,True
+7659.152,False,4s 3S1,5p 3P1,-1.425,0.05,-1.509,267.6,True
+42059.93,True,5s 3S1,5p 3P1,0.212,0.05,0.241,267.6,True
+7657.603,False,4s 3S1,5p 3P2,-1.292,0.05,-1.287,267.6,True
+15879.567,False,3d 3D3,5p 3P2,-1.326,0.06,-1.194,267.6,True
+42013.28,True,5s 3S1,5p 3P2,0.472,0.04,0.463,267.6,True
+12083.662,False,3d 1D2,4f 1F3,0.377,0.04,0.368,61.2,True
+14878.191,False,3d 3D2,4f 1F3,-1.223,0.05,-1.211,61.2,True
+14877.752,False,3d 3D1,4f 3F2,0.357,0.04,0.371,61.2,True
+12083.278,False,3d 1D2,4f 3F3,-1.347,0.05,-1.376,61.2,True
+14877.608,False,3d 3D2,4f 3F3,0.518,0.04,0.534,61.2,True
+14877.529,False,3d 3D3,4f 3F4,0.688,0.04,0.702,61.2,True

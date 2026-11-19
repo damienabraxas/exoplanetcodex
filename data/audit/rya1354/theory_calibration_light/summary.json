@@ -1,0 +1,57 @@
+{
+ "schema": "rya1354.theory-calibration-light.v1",
+ "status": "CANDIDATE_HOLD_NOT_ADOPTED",
+ "results": {
+  "Mg I MCHF (Pehlivan Rhodin 2017)": {
+   "all": {
+    "n": 26,
+    "median": 0.006,
+    "rms": 0.043,
+    "sigma68_about_median": 0.028,
+    "extra_theory_sigma": 0.008
+   },
+   "lab_lifetime_only": {
+    "n": 6,
+    "median": 0.015,
+    "rms": 0.051,
+    "sigma68_about_median": 0.079,
+    "extra_theory_sigma": 0.036
+   },
+   "theory_lifetime_scale": {
+    "n": 20,
+    "median": 0.005,
+    "rms": 0.041,
+    "sigma68_about_median": 0.024,
+    "extra_theory_sigma": 0.0
+   }
+  },
+  "Al I (vs Burheim 2023 lab)": {
+   "Papoulia 2019 MCDHF": {
+    "n": 12,
+    "median": -0.003,
+    "rms": 0.061,
+    "sigma68_about_median": 0.067,
+    "extra_theory_sigma": 0.052
+   },
+   "Kurucz 1995": {
+    "n": 12,
+    "median": 0.097,
+    "rms": 0.092,
+    "sigma68_about_median": 0.051,
+    "extra_theory_sigma": 0.086
+   },
+   "TOPbase": {
+    "n": 12,
+    "median": 0.001,
+    "rms": 0.08,
+    "sigma68_about_median": 0.107,
+    "extra_theory_sigma": 0.071
+   }
+  }
+ },
+ "kurucz_gap_lines_measurable": {
+  "Na I": 4,
+  "Mg I": 4
+ },
+ "note": "Na/Mg/Al line-list gf are NIST-compiled ab initio, not Kurucz: the Kurucz error model does not apply."
+}
