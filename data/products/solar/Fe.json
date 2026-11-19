@@ -2,8 +2,8 @@
   "schema": "codex.element_product/2",
   "element": "Fe",
   "star": "solar",
-  "version": "1.613",
-  "updated_at": "2026-11-19T14:53:14Z",
+  "version": "1.612",
+  "updated_at": "2026-11-17T01:32:11Z",
   "products": [
     {
       "element": "Fe",
@@ -77844,7 +77844,7 @@
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.277,
-      "sigma_stat": 0.0259,
+      "sigma_stat": 0.208,
       "sigma_syst": 0.051541,
       "n_lines": 2,
       "n_excluded": 6,
@@ -77862,20 +77862,15 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.025875215172001056,
-            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/orchestrator/budget/solar_Fe/stage/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv (RYA-470)",
+            "sigma_dex": 0.20800000000000018,
+            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
             "evidence": {
-              "method": "profile_likelihood",
-              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
-              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
-              "n_pixels": 1,
+              "method": "line_scatter",
+              "independent": true,
               "n_lines": 2,
-              "line_sigma_dex": [
-                0.022686853783598,
-                0.0465125112866534
-              ],
-              "replaced_scatter_dex": 0.20800000000000018,
-              "lines_file": "data/results/orchestrator/budget/solar_Fe/stage/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv"
+              "n_components": 2,
+              "raw_sigma": 0.29415642097360406,
+              "pool_sha256": "942dcce1855c7a4ce9f5c305ba3df2aaf2397eeb707b5023379313f195061692"
             }
           },
           {
@@ -78116,7 +78111,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0006695267601973537,
+            0.04326400000000008,
             0.0,
             0.0,
             0.0,
@@ -78230,14 +78225,14 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.05767148851345736,
-        "sigma_measured_partial": 0.05767148851345736
+        "sigma_reported": 0.21429062934986348,
+        "sigma_measured_partial": 0.21429062934986348
       },
       "uncertainty_indicator_ids": [
         "pk_9f8343fc8a2d",
         "pk_ff7e68c486e3"
       ],
-      "sigma_reported": 0.05767148851345736,
+      "sigma_reported": 0.2142906293498634,
       "provenance": {
         "host": "Sirius",
         "path": "/home/damienabraxas/scratch/rya1388/data/results/orchestrator/budget/solar_Fe/stage/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
@@ -78247,8 +78242,8 @@
         "ingested_at": "2026-11-16T18:11:14Z"
       },
       "star": "solar",
-      "sigma_asplund": 0.045155515580688976,
-      "sigma_asplund_stat": 0.025875215172001056,
+      "sigma_asplund": 0.21126640487110243,
+      "sigma_asplund_stat": 0.20800000000000018,
       "sigma_asplund_syst": 0.03700667273831155,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "atlas": "HARPS Phase-3 direct-Sun stack (1102.D-0954(A), 2023-08-02), molecfit-corrected",
@@ -78291,9 +78286,7 @@
           "measurement": "data/results/rya1055/atom_ion_reach.json (RYA-1055)",
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
-      },
-      "restamped_at": "2026-11-19T14:53:14Z",
-      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
+      }
     },
     {
       "element": "Fe",
@@ -85897,7 +85890,7 @@
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.232,
-      "sigma_stat": 0.0192,
+      "sigma_stat": 0.1435,
       "sigma_syst": 0.089947,
       "n_lines": 2,
       "n_excluded": 6,
@@ -85915,20 +85908,15 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.019184113620026876,
-            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/rya1232_fe/fe_decks_r3_all/products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv (RYA-470)",
+            "sigma_dex": 0.1435000000000004,
+            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
             "evidence": {
-              "method": "profile_likelihood",
-              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
-              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
-              "n_pixels": 1,
+              "method": "line_scatter",
+              "independent": true,
               "n_lines": 2,
-              "line_sigma_dex": [
-                0.0137815616369151,
-                0.0358076726469665
-              ],
-              "replaced_scatter_dex": 0.1435000000000004,
-              "lines_file": "data/results/rya1232_fe/fe_decks_r3_all/products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv"
+              "n_components": 2,
+              "raw_sigma": 0.20293964620053973,
+              "pool_sha256": "942dcce1855c7a4ce9f5c305ba3df2aaf2397eeb707b5023379313f195061692"
             }
           },
           {
@@ -86173,7 +86161,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0003680302153861007,
+            0.020592250000000117,
             0.0,
             0.0,
             0.0,
@@ -86359,14 +86347,14 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.09196966923147322,
-        "sigma_measured_partial": 0.09196966923147322
+        "sigma_reported": 0.1693594988276731,
+        "sigma_measured_partial": 0.1693594988276731
       },
       "uncertainty_indicator_ids": [
         "pk_9f8343fc8a2d",
         "pk_ff7e68c486e3"
       ],
-      "sigma_reported": 0.09196966923147322,
+      "sigma_reported": 0.1693594988276731,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/fstage_fe_decks_r3_all/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
@@ -86417,12 +86405,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.041683618395559084,
+      "sigma_asplund": 0.1481949520974335,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
-      "sigma_asplund_stat": 0.019184113620026876,
-      "sigma_asplund_syst": 0.03700667273831155,
-      "restamped_at": "2026-11-19T14:53:14Z",
-      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
+      "sigma_asplund_stat": 0.1435000000000004,
+      "sigma_asplund_syst": 0.03700667273831155
     },
     {
       "element": "Fe",
@@ -89686,7 +89672,7 @@
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.236,
-      "sigma_stat": 0.0248,
+      "sigma_stat": 0.135,
       "sigma_syst": 0.099125,
       "n_lines": 2,
       "n_excluded": 6,
@@ -89704,20 +89690,15 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.024779331639744537,
-            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/rya1232_fe/fe_decks_r2_sirius/products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv (RYA-470)",
+            "sigma_dex": 0.13500000000000023,
+            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
             "evidence": {
-              "method": "profile_likelihood",
-              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
-              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
-              "n_pixels": 1,
+              "method": "line_scatter",
+              "independent": true,
               "n_lines": 2,
-              "line_sigma_dex": [
-                0.0239693244026985,
-                0.043376636496252
-              ],
-              "replaced_scatter_dex": 0.13500000000000023,
-              "lines_file": "data/results/rya1232_fe/fe_decks_r2_sirius/products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv"
+              "n_components": 2,
+              "raw_sigma": 0.19091883092036815,
+              "pool_sha256": "942dcce1855c7a4ce9f5c305ba3df2aaf2397eeb707b5023379313f195061692"
             }
           },
           {
@@ -89962,7 +89943,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0006140152765124447,
+            0.018225000000000064,
             0.0,
             0.0,
             0.0,
@@ -90148,14 +90129,14 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.1021755387540136,
-        "sigma_measured_partial": 0.1021755387540136
+        "sigma_reported": 0.1674838065102431,
+        "sigma_measured_partial": 0.1674838065102431
       },
       "uncertainty_indicator_ids": [
         "pk_9f8343fc8a2d",
         "pk_ff7e68c486e3"
       ],
-      "sigma_reported": 0.1021755387540136,
+      "sigma_reported": 0.1674838065102431,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/fstage_fe_decks_r2_sirius/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv",
@@ -90206,12 +90187,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.0445366040877943,
+      "sigma_asplund": 0.13998033371570648,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
-      "sigma_asplund_stat": 0.024779331639744537,
-      "sigma_asplund_syst": 0.03700667273831155,
-      "restamped_at": "2026-11-19T14:53:14Z",
-      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
+      "sigma_asplund_stat": 0.13500000000000023,
+      "sigma_asplund_syst": 0.03700667273831155
     },
     {
       "element": "Fe",
@@ -91614,7 +91593,7 @@
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.236,
-      "sigma_stat": 0.0248,
+      "sigma_stat": 0.135,
       "sigma_syst": 0.099125,
       "n_lines": 2,
       "n_excluded": 6,
@@ -91632,20 +91611,15 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.024779331639744537,
-            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/rya1232_fe/fe_decks_r2_sirius/products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv (RYA-470)",
+            "sigma_dex": 0.13500000000000023,
+            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
             "evidence": {
-              "method": "profile_likelihood",
-              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
-              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
-              "n_pixels": 1,
+              "method": "line_scatter",
+              "independent": true,
               "n_lines": 2,
-              "line_sigma_dex": [
-                0.0239693244026985,
-                0.043376636496252
-              ],
-              "replaced_scatter_dex": 0.13500000000000023,
-              "lines_file": "data/results/rya1232_fe/fe_decks_r2_sirius/products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_lines.csv"
+              "n_components": 2,
+              "raw_sigma": 0.19091883092036815,
+              "pool_sha256": "942dcce1855c7a4ce9f5c305ba3df2aaf2397eeb707b5023379313f195061692"
             }
           },
           {
@@ -91890,7 +91864,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.0006140152765124447,
+            0.018225000000000064,
             0.0,
             0.0,
             0.0,
@@ -92076,14 +92050,14 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.1021755387540136,
-        "sigma_measured_partial": 0.1021755387540136
+        "sigma_reported": 0.1674838065102431,
+        "sigma_measured_partial": 0.1674838065102431
       },
       "uncertainty_indicator_ids": [
         "pk_9f8343fc8a2d",
         "pk_ff7e68c486e3"
       ],
-      "sigma_reported": 0.1021755387540136,
+      "sigma_reported": 0.1674838065102431,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/fstage_fe_decks_r2_sirius/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_REFERENCE_ENGINE-A_products.csv",
@@ -92134,12 +92108,10 @@
           "deferred": "a two-stage Fe atom is DEFERRED to the off-solar programme, where the Fe I/Fe II balance does the log g work (Ryan, 2026-09-03)"
         }
       },
-      "sigma_asplund": 0.0445366040877943,
+      "sigma_asplund": 0.13998033371570648,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
-      "sigma_asplund_stat": 0.024779331639744537,
-      "sigma_asplund_syst": 0.03700667273831155,
-      "restamped_at": "2026-11-19T14:53:14Z",
-      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
+      "sigma_asplund_stat": 0.13500000000000023,
+      "sigma_asplund_syst": 0.03700667273831155
     },
     {
       "element": "Fe",
@@ -116232,7 +116204,7 @@
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.637,
-      "sigma_stat": 0.0968,
+      "sigma_stat": 0.1915,
       "sigma_syst": 0.101852,
       "n_lines": 2,
       "n_excluded": 3,
@@ -116250,20 +116222,15 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.0968121154947335,
-            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/rya1232_fe/fe_decks_r2_sirius/products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_lines.csv (RYA-470)",
+            "sigma_dex": 0.1915,
+            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
             "evidence": {
-              "method": "profile_likelihood",
-              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
-              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
-              "n_pixels": 1,
+              "method": "line_scatter",
+              "independent": true,
               "n_lines": 2,
-              "line_sigma_dex": [
-                0.0631801976010578,
-                0.1830262425373852
-              ],
-              "replaced_scatter_dex": 0.1915,
-              "lines_file": "data/results/rya1232_fe/fe_decks_r2_sirius/products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_lines.csv"
+              "n_components": 2,
+              "raw_sigma": 0.2708218971944477,
+              "pool_sha256": "44ef09ccfd35d56bc9af35d164c68de6c182fafed4ede161d15d93becc760e2c"
             }
           },
           {
@@ -116523,7 +116490,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.009372585706565618,
+            0.03667225,
             0.0,
             0.0,
             0.0,
@@ -116709,14 +116676,14 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.14052171565939503,
-        "sigma_measured_partial": 0.14052171565939503
+        "sigma_reported": 0.21690093790782522,
+        "sigma_measured_partial": 0.21690093790782522
       },
       "uncertainty_indicator_ids": [
         "pk_3644b8b9968c",
         "pk_03c3a4be5761"
       ],
-      "sigma_reported": 0.14052171565939503,
+      "sigma_reported": 0.21690093790782522,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/fstage_fe_decks_r2_sirius/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_products.csv",
@@ -116779,12 +116746,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier GRADED (RYA-353/945)"
       },
-      "sigma_asplund": 0.10660889295835169,
+      "sigma_asplund": 0.1966344841355139,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
-      "sigma_asplund_stat": 0.0968121154947335,
-      "sigma_asplund_syst": 0.04464157648694399,
-      "restamped_at": "2026-11-19T14:53:14Z",
-      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
+      "sigma_asplund_stat": 0.1915,
+      "sigma_asplund_syst": 0.04464157648694399
     },
     {
       "element": "Fe",
@@ -118031,7 +117996,7 @@
       "treatment": "ENGINE-A",
       "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "A": 7.637,
-      "sigma_stat": 0.0968,
+      "sigma_stat": 0.1915,
       "sigma_syst": 0.101852,
       "n_lines": 2,
       "n_excluded": 3,
@@ -118049,20 +118014,15 @@
           {
             "name": "measurement",
             "state": "MEASURED",
-            "sigma_dex": 0.0968121154947335,
-            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of their mean (= the median the product reports). Restamped from the product's own per-line file data/results/rya1232_fe/fe_decks_r2_sirius/products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_lines.csv (RYA-470)",
+            "sigma_dex": 0.1915,
+            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
             "evidence": {
-              "method": "profile_likelihood",
-              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
-              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
-              "n_pixels": 1,
+              "method": "line_scatter",
+              "independent": true,
               "n_lines": 2,
-              "line_sigma_dex": [
-                0.0631801976010578,
-                0.1830262425373852
-              ],
-              "replaced_scatter_dex": 0.1915,
-              "lines_file": "data/results/rya1232_fe/fe_decks_r2_sirius/products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_lines.csv"
+              "n_components": 2,
+              "raw_sigma": 0.2708218971944477,
+              "pool_sha256": "44ef09ccfd35d56bc9af35d164c68de6c182fafed4ede161d15d93becc760e2c"
             }
           },
           {
@@ -118322,7 +118282,7 @@
         "required_extra": [],
         "covariance": [
           [
-            0.009372585706565618,
+            0.03667225,
             0.0,
             0.0,
             0.0,
@@ -118508,14 +118468,14 @@
         "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
         "state": "COMPLETE",
         "holds": [],
-        "sigma_reported": 0.14052171565939503,
-        "sigma_measured_partial": 0.14052171565939503
+        "sigma_reported": 0.21690093790782522,
+        "sigma_measured_partial": 0.21690093790782522
       },
       "uncertainty_indicator_ids": [
         "pk_3644b8b9968c",
         "pk_03c3a4be5761"
       ],
-      "sigma_reported": 0.14052171565939503,
+      "sigma_reported": 0.21690093790782522,
       "provenance": {
         "host": "Mac",
         "path": "/Users/ryanschmitt/codex/rya1230_runs/fstage_fe_decks_r2_sirius/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_REFERENCE_ENGINE-A_products.csv",
@@ -118578,12 +118538,10 @@
         "model_grid": "atlas9 / bergemann",
         "line_set_citation": "Codex canonical_gf pool, tier REFERENCE (RYA-353/945)"
       },
-      "sigma_asplund": 0.10660889295835169,
+      "sigma_asplund": 0.1966344841355139,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
-      "sigma_asplund_stat": 0.0968121154947335,
-      "sigma_asplund_syst": 0.04464157648694399,
-      "restamped_at": "2026-11-19T14:53:14Z",
-      "restamp_reason": "RYA-470 (Ryan 2026-11-19, 'We do all uncertainty the Asplund way'): a two-line product's statistical term is priced from the goodness of the two profile fits (Asplund+2021 Sect. 2.1), not from the scatter of two numbers; no line re-measured"
+      "sigma_asplund_stat": 0.1915,
+      "sigma_asplund_syst": 0.04464157648694399
     },
     {
       "element": "Fe",
