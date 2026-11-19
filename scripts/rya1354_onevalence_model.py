@@ -324,6 +324,7 @@ def main():
     return summary
 
 
+CF_CANCEL = 0.1   # below this the radial integral cancels strongly (e.g. the Cooper-minimum 3s-4p)
 CF_BINS = ((0.5, 9.0), (0.2, 0.5), (0.1, 0.2), (0.05, 0.1), (0.0, 0.05))
 
 
@@ -351,7 +352,7 @@ def calibrate(rows):
     # includes any family bias (we do NOT shift our model toward FF, which is theory, not lab)
     fam = {}
     for r in rows:
-        if 'd_ff9' in r and nmax(r) <= 7:
+        if 'd_ff9' in r and nmax(r) <= 7 and r['cf'] >= CF_CANCEL:
             fam.setdefault(family(r), []).append(abs(r['d_ff9']))
     out['family'] = {k: dict(n=len(v), abs68=round(sorted(v)[int(0.68 * (len(v) - 1))], 4)) for k, v in sorted(fam.items()) if len(v) >= 5}
     return out
@@ -381,6 +382,9 @@ def line_sigma(r, sig):
     half = abs(r['loggf'] - r['loggf_no_polarization_operator']) / 2 if r.get('loggf_no_polarization_operator') is not None else 0.5
     fam = sig['family'].get(family(r), {}).get('abs68', 0.0)
     s = math.hypot(FLOOR, half, fam)
+    if r['cf'] < CF_CANCEL:   # strong cancellation: the family term is calibrated without these, add their CF-bin term
+        b = next(x for x in sig['n<=7'] if x['cf_lo'] <= r['cf'] < x['cf_hi'])
+        s = math.hypot(s, b['sigma68_vs_ff9'])
     n = nmax(r)
     if n >= 8:
         b = next(x for x in sig['n8-9'] if x['cf_lo'] <= r['cf'] < x['cf_hi'])

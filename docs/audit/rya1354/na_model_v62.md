@@ -114,3 +114,50 @@ ba5e58f55256eec58dc6aa56788c60eb318c46aa2615eefc065cb7e9d4c8ac5b  LS_Na_Z11.gz
 ```
 
 FAC v61 ran on Sirius (`/mnt/codex-data/codex/rya1354/toolchains/fac-9ab6def/sfac/sfac`, 5 min); its inputs and gzipped level/transition tables are in `data/audit/rya1354/na_model_v61/native/`. v62 runs on the Mac in 45 s: `~/codex/venv/bin/python scripts/rya1354_na_modelpot.py`.
+
+## v63: the same model for Mg II, and the σ rule generalised
+
+The model is now one generic module for one-valence-electron spectra, `scripts/rya1354_onevalence_model.py`, configured per species. Na I reproduces v62 to 0.0007 dex, with no class changes.
+
+**Mg II inputs.**
+- Core polarizability α_d(Mg²⁺) = 0.4814.
+- Potential re-fitted to the NIST Mg II terms (all levels within 3.4×10⁻⁵).
+- **Anchor:** KP08 Table 44, 3s–3p A = 2.60e8 / 2.57e8 s⁻¹. This is class A, combining Froese Fischer, Siegel, Johnson and Ansbacher's measured lifetimes.
+- **Referees:** Froese Fischer [9] and [16] for Mg II, from the NIST MCHF collection (`data/reference/onevalence_nist/mchf_mg2/`).
+- This milestone was not declared on the ticket before it ran; it is recorded here and on RYA-1354 afterwards.
+
+**Score.**
+- h & k: −0.011 / −0.010 dex against the anchor.
+- Asplund's Mg II lines (4481, 7877/7896, 9218/9244, 10915/10952 Å): within 0.015 dex of FF.
+- **Referee spread:** FF [9] and [16] agree to ~0.01 dex for Mg II, as for Na, except at the Cooper-minimum 3s–4p line, where they differ by 0.25 dex.
+
+**What changed in the σ rule.** Mg II's series involving d states carry 0.03–0.06 dex errors relative to FF; Mg⁺ 3d penetrates the core. The half-operator indicator does not see these, so σ now has more terms:
+- σ = √(floor² + (½ operator effect)² + family²).
+- **Family term:** the 68th percentile of |model − FF| for the line's transition family (s–p, p–d, d–f, …). It is measured on n ≤ 7 lines with CF ≥ 0.1, and our model is not shifted toward FF, since FF is theory, not lab.
+- **Strongly cancelling lines (CF < 0.1)** add their CF-bin term instead, so a Cooper-minimum line cannot inflate its family's σ.
+- **Floor:** the larger of the model's anchor offset and the anchor's own uncertainty, rounded up to 0.001. That gives 0.006 for Na and 0.013 for Mg II.
+
+**Coverage** is measured on the same lines used to calibrate σ, so it is in-sample:
+
+| | Within 1σ | Within 2σ |
+|---|---|---|
+| Na I | 92% | 100% |
+| Mg II | 78% | 95% |
+
+**Mg II grades.**
+
+| Lines | Class | σ (dex) |
+|---|---|---|
+| h & k | B | 0.024 |
+| 4481 Å | B | 0.017 |
+| 9218/9244 Å | B | 0.019 |
+| 3p–3d (2791/2798 Å) | C | 0.052 |
+| 7877/7896 Å (4p–4d) | C | 0.05 |
+
+Mg II has no class A lines.
+
+**Fill:** all 63 Mg II features in the solar line list (`data/audit/rya1354/mg2_model_v63/solar_fill.csv`). Only one measurable feature lacks a FF value, 2202.7 Å (3d–10f); for Mg II, FF already covers nearly every solar line, so the value here is the grade rather than new lines.
+
+**Next:**
+- K I, once NIST's line server is back (it returned errors on 2026-11-19).
+- Ca II: referees are Hettrich 2015 and the Safronova Ca II paper in the local reference folder.

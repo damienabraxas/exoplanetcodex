@@ -59,3 +59,15 @@ def test_committed_score_is_consistent():
     assert all(r['model_loggf'] for r in rows if float(r['max_depth']) >= 0.01)
     # the Asplund Na lines: model within 0.015 dex of FF
     assert all(abs(v) < 0.015 for v in s['fill']['asplund_lines_vs_ff9'].values())
+
+
+def test_mg2_committed_score_is_consistent():
+    s = json.load(open(ROOT / 'data/audit/rya1354/mg2_model_v63/summary.json'))
+    assert s['species'] == 'Mg II' and s['status'] == 'CANDIDATE_HOLD_NOT_ADOPTED'
+    for v in s['experiment'].values():          # h & k within the class-A anchor's 3%
+        assert abs(v['dlogA']) < 0.013
+    assert s['sigma_coverage_vs_ff9']['frac_within_2sigma'] >= 0.9
+    assert all(abs(v) < 0.02 for v in s['fill']['asplund_lines_vs_ff9'].values())
+    # the near-cancelling 3s-4p line must not set the s-p family sigma (h & k stay better than class C)
+    rows = {r['air_A']: r for r in csv.DictReader(open(ROOT / 'data/audit/rya1354/mg2_model_v63/solar_fill.csv'))}
+    assert rows['2795.528']['model_class'] in 'AB'
