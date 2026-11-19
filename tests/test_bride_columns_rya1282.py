@@ -29,11 +29,11 @@ def solar():
 def test_the_column_builder_solves_a_marcs_column_bit_for_bit_like_the_reference(solar):
     structure, atom = solar
     ref = make_reference_context(structure, atom, rays=3, qscale=1, ng=True)
-    n_ref, h_ref, _ = solve_column(ref, maxiter=1500)
+    n_ref, h_ref, *_ = solve_column(ref, maxiter=1500)
     col = column_context(marcs_column(structure), atom, abundances_dex=structure['abundances_dex'],
                          logg_cgs=structure['logg_cgs'], vturb_m_s=structure['vturb_m_s'],
                          rays=3, qscale=1, ng=True)
-    n_col, h_col, _ = solve_column(col, maxiter=1500)
+    n_col, h_col, *_ = solve_column(col, maxiter=1500)
     assert len(h_ref) == len(h_col)
     assert np.array_equal(n_ref, n_col)
 

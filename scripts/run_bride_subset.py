@@ -60,6 +60,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--stride', type=int, default=5)
+    p.add_argument('--offset', type=int, default=None, help='grid start in x and y (default stride//2)')
     p.add_argument('--workers', type=int, default=4)
     p.add_argument('--every', type=int, default=25)
     p.add_argument('--observable-tol', type=float, default=1e-4)
@@ -67,11 +68,12 @@ def main():
     p.add_argument('--seconds', type=float, default=3600.)
     args = p.parse_args()
     s = args.stride
-    cols = [(ix, iy) for iy in range(s // 2, 80, s) for ix in range(s // 2, 80, s)]
+    o = s // 2 if args.offset is None else args.offset
+    cols = [(ix, iy) for iy in range(o, 80, s) for ix in range(o, 80, s)]
     args.output.mkdir(parents=True, exist_ok=False)
     from pipeline.bride_reference import fingerprint
     import subprocess
-    summary = dict(schema='codex.bride_subset/1', ticket='RYA-1282', stride=s, ncols=len(cols),
+    summary = dict(schema='codex.bride_subset/1', ticket='RYA-1282', stride=s, offset=o, ncols=len(cols),
                    code_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
                    adapter=fingerprint(ROOT / 'pipeline/bride_columns.py'), generator=fingerprint(__file__),
                    observable_tol=args.observable_tol, every=args.every, collision_extension='loglin',
