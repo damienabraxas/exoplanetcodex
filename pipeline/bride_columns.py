@@ -103,15 +103,24 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
                       conserveCharge=False, ngOptions=options)
 
 
-def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float = 900., monitor=None, every: int = 50):
+def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float = 900., monitor=None, every: int = 50,
+                 observable_tol: float | None = None, validate_observable_rule: bool = False):
     """Joint RT + SE iteration, the G4 convergence rule: population change, normalised
     rate residual and J change all below rtol (after >= 3 iterations). Returns the
-    populations and the full history. Raises on non-convergence; nothing is clipped."""
+    populations and the full history. Raises on non-convergence; nothing is clipped.
+
+    OBSERVABLE RULE (G5 speed lever, experimental): with `monitor` (a function of the
+    context returning the observables, e.g. the 777 EWs) and `observable_tol`, the solve
+    may stop when the observables change by less than `observable_tol` (relative) between
+    two checkpoints `every` iterations apart. With `validate_observable_rule` it records
+    where that rule would have stopped and carries on to the strict rule, so the rule's
+    true error is measured, never assumed. Returns a 4th item: the stop record or None."""
     from pipeline.bride_numerical_validation import physical_rate_matrix
     from pipeline.bride_parameter_checks import positive_stat_equil
     active = ctx.activeAtoms[0]
     start = time.perf_counter()
     history = []
+    observable_stop = None
     for iteration in range(maxiter):
         if time.perf_counter() - start > seconds:
             raise TimeoutError('Column budget exceeded')
@@ -137,8 +146,19 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
             raise ValueError('Particle conservation failed')
         if monitor is not None and (iteration + 1) % every == 0:
             history[-1]['monitor'] = monitor(ctx)
+            if observable_tol is not None:
+                marks = [e['monitor'] for e in history if 'monitor' in e]
+                if len(marks) >= 2:
+                    prev, now = np.asarray(marks[-2]), np.asarray(marks[-1])
+                    change = float(np.max(abs(now - prev) / abs(now)))
+                    history[-1]['observable_change'] = change
+                    if change < observable_tol and observable_stop is None:
+                        observable_stop = dict(iteration=iteration + 1, observable=now.tolist(),
+                                               populations=active.n.copy())
+                        if not validate_observable_rule:
+                            return n, history, time.perf_counter() - start, observable_stop
         if iteration >= 2 and max(delta, rate, float(update.dJMax)) < rtol:
-            return n, history, time.perf_counter() - start
+            return n, history, time.perf_counter() - start, observable_stop
     err = RuntimeError('Joint convergence not reached')
     err.history = history
     raise err
@@ -184,7 +204,8 @@ def extend_collisions(atom, t_top: float, mode: str):
 
 
 def mu1_spectrum(col, atom, *, abundances_dex, logg_cgs, wave_vac_nm, rays=3, vturb_m_s=0.,
-                 rtol=1e-6, maxiter=1500, seconds=900., departures=None):
+                 rtol=1e-6, maxiter=1500, seconds=900., departures=None,
+                 monitor=None, every=25, observable_tol=None):
     """Solve one column in NLTE and return disk-centre (mu = 1) line and continuum
     intensity on `wave_vac_nm`, the populations, the history and timings."""
     t0 = time.perf_counter()
@@ -192,13 +213,15 @@ def mu1_spectrum(col, atom, *, abundances_dex, logg_cgs, wave_vac_nm, rays=3, vt
     ctx = column_context(col, atom, ng=True, **kw)
     if departures is not None:
         set_departures(ctx, departures)
-    n, history, t_solve = solve_column(ctx, rtol=rtol, maxiter=maxiter, seconds=seconds)
+    n, history, t_solve, stop = solve_column(ctx, rtol=rtol, maxiter=maxiter, seconds=seconds,
+                                             monitor=monitor, every=every, observable_tol=observable_tol)
     line = np.asarray(ctx.compute_rays(wavelengths=wave_vac_nm, mus=1.0)).ravel()
     cont_ctx = column_context(col, atom, ng=False, fixed_populations=n, continuum_only=True, **kw)
     j = converge_continuum(cont_ctx)
     cont = np.asarray(cont_ctx.compute_rays(wavelengths=wave_vac_nm, mus=1.0)).ravel()
     return dict(line=line, continuum=cont, populations=n, nstar=ctx.activeAtoms[0].nStar.copy(),
                 history=history, iterations=len(history), continuum_iterations=j,
+                stopped_by='observable' if stop is not None else 'strict',
                 seconds_solve=t_solve, seconds_total=time.perf_counter() - t0)
 
 
@@ -258,3 +281,21 @@ def resample_logtau(col, logtau, grid) -> dict:
     if not np.all(np.diff(out['height_m']) < 0):
         raise ValueError('Resampled heights not top-first decreasing')
     return out
+
+
+#: Disk-centre O I 777 triplet equivalent-width windows (air A), one per line.
+EW_WINDOWS_AIR_A = ((7771.2, 7773.0), (7773.0, 7774.8), (7774.8, 7776.5))
+
+
+def ew_monitor(wave_air_A, wave_vac_nm, windows=EW_WINDOWS_AIR_A):
+    """Monitor for `solve_column`: the mu = 1 equivalent widths (mA) in `windows`,
+    against a straight continuum through the window edges."""
+    wave_air_A = np.asarray(wave_air_A)
+
+    def ew(ctx):
+        intensity = np.asarray(ctx.compute_rays(wavelengths=wave_vac_nm, mus=1.0)).ravel()
+        r = 1 - intensity / np.interp(wave_air_A, [wave_air_A[0], wave_air_A[-1]], [intensity[0], intensity[-1]])
+        return [float(np.trapezoid(r[(wave_air_A >= lo) & (wave_air_A < hi)],
+                                   wave_air_A[(wave_air_A >= lo) & (wave_air_A < hi)]) * 1e3)
+                for lo, hi in windows]
+    return ew
