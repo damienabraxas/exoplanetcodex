@@ -47,7 +47,7 @@ def is_two_line_scatter(p: dict) -> bool:
 
 def _rel(f: Path) -> str:
     try:
-        return str(_rel(f))
+        return str(f.relative_to(ROOT))
     except ValueError:
         return str(f)
 
