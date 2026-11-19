@@ -10,7 +10,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import rya1354_na_model as V61  # noqa: E402
-import rya1354_na_modelpot as M  # noqa: E402
+import rya1354_onevalence_model as M  # noqa: E402
+M.use("Na I")
 
 OUT = ROOT / 'data/audit/rya1354/na_model_v62'
 

@@ -1,17 +1,22 @@
-"""RYA-1354 v62: our own Na I model-potential calculation with core polarization (declared on RYA-1354, 2026-11-19).
+"""RYA-1354: our own atomic model for ONE-VALENCE-ELECTRON spectra (Na I v62, Mg II v63; K I / Ca II next),
+model potential with core polarization, scored against experiment and independent theory, then used to fill every
+line of the species in the solar line list with a log gf and a graded sigma. Each species was declared on RYA-1354
+before its run.
 
 One valence electron in an l-dependent parametric potential (form of Marinescu, Sadeghpour & Dalgarno 1994,
 PRA 49, 982) with core polarization,
-    V_l(r) = -Z_l(r)/r - alpha_d/(2 r^4) (1 - exp(-(r/rc_l)^6)),  Z_l = 1 + 10 exp(-a1 r) - r (a3 + a4 r) exp(-a2 r),
-the four a_l re-fitted HERE to NIST Na I term energies (n <= 9), alpha_d(Na+) = 0.9448 a.u.
+    V_l(r) = -Z_l(r)/r - alpha_d/(2 r^4) (1 - exp(-(r/rc_l)^6)),
+    Z_l   = zc + (Z - zc) exp(-a1 r) - r (a3 + a4 r) exp(-a2 r)      (zc = ion charge + 1),
+the four a_l re-fitted HERE to the NIST term energies (n <= 9); alpha_d = static dipole polarizability of the core.
 Dipole operator with the core-polarization correction  d(r) = r [1 - alpha_d/r^3 (1 - exp(-(r/rc)^3))].
 gf per fine-structure line from the LS 6j fraction on NIST experimental energies.
 
-Per-line internal indicators:
-  CF   = |int u1 d u2 dr| / int |u1 d u2| dr   (radial cancellation)
-  sens = half the log gf change for operator cutoff rc x 0.8 vs x 1.2
-Scored against KP08 D-line A-values (class AA) and Froese Fischer [9] B-spline CI / [16] MCHF-CV.
+Per-line indicators: radial cancellation CF = |int u1 d u2| / int |u1 d u2|; half the core-polarization-operator
+effect (the model's analogue of a gauge difference) -> candidate sigma and class (see line_sigma).
+Referees: experimental resonance-line A-values; Froese Fischer [9] B-spline CI / [16] MCHF-CV (NIST MCHF collection).
 Status: CANDIDATE / HOLD (RYA-1352). Nothing here writes into a product.
+
+Usage: rya1354_onevalence_model.py [SPECIES ...]   (default: all)
 """
 import csv
 import re
@@ -23,25 +28,61 @@ from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
-from scipy.linalg import eigh_tridiagonal
 from scipy.optimize import least_squares
 
 import rya1354_na_model as V61
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'data/audit/rya1354/na_model_v62'
-ALPHA_D = 0.9448
-Z = 11
-IP_CM = 41449.451            # NIST Na I ionization energy
-RY_CM = 109734.6975 * 2      # hartree in cm-1 for Na (reduced-mass Rydberg x2, as the MCHF collection)
-# starting values, Marinescu+1994 Table I (Na): a1, a2, a3, a4, rc
-START = {0: (4.82223117, 2.45449865, -1.12255048, -1.42631393, 0.45489422),
-         1: (5.08382502, 2.18226881, -1.19534623, -1.03142861, 0.45798739),
-         2: (3.53324124, 2.48697936, -0.75688448, -1.27852357, 0.71875312),
-         3: (1.11056646, 1.05458759, 1.73203428, -0.09265696, 0.71875312)}  # f: rc of d (see doc)
+REF = ROOT / 'data/reference'
+# starting values, Marinescu+1994 Table I (Na): a1, a2, a3, a4, rc (f takes rc of d)
+START_NA = {0: (4.82223117, 2.45449865, -1.12255048, -1.42631393, 0.45489422),
+            1: (5.08382502, 2.18226881, -1.19534623, -1.03142861, 0.45798739),
+            2: (3.53324124, 2.48697936, -0.75688448, -1.27852357, 0.71875312),
+            3: (1.11056646, 1.05458759, 1.73203428, -0.09265696, 0.71875312)}
+R_INF, ME_AMU = 109737.31568, 5.48579909e-4
+SPECIES = {
+    'Na I': dict(Z=11, zc=1, alpha=0.9448, mass=22.98977, ip=41449.451, sigma=-0.7, start=START_NA,
+                 levels=REF / 'na_mchf_ff2002/raw/nist_asd_na1_levels.csv',
+                 ff9=REF / 'na_mchf_ff2002/raw/Na_11.9.U.lsj.db.gz', ff16=REF / 'na_mchf_ff2002/raw/Na_11.16.mchf_cv.lsj.db.gz',
+                 exp={('3s', 1, '3p', 3): (6.16e7, 0.005), ('3s', 1, '3p', 1): (6.14e7, 0.005)},   # KP08 Table 4, AA
+                 linelist=('Na', 'I'), out='na_model_v62', asplund=(4752, 5149, 6154, 6161, 10746)),
+    # Mg II: alpha_d(Mg2+) 0.4814 a.u. (Safronova-type MBPT value); anchor = KP08 Table 44 3s-3p A (class A,
+    # FF/Siegel/Ansbacher-lifetime/Johnson); start = the Na shape, re-fitted.
+    'Mg II': dict(Z=12, zc=2, alpha=0.4814, mass=24.305, ip=121267.61, sigma=-2.2, start=START_NA,
+                  levels=REF / 'onevalence_nist/MgII_levels.csv',
+                  ff9=REF / 'onevalence_nist/mchf_mg2/Na_12.9.U.lsj.db.gz', ff16=REF / 'onevalence_nist/mchf_mg2/Na_12.16.mchf_cv.lsj.db.gz',
+                  exp={('3s', 1, '3p', 3): (2.60e8, 0.03), ('3s', 1, '3p', 1): (2.57e8, 0.03)},
+                  linelist=('Mg', 'II'), out='mg2_model_v63', asplund=(4481, 7877, 7896, 9218, 9244, 10915, 10952)),
+}
+SP = None   # the active species config (set by use())
 NMAX = 15
 X0, X1, NPTS = math.log(1e-5), math.log(1200.0), 8000
 STATUS = 'CANDIDATE_HOLD_NOT_ADOPTED'
+
+
+def use(name):
+    """Activate one species: module-level constants the solver reads."""
+    global SP, Z, ZC, ALPHA_D, IP_CM, RY_CM, START, OUT
+    SP = dict(SPECIES[name], name=name)
+    Z, ZC, ALPHA_D, IP_CM, START = SP['Z'], SP['zc'], SP['alpha'], SP['ip'], SP['start']
+    RY_CM = 2 * R_INF / (1 + ME_AMU / SP['mass'])      # hartree in cm-1, reduced mass
+    OUT = ROOT / 'data/audit/rya1354' / SP['out']
+    return SP
+
+
+def nist_levels():
+    lev = {}
+    for r in csv.DictReader(open(SP['levels'])):
+        clean = {k: (v or '').strip('="[]') for k, v in r.items() if k}
+        m = re.fullmatch(r'2p6\.(\d+)([spdf])', clean['Configuration'])
+        if not m or not re.fullmatch(r'\d+/2', clean['J']) or not clean['Level (cm-1)']:
+            continue
+        lev[(f'{m[1]}{m[2]}', int(clean['J'].split('/')[0]))] = float(clean['Level (cm-1)'])
+    return lev
+
+
+def parse_ff(path):
+    return V61.parse_ff(path)
 
 
 def grid():
@@ -51,7 +92,7 @@ def grid():
 
 def potential(r, l, p):
     a1, a2, a3, a4, rc = p
-    zl = 1 + (Z - 1) * np.exp(-a1 * r) - r * (a3 + a4 * r) * np.exp(-a2 * r)
+    zl = ZC + (Z - ZC) * np.exp(-a1 * r) - r * (a3 + a4 * r) * np.exp(-a2 * r)
     return -zl / r - ALPHA_D / (2 * r ** 4) * (1 - np.exp(-(r / rc) ** 6))
 
 
@@ -67,7 +108,7 @@ def solve(l, p, nstates):
     off = -np.ones(len(x) - 1) / dx ** 2
     A = sp.diags([off, diag, off], [-1, 0, 1], format='csc')
     B = sp.diags(r ** 2, format='csc')
-    w, v = eigsh(A, k=nstates + 6, M=B, sigma=-0.7, which='LM')
+    w, v = eigsh(A, k=nstates + 6, M=B, sigma=SP['sigma'], which='LM')
     keep = {}
     for lam, y in zip(w, v.T):
         if lam >= 0:
@@ -203,8 +244,8 @@ def lines(params, levels):
 
 
 def main():
-    levels = V61.nist_levels()
-    ff9, ff16 = V61.parse_ff('Na_11.9.U.lsj.db.gz'), V61.parse_ff('Na_11.16.mchf_cv.lsj.db.gz')
+    levels = nist_levels()
+    ff9, ff16 = parse_ff(SP['ff9']), parse_ff(SP['ff16'])
     params, fitrep = fit(levels)
     L = lines(params, levels)
     rows = []
@@ -220,13 +261,15 @@ def main():
                 row[f'd_{tag}'] = round(row['loggf'] - row[f'{tag}_loggf'], 4)
         rows.append(row)
     rows.sort(key=lambda r: r['wl_vac_A'])
+    global FLOOR
+    FLOOR = floor(L, levels)
     sig = calibrate(rows)
     for r in rows:
         r['sigma_dex'], r['sigma_basis'] = line_sigma(r, sig)
         r['cls'] = sigma_class(r['sigma_dex'], r['cf'])
-    # experiment: D lines
+    # experiment: resonance lines
     exp = {}
-    for k, (a, s) in V61.EXP_D.items():
+    for k, (a, s) in SP['exp'].items():
         g = L[k]['gf']
         exp[f'{k[2]}_{k[3]}/2'] = dict(A_exp=a, frac_sigma=s, A_model=V61.rate(g, k, levels), dlogA=round(math.log10(V61.rate(g, k, levels) / a), 4),
                                        dlogA_without_polarization_operator=round(math.log10(V61.rate(L[k]['gf_noop'], k, levels) / a), 4))
@@ -268,7 +311,7 @@ def main():
         w.writeheader()
         w.writerows(fill)
     meas = [x for x in fill if x['max_depth'] >= 0.01]
-    summary = dict(schema='rya1354.na-modelpot.v62', status=STATUS, alpha_d=ALPHA_D, potential_fit=fitrep, experiment=exp,
+    summary = dict(schema='rya1354.onevalence-model.v1', species=SP['name'], status=STATUS, alpha_d=ALPHA_D, floor_dex=FLOOR, potential_fit=fitrep, experiment=exp,
                    vs_ff9_all=stats(rows), vs_ff9_by_class=by_cls, vs_ff9_by_cf=by_cf, n_lines=len(rows),
                    class_counts={c: sum(r['cls'] == c for r in rows) for c in 'ABCDE'},
                    sigma68_by_cf=sig, sigma_coverage_vs_ff9=coverage(rows),
@@ -276,7 +319,7 @@ def main():
                              n_measurable_filled=sum(x['model_loggf'] is not None for x in meas),
                              n_measurable_not_in_ff9=sum(x['model_loggf'] is not None and not x['in_nist_ff9'] for x in meas),
                              asplund_lines_vs_ff9={x['air_A']: x['d_model_minus_ff9'] for x in fill
-                                                   if round(x['air_A'], 0) in (4752, 5149, 6154, 6161, 10746)}))
+                                                   if round(x['air_A'], 0) in SP['asplund']}))
     (OUT / 'summary.json').write_text(json.dumps(summary, indent=1) + '\n')
     return summary
 
@@ -304,19 +347,40 @@ def calibrate(rows):
             if b[k]['sigma68_vs_ff9'] is None:
                 b[k]['sigma68_vs_ff9'] = b[min(k + 1, len(b) - 1)]['sigma68_vs_ff9']
         out[reg] = b
+    # transition family (l_lower-l_upper): 68th percentile of |model - FF| on the FF-converged lines (n <= 7);
+    # includes any family bias (we do NOT shift our model toward FF, which is theory, not lab)
+    fam = {}
+    for r in rows:
+        if 'd_ff9' in r and nmax(r) <= 7:
+            fam.setdefault(family(r), []).append(abs(r['d_ff9']))
+    out['family'] = {k: dict(n=len(v), abs68=round(sorted(v)[int(0.68 * (len(v) - 1))], 4)) for k, v in sorted(fam.items()) if len(v) >= 5}
     return out
 
 
-FLOOR = 0.006   # the model's own D-line offset from experiment (0.005 dex), rounded up
+def family(r):
+    return re.sub(r'\d', '', r['lower'].split('_')[0]) + '-' + re.sub(r'\d', '', r['upper'].split('_')[0])
+
+
+FLOOR = None
+
+
+def floor(L, levels):
+    """Experimental floor: the larger of the model's mean |offset| on the resonance-line anchors and the anchors' own
+    stated uncertainty, rounded UP to 0.001 dex (Na I: 0.0054 -> 0.006)."""
+    off = st.mean(abs(math.log10(V61.rate(L[k]['gf'], k, levels) / a)) for k, (a, _) in SP['exp'].items())
+    unc = max(math.log10(1 + s) for _, s in SP['exp'].values())
+    return math.ceil(max(off, unc) * 1000 - 1e-9) / 1000
 
 
 def line_sigma(r, sig):
     """Candidate per-line sigma (dex):
-      n <= 7 : hypot(FLOOR, half the core-polarization-operator effect)  -- validated vs FF (coverage in summary)
+      n <= 7 : hypot(FLOOR, half the core-polarization-operator effect, the line's transition-family sigma vs FF)
+               (family term added for Mg II, whose d-series carry 0.03-0.06 dex the operator indicator misses)
       n 8-9  : also hypot'd with the n8-9 sigma68 of model-FF in the line's CF bin (upper bound, FF degrading)
       n >= 10: same as n 8-9, flagged no_referee."""
     half = abs(r['loggf'] - r['loggf_no_polarization_operator']) / 2 if r.get('loggf_no_polarization_operator') is not None else 0.5
-    s = math.hypot(FLOOR, half)
+    fam = sig['family'].get(family(r), {}).get('abs68', 0.0)
+    s = math.hypot(FLOOR, half, fam)
     n = nmax(r)
     if n >= 8:
         b = next(x for x in sig['n8-9'] if x['cf_lo'] <= r['cf'] < x['cf_hi'])
@@ -340,7 +404,7 @@ def solar_features(levels):
     features: rows of the same nl pair within 0.15 A are one observable feature."""
     rows = []
     for r in csv.DictReader(open(ROOT / 'data/linelists/linelist_solar.csv')):
-        if r['element'] != 'Na' or r['ion'] != 'I':
+        if (r['element'], r['ion']) != SP['linelist']:
             continue
         air = float(r['wavelength_air_A'])
         s2 = (1e4 / air) ** 2
@@ -378,4 +442,7 @@ def solar_features(levels):
 
 
 if __name__ == '__main__':
-    print(json.dumps(main(), indent=1))
+    import sys
+    for name in (sys.argv[1:] or list(SPECIES)):
+        use(name)
+        print(name, json.dumps({k: v for k, v in main().items() if k in ('experiment', 'vs_ff9_by_class', 'sigma_coverage_vs_ff9', 'fill', 'floor_dex')}, indent=1))
