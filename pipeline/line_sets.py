@@ -180,8 +180,13 @@ def build(element: str | None = None, *, quiet: bool = False) -> list[dict]:
         for row in rows_for(spec, canon):
             groups.setdefault((row[0], row[1]), []).append(row)
 
-    def graded(species: str, wave: float) -> bool:
+    def graded(species: str, wave: float, ep: float) -> bool:
         m = (canon.species == species) & ((canon.wavelength_air_A - wave).abs() < 0.01)
+        if m.sum() > 1:
+            # RYA-470: a second transition within 0.01 A (V I 5727.6521 vs a K09 line at
+            # 5727.6620, 1.89 eV) left the set line ungraded although its own row is LAB. The
+            # lower level tells them apart; still no guess when it does not.
+            m &= (canon.excitation_potential_eV - ep).abs() <= 0.02
         return bool(m.sum() == 1 and graded_mask[m].iloc[0])
 
     reg = []
@@ -203,7 +208,7 @@ def build(element: str | None = None, *, quiet: bool = False) -> list[dict]:
                 "gf_graded", "culled_in"]
         table = []
         for r in sorted(rows, key=lambda r: float(r[2])):
-            g = graded(species, float(r[2]))
+            g = graded(species, float(r[2]), float(r[3]))
             cin = ";".join(f"{st}:{cl}" for st in sorted(culled)
                            if (cl := _cull_of(culled[st], species, float(r[2]))))
             table.append([r[0], r[1], r[2], r[6], r[3], r[4], r[5], tol, spec["citation"],

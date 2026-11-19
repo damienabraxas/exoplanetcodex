@@ -333,5 +333,80 @@
     "at": "2026-11-10T08:18:10Z",
     "inputs_hash": "27eead52ae2b8c38b028e793737aaadc355a43343aeef394bb4b71cb2ecc43ff",
     "why": "derive_products: exit 1: --lines-tier reference selected 1 Ti 1 line(s) in 9802-10794 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
+  },
+  "solar|V|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T12:42:18Z",
+    "inputs_hash": "fbfcf9189626b815adab46b38aa1d75ded417511b96db798d13e7c79173d723b",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 0 in-aggregate lines in VII_3782_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is a differen"
+  },
+  "solar|V|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|SET-V_AGSS21": {
+    "at": "2026-11-18T18:19:31Z",
+    "inputs_hash": "9aac69bb62f18e580a7fb8037ca9dc284401b1d8e7d76a5572631fb8629b9a54",
+    "why": "derive_products: exit 1: --lines-from-set:V_AGSS21: v_agss21_VII_graded.csv has no line in 4200.019-6908.9800000000005 A. Refusing to synthesise a set selected from somewhere else."
+  },
+  "solar|V|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T10:26:48Z",
+    "inputs_hash": "75fd77c081e77ded63fb37dd23f1b7b5265fc2ab66e0eecf3ea34a894763a007",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 1 in-aggregate lines in VII_3780_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one i"
+  },
+  "solar|V|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|SET-V_AGSS21": {
+    "at": "2026-11-18T16:48:18Z",
+    "inputs_hash": "c21580767a35c579213d15bd5849e23aca3c45a8107affac3efa279fcab69305",
+    "why": "derive_products: exit 1: --lines-from-set:V_AGSS21: v_agss21_VII_graded.csv has no line in 4200.019-6910.0 A. Refusing to synthesise a set selected from somewhere else."
+  },
+  "solar|V|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T10:59:25Z",
+    "inputs_hash": "9cd317870b63fe1cedc392c83643f5b9601af3ec854ba987a274de3cf8e70486",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 1 in-aggregate lines in VII_3780_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is "
+  },
+  "solar|V|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|SET-V_AGSS21": {
+    "at": "2026-11-18T18:09:01Z",
+    "inputs_hash": "28579921c56cfc64cedd617362dd157cb315d24f5844021aff39aaf55fb659fa",
+    "why": "derive_products: exit 1: --lines-from-set:V_AGSS21: v_agss21_VII_graded.csv has no line in 4200.019-6910.0 A. Refusing to synthesise a set selected from somewhere else."
+  },
+  "solar|V|II|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T13:50:42Z",
+    "inputs_hash": "c6606589f7eb57f3d2e737ae27faea6f25df158bd879b2a4c9cd13c9a4ac284d",
+    "why": "derive_products: exit 1: V II has no line in 6910-9199 A that the profile fitter measured (VII_6910_9199_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv is empty)"
+  },
+  "solar|V|II|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-18T18:28:13Z",
+    "inputs_hash": "2572d424fc930791e443cfe968dd4b03499b551e7ea5d18e85fe1c0f25b6a2ad",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 6 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|V|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T13:57:39Z",
+    "inputs_hash": "999e9c2e6a03c4bd63793d3853031fff1853d0f7757bcd82ff4c20a091fc0602",
+    "why": "derive_products: exit 1: V II has no line in 6910-9199 A that the profile fitter measured (VII_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_ew.csv is empty)"
+  },
+  "solar|V|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-18T18:37:13Z",
+    "inputs_hash": "78715fafca4079df3fbd7c836cd5a05da43dfad9a66af0b42238087d64978b91",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 6 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|V|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T14:09:07Z",
+    "inputs_hash": "8bfd6d5a85d30b566d09275b9ec6d12799f2df18afa19a79d5546df09eff2825",
+    "why": "derive_products: exit 1: V II has no line in 6910-9199 A that the profile fitter measured (VII_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv is empty)"
+  },
+  "solar|V|II|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|SYNTH|GRADED": {
+    "at": "2026-11-18T18:46:47Z",
+    "inputs_hash": "5c4d5d8c75fd3a28136f1e1c9f81f500e5a2e2ad44c83a81acf64532f5bb4781",
+    "why": "derive_products: exit 1:   LAB-tier lines in band : 6 |   at/below the 0.6 gate : 0   (what 'graded' selects) |   above the 0.6 gate    : 0   (what '--lines-deep-graded' selects) |   The depth gate is calibrated on VIS. Where the population is mostly saturated the deep pool IS this band's graded poo"
+  },
+  "solar|V|I|red-optical|iag_fts_solar_atlas|solar_iag|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T12:51:11Z",
+    "inputs_hash": "cfc279bd9c7583c7def750746db3a8b12a7e24f4ded457585a63170de94dc773",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 1 in-aggregate lines in VI_6910_9199_iag_fts_solar_atlas_solar_iag_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is a different measur"
+  },
+  "solar|V|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T13:51:48Z",
+    "inputs_hash": "7f842c618ab3a911970a240b5a03db898131ef09fe479aeca5b516804a999311",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 1 in-aggregate lines in VI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is"
+  },
+  "solar|V|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ts-lte|PROFILEFIT|GRADED": {
+    "at": "2026-11-18T13:58:09Z",
+    "inputs_hash": "f88bb54c5bb2bf48fc531201fc83a9da2fb26ae9844e52e9358b029fcde3fc21",
+    "why": "derive_products: exit 1: --lines-tier graded: none of the 1 in-aggregate lines in VI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_ew.csv carry a primary laboratory gf. Refusing to emit a 'graded' product with no graded line in it -- the pool IS the claim, and an empty one is a"
   }
 }

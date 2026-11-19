@@ -10,7 +10,8 @@ gf_165520,pk_0a6f2fefee7e,V I,3713.534,1.8695,near-UV,False,UNGRADED_GF,False,UN
 gf_133260,pk_01e0ae6cdf94,V I,3901.1511,2.2954,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;GF_DISCREPANCY,2,gf via VALD3: source paper not attached | held lab gf 0.3424226808222063 (NIST C) moves canonical -1.18 by 1.522 dex [RYA-1268],,candidate
 gf_133645,pk_1fd8c6613765,V I,4238.949,1.942,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.21 (lawler2014_v1) moves canonical -2.809 by 1.599 dex [RYA-1268],,candidate
 gf_133646,pk_b571a5a2c07e,V I,4239.613,1.854,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.4559319556497243 (NIST C) moves canonical -2.957 by 2.501 dex [RYA-1268],,candidate
-gf_133676,pk_28bd770a5a95,V I,4270.315,1.804,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.5 (lawler2014_v1) moves canonical -3.158 by 2.658 dex [RYA-1268],,candidate
+gf_133676,pk_28bd770a5a95,V I,4270.315,1.804,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.5 (lawler2014_v1) moves canonical -3.158 by 2.658 dex [RYA-1268],VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
+gf_133726,pk_9fd27a5c1a66,V I,4307.315,1.195,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.84 (holmes2016_v1) moves canonical -3.533 by 1.693 dex [RYA-1268],,candidate
 gf_133772,pk_ddaa33c2c2dc,V I,4334.092,1.218,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -1.5 (lawler2014_v1) moves canonical -0.829 by -0.671 dex [RYA-1268],,candidate
 gf_134043,pk_4d8f3957945e,V I,4463.121,1.95,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -2.25 (lawler2014_v1) moves canonical -2.878 by 0.628 dex [RYA-1268],,candidate
 gf_134046,pk_d7632dc06c31,V I,4464.735,1.95,VIS,True,UNGRADED_GF,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -0.99 (lawler2014_v1) moves canonical -1.636 by 0.646 dex [RYA-1268],,candidate
@@ -71,8 +72,8 @@ gf_133608,pk_7de6c2519cf9,V I,4210.851,2.581,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_133609,pk_f1850dc899b6,V I,4212.198,1.945,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133610,pk_239d9b62c835,V I,4213.483,2.286,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133611,pk_181ce1332e9a,V I,4213.911,2.583,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133612,pk_06076349a363,V I,4216.342,0.287,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133613,pk_70c813006b8a,V I,4216.364,0.275,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_133612,pk_06076349a363,V I,4216.342,0.287,VIS,True,UNGRADED_GF,False,UNRATED_GF;nan,3,Lawler+2014 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
+gf_133613,pk_70c813006b8a,V I,4216.364,0.275,VIS,True,UNGRADED_GF,False,UNRATED_GF;nan,3,Lawler+2014 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
 gf_133614,pk_312d4c74fa5b,V I,4217.675,1.218,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133615,pk_158c5ed85f35,V I,4217.963,2.581,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133616,pk_6860bf9057d5,V I,4218.056,1.849,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -118,7 +119,7 @@ gf_133669,pk_de48dab570d8,V I,4264.112,1.8,VIS,True,UNGRADED_GF,False,UNRATED_GF
 gf_133670,pk_34c7475d1bcd,V I,4265.89,2.575,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133671,pk_6361c12b1cf6,V I,4266.968,1.376,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133672,pk_92cd26da726e,V I,4267.558,1.873,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133675,pk_e157edd76a8b,V I,4270.305,2.575,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_133675,pk_e157edd76a8b,V I,4270.305,2.575,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_133677,pk_c127c66af861,V I,4271.32,3.406,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133678,pk_26c03f5ad7b8,V I,4271.34,2.13,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133680,pk_6eea80ce796f,V I,4271.8,2.684,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -154,7 +155,6 @@ gf_133720,pk_f76a25873763,V I,4305.749,1.893,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_133721,pk_443cafb9d6a4,V I,4306.215,0.017,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_133723,pk_85a2321309b7,V I,4307.154,2.578,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133725,pk_5e0df63de9e2,V I,4307.204,2.138,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133726,pk_9fd27a5c1a66,V I,4307.315,1.195,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133727,pk_69f7631c3b53,V I,4307.506,2.122,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133728,pk_114da4be9eda,V I,4308.438,1.804,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133730,pk_d1dd58879fca,V I,4309.738,2.13,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -258,7 +258,7 @@ gf_133848,pk_79d511303684,V I,4371.299,2.638,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_133849,pk_4aae5230e247,V I,4371.66,2.074,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133850,pk_45ee1bd5c8db,V I,4372.989,2.581,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133851,pk_3e89484adc55,V I,4373.186,2.678,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133854,pk_74b02d906af0,V I,4375.314,2.684,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_133854,pk_74b02d906af0,V I,4375.314,2.684,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_133856,pk_8604c6a318a9,V I,4376.289,2.583,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133857,pk_15db8f01982f,V I,4376.326,2.767,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133858,pk_1db3210751ba,V I,4376.559,1.849,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -312,8 +312,7 @@ gf_133919,pk_b81f9b49efad,V I,4401.038,2.374,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_133920,pk_f864fb46c3a8,V I,4401.112,2.578,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133921,pk_0526d2882af3,V I,4401.736,1.195,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133922,pk_0a272138d8b1,V I,4402.056,2.916,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133924,pk_661b92e51373,V I,4405.002,1.854,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_133925,pk_77e34c513549,V I,4405.012,0.275,VIS,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
+gf_133924,pk_661b92e51373,V I,4405.002,1.854,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_133926,pk_a9ae2c2ad92e,V I,4405.767,2.581,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_133927,pk_cdddee647818,V I,4406.072,1.064,VIS,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
 gf_133928,pk_a2109a4a3ddf,V I,4406.161,1.893,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -410,7 +409,7 @@ gf_134052,pk_31afe62e0a32,V I,4467.183,1.87,VIS,True,UNGRADED_GF,False,UNRATED_G
 gf_134055,pk_52c7fb92b11d,V I,4468.751,1.873,VIS,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
 gf_134057,pk_812883b5761b,V I,4470.347,2.359,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134060,pk_0344b2bcb636,V I,4471.381,2.578,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_134061,pk_fd9b18d031a7,V I,4471.739,1.051,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_134061,pk_fd9b18d031a7,V I,4471.739,1.051,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_134063,pk_09271ffe8684,V I,4472.844,2.365,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134064,pk_7573755f0b3a,V I,4473.592,2.895,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134066,pk_668597b546c9,V I,4474.709,1.893,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -780,7 +779,7 @@ gf_134495,pk_8437b0c63f8b,V I,4791.203,3.099,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_134496,pk_4d492678d89a,V I,4791.217,2.578,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134497,pk_68cc2e19b1fd,V I,4792.935,2.359,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134498,pk_e3e394015d87,V I,4793.572,2.878,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_134499,pk_f55dc9feceff,V I,4795.099,2.616,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_134499,pk_f55dc9feceff,V I,4795.099,2.616,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_134500,pk_d26bf0c74aed,V I,4796.044,3.113,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134501,pk_cd2cab619386,V I,4796.118,1.931,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134502,pk_2a093479448d,V I,4796.495,2.122,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -991,7 +990,7 @@ gf_134741,pk_d068596db25e,V I,5002.122,1.051,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_134742,pk_a1b4bfbbdd11,V I,5002.322,2.359,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134743,pk_1e84f1f45a57,V I,5002.743,2.968,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134744,pk_3dd9e8dfe413,V I,5005.268,3.055,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_134746,pk_a22685d8e093,V I,5005.633,3.239,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_134746,pk_a22685d8e093,V I,5005.633,3.239,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_134747,pk_3898123a9293,V I,5006.431,2.138,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134748,pk_bb45670d47df,V I,5007.961,1.8,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134749,pk_f17a15d8b11d,V I,5008.505,3.806,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -1050,7 +1049,7 @@ gf_134803,pk_6076829a57ee,V I,5049.543,2.578,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_134804,pk_aa79edd73e19,V I,5049.671,1.854,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134805,pk_9ec1c1013c00,V I,5049.74,2.505,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134806,pk_7ba48b744a7b,V I,5050.232,3.056,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_134807,pk_18ed2869ec36,V I,5051.592,1.064,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_134807,pk_18ed2869ec36,V I,5051.592,1.064,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_134809,pk_52d7ce6dd64a,V I,5051.687,3.116,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134810,pk_359eb26b296a,V I,5053.119,3.245,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_134811,pk_4eb448569132,V I,5053.947,2.122,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -1505,7 +1504,7 @@ gf_135297,pk_268f08e996c5,V I,5397.866,2.555,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_135298,pk_b2d91ac9cf51,V I,5398.49,3.245,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135299,pk_0c1e9cb97b0b,V I,5398.56,3.116,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135300,pk_583eea899151,V I,5398.819,3.868,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_135301,pk_57b49d1d2478,V I,5398.907,0.287,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_135301,pk_57b49d1d2478,V I,5398.907,0.287,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF;nan,3,Holmes+2016 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
 gf_135302,pk_729a87f59a59,V I,5400.076,3.215,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135303,pk_961d47816d86,V I,5400.263,3.371,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135304,pk_41a883a45aa7,V I,5400.333,2.295,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -1721,7 +1720,7 @@ gf_135533,pk_2e28d235d3d5,V I,5588.176,3.226,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_135535,pk_f95caf039477,V I,5588.991,3.215,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135536,pk_85575851ed0c,V I,5588.997,4.09,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135537,pk_20494a460dc9,V I,5589.141,4.063,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_135538,pk_4260c4230efe,V I,5589.707,1.873,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_135538,pk_4260c4230efe,V I,5589.707,1.873,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_135540,pk_4c2838b397f1,V I,5590.354,3.239,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135541,pk_aa7f21c99e31,V I,5591.849,1.849,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135544,pk_e77d2b0b32d4,V I,5593.025,2.359,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -1925,7 +1924,7 @@ gf_135772,pk_1fab4d4b675f,V I,5769.906,3.529,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_135773,pk_508252e5ad21,V I,5769.969,4.065,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135774,pk_531839a62890,V I,5770.032,3.08,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135775,pk_efb6d5835089,V I,5770.385,3.51,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_135776,pk_fb31686adb93,V I,5770.522,3.131,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_135776,pk_fb31686adb93,V I,5770.522,3.131,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_135777,pk_686545c6d1fd,V I,5772.098,2.115,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135779,pk_07765dae142e,V I,5773.315,2.565,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_135780,pk_b3e3a91374ef,V I,5776.38,3.299,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -2446,7 +2445,7 @@ gf_136343,pk_ceb3f498a28f,V I,6306.497,1.945,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_136344,pk_c0c6eedcc15e,V I,6306.922,3.246,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136345,pk_93fb392fa92f,V I,6309.072,1.351,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136346,pk_69115fea7e60,V I,6309.717,2.575,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_136347,pk_41ce7dfd4a44,V I,6311.481,3.315,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_136347,pk_41ce7dfd4a44,V I,6311.481,3.315,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_136348,pk_43c0adb2bb92,V I,6312.96,2.115,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136349,pk_e1610db92521,V I,6313.239,3.735,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136350,pk_25d043dbfb08,V I,6315.892,2.684,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -2620,7 +2619,7 @@ gf_136525,pk_707e5b0bb89c,V I,6450.941,1.955,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_136526,pk_e2d948f8f0f1,V I,6451.071,3.89,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136527,pk_8fa0046ebf85,V I,6451.133,4.387,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136528,pk_68ec1b68b32c,V I,6451.978,1.711,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_136530,pk_18c1110d4932,V I,6452.345,2.743,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_136530,pk_18c1110d4932,V I,6452.345,2.743,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_136531,pk_bd43c508c9e2,V I,6453.157,4.351,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136532,pk_24c5d29823cc,V I,6458.856,3.517,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136533,pk_3d2c0ec5b306,V I,6459.294,2.723,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -2911,7 +2910,7 @@ gf_136844,pk_35511744c417,V I,6869.63,4.387,VIS,True,UNGRADED_GF,False,UNRATED_G
 gf_136845,pk_c4fd5d59bb47,V I,6870.569,0.069,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136846,pk_051d10709322,V I,6870.621,3.632,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136847,pk_c6fe97ca6d90,V I,6870.867,2.374,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_136848,pk_f3663dfdb414,V I,6871.518,0.0,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_136848,pk_f3663dfdb414,V I,6871.518,0.0,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_136850,pk_3a869c31f12c,V I,6872.321,3.868,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136851,pk_cb2f699cde2b,V I,6873.252,3.877,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_136852,pk_220b836fe31e,V I,6873.484,2.505,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -3907,7 +3906,7 @@ gf_137860,pk_33a412ffed1d,V I,8183.776,4.157,red-optical,True,UNGRADED_GF,False,
 gf_137861,pk_5a5c318aa1ea,V I,8184.58,3.89,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137862,pk_161b0dd91936,V I,8185.779,3.071,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137864,pk_6b13bc5bbb8e,V I,8186.986,3.371,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_137865,pk_5b8f49278f93,V I,8187.301,3.113,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_137865,pk_5b8f49278f93,V I,8187.301,3.113,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,red-optical/kpno_solar_atlas/1D-LTE:FIT_INVALID | red-optical/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_137866,pk_2f383d36b3d4,V I,8187.375,1.064,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137867,pk_49a656d51002,V I,8187.871,4.073,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137868,pk_0e4b685fcffc,V I,8190.581,2.638,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -3921,7 +3920,7 @@ gf_137875,pk_2afb7efabb14,V I,8194.643,2.578,red-optical,True,UNGRADED_GF,False,
 gf_137876,pk_c0bdf50b96aa,V I,8194.73,3.888,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137877,pk_b90c57f32d21,V I,8195.879,3.888,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137878,pk_eae7fcf08a1d,V I,8198.332,3.074,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_137880,pk_5352b3161d06,V I,8203.001,3.131,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_137880,pk_5352b3161d06,V I,8203.001,3.131,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,red-optical/iag_fts_solar_atlas/1D-LTE:FIT_INVALID | red-optical/iag_fts_solar_atlas/ENGINE-B:FIT_INVALID | red-optical/kpno_solar_atlas/1D-LTE:FIT_INVALID | red-optical/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_137881,pk_cab2044aff9e,V I,8203.176,3.08,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137882,pk_184f72367fbd,V I,8204.165,4.65,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137883,pk_ef257beaa88e,V I,8204.933,4.049,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -3984,7 +3983,7 @@ gf_137942,pk_33c79f488ebd,V I,8277.995,3.885,red-optical,True,UNGRADED_GF,False,
 gf_137943,pk_52552ff29b4f,V I,8278.002,4.063,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137944,pk_3dfe3370f21c,V I,8278.598,4.024,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137945,pk_ad8c6b20d6f9,V I,8280.34,3.215,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_137946,pk_0b6cfd804a0b,V I,8282.309,3.245,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_137946,pk_0b6cfd804a0b,V I,8282.309,3.245,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,red-optical/iag_fts_solar_atlas/1D-LTE:FIT_INVALID | red-optical/iag_fts_solar_atlas/ENGINE-B:FIT_INVALID | red-optical/kpno_solar_atlas/1D-LTE:FIT_INVALID | red-optical/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_137947,pk_1f3d54b4d58a,V I,8283.187,4.016,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137948,pk_0d4aca7d7b7c,V I,8283.771,3.089,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_137949,pk_22dcc0499ba8,V I,8284.23,4.09,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4507,7 +4506,7 @@ gf_138470,pk_64054bd9a383,V I,9030.806,3.885,red-optical,True,UNGRADED_GF,False,
 gf_138471,pk_43d1c5b0ffd3,V I,9034.103,4.308,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138472,pk_dd911f0d21a2,V I,9034.503,3.278,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138473,pk_f9b936214097,V I,9035.515,4.087,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138474,pk_caad4b342cd9,V I,9037.582,1.183,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
+gf_138474,pk_caad4b342cd9,V I,9037.582,1.183,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,3,gf via MFW: source paper not attached | Holmes+2016 -1.94 +/- 0.04 (Lawler -2.12 is 0.18 dex too weak here); list row 0.031 A away (lab line at 9037.613 A) [RYA-470],,candidate
 gf_138475,pk_cefe8a462894,V I,9040.213,3.215,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138476,pk_bb6330243108,V I,9040.213,4.011,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138477,pk_281e1016c181,V I,9044.769,3.215,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4565,7 +4564,7 @@ gf_138530,pk_57b351b60798,V I,9108.312,3.246,red-optical,True,UNGRADED_GF,False,
 gf_138531,pk_de6d32a6276e,V I,9109.117,3.888,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138532,pk_d111fa6a5c95,V I,9109.349,4.837,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138533,pk_2dffd69f75fb,V I,9110.711,2.581,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138534,pk_958dc56c56c2,V I,9113.709,1.195,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
+gf_138534,pk_958dc56c56c2,V I,9113.709,1.195,red-optical,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,3,gf via MFW: source paper not attached | Holmes+2016 lab gf at 9113.744 A -2.80 +/- 0.08; list row 0.035 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
 gf_138535,pk_2e1ab54b608d,V I,9113.983,1.711,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138536,pk_4cf575bdb6ea,V I,9115.313,1.955,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138537,pk_399033736cb1,V I,9116.593,3.893,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4625,8 +4624,8 @@ gf_138591,pk_ed9fbf77ab83,V I,9196.338,3.921,red-optical,True,UNGRADED_GF,False,
 gf_138592,pk_8e90a5987b48,V I,9197.192,3.868,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138593,pk_9f1e1768ee1a,V I,9197.962,4.367,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138594,pk_38e4a98420e3,V I,9198.149,4.213,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138595,pk_09617e0df2ed,V I,9199.478,3.255,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138596,pk_1720dd0eddd5,V I,9199.545,3.239,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
+gf_138595,pk_09617e0df2ed,V I,9199.478,3.255,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,"band diagnostic nan: not measured (not measured: Kurucz K09 log gf -2.715 at 3.26 eV, on the red-optical/NIR edge; the near-IR synthesis list starts at 920)",,candidate
+gf_138596,pk_1720dd0eddd5,V I,9199.545,3.239,NIR,True,UNGRADED_GF,False,UNRATED_GF,3,"band diagnostic nan: not measured (not measured: Kurucz K09 log gf -1.620 at 3.24 eV, on the red-optical/NIR edge; the near-IR synthesis list starts at 920)",,candidate
 gf_138708,pk_cb3616c0fbb5,V II,4204.214,1.704,VIS,True,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,3,gf via MFW: source paper not attached,,candidate
 gf_138709,pk_460c91f0589a,V II,4205.05,1.686,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138711,pk_86a9fd168a5b,V II,4206.064,1.673,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4643,18 +4642,18 @@ gf_138722,pk_799418d5d725,V II,4232.044,3.973,VIS,True,GRADED_NOT_LAB,False,UNRA
 gf_138723,pk_3df3d18fa02a,V II,4232.365,3.758,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138724,pk_b08153e94112,V II,4233.188,4.776,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138725,pk_0821368526d9,V II,4234.256,1.686,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138726,pk_9d84312759ae,V II,4234.547,3.759,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138726,pk_9d84312759ae,V II,4234.547,3.759,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138727,pk_ae8fdb3f59e6,V II,4234.683,1.679,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138728,pk_bf2d1520ced9,V II,4235.891,3.753,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138729,pk_01448852c3c2,V II,4236.275,5.868,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138730,pk_a16de62de730,V II,4236.81,1.687,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138731,pk_4c7b4e7cc178,V II,4242.886,3.758,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138731,pk_4c7b4e7cc178,V II,4242.886,3.758,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138732,pk_1fae4104994f,V II,4245.048,1.673,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138733,pk_ab2d6d59bbe9,V II,4246.613,1.687,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138734,pk_46f8ddce11d1,V II,4248.652,3.796,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138735,pk_fc9c8092855c,V II,4248.811,1.675,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138736,pk_3c27dcd624ac,V II,4253.685,3.799,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138737,pk_4db6024adde6,V II,4254.406,1.679,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138737,pk_4db6024adde6,V II,4254.406,1.679,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138738,pk_22a94b6657ed,V II,4257.018,3.753,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138739,pk_d08179f741c9,V II,4260.696,1.673,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138740,pk_15b20c7bfa39,V II,4260.763,1.704,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4663,16 +4662,16 @@ gf_138742,pk_9be59f700d6b,V II,4264.487,1.675,VIS,True,UNGRADED_GF,False,UNRATED
 gf_138743,pk_8f023e9cafd9,V II,4267.137,1.673,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138744,pk_055261d939e9,V II,4270.677,1.704,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138745,pk_8bf2d8665f65,V II,4274.329,3.123,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138746,pk_cb6ad1243c1b,V II,4278.892,4.005,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138746,pk_cb6ad1243c1b,V II,4278.892,4.005,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138747,pk_3f81bb1bb740,V II,4279.636,1.686,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138748,pk_e0932ed76bd9,V II,4283.329,6.479,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138749,pk_d911bec36e4b,V II,4286.135,1.686,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138750,pk_8cdb0e9911a3,V II,4288.752,1.687,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138751,pk_b3ae727fed5b,V II,4290.729,1.704,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138752,pk_cde4b51024fd,V II,4301.126,4.02,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138752,pk_cde4b51024fd,V II,4301.126,4.02,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138753,pk_0f90be91c38a,V II,4309.963,3.803,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138754,pk_32c606d23eab,V II,4310.727,2.036,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138755,pk_21ad59bd174b,V II,4312.354,1.673,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138755,pk_21ad59bd174b,V II,4312.354,1.673,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138756,pk_b83b47d66d01,V II,4313.297,1.704,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138757,pk_10eed3441631,V II,4316.253,1.675,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138758,pk_a828e3d9632f,V II,4322.017,1.679,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4734,7 +4733,7 @@ gf_138814,pk_2c9ef61e4e9e,V II,4535.203,3.796,VIS,True,UNGRADED_GF,False,UNRATED
 gf_138815,pk_9a18c3638840,V II,4538.617,3.803,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138816,pk_d25cd29786a1,V II,4548.684,3.753,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138817,pk_fcce3f771d3f,V II,4556.751,3.758,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138818,pk_b3dec7e96108,V II,4558.453,3.803,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138818,pk_b3dec7e96108,V II,4558.453,3.803,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138819,pk_ad84958d1f95,V II,4562.67,3.123,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138821,pk_7faea16dbe51,V II,4565.141,6.042,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138822,pk_5e8d96f5ec3f,V II,4567.738,3.973,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4902,7 +4901,7 @@ gf_138985,pk_70bac2e701a6,V II,4978.785,8.757,VIS,True,UNGRADED_GF,False,UNRATED
 gf_138986,pk_5932dce3676e,V II,4980.154,6.547,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138987,pk_920ec2aeb8be,V II,4980.38,6.863,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138988,pk_e25312748f31,V II,4980.839,0.026,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_138989,pk_dd481548e5ff,V II,4982.239,3.803,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_138989,pk_dd481548e5ff,V II,4982.239,3.803,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_138990,pk_d727887cf861,V II,4988.601,3.328,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138991,pk_7de0bbabbbef,V II,4988.678,8.01,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_138992,pk_019e22f47b9f,V II,4989.766,6.547,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -4920,7 +4919,7 @@ gf_139003,pk_589a00acfd61,V II,5009.916,8.79,VIS,True,UNGRADED_GF,False,UNRATED_
 gf_139004,pk_e086541db0d3,V II,5010.157,8.73,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139005,pk_6e28f291c5ad,V II,5010.342,2.51,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139006,pk_5766388b2e5d,V II,5012.033,4.005,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_139007,pk_9e570849bd84,V II,5019.852,4.244,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_139007,pk_9e570849bd84,V II,5019.852,4.244,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID | VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_139008,pk_311ddf263c6a,V II,5020.167,6.522,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139009,pk_a8a4d6962185,V II,5020.662,2.491,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139010,pk_01edabd2d0e6,V II,5028.609,0.026,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -5059,7 +5058,7 @@ gf_139142,pk_15def1818385,V II,5318.623,2.276,VIS,True,UNGRADED_GF,False,UNRATED
 gf_139143,pk_0d299016eb60,V II,5319.497,0.042,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139144,pk_14d365e291d5,V II,5320.052,1.428,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139145,pk_52ee3d2ef0b8,V II,5321.202,1.675,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_139146,pk_7d5b835af221,V II,5322.803,4.516,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_139146,pk_7d5b835af221,V II,5322.803,4.516,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:EXCLUDED_OTHER | VIS/harps/ENGINE-B:EXCLUDED_OTHER,candidate
 gf_139147,pk_b61f8528afe1,V II,5325.706,2.265,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139148,pk_39c18c6bfabf,V II,5325.718,2.036,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139149,pk_fe7dbd3a971a,V II,5327.648,1.476,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -5288,7 +5287,7 @@ gf_139371,pk_9e202f43392f,V II,5639.999,4.704,VIS,True,UNGRADED_GF,False,UNRATED
 gf_139372,pk_9acf6b5a2282,V II,5640.174,9.054,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
 gf_139373,pk_b4edac670aec,V II,5640.556,6.881,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139374,pk_3e280f66586f,V II,5641.033,1.555,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
-gf_139375,pk_4e8ae4ac79a9,V II,5642.014,4.516,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_139375,pk_4e8ae4ac79a9,V II,5642.014,4.516,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/kpno_solar_atlas/1D-LTE:FIT_INVALID | VIS/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_139376,pk_c8893801785c,V II,5647.496,0.026,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139377,pk_691d16383794,V II,5648.239,9.04,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139378,pk_bae32fa6324d,V II,5648.341,9.069,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -5793,7 +5792,7 @@ gf_139876,pk_ae083aecc24c,V II,6503.055,9.351,VIS,True,UNGRADED_GF,False,UNRATED
 gf_139877,pk_02fba07809fb,V II,6508.792,6.679,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139878,pk_d281f1621129,V II,6510.674,8.635,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139879,pk_c332970a3a9e,V II,6511.934,6.317,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
-gf_139880,pk_885c21b8aca5,V II,6517.274,4.244,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_139880,pk_885c21b8aca5,V II,6517.274,4.244,VIS,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,VIS/harps/1D-LTE:FIT_INVALID | VIS/harps/ENGINE-B:FIT_INVALID,candidate
 gf_139881,pk_6bf0f1c40939,V II,6520.181,9.341,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139882,pk_fbc9db63b749,V II,6520.454,7.11,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_139883,pk_ccdbd3488755,V II,6522.93,9.471,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -6161,7 +6160,7 @@ gf_140244,pk_9a2d198b7674,V II,7323.034,6.317,red-optical,True,UNGRADED_GF,False
 gf_140245,pk_6629941d9e25,V II,7330.805,9.506,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140246,pk_83a6de4e4663,V II,7331.31,4.776,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140247,pk_453edb49402c,V II,7332.057,0.013,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
-gf_140248,pk_f7321b7c0d9d,V II,7332.326,6.317,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,,,candidate
+gf_140248,pk_f7321b7c0d9d,V II,7332.326,6.317,red-optical,True,GRADED_NOT_LAB,False,UNRATED_GF,3,"band diagnostic solar_kpno_kurucz2005_corrected: not measured (not measured: 738 V II rows in the 6910-9199 A synthesis list (GESv6), every theoretical depth 0.00 at the list's 0.01 p)",,candidate
 gf_140249,pk_3be724f25de2,V II,7332.966,1.071,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140250,pk_890fe53a8318,V II,7333.972,9.011,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_140251,pk_e0681f006563,V II,7344.047,0.348,red-optical,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -7202,7 +7201,6 @@ gf_133121,pk_e5abea7d9979,V I,3809.0841,2.2563,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133123,pk_0ff83f509914,V I,3810.3835,1.8926,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133124,pk_ff5883a65e11,V I,3811.2973,2.2692,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133125,pk_efc7f0f3d984,V I,3811.4556,2.5749,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133126,pk_c6837d907483,V I,3813.449,0.267,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133128,pk_d8499b381a76,V I,3814.5796,2.5775,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133130,pk_1073887e3b84,V I,3815.9425,1.7112,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133132,pk_c5ca715c94d0,V I,3817.9303,2.2638,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7355,7 +7353,7 @@ gf_133354,pk_dbcca32a3965,V I,3980.6344,1.8535,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133355,pk_38e2fb65c59e,V I,3984.3278,1.8486,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133357,pk_f1f6de7839f8,V I,3987.6271,2.5749,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133358,pk_bc795a99597b,V I,3988.0837,2.3654,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133360,pk_d2193d83dde8,V I,3990.5724,1.8512,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_133360,pk_d2193d83dde8,V I,3990.5724,1.8512,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF;nan,4,Lawler+2014 lab gf at 3990.5382 A exists; list row 0.034 A away (beyond the 0.03 A match tolerance) so it is not attached [RYA-470],,candidate
 gf_133361,pk_f8beaf186a60,V I,3991.0467,2.5775,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133362,pk_998a1a56e5d8,V I,3992.6406,2.3737,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133364,pk_0f9fae0b1305,V I,3992.8878,2.6163,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7408,7 +7406,7 @@ gf_133431,pk_5982eee72de8,V I,4063.6451,1.9496,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133432,pk_6c2bec46be05,V I,4063.921,2.1145,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_133433,pk_31db364ce5b2,V I,4064.9191,2.5749,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133435,pk_d4e5e3c96dc1,V I,4067.8136,2.1303,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133436,pk_e701331963e2,V I,4067.9355,0.0401,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
+gf_133436,pk_e701331963e2,V I,4067.9355,0.0401,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 4067.9657 A exists; list row 0.030 A away (at the match tolerance) so it is not attached [RYA-470],,candidate
 gf_133437,pk_9bb1c7d48595,V I,4070.7587,0.0685,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133438,pk_2cefc89f9273,V I,4071.5313,1.9307,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133440,pk_acc338044548,V I,4072.636,1.9307,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7464,7 +7462,6 @@ gf_133529,pk_3a5bdd433ff7,V I,4134.0505,1.9422,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133534,pk_da74b4734ee1,V I,4136.9211,2.2563,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133540,pk_432c17ef5237,V I,4141.3238,2.286,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133542,pk_315796e5e53b,V I,4142.3602,2.2779,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_133544,pk_9f7e6318e42a,V I,4142.8684,1.0806,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133545,pk_5be2f8378a4d,V I,4145.5346,2.286,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133546,pk_06281dd11f83,V I,4147.3576,2.2638,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133547,pk_bfad8d035e26,V I,4147.8463,2.2692,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7501,14 +7498,13 @@ gf_133587,pk_029d0c71befa,V I,4195.5928,2.5775,VIS,False,UNGRADED_GF,False,UNRAT
 gf_133589,pk_9494e6994fc8,V I,4197.5976,1.8926,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133591,pk_5f7893edfcb7,V I,4199.5672,2.2779,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_133592,pk_b28c2e0ac96e,V I,4199.823,2.5805,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_134040,pk_e1d7325b5bbc,V I,4462.3574,1.8599,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_134122,pk_ca3dc6591607,V I,4515.548,1.8926,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_134939,pk_a6f9ef079a7c,V I,5157.0092,2.2779,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_135511,pk_88e9c9c43544,V I,5578.3726,1.0509,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
+gf_134040,pk_e1d7325b5bbc,V I,4462.3574,1.8599,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf exists; wavelength matches but the upper-level guard refused it [RYA-470],,candidate
+,,V I,5845.2695,,VIS,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,Lawler+2014 lab gf -2.55 +/- 0.05; not in canonical_gf and no solar hfs-on VALD extract covers 3780-6910 A to add it [RYA-470] | no row in canonical_gf,,candidate
 gf_135872,pk_ab0fd857fbd3,V I,5846.2563,3.131,VIS,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_136019,pk_bb3c61258d31,V I,6016.0856,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_136065,pk_b4106ced252b,V I,6063.3517,1.8486,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_136389,pk_14a62bb33b9d,V I,6343.9029,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
+gf_136019,pk_bb3c61258d31,V I,6016.0856,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6016.121 A exists; list row 0.035 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
+gf_136065,pk_b4106ced252b,V I,6063.3517,1.8486,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6063.3882 A exists; list row 0.037 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
+gf_136389,pk_14a62bb33b9d,V I,6343.9029,2.6784,VIS,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP;nan,4,gf via VALD3: source paper not attached | Lawler+2014 lab gf at 6343.9503 A exists; list row 0.047 A away (beyond the 0.03 A match tolerance) [RYA-470],,candidate
+,,V I,7944.6472,,red-optical,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,"Lawler+2014 lab gf -1.01; not in canonical_gf, and our solar hfs-on VALD extract has no component of it (checked 2026-11-17), so the add route cannot place it [RYA-470] | no row in canonical_gf",,candidate
 gf_171144,pk_97b2bd897864,V I,13022.02034687524,3.932999999999998,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_171162,pk_c6790d4bfa9e,V I,13044.05717170048,1.9452000000000005,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_171166,pk_908404771f5e,V I,13051.241868681967,3.9597,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7555,18 +7551,18 @@ gf_173581,pk_d83d13dc1f35,V I,15940.1656,4.6637,H,False,UNGRADED_GF,False,UNRATE
 gf_173582,pk_a2a56d1be510,V I,15940.547596269902,4.663636363636365,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173583,pk_e687c5393f27,V I,15940.722438583496,4.702883333333333,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173584,pk_845c6ac67328,V I,15940.809188856463,4.663666666666667,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_173586,pk_f8b239e3f0f1,V I,15941.306991473024,4.702893333333333,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_173589,pk_dacfc5de3444,V I,15948.600277684976,4.681404761904761,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_173658,pk_d9cb82ba2688,V I,16007.795532314403,3.2449,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_173586,pk_f8b239e3f0f1,V I,15941.306991473024,4.702893333333333,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,H/crires_plus/1D-LTE:FIT_INVALID | H/crires_plus/ENGINE-B:FIT_INVALID,candidate
+gf_173589,pk_dacfc5de3444,V I,15948.600277684976,4.681404761904761,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,H/crires_plus/1D-LTE:FIT_INVALID | H/crires_plus/ENGINE-B:FIT_INVALID,candidate
+gf_173658,pk_d9cb82ba2688,V I,16007.795532314403,3.2449,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,H/crires_plus/1D-LTE:FIT_INVALID | H/crires_plus/ENGINE-B:FIT_INVALID,candidate
 gf_173668,pk_dd941e5cfe6e,V I,16018.157550787244,4.6498,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_173675,pk_55f40dcb2e0f,V I,16030.823600000002,2.1222,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173676,pk_49f41d0c43be,V I,16030.986266841248,2.1222,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173677,pk_623b6c1ebbe0,V I,16031.10991493564,2.1222,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173678,pk_9386e7e8a2ff,V I,16031.35895329866,2.1222,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_173685,pk_61e25ef82798,V I,16036.19478784458,4.663652380952382,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_173685,pk_61e25ef82798,V I,16036.19478784458,4.663652380952382,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,H/crires_plus/1D-LTE:FIT_INVALID | H/crires_plus/ENGINE-B:FIT_INVALID,candidate
 gf_173686,pk_3b4dd3b8cdf0,V I,16039.224240532332,4.7028857142857134,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173687,pk_76f24422d1c2,V I,16039.61733888843,4.702906666666666,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_173693,pk_3c991c77ac5c,V I,16046.413304916823,4.68140909090909,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_173693,pk_3c991c77ac5c,V I,16046.413304916823,4.68140909090909,H,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,H/crires_plus/1D-LTE:FIT_INVALID | H/crires_plus/ENGINE-B:FIT_INVALID,candidate
 gf_173768,pk_dd3f7a60f18e,V I,16137.276277115288,2.637804761904761,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173844,pk_6c85980b00ec,V I,16200.350405866046,2.1303,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_173878,pk_33bb07b41589,V I,16240.710016671464,2.1145,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7616,7 +7612,6 @@ gf_174840,pk_03db7cd1ef87,V I,17245.8657,4.6815,H,False,UNGRADED_GF,False,UNRATE
 gf_174907,pk_576f966c3d33,V I,17322.6274,3.5454,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_174962,pk_181d9cb5cf3d,V I,17366.6126,4.9094,H,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175352,pk_c1dd9a0262fa,V I,17822.0874,1.8695,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_175353,pk_f1822973df4c,V I,17822.407301625364,1.8694999999999995,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175355,pk_7de66f99675b,V I,17822.7001,1.8695,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175356,pk_c589356aef39,V I,17822.9311,1.8695,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_175491,pk_b7d52fd1a881,V I,17987.35070907079,1.8933,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7655,11 +7650,11 @@ gf_176592,pk_cf15588da8a1,V I,19311.267179916013,4.6156,NIR,False,UNGRADED_GF,Fa
 gf_176593,pk_e8f91142a7f7,V I,19311.450562863592,4.6156,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176594,pk_0b4bad703d54,V I,19311.69506467229,4.6156,NIR,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_176595,pk_d7d43d0b552f,V I,19312.00065739229,4.6156,NIR,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_176732,pk_62099a6ccf31,V I,19535.305005583577,4.0901000000000005,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_176732,pk_62099a6ccf31,V I,19535.305005583577,4.0901000000000005,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,K/crires_plus/1D-LTE:FIT_INVALID | K/crires_plus/ENGINE-B:FIT_INVALID,candidate
 gf_176751,pk_0c706b31c7ca,V I,19585.4423,1.9496,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176752,pk_19ada5356318,V I,19585.6261,1.9495,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176753,pk_ad8ea8d34d45,V I,19585.78576680843,1.94955,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_176755,pk_3c7a3758bcc9,V I,19586.19345514732,1.9495285714285715,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
+gf_176755,pk_3c7a3758bcc9,V I,19586.19345514732,1.9495285714285715,K,False,UNGRADED_GF,False,UNRATED_GF;nan,4,Holmes+2016 lab gf at 19586.162 A -2.09 +/- 0.04 (list Kurucz -2.45); list row 0.031 A away [RYA-470],,candidate
 gf_176785,pk_c314b5999440,V I,19651.69749915172,4.110699999999999,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176829,pk_89ded6735da7,V I,19711.42595665165,2.137714285714286,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176830,pk_97d9a18e7569,V I,19711.85151494027,2.137726666666666,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7674,9 +7669,11 @@ gf_176938,pk_a20cafef484f,V I,19899.8665480605,4.7415,K,False,UNGRADED_GF,False,
 gf_176969,pk_5f7a9659c286,V I,19940.542253038213,4.607100000000001,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_176978,pk_42b8e500cdcd,V I,19954.393,4.5861,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_176984,pk_e94d9e1621d4,V I,19958.09778290717,4.6156,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_176985,pk_76ebbe65908e,V I,19960.369106132115,4.627399999999999,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_177013,pk_b10f494a9919,V I,19995.101139441736,4.6421,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_176985,pk_76ebbe65908e,V I,19960.369106132115,4.627399999999999,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,K/crires_plus/1D-LTE:FIT_INVALID | K/crires_plus/ENGINE-B:FIT_INVALID,candidate
+gf_177013,pk_b10f494a9919,V I,19995.101139441736,4.6421,K,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,K/crires_plus/1D-LTE:FIT_INVALID | K/crires_plus/ENGINE-B:FIT_INVALID,candidate
+,,V I,19998.913,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,"Holmes+2016 lab gf -2.33 +/- 0.06 (the only lab V I gf in K); not in canonical_gf, and our solar hfs-on VALD extract has no component of it (VALD stellar depth cut; checked 2026-11-17) [RYA-470] | no row in canonical_gf",,candidate
 gf_177143,pk_b353bd2290ce,V I,20218.23602347746,4.6156,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
+,,V I,20230.568,,K,False,NOT_IN_CANONICAL,False,MISSING_GF;nan,4,"Holmes+2016 lab gf -2.41 +/- 0.06; not in canonical_gf, and our solar hfs-on VALD extract has no component of it (checked 2026-11-17) [RYA-470] | no row in canonical_gf",,candidate
 gf_177158,pk_a2d3f6f06059,V I,20241.464813352613,2.130299999999999,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_177160,pk_3409894101b8,V I,20241.816741116247,2.1303,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_177193,pk_94aff1a18f44,V I,20318.37582428554,2.616252380952381,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
@@ -7707,7 +7704,7 @@ gf_177998,pk_69d85d725545,V I,22091.8427452958,2.5048,K,False,UNGRADED_GF,False,
 gf_177999,pk_0cb32e7a9881,V I,22092.040398054025,2.5048,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_178187,pk_5a473ada567d,V I,22487.4603,2.5048,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
 gf_178188,pk_8b9371087158,V I,22487.9421287605,2.5048,K,False,UNGRADED_GF,False,UNRATED_GF,4,,,candidate
-gf_145927,pk_da3b9dbceff3,V II,3001.213,2.5562,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
+gf_145927,pk_da3b9dbceff3,V II,3001.213,2.5562,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_145932,pk_19568346251f,V II,3001.387,4.9596,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_145944,pk_c4963980a446,V II,3001.75,2.5569,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_145951,pk_e5107e4867f7,V II,3001.941,2.036,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7738,7 +7735,7 @@ gf_146628,pk_6385b19ff3e1,V II,3023.89,2.0498,near-UV,False,GRADED_NOT_LAB,False
 gf_146660,pk_8a6a8a320c06,V II,3024.981,2.3722,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_146669,pk_7092d271d1d9,V II,3025.164,4.6332,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_146686,pk_7420de35c154,V II,3025.705,2.3697,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_146739,pk_8e465ef1405d,V II,3027.603,2.3757,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_146739,pk_8e465ef1405d,V II,3027.603,2.3757,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_146755,pk_ed455a48a8e8,V II,3028.053,2.3763,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_146756,pk_9f57ea40b644,V II,3028.054,6.5807,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_146795,pk_08a4e317d4f6,V II,3029.57,1.7037,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7747,11 +7744,11 @@ gf_146900,pk_e738b947196a,V II,3032.908,2.3794,near-UV,False,UNGRADED_GF,False,U
 gf_146914,pk_1e2f4a912dce,V II,3033.435,2.5247,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_146929,pk_df5a2bfe3f5b,V II,3033.819,1.8171,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_146945,pk_58694ec5c6f9,V II,3034.363,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_146947,pk_87d3416ea522,V II,3034.431,5.5369,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_146947,pk_87d3416ea522,V II,3034.431,5.5369,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_146992,pk_d7e17da87310,V II,3036.084,2.026,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147052,pk_d350d091796e,V II,3038.52,2.4676,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147088,pk_7e597b01ef8a,V II,3039.541,3.9725,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_147098,pk_ec5932680f0d,V II,3039.767,2.6013,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_147098,pk_ec5932680f0d,V II,3039.767,2.6013,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_147145,pk_5f972f0e3411,V II,3041.214,6.6108,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147147,pk_afcd8c6ddcd5,V II,3041.422,2.026,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147175,pk_8185cfdf2efe,V II,3042.266,2.026,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -7765,18 +7762,18 @@ gf_147390,pk_df536318ab36,V II,3048.896,2.036,near-UV,False,GRADED_NOT_LAB,False
 gf_147443,pk_e3a9dc541a26,V II,3050.632,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147448,pk_d20b178df341,V II,3050.747,2.2756,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147462,pk_198be97d8f1c,V II,3051.185,1.8171,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_147466,pk_c5d6c42a6703,V II,3051.291,3.9725,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_147466,pk_c5d6c42a6703,V II,3051.291,3.9725,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_147510,pk_5e5066739038,V II,3053.391,1.8047,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147517,pk_0f065ff9d9eb,V II,3053.588,4.5241,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147530,pk_ae4c99c45f81,V II,3053.895,2.0498,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_147540,pk_3cff95b52611,V II,3054.242,2.2756,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_147540,pk_3cff95b52611,V II,3054.242,2.2756,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_147591,pk_ec70865e9703,V II,3055.889,2.4908,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147593,pk_4faf26a9650d,V II,3055.955,2.5247,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_147626,pk_48d394a4e8de,V II,3057.063,2.4676,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_147626,pk_48d394a4e8de,V II,3057.063,2.4676,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_147682,pk_39c4e79ba62b,V II,3058.754,6.0231,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147694,pk_20d906cd5a9e,V II,3059.184,4.5469,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147742,pk_32350da8f132,V II,3061.246,4.5241,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_147775,pk_824c2771e856,V II,3062.165,2.4991,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_147775,pk_824c2771e856,V II,3062.165,2.4991,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_147794,pk_169195026c96,V II,3062.703,1.8171,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147813,pk_9a3d0a6818eb,V II,3063.256,2.5097,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147825,pk_7cb090cd89a6,V II,3063.633,4.0046,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -7784,10 +7781,10 @@ gf_147828,pk_8f9c26da8505,V II,3063.763,6.057,near-UV,False,UNGRADED_GF,False,UN
 gf_147886,pk_744d0a664e29,V II,3065.45,6.0418,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_147890,pk_03e256f53a26,V II,3065.607,2.4908,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147925,pk_040a97c93db4,V II,3066.673,4.5774,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_147931,pk_ec2ae73cf8df,V II,3066.814,2.5144,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_147931,pk_ec2ae73cf8df,V II,3066.814,2.5144,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_147944,pk_1443ce08e9e7,V II,3067.104,1.793,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_147999,pk_798467dea3ab,V II,3069.076,4.6061,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_148032,pk_20dc5e52b3f4,V II,3070.097,3.9725,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_148032,pk_20dc5e52b3f4,V II,3070.097,3.9725,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_148053,pk_b3ae07715709,V II,3070.859,4.5469,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148109,pk_a6b82538c3b3,V II,3072.267,2.7616,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148151,pk_3ec473879170,V II,3073.672,2.5097,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7801,7 +7798,7 @@ gf_148307,pk_2be66108020a,V II,3078.604,4.5469,near-UV,False,UNGRADED_GF,False,U
 gf_148317,pk_a4b1c8f7a126,V II,3078.939,2.2651,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148338,pk_3821e916ce08,V II,3079.747,2.5222,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148349,pk_f191c8d14e0a,V II,3080.088,6.1457,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_148385,pk_128a68b53abb,V II,3080.998,2.4991,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_148385,pk_128a68b53abb,V II,3080.998,2.4991,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_148391,pk_5ad2557ed2f2,V II,3081.254,2.2682,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_148393,pk_f158f0847a73,V II,3081.314,2.7616,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148432,pk_2e35e511db86,V II,3082.363,4.5774,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7810,13 +7807,13 @@ gf_148439,pk_c2e0d9907aee,V II,3082.527,2.036,near-UV,False,GRADED_NOT_LAB,False
 gf_148459,pk_8be65f08d8b2,V II,3083.209,2.5222,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148466,pk_d16563590576,V II,3083.469,2.2756,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148527,pk_6ba0756fbdba,V II,3085.458,1.8171,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_148544,pk_76bee286723c,V II,3086.212,2.2651,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_148544,pk_76bee286723c,V II,3086.212,2.2651,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_148553,pk_c366021050aa,V II,3086.5,2.026,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_148590,pk_80acd7d7ca24,V II,3087.693,2.5144,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148610,pk_a8b9bef05200,V II,3088.222,4.6311,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148621,pk_e5b1136af91d,V II,3088.589,4.6061,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148627,pk_13cb6de2b00e,V II,3089.003,3.759,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_148643,pk_1430069e86dd,V II,3089.618,2.5222,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_148643,pk_1430069e86dd,V II,3089.618,2.5222,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_148758,pk_9f05b483b7c0,V II,3093.158,2.0498,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148780,pk_b9e5ed82cc41,V II,3093.795,4.6128,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_148795,pk_0ed4d24c1215,V II,3094.197,2.036,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -7857,7 +7854,7 @@ gf_149628,pk_22e2ee9c13fb,V II,3120.732,2.5569,near-UV,False,GRADED_NOT_LAB,Fals
 gf_149653,pk_778cf49f4bce,V II,3121.829,4.6128,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_149660,pk_7014a2cd48a2,V II,3122.306,3.7527,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_149674,pk_248a9e99efdd,V II,3122.903,2.9001,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_149701,pk_15c0292feb80,V II,3123.774,5.8675,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_149701,pk_15c0292feb80,V II,3123.774,5.8675,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_149714,pk_e5635ca04f6c,V II,3124.31,4.652,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_149733,pk_77ff9b9e7311,V II,3125.026,2.3722,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_149746,pk_ac3e1268e0f2,V II,3125.337,4.6533,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7867,7 +7864,7 @@ gf_149776,pk_648effbecd61,V II,3126.105,3.7575,near-UV,False,UNGRADED_GF,False,U
 gf_149793,pk_11c8688978cf,V II,3126.754,2.3697,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_149796,pk_b0108ed6600d,V II,3126.794,2.5144,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_149803,pk_c68435888be0,V II,3127.142,4.6196,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_149836,pk_3fb3d2ccfee8,V II,3128.304,2.3763,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_149836,pk_3fb3d2ccfee8,V II,3128.304,2.3763,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_149848,pk_a5e899791416,V II,3128.694,2.3722,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_149872,pk_0612372a8648,V II,3129.478,4.6124,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_149957,pk_976fb1cf5f99,V II,3132.591,2.9001,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -7890,28 +7887,28 @@ gf_150239,pk_8b39e66b2628,V II,3142.017,3.7527,near-UV,False,GRADED_NOT_LAB,Fals
 gf_150241,pk_c4444a6747f2,V II,3142.192,2.9001,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_150245,pk_1229a762c512,V II,3142.286,3.759,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_150253,pk_14f0e931fd3d,V II,3142.491,2.2207,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_150286,pk_4419304f7936,V II,3143.487,2.5144,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_150286,pk_4419304f7936,V II,3143.487,2.5144,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_150287,pk_a61d972b92cc,V II,3143.512,3.7991,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_150324,pk_1f6c09af2442,V II,3144.71,2.5247,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_150324,pk_1f6c09af2442,V II,3144.71,2.5247,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_150342,pk_e1eb63a798c6,V II,3145.091,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_150376,pk_d00a5f1a7b5d,V II,3145.864,3.7575,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_150376,pk_d00a5f1a7b5d,V II,3145.864,3.7575,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_150386,pk_52e872c75b4e,V II,3146.226,2.5562,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_150410,pk_13d187c09a88,V II,3146.816,2.5569,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_150459,pk_c23dca8ee695,V II,3148.75,5.4675,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_150536,pk_960a206a9ad6,V II,3151.317,2.5444,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_150459,pk_c23dca8ee695,V II,3148.75,5.4675,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
+gf_150536,pk_960a206a9ad6,V II,3151.317,2.5444,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_150650,pk_be906bc83ad8,V II,3155.411,2.2207,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_150720,pk_e1d17ab416be,V II,3157.738,2.5444,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_150726,pk_7f702893f1cc,V II,3157.897,2.2207,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_150765,pk_ea01ebebbfad,V II,3159.238,3.7991,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_150771,pk_4c1bd6f15dc5,V II,3159.37,2.3722,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_150823,pk_ee773e6e621e,V II,3160.774,2.5562,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_150823,pk_ee773e6e621e,V II,3160.774,2.5562,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_150836,pk_97b07fd71a96,V II,3161.312,2.6013,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_150838,pk_f7b70efd15c2,V II,3161.37,2.5569,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_150865,pk_1fd8e36b492f,V II,3162.368,3.803,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_150874,pk_b9809d0fd1ef,V II,3162.72,2.3763,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_150879,pk_7126e60a7aa8,V II,3163.038,2.3722,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_150885,pk_1249692dff01,V II,3163.21,2.2682,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_150897,pk_b294ff02e6e1,V II,3163.768,5.4751,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_150897,pk_b294ff02e6e1,V II,3163.768,5.4751,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_150967,pk_cefc2d0bd10e,V II,3165.905,2.3757,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_151007,pk_66ad7dc4f08c,V II,3167.235,2.5562,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151011,pk_90c88484b01e,V II,3167.423,3.7956,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -7920,7 +7917,7 @@ gf_151030,pk_0971279c7d6e,V II,3167.999,5.4751,near-UV,False,GRADED_NOT_LAB,Fals
 gf_151068,pk_5a46f9aafd91,V II,3169.227,2.2756,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151097,pk_c893ac352fcd,V II,3170.22,3.7991,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151130,pk_b9af10369ecc,V II,3171.733,3.7956,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_151143,pk_e7707aabf713,V II,3172.249,5.4803,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_151143,pk_e7707aabf713,V II,3172.249,5.4803,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_151198,pk_320684cfbb66,V II,3174.088,2.3763,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_151204,pk_a721e34df58a,V II,3174.22,4.8854,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151209,pk_ea8c3c2d9d43,V II,3174.538,3.7991,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -7931,15 +7928,15 @@ gf_151430,pk_6a88c3b9ec66,V II,3182.59,3.803,near-UV,False,GRADED_NOT_LAB,False,
 gf_151434,pk_580dcb34f02d,V II,3182.676,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151492,pk_7a726a38c866,V II,3184.233,4.8644,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151554,pk_3fc3bac6c47e,V II,3186.09,2.2756,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_151576,pk_b5ecce23b465,V II,3186.865,2.2756,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_151576,pk_b5ecce23b465,V II,3186.865,2.2756,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_151600,pk_1052087ebdf5,V II,3187.516,6.8691,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151619,pk_fc1bd65ac3e3,V II,3188.097,2.2207,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
-gf_151654,pk_fc6ea28460c9,V II,3189.783,2.3722,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_151654,pk_fc6ea28460c9,V II,3189.783,2.3722,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_151738,pk_66555bf87bbd,V II,3192.699,2.3757,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_151759,pk_a1b6015d9e1c,V II,3193.199,2.3763,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_151759,pk_a1b6015d9e1c,V II,3193.199,2.3763,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_151780,pk_d2f0d3156661,V II,3193.983,2.2207,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151824,pk_a7b23136cb04,V II,3195.448,4.9114,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_151855,pk_26ce62d50b1b,V II,3196.565,2.2681,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_151855,pk_26ce62d50b1b,V II,3196.565,2.2681,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_151883,pk_8a234bd62eb1,V II,3197.564,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_151972,pk_56c0a1e690da,V II,3201.537,4.8854,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_152006,pk_adf248509a36,V II,3202.71,2.2756,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -7947,7 +7944,7 @@ gf_152054,pk_e4f98b03bf4d,V II,3204.176,2.6013,near-UV,False,UNGRADED_GF,False,U
 gf_152114,pk_5ad75dfa556f,V II,3206.119,4.8644,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_152393,pk_e21f7a207b03,V II,3217.113,2.0498,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_152507,pk_fa8f7a869140,V II,3221.378,2.4908,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_152666,pk_e44a3dd82460,V II,3226.92,3.1233,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_152666,pk_e44a3dd82460,V II,3226.92,3.1233,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_152782,pk_5362bb9de9b5,V II,3230.91,2.2207,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_152809,pk_bb71d9ea71ef,V II,3231.949,2.2651,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_152864,pk_610a434aaf9b,V II,3233.546,2.2681,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -7961,7 +7958,7 @@ gf_153085,pk_1f2b1abf433d,V II,3242.005,2.4676,near-UV,False,UNGRADED_GF,False,U
 gf_153263,pk_f6dae2e958ad,V II,3249.463,2.3722,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_153273,pk_b54d5c25a7f0,V II,3249.611,2.0498,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_153289,pk_970e590eb38c,V II,3250.076,2.036,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_153311,pk_e1dd9d35f6fd,V II,3250.769,2.9001,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_153311,pk_e1dd9d35f6fd,V II,3250.769,2.9001,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_153344,pk_efa4a24757f2,V II,3251.864,2.5222,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_153377,pk_6f3c5d819ea8,V II,3253.007,2.3763,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_153430,pk_8a912ff1c0b1,V II,3254.762,2.026,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
@@ -8001,13 +7998,13 @@ gf_154522,pk_ec27e3e6e850,V II,3293.15,4.2438,near-UV,False,GRADED_NOT_LAB,False
 gf_154601,pk_fd1535dcd805,V II,3296.051,2.7616,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_154645,pk_3d5edb418916,V II,3297.511,2.4991,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_154727,pk_68ffb5235286,V II,3300.899,2.2682,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_154751,pk_06347493e6ad,V II,3301.655,5.8675,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_154751,pk_06347493e6ad,V II,3301.655,5.8675,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_154825,pk_1419fbec65cd,V II,3304.467,2.5444,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_154918,pk_a7749aa8f46c,V II,3307.451,2.2756,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_154948,pk_aea1aa2d6dd5,V II,3308.479,2.5444,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_155003,pk_c17846f4d059,V II,3310.342,5.0127,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_155159,pk_def08926f67a,V II,3314.867,2.5562,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_155171,pk_4f676b3f85a2,V II,3315.177,2.3697,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_155171,pk_4f676b3f85a2,V II,3315.177,2.3697,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_155188,pk_8c05a72ab593,V II,3315.523,2.5569,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_155221,pk_04d6cc9f335a,V II,3316.643,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_155227,pk_5324e3dc2158,V II,3316.878,2.5444,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8024,12 +8021,12 @@ gf_155761,pk_b8c2f02be5b3,V II,3335.478,2.7616,near-UV,False,UNGRADED_GF,False,U
 gf_155827,pk_bf1c3b7575f8,V II,3337.752,2.5444,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_155831,pk_e09d787ab2a0,V II,3337.833,3.1233,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_155986,pk_afc0eda590df,V II,3343.299,4.2438,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_156074,pk_4893ee8b2f15,V II,3345.879,4.5161,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_156074,pk_4893ee8b2f15,V II,3345.879,4.5161,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_156133,pk_00576b374891,V II,3348.364,2.5562,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_156256,pk_39bccba30298,V II,3353.769,2.4908,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_156299,pk_a1647aa51dc4,V II,3355.354,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_156411,pk_a02728a7e96a,V II,3359.491,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_156472,pk_d5a3edac7732,V II,3361.496,2.3697,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_156472,pk_d5a3edac7732,V II,3361.496,2.3697,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_156683,pk_a3633ec197c1,V II,3367.667,2.9001,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_156778,pk_d577fe8e8c23,V II,3370.39,2.3794,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_156844,pk_817750a5de13,V II,3372.659,2.4908,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8039,7 +8036,7 @@ gf_157246,pk_8b1caaf9bc9b,V II,3385.779,3.1233,near-UV,False,UNGRADED_GF,False,U
 gf_157368,pk_4446f2ab0099,V II,3389.678,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_157383,pk_178b8bff72ca,V II,3390.375,2.9001,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_157397,pk_4092e03087af,V II,3391.014,2.5097,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_157441,pk_821e9fea3a1e,V II,3392.652,2.3697,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_157441,pk_821e9fea3a1e,V II,3392.652,2.3697,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_157512,pk_a94b16c44a55,V II,3394.935,2.3722,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_157531,pk_43cc58619349,V II,3395.375,2.5144,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_157692,pk_44ae8ea21edb,V II,3401.743,2.5222,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8049,7 +8046,7 @@ gf_157774,pk_51123baa3b86,V II,3404.408,4.5161,near-UV,False,GRADED_NOT_LAB,Fals
 gf_157820,pk_3453cfaa66ae,V II,3406.063,2.5097,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_157897,pk_795bc57a51ae,V II,3408.96,2.5097,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_157939,pk_613b6b13fe1d,V II,3410.462,2.5144,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_158037,pk_0b07940c19cf,V II,3414.186,2.5562,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_158037,pk_0b07940c19cf,V II,3414.186,2.5562,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_158055,pk_e00771834270,V II,3414.881,2.5569,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_158079,pk_23ee2f3f229e,V II,3415.91,2.9001,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_158183,pk_4204f9ade047,V II,3420.147,2.5247,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8100,13 +8097,13 @@ gf_160460,pk_571fa2f98835,V II,3511.403,2.2651,near-UV,False,UNGRADED_GF,False,U
 gf_160482,pk_29b60d287248,V II,3512.06,2.7616,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160485,pk_2770ec9a1b5b,V II,3512.14,3.3277,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160494,pk_46a8cc5650c1,V II,3512.611,2.2682,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_160543,pk_da5836db5f88,V II,3513.873,2.5144,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_160543,pk_da5836db5f88,V II,3513.873,2.5144,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_160583,pk_ca952345dfab,V II,3516.004,1.128,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_160627,pk_10d703cf14c7,V II,3518.09,2.3794,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160858,pk_b355e4e80274,V II,3527.876,2.5097,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160923,pk_a71fac67d8c3,V II,3530.453,2.2651,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_161008,pk_d8b474fc1180,V II,3534.154,1.4764,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_161180,pk_8766d01d4b38,V II,3541.339,2.6013,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_161180,pk_8766d01d4b38,V II,3541.339,2.6013,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_161202,pk_7cf821652def,V II,3542.483,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_161275,pk_b96833d407b9,V II,3545.064,2.7616,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_161331,pk_e4be852d82bd,V II,3547.085,2.3697,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8127,7 +8124,7 @@ gf_162745,pk_863c47a14ac4,V II,3602.948,2.3721,near-UV,False,UNGRADED_GF,False,U
 gf_162779,pk_9f8c25b2f0c8,V II,3604.38,2.5444,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_162859,pk_cd410c8327b4,V II,3607.306,2.3763,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_163076,pk_7b7d59cbe730,V II,3615.556,1.5554,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_163166,pk_e887bf32455b,V II,3618.931,2.7616,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_163166,pk_e887bf32455b,V II,3618.931,2.7616,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_163179,pk_a09f97571b3e,V II,3619.292,2.3722,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_163225,pk_731592d34b16,V II,3620.488,3.1233,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_163274,pk_32a1017765ea,V II,3622.284,2.6013,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8138,7 +8135,7 @@ gf_163733,pk_03ad9b26b552,V II,3640.936,2.7616,near-UV,False,UNGRADED_GF,False,U
 gf_163857,pk_8fc0d252e072,V II,3645.921,2.3763,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_163879,pk_6c1d51014d17,V II,3646.844,3.1233,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164200,pk_c1c4b3d2d3b3,V II,3658.267,2.5144,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_164258,pk_a023e6c48db8,V II,3661.37,3.3277,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
+gf_164258,pk_a023e6c48db8,V II,3661.37,3.3277,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,near-UV/kpno_solar_atlas/1D-LTE:FIT_INVALID | near-UV/kpno_solar_atlas/ENGINE-B:FIT_INVALID,candidate
 gf_164459,pk_39213f127dba,V II,3669.412,2.5247,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF,4,,,candidate
 gf_164978,pk_43fc69ede2d4,V II,3690.702,3.3277,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_165027,pk_f8a04f728c80,V II,3693.373,1.5554,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate

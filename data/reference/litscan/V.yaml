@@ -4,7 +4,8 @@
 # Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 unchanged from AGSS21; AGSS21 kept (RYA-1251).
 element: V
 ion: I
-ions: [I]
+# RYA-470: V II added. The anchor is elemental, and Scott+2015 / AGSS21 build it from 30 V I + 5 V II lines.
+ions: [I, II]
 source_of_truth: RYA-1268
 scale: as adopted by AGSS21 (Scott et al. 2015 (A&A 573, A26) + Lawler et al. 2014 gf)
 entries:
@@ -37,3 +38,62 @@ range:
   is_statistical_spread: false
 verification_owed:
   - Minimum anchor only; the element's literature sweep adds per-band references.
+# RYA-470 / RYA-733 literature sweep (2026-11-17). Sources and local copies:
+# "Reference documents/Vanadium_literature_manifest_RYA-733.md". No V I or V II NLTE model atom
+# exists (Lind & Amarsi 2024; AGSS21 and AG26 assume +0.1 dex); Ma+2022 (JQSRT 280, 108085, HFS)
+# could not be obtained, and its constants are covered by the HFS sources named below.
+literature_sweep:
+  bands:
+    - ion: I
+      band: near-UV
+      searched: [Lawler+2014, Holmes+2016, Whaling+1985, Wang+2014 (lifetimes), Den Hartog+2014 (lifetimes), Thorne+2011 (levels), Scott+2015, Heiter+2021, NIST ASD, VALD gf references, Kurucz gf2300 + .lab files]
+      result: '146 lab lines, all adopted (Lawler, plus Holmes on 3813.449 and 4142.868). Holmes 3813.449 is a BF taken from an HFS fit of a blended feature (Holmes flag b). Whaling+1985 adds no line; Holmes reprints its 116 values, and they agree with Lawler.'
+    - ion: I
+      band: VIS
+      searched: [Scott+2015, AGSS21, AG26, Lodders+2025, Lawler+2014, Holmes+2016, Whaling+1985, Wood+2018, Heiter+2021, Ou+2020, Sneden+2016, NIST ASD, VALD gf references, Kurucz gf2300 + .lab files]
+      result: '30 Scott set lines; 575 graded (545 Reference). Holmes and Lawler agree on 166 shared lines (median 0.000 dex, sd 0.039). 49 lab lines are not adopted. 40 are Lawler lines held by the 0.5 dex rule, almost all against old Kurucz K09 list gf. On 38 of them VALD already carries Lawler''s value, but that is the same source repeated, not a second lab measurement. They stay held and go on the gap register (RYA-1378). Also held: Holmes 4307.315 (-1.84 against Kurucz -3.53, a 1.69 dex move). Five Lawler lines sit 0.030-0.047 A from the list row, beyond the 0.03 A match tolerance: 3990.54, 4067.97, 6016.12, 6063.39, 6343.95. Three match in wavelength but fail the upper-level guard: 4216.35, 4462.36, Holmes 5398.91. Lawler 5845.2695 is not in the list, and no solar hfs-on VALD extract covers 3780-6910 A to add it.'
+    - ion: I
+      band: red-optical
+      searched: [Lawler+2014, Holmes+2016, Wood+2018, Whaling+1985, Heiter+2021, NIST ASD, VALD gf references, Kurucz gf2300 + .lab files]
+      result: '33 graded. Lawler+2014 gf in 8900-9100 A are 0.18 +/- 0.03 dex too weak (Holmes+2016; confirmed on Arcturus by Wood+2018), so Holmes outranks Lawler in that window only. 8919.83, 8932.94, 8971.68, 9046.69 and 9085.22 are now Holmes gf; the five rows were restored to their pre-Lawler text and re-adopted. 9037.613 and 9113.744 are 0.031 and 0.035 A from the list row, beyond the match tolerance. Lawler 7944.6472 is not in the list, and our solar hfs-on VALD extract has no component of it, so the add route cannot place it (gap register, MISSING_GF).'
+    - ion: I
+      band: NIR
+      searched: [Holmes+2016, Lawler+2014 (to 9157 A), Whaling+1985, NIST ASD, VALD gf references, Kurucz gf2300]
+      result: 'No lab gf. Holmes has no line in this band''s holdings; Lawler stops at 9157 A. The 2 list lines are Kurucz theory, the only Theoretical Codex candidates here. Measured 2026-11-17 on Sirius: none reaches the 0.15 depth floor in the Sun (diagnostic file), so no Theoretical Codex set is possible here.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
+    - ion: I
+      band: H
+      searched: [Holmes+2016, Gaia FGK benchmarks 2026 Table B.2, NIST ASD, VALD gf references, Kurucz gf2300]
+      result: '11 NIST class C lines (TP ref u38) graded; 65 ungraded Kurucz. Holmes''s IR lines lie past 17800 A, outside the H holdings. Holmes 17822.407 is adopted on its list row (-2.64 -> -2.23), but it falls between the H and K holdings.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
+    - ion: I
+      band: K
+      searched: [Holmes+2016, Gaia FGK benchmarks 2026 Table B.2, NIST ASD, VALD gf references, Kurucz gf2300]
+      result: '4 NIST class C lines graded; 48 ungraded. There are 3 Holmes lab lines, the only lab V I gf in the K band. 19586.162 (-2.09 +/- 0.04) is 0.031 A from the list row (Kurucz -2.45), beyond the match tolerance. 19998.913 (-2.33) and 20230.568 (-2.41) are not in the list, and our solar hfs-on VALD extract has no component of either (VALD stellar depth cut), so they stay on the gap register (MISSING_GF).'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
+    - ion: II
+      band: near-UV
+      searched: [Wood+2014, Biemont+1989, Scott+2015, Heiter+2021, Thorne+2013 (levels), NIST ASD, VALD gf references, Kurucz gf2301 + .lab files]
+      result: '82 Wood lab lines, all adopted; 230 graded. Biemont+1989 (147 lines, 2672-4600 A) agrees with Wood on 136 (median -0.012 dex, sd 0.060) and is superseded. Its 11 Biemont-only lines exist only as the scanned table (Kurucz bgfm echo is not provenance) and are owed a transcription.'
+    - ion: II
+      band: VIS
+      searched: [Scott+2015, AGSS21, AG26, Wood+2014, Biemont+1989, Ou+2020, Heiter+2021, NIST ASD, VALD gf references]
+      result: '4 Scott set lines; 35 Wood lab lines, all adopted; 88 graded. Wood ends at 4600 A; no V II lab gf exists redward of it.'
+    - ion: II
+      band: red-optical
+      searched: [Wood+2014, Biemont+1989, NIST ASD, VALD gf references, Kurucz gf2301, web search 2026-11-17]
+      result: 'No lab gf; none of the lab tables reach this band. 6 NIST class C rows (TP ref T9770). Five are log gf near -8.5, too weak to fit; the only usable one is 7332.326 (-1.37). 650 Kurucz rows are Theoretical Codex candidates. Measured 2026-11-17 on Sirius: every V II line here has theoretical depth 0.00 in the Sun, so none can be fitted on any gf; no Theoretical Codex set is possible here.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
+    - ion: II
+      band: NIR
+      searched: [Wood+2014, NIST ASD, VALD gf references]
+      result: 'No V II lines in the list.'
+    - ion: II
+      band: H
+      searched: [Wood+2014, NIST ASD, VALD gf references, Kurucz gf2301]
+      result: 'No lab gf. The 3 list lines are Kurucz theory, the only Theoretical Codex candidates here. Measured 2026-11-17 on Sirius: none reaches the 0.15 depth floor in the Sun (diagnostic file), so no Theoretical Codex set is possible here.'
+      diagnostic: data/audit/orchestrator_prepare/solar_V_band_diagnostics.csv
+    - ion: II
+      band: K
+      searched: [NIST ASD, VALD gf references]
+      result: 'No V II lines in the list.'

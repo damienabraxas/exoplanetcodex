@@ -496,7 +496,10 @@ def publish(star: str, element: str, *, report: dict, jobs: int = 8,
         if src in done or not src.exists():
             continue
         done.add(src)
-        tier = o.get("selector") if o.get("selector") in ("GRADED", "DEEPGRADED", "REFERENCE") else "ALL"
+        # RYA-470: the IR hyperfine special case keeps its pool's tier; only the selector differs.
+        from pipeline.free_continuum import base_selector
+        _base = base_selector(o.get("selector"))
+        tier = _base if _base in ("GRADED", "DEEPGRADED", "REFERENCE") else "ALL"
         cmd = [py, "scripts/publish_product.py", "--from", str(src), "--holding", o["holding"],
                "--tier", tier, "--route", "SYNTH", "--element", o["element"], "--star", star,
                "--reason", why, "--origin-path", str(src)]

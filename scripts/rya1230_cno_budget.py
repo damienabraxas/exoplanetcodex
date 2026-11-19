@@ -73,6 +73,13 @@ SPECIES_ION = {("Fe", "II"): "Fe II"}
 
 
 def _selector(args: list[str]) -> str | None:
+    """The product's selector, from the pool the unit measured, suffixed for the RYA-470 IR
+    hyperfine special case so it publishes BESIDE the standard product, never over it."""
+    from pipeline import free_continuum as _fc
+    return _fc.selector(_pool_selector(args), _fc.FLAG in args)
+
+
+def _pool_selector(args: list[str]) -> str | None:
     """The product's selector, from the pool the unit measured (RYA-1233: Codex and Deep pools
     published with NO selector, so the two grades shared one identity and coverage could not
     see either -- Fe's convention is selector = tier = GRADED / DEEPGRADED)."""
@@ -91,7 +98,7 @@ def _selector(args: list[str]) -> str | None:
 
 
 def _tier(args: list[str]) -> str:
-    sel = _selector(args)
+    sel = _pool_selector(args)
     return sel if sel in ("GRADED", "DEEPGRADED", "REFERENCE") else "ALL"
 
 
@@ -389,6 +396,20 @@ def _near(waves, pool, tol: float = 1e-3):
     return d <= tol
 
 
+#: Asplund+2021 Sect. 2.1: one or two lines are priced from the fit, three or more from the
+#: (weighted) standard error of the mean. Ryan 2026-11-19: "We do all uncertainty the Asplund way."
+MAX_FIT_PRICED_FEATURES = 2
+
+
+def fit_stat(feature_sigmas) -> float:
+    """Statistical sigma of a 1-2 feature product from its fits: the sigma of the mean of the
+    features (the median of two IS their mean). Refuses a pool Asplund prices by scatter."""
+    sig = [float(x) for x in feature_sigmas]
+    if not 1 <= len(sig) <= MAX_FIT_PRICED_FEATURES:
+        raise ValueError(f"{len(sig)} features: Asplund prices 1-2 lines from the fit only")
+    return math.sqrt(sum(x * x for x in sig)) / len(sig)
+
+
 def _features(acc: pd.DataFrame) -> list:
     """Accepted lines grouped into resolved features: consecutive components closer than
     FEATURE_A A form one feature. Returns [[(wavelength, abundance), ...], ...]."""
@@ -612,24 +633,47 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     # fit. That is the line's own chi2-curvature sigma (fit_constraint.curvature_sigma,
     # rescaled to red_chi2 = 1, worse side), recorded on the 1D-LTE fit; a departure leg
     # adds a per-line delta to that SAME fit, so it carries the same sigma.
-    single_sigma = None
-    if n == 1:
-        sa = pd.to_numeric(acc["sigma_A"], errors="coerce").iloc[0] if "sigma_A" in acc else float("nan")
-        if not np.isfinite(sa):
-            lte = nominal_dir / re.sub(r"_(ENGINE-A-3DNLTE|ENGINE-A|ENGINE-B[^_]*)_lines\.csv$",
-                                       "_1D-LTE_lines.csv", lines_stem)
-            if lte.exists():
-                l1 = pd.read_csv(lte)
-                w0 = float(acc["wavelength_air_A"].iloc[0])
-                m = l1[(l1.wavelength_air_A - w0).abs() < 1e-3]
-                if len(m):
-                    sa = pd.to_numeric(m["sigma_A"], errors="coerce").iloc[0]
-        if not np.isfinite(sa):
-            return {"row": row, "skip": "n_lines=1 and the line's fit records no curvature "
-                                        "sigma -- nothing to price it from; HOLD"}
-        single_sigma = float(sa)
-    elif n < 1:
+    # Ryan 2026-11-19 (RYA-470): "We do all uncertainty the Asplund way." Asplund+2021 Sect.
+    # 2.1: "In cases when only one or two lines can be used, we estimated the statistical
+    # error from the goodness of the profile fitting". So ONE OR TWO resolved features are
+    # priced from their fits, never from the scatter of two numbers. Two features: the
+    # product is their median = mean, so sigma = sqrt(s1^2 + s2^2) / 2.
+    if n < 1:
         return {"row": row, "skip": "no accepted line"}
+    single_sigma = None
+    _feats = _features(acc)
+    if len(_feats) <= MAX_FIT_PRICED_FEATURES:
+        _lte_l1 = None
+
+        def _line_sigma(w0, sa):
+            nonlocal _lte_l1
+            if np.isfinite(sa):
+                return float(sa)
+            if _lte_l1 is None:
+                lte = nominal_dir / re.sub(r"_(ENGINE-A-3DNLTE|ENGINE-A|ENGINE-B[^_]*)_lines\.csv$",
+                                           "_1D-LTE_lines.csv", lines_stem)
+                _lte_l1 = pd.read_csv(lte) if lte.exists() else pd.DataFrame()
+            if len(_lte_l1):
+                m = _lte_l1[(_lte_l1.wavelength_air_A - w0).abs() < 1e-3]
+                if len(m):
+                    return float(pd.to_numeric(m["sigma_A"], errors="coerce").iloc[0])
+            return float("nan")
+        _sa = (pd.to_numeric(acc["sigma_A"], errors="coerce") if "sigma_A" in acc
+               else pd.Series(np.nan, index=acc.index))
+        _by_w = {round(float(w), 3): _line_sigma(float(w), float(v))
+                 for w, v in zip(acc["wavelength_air_A"], _sa)}
+        # A feature's components are one measurement of one blend: its sigma is theirs.
+        _fsig = [float(np.mean([_by_w[round(w, 3)] for w, _ in f])) for f in _feats]
+        if not all(np.isfinite(_fsig)):
+            return {"row": row, "skip": (f"{len(_feats)} resolved feature(s) and a fit records "
+                                         "no curvature sigma -- Asplund prices 1-2 lines from "
+                                         "the fit, so there is nothing to price it from; HOLD")}
+        single_sigma = fit_stat(_fsig)
+        if len(_feats) == 2:
+            if "sigma_stat" in row:
+                row["sigma_stat"] = round(single_sigma, 4)
+            if restat is not None:
+                restat["stat_dex"] = round(single_sigma, 4)
 
     # transition data: lambda AND EP join
     # RYA-1233: the species is the PRODUCT's own (element + ion), not a C/N/O-only map --
@@ -645,6 +689,20 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
         # row sits 0.012-0.018 A from the list position, though the synthesis priced them.
         m = g[((g.wavelength_air_A - l.wavelength_air_A).abs() <= WTOL)
               & ((g.excitation_potential_eV - l.ep_eV).abs() <= EPTOL)]
+        if m.empty:
+            # RYA-470: a hyperfine line is reported at the list row the fit keyed on (V I
+            # 5737.031, the first of 4 GES components) while canonical stores the physical
+            # line at its gf-weighted centroid (5737.062), which is what the synthesis
+            # priced (gf_resolver.apply_to_synth_array). Join it the way the synthesis
+            # clustered it: same lower level (EP_CLUSTER_TOL), within HFS_GAP, onto a
+            # canonical row that IS a multi-component line -- and only when exactly one
+            # such row qualifies.
+            from pipeline.gf_resolver import EP_CLUSTER_TOL, HFS_GAP
+            h = g[((g.wavelength_air_A - l.wavelength_air_A).abs() <= HFS_GAP)
+                  & ((g.excitation_potential_eV - l.ep_eV).abs() <= EP_CLUSTER_TOL)
+                  & (pd.to_numeric(g.hfs_n_components, errors="coerce") > 1)]
+            if len(h) == 1:
+                m = h
         if m.empty:
             return {"row": row, "skip": f"{l.wavelength_air_A}: 0 canonical_gf rows "
                                         f"on lambda+EP -- refusing a lambda-only join (RYA-1037)"}
@@ -684,13 +742,16 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     if single_sigma is not None:
         sys.path.insert(0, str(ROOT / "scripts"))
         from measure_band_ew import load_window_ex
-        w0 = float(acc["wavelength_air_A"].iloc[0])
-        npx = int(np.isfinite(np.asarray(load_window_ex(instrument, w0, hw, holding=holding).flux)).sum())
+        npx = sum(int(np.isfinite(np.asarray(load_window_ex(
+            instrument, float(f[0][0]), hw, holding=holding).flux)).sum()) for f in _feats)
         from pipeline.uncertainty_contract import fit_measurement
         comps.append(fit_measurement(
             single_sigma,
-            source=("Asplund+2021 Sect. 2.1: one line -> statistical error from the goodness of "
-                    "the profile fit; chi2-curvature sigma of this line, rescaled to red_chi2 = 1"),
+            source=("Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the "
+                    "goodness of the profile fit; each line's chi2-curvature sigma, rescaled to "
+                    "red_chi2 = 1" + ("" if len(_feats) == 1 else
+                                      "; two lines -> sqrt(s1^2 + s2^2) / 2, the sigma of "
+                                      "their mean (= the median the product reports)")),
             likelihood="synthesis chi2 over the fit window, curvature at the best abundance",
             correlation_treatment=("red_chi2 rescaling absorbs pixel correlation and model "
                                    "inadequacy; the worse-constrained side is taken"),
@@ -698,7 +759,7 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     else:
         _fv = [float(np.mean([v for _, v in f])) for f in _features(acc)]
         nf = len(_fv)
-        if nf >= 2:
+        if nf > MAX_FIT_PRICED_FEATURES:
             raw = float(np.std(_fv, ddof=1))
             comps.append(dict(name="measurement", sigma_dex=raw / math.sqrt(nf), state="MEASURED",
                               source=("per-feature scatter of the accepted pool (components within "

@@ -1,0 +1,7 @@
+ion,band,holding,wavelength_air_A,A_1d_lte,in_aggregate,note
+I,H,solar_crires_plus_h_rya1232,15924.436,,False,"not measured: no V I line in 15007-17494 A reaches the selection floor (theoretical depth 0.15); deepest is 0.019 per HFS component (15924.4), 591 V I components in the H synthesis list (RYA-470 Sirius run 2026-11-17)"
+II,H,solar_crires_plus_h_rya1232,15167.274,,False,"not measured: 20 V II components in the H synthesis list, deepest 0.001 (15167.3); none reaches the 0.15 floor (RYA-470 Sirius run 2026-11-17)"
+I,K,solar_crires_plus_k_rya1219,21564.646,,False,"not measured: 415 V I components in the K synthesis list, deepest 0.022 (21564.6); none reaches the 0.15 floor (RYA-470 Sirius run 2026-11-17)"
+I,NIR,,9199.478,,False,"not measured: Kurucz K09 log gf -2.715 at 3.26 eV, on the red-optical/NIR edge; the near-IR synthesis list starts at 9203 A and holds no V row"
+I,NIR,,9199.545,,False,"not measured: Kurucz K09 log gf -1.620 at 3.24 eV, on the red-optical/NIR edge; the near-IR synthesis list starts at 9203 A and holds no V row"
+II,red-optical,solar_kpno_kurucz2005_corrected,7332.326,,False,"not measured: 738 V II rows in the 6910-9199 A synthesis list (GESv6), every theoretical depth 0.00 at the list's 0.01 precision, incl. the NIST C line 7332.326; none reaches the 0.15 floor (RYA-470 Sirius run 2026-11-17)"

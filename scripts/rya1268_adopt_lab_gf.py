@@ -70,7 +70,9 @@ CITE = {"wood2013_ti2": "Wood et al. 2013 (ApJS 208, 27)", "lawler2014_v1": "Law
         "nilsson2006_cr2": "Nilsson et al. 2006 (A&A 445, 1165)",
         # RYA-728: journal machine-readable table / hand transcription of a scanned table
         "ward2023_cr2": "Ward et al. 2023 (ApJ 959, 8)",
-        "tozzi1985_cr1": "Tozzi, Brunner & Huber 1985 (MNRAS 217, 423)"}
+        "tozzi1985_cr1": "Tozzi, Brunner & Huber 1985 (MNRAS 217, 423)",
+        # RYA-470: Imperial FTS BFs on TR-LIF lifetimes, VizieR ASU-TSV export (CDS unreachable)
+        "holmes2016_v1": "Holmes et al. 2016 (ApJS 224, 35)"}
 
 
 def nist() -> pd.DataFrame:
@@ -224,6 +226,12 @@ def main(only_element: str | None = None) -> None:
     # Gurell yields wherever Ward measured the same line.
     _lab = pd.read_csv(LAB)
     outranked["gurell2010_cr2"] = _lab[_lab.paper == "ward2023_cr2"]
+    # RYA-470: Holmes+2016 measured Lawler+2014's V I lines near 9000 A (8900-9100 A) and found
+    # Lawler's gf 0.18 +/- 0.03 dex too weak there (its own Table 4 flag a; Sect. 4); Wood+2018
+    # (ApJS 234, 25) confirms the offset from Arcturus and recommends Holmes. Everywhere else the
+    # two agree (166 shared lines, median 0.000 dex, sd 0.039), so Lawler yields ONLY in that window.
+    _h = _lab[_lab.paper == "holmes2016_v1"]
+    outranked["lawler2014_v1"] = _h[_h.wavelength_air_A.between(8900, 9100)]
     for r in pd.read_csv(LAB).itertuples():
         if r.paper in outranked and (
                 (outranked[r.paper].wavelength_air_A - r.wavelength_air_A).abs() <= 0.06).any():

@@ -1,12 +1,27 @@
-PREPARE solar V  -> NOT READY -- blocking: cull_candidates 594
+PREPARE solar V  -> READY to measure
   F literature: litscan yes; set bibliography keys ['scott2015']
-  A published sets: 35 lines; adopt authors' gf on 0; missing from canonical_gf: 0
-  B gf source lawler2014_v1: 715 graded lines, classified
+  F3 literature sweep: 12 ion x band recorded, 0 owed (owed cells are HELD until the search is recorded in the litscan)
+  I line inventory (in list / set / reference / codex / ungraded / lab table):
+      V I   H               76 /   0 /    0 /   11 /    65 /    0
+      V I   K               52 /   0 /    0 /    4 /    48 /    3  lab not adopted [19586.162]  lab ABSENT from list [19998.913, 20230.568]
+      V I   NIR              2 /   0 /    0 /    0 /     2 /    0
+      V I   VIS           3809 /  30 /  545 /  575 /  3234 /  735  lab not adopted [3990.5382, 4067.9657, 4216.3464, 4238.9464, 4270.3166, 4307.316, 4334.0941, 4462.3574, 4463.1196, 4464.7364, 4500.8579, 4511.4289, 4513.6088, 4581.2247, 4731.2555, 4739.5751, 4765.6624, 4773.0662, 4776.5102, 4803.0376, 4823.4192, 4857.0569, 4870.144, 4900.626, 4942.8014, 4957.6649, 5020.1884, 5138.4064, 5148.4116, 5148.7009, 5159.3231, 5172.0884, 5174.5149, 5176.4775, 5178.5229, 5194.8743, 5316.8672, 5319.0421, 5398.909, 5474.4724, 5511.1758, 5584.3046, 5687.7531, 5713.5729, 5761.4259, 6016.121, 6063.3882, 6177.4359, 6343.9503]  lab ABSENT from list [5845.2695]
+      V I   near-UV        661 /   0 /  146 /  146 /   515 /  157
+      V I   red-optical   1716 /   0 /   30 /   33 /  1683 /   49  lab not adopted [9037.613, 9037.6131, 9113.744]  lab ABSENT from list [7944.6472]
+      V II  H                3 /   0 /    0 /    0 /     3 /    0
+      V II  K                0 /   0 /    0 /    0 /     0 /    0
+      V II  NIR              0 /   0 /    0 /    0 /     0 /    0
+      V II  VIS           1487 /   4 /   35 /   88 /  1399 /   35
+      V II  near-UV        547 /   1 /   82 /  230 /   317 /   82
+      V II  red-optical    656 /   0 /    0 /    6 /   650 /    0
+  A published sets: 35 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
+  B gf source lawler2014_v1: 713 graded lines, classified
   B gf source NIST_ASD: 261 graded lines, classified
   B gf source wood2014_v2: 117 graded lines, classified
+  B gf source holmes2016_v1: 9 graded lines, classified
   F2 literature need: 2 V I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 3 V II lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
-  C cull candidates (saturated, not a solar-literature line): 594
+  C saturated, not a solar-literature line (measured, reported, NOT culled): 596
       V I 3787.1383: rew -4.272 depth 0.76
       V I 3790.3237: rew -3.967 depth 0.372
       V I 3793.6099: rew -3.938 depth 0.877
@@ -21,6 +36,7 @@ PREPARE solar V  -> NOT READY -- blocking: cull_candidates 594
       V I 3807.5041: rew -4.011 depth 0.841
       V I 3808.5188: rew -4.188 depth 0.445
       V I 3809.6008: rew -4.174 depth 0.864
+      V I 3813.449: rew -4.006 depth 0.654
       V I 3813.4911: rew -4.02 depth 0.646
       V I 3815.5152: rew -3.87 depth 0.708
       V I 3817.8432: rew -4.092 depth 0.56
@@ -184,6 +200,7 @@ PREPARE solar V  -> NOT READY -- blocking: cull_candidates 594
       V I 4392.065: rew -4.34 depth 0.424
       V I 4395.228: rew -4.093 depth 0.737
       V I 4400.569: rew -4.252 depth 0.578
+      V I 4405.012: rew -3.961 depth 0.741
       V I 4406.633: rew -4.456 depth 0.655
       V I 4407.638: rew -4.297 depth 0.787
       V I 4408.193: rew -4.19 depth 0.69
@@ -601,5 +618,5 @@ PREPARE solar V  -> NOT READY -- blocking: cull_candidates 594
       V II 3774.67: rew -4.104 depth 0.724
       V II 3778.343: rew -4.088 depth 0.789
       V I 3778.677: rew -4.12 depth 0.8
-  D NLTE: 1087 graded line(s) not in None
-  E holdings: 19 windows; 0 not serving / frame off rest
+  D NLTE: 1093 graded line(s) not in a PySME table (none exists for V)
+  E holdings: 17 windows; 0 not serving / frame off rest

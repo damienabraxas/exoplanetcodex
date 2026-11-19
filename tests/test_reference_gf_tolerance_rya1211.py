@@ -165,7 +165,9 @@ def test_the_correction_changes_no_published_value(pool):
     after = gf_rung.decide("Fe", "I", lines, wave_tol_A=rls.grading_tol_A("asplund"))
     assert before.rung == after.rung == 1
     assert before.budget_kwargs() == after.budget_kwargs() == {"gf_graded": False}
-    assert after.n_graded == 5 and after.n_lines == 21
+    # RYA-470: n_graded counts EVERY line with a published per-line sigma (RYA-1233), so the
+    # 17 cited lines below -- not the 5 GF-LAB -- and the 4 uncited still bind rung 1.
+    assert after.n_graded == 17 and after.n_lines == 21
     assert _ties(pool, 0.15)[1] == 6, "no more laboratory gf exists to be found"
 
 

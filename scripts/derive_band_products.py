@@ -1005,6 +1005,10 @@ def synthesis_stem(a) -> str:
     stem += "_SYNTH"
     stem += _selector_tag(a)
     stem += conditioning_tag(a)
+    # RYA-470: the IR-HFS free-continuum special case is a different MEASUREMENT of the
+    # same lines, published beside the standard product -- never under its name.
+    if getattr(a, "free_continuum", False):
+        stem += "_FREECONT"
     return stem
 
 
@@ -1696,6 +1700,11 @@ def synthesis_route(a, pol) -> None:
             # synthesised without the molecules its band declares. False everywhere but
             # the near-UV, where `**fit_kw` is otherwise unchanged.
             _mol_kw = {"use_molecules": True} if cfg.use_molecules else {}
+            # RYA-470 (Ryan 2026-11-18): the IR-HFS special case fits a continuum scale
+            # jointly with A(X) on every line of THIS product; the standard product is a
+            # separate run without the flag. Same injection point, same reason as above.
+            if getattr(a, "free_continuum", False):
+                _mol_kw["free_continuum"] = True
             _prior = _patch.prior(treatment, w, float(r.ep_eV)) if _patch is not None else None
             res = None
             if _prior is not None:
@@ -1763,7 +1772,9 @@ def synthesis_route(a, pol) -> None:
                 continuum_level=_f(getattr(_continuum_by_line.get(round(w, 3)),
                                            "level_at_centre", None)),
                 continuum_method=(lambda _r: f"{_r.method}; {_r.reason}" if _r else "")(
-                    _continuum_by_line.get(round(w, 3))),
+                    _continuum_by_line.get(round(w, 3)))
+                + (f"; FREE CONTINUUM scale {res.get('continuum_scale')} (RYA-470)"
+                   if getattr(a, "free_continuum", False) and isinstance(res, dict) else ""),
                 # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
                 # here at all. Inheriting it would quarantine lines on a quantity that does
                 # not exist (RYA-770/342).
@@ -2761,6 +2772,12 @@ def engine_a_model(element: str) -> str:
         return "amarsi"
     from config.constants import NLTE_CORRECTION_ELEMENTS
     spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
+    if not spec:
+        # RYA-470: an element with NO registered Engine-A source (V: no NLTE model atom exists)
+        # has no model to name. engine_a_source() already says so, and _emit_departure then
+        # writes "NOT PRODUCED"; raising here crashed every V cell AFTER its 1D-LTE products
+        # were written, so the ORCH marked them FAILED.
+        return "none"
     if spec.get("model_axis"):
         return spec["model_axis"]
     source = f"{spec.get('grid', '')} {spec.get('ref', '')}".lower()
@@ -2848,6 +2865,10 @@ def main() -> None:
                          "the synth leg picks its own (stronger) lines and any difference "
                          "in A(X) conflates method with selection — RYA-842, line "
                          "selection dominates.")
+    ap.add_argument("--free-continuum", action="store_true",
+                    help="RYA-470 IR-HFS special case: fit a continuum scale jointly with "
+                         "A(X) per line (Takeda 1995 / Elgueta 2024). Own stem (_FREECONT); "
+                         "the standard product is the run without it.")
     ap.add_argument("--lines-from-set", default=None, metavar="NAME=CSV",
                     help="RYA-1214: drive the SYNTHESIS route over a NAMED PUBLISHED line "
                          "set, listed in CSV by `wavelength_air_A`. Same machinery as "

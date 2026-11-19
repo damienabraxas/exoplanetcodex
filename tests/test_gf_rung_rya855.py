@@ -191,7 +191,7 @@ def test_a_species_is_never_refereed_against_another_species_lab_table(lab_pool)
         "Ti I gained a lab table — pick another unregistered species for this half")
     r = _rung(lab_pool, element="Ti", ion="I", species="Ti 1")
     assert r.rung == 1 and r.gf_graded is False and r.n_graded == 0
-    assert "no primary-laboratory gf table exists for Ti I" in r.reason
+    assert "MIXED POOL: 0 of 12 Ti I lines" in r.reason  # RYA-470: one path, one wording
 
     # (b) HAS a table, but not for these lines -> still not graded, and NOT against Fe's
     assert ("Al", "I") in gf_rung.LAB_GRADED_SPECIES, "Al I should have a lab table"

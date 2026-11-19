@@ -112,17 +112,29 @@ def test_a_disagreeing_ep_refuses_a_match_wavelength_alone_would_accept():
 
 # ── 3. a real degeneracy is still refused ────────────────────────────────────────────
 
-def test_two_rows_identical_in_wavelength_and_ep_stay_unresolved():
-    """HFS components share a lower level and sit ~0.001 A apart. Nothing can separate
-    them, so the honest answer is UNGRADEABLE — never `iloc[0]`, which is how RYA-853
-    manufactured 12-dex defects."""
+def test_hfs_components_at_one_ep_resolve_to_their_summed_gf():
+    """RYA-470 (reverses this test's RYA-871 form). HFS components share a lower level and
+    sit ~0.001 A apart; the synthesis used ALL of them, so the gf the pool used is their
+    SUM -- never `iloc[0]` (RYA-853's 12-dex defects), and never UNGRADEABLE: that rule
+    sent 19 of 182 V I VIS Codex lines (hfs-on list) to UNRESOLVED and the pool to rung 1."""
     hfs = pd.DataFrame({"species": ["Fe 1", "Fe 1"],
                         "wavelength_air_A": [5000.000, 5000.004],
                         "ep_eV": [1.500, 1.500], "log_gf": [-1.0, -1.4]})
     r = _resolve([5000.002], eps=[1.500], ll=hfs)
-    assert not r.resolved.iloc[0]
-    assert r.unresolved_why.iloc[0].startswith("ambiguous")
-    assert np.isnan(r.log_gf.iloc[0]), "an unresolved line must carry NO gf"
+    assert r.resolved.iloc[0]
+    assert r.log_gf.iloc[0] == pytest.approx(np.log10(10 ** -1.0 + 10 ** -1.4))
+
+
+def test_a_row_from_another_lower_level_is_never_summed_in():
+    """Same wavelength + same lower level (inside EP_MATCH_TOL_EV) means same upper level:
+    one transition, so the sum is safe. A blend from a DIFFERENT lower level never enters
+    the EP-keyed match, so it can neither join the sum nor make the line ambiguous."""
+    rows = pd.DataFrame({"species": ["Fe 1"] * 3,
+                         "wavelength_air_A": [5000.000, 5000.004, 5000.003],
+                         "ep_eV": [1.500, 1.500, 2.410], "log_gf": [-1.0, -1.4, 0.5]})
+    r = _resolve([5000.002], eps=[1.500], ll=rows)
+    assert r.resolved.iloc[0]
+    assert r.log_gf.iloc[0] == pytest.approx(np.log10(10 ** -1.0 + 10 ** -1.4))
 
 
 # ── 4. the parallel arrays cannot slip ───────────────────────────────────────────────
