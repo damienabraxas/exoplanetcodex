@@ -128,7 +128,10 @@ acceleration is applied on top. Passes needed to reach 1e-10 on 5750/4.5/-2:
 | ALI + Ng (Bride) | 66 | 132 |
 
 All methods reach the same J (to 2.4e-8 or better), so the answer is unchanged; only the
-speed differs. Code: `scattering_lambda_star` and `_fixed_population_radiation` in
+speed differs. (These counts predate section 6. With the full ultraviolet background the
+extra absorption lowers the 122 nm albedo of 5750/4.5/-2 to 0.949 and ALI + Ng needs 49
+passes; the most scattering-dominated model held is now 5750/3.5/-2, albedo 0.982, 63
+passes, while plain iteration is still far off after the same number.) Code: `scattering_lambda_star` and `_fixed_population_radiation` in
 `pipeline/bride_columns.py`. Tests: `tests/test_bride_ng_conservation_rya1282.py`.
 
 Related: Lightweaver's own Ng acceleration of the populations can occasionally break

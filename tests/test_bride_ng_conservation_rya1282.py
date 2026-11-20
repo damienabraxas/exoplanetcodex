@@ -57,8 +57,11 @@ def test_ng_on_J_is_exact_for_a_two_mode_linear_iteration_and_refuses_bad_steps(
 
 
 def test_ali_converges_the_scattering_dominated_metal_poor_column_plain_lambda_does_not():
-    """MARCS 5750/4.5/-2, LTE populations, cap top: albedo 0.998 at 122.5 nm. Measured:
-    ALI+Ng 132 formal solutions to 1e-10; plain Lambda iteration contracts at 0.995."""
+    """MARCS 5750/3.5/-2, LTE populations, cap top. With the full TS background (hbop
+    dissolved Lyman continuum + H+H, 789fd36c) the most scattering-dominated model held:
+    albedo 0.982 at 122.5 nm (5750/4.5/-2 fell from 0.998 to 0.949 once those were added).
+    Measured 2026-11-20: ALI+Ng 63 formal solutions to 1e-10; plain Lambda after 63 passes
+    still dJ 1.8e-2, J off by up to 89%."""
     pytest.importorskip('lightweaver')
     from dataclasses import replace
     import pipeline.bride_columns as BC
@@ -68,7 +71,7 @@ def test_ali_converges_the_scattering_dominated_metal_poor_column_plain_lambda_d
     from pipeline.bride_reference import read_marcs_structure
     try:
         atom = replace(read_multi_atom(require_codex_path('experiments.bride_oxygen_atom')), abundance=7.1)
-        S = read_marcs_structure(require_codex_path('grids.marcs_standard') / marcs_filename(5750, 4.5, -2.0, 0.4))
+        S = read_marcs_structure(require_codex_path('grids.marcs_standard') / marcs_filename(5750, 3.5, -2.0, 0.4))
     except Exception as e:                                         # noqa: BLE001
         pytest.skip(f'O atom / MARCS not held here: {e}')
     def ctx():
@@ -78,7 +81,7 @@ def test_ali_converges_the_scattering_dominated_metal_poor_column_plain_lambda_d
     n = BC.converge_radiation(c, tol=1e-10, maxiter=200)
     assert n <= 200
     le = BC.scattering_lambda_star(c)
-    assert 0.98 < le.max() < 1                                    # the scattering-dominated regime
+    assert 0.97 < le.max() < 1                                    # the scattering-dominated regime
     plain = ctx(); plain.depthData.fill = True
     for _ in range(n):
         top = np.array(plain.spect.J)[:, 0].copy()
