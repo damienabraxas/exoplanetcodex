@@ -65,7 +65,7 @@ def marcs_column(structure: dict) -> dict:
 def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, vturb_m_s,
                    rays: int, qscale: int = 1, ng: bool = True, lte: bool = False,
                    fixed_populations=None, continuum_only: bool = False, top: str = 'cap',
-                   background: str = 'ts_metals', operator: str = 'mali'):
+                   background: str = 'ts_metals', operator: str = 'mali', line_haze=None):
     """Lightweaver context for one column; O active (or fixed), passive atoms in LTE.
 
     operator: the population-update (preconditioning) operator. 'mali' (default): the
@@ -114,7 +114,7 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
         # + TS's H+H, H2+, CH, OH; n(CH), n(OH) and the passive-atom continua from a
         # background-only EOS with molecules (the active atom keeps `eq`).
         from pipeline.bride_ts_background import background_eos, ts_metal_factory
-        provider = ts_metal_factory(background_eq=background_eos(radset, atmosphere))
+        provider = ts_metal_factory(background_eq=background_eos(radset, atmosphere), haze=line_haze)
     elif background == 'lightweaver':
         provider = None
     else:

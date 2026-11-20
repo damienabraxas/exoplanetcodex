@@ -72,10 +72,15 @@ def background_eos(radset, atmosphere):
     return radset.compute_eq_pops(atmosphere, mols=default_molecules())
 
 
-def ts_metal_factory(species=None, data_dir=None, background_eq=None, extras=True):
-    """BackgroundProvider factory for lw.Context(backgroundProvider=...)."""
+def ts_metal_factory(species=None, data_dir=None, background_eq=None, extras=True, haze=None):
+    """BackgroundProvider factory for lw.Context(backgroundProvider=...).
+
+    haze: None (default, no background lines) or dict(lines=<read_vald_stellar output>,
+    abundances_dex=<A(X) mix for the line opacity>, eosmet=0.5) - MULTI 2.3's background
+    line opacity (pipeline.bride_line_haze), added only outside the non-passive atoms' line
+    ranges and split into absorption/scattering by MULTI's van Regemorter epsilon."""
     return partial(TsMetalBackground, species=species, data_dir=data_dir,
-                   background_eq=background_eq, extras=extras)
+                   background_eq=background_eq, extras=extras, haze=haze)
 
 
 class TsMetalBackground(BackgroundProvider):
@@ -83,11 +88,12 @@ class TsMetalBackground(BackgroundProvider):
     IRWIN = 'IRWIN_atoms_v07.3.dat'
 
     def __init__(self, eqPops, radSet, wavelength, *, species=None, data_dir=None,
-                 background_eq=None, extras=True):
+                 background_eq=None, extras=True, haze=None):
         from pipeline.ts_jonabs import JonabsComponent
         super().__init__(eqPops, radSet, wavelength)
         self._args = (eqPops, radSet, wavelength,
-                      dict(species=species, data_dir=data_dir, background_eq=background_eq, extras=extras))
+                      dict(species=species, data_dir=data_dir, background_eq=background_eq, extras=extras,
+                           haze=haze))
         eq = eqPops if background_eq is None else background_eq
         self.base = FastBackground(eq, radSet, wavelength, Nthreads=1)
         self.eq = eq
@@ -129,6 +135,17 @@ class TsMetalBackground(BackgroundProvider):
                     continue
                 self.extras[key] = JonabsComponent(d / self.JONABS, label)
         self._cache_T = None
+        self.haze = haze
+        self._haze = None
+        if haze is not None:
+            # MULTI adds background lines only at the active atom's bound-free frequencies
+            # (KR > NLINE): mask out every wavelength inside a non-passive atom's line.
+            mask = np.ones(len(self.wave), dtype=bool)
+            for atom in (radSet.atoms[e] for e in set(radSet.activeSet) | set(radSet.detailedStaticSet)):
+                for line in atom.lines:
+                    lam = np.asarray(line.wavelength())
+                    mask &= ~((self.wave >= lam.min()) & (self.wave <= lam.max()))
+            self._haze_mask = mask
 
     def __deepcopy__(self, memo):
         """Lightweaver's compute_rays deep-copies the Context. The compiled FastBackground built
@@ -194,9 +211,29 @@ class TsMetalBackground(BackgroundProvider):
                     old += t.alpha(self.wave)[:, None] * stim * n[t.i][None, :]
         return new, old
 
+    def _line_haze(self, atmos, T):
+        """(kappa 1/m, epsilon) of MULTI-style background lines, cached per (T, ne)."""
+        from pipeline.bride_line_haze import line_haze, multi_line_epsilon
+        key = _haze_inputs_key(T, self.ne)
+        if self._haze is not None and self._haze[0] == key:
+            return self._haze[1], self._haze[2]
+        lamA = _air_A(self.wave)
+        nH = np.asarray(self.eq.atomicPops[PeriodicTable['H']].n)
+        Hst = np.array([l.stage for l in self.eq.atomicPops[PeriodicTable['H']].model.levels])
+        nHI = nH[Hst == 0].sum(axis=0) * 1e-6
+        nHtot = np.asarray(atmos.pyAtmos.nHTot, dtype=float) * 1e-6
+        vt = np.asarray(atmos.pyAtmos.vturb, dtype=float) * 100.
+        k = np.zeros((len(self.wave), len(T)))
+        m = self._haze_mask
+        k[m] = line_haze(lamA[m], T, self.ne * 1e-6, nHtot, nHI, vt, self.haze['abundances_dex'],
+                         self.haze['lines'], self.irwin_path) * 100.
+        eps = multi_line_epsilon(lamA, T, self.ne * 1e-6, eosmet=self.haze.get('eosmet', 0.5))
+        self._haze = (key, k, eps)
+        return k, eps
+
     def compute_background(self, atmos, chi, eta, sca):
         self.base.compute_background(atmos, chi, eta, sca)
-        if not self.terms and not self.extras:
+        if not self.terms and not self.extras and self.haze is None:
             return
         T = np.asarray(atmos.pyAtmos.temperature, dtype=float)
         self.ne = np.asarray(atmos.pyAtmos.ne, dtype=float)
@@ -207,8 +244,17 @@ class TsMetalBackground(BackgroundProvider):
         delta = new - old
         chi += delta
         eta += delta * planck
+        if self.haze is not None:
+            k, eps = self._line_haze(atmos, T)
+            chi += k
+            sca += k * (1. - eps)
+            eta += k * eps * planck
         if not (np.isfinite(chi).all() and np.isfinite(eta).all()) or np.any(chi < sca) or np.any(eta < 0):
             raise ValueError('Invalid TS metal background replacement')
+
+
+def _haze_inputs_key(T, ne):
+    return (T.tobytes(), ne.tobytes())
 
 
 def _air_A(wave_vac_nm):
