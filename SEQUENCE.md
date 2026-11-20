@@ -1,7 +1,7 @@
 ## 2026-11-19 — Bride collision semantics fixed; RYA-470 landed on main
 
 - **RYA-470** — PR #627 (V line inventory) merged to main as c5d53e7d; not integrated into this branch.
-- **RYA-1282** — Bride MULTI-to-LW converter now applies MULTI GENCL collision semantics (CH downward; CH0 directed with detailed-balance reverse); the RH reading failed the LTE limit. MARCS 5750/4.5: triplet b within 0.0047 dex of Amarsi2021 grid, 7772 NLTE/LTE +13.3% (was +1.2%). collision_convention ledger defect fixed c364add1 (v300).
+- **RYA-1282** — Bride MULTI-to-LW converter now applies MULTI GENCL collision semantics (CH downward; CH0 directed with detailed-balance reverse); the RH CH0 reading failed the LTE limit and the RH CH reading misses the Gerber+2023 departures (0.088 vs 0.0047 dex). MARCS 5750/4.5: triplet b within 0.0047 dex of Gerber+2023 MARCS O grid, 7772 NLTE/LTE +13.3% (was +1.2%). collision_convention ledger defect fixed c364add1 (v300).
 
 ## 2026-11-18 — Main integration and Claude handoff
 
