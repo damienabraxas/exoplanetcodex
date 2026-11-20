@@ -180,26 +180,40 @@ Context, which the molecular background could not survive (27b35842); and TS pri
 
 ## Still open
 
-* **Triplet away from solar metallicity.** Metallicity ladder (2026-11-20, c6abf9ca,
-  `bride_mac_checks/rya1282-qa-zladder-v1`): 120 exact Gerber nodes, Teff 4500/5000/5750/6500,
-  log g 3.5/4.5, all 15 [Fe/H] from +1 to -5, A(O) = 8.70 + [Fe/H] + [O/Fe]. All 120
-  converge (5-33 steps); LTE limit <= 6e-6, conservation 2e-15, detailed balance 5e-16.
-  Triplet photosphere max |dlog b| (5750/4.5): +1 0.088, +0.5 0.040, 0 0.002, -0.5 0.018,
-  -1 0.026, -3 0.023, -5 0.022. Worst rows: 6500/3.5 (0.03-0.12 everywhere), 4500/4.5 at
-  -3..-5 (0.07-0.09). The error is smallest at solar and grows on BOTH sides: at +1 the
-  Bride's 3p 5P levels are further below LTE than MULTI's, at -1..-5 closer to LTE.
-  Ruled out by test: MULTI's O count ignoring the A(O) node (the record responds to the
-  node); a shifted depth axis (record tau = MARCS tau500 exactly); the background metal mix
-  (Bride with solar metals moves the error 0.088 -> 0.083 at +1, 0.0225 -> 0.0216 at -3);
-  microturbulence (grid Vturb 1 km/s = MARCS t01). Earlier note: against the Gerber+2023 MULTI grid the triplet error is
-  0.001-0.005 dex at [Fe/H] 0 but 0.009-0.046 dex at -1 and -2. The Bride's 3p 5P
-  levels sit closer to LTE than MULTI's, and its three J sublevels are nearly equal where
-  MULTI's spread. Scaling the hydrogen collision (CH) rates would fit it, but the best
-  factor depends on metallicity (1 at 0, about 0.5 at -1, about 0.3 at -2), so it is not a
-  units or direction error. MULTI 2.3 applies CH exactly as the Bride does (down = n(H I)
-  x coefficient, up by detailed balance; mul23_opacu.f gencol). Not a ray-count effect
-  (3 vs 6 rays: 0.026 vs 0.028). Next suspects: MULTI's own background opacity
-  (Uppsala package, not TS) and the hydrogen populations it used.
+* **Triplet away from solar metallicity: mostly a property of the reference grid.**
+  Metallicity ladder (2026-11-20, c6abf9ca, `bride_mac_checks/rya1282-qa-zladder-v1`): 120
+  exact Gerber nodes, Teff 4500/5000/5750/6500, log g 3.5/4.5, all 15 [Fe/H] from +1 to -5,
+  A(O) = 8.70 + [Fe/H] + [O/Fe]. All 120 converge (5-33 steps); LTE limit <= 6e-6,
+  conservation 2e-15, detailed balance 5e-16. The triplet error was smallest at solar and
+  grew on both sides (5750/4.5: +1 0.088, 0 0.002, -1 0.026, -3 0.023).
+
+  Cause (inferred, not stated in the papers): MULTI 2.3 reads an atmosphere as T and n_e on
+  a tau5000 scale and derives n(H) from its own EOS with the abundances of its ABUND file.
+  pymulti, the MULTI wrapper our MULTI source comes from, always writes a SOLAR ABUND
+  (Asplund+2009) whatever the model's [Fe/H]. A solar-mix EOS at the model's (T, n_e) gives
+  n(H) wrong by r = e(model)/e(solar) (free electrons per H nucleus): about 10 at +1, 0.24
+  at -1, 0.06-0.08 at -2..-5 (`pipeline/bride_reference_eos.py`, which reproduces MARCS's
+  own n(H) to 1.5%). On a tau scale the opacities and the O count all scale with n(H) and
+  cancel; only the H-collision rates are left scaled by r.
+
+  Test, nothing fitted: Bride with only its CH rates multiplied by r, depth by depth.
+  Triplet error over all 120 nodes: median 0.023 -> 0.005 dex, nodes above 0.02 dex 69 -> 25,
+  103/120 improved. Resolved: every model at [Fe/H] > 0 (e.g. 5750/4.5/+1 0.088 -> 0.004,
+  6500/4.5/+1 0.127 -> 0.006); 4500 and 5000 K at all 15 metallicities (4500/4.5/-5
+  0.089 -> 0.003); 5750/4.5 at all (max 0.010). The depth profile and the J-sublevel spread
+  match too. The Bride keeps the model's true n(H I): no rate is scaled in the Bride.
+
+  Ruled out on the way: MULTI's O count ignoring the A(O) node (the record responds to it);
+  a shifted depth axis (record tau = MARCS tau500 exactly); the background metal mix;
+  microturbulence (grid Vturb 1 km/s = MARCS t01); a full solar-mix n(H) on the geometric
+  scale; background metal-LINE opacity added MULTI's way (Bergemann+2019 Sect. 3.3 tables;
+  Bride option `line_haze`, dcd73f6a: J at 277-350 nm -15% but triplet 0.0881 -> 0.0883 at
+  +1, 0.0261 -> 0.0257 at -1).
+* **Still open: hot and low-gravity metal-poor models.** 6500 K at [Fe/H] <= 0 (up to 0.09
+  dex at 6500/3.5) and 5750/3.5 below -0.5 (0.02-0.03) do not respond to the H-collision
+  correction; 6500/3.5 is already 0.029 at solar. H collisions matter little there; the
+  next suspects are the UV radiation field (Uppsala package vs TS background) and MULTI's
+  own frequency/angle sampling.
 * **Atom counts.** The Bride's own equation of state gives 3-4% fewer neutral Fe atoms
   than TS in the upper layers. We keep the Bride's own count rather than borrow TS's.
 * **The remaining O II gap** (10.8 against 8.17 in the top layer) is not yet explained.
