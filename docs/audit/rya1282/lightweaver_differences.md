@@ -180,7 +180,18 @@ Context, which the molecular background could not survive (27b35842); and TS pri
 
 ## Still open
 
-* **Triplet at low metallicity.** Against the Gerber+2023 MULTI grid the triplet error is
+* **Triplet away from solar metallicity.** Metallicity ladder (2026-11-20, c6abf9ca,
+  `bride_mac_checks/rya1282-qa-zladder-v1`): 120 exact Gerber nodes, Teff 4500/5000/5750/6500,
+  log g 3.5/4.5, all 15 [Fe/H] from +1 to -5, A(O) = 8.70 + [Fe/H] + [O/Fe]. All 120
+  converge (5-33 steps); LTE limit <= 6e-6, conservation 2e-15, detailed balance 5e-16.
+  Triplet photosphere max |dlog b| (5750/4.5): +1 0.088, +0.5 0.040, 0 0.002, -0.5 0.018,
+  -1 0.026, -3 0.023, -5 0.022. Worst rows: 6500/3.5 (0.03-0.12 everywhere), 4500/4.5 at
+  -3..-5 (0.07-0.09). The error is smallest at solar and grows on BOTH sides: at +1 the
+  Bride's 3p 5P levels are further below LTE than MULTI's, at -1..-5 closer to LTE.
+  Ruled out by test: MULTI's O count ignoring the A(O) node (the record responds to the
+  node); a shifted depth axis (record tau = MARCS tau500 exactly); the background metal mix
+  (Bride with solar metals moves the error 0.088 -> 0.083 at +1, 0.0225 -> 0.0216 at -3);
+  microturbulence (grid Vturb 1 km/s = MARCS t01). Earlier note: against the Gerber+2023 MULTI grid the triplet error is
   0.001-0.005 dex at [Fe/H] 0 but 0.009-0.046 dex at -1 and -2. The Bride's 3p 5P
   levels sit closer to LTE than MULTI's, and its three J sublevels are nearly equal where
   MULTI's spread. Scaling the hydrogen collision (CH) rates would fit it, but the best
