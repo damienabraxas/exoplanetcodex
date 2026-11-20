@@ -26,9 +26,11 @@ the 175-277 nm absorption (H+H 39-66%, OH 20-55%, H2+ 4-16% at [Fe/H] -2). n(CH)
 come from a background-only LTE EOS WITH molecules (Lightweaver's molecular equilibrium,
 DefaultMolecules); that EOS also feeds the passive-atom continua (molecule-depleted, as TS).
 The ACTIVE atom's populations are never taken from it.
-Not yet included: TS absko adds Barklem's hbop hydrogen (Lyman-alpha wing with its 160 nm
-H2 quasi-molecular satellite; up to 90% of TS's 150-200 nm total at [Fe/H] -2) and the NH
-continuum after detabs.
+H I bound-free: TS absko adds Barklem & Piskunov's hbop continuum after detabs (occupation
+probability, dissolved levels, n=1 extrapolated to 3647 A with a taper redward of Ly-alpha).
+It is up to 90% of TS's 150-200 nm total at [Fe/H] -2. The Bride replaces Lightweaver's
+H I bound-free with it (pipeline/ts_hbop.py, checked against the compiled Fortran).
+Not included: TS's NH continuum (Stancil), also added in absko.
 """
 from functools import partial
 from pathlib import Path
@@ -117,6 +119,10 @@ class TsMetalBackground(BackgroundProvider):
         if extras:
             H = PeriodicTable['H']
             self._H_stage = np.array([l.stage for l in radSet.atoms[H].levels])
+            Hel = PeriodicTable['H']
+            self._H_old = [t for t in radSet.atoms[Hel].continua
+                           if radSet.atoms[Hel].levels[t.i].stage == 0]
+            self._He_stage = np.array([l.stage for l in radSet.atoms[PeriodicTable['He']].levels])
             for key, label in TS_EXTRA_COMPONENTS.items():
                 if key in _MOLECULE_MASS_AMU and key not in eq.molecularTable:
                     self.skipped.append((key, None, 'molecule not in the background EOS'))
@@ -138,10 +144,18 @@ class TsMetalBackground(BackgroundProvider):
         out = np.zeros((len(self.wave), len(T)))
         if not self.extras:
             return out
+        from pipeline.ts_hbop import hbop_continuum
         nH = np.asarray(self.eq.atomicPops[PeriodicTable['H']].n)
         nHI = nH[self._H_stage == 0].sum(axis=0) * 1e-6               # cm^-3
         nHII = nH[self._H_stage == 1].sum(axis=0) * 1e-6
         lamA = _air_A(self.wave)
+        # H I bound-free: hbop in, Lightweaver's H I continua out
+        nHe = np.asarray(self.eq.atomicPops[PeriodicTable['He']].n)
+        nHeI = nHe[self._He_stage == 0].sum(axis=0) * 1e-6
+        out += hbop_continuum(lamA, T, nHI, nHeI, self.ne * 1e-6) * 100.
+        stim_si = -np.expm1(-c.HC / (c.KBoltzmann * 1e-9 * self.wave[:, None] * T[None, :]))
+        for t in self._H_old:
+            out -= t.alpha(self.wave)[:, None] * stim_si * nH[t.i][None, :]
         stim = -np.expm1(-28556. * (5040. / T)[None, :] / lamA[:, None])   # detabs.f
         for key, comp in self.extras.items():
             tab = comp(self.wave, T)
