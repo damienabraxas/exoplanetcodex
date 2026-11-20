@@ -164,3 +164,11 @@ def test_fixed_width_fields_and_quadratic_log_tables_are_read_as_ts_reads_them()
     w_vac_nm = raw['lam_vac_A'][k] / 10.
     T = 5040. / raw['tet'][j] if ch.iteta > 0 else raw['tet'][j]
     assert ch(np.array([w_vac_nm]), T)[0, 0] == pytest.approx(raw['xkap'][k, j], rel=1e-6)
+
+
+def test_context_with_the_molecular_background_survives_compute_rays():
+    """compute_rays deep-copies the Context; the provider built on a separate molecular EOS
+    must rebuild, not crash (bench v6 failed 14/14 on 'Memoryview is not initialized')."""
+    ctx = _solar_context()
+    I = np.asarray(ctx.compute_rays(wavelengths=np.array([777.4, 777.6]), mus=[1.0]))
+    assert np.all(np.isfinite(I)) and np.all(I > 0)

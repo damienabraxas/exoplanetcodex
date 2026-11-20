@@ -84,6 +84,8 @@ class TsMetalBackground(BackgroundProvider):
                  background_eq=None, extras=True):
         from pipeline.ts_jonabs import JonabsComponent
         super().__init__(eqPops, radSet, wavelength)
+        self._args = (eqPops, radSet, wavelength,
+                      dict(species=species, data_dir=data_dir, background_eq=background_eq, extras=extras))
         eq = eqPops if background_eq is None else background_eq
         self.base = FastBackground(eq, radSet, wavelength, Nthreads=1)
         self.eq = eq
@@ -121,6 +123,15 @@ class TsMetalBackground(BackgroundProvider):
                     continue
                 self.extras[key] = JonabsComponent(d / self.JONABS, label)
         self._cache_T = None
+
+    def __deepcopy__(self, memo):
+        """Lightweaver's compute_rays deep-copies the Context. The compiled FastBackground built
+        on a separate (molecular) EOS cannot be copied, so rebuild from copied inputs."""
+        import copy
+        e, r, w, kw = copy.deepcopy(self._args, memo)
+        out = type(self)(e, r, w, **kw)
+        memo[id(self)] = out
+        return out
 
     def _extra(self, T):
         """The TS extra components (H+H, H2+, CH, OH) per (wavelength, depth), 1/m."""
