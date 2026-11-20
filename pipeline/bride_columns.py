@@ -139,6 +139,7 @@ def _top_boundary(col, top, abundances_dex, logg_cgs):
 INNER_RTOL = 1e-8          # fixed-population J+cap tolerance (RYA-1281 nested plan)
 
 
+CONSERVATION_TOL = 1e-10   # unaccelerated SE measured 1.8e-15; Ng drift above this is rejected
 def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500):
     """One radiation update for the SE step: (dJ, d_boundary) over the whole step.
 
@@ -164,6 +165,7 @@ def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500):
             break
     else:
         raise RuntimeError(f'Fixed-population J/cap not converged: dJ {dj:.2e} cap {db:.2e}')
+    ctx._bride_inner_calls = getattr(ctx, '_bride_inner_calls', 0) + _ + 1
     rel = lambda new, old: float(np.max(abs(new - old) / np.maximum(abs(new), np.finfo(float).tiny)))
     B1 = cap.current(mu)
     return rel(np.array(ctx.spect.J), J0), (1.0 if B0 is None else rel(B1, B0))
@@ -239,7 +241,8 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
         matrix[:] /= scale
         # Safeguarded Ng (RYA-1282): with MULTI-semantics collisions an Ng extrapolation can
         # propose negative populations; reject it, clear Ng, re-solve the same equation once.
-        rejected = positive_stat_equil(ctx, active, old, reject_invalid_ng=True)
+        rejected = positive_stat_equil(ctx, active, old, reject_invalid_ng=True,
+                                       conservation_tol=CONSERVATION_TOL)
         n = active.n.copy()
         rates = physical_rate_matrix(active)
         balance = np.einsum('ijd,jd->id', rates, n)
@@ -252,8 +255,13 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
                             physical_rate_residual=rate, particle_conservation_error=conservation,
                             rejected_invalid_ng=bool(rejected), boundary_change=boundary,
                             estimated_error=err_est, contraction_rate=rho))
-        if conservation > 1e-10:
-            raise ValueError('Particle conservation failed')
+        if conservation > CONSERVATION_TOL:
+            k = int(np.argmax(abs(n.sum(axis=0) / active.nTotal - 1)))
+            err = ValueError(f'Particle conservation failed: {conservation:.3e} at depth {k} '
+                             f'(T {ctx.atmos.pyAtmos.temperature[k]:.0f} K), iteration {iteration + 1}, '
+                             f'Ng rejected this step: {bool(rejected)}, min n/nTotal {float((n / active.nTotal).min()):.2e}')
+            err.history = history
+            raise err
         if monitor is not None and (iteration + 1) % every == 0:
             history[-1]['monitor'] = monitor(ctx)
             if observable_tol is not None:

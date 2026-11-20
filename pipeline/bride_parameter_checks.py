@@ -3,14 +3,23 @@ import copy
 import numpy as np
 
 
-def positive_stat_equil(ctx, active, previous, *, reject_invalid_ng):
+def positive_stat_equil(ctx, active, previous, *, reject_invalid_ng, conservation_tol=None):
     """Retry an invalid accelerated update once with cleared Ng history.
 
     Same physical equation/operator. A bad unaccelerated retry still fails;
     no clipping, population floor or changed convergence tolerance is allowed.
+    Invalid = non-finite, non-positive, or (conservation_tol given) particle
+    conservation broken beyond it. RYA-1282, STAGGER x12_y77: unaccelerated SE
+    conserves to 1.8e-15 over 800 iterations; ill-conditioned Ng combinations late
+    in the solve drift to 2.7e-10, so they are rejected, never renormalised.
     """
     ctx.stat_equil()
-    valid=lambda:np.isfinite(active.n).all() and np.all(active.n>0)
+    def valid():
+        if not (np.isfinite(active.n).all() and np.all(active.n>0)):
+            return False
+        if conservation_tol is None:
+            return True
+        return float(np.max(abs(active.n.sum(axis=0)/active.nTotal-1)))<=conservation_tol
     rejected=not valid()
     if rejected and reject_invalid_ng:
         active.n[:]=previous
