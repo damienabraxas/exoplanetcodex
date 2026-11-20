@@ -65,8 +65,15 @@ def marcs_column(structure: dict) -> dict:
 def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, vturb_m_s,
                    rays: int, qscale: int = 1, ng: bool = True, lte: bool = False,
                    fixed_populations=None, continuum_only: bool = False, top: str = 'cap',
-                   background: str = 'ts_metals'):
-    """Lightweaver context for one column; O active (or fixed), passive atoms in LTE."""
+                   background: str = 'ts_metals', operator: str = 'mali'):
+    """Lightweaver context for one column; O active (or fixed), passive atoms in LTE.
+
+    operator: the population-update (preconditioning) operator. 'mali' (default): the
+    RYA-1281 receipted plugin's complete weighted MALI with the cap emissivity derivative
+    (stock Lightweaver MALI is unstable on this atom: 52/56 frozen systems, spectral radius
+    1194, from overlapping continua). 'lambda': pure Lambda iteration (Psi* = 0), the
+    pre-2026-11-20 column path - contracts at ~0.99-0.998 and stalls with Ng on some models.
+    Physical rates are identical either way; only the speed and the reachable tolerance differ."""
     import lightweaver as lw
     from lightweaver import rh_atoms
     from lightweaver.atomic_table import PeriodicTable
@@ -114,6 +121,17 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
                      conserveCharge=False, ngOptions=options, backgroundProvider=provider)
     if top == 'cap':
         ctx.depthData.fill = True          # the cap reads the actual top-layer chi/eta
+    if operator == 'mali':
+        from config.constants import require_codex_path
+        from pipeline.bride_overlap_plugin import load_overlap_plugin
+        scheme, receipt = load_overlap_plugin(require_codex_path('experiments.bride_mali_cap_plugin'))
+        if scheme != 'bride_full_coupling_cap_scalar':
+            raise ValueError(f'Registered MALI plugin is {scheme!r}, not the cap-coupled scheme')
+        ctx.set_fs_iter_scheme(scheme)
+        ctx._bride_operator_receipt = receipt
+    elif operator != 'lambda':
+        raise ValueError(f'Unknown operator {operator!r}')
+    ctx._bride_operator = operator
     return ctx
 
 
@@ -136,6 +154,7 @@ def _top_boundary(col, top, abundances_dex, logg_cgs):
     return ColumnCap(L)
 
 
+MALI_REFRESH_TOL = 1e-6   # the MALI Gamma refresh may move converged J/cap by at most this
 INNER_RTOL = 1e-8          # fixed-population J+cap tolerance (RYA-1281 nested plan)
 
 
@@ -150,16 +169,28 @@ def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500):
     """
     from pipeline.bride_top_cap import ColumnCap
     cap = ctx.atmos.pyAtmos.zUpperBc
-    if not isinstance(cap, ColumnCap):
+    is_cap = isinstance(cap, ColumnCap)
+    mali = getattr(ctx, '_bride_operator', 'lambda') == 'mali'
+    if not is_cap and not mali:
         return float(ctx.formal_sol_gamma_matrices(lambdaIterate=True).dJMax), 0.0
     mu = np.abs(np.asarray(ctx.atmos.pyAtmos.muz))
     J0 = np.array(ctx.spect.J).copy()
-    B0 = cap.current(mu)
+    B0 = cap.current(mu) if is_cap else None
     calls, _, _ = _fixed_population_radiation(ctx, inner_rtol, maxiter)
-    ctx._bride_inner_calls = getattr(ctx, '_bride_inner_calls', 0) + calls
     rel = lambda new, old: float(np.max(abs(new - old) / np.maximum(abs(new), np.finfo(float).tiny)))
-    B1 = cap.current(mu)
-    return rel(np.array(ctx.spect.J), J0), (1.0 if B0 is None else rel(B1, B0))
+    if mali:
+        # J and the cap are converged at these populations; one more formal solution with the
+        # MALI operator builds Gamma for the population update. It must not move J or the cap.
+        before = np.array(ctx.spect.J).copy()
+        ctx.formal_sol_gamma_matrices(lambdaIterate=False,
+                                      extraParams={'BrideCapLengthM': float(cap.length_m) if is_cap else 0.0})
+        moved = max(rel(np.array(ctx.spect.J), before), refresh_cap(ctx, before[:, 0]))
+        if not moved < MALI_REFRESH_TOL:
+            raise ValueError(f'MALI operator refresh moved the fixed-population radiation by {moved:.2e}')
+        calls += 1
+    ctx._bride_inner_calls = getattr(ctx, '_bride_inner_calls', 0) + calls
+    boundary = (1.0 if B0 is None else rel(cap.current(mu), B0)) if is_cap else 0.0
+    return rel(np.array(ctx.spect.J), J0), boundary
 
 
 def refresh_cap(ctx, previous_J_top):

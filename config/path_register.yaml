@@ -973,6 +973,12 @@ entries:
     rel: bride_inputs/rya1281/reference-5750-4.5-A8.70-v1.json
     kind: file
     desc: Exact held independent MULTI departure record; native producer input parity remains to qualify.
+  experiments.bride_mali_cap_plugin:
+    root: work
+    rel: bride_inputs/rya1282/mali-cap-plugin-v1
+    env: CODEX_BRIDE_MALI_CAP_PLUGIN
+    kind: dir
+    desc: RYA-1281 receipted Lightweaver iteration plugin (bride_full_coupling_cap_scalar) - complete weighted MALI operator with the finite-cap emissivity derivative; physical rates unchanged. Built for the Mac LwCompiled (receipt pins the backend hash). Bride column-path population operator (RYA-1282).
   experiments.bride_oxygen_atom:
     root: work
     rel: bride_inputs/rya1281/atom.o41f

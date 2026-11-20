@@ -4,8 +4,8 @@ RYA-1282, 2026-11-20. The Bride runs on Lightweaver 0.16.1. Our oxygen atom (ato
 was written for MULTI 2.3, the reference departures come from the Gerber, Bergemann et
 al. 2023 MULTI grid (A&A 669, A43), and the atmospheres and background opacities come
 from MARCS / Turbospectrum (TS). Four places were found where Lightweaver, used as
-shipped, does something different from those codes. Each one is now fixed in the Bride
-and pinned by tests. Anyone using Lightweaver elsewhere in the Codex should read this.
+shipped, does something different from those codes, plus one solver weakness (section 5).
+Each one is now fixed in the Bride and pinned by tests. Anyone using Lightweaver elsewhere in the Codex should read this.
 
 Benchmark: the solar node of the Gerber+2023 grid (MARCS 5750/4.5, A(O) = 8.70),
 graded by `scripts/bride_qa_benchmark.py`.
@@ -100,6 +100,41 @@ Effect on the solar benchmark (top cap and MULTI interpolation in both cases):
 The 777 lines barely move (about 0.1%); the atom's populations, especially O II, move a
 lot. Tests: `tests/test_bride_ts_background_rya1282.py`, including a check that the old
 background fails the same comparison.
+
+## 5. Background scattering is iterated slowly (fixed, 554c6b73 + c6e94706)
+
+This is a solver difference rather than a physics difference. Lightweaver puts background
+scattering (Rayleigh and electron scattering) into the formal solution using J from the
+previous solution, a plain "Lambda iteration". Each pass shrinks the error by roughly the
+fraction of the opacity that is scattering. In the solar model that fraction is modest and
+J converges in about 90 passes (0.78 per pass). In metal-poor models the upper layers are
+almost pure scattering near 122 nm (99.8% at 5750/4.5/-2), so each pass removes only
+0.5% of the error. J had not converged after 3000 passes.
+
+Before the top cap, J was updated once per population step, so this slowness was hidden
+inside the population solve. That is the likely reason three of the [Fe/H] -2 benchmark
+models never converged.
+
+The Bride now uses accelerated Lambda iteration (ALI) for the scattering term, the
+standard method: each update divides the change by (1 - Lambda* x albedo), with Lambda*
+the local part of the transfer operator, including the cap's own scattering. Ng
+acceleration is applied on top. Passes needed to reach 1e-10 on 5750/4.5/-2:
+
+| Method | Vacuum top | Top cap |
+|---|---|---|
+| Lightweaver's plain iteration | > 3000 | - |
+| Ng only | 491 | - |
+| ALI only | 268 | 432 |
+| ALI + Ng (Bride) | 66 | 132 |
+
+All methods reach the same J (to 2.4e-8 or better), so the answer is unchanged; only the
+speed differs. Code: `scattering_lambda_star` and `_fixed_population_radiation` in
+`pipeline/bride_columns.py`. Tests: `tests/test_bride_ng_conservation_rya1282.py`.
+
+Related: Lightweaver's own Ng acceleration of the populations can occasionally break
+conservation of the atom's total number (2.7e-10 on one 3D column, against 1.8e-15
+without it). The Bride rejects such a step and redoes it without acceleration
+(f3bdc4f9).
 
 ## Still open
 
