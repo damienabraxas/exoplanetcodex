@@ -54,3 +54,36 @@ def test_ng_on_J_is_exact_for_a_two_mode_linear_iteration_and_refuses_bad_steps(
     assert np.max(abs(its[-1] / fixed - 1)) > 1e-2               # plain iterate is far off
     flat = [np.ones(6)] * 4
     assert ng_extrapolate(flat) is None                           # singular -> plain iterate stands
+
+
+def test_ali_converges_the_scattering_dominated_metal_poor_column_plain_lambda_does_not():
+    """MARCS 5750/4.5/-2, LTE populations, cap top: albedo 0.998 at 122.5 nm. Measured:
+    ALI+Ng 132 formal solutions to 1e-10; plain Lambda iteration contracts at 0.995."""
+    pytest.importorskip('lightweaver')
+    from dataclasses import replace
+    import pipeline.bride_columns as BC
+    from config.constants import require_codex_path
+    from pipeline.multi_atom import read_multi_atom
+    from pipeline.bride_parameter_checks import marcs_filename
+    from pipeline.bride_reference import read_marcs_structure
+    try:
+        atom = replace(read_multi_atom(require_codex_path('experiments.bride_oxygen_atom')), abundance=7.1)
+        S = read_marcs_structure(require_codex_path('grids.marcs_standard') / marcs_filename(5750, 4.5, -2.0, 0.4))
+    except Exception as e:                                         # noqa: BLE001
+        pytest.skip(f'O atom / MARCS not held here: {e}')
+    def ctx():
+        return BC.column_context(BC.marcs_column(S), atom, lte=True, abundances_dex=S['abundances_dex'],
+                                 logg_cgs=S['logg_cgs'], vturb_m_s=S['vturb_m_s'], rays=3)
+    c = ctx()
+    n = BC.converge_radiation(c, tol=1e-10, maxiter=200)
+    assert n <= 200
+    le = BC.scattering_lambda_star(c)
+    assert 0.98 < le.max() < 1                                    # the scattering-dominated regime
+    plain = ctx(); plain.depthData.fill = True
+    for _ in range(n):
+        top = np.array(plain.spect.J)[:, 0].copy()
+        dj = plain.formal_sol_gamma_matrices(lambdaIterate=True).dJMax
+        BC.refresh_cap(plain, top)
+    assert dj > 1e-6                                              # negative control: plain is far from done
+    J_ref = np.array(c.spect.J)
+    assert np.max(abs(np.array(plain.spect.J) / J_ref - 1)) > 1e-4

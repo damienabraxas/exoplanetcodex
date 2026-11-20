@@ -192,34 +192,83 @@ def ng_extrapolate(iterates):
     return x if np.isfinite(x).all() and np.all(x > 0) else None
 
 
+def scattering_lambda_star(ctx):
+    """Lambda* x albedo per (wavelength, depth): the local part of the formal solution's
+    response of J to the background-scattering source sca*J/chi.
+
+    Diagonal of the linear short-characteristic operator, psi_0 = 1 - (1 - e^-dtau)/dtau on
+    each ray's upwind segment (dtau from the trapezoid chi on the column's heights), weighted
+    by the J quadrature (J = sum_mu w/2 (I_down + I_up), sum w = 1, measured). The top layer's
+    downward rays take the ColumnCap slab, whose source is the top layer's own:
+    psi = 1 - e^(-chi L / mu). Zero at the bottom (thermalised boundary). An approximate
+    diagonal is the standard ALI (Olson, Auer & Buchler 1986); it changes the speed, never the
+    fixed point. Needs depthData filled by a formal solution at the current populations."""
+    a = ctx.atmos.pyAtmos
+    mu = np.abs(np.asarray(a.muz)); w = np.asarray(a.wmu); z = np.asarray(a.height)
+    chi = np.asarray(ctx.depthData.chi)                         # (wave, mu, toObs, depth)
+    if not np.any(chi > 0):
+        raise ValueError('depthData not filled: run a formal solution with depthData.fill on')
+    sca = np.asarray(ctx.background.sca)
+    L = getattr(a.zUpperBc, 'length_m', 0.0)
+    dz = -np.diff(z)
+    if np.any(dz <= 0):
+        raise ValueError('Heights must decrease with depth index')
+    out = np.zeros((chi.shape[0], chi.shape[3]))
+    for j in range(len(mu)):
+        for d in (0, 1):
+            c = chi[:, j, d, :]
+            dt = 0.5 * (c[:, :-1] + c[:, 1:]) * dz / mu[j]
+            seg = 1 - (-np.expm1(-dt)) / dt
+            psi = np.zeros_like(c)
+            if d == 0:                                          # toward the observer's far side: down
+                psi[:, 1:] = seg
+                psi[:, 0] = -np.expm1(-c[:, 0] * L / mu[j])
+            else:
+                psi[:, :-1] = seg
+            out += 0.5 * w[j] * psi * sca / c
+    if not (np.isfinite(out).all() and out.min() >= 0 and out.max() < 1):
+        raise ValueError('Invalid scattering Lambda*')
+    return out
+
+
 def _fixed_population_radiation(ctx, tol, maxiter):
-    """Converge J and the top cap at fixed populations; returns (iterations, dJ, d_cap).
+    """Converge J and the top cap at fixed populations; returns (formal solutions, dJ, d_cap).
 
     Background scattering enters Lightweaver's formal solution as sca*J with J from the
-    previous solution (plain Lambda iteration). Its contraction rate is ~ the scattering
-    albedo: solar 0.78 per solution, MARCS 5750/4.5/-2 0.995 (albedo 0.998 at 122.5 nm),
-    which did not converge in 3000 solutions. Ng on J reaches 1e-10 in 491, agreeing with the
-    3000-solution plain answer to 2.9e-5 (= that answer's own remaining error). Lightweaver
-    uses the J written back (measured). dJ is measured here, not taken from dJMax, so a
-    written-back J is compared with the formal solution it produced."""
+    previous solution (plain Lambda iteration), contracting at ~ the albedo: MARCS
+    5750/4.5/-2 0.995 per solution (albedo 0.998 at 122.5 nm), not converged in 3000.
+    Here: ALI on the scattering term (scattering_lambda_star) plus Ng (Auer 1987) on J.
+    Formal solutions to 1e-10 on 5750/4.5/-2: vacuum 66 (Ng alone 491), cap 132 (ALI alone
+    432); 6500/4.5/-2 cap 222 (Ng alone failed). Fixed point unchanged: vs Ng 2.4e-8, vs
+    ALI alone 5e-10. The cap is refreshed from the CURRENT J before each solution, so the
+    formal solution and the ALI see the same J (a cap lagged one solution made ALI oscillate
+    to negative J). Lightweaver uses a written-back J (measured); dJ is measured here."""
+    ctx.depthData.fill = True
+    if not np.any(np.asarray(ctx.depthData.chi) > 0):
+        ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+    le = scattering_lambda_star(ctx)
     iterates = []
     dj = db = float('inf')
     for j in range(maxiter):
         before = np.array(ctx.spect.J).copy()
+        db = refresh_cap(ctx, before[:, 0])
         ctx.formal_sol_gamma_matrices(lambdaIterate=True)
         after = np.array(ctx.spect.J).copy()
         if not np.isfinite(after).all():
             raise ValueError('Nonfinite radiation update')
         dj = float(np.max(np.abs(after - before) / np.maximum(np.abs(after), np.finfo(float).tiny)))
-        db = refresh_cap(ctx, before[:, 0])
         if max(dj, db) < tol:
             return j + 1, dj, db
-        iterates.append(after)
+        new = before + (after - before) / (1 - le)
+        if not np.all(new > 0):
+            new = after                                         # plain step, never a clipped one
+        iterates.append(new)
         if len(iterates) == J_NG_PERIOD:
             x = ng_extrapolate(iterates)
             if x is not None:
-                ctx.spect.J[:] = x
+                new = x
             iterates = []
+        ctx.spect.J[:] = new
     raise RuntimeError(f'Radiation (J/cap) convergence failed: dJ {dj:.2e} cap {db:.2e}')
 
 
