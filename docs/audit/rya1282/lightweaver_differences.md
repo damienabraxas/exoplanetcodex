@@ -4,7 +4,7 @@ RYA-1282, 2026-11-20. The Bride runs on Lightweaver 0.16.1. Our oxygen atom (ato
 was written for MULTI 2.3, the reference departures come from the Gerber, Bergemann et
 al. 2023 MULTI grid (A&A 669, A43), and the atmospheres and background opacities come
 from MARCS / Turbospectrum (TS). Four places were found where Lightweaver, used as
-shipped, does something different from those codes, plus one solver weakness (section 5).
+shipped, does something different from those codes, plus one solver weakness (section 5) and a set of missing ultraviolet sources (section 6).
 Each one is now fixed in the Bride and pinned by tests. Anyone using Lightweaver elsewhere in the Codex should read this.
 
 Benchmark: the solar node of the Gerber+2023 grid (MARCS 5750/4.5, A(O) = 8.70),
@@ -136,12 +136,56 @@ conservation of the atom's total number (2.7e-10 on one 3D column, against 1.8e-
 without it). The Bride rejects such a step and redoes it without acceleration
 (f3bdc4f9).
 
+## 6. Missing ultraviolet sources in metal-poor stars (fixed, ffbcd4f1 + 789fd36c)
+
+Section 4 matched TS at solar metallicity. A native TS run for all 14 benchmark models
+(150-450 nm) showed that in metal-poor photospheres most of the far-UV absorption comes
+from sources Lightweaver does not have at all. At [Fe/H] = -2, Lightweaver's background
+was only 8-10% of TS's at 150-200 nm and 63-69% at 200-277 nm.
+
+| Source | Share of TS absorption, [Fe/H] -2 photosphere | In Lightweaver? |
+|---|---|---|
+| Dissolved Lyman continuum (hbop, n=1 bound-free extrapolated past 91 nm) | up to 90% at 150-200 nm | no |
+| H + H collision-induced absorption (Doyle 1968) | 39-66% at 175-230 nm | no |
+| OH continuum | 20-55% at 150-230 nm (cool stars) | no |
+| H2+ | 4-16% | no |
+| CH continuum | 0-3% (12% near 355 nm at solar) | no |
+
+The Bride now adds all five, read and interpolated exactly as TS does
+(`pipeline/ts_jonabs.py`, `pipeline/ts_hbop.py`, `pipeline/bride_ts_background.py`).
+CH and OH amounts come from Lightweaver's molecular equilibrium, run for the
+background only; the oxygen atom keeps its own populations. The hbop port agrees with
+TS's compiled Fortran to 3e-6 (median).
+
+Agreement with TS (photosphere, oxygen excluded, typical difference in dex):
+
+| Band | Lightweaver background | Bride now |
+|---|---|---|
+| 150-200 nm | 0.14-1.21 | 0.007-0.106 |
+| 200-277 nm | 0.15-0.48 | 0.005-0.021 |
+| worst point, 200-431 nm | 0.61-1.50 | 0.017-0.17 |
+
+Effect on the benchmark (all 14 models converge in 6-31 steps): the LTE-limit error at
+depth in metal-poor models fell from up to 2.3e-4 to 2e-6 or less, and the O II top
+departure moved toward the reference in every model. The 777 triplet error at
+[Fe/H] -1 and -2 did not change (see Still open).
+
+Two related bugs were fixed along the way: Lightweaver's `compute_rays` deep-copies the
+Context, which the molecular background could not survive (27b35842); and TS prints
+`T=10191.4` without a space in hot layers, which broke our reader for 6500 K models
+(118f5eb5).
+
 ## Still open
 
-* **CH continuum.** TS includes ultraviolet absorption by the CH molecule (up to 12% of
-  the top-layer total near 355 nm). The Bride does not yet, because it needs the amount
-  of CH, which needs a small molecular equilibrium (carbon is largely locked in CO in
-  the upper layers). This is the main remaining background difference.
+* **Triplet at low metallicity.** Against the Gerber+2023 MULTI grid the triplet error is
+  0.001-0.005 dex at [Fe/H] 0 but 0.009-0.046 dex at -1 and -2. The Bride's 3p 5P
+  levels sit closer to LTE than MULTI's, and its three J sublevels are nearly equal where
+  MULTI's spread. Scaling the hydrogen collision (CH) rates would fit it, but the best
+  factor depends on metallicity (1 at 0, about 0.5 at -1, about 0.3 at -2), so it is not a
+  units or direction error. MULTI 2.3 applies CH exactly as the Bride does (down = n(H I)
+  x coefficient, up by detailed balance; mul23_opacu.f gencol). Not a ray-count effect
+  (3 vs 6 rays: 0.026 vs 0.028). Next suspects: MULTI's own background opacity
+  (Uppsala package, not TS) and the hydrogen populations it used.
 * **Atom counts.** The Bride's own equation of state gives 3-4% fewer neutral Fe atoms
   than TS in the upper layers. We keep the Bride's own count rather than borrow TS's.
 * **The remaining O II gap** (10.8 against 8.17 in the top layer) is not yet explained.
