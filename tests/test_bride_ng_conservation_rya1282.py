@@ -36,3 +36,21 @@ def test_an_unaccelerated_retry_that_still_drifts_fails():
     ctx, active = _ctx([DRIFT, DRIFT])
     with pytest.raises(ValueError):
         positive_stat_equil(ctx, active, GOOD, reject_invalid_ng=True, conservation_tol=1e-10)
+
+
+def test_ng_on_J_is_exact_for_a_two_mode_linear_iteration_and_refuses_bad_steps():
+    """J at fixed populations follows J <- A + M J (scattering). With two decaying modes,
+    an order-2 Ng step from four iterates lands on the fixed point to rounding."""
+    from pipeline.bride_columns import ng_extrapolate
+    rng = np.random.default_rng(1282)
+    Q, _ = np.linalg.qr(rng.normal(size=(6, 6)))
+    M = Q @ np.diag([0.995, 0.9, 0, 0, 0, 0]) @ Q.T           # albedo-like slow mode
+    fixed = 1 + rng.random(6)
+    A = fixed - M @ fixed
+    x = np.ones(6) * 3; its = []
+    for _ in range(4):
+        x = A + M @ x; its.append(x)
+    np.testing.assert_allclose(ng_extrapolate(its), fixed, rtol=1e-9)
+    assert np.max(abs(its[-1] / fixed - 1)) > 1e-2               # plain iterate is far off
+    flat = [np.ones(6)] * 4
+    assert ng_extrapolate(flat) is None                           # singular -> plain iterate stands

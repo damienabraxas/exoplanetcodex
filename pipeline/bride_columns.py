@@ -155,17 +155,8 @@ def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500):
     mu = np.abs(np.asarray(ctx.atmos.pyAtmos.muz))
     J0 = np.array(ctx.spect.J).copy()
     B0 = cap.current(mu)
-    for _ in range(maxiter):
-        top = np.array(ctx.spect.J)[:, 0].copy()
-        dj = float(ctx.formal_sol_gamma_matrices(lambdaIterate=True).dJMax)
-        if not np.isfinite(dj):
-            raise ValueError('Nonfinite radiation update')
-        db = cap.update_from_context(ctx, top)
-        if max(dj, db) < inner_rtol:
-            break
-    else:
-        raise RuntimeError(f'Fixed-population J/cap not converged: dJ {dj:.2e} cap {db:.2e}')
-    ctx._bride_inner_calls = getattr(ctx, '_bride_inner_calls', 0) + _ + 1
+    calls, _, _ = _fixed_population_radiation(ctx, inner_rtol, maxiter)
+    ctx._bride_inner_calls = getattr(ctx, '_bride_inner_calls', 0) + calls
     rel = lambda new, old: float(np.max(abs(new - old) / np.maximum(abs(new), np.finfo(float).tiny)))
     B1 = cap.current(mu)
     return rel(np.array(ctx.spect.J), J0), (1.0 if B0 is None else rel(B1, B0))
@@ -178,15 +169,63 @@ def refresh_cap(ctx, previous_J_top):
     return cap.update_from_context(ctx, previous_J_top) if isinstance(cap, ColumnCap) else 0.0
 
 
+J_NG_PERIOD = 5     # Ng (Auer 1987, order 2) on J every 5 formal solutions of the inner loop
+
+
+def ng_extrapolate(iterates):
+    """Auer (1987) order-2 Ng step from the last four iterates (oldest first), weighted by
+    1/x^2 so every wavelength and depth counts in relative terms. None if the system is
+    singular or the result is not finite and positive (then the plain iterate stands)."""
+    x3, x2, x1, x0 = iterates[-4:]
+    d0 = x0 - x1
+    d1 = d0 - (x1 - x2)
+    d2 = d0 - (x2 - x3)
+    w = 1.0 / np.maximum(np.abs(x0), np.finfo(float).tiny) ** 2
+    A = np.array([[np.sum(w * d1 * d1), np.sum(w * d1 * d2)],
+                  [np.sum(w * d2 * d1), np.sum(w * d2 * d2)]])
+    b = np.array([np.sum(w * d0 * d1), np.sum(w * d0 * d2)])
+    try:
+        a, c = np.linalg.solve(A, b)
+    except np.linalg.LinAlgError:
+        return None
+    x = (1 - a - c) * x0 + a * x1 + c * x2
+    return x if np.isfinite(x).all() and np.all(x > 0) else None
+
+
+def _fixed_population_radiation(ctx, tol, maxiter):
+    """Converge J and the top cap at fixed populations; returns (iterations, dJ, d_cap).
+
+    Background scattering enters Lightweaver's formal solution as sca*J with J from the
+    previous solution (plain Lambda iteration). Its contraction rate is ~ the scattering
+    albedo: solar 0.78 per solution, MARCS 5750/4.5/-2 0.995 (albedo 0.998 at 122.5 nm),
+    which did not converge in 3000 solutions. Ng on J reaches 1e-10 in 491, agreeing with the
+    3000-solution plain answer to 2.9e-5 (= that answer's own remaining error). Lightweaver
+    uses the J written back (measured). dJ is measured here, not taken from dJMax, so a
+    written-back J is compared with the formal solution it produced."""
+    iterates = []
+    dj = db = float('inf')
+    for j in range(maxiter):
+        before = np.array(ctx.spect.J).copy()
+        ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+        after = np.array(ctx.spect.J).copy()
+        if not np.isfinite(after).all():
+            raise ValueError('Nonfinite radiation update')
+        dj = float(np.max(np.abs(after - before) / np.maximum(np.abs(after), np.finfo(float).tiny)))
+        db = refresh_cap(ctx, before[:, 0])
+        if max(dj, db) < tol:
+            return j + 1, dj, db
+        iterates.append(after)
+        if len(iterates) == J_NG_PERIOD:
+            x = ng_extrapolate(iterates)
+            if x is not None:
+                ctx.spect.J[:] = x
+            iterates = []
+    raise RuntimeError(f'Radiation (J/cap) convergence failed: dJ {dj:.2e} cap {db:.2e}')
+
+
 def converge_radiation(ctx, *, tol: float = 1e-8, maxiter: int = 1000) -> int:
     """J (and the top cap) at fixed populations, to a declared tolerance."""
-    for j in range(maxiter):
-        top = np.array(ctx.spect.J)[:, 0].copy()
-        dj = ctx.formal_sol_gamma_matrices(lambdaIterate=True).dJMax
-        db = refresh_cap(ctx, top)
-        if max(dj, db) < tol:
-            return j + 1
-    raise RuntimeError(f'Radiation (J/cap) convergence failed: dJ {dj:.2e} cap {db:.2e}')
+    return _fixed_population_radiation(ctx, tol, maxiter)[0]
 
 
 RATE_WINDOW = 5     # = Ng period; a window spanning one extrapolation is not distorted by it
