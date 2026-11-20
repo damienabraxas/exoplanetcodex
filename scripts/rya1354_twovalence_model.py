@@ -42,7 +42,9 @@ STATUS = 'CANDIDATE_HOLD_NOT_ADOPTED'
 LMAX = 4
 SPECIES = {
     'Mg I': dict(core='Mg II', ip=61671.05, levels=REF / 'onevalence_nist/MgI_levels.csv', corepfx='2p6',
-                 lab=REF / 'mg_gf_lab/mg1_lab_loggf_pehlivan2017.csv', linelist=('Mg', 'I'), out='mg1_model_v65', labprefix='3s'),
+                 lab=REF / 'mg_gf_lab/mg1_lab_loggf_pehlivan2017.csv', linelist=('Mg', 'I'), out='mg1_model_v67', labprefix='3s',
+                 intercomb_ref=(('3s2 1S0', '3s.3p 3P*1', -5.623, 'KP08 Table 40 / Tachiev & Froese Fischer BP-MCHF, class D'),),
+                 forbidden={2154.353: 'E2', 2089.149: 'M2', 4562.602: 'M2', 2084.537: 'E2'}),
     'Ca I': dict(core='Ca II', ip=49305.92, levels=REF / 'onevalence_nist/CaI_levels.csv', corepfx='3p6',
                  lab=REF / 'lab_gf_tables/transcribed/denhartog2021_ca1.csv', linelist=('Ca', 'I'), out='ca1_model_v66', labprefix='4s'),
 }
@@ -440,6 +442,194 @@ def multiplets(B, S_):
     return out
 
 
+# ---------------------------------------------------------------- spin-orbit / intermediate coupling (v67)
+ALPHA_FS = 1 / 137.035999
+
+
+def xi_radial(B, l):
+    """<i|xi_l|k> on the CI orbitals of l, xi_l(r) = (alpha^2/2)(1/r) dV_l/dr of OUR fitted core potential (hartree)."""
+    if l == 0:
+        return None
+    V = M.potential(B.r, l, B.params[min(l, 3)])
+    xi = ALPHA_FS ** 2 / 2 * np.gradient(V, B.x) / B.r ** 2
+    z = B.orb[l][1]
+    return z.T @ (z * xi[:, None]) * B.dx
+
+
+@lru_cache(None)
+def sixj_h(a, b, c, d, e, f):
+    """6j with half-integers given as Fractions."""
+    return M.sixj(a, b, c, d, e, f)
+
+
+def spin_rme(S1, S2, electron):
+    """<(1/2 1/2)S1||s(i)||(1/2 1/2)S2>."""
+    h = Fr(1, 2)
+    six = sixj_h(h, Fr(S1), h, Fr(S2), h, Fr(1))
+    ph = (-1) ** S2 if electron == 1 else (-1) ** S1
+    return ph * math.sqrt((2 * S1 + 1) * (2 * S2 + 1)) * six * math.sqrt(1.5)
+
+
+def so_matrix(B, xr, cf1, L1, S1, cf2, L2, S2):
+    """Configuration-level <cf1 L1 S1 || sum_i xi(r_i) u^(11)(i) || cf2 L2 S2> (orbital x spin double tensor)."""
+    fac = math.sqrt((2 * L1 + 1) * (2 * L2 + 1))
+    sp1, sp2 = spin_rme(S1, S2, 1), spin_rme(S1, S2, 2)
+
+    def lred(l):
+        return math.sqrt(l * (l + 1) * (2 * l + 1))
+
+    def prim(la, ia, lb, ib, lc, ic, ld, id_):
+        v = 0.0
+        if lb == ld and ib == id_ and la == lc and la > 0:
+            v += (-1) ** (la + lb + L2 + 1) * fac * sixj(la, L1, lb, L2, lc, 1) * lred(la) * xr[la][ia, ic] * sp1
+        if la == lc and ia == ic and lb == ld and lb > 0:
+            v += (-1) ** (la + ld + L1 + 1) * fac * sixj(lb, L1, la, L2, ld, 1) * lred(lb) * xr[lb][ib, id_] * sp2
+        return v
+    n1 = [1 / math.sqrt(2 * (1 + ((-1) ** (S1 + la + lb + L1)) * (la == lb and ia == ib))) for la, ia, lb, ib in cf1]
+    n2 = [1 / math.sqrt(2 * (1 + ((-1) ** (S2 + la + lb + L2)) * (la == lb and ia == ib))) for la, ia, lb, ib in cf2]
+    by = {}
+    for j, (lc, ic, ld, id_) in enumerate(cf2):
+        by.setdefault((lc, ld, ic), []).append(j)
+        by.setdefault((lc, ld, id_), []).append(j)
+    W = np.zeros((len(cf1), len(cf2)))
+    for i, (la, ia, lb, ib) in enumerate(cf1):
+        cand = set()
+        for key in ((la, lb, ia), (la, lb, ib), (lb, la, ia), (lb, la, ib)):
+            cand.update(by.get(key, []))
+        for j in cand:
+            lc, ic, ld, id_ = cf2[j]
+            eta = (-1) ** (S2 + lc + ld + L2)
+            W[i, j] = 2 * n1[i] * n2[j] * (prim(la, ia, lb, ib, lc, ic, ld, id_) + eta * prim(la, ia, lb, ib, ld, id_, lc, ic))
+    return W
+
+
+def ls_so(B, S_):
+    """<T1 L S||V(11)||T2 L' S'> between all matched NIST terms of the same parity (|dL|,|dS| <= 1)."""
+    xr = {l: xi_radial(B, l) for l in range(1, LMAX + 1)}
+    out = {}
+    syms = sorted(S_)
+    for a in syms:
+        for b in syms:
+            (L1, s1, p1), (L2, s2, p2) = a, b
+            if a > b or p1 != p2 or abs(L1 - L2) > 1 or abs(s1 - s2) > 1 or (s1 == 0 and s2 == 0) or (L1 == 0 and L2 == 0):
+                continue
+            d1, d2 = S_[a], S_[b]
+            if not d1['match'] or not d2['match']:
+                continue
+            i1 = sorted(d1['match']); c1 = d1['v'][:, [d1['match'][j] for j in i1]]
+            i2 = sorted(d2['match']); c2 = d2['v'][:, [d2['match'][j] for j in i2]]
+            R = c1.T @ so_matrix(B, xr, d1['cf'], L1, s1, d2['cf'], L2, s2) @ c2
+            for x, j1 in enumerate(i1):
+                for y, j2 in enumerate(i2):
+                    out[(a, j1, b, j2)] = R[x, y]
+    return out
+
+
+def ic_blocks(S_, so, xiscale=1.0):
+    """Intermediate coupling per (J, parity). Diagonal = NIST LS term centroid; spin-orbit from our xi (x xiscale).
+    Returns {(J, p): dict(basis=[(sym, j)], C (columns assigned to basis labels), E_model, E_nist, labels)}."""
+    from scipy.optimize import linear_sum_assignment
+    basis = {}
+    for sym, d in S_.items():
+        L, S, p = sym
+        for j in sorted(d['match']):
+            for J in range(abs(L - S), L + S + 1):
+                basis.setdefault((J, p), []).append((sym, j))
+    out = {}
+    for (J, p), bs in basis.items():
+        n = len(bs)
+        H = np.zeros((n, n))
+        for i, (a, j1) in enumerate(bs):
+            H[i, i] = S_[a]['terms'][j1][0] / M.RY_CM
+            for k in range(i, n):
+                b, j2 = bs[k]
+                key = (a, j1, b, j2) if (a, j1) <= (b, j2) else (b, j2, a, j1)
+                if key not in so:
+                    continue
+                (La, Sa, _), (Lb, Sb, _) = (a, b) if key[0] == a and key[1] == j1 else (b, a)
+                v = (-1) ** (Lb + Sa + J) * sixj(La, Sa, J, Sb, Lb, 1) * so[key] * xiscale
+                H[i, k] += v
+                if k != i:
+                    H[k, i] += v
+        e, C = np.linalg.eigh(H)
+        _, col = linear_sum_assignment(-(C ** 2))           # basis label i <- eigenvector col[i]
+        labels = [f"{S_[a]['terms'][j][1]}{J}" for a, j in bs]
+        enist = [S_[a]['terms'][j][2].get(J) for a, j in bs]
+        out[(J, p)] = dict(basis=bs, C=C[:, col], E_model=e[col] * M.RY_CM, E_nist=enist, labels=labels,
+                           purity=(C[:, col] ** 2).max(0))
+    return out
+
+
+def ic_lines(S_, mult, blocks):
+    """gf between intermediate-coupling states on NIST J-level energies; CF = radial CF of the dominant LS
+    multiplet x mixing cancellation |sum| / sum|.|."""
+    rows = []
+    keys = sorted(blocks)
+    for k1 in keys:
+        for k2 in keys:
+            (J1, p1), (J2, p2) = k1, k2
+            if p1 >= p2 or abs(J1 - J2) > 1 or J1 + J2 == 0:
+                continue
+            b1, b2 = blocks[k1], blocks[k2]
+            n1, n2 = len(b1['basis']), len(b2['basis'])
+            D, D0, Dcf = (np.zeros((n1, n2)) for _ in range(3))
+            for i, (a, ja) in enumerate(b1['basis']):
+                La, Sa, _ = a
+                for k, (b, jb) in enumerate(b2['basis']):
+                    Lb, Sb, _ = b
+                    if Sa != Sb or abs(La - Lb) > 1:
+                        continue
+                    if (a, ja, b, jb) in mult:
+                        m = mult[(a, ja, b, jb)]
+                        f = (-1) ** (La + Sa + J2 + 1) * math.sqrt((2 * J1 + 1) * (2 * J2 + 1)) * sixj(La, J1, Sa, J2, Lb, 1)
+                    elif (b, jb, a, ja) in mult:
+                        m = mult[(b, jb, a, ja)]
+                        f = (-1) ** (J1 - J2) * (-1) ** (Lb + Sa + J1 + 1) * math.sqrt((2 * J1 + 1) * (2 * J2 + 1)) * sixj(Lb, J2, Sa, J1, La, 1)
+                    else:
+                        continue
+                    D[i, k], D0[i, k], Dcf[i, k] = f * m['rme'], f * m['rme_noop'], m['cf']
+            C1, C2 = b1['C'], b2['C']
+            R, R0 = C1.T @ D @ C2, C1.T @ D0 @ C2
+            Rabs = np.abs(C1).T @ np.abs(D) @ np.abs(C2)
+            for x in range(n1):
+                for y in range(n2):
+                    E1, E2 = b1['E_nist'][x], b2['E_nist'][y]
+                    if E1 is None or E2 is None or E1 == E2 or not Rabs[x, y]:
+                        continue
+                    (lo, El, xl, bl), (up, Eu, xu, bu) = sorted(((b1['labels'][x], E1, x, b1), (b2['labels'][y], E2, y, b2)), key=lambda t: t[1])
+                    de = (Eu - El) / M.RY_CM
+                    gf, gf0 = 2 / 3 * de * R[x, y] ** 2, 2 / 3 * de * R0[x, y] ** 2
+                    if gf <= 1e-30:
+                        continue
+                    # dominant LS pair: largest |c1 c2 D| contribution
+                    contrib = np.abs(C1[:, x][:, None] * D * C2[:, y][None, :])
+                    i, k = np.unravel_index(contrib.argmax(), contrib.shape)
+                    cf = Dcf[i, k] * abs(R[x, y]) / Rabs[x, y]
+                    rows.append(dict(lower=lo, upper=up, E_lower=El, E_upper=Eu, wl_vac_A=round(1e8 / (Eu - El), 3),
+                                     loggf=round(math.log10(gf), 4), loggf_no_polarization_operator=round(math.log10(gf0), 4) if gf0 > 0 else None,
+                                     cf=round(cf, 4), purity_lower=round(float(bl['purity'][xl]), 4), purity_upper=round(float(bu['purity'][xu]), 4),
+                                     spin_change=lo.split(' ')[-1][0] != up.split(' ')[-1][0],
+                                     nmax=max(nmax2(lo.split(' ')[0]), nmax2(up.split(' ')[0]))))
+    return sorted(rows, key=lambda r: r['wl_vac_A'])
+
+
+def fs_report(blocks):
+    """Model vs NIST fine-structure splitting per term (max - min over J)."""
+    t = {}
+    for (J, p), b in blocks.items():
+        for lab, em, en in zip(b['labels'], b['E_model'], b['E_nist']):
+            t.setdefault(lab.rstrip('0123456789'), {})[J] = (em, en)
+    out = {}
+    for term, d in t.items():
+        if len(d) < 2 or any(v[1] is None for v in d.values()):
+            continue
+        js = sorted(d)
+        dm, dn = d[js[-1]][0] - d[js[0]][0], d[js[-1]][1] - d[js[0]][1]
+        if abs(dn) > 0.05:
+            out[term] = dict(model_cm=round(dm, 3), nist_cm=round(dn, 3), ratio=round(dm / dn, 3))
+    return out
+
+
 def ci_conf(label):
     """'3s.4p 3P*' -> ('3s.4p', '3P*')."""
     c, t = label.split(' ')
@@ -502,6 +692,13 @@ def family2(r):
     return f"{da[-1][-1]}-{db[-1][-1]}"
 
 
+def sum_sigma(ms, gm):
+    """sigma of a summed feature; components without a sigma (cancellation) carrying > 10 % of the gf -> no sigma."""
+    if sum(10 ** x['loggf'] for x in ms if x['sigma_dex'] is None) > 0.1 * gm:
+        return None
+    return round(math.sqrt(sum((10 ** x['loggf'] * x['sigma_dex']) ** 2 for x in ms if x['sigma_dex'] is not None)) / gm, 4)
+
+
 def solar_fill(sp, rows):
     """Every line-list row of the species: lower J-level by excitation energy, upper by lower + wavenumber;
     rows on the same (lower, upper) level pair are one feature."""
@@ -558,7 +755,8 @@ def solar_fill(sp, rows):
                 best = (best[0], best[1], best[2].rstrip('0123456789') + '{' + ','.join(sorted(x[len(best[2].rstrip('0123456789')):] for x in tied)) + '}')
         # unassigned and above the highest level the box holds (hydrogenic n = BOX_N below the limit) -> beyond the box
         lim = sp['ip'] - M.R_INF / BOX_N ** 2
-        key = (best[1], best[2]) if best else ('?>box', f'{air}') if elo + 1e8 / vac > lim else ('?', f'{air}')
+        forb = next((t for w, t in sp.get('forbidden', {}).items() if abs(w - air) < 0.01), None)
+        key = (best[1], best[2]) if best else (f'?{forb}', f'{air}') if forb else ('?>box', f'{air}') if elo + 1e8 / vac > lim else ('?', f'{air}')
         if best and (best[1].split(' ')[0] in broken or best[2].split(' ')[0] in broken):
             key = (ckey(best[1]), ckey(best[2].split('{')[0]))
         f = feats.setdefault(key, dict(lower=key[0], upper=key[1], rows=[]))
@@ -570,7 +768,7 @@ def solar_fill(sp, rows):
             ms = [r for r in rows if ckey(r['lower']) == lo and ckey(r['upper']) == up]
             if ms:
                 gm = sum(10 ** x['loggf'] for x in ms)
-                m = dict(loggf=round(math.log10(gm), 4), sigma_dex=round(math.sqrt(sum((10 ** x['loggf'] * x['sigma_dex']) ** 2 for x in ms)) / gm, 4),
+                m = dict(loggf=round(math.log10(gm), 4), sigma_dex=sum_sigma(ms, gm),
                          cls=max((x['cls'] for x in ms), key='ABCDE'.index), sigma_basis=ms[0]['sigma_basis'] + '+LSmix_sum')
             else:
                 m = None
@@ -579,7 +777,7 @@ def solar_fill(sp, rows):
             ms = [by[(lo, base + j)] for j in js.split(',') if (lo, base + j) in by]
             if ms:
                 gm = sum(10 ** x['loggf'] for x in ms)
-                m = dict(loggf=round(math.log10(gm), 4), sigma_dex=round(math.sqrt(sum((10 ** x['loggf'] * x['sigma_dex']) ** 2 for x in ms)) / gm, 4),
+                m = dict(loggf=round(math.log10(gm), 4), sigma_dex=sum_sigma(ms, gm),
                          cls=max((x['cls'] for x in ms), key='ABCDE'.index), sigma_basis=ms[0]['sigma_basis'] + '+J_tied')
             else:
                 m = None
@@ -590,8 +788,10 @@ def solar_fill(sp, rows):
                         max_depth=max(x['depth'] for x in f['rows']), linelist_loggf=round(math.log10(g), 3),
                         model_loggf=m['loggf'] if m else None, model_sigma_dex=m['sigma_dex'] if m else None,
                         model_class=m['cls'] if m else None, sigma_basis=m['sigma_basis'] if m else None,
-                        status='graded' if m else 'unassigned' if lo == '?' else 'no_model_beyond_box' if lo == '?>box' else 'no_model_spin_change' if spin
-                        else 'no_model_beyond_box' if max(nmax2(lo.split(' ')[0]), nmax2(up.split(' ')[0])) > BOX_N
+                        status=('graded' if m.get('sigma_dex') is not None else 'ungraded_cancellation') if m else 'unassigned' if lo == '?'
+                        else 'no_model_beyond_box' if lo == '?>box' else 'non_E1_forbidden' if lo in ('?E2', '?M2')
+                        else 'no_model_beyond_box' if max(nmax2(lo.split(' ')[0]), nmax2(up.split(' ')[0].split('{')[0])) > BOX_N
+                        else 'no_model_spin_change' if spin
                         else 'no_model_core_excited' if lo.split(' ')[0].startswith('2p5') or up.split(' ')[0].startswith('2p5') else 'no_model_not_in_ci',
                         d_model_minus_linelist=round(m['loggf'] - math.log10(g), 3) if m else None))
     global LS_BROKEN
@@ -602,9 +802,17 @@ def solar_fill(sp, rows):
 LS_BROKEN = None
 
 
-def main(name):
-    sp, B = build(name)
-    I, S_ = run_ci(sp, B)
+def main(name, cache=None):
+    import pickle
+    if cache and Path(cache).exists():
+        sp, B, S_ = pickle.load(open(cache, 'rb'))
+        M.use(sp['core'])
+    else:
+        sp, B = build(name)
+        _, S_ = run_ci(sp, B)
+        if cache:
+            pickle.dump((sp, B, S_), open(cache, 'wb'))
+    S_ = dict(S_)
     beyond = S_.pop('_beyond_box')
     out = ROOT / 'data/audit/rya1354' / sp['out']
     out.mkdir(parents=True, exist_ok=True)
@@ -614,8 +822,24 @@ def main(name):
         for j, i in sorted(d['match'].items()):
             erep[d['terms'][j][1]] = dict(rel=round(d['e'][i] / d['nist_e'][j] - 1, 5), d_cm=round((d['e'][i] - d['nist_e'][j]) * M.RY_CM, 1))
     unmatched = [t[1] for d in S_.values() for j, t in enumerate(d['terms']) if j not in d['match']]
-    # 2. lines
-    rows = fs_lines(S_, multiplets(B, S_))
+    # 2. lines: intermediate coupling (v67) on the LS multiplets
+    mult = multiplets(B, S_)
+    so = ls_so(B, S_)
+    ls_rows = {(r['lower'], r['upper']): r for r in fs_lines(S_, mult)}
+    # control: xi = 0 must reproduce the pure-LS gf exactly
+    ctl = {(r['lower'], r['upper']): r['loggf'] for r in ic_lines(S_, mult, ic_blocks(S_, so, 0.0))}
+    ctl_dev = max(abs(ctl[k] - v['loggf']) for k, v in ls_rows.items() if k in ctl)
+    ctl_missing = sum(k not in ctl for k in ls_rows)
+    blocks = ic_blocks(S_, so, 1.0)
+    fsr = fs_report(blocks)
+    xis = 1 / fsr['3s.3p 3P*']['ratio'] if '3s.3p 3P*' in fsr else 1.0
+    alt = {(r['lower'], r['upper']): r['loggf'] for r in ic_lines(S_, mult, ic_blocks(S_, so, xis))}
+    rows = ic_lines(S_, mult, blocks)
+    for r in rows:
+        k = (r['lower'], r['upper'])
+        r['loggf_xi_scaled'] = alt.get(k)
+        r['xi_sens_dex'] = round(abs(alt[k] - r['loggf']) / 2, 4) if k in alt else 0.5
+        r['loggf_pure_LS'] = ls_rows[k]['loggf'] if k in ls_rows else None
     by = {(r['lower'], r['upper']): r for r in rows}
     lab = lab_rows(sp, sp['labprefix'])
     for x in lab:
@@ -629,6 +853,8 @@ def main(name):
             r['ref_calc_loggf'], r['d_ref_calc'] = x['calc'], round(r['loggf'] - x['calc'], 4)
     ind = [x for x in lab if x['independent'] and x['model'] is not None]
     allowed = [x for x in lab if not x['spin_change'] and x['model'] is not None]
+    spinlab = [dict(line=x['wavelength_A'], lab=x['loggf_exp'], model=x['model'], d=None if x['model'] is None else round(x['model'] - x['loggf_exp'], 4),
+                    model_xi_scaled=by[x['key']]['loggf_xi_scaled'] if x['key'] in by else None) for x in lab if x['spin_change']]
     off = st.mean(abs(x['model'] - x['loggf_exp']) for x in ind)
     unc = max(x['e'] for x in ind)
     fl = math.ceil(max(off, unc) * 1000 - 1e-9) / 1000
@@ -638,15 +864,24 @@ def main(name):
     allabs = sorted(abs(x['model'] - x['loggf_exp']) for x in allowed)
     abs68 = allabs[int(0.68 * (len(allabs) - 1))]
     famsig = {k: round(sorted(v)[int(0.68 * (len(v) - 1))], 4) for k, v in fam.items() if len(v) >= 5}
-    for r in rows:
-        half = abs(r['loggf'] - r['loggf_no_polarization_operator']) / 2 if r['loggf_no_polarization_operator'] is not None else 0.5
-        s = math.hypot(fl, half, famsig.get(family2(r), abs68))
-        if r['cf'] < 0.1:
-            s = math.hypot(s, abs68)       # strong cancellation: no lab calibration of its own
-        r['sigma_dex'] = round(s, 4)
-        r['sigma_basis'] = 'lab_family' if family2(r) in famsig else 'lab_pooled' if r['nmax'] < BOX_N else 'no_referee_box'
-        r['cls'] = M.sigma_class(r['sigma_dex'], r['cf'])
-    z = [abs(r['d_lab']) / r['sigma_dex'] for r in rows if 'd_lab' in r]
+    def grade(cfb):
+        for r in rows:
+            half = abs(r['loggf'] - r['loggf_no_polarization_operator']) / 2 if r['loggf_no_polarization_operator'] is not None else 0.5
+            s = math.hypot(fl, half, famsig.get(family2(r), abs68), r['xi_sens_dex'])
+            r['sigma_basis'] = 'lab_family' if family2(r) in famsig else 'lab_pooled'
+            if r['cf'] < CF_NO_GRADE:
+                r['sigma_dex'], r['cls'], r['sigma_basis'] = None, 'E', 'ungraded_cancellation'
+                continue
+            if r['cf'] < 0.1:          # cancellation: the CF-bin term measured vs the line list (v67)
+                b = next(x for x in cfb if x['cf_lo'] <= r['cf'] < x['cf_hi'])
+                s = math.hypot(s, b['abs68'])
+                r['sigma_basis'] += '+cf_bin'
+            r['sigma_dex'] = round(s, 4)
+            r['cls'] = M.sigma_class(r['sigma_dex'], r['cf'])
+    grade([dict(cf_lo=lo, cf_hi=hi, abs68=abs68) for lo, hi in CF_BINS2])     # provisional
+    cfb = cf_bins(solar_fill(sp, rows), rows)
+    grade(cfb)
+    z = [abs(r['d_lab']) / r['sigma_dex'] for r in rows if 'd_lab' in r and r['sigma_dex'] and not r['spin_change']]
     with open(out / 'lines.csv', 'w', newline='') as f:
         w = csv.DictWriter(f, fieldnames=sorted({k for r in rows for k in r}), lineterminator='\n')
         w.writeheader()
@@ -657,7 +892,7 @@ def main(name):
         w.writeheader()
         w.writerows(fill)
     meas = [x for x in fill if x['max_depth'] >= 0.01]
-    summary = dict(schema='rya1354.twovalence-model.v1', species=name, status=STATUS, core=sp['core'], alpha_d=M.ALPHA_D,
+    summary = dict(schema='rya1354.twovalence-model.v2', species=name, status=STATUS, core=sp['core'], alpha_d=M.ALPHA_D,
                    grid=GRID, basis=dict(NION=NION, NRYD=NRYD, NCOMP=NCOMP, RCOMP=RCOMP, LMAX=LMAX, n_per_l={l: len(B.orb[l][0]) for l in B.orb}),
                    energy_gate=dict(max_abs_rel=max(abs(v['rel']) for v in erep.values()), passed=all(abs(v['rel']) <= 0.01 for v in erep.values()),
                                     terms=erep, unmatched_nist_terms=unmatched, beyond_box_n_gt=BOX_N, n_beyond_box=len(beyond),
@@ -672,6 +907,9 @@ def main(name):
                                                     abs68=round(sorted(abs(x['calc'] - x['loggf_exp']) for x in allowed)[int(0.68 * (len(allowed) - 1))], 4)),
                    floor_dex=fl, family_abs68=famsig, sigma_coverage_vs_lab_in_sample=dict(n=len(z), within_1=round(sum(v <= 1 for v in z) / len(z), 3),
                                                                                           within_2=round(sum(v <= 2 for v in z) / len(z), 3)),
+                   spin_orbit=dict(xi='ab initio (alpha^2/2)(1/r)dV/dr of our core potential, unscaled', control_xi0_max_dev_vs_LS=round(ctl_dev, 6),
+                                   control_xi0_missing=ctl_missing, xi_scale_to_nist_3s3p_3P=round(xis, 4), fine_structure=fsr,
+                                   lab_spin_change_lines=spinlab, ref_4571=intercomb(sp, by), cf_bins=cfb, cf_no_grade=CF_NO_GRADE),
                    n_lines=len(rows), class_counts={c: sum(r['cls'] == c for r in rows) for c in 'ABCDE'},
                    fill=dict(n_features=len(fill), n_linelist_rows=sum(x['n_linelist_rows'] for x in fill),
                              status_counts={k: sum(x['status'] == k for x in fill) for k in sorted({x['status'] for x in fill})},
@@ -681,10 +919,43 @@ def main(name):
     return summary
 
 
+CF_NO_GRADE = 0.02
+CF_BINS2 = ((0.05, 0.1), (0.02, 0.05))
+
+
+def cf_bins(fill, rows):
+    """abs68 of model - line list for single-line features (n <= 8, depth >= 0.01) per CF bin (diagnostic referee:
+    the line list is theory, used as FF was for Na/Mg II). Spin-changing lines are excluded: VALD's Mg I intercombination
+    gf were refuted in the observed Sun in v67 (20632/11812/9822/20867/7746 A predicted 0.13-0.42 deep, observed <= 0.03)."""
+    L = {(r['lower'], r['upper']): r for r in rows}
+    out = []
+    for lo, hi in CF_BINS2:
+        d = sorted(abs(x['d_model_minus_linelist']) for x in fill if x['status'] == 'graded' and x['max_depth'] >= 0.01
+                   and (x['lower'], x['upper']) in L and L[(x['lower'], x['upper'])]['nmax'] <= 8 and lo <= L[(x['lower'], x['upper'])]['cf'] < hi
+                   and not L[(x['lower'], x['upper'])]['spin_change'])
+        out.append(dict(cf_lo=lo, cf_hi=hi, n=len(d), abs68=round(d[int(0.68 * (len(d) - 1))], 4) if len(d) >= 5 else None))
+    for k in range(len(out)):          # thin bin -> the next-higher-CF bin's value, never smaller
+        if out[k]['abs68'] is None:
+            out[k]['abs68'], out[k]['fallback'] = out[k - 1]['abs68'] if k else 0.15, True
+    return out
+
+
+def intercomb(sp, by):
+    """Reference intercombination lines (theory): KP08 Table 40 = Tachiev & Froese Fischer Breit-Pauli MCHF."""
+    out = []
+    for lo, up, ref, src in sp.get('intercomb_ref', ()):
+        r = by.get((lo, up))
+        out.append(dict(lower=lo, upper=up, ref_loggf=ref, ref=src, model=r['loggf'] if r else None,
+                        model_xi_scaled=r['loggf_xi_scaled'] if r else None, d=round(r['loggf'] - ref, 4) if r else None))
+    return out
+
+
 if __name__ == '__main__':
-    for name in (sys.argv[1:] or list(SPECIES)):
-        s = main(name)
-        print(name, json.dumps({k: v for k, v in s.items() if k not in ('lab', 'energy_gate', 'grid', 'basis')}, indent=1))
+    args = [a for a in sys.argv[1:] if not a.startswith('--cache=')]
+    cache = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--cache=')), None)
+    for name in (args or list(SPECIES)):
+        s = main(name, cache)
+        print(name, json.dumps({k: v for k, v in s.items() if k not in ('lab', 'energy_gate', 'grid', 'basis')}, indent=1, default=str))
         print('energy gate', s['energy_gate']['passed'], s['energy_gate']['max_abs_rel'], 'unmatched', len(s['energy_gate']['unmatched_nist_terms']))
         for x in s['lab']:
             print(x)
