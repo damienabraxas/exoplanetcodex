@@ -1,0 +1,690 @@
+"""RYA-1354 v65/v66: our own atomic model for TWO-VALENCE-ELECTRON spectra (Mg I, Ca I), declared on RYA-1354
+before the run.
+
+CI with core polarization (Norcross & Seaton 1976; Mitroy & Bromley 2003 style), built on the one-valence model:
+  * core: the l-dependent Mg2+/Ca2+ model potential V_l already fitted to Mg II/Ca II (v63/v64), which carries the
+    one-electron core polarization -alpha_d/(2 r^4) W(r);
+  * two-electron Hamiltonian H = h(1) + h(2) + 1/r12 + V_d, with the dielectronic polarization
+    V_d = -alpha_d (r1 . r2)/(r1^3 r2^3) sqrt(W(r1) W(r2)),  W(r) = 1 - exp(-(r/rc)^6);
+  * one-electron basis per l: ion orbitals (inner electron), bound states of a screened potential V_l + J_ns
+    (neutral-atom Rydberg electron) and compact small-box functions (correlation), orthonormalized and
+    re-diagonalized in h_l;
+  * full CI in LS coupling for each (L, S, parity); no spin-orbit (spin-changing lines flagged, not graded);
+  * dipole operator with the core-polarization correction d(r) = r [1 - alpha_d/r^3 (1 - exp(-(r/rc)^3))];
+  * gf per fine-structure line = (2/3) dE_NIST (2J+1)(2J'+1) {L J S; J' L' 1}^2 |<L||D||L'>|^2.
+Status: CANDIDATE / HOLD (RYA-1352). Nothing here writes into a product.
+
+Usage: rya1354_twovalence_model.py [SPECIES ...]   (default: all)
+"""
+import csv
+import json
+import math
+import re
+import statistics as st
+import sys
+from fractions import Fraction as Fr
+from functools import lru_cache
+from pathlib import Path
+
+import warnings
+import numpy as np
+warnings.filterwarnings("ignore", message=".*encountered in matmul")
+import scipy.sparse as sps
+from scipy.linalg import eigh
+from scipy.sparse.linalg import eigsh
+
+import rya1354_onevalence_model as M
+import rya1354_na_model as V61
+
+ROOT = Path(__file__).resolve().parents[1]
+REF = ROOT / 'data/reference'
+STATUS = 'CANDIDATE_HOLD_NOT_ADOPTED'
+LMAX = 4
+SPECIES = {
+    'Mg I': dict(core='Mg II', ip=61671.05, levels=REF / 'onevalence_nist/MgI_levels.csv', corepfx='2p6',
+                 lab=REF / 'mg_gf_lab/mg1_lab_loggf_pehlivan2017.csv', linelist=('Mg', 'I'), out='mg1_model_v65', labprefix='3s'),
+    'Ca I': dict(core='Ca II', ip=49305.92, levels=REF / 'onevalence_nist/CaI_levels.csv', corepfx='3p6',
+                 lab=REF / 'lab_gf_tables/transcribed/denhartog2021_ca1.csv', linelist=('Ca', 'I'), out='ca1_model_v66', labprefix='4s'),
+}
+# CI grid: same log mesh as the one-valence solver but coarser and to 900 a0 (neutral Rydberg n <= ~12)
+GRID = dict(X0=math.log(1e-5), X1=math.log(900.0), NPTS=3200)
+NION = 6         # ion orbitals per l (inner electron)
+NRYD = 14        # screened-potential bound states per l (outer electron)
+NCOMP = 14       # compact functions per l (correlation), box radius RCOMP
+RCOMP = 25.0
+BOX_N = 12       # neutral Rydberg states with n above this are box-perturbed on this grid -> no_referee
+
+
+# ---------------------------------------------------------------- angular algebra
+@lru_cache(None)
+def threej0(a, b, c):
+    """(a b c; 0 0 0) for integers."""
+    J = a + b + c
+    if J % 2 or c < abs(a - b) or c > a + b:
+        return 0.0
+    g = J // 2
+    f = math.factorial
+    return (-1) ** g * math.sqrt(f(J - 2 * a) * f(J - 2 * b) * f(J - 2 * c) / f(J + 1)) * f(g) / (f(g - a) * f(g - b) * f(g - c))
+
+
+@lru_cache(None)
+def ck(l1, k, l2):
+    """<l1||C^k||l2>."""
+    return (-1) ** l1 * math.sqrt((2 * l1 + 1) * (2 * l2 + 1)) * threej0(l1, k, l2)
+
+
+@lru_cache(None)
+def sixj(a, b, c, d, e, f):
+    return M.sixj(Fr(a), Fr(b), Fr(c), Fr(d), Fr(e), Fr(f))
+
+
+@lru_cache(None)
+def ang_coulomb(la, lb, lc, ld, L):
+    """{k: A_k} with <(la lb)L| C^k(1).C^k(2) |(lc ld)L> = A_k (electron 1: a->c, electron 2: b->d)."""
+    out = {}
+    for k in range(max(abs(la - lc), abs(lb - ld)), min(la + lc, lb + ld) + 1):
+        a = ck(la, k, lc) * ck(lb, k, ld)
+        if a:
+            s = sixj(la, lb, L, ld, lc, k)
+            if s:
+                out[k] = (-1) ** (lb + lc + L) * s * a
+    return out
+
+
+# ---------------------------------------------------------------- one-electron basis
+class Basis:
+    def __init__(self, params, nmin, alpha, rc_of_l):
+        M.X0, M.X1, M.NPTS = GRID['X0'], GRID['X1'], GRID['NPTS']
+        self.x, self.r, self.dx = M.grid()
+        self.params, self.nmin, self.alpha, self.rc = params, nmin, alpha, rc_of_l
+        sig0 = M.SP['sigma']
+        M.SP['sigma'] = -4.0 * M.Z ** 2
+        try:
+            _, z0, _ = M.solve(0, params[0], nmin[0])
+        finally:
+            M.SP['sigma'] = sig0
+        self.ion_ground = z0[:, nmin[0] - 1]             # ion ground orbital (Mg+ 3s, Ca+ 4s): screens the outer electron
+        self.orb = {}     # l -> (eps[n], z[:, n])
+        self.label = {}
+        for l in range(LMAX + 1):
+            self.orb[l] = self.build(l)
+
+    def A(self, l, extra=None, wall=None):
+        r, dx = self.r, self.dx
+        V = M.potential(r, l, self.params[min(l, 3)])
+        if extra is not None:
+            V = V + extra
+        if wall is not None:
+            V = np.where(r > wall, 1e4, V)
+        diag = 2 / dx ** 2 + 2 * r ** 2 * V + (l + 0.5) ** 2
+        off = -np.ones(len(r) - 1) / dx ** 2
+        return sps.diags([off, diag, off], [-1, 0, 1], format='csc')
+
+    def eig(self, l, k, sigma, extra=None, wall=None):
+        A = self.A(l, extra, wall)
+        B = sps.diags(self.r ** 2, format='csc')
+        w, v = eigsh(A, k=k, M=B, sigma=sigma, which='LM')
+        o = np.argsort(w)
+        z = (self.r[:, None] * v[:, o])
+        z /= np.sqrt((z ** 2).sum(0) * self.dx)
+        return w[o] / 2, z
+
+    def build(self, l):
+        """Ion orbitals + screened Rydberg states + compact functions; core-like states projected out; the span is
+        re-diagonalized in the ion Hamiltonian h_l so the CI basis is orthonormal with diagonal h."""
+        r, dx = self.r, self.dx
+        nm = self.nmin.get(l, l + 1)
+        ncore = nm - l - 1
+        sig0 = M.SP['sigma']
+        M.SP['sigma'] = -4.0 * M.Z ** 2                  # reach the deepest core-like state; states ordered by nodes
+        try:
+            _, z, k0 = M.solve(l, self.params[min(l, 3)], ncore + NION)
+        finally:
+            M.SP['sigma'] = sig0
+        if k0 != 0:
+            raise RuntimeError(f'l={l}: lowest state has {k0} nodes; core-like states missing')
+        core = z[:, :ncore]
+        ion = z[:, ncore:ncore + NION]
+        # screening by the ion ground orbital (direct Hartree, asymptotically +1/r)
+        zs = self.ion_ground
+        rho = zs ** 2 * dx
+        Js = np.cumsum(rho) / r + (np.cumsum(rho[::-1] / r[::-1])[::-1] - rho / r)
+        wr, zr = self.eig(l, NRYD + ncore + 6, -0.5, extra=Js)
+        zr = zr[:, wr < 0][:, :NRYD + ncore + 2]
+        wc, zc = self.eig(l, NCOMP + ncore + 2, 2.0, wall=RCOMP)
+        cand = np.hstack([ion, zr, zc])
+        cand -= core @ (core.T @ cand * dx)               # Pauli: project out the core-like states
+        # orthonormalize (canonical, drop near-linear-dependence)
+        S = cand.T @ cand * dx
+        s, U = np.linalg.eigh(S)
+        keep = s > 1e-7 * s.max()
+        X = cand @ (U[:, keep] / np.sqrt(s[keep]))
+        Y = X / r[:, None]
+        Ay = self.A(l) @ Y
+        H = 0.5 * (Y.T @ Ay) * dx
+        H = 0.5 * (H + H.T)
+        e, C = np.linalg.eigh(H)
+        Z = X @ C
+        for i in range(Z.shape[1]):
+            if Z[np.argmax(np.abs(Z[:, i])), i] < 0:
+                Z[:, i] = -Z[:, i]
+        return e, Z
+
+    def gfun(self, la, lc):
+        rc = 0.5 * (self.rc[min(la, 2)] + self.rc[min(lc, 2)])
+        return np.sqrt(1 - np.exp(-(self.r / rc) ** 6)) / self.r ** 2
+
+    def dip(self, la, lc, polop=True):
+        r = self.r
+        if not polop:
+            return r
+        rc = 0.5 * (self.rc[min(la, 2)] + self.rc[min(lc, 2)])
+        return r * (1 - self.alpha / r ** 3 * (1 - np.exp(-(r / rc) ** 3)))
+
+
+class Integrals:
+    """Slater integrals R^k(ac, bd) = int int P_a P_c (r<^k / r>^{k+1}) P_b P_d by blocks of l, plus the dielectronic
+    term folded into k = 1."""
+    def __init__(self, B):
+        self.B = B
+        self.Y = {}
+        self.R = {}
+
+    def W(self, la, lc):
+        za, zc = self.B.orb[la][1], self.B.orb[lc][1]
+        return (za[:, :, None] * zc[:, None, :]).reshape(len(self.B.r), -1).T * self.B.dx   # (Na*Nc, npts)
+
+    def Yk(self, la, lc, k):
+        key = (la, lc, k)
+        if key not in self.Y:
+            r = self.B.r
+            w = self.W(la, lc)
+            inner = np.cumsum(w * r ** k, axis=1) / r ** (k + 1)
+            outer = (np.cumsum((w / r ** (k + 1))[:, ::-1], axis=1)[:, ::-1] - w / r ** (k + 1)) * r ** k
+            self.Y[key] = inner + outer
+        return self.Y[key]
+
+    def block(self, la, lc, lb, ld, k):
+        """R^k[a, c, b, d] array."""
+        key = (la, lc, lb, ld, k)
+        if key not in self.R:
+            R = self.Yk(la, lc, k) @ self.W(lb, ld).T
+            if k == 1 and self.B.alpha:
+                ga = self.W(la, lc) @ self.B.gfun(la, lc)
+                gb = self.W(lb, ld) @ self.B.gfun(lb, ld)
+                R = R - self.B.alpha * np.outer(ga, gb)
+            na, nc, nb, nd = (len(self.B.orb[x][0]) for x in (la, lc, lb, ld))
+            self.R[key] = R.reshape(na, nc, nb, nd)
+        return self.R[key]
+
+
+# ---------------------------------------------------------------- CI
+def configs(B, L, S, par):
+    """List of (la, ia, lb, ib) with (la, ia) <= (lb, ib), parity par, triangle, antisymmetry allowed."""
+    out = []
+    for la in range(LMAX + 1):
+        for lb in range(la, LMAX + 1):
+            if (la + lb) % 2 != par or not abs(la - lb) <= L <= la + lb:
+                continue
+            na, nb = len(B.orb[la][0]), len(B.orb[lb][0])
+            eta = (-1) ** (S + la + lb + L)
+            for ia in range(na):
+                for ib in range(ia if la == lb else 0, nb):
+                    if la == lb and ia == ib and eta == -1:
+                        continue
+                    out.append((la, ia, lb, ib))
+    return out
+
+
+def hamiltonian(B, I, cf, L, S):
+    n = len(cf)
+    H = np.zeros((n, n))
+    arr = np.array(cf)
+    norm = np.array([1 / math.sqrt(2 * (1 + ((-1) ** (S + la + lb + L)) * (la == lb and ia == ib))) for la, ia, lb, ib in cf])
+    eta = np.array([(-1) ** (S + la + lb + L) for la, ia, lb, ib in cf])
+    classes = sorted({(c[0], c[2]) for c in cf})
+    idx = {cl: np.where((arr[:, 0] == cl[0]) & (arr[:, 2] == cl[1]))[0] for cl in classes}
+    for (la, lb) in classes:
+        i = idx[(la, lb)]
+        ia, ib = arr[i, 1], arr[i, 3]
+        for (lc, ld) in classes:
+            j = idx[(lc, ld)]
+            ic, id_ = arr[j, 1], arr[j, 3]
+            blk = np.zeros((len(i), len(j)))
+            if (la, lb) == (lc, ld):
+                e = B.orb[la][0][ia] + B.orb[lb][0][ib]
+                blk += np.diag(e) if True else 0
+            # exchange one-body: a = d, b = c
+            if la == ld and lb == lc:
+                m = (ia[:, None] == id_[None, :]) & (ib[:, None] == ic[None, :])
+                blk += m * (B.orb[la][0][ia][:, None] + B.orb[lb][0][ib][:, None]) * eta[j][None, :]
+            for k, a in ang_coulomb(la, lb, lc, ld, L).items():
+                R = I.block(la, lc, lb, ld, k)
+                blk += a * R[ia[:, None], ic[None, :], ib[:, None], id_[None, :]]
+            for k, a in ang_coulomb(la, lb, ld, lc, L).items():
+                R = I.block(la, ld, lb, lc, k)
+                blk += a * eta[j][None, :] * R[ia[:, None], id_[None, :], ib[:, None], ic[None, :]]
+            H[np.ix_(i, j)] = 2 * norm[i][:, None] * norm[j][None, :] * blk
+    return 0.5 * (H + H.T)
+
+
+def dipole_matrix(B, cf1, L1, cf2, L2, S, polop=True):
+    """<cf1 L1 S || D || cf2 L2 S> (orbital reduced matrix elements, spin passive)."""
+    rad = {}
+
+    def d(la, lc):
+        if (la, lc) not in rad:
+            za, zc = B.orb[la][1], B.orb[lc][1]
+            rad[(la, lc)] = za.T @ (zc * B.dip(la, lc, polop)[:, None]) * B.dx
+        return rad[(la, lc)]
+    fac = math.sqrt((2 * L1 + 1) * (2 * L2 + 1))
+
+    def prim(la, ia, lb, ib, lc, ic, ld, id_):
+        v = 0.0
+        if lb == ld and ib == id_ and abs(la - lc) == 1:        # electron 1 jumps
+            v += (-1) ** (la + lb + L2 + 1) * fac * sixj(la, L1, lb, L2, lc, 1) * ck(la, 1, lc) * d(la, lc)[ia, ic]
+        if la == lc and ia == ic and abs(lb - ld) == 1:        # electron 2 jumps
+            v += (-1) ** (la + ld + L1 + 1) * fac * sixj(lb, L1, la, L2, ld, 1) * ck(lb, 1, ld) * d(lb, ld)[ib, id_]
+        return v
+    D = np.zeros((len(cf1), len(cf2)))
+    n1 = [1 / math.sqrt(2 * (1 + ((-1) ** (S + la + lb + L1)) * (la == lb and ia == ib))) for la, ia, lb, ib in cf1]
+    n2 = [1 / math.sqrt(2 * (1 + ((-1) ** (S + la + lb + L2)) * (la == lb and ia == ib))) for la, ia, lb, ib in cf2]
+    # sparse: index cf2 by each orbital
+    by_orb = {}
+    for j, (lc, ic, ld, id_) in enumerate(cf2):
+        by_orb.setdefault((lc, ic), []).append(j)
+        if (ld, id_) != (lc, ic):
+            by_orb.setdefault((ld, id_), []).append(j)
+    for i, (la, ia, lb, ib) in enumerate(cf1):
+        for j in set(by_orb.get((la, ia), []) + by_orb.get((lb, ib), [])):
+            lc, ic, ld, id_ = cf2[j]
+            eta = (-1) ** (S + lc + ld + L2)
+            D[i, j] = 2 * n1[i] * n2[j] * (prim(la, ia, lb, ib, lc, ic, ld, id_) + eta * prim(la, ia, lb, ib, ld, id_, lc, ic))
+    return D
+
+
+def solve_sym(B, I, L, S, par, nroots):
+    cf = configs(B, L, S, par)
+    H = hamiltonian(B, I, cf, L, S)
+    e, v = eigh(H, subset_by_index=[0, min(nroots, len(cf)) - 1])
+    return cf, e, v
+
+
+# ---------------------------------------------------------------- NIST levels
+def nist_terms(sp):
+    """{(L, S, par): [ (E_term cm-1 J-avg, label, {J: E}) sorted ]} for two-valence configurations above the core."""
+    terms = {}
+    for r in csv.DictReader(open(sp['levels'])):
+        c = {k: (v or '').strip('="[]') for k, v in r.items() if k}
+        conf, term, J, E = c['Configuration'], c['Term'], c['J'], c['Level (cm-1)']
+        if not E or not re.fullmatch(r'\d+', J or ''):
+            continue
+        conf = re.sub(r'^' + re.escape(sp['corepfx']) + r'\.', '', conf)
+        toks = conf.split('.')
+        ne, ok = 0, True
+        ls = []
+        for t in toks:
+            m = re.fullmatch(r'(\d+)([spdfgh])(\d?)', t)
+            if not m:
+                ok = False
+                break
+            ne += int(m[3] or 1)
+            ls += ['spdfgh'.index(m[2])] * int(m[3] or 1)
+        m = re.fullmatch(r'([13])([SPDFGHI])(\*?)', term)
+        if not ok or ne != 2 or not m or max(ls) > LMAX:
+            continue
+        S = (int(m[1]) - 1) // 2
+        L = 'SPDFGHI'.index(m[2])
+        par = sum(ls) % 2
+        if bool(m[3]) != bool(par):
+            continue
+        terms.setdefault((L, S, par), {}).setdefault((conf, term), {})[int(J)] = float(E.replace('?', '').replace('+x', ''))
+    out = {}
+    for sym, d in terms.items():
+        lst = []
+        for (conf, term), js in d.items():
+            g = {j: 2 * j + 1 for j in js}
+            lst.append((sum(g[j] * e for j, e in js.items()) / sum(g.values()), f'{conf} {term}', js))
+        out[sym] = sorted(lst)
+    return out
+
+
+def align(ci_e, nist_e, skip_ci=0.01, skip_nist=0.05):
+    """Order-preserving alignment of CI eigenvalues to NIST term energies (both hartree, negative)."""
+    n, m = len(ci_e), len(nist_e)
+    D = np.full((n + 1, m + 1), np.inf)
+    D[0, :] = np.arange(m + 1) * skip_nist
+    D[:, 0] = np.arange(n + 1) * skip_ci
+    P = {}
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            c = [(D[i - 1, j - 1] + abs(ci_e[i - 1] / nist_e[j - 1] - 1), 'm'), (D[i - 1, j] + skip_ci, 'c'), (D[i, j - 1] + skip_nist, 'n')]
+            D[i, j], P[(i, j)] = min(c)
+    i, j, pairs = n, m, {}
+    while i > 0 and j > 0:
+        t = P[(i, j)]
+        if t == 'm':
+            pairs[j - 1] = i - 1
+            i, j = i - 1, j - 1
+        elif t == 'c':
+            i -= 1
+        else:
+            j -= 1
+    while i > 0 or j > 0:
+        break
+    return pairs
+
+
+# ---------------------------------------------------------------- model
+def load_core(sp):
+    core = M.use(sp['core'])
+    lev = M.nist_levels()
+    M.NMIN = M.nmin_by_l(lev)
+    fit = json.load(open(ROOT / 'data/audit/rya1354' / core['out'] / 'summary.json'))['potential_fit']
+    params = {'spdf'.index(k): tuple(v['params']) for k, v in fit.items()}
+    nmin = dict(M.NMIN)
+    nmin[4] = 5
+    return params, nmin
+
+
+def build(name):
+    sp = dict(SPECIES[name], name=name)
+    params, nmin = load_core(sp)
+    rc = {l: params[l][4] for l in range(3)}
+    B = Basis(params, nmin, M.ALPHA_D, rc)
+    return sp, B
+
+
+def run_ci(sp, B, nroots=40):
+    I = Integrals(B)
+    terms = nist_terms(sp)
+    e_ion = -(M.IP_CM) / M.RY_CM                      # ion ground state relative to the bare core (hartree)
+    states = {}
+    beyond = []
+    for sym, lst in sorted(terms.items()):
+        L, S, par = sym
+        beyond += [t[1] for t in lst if nmax2(t[1].split(' ')[0]) > BOX_N]
+        lst = [t for t in lst if nmax2(t[1].split(' ')[0]) <= BOX_N]   # outer n > BOX_N cannot live in the box
+        cf, e, v = solve_sym(B, I, L, S, par, max(nroots, len(lst) + 10))
+        nist_e = np.array([e_ion - (sp['ip'] - t[0]) / M.RY_CM for t in lst])
+        pairs = align(e, nist_e)
+        states[sym] = dict(cf=cf, e=e, v=v, terms=lst, nist_e=nist_e, match=pairs)
+    states['_beyond_box'] = beyond
+    return I, states
+
+
+# ---------------------------------------------------------------- transitions
+def multiplets(B, S_):
+    """Reduced orbital dipole <T1||D||T2> for every matched NIST term pair of opposite parity, same S, |dL| <= 1,
+    with and without the core-polarization dipole correction, plus the CI cancellation factor
+    CF = |sum_ij c1_i D_ij c2_j| / sum_ij |c1_i D_ij c2_j|."""
+    out = {}
+    syms = sorted(S_)
+    for a in syms:
+        for b in syms:
+            (L1, s1, p1), (L2, s2, p2) = a, b
+            if not (a < b and s1 == s2 and p1 != p2 and abs(L1 - L2) <= 1 and L1 + L2 >= 1):
+                continue
+            d1, d2 = S_[a], S_[b]
+            if not d1['match'] or not d2['match']:
+                continue
+            i1 = sorted(d1['match']); c1 = d1['v'][:, [d1['match'][j] for j in i1]]
+            i2 = sorted(d2['match']); c2 = d2['v'][:, [d2['match'][j] for j in i2]]
+            D = dipole_matrix(B, d1['cf'], L1, d2['cf'], L2, s1, True)
+            D0 = dipole_matrix(B, d1['cf'], L1, d2['cf'], L2, s1, False)
+            R, R0 = c1.T @ D @ c2, c1.T @ D0 @ c2
+            Rabs = np.abs(c1).T @ np.abs(D) @ np.abs(c2)
+            for x, j1 in enumerate(i1):
+                for y, j2 in enumerate(i2):
+                    out[(a, j1, b, j2)] = dict(rme=R[x, y], rme_noop=R0[x, y], cf=abs(R[x, y]) / Rabs[x, y] if Rabs[x, y] else 0.0)
+    return out
+
+
+def ci_conf(label):
+    """'3s.4p 3P*' -> ('3s.4p', '3P*')."""
+    c, t = label.split(' ')
+    return c, t
+
+
+def nmax2(conf):
+    return max(int(m) for m in re.findall(r'(\d+)[spdfgh]', conf))
+
+
+def fs_lines(S_, mult):
+    """Fine-structure lines on NIST J-level energies: gf = (2/3) dE (2J+1)(2J'+1) {L J S; J' L' 1}^2 |<L||D||L'>|^2."""
+    rows = []
+    for (a, j1, b, j2), m in mult.items():
+        (L1, s, _), (L2, _, _) = a, b
+        t1, t2 = S_[a]['terms'][j1], S_[b]['terms'][j2]
+        for J1, E1 in t1[2].items():
+            for J2, E2 in t2[2].items():
+                if abs(J1 - J2) > 1 or J1 + J2 == 0 or E1 == E2:
+                    continue
+                fr = (2 * J1 + 1) * (2 * J2 + 1) * sixj(L1, J1, s, J2, L2, 1) ** 2
+                if fr <= 0:
+                    continue
+                lo, up = ((t1, J1, E1), (t2, J2, E2)) if E1 < E2 else ((t2, J2, E2), (t1, J1, E1))
+                de = (up[2] - lo[2]) / M.RY_CM
+                gf, gf0 = (2 / 3 * de * fr * x ** 2 for x in (m['rme'], m['rme_noop']))
+                if gf <= 0:
+                    continue
+                rows.append(dict(lower=f"{lo[0][1]}{lo[1]}", upper=f"{up[0][1]}{up[1]}", E_lower=lo[2], E_upper=up[2],
+                                 wl_vac_A=round(1e8 / (up[2] - lo[2]), 3), loggf=round(math.log10(gf), 4),
+                                 loggf_no_polarization_operator=round(math.log10(gf0), 4) if gf0 > 0 else None,
+                                 cf=round(m['cf'], 4), nmax=max(nmax2(lo[0][1].split(' ')[0]), nmax2(up[0][1].split(' ')[0]))))
+    return sorted(rows, key=lambda r: r['wl_vac_A'])
+
+
+def air_to_vac(air):
+    s2 = (1e4 / air) ** 2
+    return air * (1 + 8.336624212083e-5 + 2.408926869968e-2 / (1.301065924522e2 - s2) + 1.599740894897e-4 / (3.892568793293e1 - s2))
+
+
+def lab_rows(sp, conf_prefix):
+    """Pehlivan Rhodin 2017: labels '3p 3P0' = 3s.3p 3P0; independent = lab lifetime (tau_theory False)."""
+    out = []
+    for r in csv.DictReader(l for l in open(sp['lab']) if not l.startswith('#')):
+        def key(s):
+            c, t = s.split(' ')
+            conf = f'{conf_prefix}.{c}' if c != conf_prefix else c
+            odd = sum('spdfgh'.index(m[1]) * int(m[2] or 1) for m in re.finditer(r'\d+([spdfgh])(\d?)', conf)) % 2
+            return conf, t[:-1] + ('*' if odd else ''), int(t[-1])
+        out.append(dict(r, lo=key(r['lower']), up=key(r['upper']), loggf_exp=float(r['loggf_exp']), e=float(r['e_loggf_dex']),
+                        calc=float(r['loggf_calc']), independent=r['tau_theory'] == 'False'))
+    return out
+
+
+def family2(r):
+    """Jumping-electron family from the leading configurations, e.g. '3s.3p'->'3s.4s' = p-s."""
+    a, b = r['lower'].split(' ')[0].split('.'), r['upper'].split(' ')[0].split('.')
+    da = [x for x in a if x not in b] or a
+    db = [x for x in b if x not in a] or b
+    return f"{da[-1][-1]}-{db[-1][-1]}"
+
+
+def solar_fill(sp, rows):
+    """Every line-list row of the species: lower J-level by excitation energy, upper by lower + wavenumber;
+    rows on the same (lower, upper) level pair are one feature."""
+    levels = []
+    for r in csv.DictReader(open(sp['levels'])):
+        c = {k: (v or '').strip('="[]') for k, v in r.items() if k}
+        if c['Level (cm-1)'] and re.fullmatch(r'\d+', c['J'] or ''):
+            conf = re.sub(r'^' + re.escape(sp['corepfx']) + r'\.', '', c['Configuration'])
+            par = sum('spdfgh'.index(m[1]) * int(m[2] or 1) for m in re.finditer(r'\d+([spdfgh])(\d?)', conf)) % 2
+            levels.append((float(c['Level (cm-1)'].replace('?', '').replace('+x', '')), f"{conf} {c['Term']}{c['J']}", par, int(c['J'])))
+    by = {(r['lower'], r['upper']): r for r in rows}
+    # LS-broken configurations (pair coupling): singlet-triplet separation <= 3 x triplet fine-structure width, or
+    # < 1 cm-1 (unresolved). There S is not a good quantum number; the gf sum over S and J of the configuration is.
+    tl = {}
+    for e, lab, par, j in levels:
+        conf, tj = lab.rsplit(' ', 1)
+        tl.setdefault(conf, {}).setdefault(tj[0], {})[j] = e
+    broken = set()
+    for conf, d in tl.items():
+        if '1' in d and '3' in d:
+            e1 = st.mean(d['1'].values())
+            e3 = sum((2 * j + 1) * e for j, e in d['3'].items()) / sum(2 * j + 1 for j in d['3'])
+            fs = max(d['3'].values()) - min(d['3'].values())
+            if abs(e1 - e3) <= max(3 * fs, 1.0):
+                broken.add(conf)
+
+    def ckey(lab):
+        c = lab.split(' ')[0]
+        return c + ' {LSmix}' if c in broken else lab
+    feats = {}
+    for r in csv.DictReader(open(ROOT / 'data/linelists/linelist_solar.csv')):
+        if (r['element'], r['ion']) != sp['linelist']:
+            continue
+        air = float(r['wavelength_air_A'])
+        vac = air_to_vac(air) if air > 2000 else air
+        elo = float(r['excitation_potential_eV']) * V61.HC_EV_CM
+        best, cands = None, []
+        for el, ll, pl, jl in levels:
+            if abs(el - elo) > 20:
+                continue
+            for eu, lu, pu, ju in levels:
+                if pu == pl or abs(ju - jl) > 1 or ju + jl == 0:       # E1 selection rules
+                    continue
+                c = abs(eu - el - 1e8 / vac) + abs(el - elo) / 10
+                if c < 3:
+                    cands.append((c, ll, lu))
+                if c < 3 and (best is None or c < best[0]):
+                    best = (c, ll, lu)
+        if best:
+            # NIST J-levels that coincide (e.g. Mg I 7f 3F J=2,3,4) cannot be told apart: compare at the TERM level
+            # (sum of gf over the indistinguishable upper J), never by guessing a J
+            tied = {lu for c, ll, lu in cands if ll == best[1] and c <= best[0] + 0.3 and lu.rstrip('0123456789') == best[2].rstrip('0123456789')}
+            if len(tied) > 1:
+                best = (best[0], best[1], best[2].rstrip('0123456789') + '{' + ','.join(sorted(x[len(best[2].rstrip('0123456789')):] for x in tied)) + '}')
+        # unassigned and above the highest level the box holds (hydrogenic n = BOX_N below the limit) -> beyond the box
+        lim = sp['ip'] - M.R_INF / BOX_N ** 2
+        key = (best[1], best[2]) if best else ('?>box', f'{air}') if elo + 1e8 / vac > lim else ('?', f'{air}')
+        if best and (best[1].split(' ')[0] in broken or best[2].split(' ')[0] in broken):
+            key = (ckey(best[1]), ckey(best[2].split('{')[0]))
+        f = feats.setdefault(key, dict(lower=key[0], upper=key[1], rows=[]))
+        f['rows'].append(dict(air=air, gf=10 ** float(r['log_gf']), depth=float(r['central_depth'] or 0)))
+    out = []
+    for (lo, up), f in feats.items():
+        g = sum(x['gf'] for x in f['rows'])
+        if up.endswith('{LSmix}') or lo.endswith('{LSmix}'):     # configuration-level feature: sum over S and J
+            ms = [r for r in rows if ckey(r['lower']) == lo and ckey(r['upper']) == up]
+            if ms:
+                gm = sum(10 ** x['loggf'] for x in ms)
+                m = dict(loggf=round(math.log10(gm), 4), sigma_dex=round(math.sqrt(sum((10 ** x['loggf'] * x['sigma_dex']) ** 2 for x in ms)) / gm, 4),
+                         cls=max((x['cls'] for x in ms), key='ABCDE'.index), sigma_basis=ms[0]['sigma_basis'] + '+LSmix_sum')
+            else:
+                m = None
+        elif up.endswith('}'):          # term-level feature: model gf summed over the tied upper J
+            base, js = up[:-1].split('{')
+            ms = [by[(lo, base + j)] for j in js.split(',') if (lo, base + j) in by]
+            if ms:
+                gm = sum(10 ** x['loggf'] for x in ms)
+                m = dict(loggf=round(math.log10(gm), 4), sigma_dex=round(math.sqrt(sum((10 ** x['loggf'] * x['sigma_dex']) ** 2 for x in ms)) / gm, 4),
+                         cls=max((x['cls'] for x in ms), key='ABCDE'.index), sigma_basis=ms[0]['sigma_basis'] + '+J_tied')
+            else:
+                m = None
+        else:
+            m = by.get((lo, up))
+        spin = not lo.startswith('?') and '{LSmix}' not in lo + up and lo.split(' ')[1][0] != up.split(' ')[1][0]
+        out.append(dict(lower=lo, upper=up, air_A=round(sum(x['air'] * x['gf'] for x in f['rows']) / g, 3), n_linelist_rows=len(f['rows']),
+                        max_depth=max(x['depth'] for x in f['rows']), linelist_loggf=round(math.log10(g), 3),
+                        model_loggf=m['loggf'] if m else None, model_sigma_dex=m['sigma_dex'] if m else None,
+                        model_class=m['cls'] if m else None, sigma_basis=m['sigma_basis'] if m else None,
+                        status='graded' if m else 'unassigned' if lo == '?' else 'no_model_beyond_box' if lo == '?>box' else 'no_model_spin_change' if spin
+                        else 'no_model_beyond_box' if max(nmax2(lo.split(' ')[0]), nmax2(up.split(' ')[0])) > BOX_N
+                        else 'no_model_core_excited' if lo.split(' ')[0].startswith('2p5') or up.split(' ')[0].startswith('2p5') else 'no_model_not_in_ci',
+                        d_model_minus_linelist=round(m['loggf'] - math.log10(g), 3) if m else None))
+    global LS_BROKEN
+    LS_BROKEN = sorted(broken, key=lambda c: (c[-1], nmax2(c)))
+    return sorted(out, key=lambda x: x['air_A'])
+
+
+LS_BROKEN = None
+
+
+def main(name):
+    sp, B = build(name)
+    I, S_ = run_ci(sp, B)
+    beyond = S_.pop('_beyond_box')
+    out = ROOT / 'data/audit/rya1354' / sp['out']
+    out.mkdir(parents=True, exist_ok=True)
+    # 1. energies (pre-registered: every matched term within 1% of NIST, total two-electron energy)
+    erep = {}
+    for sym, d in S_.items():
+        for j, i in sorted(d['match'].items()):
+            erep[d['terms'][j][1]] = dict(rel=round(d['e'][i] / d['nist_e'][j] - 1, 5), d_cm=round((d['e'][i] - d['nist_e'][j]) * M.RY_CM, 1))
+    unmatched = [t[1] for d in S_.values() for j, t in enumerate(d['terms']) if j not in d['match']]
+    # 2. lines
+    rows = fs_lines(S_, multiplets(B, S_))
+    by = {(r['lower'], r['upper']): r for r in rows}
+    lab = lab_rows(sp, sp['labprefix'])
+    for x in lab:
+        k = (f'{x["lo"][0]} {x["lo"][1]}{x["lo"][2]}', f'{x["up"][0]} {x["up"][1]}{x["up"][2]}')
+        x['key'] = k
+        x['spin_change'] = x['lo'][1][0] != x['up'][1][0]
+        r = by.get(k)
+        x['model'] = r['loggf'] if r else None
+        if r:
+            r['lab_loggf'], r['d_lab'], r['lab_independent'] = x['loggf_exp'], round(r['loggf'] - x['loggf_exp'], 4), x['independent']
+            r['ref_calc_loggf'], r['d_ref_calc'] = x['calc'], round(r['loggf'] - x['calc'], 4)
+    ind = [x for x in lab if x['independent'] and x['model'] is not None]
+    allowed = [x for x in lab if not x['spin_change'] and x['model'] is not None]
+    off = st.mean(abs(x['model'] - x['loggf_exp']) for x in ind)
+    unc = max(x['e'] for x in ind)
+    fl = math.ceil(max(off, unc) * 1000 - 1e-9) / 1000
+    fam = {}
+    for x in allowed:
+        fam.setdefault(family2(by[x['key']]), []).append(abs(x['model'] - x['loggf_exp']))
+    allabs = sorted(abs(x['model'] - x['loggf_exp']) for x in allowed)
+    abs68 = allabs[int(0.68 * (len(allabs) - 1))]
+    famsig = {k: round(sorted(v)[int(0.68 * (len(v) - 1))], 4) for k, v in fam.items() if len(v) >= 5}
+    for r in rows:
+        half = abs(r['loggf'] - r['loggf_no_polarization_operator']) / 2 if r['loggf_no_polarization_operator'] is not None else 0.5
+        s = math.hypot(fl, half, famsig.get(family2(r), abs68))
+        if r['cf'] < 0.1:
+            s = math.hypot(s, abs68)       # strong cancellation: no lab calibration of its own
+        r['sigma_dex'] = round(s, 4)
+        r['sigma_basis'] = 'lab_family' if family2(r) in famsig else 'lab_pooled' if r['nmax'] < BOX_N else 'no_referee_box'
+        r['cls'] = M.sigma_class(r['sigma_dex'], r['cf'])
+    z = [abs(r['d_lab']) / r['sigma_dex'] for r in rows if 'd_lab' in r]
+    with open(out / 'lines.csv', 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=sorted({k for r in rows for k in r}), lineterminator='\n')
+        w.writeheader()
+        w.writerows(rows)
+    fill = solar_fill(sp, rows)
+    with open(out / 'solar_fill.csv', 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(fill[0]), lineterminator='\n')
+        w.writeheader()
+        w.writerows(fill)
+    meas = [x for x in fill if x['max_depth'] >= 0.01]
+    summary = dict(schema='rya1354.twovalence-model.v1', species=name, status=STATUS, core=sp['core'], alpha_d=M.ALPHA_D,
+                   grid=GRID, basis=dict(NION=NION, NRYD=NRYD, NCOMP=NCOMP, RCOMP=RCOMP, LMAX=LMAX, n_per_l={l: len(B.orb[l][0]) for l in B.orb}),
+                   energy_gate=dict(max_abs_rel=max(abs(v['rel']) for v in erep.values()), passed=all(abs(v['rel']) <= 0.01 for v in erep.values()),
+                                    terms=erep, unmatched_nist_terms=unmatched, beyond_box_n_gt=BOX_N, n_beyond_box=len(beyond),
+                                    note='v65 first run aligned without the box cut: n=58/59p and 24/25d NIST terms were paired '
+                                         'with box-continuum CI states (max 3.3%); n>BOX_N terms are now excluded, not force-matched'),
+                   lab=[dict(line=x['wavelength_A'], lower=x['lower'], upper=x['upper'], lab=x['loggf_exp'], e_lab=x['e'], ref_calc=x['calc'],
+                             model=x['model'], d_model_lab=None if x['model'] is None else round(x['model'] - x['loggf_exp'], 4),
+                             independent=x['independent'], spin_change=x['spin_change']) for x in lab],
+                   lab_independent=dict(n=len(ind), mean_abs=round(off, 4), median=round(st.median(x['model'] - x['loggf_exp'] for x in ind), 4)),
+                   lab_spin_allowed=dict(n=len(allowed), median=round(st.median(x['model'] - x['loggf_exp'] for x in allowed), 4), abs68=round(abs68, 4)),
+                   ref_calc_vs_lab_spin_allowed=dict(median=round(st.median(x['calc'] - x['loggf_exp'] for x in allowed), 4),
+                                                    abs68=round(sorted(abs(x['calc'] - x['loggf_exp']) for x in allowed)[int(0.68 * (len(allowed) - 1))], 4)),
+                   floor_dex=fl, family_abs68=famsig, sigma_coverage_vs_lab_in_sample=dict(n=len(z), within_1=round(sum(v <= 1 for v in z) / len(z), 3),
+                                                                                          within_2=round(sum(v <= 2 for v in z) / len(z), 3)),
+                   n_lines=len(rows), class_counts={c: sum(r['cls'] == c for r in rows) for c in 'ABCDE'},
+                   fill=dict(n_features=len(fill), n_linelist_rows=sum(x['n_linelist_rows'] for x in fill),
+                             status_counts={k: sum(x['status'] == k for x in fill) for k in sorted({x['status'] for x in fill})},
+                             n_measurable=len(meas), n_measurable_graded=sum(x['status'] == 'graded' for x in meas),
+                             ls_broken_configurations=LS_BROKEN))
+    (out / 'summary.json').write_text(json.dumps(summary, indent=1) + '\n')
+    return summary
+
+
+if __name__ == '__main__':
+    for name in (sys.argv[1:] or list(SPECIES)):
+        s = main(name)
+        print(name, json.dumps({k: v for k, v in s.items() if k not in ('lab', 'energy_gate', 'grid', 'basis')}, indent=1))
+        print('energy gate', s['energy_gate']['passed'], s['energy_gate']['max_abs_rel'], 'unmatched', len(s['energy_gate']['unmatched_nist_terms']))
+        for x in s['lab']:
+            print(x)
