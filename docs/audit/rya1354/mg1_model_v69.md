@@ -19,7 +19,7 @@ Outputs:
 \* The Si III lab value was taken from the secondary citation in A&A 2015 (aa24394-14). The primary paper is not yet read.
 
 **Source check (added after v69, no numbers changed).** The cited sources are in the library and have rows in `data/refs/bibliography.csv`:
-- **Si III:** the measuring group's own table (P. L. Smith, IAU Highlights, doi 10.1017/S0251107X00005332) lists 1892 Å A = 16.7(1.0) × 10³ s⁻¹ (Kwong et al. 1983a). Atalay et al. 2019 (A&A 631, A29) states it is the only measurement. The primary paper (Phys. Rev. A 27, 3040) is behind the APS paywall, and its page is cited inconsistently (39 vs 3040).
+- **Si III:** the measuring group's own table (P. L. Smith, IAU Highlights, doi 10.1017/S0251107X00005332) lists 1892 Å A = 16.7(1.0) × 10³ s⁻¹ (Kwong et al. 1983a). Atalay et al. 2019 (A&A 631, A29) states it is the only measurement. The primary paper (Phys. Rev. A 27, 3040) is behind the APS paywall, and its page is confirmed by Crossref as 3040–3043.
 - **Al II:** the measuring group's table also gives A = 3.33(0.23) × 10³ s⁻¹ (Johnson, Smith & Parkinson 1986, ApJ 308, 1013, held). Träbert's NIST review gives the storage-ring τ(³P₁) = 305 ± 10 µs, i.e. A = 3.28 × 10³ s⁻¹ and log gf = −4.978, the NIST A+ value we used. Träbert et al. 1999 (J. Phys. B 32, 537) is paywalled.
 - **Mg I:** Kwong, Smith & Parkinson 1982 (Phys. Rev. A 25, 2629) is paywalled. The value is read via Bergemann 2017 and KP08 (both held).
 - **Paywalled primaries not held:** Kwong 1982, Kwong 1983 and Träbert 1999. Del Zanna 2015 is free, but the A&A site blocks automated download.
