@@ -17,6 +17,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--model-stem',required=True)
     p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--abundance',type=float,default=None,help='grid A(O) node; default the atom file value')
     args=p.parse_args()
     assert_on_sirius('Bride independent reference intake')
     if Path(args.model_stem).name!=args.model_stem:raise ValueError('Filename stem only')
@@ -35,7 +36,7 @@ def main():
         raise ValueError('O aux does not match acquisition pin')
     binary=held/receipt['files']['grid_1d_bin_zip']['name'].removesuffix('.zip')
     reference=read_exact_departure_record(binary,aux_path.read_text(),
-        model_id=args.model_stem,abundance=atom.abundance,nlevels=len(atom.levels),ndep=atmosphere['ndep'])
+        model_id=args.model_stem,abundance=atom.abundance if args.abundance is None else args.abundance,nlevels=len(atom.levels),ndep=atmosphere['ndep'])
     def plain(v):return v.tolist()if isinstance(v,np.ndarray)else v
     doc=dict(schema='codex.bride_oxygen_reference/1',science_executed=False,
         code_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
