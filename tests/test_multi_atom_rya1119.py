@@ -168,7 +168,7 @@ def test_collisional_rates_are_converted_to_m3(converted):
     n = 0
     for c in lw.collisions:
         key = type(c).__name__
-        kinds = {"CE": "CE", "CI": "CI", "MultiCHDownward": "CH", "MultiCH0Directed": "CH0"}
+        kinds = {"MultiCE": "CE", "MultiCI": "CI", "MultiCHDownward": "CH", "MultiCH0Directed": "CH0"}
         s = src.get((kinds[key], kept[c.j], kept[c.i])) or src.get((kinds[key], kept[c.i], kept[c.j]))
         if s is None:
             continue

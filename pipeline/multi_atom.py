@@ -334,27 +334,84 @@ def restrict(atom: MultiAtom, keep: list[int], *, keep_ion_ground: bool = True):
 try:
     from dataclasses import dataclass as _dc
     from lightweaver.collisional_rates import TemperatureInterpolationRates as _TIR
-    from lightweaver.utils import weno4 as _weno4
+    from lightweaver.collisional_rates import CE as _LWCE, CI as _LWCI
+    from pipeline.multi_tautsp import tautsp as _tautsp, ppvalu as _ppvalu, splin_small as _splin_small
+
+    class _GencolSpline:
+        """MULTI 2.3 gencol interpolation (pipeline.multi_tautsp, verified against the native
+        Fortran to 1.4e-14): TAUTSP(gamma 5.5) on log(rate) for CE/CI/CH0, on the rate for CH;
+        T clamped to the table (no extrapolation). Built once per setup."""
+        _log = True
+
+        def _build(self):
+            g = np.asarray(self.temperature, dtype=float)
+            v = np.asarray(self.rates, dtype=float)
+            if self._log:
+                if np.any(v <= 0):
+                    raise ValueError('log interpolation needs positive coefficients')
+                v = np.log(v)
+            self._small = (g, v) if len(g) < 4 else None        # gencol: SPLIN, unclamped T
+            self._spline = None if len(g) < 4 else _tautsp(g, v, 5.5)
+            self._trange = (g[0], g[-1])
+
+        def coefficient(self, T):
+            if self._small is not None:
+                out = _splin_small(np.asarray(T, dtype=float), *self._small)
+            else:
+                out = _ppvalu(*self._spline, np.clip(T, *self._trange))
+            return np.exp(out) if self._log else np.maximum(out, 0.0)
 
     @_dc(eq=False, repr=False)
-    class MultiCHDownward(_TIR):
-        """MULTI 'CH': coefficient x n(H I ground) is the DOWNWARD rate (upper -> lower);
-        the upward rate follows by detailed balance. Linear-in-T interpolation, as MULTI."""
+    class MultiCE(_GencolSpline, _LWCE):
+        """Lightweaver CE physics (down = q ne sqrt(T) g_i/g_j), MULTI gencol interpolation."""
+        def setup(self, atom):
+            super().setup(atom); self._build()
+
         def compute_rates(self, atmos, eqPops, Cmat):
-            C = _weno4(atmos.temperature, self.temperature, self.rates)
-            C[C < 0.0] = 0.0
+            C = self.coefficient(atmos.temperature)
+            nstar = eqPops.atomicPops[self.atom.element].nStar
+            Cdown = C * atmos.ne * self.gij * np.sqrt(atmos.temperature)
+            Cmat[self.i, self.j, :] += Cdown
+            Cmat[self.j, self.i, :] += Cdown * nstar[self.j] / nstar[self.i]
+
+    @_dc(eq=False, repr=False)
+    class MultiCI(_GencolSpline, _LWCI):
+        """Lightweaver CI physics (up = q ne sqrt(T) exp(-dE/kT)), MULTI gencol interpolation."""
+        def setup(self, atom):
+            super().setup(atom); self._build()
+
+        def compute_rates(self, atmos, eqPops, Cmat):
+            import lightweaver.constants as _C
+            C = self.coefficient(atmos.temperature)
+            nstar = eqPops.atomicPops[self.atom.element].nStar
+            Cup = C * atmos.ne * np.exp(-self.dE / (_C.KBoltzmann * atmos.temperature)) * np.sqrt(atmos.temperature)
+            Cmat[self.j, self.i, :] += Cup
+            Cmat[self.i, self.j, :] += Cup * nstar[self.i] / nstar[self.j]
+
+    @_dc(eq=False, repr=False)
+    class MultiCHDownward(_GencolSpline, _TIR):
+        """MULTI 'CH': coefficient x n(H I ground) is the DOWNWARD rate (upper -> lower);
+        the upward rate follows by detailed balance. gencol: spline on the LINEAR rate,
+        negatives set to zero."""
+        _log = False
+
+        def setup(self, atom):
+            super().setup(atom); self._build()
+
+        def compute_rates(self, atmos, eqPops, Cmat):
+            C = self.coefficient(atmos.temperature)
             down = C * eqPops['H'][0, :]
             nstar = eqPops.atomicPops[self.atom.element].nStar
             Cmat[self.i, self.j, :] += down
             Cmat[self.j, self.i, :] += down * nstar[self.j] / nstar[self.i]
 
     @_dc(eq=False, repr=False)
-    class MultiCH0Directed(_TIR):
+    class MultiCH0Directed(_GencolSpline, _TIR):
         """MULTI 'CH0': coefficient x n(H I ground) is the rate FROM `j` TO `i` as written in
         the atom (charge transfer A + H <-> A+ + H-). `upward` says whether that written
         direction ionises. The reverse follows by detailed balance from the atom's own LTE
-        populations, so the process closes to LTE at depth. log(rate) interpolated in T,
-        as MULTI GENCL; outside the table the end value is held (extend the table first)."""
+        populations, so the process closes to LTE at depth. gencol: spline on log(rate),
+        T clamped to the table."""
         upward: bool = True
 
         def setup(self, atom):
@@ -365,16 +422,16 @@ try:
             self.rates = np.asarray(self.rates, dtype=float)
             if np.any(self.rates <= 0):
                 raise ValueError('CH0 log interpolation needs positive coefficients')
-            self.log_rates = np.log(self.rates)
+            self._build()
 
         def compute_rates(self, atmos, eqPops, Cmat):
-            q = np.exp(np.interp(atmos.temperature, self.temperature, self.log_rates))
+            q = self.coefficient(atmos.temperature)
             fwd = q * eqPops['H'][0, :]
             nstar = eqPops.atomicPops[self.atom.element].nStar
             Cmat[self.dst, self.src, :] += fwd
             Cmat[self.src, self.dst, :] += fwd * nstar[self.src] / nstar[self.dst]
 except ImportError:          # parsing works without Lightweaver
-    MultiCHDownward = MultiCH0Directed = None
+    MultiCE = MultiCI = MultiCHDownward = MultiCH0Directed = None
 
 
 def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
@@ -384,7 +441,7 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     from lightweaver.atomic_table import Element, PeriodicTable
     from lightweaver.broadening import (LineBroadening, RadiativeBroadening,
                                         VdwUnsold, VdwBarklem)
-    from lightweaver.collisional_rates import CE, CI
+    # CE/CI: MultiCE/MultiCI (Lightweaver physics, MULTI gencol interpolation; RYA-1282)
     from pipeline.multi_continuum import MultiExplicitContinuum
     if MultiCHDownward is None:
         raise ImportError("Lightweaver collision base class unavailable")
@@ -470,9 +527,9 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
             raise ValueError("Collision coefficients do not match their temperature grid")
         kw = dict(temperature=list(grid), rates=list(c.rates * CM3_TO_M3))
         if c.kind == "CE":
-            collisions.append(CE(j=remap[c.j], i=remap[c.i], **kw))
+            collisions.append(MultiCE(j=remap[c.j], i=remap[c.i], **kw))
         elif c.kind == "CI":
-            collisions.append(CI(j=remap[c.j], i=remap[c.i], **kw))
+            collisions.append(MultiCI(j=remap[c.j], i=remap[c.i], **kw))
         elif c.kind == "CH":
             collisions.append(MultiCHDownward(j=remap[c.j], i=remap[c.i], **kw))
         elif c.kind == "CH0":
