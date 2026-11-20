@@ -1,0 +1,25 @@
+{
+ "n_lines": 4217,
+ "n_in_abo_tables": 104,
+ "control_vs_vald": {
+  "n": 28,
+  "median": 0.0015,
+  "abs68": 0.0018
+ },
+ "nstar_r_effect": {
+  "n": 104,
+  "p50": 0.0031,
+  "p90": 0.0269,
+  "max": 0.1368
+ },
+ "unsold_model_vs_hyd": {
+  "n": 2826,
+  "p50": 0.0005,
+  "p90": 0.0086
+ },
+ "n_matched_vald": 508,
+ "n_vald_zero": 470,
+ "n_fill_candidates_in_table": 24,
+ "n_doubly_excited_unsold_shift_gt_0p3": 18,
+ "note": "report only (v70); nothing enters a synthesis"
+}

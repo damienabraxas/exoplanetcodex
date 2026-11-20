@@ -107,3 +107,37 @@ def test_sister_ion_lab_labels_accept_full_configurations():
     keys = {(x['lo'], x['up']) for x in lab}
     assert (('3s2', '1S', 0), ('3s.3p', '1P*', 1)) in keys          # 1670 A resonance line
     assert any(x['lo'][0] == '3s.3p' and x['up'][0] == '3p2' for x in lab)
+
+
+# ---------------------------------------------------------------- v70: broadening + lifetimes + d-scale rule
+def test_abo_tables_reproduce_ges_packed_values():
+    """Implementation control (declared v70): the b-triplet and 5528 ABO values carried by GES within 2 %."""
+    import math
+    import rya1354_vdw as V
+    T_ = V.load_tables()
+    ip = 61671.05
+    ns = lambda E: math.sqrt(V.R_MG / (ip - E))
+    s, a = V.abo(T_, 'p', ns(21877.0), 's', ns(41197.403))       # 3s3p 3P - 3s4s 3S
+    assert abs(s / 729 - 1) < 0.02 and abs(a - 0.238) < 0.01
+    s, a = V.abo(T_, 'p', ns(35051.264), 'd', ns(53134.642))      # 5528: 3s3p 1P - 3s4d 1D
+    assert abs(s / 1461 - 1) < 0.02 and abs(a - 0.312) < 0.01
+    assert V.abo(T_, 'p', ns(35051.264), 'd', ns(56308.381)) == (None, None)   # 4703: 5d beyond the table edge
+    # sigma, alpha -> log gamma6 at 1e4 K agrees with the GES single-gamma column (-7.267)
+    assert abs(V.gamma6_abo(729, 0.238, 24.305) - (-7.267)) < 0.01
+
+
+def test_hydrogenic_r2_inverse():
+    import rya1354_vdw as V
+    for n, l in ((2.3, 0), (3.7, 1), (4.2, 2), (6.0, 3)):
+        assert abs(V.nstar_from_r2(V.r2_hyd(n, l), l) - n) < 1e-8
+
+
+def test_unsold_monotone_in_dr2():
+    import rya1354_vdw as V
+    assert V.gamma6_unsold(10, 24.3) < V.gamma6_unsold(100, 24.3)
+    # gamma6 ~ C6^(2/5): a factor 10 in d<r2> is 0.4 dex
+    assert abs(V.gamma6_unsold(100, 24.3) - V.gamma6_unsold(10, 24.3) - 0.4) < 1e-9
+
+
+def test_inverted_core_fs_rule_is_on():
+    assert T.INVERTED_FS_RULE is True

@@ -42,7 +42,7 @@ STATUS = 'CANDIDATE_HOLD_NOT_ADOPTED'
 LMAX = 4
 SPECIES = {
     'Mg I': dict(core='Mg II', ip=61671.05, levels=REF / 'onevalence_nist/MgI_levels.csv', corepfx='2p6',
-                 lab=REF / 'mg_gf_lab/mg1_lab_loggf_pehlivan2017.csv', linelist=('Mg', 'I'), out='mg1_model_v69', labprefix='3s',
+                 lab=REF / 'mg_gf_lab/mg1_lab_loggf_pehlivan2017.csv', linelist=('Mg', 'I'), out='mg1_model_v70', labprefix='3s',
                  intercomb_ref=(('3s2 1S0', '3s.3p 3P*1', -5.686, 'LAB: Kwong et al. 1982 lifetime (cited Bergemann 2017)'),
                                 ('3s2 1S0', '3s.3p 3P*1', -5.623, 'theory: KP08 Table 40 / Tachiev & Froese Fischer BP-MCHF, class D')),
                  forbidden={2154.353: 'E2', 2089.149: 'M2', 4562.602: 'M2', 2084.537: 'E2'}),
@@ -51,11 +51,11 @@ SPECIES = {
     # v69 Part B: Mg I isoelectronic sister ions, BLIND (same code and rules, nothing retuned). Referee = NIST ASD graded
     # spin-allowed E1 (mostly MCHF compilations, not lab-independent); blind lab targets = the intercombination lines.
     'Al II': dict(core='Al III', ip=151862.5, levels=REF / 'onevalence_nist/AlII_levels.csv', corepfx='2p6',
-                  lab=REF / 'sister_ions_nist/al2_nist_graded.csv', linelist=('Al', 'II'), out='al2_model_v69', labprefix='3s',
+                  lab=REF / 'sister_ions_nist/al2_nist_graded.csv', linelist=('Al', 'II'), out='al2_model_v70', labprefix='3s',
                   percentages=REF / 'onevalence_nist/AlII_levels.csv', floor_fallback=0.050,
                   intercomb_ref=(('3s2 1S0', '3s.3p 3P*1', -4.979, 'LAB: Traebert et al. 1999 storage-ring lifetime (NIST ASD A+, T6947)'),)),
     'Si III': dict(core='Si IV', ip=270139.3, levels=REF / 'onevalence_nist/SiIII_levels.csv', corepfx='2p6',
-                   lab=REF / 'sister_ions_nist/si3_nist_graded.csv', linelist=('Si', 'III'), out='si3_model_v69', labprefix='3s',
+                   lab=REF / 'sister_ions_nist/si3_nist_graded.csv', linelist=('Si', 'III'), out='si3_model_v70', labprefix='3s',
                    percentages=REF / 'onevalence_nist/SiIII_levels.csv', floor_fallback=0.050,
                    intercomb_ref=(('3s2 1S0', '3s.3p 3P*1', -4.570, 'LAB: Kwong et al. 1983 RF ion trap, A = 1.67(10)e4 s-1 '
                                    '(as cited by A&A 2015 aa24394-14; primary paper not yet read)'),)),
@@ -536,6 +536,9 @@ def so_matrix(B, xr, cf1, L1, S1, cf2, L2, S2):
     return W
 
 
+INVERTED_FS_RULE = True     # v70 (declared RYA-1354 2026-11-20): inverted core FS -> l unscaled
+
+
 def ion_xi_scales(B, min_fs_cm=0.1):
     """Per-l spin-orbit scale calibrated on the ION ONLY (v68): s_l = median over n of NIST/model fine structure of the
     one-valence core spectrum (Mg II for Mg I), levels with NIST splitting > min_fs_cm. No neutral-atom information."""
@@ -553,13 +556,23 @@ def ion_xi_scales(B, min_fs_cm=0.1):
             lab = f'{n}{"spdf"[l]}'
             if (lab, 2 * l + 1) not in lev or (lab, 2 * l - 1) not in lev:
                 continue
-            nist = abs(lev[(lab, 2 * l + 1)] - lev[(lab, 2 * l - 1)])
+            signed = lev[(lab, 2 * l + 1)] - lev[(lab, 2 * l - 1)]
+            nist = abs(signed)
             if nist <= min_fs_cm:
                 continue
             model = (z[:, n - l - 1] ** 2 * xi * dx).sum() * (l + 0.5) * M.RY_CM
-            rat.append(dict(level=lab, model_cm=round(model, 4), nist_cm=round(nist, 4), ratio=round(model / nist, 4)))
+            rat.append(dict(level=lab, model_cm=round(model, 4), nist_cm=round(nist, 4), ratio=round(model / nist, 4),
+                            inverted=bool(signed < 0)))
         if rat:
-            out[l] = dict(scale=round(1 / st.median(x_['ratio'] for x_ in rat), 4), levels=rat)
+            scale = round(1 / st.median(x_['ratio'] for x_ in rat), 4)
+            n_inv = sum(x_['inverted'] for x_ in rat)
+            if INVERTED_FS_RULE and 2 * n_inv > len(rat):
+                # v70 rule: an inverted core fine structure comes from core polarization, which a one-body xi cannot
+                # produce; a ratio against |FS| would be an arbitrary scale, so this l stays ab initio.
+                out[l] = dict(scale=1.0, scale_if_calibrated=scale, n_inverted=n_inv, levels=rat,
+                              note='v70 rule: core FS inverted in the majority of levels -> unscaled')
+            else:
+                out[l] = dict(scale=scale, n_inverted=n_inv, levels=rat)
     for l in range(4, LMAX + 1):
         out[l] = dict(scale=out.get(3, {}).get('scale', 1.0), levels=[], note='l>=4 takes the f scale (no NIST fine structure)')
     return out
