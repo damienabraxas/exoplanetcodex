@@ -1,0 +1,66 @@
+--- ~/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/PARAM	2026-11-09 11:16:22
++++ ~/codex/bride_inputs/rya1282/mul23_build/source/PARAM	2026-11-20 13:13:26
+@@ -1,3 +1,3 @@
+-      PARAMETER (MDEP=400,MK=30,MLINE=150,MWIDE=29,
++      PARAMETER (MDEP=400,MK=45,MLINE=260,MWIDE=29,
+      * MRAD=MLINE+MWIDE,MRFIX=6,MQ=2000,MMU=5)
+  
+--- ~/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/PARAMW	2026-11-09 11:16:22
++++ ~/codex/bride_inputs/rya1282/mul23_build/source/PARAMW	2026-11-20 13:15:29
+@@ -1 +1 @@
+-      PARAMETER (MDEP1=400,MK1=30)
++      PARAMETER (MDEP1=400,MK1=45)
+--- ~/codex/bride_inputs/rya1281/pymulti-source-v2/pymulti/files/multi/mul23/source/mul23_opacu.f	2026-11-09 11:16:22
++++ ~/codex/bride_inputs/rya1282/mul23_build/source/mul23_opacu.f	2026-11-20 13:24:59
+@@ -4729,8 +4729,12 @@
+ c  collision rate from level 1 to level 2
+ c 
+         else if (key(i) .eq. 'ch0     ') then
++c  RYA-1282: + reverse by detailed balance (Gallagher+2020 Sect. 2.4 modification)
+           do k=1,ndep
+-            c(il(i),ih(i),k)= nh(1,k) * ct(k)  + c(il(i),ih(i),k)
++            cfw = nh(1,k) * ct(k)
++            c(il(i),ih(i),k)= cfw  + c(il(i),ih(i),k)
++            c(ih(i),il(i),k)= cfw * nstar(il(i),k) / nstar(ih(i),k)
++     *                        + c(ih(i),il(i),k)
+           end do
+         else if (key(i) .eq. 'ch+     ') then
+           do k=1,ndep
+@@ -8045,6 +8049,11 @@
+       INCLUDE 'COSM3'
+       
+       INTEGER JFLAG, MAXTEM, MAXP6, NNU
++C     RYA-1282: OSSCL scales the solar-mix ABSMET line opacity (file OSSCALE, default 1)
++      REAL(8) OSSCL
++      LOGICAL OSEX
++      SAVE OSSCL
++      DATA OSSCL /-1.D0/
+       REAL(8) TEMDP(MTEM), P6DP(MP6)
+       REAL(8) LOPAC(2,2)
+       REAL(8) OPINT
+@@ -8058,6 +8067,16 @@
+ C     JJX     :   INDEX   FOR MICROTURBULENCE VALUE      
+ C     JJT,JJP :   INDECES FOR TEM. AND P6 
+ 
++      IF (OSSCL .LT. 0.D0) THEN
++        OSSCL = 1.D0
++        INQUIRE(FILE='OSSCALE', EXIST=OSEX)
++        IF (OSEX) THEN
++          OPEN(91, FILE='OSSCALE', STATUS='OLD')
++          READ(91,*) OSSCL
++          CLOSE(91)
++        ENDIF
++        WRITE(*,*) 'OSINTP: ABSMET line opacity scaled by', OSSCL
++      ENDIF
+ C     COPY TEMPT AND P6PT RESPECTIVELY INTO TEMDP AND P6DP
+ C     (DOUBLE PRECISION)
+       DO I=1,MAXTEM
+@@ -8158,7 +8177,7 @@
+      &              ((P2-P1) * (T2-T1))
+             ENDIF
+ c            OPLIN(NNU,K) = OPINT
+-            OPLIN(NNU,K) = EXP(LOGE10*(OPINT))
++            OPLIN(NNU,K) = EXP(LOGE10*(OPINT)) * OSSCL
+  200     CONTINUE
+          RETURN
+          END

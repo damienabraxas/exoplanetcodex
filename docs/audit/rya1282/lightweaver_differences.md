@@ -209,11 +209,29 @@ Context, which the molecular background could not survive (27b35842); and TS pri
   scale; background metal-LINE opacity added MULTI's way (Bergemann+2019 Sect. 3.3 tables;
   Bride option `line_haze`, dcd73f6a: J at 277-350 nm -15% but triplet 0.0881 -> 0.0883 at
   +1, 0.0261 -> 0.0257 at -1).
-* **Still open: hot and low-gravity metal-poor models.** 6500 K at [Fe/H] <= 0 (up to 0.09
-  dex at 6500/3.5) and 5750/3.5 below -0.5 (0.02-0.03) do not respond to the H-collision
-  correction; 6500/3.5 is already 0.029 at solar. H collisions matter little there; the
-  next suspects are the UV radiation field (Uppsala package vs TS background) and MULTI's
-  own frequency/angle sampling.
+* **Proven by rerunning the grid's own code (2026-11-20).** MULTI 2.3 (pymulti source) built on
+  the Mac (`docs/audit/rya1282/mul23/`: patch = array limits for the 41-level atom, ch0
+  reverse rate by detailed balance per Gallagher+2020, optional OSSCALE factor on the
+  ABSMET line table; runner `multi_run.py`). MULTI with a SOLAR ABUND file and background
+  lines on (IOSMET=1) reproduces the Gerber records to 0.001-0.003 dex in the triplet
+  (5750/4.5 at 0/-2/+1, 6500/3.5/-2; 0.016 at 6500/3.5/0). With the model's own ABUND it
+  departs from them by 0.034 (-2) and 0.083 (+1). MULTI's own output confirms the n(H):
+  with solar ABUND its n(H) at 6500/3.5/-2 is 0.55-0.78 of MARCS's; with the model's ABUND,
+  0.985-0.99.
+  Second artefact: MULTI's ABSMET background-line table is a mass opacity for a SOLAR mix
+  with no abundance axis (mul23_opacu.f OSMET/OSINTP); at [Fe/H] -2 the UV line blanketing
+  is ~100x too strong. It mainly moves O II ground (b 0.82 vs 1.18 with/without lines).
+* **Bride vs MULTI on the same physics (correct ABUND, lines scaled by 10^[Fe/H]).** Triplet
+  max |dlog b| over log tau -3..0: 5750/4.5 0.003 (solar), 0.006 (+1); 5750/4.5/-2 0.033 and
+  5750/3.5/-2 0.027, both only at log tau ~-2.9 (median 0.001); 6500/4.5/-2 0.014;
+  6500/3.5/0 0.043 at log tau -2.95 (median 0.005); 6500/3.5/-2 0.049 (median 0.026).
+  6500/3.5/-2 is the Bride's UV hydrogen opacity: photoionisation from 1D/1S (edges 131-165
+  nm) is 3-7x weaker in the Bride, and with the TS extras off (hbop, H+H, H2+, CH, OH) the
+  difference drops to 0.013 (median 0.005). Those opacities are in MARCS/TS (the atmosphere's
+  own opacity set) and absent from MULTI's Uppsala package: the Bride keeps them.
+* **Still open:** the top of the photosphere (log tau ~-3) in metal-poor models and at
+  6500/3.5/0, 0.015-0.045 dex against MULTI, with O II ground b differing 0.1-0.3 dex
+  (UV field below 911 A).
 * **Atom counts.** The Bride's own equation of state gives 3-4% fewer neutral Fe atoms
   than TS in the upper layers. We keep the Bride's own count rather than borrow TS's.
 * **The remaining O II gap** (10.8 against 8.17 in the top layer) is not yet explained.
