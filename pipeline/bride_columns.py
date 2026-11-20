@@ -64,7 +64,8 @@ def marcs_column(structure: dict) -> dict:
 
 def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, vturb_m_s,
                    rays: int, qscale: int = 1, ng: bool = True, lte: bool = False,
-                   fixed_populations=None, continuum_only: bool = False, top: str = 'cap'):
+                   fixed_populations=None, continuum_only: bool = False, top: str = 'cap',
+                   background: str = 'ts_metals'):
     """Lightweaver context for one column; O active (or fixed), passive atoms in LTE."""
     import lightweaver as lw
     from lightweaver import rh_atoms
@@ -101,8 +102,16 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
     spect = radset.compute_wavelength_grid()
     options = (lw.NgOptions(Norder=3, Nperiod=5, Ndelay=10, threshold=.05, lowerThreshold=0.)
                if ng and not lte else None)
+    if background == 'ts_metals':
+        # Passive metal bound-free from TS/MARCS's own OP tables (pipeline.bride_ts_background).
+        from pipeline.bride_ts_background import ts_metal_factory
+        provider = ts_metal_factory()
+    elif background == 'lightweaver':
+        provider = None
+    else:
+        raise ValueError(f'Unknown background {background!r}')
     ctx = lw.Context(atmosphere, spect, eq, Nthreads=1, formalSolver='piecewise_besser_1d',
-                     conserveCharge=False, ngOptions=options)
+                     conserveCharge=False, ngOptions=options, backgroundProvider=provider)
     if top == 'cap':
         ctx.depthData.fill = True          # the cap reads the actual top-layer chi/eta
     return ctx
@@ -178,8 +187,26 @@ def converge_radiation(ctx, *, tol: float = 1e-8, maxiter: int = 1000) -> int:
     raise RuntimeError(f'Radiation (J/cap) convergence failed: dJ {dj:.2e} cap {db:.2e}')
 
 
+RATE_WINDOW = 5     # = Ng period; a window spanning one extrapolation is not distorted by it
+
+
+def estimated_error(changes, window: int = RATE_WINDOW):
+    """Distance to the fixed point from the last step and the observed contraction rate:
+    rho = (d_n / d_{n-w})^(1/w), error ~ d_n rho / (1 - rho). inf while not contracting."""
+    if len(changes) <= window:
+        return float('inf'), float('nan')
+    d_now, d_then = changes[-1], changes[-1 - window]
+    if not (d_then > 0 and d_now > 0):
+        return (0.0, 0.0) if d_now == 0 else (float('inf'), float('nan'))
+    rho = (d_now / d_then) ** (1.0 / window)
+    if rho >= 1.0:
+        return float('inf'), rho
+    return d_now * rho / (1.0 - rho), rho
+
+
 def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float = 900., monitor=None, every: int = 50,
-                 observable_tol: float | None = None, validate_observable_rule: bool = False):
+                 observable_tol: float | None = None, validate_observable_rule: bool = False,
+                 stop: str = 'step'):
     """Joint RT + SE iteration, the G4 convergence rule: population change, normalised
     rate residual and J change all below rtol (after >= 3 iterations). Returns the
     populations and the full history. Raises on non-convergence; nothing is clipped.
@@ -189,7 +216,11 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
     may stop when the observables change by less than `observable_tol` (relative) between
     two checkpoints `every` iterations apart. With `validate_observable_rule` it records
     where that rule would have stopped and carries on to the strict rule, so the rule's
-    true error is measured, never assumed. Returns a 4th item: the stop record or None."""
+    true error is measured, never assumed. Returns a 4th item: the stop record or None.
+
+    stop='step' (G4): the last population change < rtol. stop='estimated_error': the
+    rate-aware estimate d rho/(1-rho) < rtol (estimated_error), which a slowly contracting
+    solve (rho -> 1) cannot satisfy by a small step alone. Every history row records both."""
     from pipeline.bride_numerical_validation import physical_rate_matrix
     from pipeline.bride_parameter_checks import positive_stat_equil
     active = ctx.activeAtoms[0]
@@ -216,9 +247,11 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
         rate = float(np.max(abs(balance) / np.maximum(flow, np.finfo(float).tiny)))
         delta = float(np.max(abs(n - old) / n))
         conservation = float(np.max(abs(n.sum(axis=0) / active.nTotal - 1)))
+        err_est, rho = estimated_error([h['population_change'] for h in history] + [delta])
         history.append(dict(iteration=iteration + 1, population_change=delta, J_change=dJ,
                             physical_rate_residual=rate, particle_conservation_error=conservation,
-                            rejected_invalid_ng=bool(rejected), boundary_change=boundary))
+                            rejected_invalid_ng=bool(rejected), boundary_change=boundary,
+                            estimated_error=err_est, contraction_rate=rho))
         if conservation > 1e-10:
             raise ValueError('Particle conservation failed')
         if monitor is not None and (iteration + 1) % every == 0:
@@ -234,7 +267,10 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
                                                populations=active.n.copy())
                         if not validate_observable_rule:
                             return n, history, time.perf_counter() - start, observable_stop
-        if iteration >= 2 and max(delta, rate, dJ, boundary) < rtol:
+        pop_measure = delta if stop == 'step' else err_est
+        if stop not in ('step', 'estimated_error'):
+            raise ValueError(f'Unknown stop rule {stop!r}')
+        if iteration >= 2 and max(pop_measure, rate, dJ, boundary) < rtol:
             return n, history, time.perf_counter() - start, observable_stop
     err = RuntimeError('Joint convergence not reached')
     err.history = history

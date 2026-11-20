@@ -103,6 +103,11 @@ def grade(record_path):
     out['Q6_all_phot_worst_level_1based'] = int(np.unravel_index(np.argmax(np.where(phot[None, :], d, -1)), d.shape)[0] + 1)
     out['Q6_all_depth_max_dlogb'] = float(d.max())
     out['Q6_all_depth_worst_logtau'] = float(lt[np.unravel_index(np.argmax(d), d.shape)[1]])
+    ions = [k for k, l in enumerate(atom.levels) if l.stage > min(x.stage for x in atom.levels)]
+    out['ion_levels_1based'] = [k + 1 for k in ions]
+    out['Q6_ion_top_b'] = [float(b[k, 0]) for k in ions]
+    out['Q6_ion_top_b_ref'] = [float(bref[k, 0]) for k in ions]
+    out['Q6_ion_max_dlogb'] = float(d[ions].max())
     out['ew_nlte_flux_mA'] = flux_ews(ctx)
     out['nlte_over_lte'] = [x / y for x, y in zip(out['ew_nlte_flux_mA'], out['ew_lte_flux_mA'])]
     out['seconds'] = time.perf_counter() - t0

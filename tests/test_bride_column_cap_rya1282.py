@@ -100,3 +100,17 @@ def test_scale_height_matches_the_native_marcs_overlying_column():
                                      s['abundances_dex'], s['logg_cgs'])
         worst = max(worst, abs(hp / c['cap_length_m'] - 1))
     assert worst < 0.025
+
+
+def test_estimated_error_is_exact_on_a_geometric_sequence_and_refuses_non_contraction():
+    from pipeline.bride_columns import estimated_error
+    rho = 0.97
+    d = [rho ** k for k in range(40)]
+    err, r = estimated_error(d)
+    assert r == pytest.approx(rho, rel=1e-12)
+    assert err == pytest.approx(sum(rho ** k for k in range(40, 4000)), rel=1e-9)   # the true remaining distance
+    assert estimated_error([1.0] * 8) == (float('inf'), 1.0)                          # stalled: never "converged"
+    assert estimated_error([1.0, 2.0])[0] == float('inf')                             # too short to know
+    # a small step on a slow contraction is NOT convergence: d = 1e-6 at rho 0.97 -> 3.2e-5 away
+    slow = [1e-6 / rho ** k for k in range(10)][::-1]
+    assert estimated_error(slow)[0] == pytest.approx(1e-6 * rho / (1 - rho), rel=1e-9)
