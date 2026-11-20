@@ -111,8 +111,10 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
                if ng and not lte else None)
     if background == 'ts_metals':
         # Passive metal bound-free from TS/MARCS's own OP tables (pipeline.bride_ts_background).
-        from pipeline.bride_ts_background import ts_metal_factory
-        provider = ts_metal_factory()
+        # + TS's H+H, H2+, CH, OH; n(CH), n(OH) and the passive-atom continua from a
+        # background-only EOS with molecules (the active atom keeps `eq`).
+        from pipeline.bride_ts_background import background_eos, ts_metal_factory
+        provider = ts_metal_factory(background_eq=background_eos(radset, atmosphere))
     elif background == 'lightweaver':
         provider = None
     else:

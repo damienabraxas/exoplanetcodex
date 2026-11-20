@@ -22,6 +22,12 @@ def main():
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--support',choices=('node277','nuv200_350'),default='node277',
         help='Predeclared diagnostic support; native output appends100 samples')
+    parser.add_argument('--atmosphere',default=None,
+        help='MARCS model filename in grids.marcs_standard (default: the receipted RYA-1281 solar intake)')
+    parser.add_argument('--window-air-A',nargs=2,type=float,default=None,
+        help='Custom air window (replaces --support windows), e.g. 1500 4500')
+    parser.add_argument('--step-A',type=float,default=1.0)
+    parser.add_argument('--seconds',type=float,default=60.)
     args=parser.parse_args()
     from config.constants import require_codex_path
     from pipeline.bride_reference import fingerprint,read_marcs_structure
@@ -32,10 +38,14 @@ def main():
     if manifest['source_commit']!='21269948750e2177fe32c5df38e1d9bb81363374':raise ValueError('Changed build pin')
     for entry in manifest['builds']:
         if fingerprint(build/entry['name']/'babsma_lu')!=entry['program']:raise ValueError('Changed binary')
-    intake_path=require_codex_path('experiments.bride_marcs_opacity')/'manifest.json'
-    intake=json.loads(intake_path.read_text())
-    source_model=require_codex_path('grids.marcs_standard')/intake['atmosphere']['name']
-    if fingerprint(source_model)!=intake['atmosphere']:raise ValueError('Changed atmosphere')
+    if args.atmosphere is None:
+        intake_path=require_codex_path('experiments.bride_marcs_opacity')/'manifest.json'
+        intake=json.loads(intake_path.read_text())
+        source_model=require_codex_path('grids.marcs_standard')/intake['atmosphere']['name']
+        if fingerprint(source_model)!=intake['atmosphere']:raise ValueError('Changed atmosphere')
+    else:
+        source_model=require_codex_path('grids.marcs_standard')/args.atmosphere
+        intake=dict(atmosphere=fingerprint(source_model))
     structure=read_marcs_structure(source_model)
     args.output.mkdir(parents=True,exist_ok=False)
     inputs=args.output/'inputs';inputs.mkdir();model=inputs/source_model.name;shutil.copy2(source_model,model)
@@ -50,17 +60,20 @@ def main():
         build=fingerprint(build/'manifest.json'),atmosphere=intake['atmosphere'],
         input_data=data_receipts,support=args.support,
         source_coordinate_A=2769.76 if args.support=='node277'else None,controls=dict(
-            seconds_per_case=60,threads=1,NLTE=False,spectrum_synthesis=False,
+            seconds_per_case=args.seconds,threads=1,NLTE=False,spectrum_synthesis=False,
             global_abundance_scaling_dex=0.,explicit_abundances=structure['abundances_dex']),cases=[])
     target=float(vac_to_air(np.array([2769.76]))[0])
-    windows=([('OPA_is_vacuum',target-1,target+1),('OPA_is_air',2768.76,2770.76)]
-             if args.support=='node277'else [('NUV_source_air',2000.,3500.)])
+    if args.window_air_A is not None:
+        windows=[('window_air',*args.window_air_A)]
+    else:
+        windows=([('OPA_is_vacuum',target-1,target+1),('OPA_is_air',2768.76,2770.76)]
+                 if args.support=='node277'else [('NUV_source_air',2000.,3500.)])
     for hypothesis,lower,upper in windows:
         outputs=[]
         for kind in ('baseline','reporting'):
             directory=args.output/(hypothesis+'_'+kind);directory.mkdir();(directory/'DATA').symlink_to(staged,target_is_directory=True)
             text=(f"'LAMBDA_MIN:' '{lower:.9f}'\n'LAMBDA_MAX:' '{upper:.9f}'\n"
-                  "'LAMBDA_STEP:' '1.0'\n"
+                  f"'LAMBDA_STEP:' '{args.step_A:.6f}'\n"
                   f"'MODELINPUT:' '{model}'\n'MARCS-FILE:' '.true.'\n"
                   "'MODELOPAC:' 'continuum.opa'\n'LOGFILE:' 'detail.txt'\n"
                   "'METALLICITY:' '0.00'\n'ALPHA/Fe:' '0.00'\n'HELIUM:' '0.00'\n"
@@ -69,7 +82,7 @@ def main():
             text+=f"'XIFIX:' 'T'\n{structure['vturb_m_s']/1000:.9f}\n"
             (directory/'input.txt').write_text(text)
             start=time.perf_counter();run=subprocess.run([str(build/kind/'babsma_lu')],input=text,
-                cwd=directory,text=True,capture_output=True,timeout=60)
+                cwd=directory,text=True,capture_output=True,timeout=args.seconds)
             (directory/'stdout.log').write_text(run.stdout);(directory/'stderr.log').write_text(run.stderr)
             if run.returncode:raise RuntimeError('TS failure; outputs retained: '+directory.name)
             output=directory/'continuum.opa';parsed=read_ts_opacity(output)

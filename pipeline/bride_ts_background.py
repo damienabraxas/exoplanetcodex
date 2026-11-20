@@ -16,8 +16,22 @@ the model's own populations are not altered (Ca I/Ca II < 1e-2 at the solar top)
 Emissivity changes by delta-chi * B_nu (LTE background); scattering is unchanged. Active
 atoms (O) are never touched. Where a TS table is zero/undefined, TS has no opacity, so the
 replacement gives zero there too (TS = MARCS producer convention).
+
+Extra TS components (RYA-1282, 2026-11-20; detabs.f multipliers, cgs):
+    H+H  Doyle 1968 (cut at 1750 A): XKAP n(H I)^2 1e-50 x stim
+    H2+  Mihalas:                    XKAP n(H I) n(H II) 1e-40 x stim
+    CH, OH Kurucz (cm^2/g, stim already in the table): XKAP n(X) m(X)
+Lightweaver's background carries none of them. In metal-poor photospheres they are most of
+the 175-277 nm absorption (H+H 39-66%, OH 20-55%, H2+ 4-16% at [Fe/H] -2). n(CH), n(OH)
+come from a background-only LTE EOS WITH molecules (Lightweaver's molecular equilibrium,
+DefaultMolecules); that EOS also feeds the passive-atom continua (molecule-depleted, as TS).
+The ACTIVE atom's populations are never taken from it.
+Not yet included: TS absko adds Barklem's hbop hydrogen (Lyman-alpha wing with its 160 nm
+H2 quasi-molecular satellite; up to 90% of TS's 150-200 nm total at [Fe/H] -2) and the NH
+continuum after detabs.
 """
 from functools import partial
+from pathlib import Path
 import numpy as np
 from lightweaver import constants as c
 from lightweaver.atomic_table import PeriodicTable
@@ -39,20 +53,40 @@ def ts_data_dir():
     return require_codex_path('engines.turbospectrum') / 'DATA'
 
 
-def ts_metal_factory(species=None, data_dir=None):
+TS_EXTRA_COMPONENTS = {'H+H': '(H+H)', 'H2+': 'H2+ ', 'CH': 'CHcont', 'OH': 'OHcont'}
+_MOLECULE_MASS_AMU = {'CH': 13.02, 'OH': 17.01}          # detabs.f values
+_AVOGADRO_TS = 6.023e23                                  # detabs.f value
+
+
+def default_molecules():
+    """Lightweaver's shipped molecule set (CO_NLTE variant excluded)."""
+    import lightweaver as lw
+    d = Path(lw.__file__).parent / 'Data' / 'DefaultMolecules'
+    return lw.MolecularTable([str(p) for p in sorted(d.glob('*.molecule')) if 'NLTE' not in p.name])
+
+
+def background_eos(radset, atmosphere):
+    """LTE populations WITH molecules, for the passive background only."""
+    return radset.compute_eq_pops(atmosphere, mols=default_molecules())
+
+
+def ts_metal_factory(species=None, data_dir=None, background_eq=None, extras=True):
     """BackgroundProvider factory for lw.Context(backgroundProvider=...)."""
-    return partial(TsMetalBackground, species=species, data_dir=data_dir)
+    return partial(TsMetalBackground, species=species, data_dir=data_dir,
+                   background_eq=background_eq, extras=extras)
 
 
 class TsMetalBackground(BackgroundProvider):
     JONABS = 'jonabs_vac_v19.2.dat'
     IRWIN = 'IRWIN_atoms_v07.3.dat'
 
-    def __init__(self, eqPops, radSet, wavelength, *, species=None, data_dir=None):
+    def __init__(self, eqPops, radSet, wavelength, *, species=None, data_dir=None,
+                 background_eq=None, extras=True):
         from pipeline.ts_jonabs import JonabsComponent
         super().__init__(eqPops, radSet, wavelength)
-        self.base = FastBackground(eqPops, radSet, wavelength, Nthreads=1)
-        self.eq = eqPops
+        eq = eqPops if background_eq is None else background_eq
+        self.base = FastBackground(eq, radSet, wavelength, Nthreads=1)
+        self.eq = eq
         self.wave = np.asarray(wavelength, dtype=float)
         d = ts_data_dir() if data_dir is None else data_dir
         self.irwin_path = d / self.IRWIN
@@ -77,7 +111,38 @@ class TsMetalBackground(BackgroundProvider):
             comp = JonabsComponent(d / self.JONABS, label)
             self.terms.append((el, ion, element, model, comp, mode))
             (self.replaced if mode == 'replace' else self.added).append((el, ion))
+        self.extras = {}
+        if extras:
+            H = PeriodicTable['H']
+            self._H_stage = np.array([l.stage for l in radSet.atoms[H].levels])
+            for key, label in TS_EXTRA_COMPONENTS.items():
+                if key in _MOLECULE_MASS_AMU and key not in eq.molecularTable:
+                    self.skipped.append((key, None, 'molecule not in the background EOS'))
+                    continue
+                self.extras[key] = JonabsComponent(d / self.JONABS, label)
         self._cache_T = None
+
+    def _extra(self, T):
+        """The TS extra components (H+H, H2+, CH, OH) per (wavelength, depth), 1/m."""
+        out = np.zeros((len(self.wave), len(T)))
+        if not self.extras:
+            return out
+        nH = np.asarray(self.eq.atomicPops[PeriodicTable['H']].n)
+        nHI = nH[self._H_stage == 0].sum(axis=0) * 1e-6               # cm^-3
+        nHII = nH[self._H_stage == 1].sum(axis=0) * 1e-6
+        lamA = _air_A(self.wave)
+        stim = -np.expm1(-28556. * (5040. / T)[None, :] / lamA[:, None])   # detabs.f
+        for key, comp in self.extras.items():
+            tab = comp(self.wave, T)
+            if key == 'H+H':
+                k = tab * (nHI ** 2 * 1e-50)[None, :] * stim
+            elif key == 'H2+':
+                k = tab * (nHI * nHII * 1e-40)[None, :] * stim
+            else:
+                n = np.asarray(self.eq[key]) * 1e-6
+                k = tab * (n * _MOLECULE_MASS_AMU[key] / _AVOGADRO_TS)[None, :]
+            out += k * 100.                                           # 1/cm -> 1/m
+        return out
 
     def _ts_and_old(self, T):
         """Per replaced stage: (TS chi, Lightweaver chi) on the wavelength grid, (nwave, ndep)."""
@@ -106,11 +171,12 @@ class TsMetalBackground(BackgroundProvider):
 
     def compute_background(self, atmos, chi, eta, sca):
         self.base.compute_background(atmos, chi, eta, sca)
-        if not self.terms:
+        if not self.terms and not self.extras:
             return
         T = np.asarray(atmos.pyAtmos.temperature, dtype=float)
         self.ne = np.asarray(atmos.pyAtmos.ne, dtype=float)
         new, old = self._ts_and_old(T)
+        new = new + self._extra(T)
         planck = (2 * c.HPlanck * c.CLight / (self.wave[:, None] * 1e-9) ** 3
                   / np.expm1(c.HC / (self.wave[:, None] * 1e-9 * c.KBoltzmann * T[None, :])))
         delta = new - old
@@ -118,3 +184,10 @@ class TsMetalBackground(BackgroundProvider):
         eta += delta * planck
         if not (np.isfinite(chi).all() and np.isfinite(eta).all()) or np.any(chi < sca) or np.any(eta < 0):
             raise ValueError('Invalid TS metal background replacement')
+
+
+def _air_A(wave_vac_nm):
+    """TS works in air above 2000 A (vacuum below), as its tables and STIM do."""
+    from pipeline.wavelength_util import vac_to_air
+    w = np.asarray(wave_vac_nm, dtype=float) * 10.
+    return np.where(w > 2000., vac_to_air(w), w)

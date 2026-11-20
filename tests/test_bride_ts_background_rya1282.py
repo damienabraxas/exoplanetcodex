@@ -7,6 +7,10 @@ Measured on MARCS 5750/4.5 against native TS (iSpec build, RYA-1281 runs):
   * total background absorption vs native TS, 200-360 nm x 56 depths, |log10 ratio|:
     Lightweaver passive atoms median 0.226 / max 1.278 dex; with TS metals 0.025 / 0.098 dex
     (remaining: CH continuum, absent from the Bride, and the Bride-vs-TS EOS).
+  * + TS's H+H, H2+, CH, OH with a background-only molecular EOS: 0.0086 / 0.048 dex.
+    Over 200-431 nm, 11 Gerber+2023 MARCS models: median 0.006-0.018 dex (Lightweaver
+    background 0.06-0.17); worst points are hbop hydrogen (Balmer dissolution 365-400 nm at
+    depth, Lyman-alpha wing 200-250 nm at [Fe/H] -2), not yet ported.
 Bounds are those measurements rounded up; the negative control must FAIL the parity bound.
 """
 from pathlib import Path
@@ -104,10 +108,10 @@ def test_replacement_is_exact_lte_and_never_double_counts():
     _data(); ctx = _solar_context()
     w = np.linspace(200., 420., 157)
     base = _background(ctx, lambda e, r, x: FastBackground(e, r, x, Nthreads=1), w)
-    none = _background(ctx, lambda e, r, x: TsMetalBackground(e, r, x, species=()), w)
+    none = _background(ctx, lambda e, r, x: TsMetalBackground(e, r, x, species=(), extras=False), w)
     for a, b in zip(base[:3], none[:3]):
         np.testing.assert_array_equal(a, b)                      # no species -> Lightweaver exactly
-    fe = _background(ctx, lambda e, r, x: TsMetalBackground(e, r, x, species=[('Fe', 0)]), w)
+    fe = _background(ctx, lambda e, r, x: TsMetalBackground(e, r, x, species=[('Fe', 0)], extras=False), w)
     T = np.asarray(ctx.atmos.pyAtmos.temperature)
     new, old = fe[3]._ts_and_old(T)
     np.testing.assert_allclose(fe[0] - base[0], new - old, rtol=1e-12, atol=1e-30)
@@ -133,7 +137,30 @@ def test_total_background_matches_native_ts_and_old_background_does_not():
     from lightweaver.LwCompiled import FastBackground
     from pipeline.bride_ts_background import TsMetalBackground
     _data(); ctx = _solar_context()
-    new = _parity(ctx, lambda e, r, x: TsMetalBackground(e, r, x))
-    assert np.median(new) < 0.03 and new.max() < 0.11            # measured 0.025 / 0.098
+    from pipeline.bride_ts_background import background_eos
+    eqm = background_eos(ctx.kwargs['spect'].radSet, ctx.atmos.pyAtmos)
+    metals = _parity(ctx, lambda e, r, x: TsMetalBackground(e, r, x, extras=False))
+    assert np.median(metals) < 0.03 and metals.max() < 0.11       # measured 0.025 / 0.098
+    new = _parity(ctx, lambda e, r, x: TsMetalBackground(e, r, x, background_eq=eqm))
+    assert np.median(new) < 0.01 and new.max() < 0.05             # + H+H/H2+/CH/OH, mol EOS: 0.0086 / 0.048
     old = _parity(ctx, lambda e, r, x: FastBackground(e, r, x, Nthreads=1))
     assert np.median(old) > 0.15 and old.max() > 1.0              # measured 0.226 / 1.278
+
+
+def test_fixed_width_fields_and_quadratic_log_tables_are_read_as_ts_reads_them():
+    """jonabs is FORMAT(6E10.3), blanks ignored: '  7.51 E08' = 7.51e8; a digit-free field
+    reads as 0. CHcont is ILOGL=1, KVADL=1: log, 3-point Lagrange in lambda;
+    at a table node it must return the node (T at a node too)."""
+    from pipeline.ts_jonabs import JonabsComponent, read_component
+    from pipeline.wavelength_util import air_to_vac
+    d = _data()
+    hh = read_component(d / 'jonabs_vac_v19.2.dat', '(H+H)')
+    assert hh['xkap'][0, 0] == pytest.approx(7.51e8)
+    assert hh['xkap'].shape == (8, 20)                             # trailing '.   E' fields lie past NLATB: unread, as Fortran
+    ch = JonabsComponent(d / 'jonabs_vac_v19.2.dat', 'CHcont')
+    assert (ch.ilogl, ch.kvadl) == (1, 1)
+    raw = read_component(d / 'jonabs_vac_v19.2.dat', 'CHcont')
+    k, j = 10, 6                                                   # interior lambda node (vacuum < 2000 A)
+    w_vac_nm = raw['lam_vac_A'][k] / 10.
+    T = 5040. / raw['tet'][j] if ch.iteta > 0 else raw['tet'][j]
+    assert ch(np.array([w_vac_nm]), T)[0, 0] == pytest.approx(raw['xkap'][k, j], rel=1e-6)

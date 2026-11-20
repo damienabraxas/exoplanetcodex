@@ -38,14 +38,23 @@ def read_component(path, label):
         parts = line.replace('=', ' = ').split()
         return {parts[j - 1]: int(parts[j + 1]) for j, tok in enumerate(parts) if tok == '='}
 
+    def field(text):
+        """One Fortran 10-character field, read as TS reads it (FORMAT 6F10.0 / 6E10.3 with
+        blanks ignored): '  7.51 E08' = 7.51e8; a field with no digits ('   .   E  ') = 0."""
+        t = text.replace(' ', '').replace('D', 'E')
+        if not any(ch.isdigit() for ch in t):
+            return 0.0
+        if t.endswith('E') or t.endswith('E+') or t.endswith('E-'):
+            t = t.rstrip('E+-')
+        return float(t)
+
     def numbers(n):
         nonlocal i
         vals = []
         while len(vals) < n:
-            vals += [float(x) for x in lines[i].split()]
+            take = min(6, n - len(vals))
+            vals += [field(lines[i][10 * k:10 * (k + 1)]) for k in range(take)]
             i += 1
-        if len(vals) != n:
-            raise ValueError('jonabs block overran its row')
         return np.array(vals)
 
     lf = flags(lines[i]); i += 1
@@ -63,18 +72,23 @@ class JonabsComponent:
     def __init__(self, path, label):
         b = read_component(path, label)
         lf, tf = b['lflags'], b['tflags']
-        for k, want in (('KVADL', 0), ('ILOGL', 0)):
-            if lf[k] != want:
-                raise ValueError(f'{label}: only {k}={want} is ported')
         self.label = label
         self.minex, self.maxex = lf['MINEX'], lf['MAXEX']
+        self.ilogl, self.kvadl = lf['ILOGL'], lf['KVADL']
         lam = b['lam_vac_A'].copy()
+        # inabs: a discontinuity = two table points < 2 A apart (on the VACUUM table)
+        close = np.diff(lam) < 2.
+        self.idiskv = np.zeros(len(lam), bool)
+        self.idiskv[:-1] |= close; self.idiskv[1:] |= close
+        self.idisk = bool(close.any())
         hi = lam > 2000.
         lam[hi] = _air(lam[hi])
         self.lam_air_A = lam                               # TS works in air
         self.ilogt, self.kvadt = tf['ILOGT'], tf['KVADT']
         self.minet, self.maxet, self.iteta = tf['MINET'], tf['MAXET'], tf['ITETA']
         self.tet = b['tet']; self.xkap = b['xkap']
+        if self.ilogl >= 1:                      # inabs: log BEFORE the lambda interpolation
+            self.xkap = np.log(np.where(self.xkap > 0, self.xkap, 1e-37))
         if len(self.tet) < 2:
             raise ValueError(f'{label}: temperature-independent components not ported')
         # segments (inabs.f): TBOT, DELT, NTM
@@ -92,26 +106,60 @@ class JonabsComponent:
 
     # -- lambda (inabs.f) -------------------------------------------------------------
     def _lambda_values(self, wave_air_A):
-        """XKAP interpolated to each wavelength: (nwave, nT); zero where TS drops it."""
+        """XKAP interpolated to each wavelength, (nwave, nT), exactly as inabs.f: linear, or
+        3-point Lagrange (KVADL >= 1) falling back to linear beside a table discontinuity;
+        in log if ILOGL (exponentiated here unless ILOGT keeps it in log for tabs.f), or
+        logged here if ILOGT only. Rows TS drops (outside, no extrapolation) are flagged."""
         x = np.asarray(wave_air_A, dtype=float); lt = self.lam_air_A; n = len(lt)
         out = np.zeros((len(x), self.xkap.shape[1]))
         live = np.ones(len(x), bool)
+        dv = self.idiskv
         for j, w in enumerate(x):
+            # 1-based lambi/ihelp as inabs
             if w < lt[0]:
-                if self.minex <= 0:
-                    live[j] = False
-                    continue
-                k = 0
+                ihelp, lambi = 1, 1
             elif w >= lt[-1]:
-                if self.maxex <= 0:
-                    live[j] = False
-                    continue
-                k = n - 2
+                ihelp, lambi = n, n
             else:
-                k = int(np.searchsorted(lt, w, side='right') - 1)
-            a2 = (w - lt[k]) / (lt[k + 1] - lt[k])
-            out[j] = (1. - a2) * self.xkap[k] + a2 * self.xkap[k + 1]
-        if self.ilogt > 0:                       # inabs: zero -> 1e-37, then ALOG
+                lambi = int(np.searchsorted(lt, w, side='right'))        # lt[lambi-1] <= w < lt[lambi]
+                ihelp = lambi + 1
+            mode = None
+            if ihelp <= 1:
+                if self.minex > 0:
+                    mode = 'linear'
+            elif lambi == n:
+                if self.maxex > 0:
+                    lambi -= 1; mode = 'linear'
+            else:
+                if self.kvadl < 1:
+                    mode = 'linear'
+                else:
+                    lambi = min(n - 2, lambi)
+                    if (not self.idisk) or not dv[lambi]:              # idiskv(lambi+1), 0-based lambi
+                        mode = 'quadratic'
+                    elif w > lt[lambi]:                                # xla > xlatb(lambi+1)
+                        lambi += 1
+                        mode = 'linear' if (dv[lambi] or lambi + 1 == n) else 'quadratic'
+                    elif dv[lambi - 1] or lambi == 1:
+                        mode = 'linear'
+                    else:
+                        lambi -= 1; mode = 'quadratic'
+            if mode is None:
+                live[j] = False
+                continue
+            k = lambi - 1                                              # 0-based first point
+            if mode == 'linear':
+                a2 = (w - lt[k]) / (lt[k + 1] - lt[k])
+                out[j] = (1. - a2) * self.xkap[k] + a2 * self.xkap[k + 1]
+            else:
+                d1, d2, d3 = w - lt[k], w - lt[k + 1], w - lt[k + 2]
+                x21, x32, x31 = lt[k + 1] - lt[k], lt[k + 2] - lt[k + 1], lt[k + 2] - lt[k]
+                a1 = d2 * d3 / (x21 * x31); a2 = d1 * d3 / (x21 * x32); a3 = d1 * d2 / (x31 * x32)
+                out[j] = a1 * self.xkap[k] - a2 * self.xkap[k + 1] + a3 * self.xkap[k + 2]
+        if self.ilogl >= 1:
+            if self.ilogt <= 0:
+                out = np.exp(out)
+        elif self.ilogt > 0:                     # inabs: zero -> 1e-37, then ALOG
             out = np.log(np.where(out > 0, out, 1e-37))
         return out, live
 
