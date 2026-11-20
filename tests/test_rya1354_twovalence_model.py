@@ -79,3 +79,31 @@ def test_lab_labels_carry_odd_parity_star():
     keys = {(x['lo'], x['up']) for x in lab}
     assert (('3s.3p', '3P*', 0), ('3s.4s', '3S', 1)) in keys
     assert (('3s.3d', '1D', 2), ('3s.4f', '3F*', 3)) in keys
+
+
+def test_parse_conf_maps_nist_configurations_to_ci_keys():
+    nmin = {0: 3, 1: 3, 2: 3, 3: 4}
+    assert T.parse_conf('3p2', nmin, '2p6') == (1, 0, 1, 0)
+    assert T.parse_conf('3p.3d', nmin, '2p6') == (1, 0, 2, 0)
+    assert T.parse_conf('2p6.3s2', nmin, '2p6') == (0, 0, 0, 0)
+    assert T.parse_conf('3s.4f', nmin, '2p6') == (0, 0, 3, 0)
+    assert T.parse_conf('3s.10d', nmin, '2p6') == (0, 0, 2, 7)
+
+
+def test_equivalent_electron_terms_obey_pauli():
+    """l^2 allows only L + S even: d^2 gives 1S 3P 1D 3F 1G, so a '3d2 3S' component cannot exist (NIST lists one)."""
+    allowed = {(L, S) for L in range(5) for S in (0, 1) if (L + S) % 2 == 0}
+    assert {(0, 0), (1, 1), (2, 0), (3, 1), (4, 0)} == allowed
+    assert (0, 1) not in allowed
+
+
+def test_v69_convergence_rule_excludes_basis_degrading_variants():
+    assert T.CONV_ENERGY_SLACK == pytest.approx(0.001)
+    assert T.VARIANTS['rcomp20']['group'] == 'conv'
+
+
+def test_sister_ion_lab_labels_accept_full_configurations():
+    lab = T.lab_rows(dict(T.SPECIES['Al II']), '3s')
+    keys = {(x['lo'], x['up']) for x in lab}
+    assert (('3s2', '1S', 0), ('3s.3p', '1P*', 1)) in keys          # 1670 A resonance line
+    assert any(x['lo'][0] == '3s.3p' and x['up'][0] == '3p2' for x in lab)

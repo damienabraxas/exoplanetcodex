@@ -42,12 +42,23 @@ STATUS = 'CANDIDATE_HOLD_NOT_ADOPTED'
 LMAX = 4
 SPECIES = {
     'Mg I': dict(core='Mg II', ip=61671.05, levels=REF / 'onevalence_nist/MgI_levels.csv', corepfx='2p6',
-                 lab=REF / 'mg_gf_lab/mg1_lab_loggf_pehlivan2017.csv', linelist=('Mg', 'I'), out='mg1_model_v68', labprefix='3s',
+                 lab=REF / 'mg_gf_lab/mg1_lab_loggf_pehlivan2017.csv', linelist=('Mg', 'I'), out='mg1_model_v69', labprefix='3s',
                  intercomb_ref=(('3s2 1S0', '3s.3p 3P*1', -5.686, 'LAB: Kwong et al. 1982 lifetime (cited Bergemann 2017)'),
                                 ('3s2 1S0', '3s.3p 3P*1', -5.623, 'theory: KP08 Table 40 / Tachiev & Froese Fischer BP-MCHF, class D')),
                  forbidden={2154.353: 'E2', 2089.149: 'M2', 4562.602: 'M2', 2084.537: 'E2'}),
     'Ca I': dict(core='Ca II', ip=49305.92, levels=REF / 'onevalence_nist/CaI_levels.csv', corepfx='3p6',
                  lab=REF / 'lab_gf_tables/transcribed/denhartog2021_ca1.csv', linelist=('Ca', 'I'), out='ca1_model_v66', labprefix='4s'),
+    # v69 Part B: Mg I isoelectronic sister ions, BLIND (same code and rules, nothing retuned). Referee = NIST ASD graded
+    # spin-allowed E1 (mostly MCHF compilations, not lab-independent); blind lab targets = the intercombination lines.
+    'Al II': dict(core='Al III', ip=151862.5, levels=REF / 'onevalence_nist/AlII_levels.csv', corepfx='2p6',
+                  lab=REF / 'sister_ions_nist/al2_nist_graded.csv', linelist=('Al', 'II'), out='al2_model_v69', labprefix='3s',
+                  percentages=REF / 'onevalence_nist/AlII_levels.csv', floor_fallback=0.050,
+                  intercomb_ref=(('3s2 1S0', '3s.3p 3P*1', -4.979, 'LAB: Traebert et al. 1999 storage-ring lifetime (NIST ASD A+, T6947)'),)),
+    'Si III': dict(core='Si IV', ip=270139.3, levels=REF / 'onevalence_nist/SiIII_levels.csv', corepfx='2p6',
+                   lab=REF / 'sister_ions_nist/si3_nist_graded.csv', linelist=('Si', 'III'), out='si3_model_v69', labprefix='3s',
+                   percentages=REF / 'onevalence_nist/SiIII_levels.csv', floor_fallback=0.050,
+                   intercomb_ref=(('3s2 1S0', '3s.3p 3P*1', -4.570, 'LAB: Kwong et al. 1983 RF ion trap, A = 1.67(10)e4 s-1 '
+                                   '(as cited by A&A 2015 aa24394-14; primary paper not yet read)'),)),
 }
 # CI grid: same log mesh as the one-valence solver but coarser and to 900 a0 (neutral Rydberg n <= ~12)
 GRID = dict(X0=math.log(1e-5), X1=math.log(900.0), NPTS=3200)
@@ -773,7 +784,8 @@ def lab_rows(sp, conf_prefix):
     for r in csv.DictReader(l for l in open(sp['lab']) if not l.startswith('#')):
         def key(s):
             c, t = s.split(' ')
-            conf = f'{conf_prefix}.{c}' if c != conf_prefix else c
+            full = '.' in c or re.fullmatch(r'\d+[spdfgh]2', c) or c == conf_prefix     # '3p2', '3p.3d', '3s2' are full configs
+            conf = c if full else f'{conf_prefix}.{c}'
             odd = sum('spdfgh'.index(m[1]) * int(m[2] or 1) for m in re.finditer(r'\d+([spdfgh])(\d?)', conf)) % 2
             return conf, t[:-1] + ('*' if odd else ''), int(t[-1])
         out.append(dict(r, lo=key(r['lower']), up=key(r['upper']), loggf_exp=float(r['loggf_exp']), e=float(r['e_loggf_dex']),
@@ -883,7 +895,7 @@ def solar_fill(sp, rows):
             if len(tied) > 1:
                 best = (best[0], best[1], best[2].rstrip('0123456789') + '{' + ','.join(sorted(x[len(best[2].rstrip('0123456789')):] for x in tied)) + '}')
         # unassigned and above the highest level the box holds (hydrogenic n = BOX_N below the limit) -> beyond the box
-        lim = sp['ip'] - M.R_INF / BOX_N ** 2
+        lim = sp['ip'] - (M.ZC - 1) ** 2 * M.R_INF / BOX_N ** 2       # outer-electron charge: 1 (neutral), 2 (Al II), 3 (Si III)
         forb = next((t for w, t in sp.get('forbidden', {}).items() if abs(w - air) < 0.01), None)
         key = (best[1], best[2]) if best else (f'?{forb}', f'{air}') if forb else ('?>box', f'{air}') if elo + 1e8 / vac > lim else ('?', f'{air}')
         if best and (best[1].split(' ')[0] in broken or best[2].split(' ')[0] in broken):
@@ -965,7 +977,9 @@ def main(name, cache=None):
     fs_all = {v: fs_report(ic_blocks(S_, sov[v], 1.0)) for v in sov}
     alt = {v: {(r['lower'], r['upper']): r['loggf'] for r in ic_lines(S_, mult, ic_blocks(S_, sov[v], 1.0))} for v in sov if v != 'ion'}
     rows = ic_lines(S_, mult, blocks)
-    var = load_variants(sp)
+    var, var_excl = load_variants(sp, max(abs(v['rel']) for v in erep.values()))
+    for n, x in var_excl.items():
+        print(f'variant {n} EXCLUDED from sigma_conv: energy {x["energy_max_rel"]} > primary + {CONV_ENERGY_SLACK}')
     for r in rows:
         k = (r['lower'], r['upper'])
         for v, d in alt.items():
@@ -993,8 +1007,11 @@ def main(name, cache=None):
     allowed = [x for x in lab if not x['spin_change'] and x['model'] is not None]
     spinlab = [(dict(line=x['wavelength_A'], lab=x['loggf_exp'], model=x['model'], d=None if x['model'] is None else round(x['model'] - x['loggf_exp'], 4)),
                 x['key']) for x in lab if x['spin_change']]
-    off = st.mean(abs(x['model'] - x['loggf_exp']) for x in ind)
-    unc = max(x['e'] for x in ind)
+    if ind:
+        off = st.mean(abs(x['model'] - x['loggf_exp']) for x in ind)
+        unc = max(x['e'] for x in ind)
+    else:     # v69 sister ions: no lab-independent referee -> the Mg I measured floor carries along the sequence (not refit on theory)
+        off, unc = sp['floor_fallback'], 0.0
     fl = math.ceil(max(off, unc) * 1000 - 1e-9) / 1000
     fam = {}
     for x in allowed:
@@ -1017,7 +1034,7 @@ def main(name, cache=None):
             r['sigma_dex'] = round(s, 4)
             r['cls'] = M.sigma_class(r['sigma_dex'], r['cf'])
     grade([dict(cf_lo=lo, cf_hi=hi, abs68=abs68) for lo, hi in CF_BINS2])     # provisional
-    cfb = cf_bins(solar_fill(sp, rows), rows)
+    cfb = cf_bins(solar_fill(sp, rows), rows, carry='floor_fallback' in sp)
     grade(cfb)
     z = [abs(r['d_lab']) / r['sigma_dex'] for r in rows if 'd_lab' in r and r['sigma_dex'] and not r['spin_change']]
     with open(out / 'lines.csv', 'w', newline='') as f:
@@ -1025,8 +1042,8 @@ def main(name, cache=None):
         w.writeheader()
         w.writerows(rows)
     fill = solar_fill(sp, rows)
-    with open(out / 'solar_fill.csv', 'w', newline='') as f:
-        w = csv.DictWriter(f, fieldnames=list(fill[0]), lineterminator='\n')
+    with open(out / 'solar_fill.csv', 'w', newline='') as f:      # may be empty (Si III: no rows in the solar line list)
+        w = csv.DictWriter(f, fieldnames=list(fill[0]) if fill else ['lower', 'upper', 'air_A', 'status'], lineterminator='\n')
         w.writeheader()
         w.writerows(fill)
     meas = [x for x in fill if x['max_depth'] >= 0.01]
@@ -1039,7 +1056,8 @@ def main(name, cache=None):
                    lab=[dict(line=x['wavelength_A'], lower=x['lower'], upper=x['upper'], lab=x['loggf_exp'], e_lab=x['e'], ref_calc=x['calc'],
                              model=x['model'], d_model_lab=None if x['model'] is None else round(x['model'] - x['loggf_exp'], 4),
                              independent=x['independent'], spin_change=x['spin_change']) for x in lab],
-                   lab_independent=dict(n=len(ind), mean_abs=round(off, 4), median=round(st.median(x['model'] - x['loggf_exp'] for x in ind), 4)),
+                   lab_independent=dict(n=len(ind), mean_abs=round(off, 4), median=round(st.median(x['model'] - x['loggf_exp'] for x in ind), 4) if ind else None,
+                                        floor_source='lab-independent lines' if ind else f"carried from Mg I ({sp['floor_fallback']})"),
                    lab_spin_allowed=dict(n=len(allowed), median=round(st.median(x['model'] - x['loggf_exp'] for x in allowed), 4), abs68=round(abs68, 4)),
                    ref_calc_vs_lab_spin_allowed=dict(median=round(st.median(x['calc'] - x['loggf_exp'] for x in allowed), 4),
                                                     abs68=round(sorted(abs(x['calc'] - x['loggf_exp']) for x in allowed)[int(0.68 * (len(allowed) - 1))], 4)),
@@ -1054,7 +1072,11 @@ def main(name, cache=None):
                                    ref_4571=[dict(x, **{f'model_{v}': alt[v].get((x['lower'], x['upper'])) for v in alt}) for x in intercomb(sp, by)],
                                    cf_bins=cfb, cf_no_grade=CF_NO_GRADE),
                    variants={n: dict(VARIANTS[n], n_lines=len(d)) for n, d in var.items()},
+                   variants_excluded={n: dict(VARIANTS[n], energy_max_rel=x['energy_max_rel'], rule=f'conv energy > primary + {CONV_ENERGY_SLACK}',
+                                              p90_abs_dloggf=p90([abs(x['g'][(r['lower'], r['upper'])] - r['loggf']) for r in rows if (r['lower'], r['upper']) in x['g']]))
+                                      for n, x in var_excl.items()},
                    gauge=gauge_summary(rows),
+                   composition_vs_nist=composition_test(sp, S_, B.nmin),
                    n_lines=len(rows), class_counts={c: sum(r['cls'] == c for r in rows) for c in 'ABCDE'},
                    fill=dict(n_features=len(fill), n_linelist_rows=sum(x['n_linelist_rows'] for x in fill),
                              status_counts={k: sum(x['status'] == k for x in fill) for k in sorted({x['status'] for x in fill})},
@@ -1067,6 +1089,7 @@ def main(name, cache=None):
 # v68 variants: each rebuilds the full CI with ONE knob changed. group conv = numerical convergence, phys = physics input.
 VARIANTS = {
     'nryd18': dict(group='conv', NRYD=18), 'ncomp18': dict(group='conv', NCOMP=18), 'rcomp35': dict(group='conv', RCOMP=35.0),
+    'rcomp20': dict(group='conv', RCOMP=20.0),     # v69
     'lmax5': dict(group='conv', LMAX=5), 'npts4800': dict(group='conv', GRID_NPTS=4800), 'box1200': dict(group='conv', GRID_X1=1200.0),
     'alpha2_p5': dict(group='phys', ALPHA2_SCALE=1.05), 'alpha2_m5': dict(group='phys', ALPHA2_SCALE=0.95),
     'rcdiel_p20': dict(group='phys', RC_DIEL_SCALE=1.2), 'rcdiel_m20': dict(group='phys', RC_DIEL_SCALE=0.8),
@@ -1103,14 +1126,91 @@ def run_variant(name, vname):
                                                      loggf={f"{r['lower']}|{r['upper']}": r['loggf'] for r in rows}), indent=0) + '\n')
 
 
-def load_variants(sp):
-    out = {}
+CONV_ENERGY_SLACK = 0.0010   # v69 (A3): a conv variant enters sigma_conv only if its energy max error <= primary + 0.10 %
+
+
+def load_variants(sp, primary_erel=None):
+    """Variant loggf by name. With primary_erel, conv variants whose energy is worse than primary + CONV_ENERGY_SLACK are
+    returned separately (reported, not used in sigma: they degrade the basis, so they are not convergence steps)."""
+    out, excluded = {}, {}
     d = variant_dir(sp)
     for n in VARIANTS:
         f = d / f'{n}.json'
         if f.exists():
-            out[n] = {tuple(k.split('|')): v for k, v in json.loads(f.read_text())['loggf'].items()}
-    return out
+            j = json.loads(f.read_text())
+            g = {tuple(k.split('|')): v for k, v in j['loggf'].items()}
+            if primary_erel is not None and VARIANTS[n]['group'] == 'conv' and j['energy_max_rel'] > primary_erel + CONV_ENERGY_SLACK:
+                excluded[n] = dict(g=g, energy_max_rel=j['energy_max_rel'])
+            else:
+                out[n] = g
+    return (out, excluded) if primary_erel is not None else out
+
+
+def p90(v):
+    v = sorted(v)
+    return round(v[int(0.9 * (len(v) - 1))], 4) if v else None
+
+
+LETTER = 'spdfghik'
+
+
+def parse_conf(conf, nmin, corepfx):
+    """NIST configuration ('3p2', '3p.3d', '2p6.3s2', '3s.4f') -> CI key (la, ia, lb, ib), ia = n - nmin_l (ion-orbital index)."""
+    parts = [p for p in conf.split('.') if p != corepfx]
+    orbs = []
+    for p in parts:
+        m = re.fullmatch(r'(\d+)([spdfghik])(\d?)', p)
+        if not m:                      # e.g. NIST 'nd' / '(2S)' notations: not a single CI configuration
+            return None
+        n, l, k = int(m[1]), LETTER.index(m[2]), m[3]
+        orbs += [(l, n - nmin.get(l, l + 1))] * (int(k) if k else 1)
+    if len(orbs) != 2:
+        return None
+    (la, ia), (lb, ib) = sorted(orbs)
+    return (la, ia, lb, ib)
+
+
+def composition_test(sp, S_, nmin):
+    """v69 (A2): CI weight of the NIST second component in every LS state NIST lists one for (MgI_levels_percentages.csv).
+    Report only (no fit). Percentages are basis-dependent (ours: ion orbitals), so agreement is approximate by construction."""
+    f = sp.get('percentages') or ROOT / 'data/reference/onevalence_nist' / (sp['name'].replace(' ', '') + '_levels_percentages.csv')
+    if not f.exists():
+        return None
+    clean = lambda x: x.replace('=', '').replace('"', '').strip()
+    rows, seen = [], set()
+    for r in csv.DictReader(open(f)):
+        conf, term, perc = clean(r['Configuration']), clean(r['Term']), clean(r['Leading percentages'])
+        if ':' not in perc or (conf, term) in seen:
+            continue
+        seen.add((conf, term))
+        lead, rest = perc.split(':', 1)
+        bits = rest.split()
+        if len(bits) < 3:
+            continue
+        p2, conf2, term2 = float(bits[0]), bits[1], bits[2]
+        if term2 != term:
+            continue
+        L = 'SPDFGHIK'.index(term.rstrip('*')[1])
+        S = (int(term[0]) - 1) // 2
+        par = 1 if term.endswith('*') else 0
+        lab = conf.replace(sp['corepfx'] + '.', '') + ' ' + term
+        d = S_.get((L, S, par))
+        if not d:
+            continue
+        labels = [t[1] for t in d['terms']]
+        if lab not in labels or labels.index(lab) not in d['match']:
+            continue
+        key = parse_conf(conf2, nmin, sp['corepfx'])
+        if key is None:
+            continue
+        v = d['v'][:, d['match'][labels.index(lab)]]
+        w = float(sum(v[k] ** 2 for k, c in enumerate(d['cf']) if c == key))
+        pauli = key[0] == key[2] and key[1] == key[3] and (L + S) % 2 == 1      # l^2 allows only L + S even
+        rows.append(dict(level=lab, second=conf2 + ' ' + term2, nist_pct=p2, model_pct=round(100 * w, 2),
+                         lead_nist_pct=float(lead.split()[0]) if lead.split() else None, nist_component_pauli_forbidden=pauli))
+    d = [r['model_pct'] - r['nist_pct'] for r in rows if not r['nist_component_pauli_forbidden']]
+    return dict(n=len(rows), n_pauli_forbidden_in_nist=sum(r['nist_component_pauli_forbidden'] for r in rows), median_model_minus_nist_pct=round(sorted(d)[len(d) // 2], 1) if d else None,
+                rows=rows, note='report only; percentages are basis-dependent')
 
 
 def gauge_summary(rows):
@@ -1125,7 +1225,10 @@ CF_NO_GRADE = 0.02
 CF_BINS2 = ((0.05, 0.1), (0.02, 0.05))
 
 
-def cf_bins(fill, rows):
+MG1_CF_BINS = (0.155, 0.34)   # Mg I v68 measured abs68 for CF 0.05-0.1 / 0.02-0.05 (carried to the sister ions when a bin is thin)
+
+
+def cf_bins(fill, rows, carry=False):
     """abs68 of model - line list for single-line features (n <= 8, depth >= 0.01) per CF bin (diagnostic referee:
     the line list is theory, used as FF was for Na/Mg II). Spin-changing lines are excluded: VALD's Mg I intercombination
     gf were refuted in the observed Sun in v67 (20632/11812/9822/20867/7746 A predicted 0.13-0.42 deep, observed <= 0.03)."""
@@ -1137,7 +1240,9 @@ def cf_bins(fill, rows):
                    and not L[(x['lower'], x['upper'])]['spin_change'])
         out.append(dict(cf_lo=lo, cf_hi=hi, n=len(d), abs68=round(d[int(0.68 * (len(d) - 1))], 4) if len(d) >= 5 else None))
     for k in range(len(out)):          # thin bin -> the next-higher-CF bin's value, never smaller
-        if out[k]['abs68'] is None:
+        if out[k]['abs68'] is None and carry:
+            out[k]['abs68'], out[k]['fallback'] = MG1_CF_BINS[k], 'carried from Mg I v68'
+        elif out[k]['abs68'] is None:
             out[k]['abs68'], out[k]['fallback'] = out[k - 1]['abs68'] if k else 0.15, True
     return out
 

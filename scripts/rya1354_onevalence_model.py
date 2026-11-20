@@ -61,6 +61,14 @@ SPECIES = {
                   ff9=REF / 'onevalence_nist/safronova2011_ca2/table5_ca2_A_f.csv', ff16=None,
                   exp={('4s', 1, '4p', 1): (2 * math.pi * 21.57e6, 0.0037), ('3d', 3, '4p', 1): (2 * math.pi * 1.482e6, 0.0054)},
                   linelist=('Ca', 'II'), out='ca2_model_v64', asplund=(5001, 6457, 7324, 8249, 8255), core='3p6'),
+    # v69 sister-ion cores (Mg II isoelectronic). alpha_d: Al3+ 0.2649, Si4+ 0.1624 a.u. (Mitroy, Safronova & Clark 2010
+    # J. Phys. B 43 202001, Ne-like ions). Core fit only (rya1354_core_fit.py); no line referee at this level.
+    'Al III': dict(Z=13, zc=3, alpha=0.2649, mass=26.98154, ip=229445.71, sigma=-4.2, start=START_NA,
+                   levels=REF / 'onevalence_nist/AlIII_levels.csv', ff9=None, ff16=None, exp={}, linelist=('Al', 'III'),
+                   out='al3_core_v69', asplund=(), core='2p6'),
+    'Si IV': dict(Z=14, zc=4, alpha=0.1624, mass=28.0855, ip=364093.1, sigma=-6.6, start=START_NA,
+                  levels=REF / 'onevalence_nist/SiIV_levels.csv', ff9=None, ff16=None, exp={}, linelist=('Si', 'IV'),
+                  out='si4_core_v69', asplund=(), core='2p6'),
 }
 SP = None   # the active species config (set by use())
 NMAX = 15
