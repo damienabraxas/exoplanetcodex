@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v299** · _Last updated: 2026-11-18 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v300** · _Last updated: 2026-11-19 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -784,3 +784,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v298** (2026-11-16) — RYA-1371 actual32interior radiation samples measure2.545percentJ/interpolant mismatch with inheritedarrays exact. Grid19995retains19963ancestors; ratechange2.00e-4 despite near-stableglobalresidual.143tests, source-bound semantic/overwriteguards; globalconvergence/physicalHOLD.
 
 - **v299** (2026-11-18) — RYA-1371 main78ab9eb0 integration and Claude handoff; retain Bridev298HOLD and all scientific outputs. Main historicalv253Cr landing preserved as main-scoped entry to resolve independent-branch numbering collision; bibliography same-PDF Ward alias consolidated with history/variant retained. No new science run/adoption.
+
+- **v300** (2026-11-19) — RYA-1282 Bride collision_convention defect FIXED (c364add1): default converter uses MULTI GENCL semantics, CH downward and CH0 directed + detailed-balance reverse (log-T); safeguarded Ng in column solver. RH reading and one-way CH0 both fail the LTE limit at depth; fixed default |b-1|<1e-6, triplet b within 0.0047 dex of Amarsi2021 MARCS grid, 7772 flux NLTE/LTE +13.3% (was +1.2%). RYA-470 #627 landed on main c5d53e7d.
