@@ -74,3 +74,11 @@ def test_native_36_field_format_reversion_reproduces_failure(tmp_path):
         result=subprocess.run([str(executable)],capture_output=True,text=True,timeout=5)
         assert (result.returncode==0)==expect_success
         if not expect_success:assert 'Expected REAL' in result.stderr
+
+
+def test_hot_layer_temperature_without_a_space_is_read(tmp_path):
+    """RYA-1282: at T >= 10000 K TS prints 'T=10191.4' (no space); the record must still
+    carry its temperature (6500 K benchmark models failed 'Incomplete component record')."""
+    path=tmp_path/'detail';path.write_text(component_fixture().replace(' T= 4000.0 ',' T=10191.4 '))
+    d=read_ts_components(path,1,1)
+    assert d['records'][0,0,1]==pytest.approx(10191.4)

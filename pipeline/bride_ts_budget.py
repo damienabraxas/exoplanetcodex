@@ -50,7 +50,8 @@ def read_ts_components(path,ndep,nwave):
             if names!=labels or len(set(labels))!=len(labels):raise ValueError('Ambiguous component labels')
             pending=float(prefix.split('=',1)[1].split()[0])
         elif line.startswith(' T='):
-            values=[float(x.replace('D','E')) for x in line.split()[1:]]
+            # split AFTER 'T=': at T >= 10000 K TS prints 'T=10191.4' with no space
+            values=[float(x.replace('D','E')) for x in line.split('=',1)[1].split()]
             if pending is None or labels is None or len(values)!=3+len(labels):
                 raise ValueError('Incomplete component record')
             records.append([pending,*values]);pending=None
