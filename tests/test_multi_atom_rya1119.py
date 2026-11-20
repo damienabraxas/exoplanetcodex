@@ -168,8 +168,8 @@ def test_collisional_rates_are_converted_to_m3(converted):
     n = 0
     for c in lw.collisions:
         key = type(c).__name__
-        kinds = {"CE": "CE", "CI": "CI", "CH": "CH", "ChargeExchangeNeutralH": "CH0"}
-        s = src.get((kinds[key], kept[c.j], kept[c.i]))
+        kinds = {"CE": "CE", "CI": "CI", "MultiCHDownward": "CH", "MultiCH0Directed": "CH0"}
+        s = src.get((kinds[key], kept[c.j], kept[c.i])) or src.get((kinds[key], kept[c.i], kept[c.j]))
         if s is None:
             continue
         # atol=0 for the same reason as the cross-sections above: these rates reach
@@ -182,10 +182,12 @@ def test_collisional_rates_are_converted_to_m3(converted):
 
 
 def test_CH0_is_charge_exchange_not_plain_neutral_H_collisions(converted):
-    """CH0 is downward-only charge exchange. Mapping it to CH invents an upward rate."""
-    from lightweaver.collisional_rates import CH, ChargeExchangeNeutralH
+    """CH0 is directed charge transfer (MULTI GENCL), never plain CH; CH is MULTI downward CH."""
+    from pipeline.multi_atom import MultiCH0Directed, MultiCHDownward
     sub, lw = converted
     n_ch0 = sum(1 for c in sub.collisions if c.kind == "CH0")
-    if n_ch0:
-        assert sum(1 for c in lw.collisions
-                   if isinstance(c, ChargeExchangeNeutralH)) == n_ch0
+    n_ch = sum(1 for c in sub.collisions if c.kind == "CH")
+    assert sum(isinstance(c, MultiCH0Directed) for c in lw.collisions) == n_ch0
+    assert sum(isinstance(c, MultiCHDownward) for c in lw.collisions) == n_ch
+
+

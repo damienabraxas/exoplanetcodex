@@ -328,6 +328,55 @@ def restrict(atom: MultiAtom, keep: list[int], *, keep_ion_ground: bool = True):
     return sub, remap, report
 
 
+# ---- MULTI-semantics collision classes for the Bride (RYA-1282) ----------------------------
+# Module level so worker processes can pickle a built model. Lightweaver's Cmat is indexed
+# [destination, source]: Cmat[i, j] is the rate j -> i.
+try:
+    from dataclasses import dataclass as _dc
+    from lightweaver.collisional_rates import TemperatureInterpolationRates as _TIR
+    from lightweaver.utils import weno4 as _weno4
+
+    @_dc(eq=False, repr=False)
+    class MultiCHDownward(_TIR):
+        """MULTI 'CH': coefficient x n(H I ground) is the DOWNWARD rate (upper -> lower);
+        the upward rate follows by detailed balance. Linear-in-T interpolation, as MULTI."""
+        def compute_rates(self, atmos, eqPops, Cmat):
+            C = _weno4(atmos.temperature, self.temperature, self.rates)
+            C[C < 0.0] = 0.0
+            down = C * eqPops['H'][0, :]
+            nstar = eqPops.atomicPops[self.atom.element].nStar
+            Cmat[self.i, self.j, :] += down
+            Cmat[self.j, self.i, :] += down * nstar[self.j] / nstar[self.i]
+
+    @_dc(eq=False, repr=False)
+    class MultiCH0Directed(_TIR):
+        """MULTI 'CH0': coefficient x n(H I ground) is the rate FROM `j` TO `i` as written in
+        the atom (charge transfer A + H <-> A+ + H-). `upward` says whether that written
+        direction ionises. The reverse follows by detailed balance from the atom's own LTE
+        populations, so the process closes to LTE at depth. log(rate) interpolated in T,
+        as MULTI GENCL; outside the table the end value is held (extend the table first)."""
+        upward: bool = True
+
+        def setup(self, atom):
+            # Deliberately NOT the sorting base setup: the written direction is physics.
+            self.atom = atom
+            self.src, self.dst = self.j, self.i
+            self.temperature = np.asarray(self.temperature, dtype=float)
+            self.rates = np.asarray(self.rates, dtype=float)
+            if np.any(self.rates <= 0):
+                raise ValueError('CH0 log interpolation needs positive coefficients')
+            self.log_rates = np.log(self.rates)
+
+        def compute_rates(self, atmos, eqPops, Cmat):
+            q = np.exp(np.interp(atmos.temperature, self.temperature, self.log_rates))
+            fwd = q * eqPops['H'][0, :]
+            nstar = eqPops.atomicPops[self.atom.element].nStar
+            Cmat[self.dst, self.src, :] += fwd
+            Cmat[self.src, self.dst, :] += fwd * nstar[self.src] / nstar[self.dst]
+except ImportError:          # parsing works without Lightweaver
+    MultiCHDownward = MultiCH0Directed = None
+
+
 def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     """Build a Lightweaver `AtomicModel`. Import is local so parsing needs no Lightweaver."""
     from lightweaver.atomic_model import (AtomicLevel, AtomicModel,
@@ -335,8 +384,10 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     from lightweaver.atomic_table import Element, PeriodicTable
     from lightweaver.broadening import (LineBroadening, RadiativeBroadening,
                                         VdwUnsold, VdwBarklem)
-    from lightweaver.collisional_rates import CE, CH, CI, ChargeExchangeNeutralH
+    from lightweaver.collisional_rates import CE, CI
     from pipeline.multi_continuum import MultiExplicitContinuum
+    if MultiCHDownward is None:
+        raise ImportError("Lightweaver collision base class unavailable")
 
     if remap is None:
         remap = {l.index: n for n, l in enumerate(atom.levels)}
@@ -404,21 +455,34 @@ def to_lightweaver(atom: MultiAtom, remap: dict | None = None):
     # departure STRUCTURE, never by convergence (RYA-1118's lesson, again).
     CM3_TO_M3 = 1e-6
 
-    # ⚠️ CH0 is CHARGE EXCHANGE with neutral H (downward only), NOT the same thing as CH
-    # (collisions with neutral H, both directions). Mapping CH0 -> CH adds an upward rate
-    # the physics does not have.
-    kind_map = {"CE": CE, "CI": CI, "CH": CH, "CH0": ChargeExchangeNeutralH}
+    # 🔴 MULTI semantics, NOT Lightweaver/RH semantics (RYA-1282, ledger collision_convention).
+    # Lightweaver's CH reads the coefficient as the UPWARD rate and its ChargeExchangeNeutralH
+    # sorts the endpoints into a DOWNWARD-only rate. MULTI 2.3 GENCL (mul23_opacu.f) does
+    # neither: CH x n(H I) is the DOWNWARD rate; CH0 x n(H I) runs FROM the first index TO the
+    # second as written (O I -> O II in the held atom: ion-pair formation). Under the RH
+    # reading the Bride drained O II to b=1e-4 and failed the LTE limit at depth (|b-1| = 1).
+    # CH0 gets its detailed-balance reverse (mutual neutralisation): without it O II sat at
+    # b~10 and the LTE limit failed again (|b-1| = 0.13). With both, |b-1| < 1e-6 at depth.
     collisions = []
     for c in atom.collisions:
-        cls = kind_map.get(c.kind)
-        if cls is None:
-            raise ValueError(f"Unsupported MULTI collision conversion: {c.kind}")
         grid = atom.temperature if c.temperature is None else c.temperature
         if len(c.rates) != len(grid):
             raise ValueError("Collision coefficients do not match their temperature grid")
-        collisions.append(cls(j=remap[c.j], i=remap[c.i],
-                              temperature=list(grid),
-                              rates=list(c.rates * CM3_TO_M3)))
+        kw = dict(temperature=list(grid), rates=list(c.rates * CM3_TO_M3))
+        if c.kind == "CE":
+            collisions.append(CE(j=remap[c.j], i=remap[c.i], **kw))
+        elif c.kind == "CI":
+            collisions.append(CI(j=remap[c.j], i=remap[c.i], **kw))
+        elif c.kind == "CH":
+            collisions.append(MultiCHDownward(j=remap[c.j], i=remap[c.i], **kw))
+        elif c.kind == "CH0":
+            src, dst = remap[c.j], remap[c.i]          # parser: j = first index, i = second
+            step = levels[dst].stage - levels[src].stage
+            if abs(step) != 1:
+                raise ValueError(f"CH0 {c.j}->{c.i} must join adjacent ion stages")
+            collisions.append(MultiCH0Directed(j=src, i=dst, upward=step > 0, **kw))
+        else:
+            raise ValueError(f"Unsupported MULTI collision conversion: {c.kind}")
 
     Z = PeriodicTable[atom.symbol.capitalize()].Z
     return AtomicModel(element=Element(Z=Z), levels=levels, lines=lines,

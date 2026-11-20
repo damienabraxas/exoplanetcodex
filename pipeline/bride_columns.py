@@ -131,7 +131,9 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
         if np.any(scale == 0):
             raise ValueError('Disconnected SE equation')
         matrix[:] /= scale
-        rejected = positive_stat_equil(ctx, active, old, reject_invalid_ng=False)  # G4 Mac baseline
+        # Safeguarded Ng (RYA-1282): with MULTI-semantics collisions an Ng extrapolation can
+        # propose negative populations; reject it, clear Ng, re-solve the same equation once.
+        rejected = positive_stat_equil(ctx, active, old, reject_invalid_ng=True)
         n = active.n.copy()
         rates = physical_rate_matrix(active)
         balance = np.einsum('ijd,jd->id', rates, n)
