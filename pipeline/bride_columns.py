@@ -57,12 +57,14 @@ def marcs_column(structure: dict) -> dict:
     ne, nh = marcs_number_densities(structure)
     return dict(source='marcs', ndep=structure['ndep'], height_m=structure['height_m'].copy(),
                 temperature_K=structure['temperature_K'].copy(), ne_m3=ne, nHtot_m3=nh,
-                vlos_m_s=np.zeros(structure['ndep']))
+                vlos_m_s=np.zeros(structure['ndep']),
+                # native overlying column mass / top density (RYA-1282 top cap)
+                cap_length_m=float(structure['column_mass_kg_m2'][0] / structure['rho_kg_m3'][0]))
 
 
 def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, vturb_m_s,
                    rays: int, qscale: int = 1, ng: bool = True, lte: bool = False,
-                   fixed_populations=None, continuum_only: bool = False):
+                   fixed_populations=None, continuum_only: bool = False, top: str = 'cap'):
     """Lightweaver context for one column; O active (or fixed), passive atoms in LTE."""
     import lightweaver as lw
     from lightweaver import rh_atoms
@@ -74,7 +76,7 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
         depthScale=col['height_m'].copy(), temperature=col['temperature_K'].copy(),
         ne=col['ne_m3'].copy(), nHTot=col['nHtot_m3'].copy(), vturb=vturb,
         vlos=col['vlos_m_s'].copy(), logG=logg_cgs - np.log10(100.),
-        lowerBc=lw.ThermalisedRadiation(), upperBc=lw.ZeroRadiation())
+        lowerBc=lw.ThermalisedRadiation(), upperBc=_top_boundary(col, top, abundances_dex, logg_cgs))
     atmosphere.quadrature(rays)
     model = to_lightweaver(source_atom)
     if continuum_only:
@@ -99,8 +101,81 @@ def column_context(col: dict, source_atom, *, abundances_dex, logg_cgs: float, v
     spect = radset.compute_wavelength_grid()
     options = (lw.NgOptions(Norder=3, Nperiod=5, Ndelay=10, threshold=.05, lowerThreshold=0.)
                if ng and not lte else None)
-    return lw.Context(atmosphere, spect, eq, Nthreads=1, formalSolver='piecewise_besser_1d',
-                      conserveCharge=False, ngOptions=options)
+    ctx = lw.Context(atmosphere, spect, eq, Nthreads=1, formalSolver='piecewise_besser_1d',
+                     conserveCharge=False, ngOptions=options)
+    if top == 'cap':
+        ctx.depthData.fill = True          # the cap reads the actual top-layer chi/eta
+    return ctx
+
+
+def _top_boundary(col, top, abundances_dex, logg_cgs):
+    """Top boundary of a column (RYA-1282). 'cap' (default): a uniform-source slab carrying
+    the overlying optical depth - native column mass / density when the model gives it
+    (MARCS), else the top layer's pressure scale height (STAGGER), see bride_top_cap.
+    'vacuum': zero incoming radiation at the top grid point (the pre-RYA-1282 default; it
+    collapsed the top-layer populations of strong UV lines)."""
+    import lightweaver as lw
+    from pipeline.bride_top_cap import ColumnCap, scale_height_cap_length
+    if top == 'vacuum':
+        return lw.ZeroRadiation()
+    if top != 'cap':
+        raise ValueError(f'Unknown top boundary {top!r}')
+    L = col.get('cap_length_m')
+    if L is None:
+        L = scale_height_cap_length(col['temperature_K'][0], col['ne_m3'][0], col['nHtot_m3'][0],
+                                    abundances_dex, logg_cgs)
+    return ColumnCap(L)
+
+
+INNER_RTOL = 1e-8          # fixed-population J+cap tolerance (RYA-1281 nested plan)
+
+
+def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500):
+    """One radiation update for the SE step: (dJ, d_boundary) over the whole step.
+
+    Vacuum top: a single formal solution, as before. ColumnCap: J and the cap are
+    converged at FIXED populations (nested scheme, RYA-1281 top_cap_review: the
+    one-refresh-per-step lag stalls; nested converged). Gamma is left from the last,
+    self-consistent formal solution.
+    """
+    from pipeline.bride_top_cap import ColumnCap
+    cap = ctx.atmos.pyAtmos.zUpperBc
+    if not isinstance(cap, ColumnCap):
+        return float(ctx.formal_sol_gamma_matrices(lambdaIterate=True).dJMax), 0.0
+    mu = np.abs(np.asarray(ctx.atmos.pyAtmos.muz))
+    J0 = np.array(ctx.spect.J).copy()
+    B0 = cap.current(mu)
+    for _ in range(maxiter):
+        top = np.array(ctx.spect.J)[:, 0].copy()
+        dj = float(ctx.formal_sol_gamma_matrices(lambdaIterate=True).dJMax)
+        if not np.isfinite(dj):
+            raise ValueError('Nonfinite radiation update')
+        db = cap.update_from_context(ctx, top)
+        if max(dj, db) < inner_rtol:
+            break
+    else:
+        raise RuntimeError(f'Fixed-population J/cap not converged: dJ {dj:.2e} cap {db:.2e}')
+    rel = lambda new, old: float(np.max(abs(new - old) / np.maximum(abs(new), np.finfo(float).tiny)))
+    B1 = cap.current(mu)
+    return rel(np.array(ctx.spect.J), J0), (1.0 if B0 is None else rel(B1, B0))
+
+
+def refresh_cap(ctx, previous_J_top):
+    """Refresh a ColumnCap from the formal solution just done; 0.0 for any other boundary."""
+    from pipeline.bride_top_cap import ColumnCap
+    cap = ctx.atmos.pyAtmos.zUpperBc
+    return cap.update_from_context(ctx, previous_J_top) if isinstance(cap, ColumnCap) else 0.0
+
+
+def converge_radiation(ctx, *, tol: float = 1e-8, maxiter: int = 1000) -> int:
+    """J (and the top cap) at fixed populations, to a declared tolerance."""
+    for j in range(maxiter):
+        top = np.array(ctx.spect.J)[:, 0].copy()
+        dj = ctx.formal_sol_gamma_matrices(lambdaIterate=True).dJMax
+        db = refresh_cap(ctx, top)
+        if max(dj, db) < tol:
+            return j + 1
+    raise RuntimeError(f'Radiation (J/cap) convergence failed: dJ {dj:.2e} cap {db:.2e}')
 
 
 def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float = 900., monitor=None, every: int = 50,
@@ -125,7 +200,7 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
         if time.perf_counter() - start > seconds:
             raise TimeoutError('Column budget exceeded')
         old = active.n.copy()
-        update = ctx.formal_sol_gamma_matrices(lambdaIterate=True)
+        dJ, boundary = radiation_step(ctx)
         matrix = active.Gamma
         scale = np.max(abs(matrix), axis=1, keepdims=True)
         if np.any(scale == 0):
@@ -141,9 +216,9 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
         rate = float(np.max(abs(balance) / np.maximum(flow, np.finfo(float).tiny)))
         delta = float(np.max(abs(n - old) / n))
         conservation = float(np.max(abs(n.sum(axis=0) / active.nTotal - 1)))
-        history.append(dict(iteration=iteration + 1, population_change=delta, J_change=float(update.dJMax),
+        history.append(dict(iteration=iteration + 1, population_change=delta, J_change=dJ,
                             physical_rate_residual=rate, particle_conservation_error=conservation,
-                            rejected_invalid_ng=bool(rejected)))
+                            rejected_invalid_ng=bool(rejected), boundary_change=boundary))
         if conservation > 1e-10:
             raise ValueError('Particle conservation failed')
         if monitor is not None and (iteration + 1) % every == 0:
@@ -159,7 +234,7 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
                                                populations=active.n.copy())
                         if not validate_observable_rule:
                             return n, history, time.perf_counter() - start, observable_stop
-        if iteration >= 2 and max(delta, rate, float(update.dJMax)) < rtol:
+        if iteration >= 2 and max(delta, rate, dJ, boundary) < rtol:
             return n, history, time.perf_counter() - start, observable_stop
     err = RuntimeError('Joint convergence not reached')
     err.history = history
@@ -167,10 +242,7 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
 
 
 def converge_continuum(ctx, *, tol: float = 1e-8, maxiter: int = 1000) -> int:
-    for j in range(maxiter):
-        if ctx.formal_sol_gamma_matrices().dJMax < tol:
-            return j + 1
-    raise RuntimeError('Continuum J convergence failed')
+    return converge_radiation(ctx, tol=tol, maxiter=maxiter)
 
 
 def extend_collisions(atom, t_top: float, mode: str):

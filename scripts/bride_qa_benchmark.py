@@ -71,9 +71,8 @@ def grade(record_path):
                teff=float(S.get('teff', np.nan)) if 'teff' in S else None, logg=float(S['logg_cgs']))
     t0 = time.perf_counter()
     lte = column_context(col, atom, lte=True, **kw)
-    for _ in range(500):
-        if lte.formal_sol_gamma_matrices(lambdaIterate=True).dJMax < 1e-6:
-            break
+    from pipeline.bride_columns import converge_radiation
+    converge_radiation(lte, tol=1e-6, maxiter=1000)          # J and the top cap
     out['ew_lte_flux_mA'] = flux_ews(lte)
     ctx = column_context(col, atom, ng=True, **kw)
     try:

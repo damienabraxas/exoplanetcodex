@@ -15,12 +15,8 @@ def lte_spectrum(col, atom, *, abundances_dex, logg_cgs, wave_vac_nm, rtol=1e-6,
     from pipeline.bride_columns import column_context, converge_continuum
     kw = dict(abundances_dex=abundances_dex, logg_cgs=logg_cgs, vturb_m_s=0., rays=3)
     ctx = column_context(col, atom, lte=True, **kw)
-    for it in range(1, maxiter + 1):
-        dj = ctx.formal_sol_gamma_matrices(lambdaIterate=True).dJMax
-        if dj < rtol:
-            break
-    else:
-        raise RuntimeError(f'LTE background J not converged: dJ {dj:.2e}')
+    from pipeline.bride_columns import converge_radiation
+    it = converge_radiation(ctx, tol=rtol, maxiter=maxiter)   # J and the top cap
     line = np.asarray(ctx.compute_rays(wavelengths=wave_vac_nm, mus=1.0)).ravel()
     nstar = ctx.activeAtoms[0].nStar.copy() if ctx.activeAtoms else ctx.kwargs['eqPops'].atomicPops['O'].nStar.copy()
     cont_ctx = column_context(col, atom, ng=False, fixed_populations=nstar, continuum_only=True, **kw)

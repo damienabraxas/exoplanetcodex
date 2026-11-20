@@ -150,3 +150,86 @@ def converge_cap_radiation(ctx, *, rtol, maxiter, deadline):
                 final_boundary_change=boundary_change,
                 outer_J_change=relative(final_J,original_J),
                 outer_boundary_change=relative(final_boundary,original_boundary))
+
+
+# ---- RYA-1282: default top boundary of the Bride column path ----------------------------
+def scale_height_cap_length(temperature_K, ne_m3, nHtot_m3, abundances_dex, logg_cgs):
+    """Overlying column mass / density at the top layer = pressure scale height P/(rho g).
+
+    For an isothermal hydrostatic layer above the model top the overlying column mass
+    is P_top/g, so length = P/(rho g) carries exactly the overlying optical depth for a
+    constant opacity per mass. P = (n_nuclei + n_e) k T (atoms; molecules neglected at the
+    top, measured at <=0.15% of H for the Sun); rho from the same abundance table.
+    No free parameter: everything is the column's own top state.
+    """
+    import lightweaver.constants as c
+    from lightweaver.atomic_table import PeriodicTable
+    ab = np.asarray(abundances_dex, dtype=float)
+    rel = 10 ** (ab - 12.0)
+    rel[0] = 1.0                                           # H defines the scale
+    mass_per_H = sum(r * PeriodicTable[i + 1].mass for i, r in enumerate(rel)) * c.Amu
+    nuclei_per_H = float(rel.sum())
+    P = (nHtot_m3 * nuclei_per_H + ne_m3) * c.KBoltzmann * temperature_K
+    rho = nHtot_m3 * mass_per_H
+    g = 10 ** logg_cgs / 100.
+    L = P / (rho * g)
+    if not np.isfinite(L) or L <= 0:
+        raise ValueError('Invalid scale-height cap length')
+    return float(L)
+
+
+class ColumnCap(BoundaryCondition):
+    """Uniform-source slab of length L above the top layer, per INCOMING ray.
+
+    Like FiniteColumnCap, but stores the actual top-layer chi/eta of every downward ray
+    (toObs = 0) so a column with velocities gets each direction's own Doppler-shifted
+    opacity. Refreshed from the formal solution each iteration (lagged); the solve's
+    convergence includes the boundary change. A ray not in the snapshot (compute_rays
+    at new angles) takes the nearest stored mu: the 1D emergent intensity does not
+    depend on the incoming top boundary at fixed J.
+    """
+    def __init__(self, length_m):
+        if not np.isfinite(length_m) or length_m < 0:
+            raise ValueError('Invalid cap length')
+        self.length_m = float(length_m)
+        self.wave = self.mu = self.chi = self.eta = None
+
+    def compute_bc(self, atmos, spect):
+        wave = np.asarray(spect.wavelength)
+        mus = np.abs(np.asarray(self.muz))
+        if self.wave is None:
+            return np.zeros((len(wave), len(mus), 1))
+        if wave.min() < self.wave[0] or wave.max() > self.wave[-1]:
+            raise ValueError('Cap snapshot cannot extrapolate wavelengths')
+        out = np.empty((len(wave), len(mus), 1))
+        for k, m in enumerate(mus):
+            j = int(np.argmin(abs(self.mu - m)))
+            chi = np.interp(wave, self.wave, self.chi[:, j])
+            eta = np.interp(wave, self.wave, self.eta[:, j])
+            out[:, k, 0] = cap_intensity(chi, eta, self.length_m, np.array([m]))[:, 0]
+        return np.ascontiguousarray(out)
+
+    def current(self, mus):
+        """Incoming intensity (wave, mu) of the stored snapshot; zeros before the first refresh."""
+        mus = np.abs(np.asarray(mus, dtype=float))
+        if self.wave is None:
+            return None
+        return np.stack([cap_intensity(self.chi[:, j], self.eta[:, j], self.length_m, mus[j:j + 1])[:, 0]
+                         for j in range(len(mus))], 1)
+
+    def update_from_context(self, ctx, previous_J_top):
+        wave = np.asarray(ctx.spect.wavelength)
+        chi = np.asarray(ctx.depthData.chi)[:, :, 0, 0]      # (wave, mu) downward, top layer
+        eta = np.asarray(ctx.depthData.eta)[:, :, 0, 0]
+        if chi.shape[0] != len(wave) or not np.any(chi > 0):
+            raise ValueError('No top-layer coefficients captured (depthData.fill must be on)')
+        eta = eta + np.asarray(ctx.background.sca)[:, 0][:, None] * np.asarray(previous_J_top)[:, None]
+        mu = np.abs(np.asarray(ctx.atmos.pyAtmos.muz))
+        new = np.stack([cap_intensity(chi[:, j], eta[:, j], self.length_m, mu[j:j + 1])[:, 0]
+                        for j in range(len(mu))], 1)
+        old = (np.zeros_like(new) if self.wave is None else
+               np.stack([cap_intensity(self.chi[:, j], self.eta[:, j], self.length_m, mu[j:j + 1])[:, 0]
+                         for j in range(len(mu))], 1))
+        delta = float(np.max(abs(new - old) / np.maximum(abs(new), np.finfo(float).tiny)))
+        self.wave, self.mu, self.chi, self.eta = wave.copy(), mu.copy(), chi.copy(), eta.copy()
+        return delta
