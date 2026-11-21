@@ -989,6 +989,15 @@ entries:
     rel: bride_mac_checks
     kind: dir
     desc: Original immutable Mac O41f solved-grid experiments and populations; experimental1D only, no production token.
+  engines.mul23:
+    root: work
+    rel: bride_inputs/rya1282/mul23_build
+    env: CODEX_MUL23
+    kind: dir
+    desc: >-
+      RYA-1282 MULTI 2.3 build (pymulti source + docs/audit/rya1282/mul23/mul23_rya1282.patch):
+      source_dp/mul23lus.x, input/ (absdat, absmet, abund_asplund09), pymulti_multi.py (IDL1
+      reader). The Gerber O grid's own code; second engine of pipeline.o_departure_grid.
   engines.bride_eval:
     root: home
     rel: bride_rya1118
