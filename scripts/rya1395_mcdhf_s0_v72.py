@@ -120,15 +120,16 @@ def main():
     ap.add_argument('--v56-receipt', type=Path, required=True)
     ap.add_argument('--parity', choices=['even', 'odd'], required=True)
     ap.add_argument('--out', type=Path, required=True)
+    ap.add_argument('--nist-table', type=Path, default=TABLE_A1, help='Li 2023 Table A1 (NIST energies)')
     a = ap.parse_args()
     if V71.platform.node().lower().split('.')[0] != 'sirius':
         raise RuntimeError('Atomic solvers belong on Sirius')
     for key, v in vars(a).items():
         if isinstance(v, Path):
             setattr(a, key, v.resolve())
-    BINDING = nist_binding()
+    BINDING = nist_binding(a.nist_table)
     a.out.mkdir(parents=True, exist_ok=False)
-    for f in (__file__, V71.__file__, HYD.__file__, S.__file__, TABLE_A1):
+    for f in (__file__, V71.__file__, HYD.__file__, S.__file__, a.nist_table):
         shutil.copyfile(f, a.out / Path(f).name)
     V71.SCHEMA = SCHEMA
     V71.step = step
