@@ -1,0 +1,45 @@
+R_box 380: continuum per l {0: 45, 1: 45, 2: 45, 3: 45, 4: 45}
+  sym (0, 0, 0): 3306 cf, 64 roots (19 bound), 34s
+  sym (0, 1, 0): 3133 cf, 63 roots (18 bound), 54s
+  sym (1, 0, 0): 2413 cf, 1 roots (0 bound), 42s
+  sym (1, 0, 1): 5086 cf, 62 roots (18 bound), 77s
+  sym (1, 1, 0): 2550 cf, 2 roots (1 bound), 27s
+  sym (1, 1, 1): 5086 cf, 63 roots (18 bound), 78s
+  sym (2, 0, 0): 6390 cf, 62 roots (18 bound), 147s
+  sym (2, 0, 1): 3682 cf, 1 roots (0 bound), 41s
+  sym (2, 1, 0): 6253 cf, 62 roots (18 bound), 164s
+  sym (2, 1, 1): 3682 cf, 1 roots (0 bound), 40s
+  sym (3, 0, 0): 4243 cf, 0 roots (0 bound), 82s
+  sym (3, 0, 1): 6276 cf, 61 roots (18 bound), 116s
+  sym (3, 1, 0): 4346 cf, 0 roots (0 bound), 68s
+  sym (3, 1, 1): 6276 cf, 62 roots (18 bound), 117s
+  sym (4, 0, 0): 5696 cf, 61 roots (18 bound), 107s
+  sym (4, 0, 1): 3671 cf, 0 roots (0 bound), 35s
+  sym (4, 1, 0): 5593 cf, 61 roots (18 bound), 108s
+  sym (4, 1, 1): 3671 cf, 0 roots (0 bound), 31s
+  dipoles (0, 0, 0)->(1, 0, 1): 9 initial terms, 2s
+  dipoles (0, 1, 0)->(1, 1, 1): 9 initial terms, 1s
+  dipoles (1, 0, 1)->(0, 0, 0): 10 initial terms, 1s
+  dipoles (1, 0, 1)->(1, 0, 0): 10 initial terms, 1s
+  dipoles (1, 0, 1)->(2, 0, 0): 10 initial terms, 3s
+  dipoles (1, 1, 0)->(1, 1, 1): 1 initial terms, 1s
+  dipoles (1, 1, 0)->(2, 1, 1): 1 initial terms, 1s
+  dipoles (1, 1, 1)->(0, 1, 0): 7 initial terms, 1s
+  dipoles (1, 1, 1)->(1, 1, 0): 7 initial terms, 1s
+  dipoles (1, 1, 1)->(2, 1, 0): 7 initial terms, 3s
+  dipoles (2, 0, 0)->(1, 0, 1): 10 initial terms, 3s
+  dipoles (2, 0, 0)->(2, 0, 1): 10 initial terms, 2s
+  dipoles (2, 0, 0)->(3, 0, 1): 10 initial terms, 3s
+  dipoles (2, 1, 0)->(1, 1, 1): 10 initial terms, 3s
+  dipoles (2, 1, 0)->(2, 1, 1): 10 initial terms, 2s
+  dipoles (2, 1, 0)->(3, 1, 1): 10 initial terms, 3s
+  dipoles (3, 0, 1)->(2, 0, 0): 9 initial terms, 3s
+  dipoles (3, 0, 1)->(3, 0, 0): 9 initial terms, 2s
+  dipoles (3, 0, 1)->(4, 0, 0): 9 initial terms, 3s
+  dipoles (3, 1, 1)->(2, 1, 0): 9 initial terms, 3s
+  dipoles (3, 1, 1)->(3, 1, 0): 9 initial terms, 3s
+  dipoles (3, 1, 1)->(4, 1, 0): 9 initial terms, 3s
+  dipoles (4, 0, 0)->(3, 0, 1): 4 initial terms, 3s
+  dipoles (4, 0, 0)->(4, 0, 1): 4 initial terms, 2s
+  dipoles (4, 1, 0)->(3, 1, 1): 4 initial terms, 3s
+  dipoles (4, 1, 0)->(4, 1, 1): 4 initial terms, 2s

@@ -1,0 +1,179 @@
+/Users/ryanschmitt/codex/rya1354/scripts/rya1354_photoion_analyze.py:206: RuntimeWarning: Mean of empty slice
+  L = np.nanmean([c[1] for c in cv], axis=0)
+/Users/ryanschmitt/codex/rya1354/scripts/rya1354_photoion_analyze.py:207: RuntimeWarning: Mean of empty slice
+  V = np.nanmean([c[2] for c in cv], axis=0)
+{
+ "C0": {
+  "c0_0_attempt1": {
+   "max_abs_d": 0.0001,
+   "n": 24,
+   "energy_max_rel": 0.0045,
+   "pass_": true
+  },
+  "c0_400": {
+   "max_abs_d": 0.0001,
+   "n": 24,
+   "energy_max_rel": 0.0045,
+   "pass_": true
+  },
+  "c0_0": {
+   "max_abs_d": 0.0001,
+   "n": 24,
+   "energy_max_rel": 0.0045,
+   "pass_": true
+  },
+  "c0_400_attempt1_FAILED": {
+   "max_abs_d": 0.0001,
+   "n": 24,
+   "energy_max_rel": 0.05896,
+   "pass_": true
+  }
+ }
+}
+{
+ "T2": {
+  "lam_nm": 354.5,
+  "sigma_Mb": 84.46,
+  "err": 16.0,
+  "src": "Rafiq et al. 2007 via Baig 2022",
+  "e_above_thr_cm": 1580.9,
+  "sigma_vel_Mb": 87.14,
+  "box_std_Mb": 2.67,
+  "box_rel_spread": 0.0317,
+  "per_box": [
+   78.31,
+   84.72,
+   84.29,
+   85.65,
+   88.66,
+   84.77,
+   84.44,
+   84.82
+  ],
+  "sigma_model_Mb": 2.99,
+  "z": -0.34,
+  "pass_": true,
+  "C1_pass": true
+ },
+ "T3": {
+  "lam_nm": 285.0,
+  "sigma_Mb": 67.0,
+  "err": 23.0,
+  "src": "Madsen & Thomsen 2002 (MOT) via Baig 2022",
+  "e_above_thr_cm": 8457.6,
+  "sigma_vel_Mb": 69.16,
+  "box_std_Mb": 0.3,
+  "box_rel_spread": 0.0044,
+  "per_box": [
+   67.23,
+   67.07,
+   67.0,
+   67.37,
+   66.31,
+   67.1,
+   66.84,
+   67.04
+  ],
+  "sigma_model_Mb": 1.12,
+  "z": -0.61,
+  "pass_": true,
+  "C1_pass": true
+ },
+ "T1": {
+  "Er": 68270.0,
+  "Er_err": 5.0,
+  "Gamma": 280.0,
+  "Gamma_err": 5.0,
+  "q": 24.5,
+  "peak_Mb": 785.0,
+  "peak_err": 141.0,
+  "src": "Rafiq et al. 2007 (Bonanno 1986, Bradley 1976 agree) via Baig 2022 Table 5",
+  "fit": {
+   "er_cm": 6452.920854731953,
+   "er_err": 2.940366661591459,
+   "gamma_cm": 608.3092260856253,
+   "gamma_err": 6.88177376712102,
+   "q": 21.79754594124024,
+   "q_err": 1.9401999464706385,
+   "peak_Mb": 184.86684792383642,
+   "n_pts": 74,
+   "rms_rel": 0.15830602147284276
+  },
+  "Er_threshold_aligned": 68124.0,
+  "Er_model_absolute": 67300.3,
+  "pass_Er": true,
+  "pass_Gamma": false,
+  "pass_peak": false
+ },
+ "T4": {
+  "v70_basis": {
+   "3s2 1S": {
+    "alpha_valence": 73.993,
+    "alpha_core": 0.4814,
+    "alpha": 74.474,
+    "alpha_velocity": 77.008,
+    "by_final_sym": {
+     "(1, 0, 1)": 73.9929
+    },
+    "ref": 71.33,
+    "ref_src": "Mitroy+2010 Table XI, RCI+MBPT [57]; CICP 71.35; sum-rule expt 74.9(2.7)",
+    "alpha_nist_energies_POSTHOC": 72.597,
+    "rel_nist_energies_POSTHOC": 0.0178,
+    "rel": 0.0441,
+    "pass_2pct": false
+   },
+   "3s.3p 3P*": {
+    "alpha_valence": 106.321,
+    "alpha_core": 0.4814,
+    "alpha": 106.803,
+    "alpha_velocity": 108.254,
+    "by_final_sym": {
+     "(0, 1, 0)": 21.6834,
+     "(1, 1, 0)": 23.3835,
+     "(2, 1, 0)": 61.2543
+    },
+    "ref": 101.2,
+    "ref_src": "Mitroy+2010 Table XI, 3s3p 3P0 hybrid RCI+MBPT 101.2(3); CICP 101.5",
+    "alpha_nist_energies_POSTHOC": 104.294,
+    "rel_nist_energies_POSTHOC": 0.0306,
+    "rel": 0.0554,
+    "pass_2pct": false
+   }
+  },
+  "enlarged_R400": {
+   "3s2 1S": {
+    "alpha_valence": 74.297,
+    "alpha_core": 0.4814,
+    "alpha": 74.779,
+    "alpha_velocity": 77.016,
+    "by_final_sym": {
+     "(1, 0, 1)": 74.2972
+    },
+    "ref": 71.33,
+    "ref_src": "Mitroy+2010 Table XI, RCI+MBPT [57]; CICP 71.35; sum-rule expt 74.9(2.7)",
+    "alpha_nist_energies_POSTHOC": 72.902,
+    "rel_nist_energies_POSTHOC": 0.022,
+    "rel": 0.0483,
+    "pass_2pct": false
+   },
+   "3s.3p 3P*": {
+    "alpha_valence": 106.927,
+    "alpha_core": 0.4814,
+    "alpha": 107.408,
+    "alpha_velocity": 108.258,
+    "by_final_sym": {
+     "(0, 1, 0)": 21.8743,
+     "(1, 1, 0)": 23.3918,
+     "(2, 1, 0)": 61.6604
+    },
+    "ref": 101.2,
+    "ref_src": "Mitroy+2010 Table XI, 3s3p 3P0 hybrid RCI+MBPT 101.2(3); CICP 101.5",
+    "alpha_nist_energies_POSTHOC": 104.899,
+    "rel_nist_energies_POSTHOC": 0.0366,
+    "rel": 0.0613,
+    "pass_2pct": false
+   }
+  }
+ }
+}
+T5 16 / 61

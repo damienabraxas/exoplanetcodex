@@ -141,3 +141,67 @@ def test_unsold_monotone_in_dr2():
 
 def test_inverted_core_fs_rule_is_on():
     assert T.INVERTED_FS_RULE is True
+
+
+def _toy_basis(n=(5, 5, 4), npts=400, alpha=0.48):
+    """Small random orthonormal radial sets (s, p, d) on a log grid; enough to exercise the CI algebra."""
+    rng = np.random.default_rng(7)
+    x = np.linspace(math.log(1e-3), math.log(60.0), npts)
+    r, dx = np.exp(x), x[1] - x[0]
+    orb = {}
+    for l, k in enumerate(n):
+        F = np.column_stack([r ** (l + 1) * np.exp(-r / (1.0 + j)) * (1 + 0.1 * rng.standard_normal()) for j in range(k)])
+        Q, _ = np.linalg.qr(F * math.sqrt(dx))
+        orb[l] = (np.sort(rng.uniform(-1, 1, k)), Q / math.sqrt(dx))
+    return SimpleNamespace(orb=orb, r=r, dx=dx, x=x, alpha=alpha, gfun=lambda la, lc: np.sqrt(1 - np.exp(-(r / 1.5) ** 6)) / r ** 2)
+
+
+@pytest.mark.parametrize('L,S,par', [(0, 0, 0), (1, 0, 1), (1, 1, 1), (2, 1, 0)])
+def test_v70b_general_hamiltonian_matches_v70_block_algebra(L, S, par, monkeypatch):
+    """v70b: subset integrals + explicit one-body matrix diag(eps) reproduce the v70 full-block Hamiltonian."""
+    monkeypatch.setattr(T, 'LMAX', 2)
+    B = _toy_basis()
+    cf = T.configs(B, L, S, par)
+    H0 = T.hamiltonian(B, T.Integrals(B), cf, L, S)
+    # v70 reference: full 4-index blocks, diagonal one-body
+    I = T.Integrals(B)
+    arr = np.array(cf)
+    ref = np.zeros_like(H0)
+    for a, (la, ia, lb, ib) in enumerate(cf):
+        for b, (lc, ic, ld, id_) in enumerate(cf):
+            eta = (-1) ** (S + lc + ld + L)
+            v = 0.0
+            if (la, ia, lb, ib) == (lc, ic, ld, id_):
+                v += B.orb[la][0][ia] + B.orb[lb][0][ib]
+            if (la, ia, lb, ib) == (ld, id_, lc, ic):
+                v += eta * (B.orb[la][0][ia] + B.orb[lb][0][ib])
+            for k, c in T.ang_coulomb(la, lb, lc, ld, L).items():
+                v += c * I.block(la, lc, lb, ld, k)[ia, ic, ib, id_]
+            for k, c in T.ang_coulomb(la, lb, ld, lc, L).items():
+                v += c * eta * I.block(la, ld, lb, lc, k)[ia, id_, ib, ic]
+            n1 = 1 / math.sqrt(2 * (1 + (-1) ** (S + la + lb + L) * (la == lb and ia == ib)))
+            n2 = 1 / math.sqrt(2 * (1 + eta * (lc == ld and ic == id_)))
+            ref[a, b] = 2 * n1 * n2 * v
+    ref = 0.5 * (ref + ref.T)
+    assert np.abs(H0 - ref).max() < 1e-12
+    B.h1 = {l: np.diag(B.orb[l][0]) for l in B.orb}
+    B.n0 = {l: len(B.orb[l][0]) - 2 for l in B.orb}          # split types: exercises the sub-class path
+    assert np.abs(T.hamiltonian(B, T.Integrals(B), cf, L, S) - ref).max() < 1e-12
+
+
+def test_v70b_box_normalisation_recovers_a_smooth_df_de():
+    """f_n * rho_n with rho_n = 2/(e_{n+1}-e_{n-1}) returns df/de for an evenly sampled smooth density."""
+    sys.path.insert(0, str(ROOT / 'scripts'))
+    import rya1354_photoion_analyze as A
+    e = np.linspace(0.001, 0.05, 60)
+    de = e[1] - e[0]
+    dfde = 3.0 - 20 * e
+    arr = {'k|e': e, 'k|f': dfde * de, 'k|fv': dfde * de}
+    ee, dl, _ = A.box_points(arr, 'k')
+    assert np.allclose(dl, 3.0 - 20 * ee, rtol=1e-9)
+
+
+def test_v70b_mb_per_unit_df_de():
+    """2 pi^2 alpha a0^2 = 4.0336e-18 cm^2 (sigma per unit df/de in hartree^-1)."""
+    import rya1354_photoion as P
+    assert P.MB_PER_DFDE == pytest.approx(4.0336, rel=2e-4)

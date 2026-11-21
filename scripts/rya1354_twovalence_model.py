@@ -121,6 +121,7 @@ class Basis:
             M.SP['sigma'] = sig0
         self.ion_ground = z0[:, nmin[0] - 1]             # ion ground orbital (Mg+ 3s, Ca+ 4s): screens the outer electron
         self.orb = {}     # l -> (eps[n], z[:, n])
+        self.core = {}    # l -> core-like states projected out (v70b: the continuum is projected against them too)
         self.label = {}
         for l in range(LMAX + 1):
             self.orb[l] = self.build(l)
@@ -160,11 +161,10 @@ class Basis:
         if k0 != 0:
             raise RuntimeError(f'l={l}: lowest state has {k0} nodes; core-like states missing')
         core = z[:, :ncore]
+        self.core[l] = core
         ion = z[:, ncore:ncore + NION]
         # screening by the ion ground orbital (direct Hartree, asymptotically +1/r)
-        zs = self.ion_ground
-        rho = zs ** 2 * dx
-        Js = np.cumsum(rho) / r + (np.cumsum(rho[::-1] / r[::-1])[::-1] - rho / r)
+        Js = self.screen()
         wr, zr = self.eig(l, NRYD + ncore + 6, -0.5, extra=Js)
         zr = zr[:, wr < 0][:, :NRYD + ncore + 2]
         wc, zc = self.eig(l, NCOMP + ncore + 2, 2.0, wall=RCOMP)
@@ -185,6 +185,12 @@ class Basis:
             if Z[np.argmax(np.abs(Z[:, i])), i] < 0:
                 Z[:, i] = -Z[:, i]
         return e, Z
+
+    def screen(self):
+        """Direct Hartree potential of the ion ground orbital (asymptotically +1/r): screens the outer electron."""
+        r, dx = self.r, self.dx
+        rho = self.ion_ground ** 2 * dx
+        return np.cumsum(rho) / r + (np.cumsum(rho[::-1] / r[::-1])[::-1] - rho / r)
 
     def gfun(self, la, lc):
         rc = 0.5 * (self.rc[min(la, 2)] + self.rc[min(lc, 2)]) * RC_DIEL_SCALE
@@ -220,6 +226,28 @@ class Integrals:
             self.Y[key] = inner + outer
         return self.Y[key]
 
+    def block_sub(self, la, lc, lb, ld, k, A, C, Bs, D):
+        """R^k[a, c, b, d] restricted to orbital index sets A, C, Bs, D (sorted unique int arrays), shape
+        (|A|, |C|, |Bs|, |D|). v70b: with box-continuum orbitals the full 4-index block no longer fits in memory."""
+        key = (la, lc, lb, ld, k, A.tobytes(), C.tobytes(), Bs.tobytes(), D.tobytes())
+        if key in self.R:
+            return self.R[key]
+        B, r, dx = self.B, self.B.r, self.B.dx
+
+        def w(l1, i1, l2, i2):
+            z1, z2 = B.orb[l1][1][:, i1], B.orb[l2][1][:, i2]
+            return (z1[:, :, None] * z2[:, None, :]).reshape(len(r), -1).T * dx
+        w1, w2 = w(la, A, lc, C), w(lb, Bs, ld, D)
+        inner = np.cumsum(w1 * r ** k, axis=1) / r ** (k + 1)
+        outer = (np.cumsum((w1 / r ** (k + 1))[:, ::-1], axis=1)[:, ::-1] - w1 / r ** (k + 1)) * r ** k
+        R = (inner + outer) @ w2.T
+        if k == 1 and B.alpha:
+            R = R - B.alpha * np.outer(w1 @ B.gfun(la, lc), w2 @ B.gfun(lb, ld))
+        R = R.reshape(len(A), len(C), len(Bs), len(D))
+        if R.size < 4_000_000:
+            self.R[key] = R
+        return R
+
     def block(self, la, lc, lb, ld, k):
         """R^k[a, c, b, d] array."""
         key = (la, lc, lb, ld, k)
@@ -249,39 +277,63 @@ def configs(B, L, S, par):
                     if la == lb and ia == ib and eta == -1:
                         continue
                     out.append((la, ia, lb, ib))
-    return out
+    keep = getattr(B, 'keep', None)              # v70b: restricts the enlarged (box-continuum) configuration space
+    return [c for c in out if keep(c)] if keep else out
 
 
 def hamiltonian(B, I, cf, L, S):
+    """CI matrix in the normalized two-electron LS basis. One-body part from B.h1[l] (full matrix, v70b box continuum)
+    or diag(eps) (v65-v70); Coulomb + dielectronic integrals on the orbital index subsets each class actually uses.
+    Classes are split by orbital type (B.n0[l]: index < n0 = bound basis, else continuum) so a block stays small.
+    v70b regression: identical to the v70 implementation (max |dH| ~ 1e-15) when B has no continuum."""
     n = len(cf)
     H = np.zeros((n, n))
     arr = np.array(cf)
     norm = np.array([1 / math.sqrt(2 * (1 + ((-1) ** (S + la + lb + L)) * (la == lb and ia == ib))) for la, ia, lb, ib in cf])
     eta = np.array([(-1) ** (S + la + lb + L) for la, ia, lb, ib in cf])
-    classes = sorted({(c[0], c[2]) for c in cf})
-    idx = {cl: np.where((arr[:, 0] == cl[0]) & (arr[:, 2] == cl[1]))[0] for cl in classes}
-    for (la, lb) in classes:
-        i = idx[(la, lb)]
+    n0 = getattr(B, 'n0', None)
+    h1 = getattr(B, 'h1', None)
+
+    def typ(l, i):
+        return (i >= n0[l]).astype(int) if n0 else np.zeros_like(i)
+
+    def h(l):
+        return h1[l] if h1 else np.diag(B.orb[l][0])
+    tp = np.column_stack([arr[:, 0], arr[:, 2], typ_all(arr, typ, 1), typ_all(arr, typ, 3)])
+    classes = sorted({tuple(t) for t in tp.tolist()})
+    idx = {cl: np.where((tp == np.array(cl)).all(axis=1))[0] for cl in classes}
+    pos = lambda U, x: np.searchsorted(U, x)
+    for ci_ in classes:
+        la, lb = ci_[0], ci_[1]
+        i = idx[ci_]
         ia, ib = arr[i, 1], arr[i, 3]
-        for (lc, ld) in classes:
-            j = idx[(lc, ld)]
+        for cj_ in classes:
+            lc, ld = cj_[0], cj_[1]
+            j = idx[cj_]
             ic, id_ = arr[j, 1], arr[j, 3]
             blk = np.zeros((len(i), len(j)))
-            if (la, lb) == (lc, ld):
-                e = B.orb[la][0][ia] + B.orb[lb][0][ib]
-                blk += np.diag(e) if True else 0
-            # exchange one-body: a = d, b = c
-            if la == ld and lb == lc:
-                m = (ia[:, None] == id_[None, :]) & (ib[:, None] == ic[None, :])
-                blk += m * (B.orb[la][0][ia][:, None] + B.orb[lb][0][ib][:, None]) * eta[j][None, :]
+            if la == lc and lb == ld:                     # one-body, direct
+                blk += h(la)[np.ix_(ia, ic)] * (ib[:, None] == id_[None, :]) + (ia[:, None] == ic[None, :]) * h(lb)[np.ix_(ib, id_)]
+            if la == ld and lb == lc:                     # one-body, exchange: a = d, b = c
+                blk += (h(la)[np.ix_(ia, id_)] * (ib[:, None] == ic[None, :]) + (ia[:, None] == id_[None, :]) * h(lb)[np.ix_(ib, ic)]) * eta[j][None, :]
+            A, Bs, C, D = (np.unique(x) for x in (ia, ib, ic, id_))
             for k, a in ang_coulomb(la, lb, lc, ld, L).items():
-                R = I.block(la, lc, lb, ld, k)
-                blk += a * R[ia[:, None], ic[None, :], ib[:, None], id_[None, :]]
+                R = I.block_sub(la, lc, lb, ld, k, A, C, Bs, D)
+                blk += a * R[pos(A, ia)[:, None], pos(C, ic)[None, :], pos(Bs, ib)[:, None], pos(D, id_)[None, :]]
             for k, a in ang_coulomb(la, lb, ld, lc, L).items():
-                R = I.block(la, ld, lb, lc, k)
-                blk += a * eta[j][None, :] * R[ia[:, None], id_[None, :], ib[:, None], ic[None, :]]
+                R = I.block_sub(la, ld, lb, lc, k, A, D, Bs, C)
+                blk += a * eta[j][None, :] * R[pos(A, ia)[:, None], pos(D, id_)[None, :], pos(Bs, ib)[:, None], pos(C, ic)[None, :]]
             H[np.ix_(i, j)] = 2 * norm[i][:, None] * norm[j][None, :] * blk
     return 0.5 * (H + H.T)
+
+
+def typ_all(arr, typ, col):
+    """Orbital type (0 bound basis, 1 box continuum) of column col (1 = a, 3 = b) of the config array."""
+    out = np.zeros(len(arr), int)
+    for l in np.unique(arr[:, col - 1]):
+        m = arr[:, col - 1] == l
+        out[m] = typ(int(l), arr[m, col])
+    return out
 
 
 def velocity_radial(B, la, lc):
