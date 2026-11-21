@@ -14,7 +14,8 @@ import json
 import os
 import sys
 import time
-from concurrent.futures import ProcessPoolExecutor, as_completed
+import subprocess
+from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -44,6 +45,17 @@ def _one(args):
     return mid, int(z['ok'].sum()), len(z['ok']), time.perf_counter() - t0
 
 
+def _free_gb():
+    """Free + inactive + speculative memory (GB) on the Mac; inf where vm_stat is absent."""
+    try:
+        out = subprocess.check_output(['vm_stat'], text=True)
+    except (OSError, subprocess.CalledProcessError):
+        return float('inf')
+    page = int(out.split('page size of ')[1].split()[0])
+    pages = {l.split(':')[0]: int(l.split(':')[1].strip().rstrip('.')) for l in out.splitlines()[1:] if ':' in l}
+    return sum(pages.get(k, 0) for k in ('Pages free', 'Pages inactive', 'Pages speculative')) * page / 1e9
+
+
 def cmd_run(a):
     if a.engine == 'bride' and os.uname().sysname != 'Darwin':
         sys.exit('the Bride grid runs on the Mac only (Ryan 2026-11-20)')
@@ -55,15 +67,27 @@ def cmd_run(a):
                                                        nodes=sum(len(sel[m]['abundances']) for m in order)), indent=1))
     print(f'{a.engine}: {len(order)} models, {len(todo)} to do, {a.workers} workers', flush=True)
     log = open(out / 'progress.log', 'a')
-    with ProcessPoolExecutor(a.workers) as ex:
-        futs = [ex.submit(_one, (m, sel[m], a.engine, str(out), a.workdir)) for m in todo]
-        for k, f in enumerate(as_completed(futs), 1):
-            try:
-                mid, nok, n, dt = f.result()
-                log.write(f'{time.strftime("%H:%M:%S")} {k}/{len(todo)} {mid} ok {nok}/{n} {dt:.0f}s\n')
-            except Exception as e:                                     # noqa: BLE001
-                log.write(f'{time.strftime("%H:%M:%S")} {k}/{len(todo)} ERROR {e}\n')
-            log.flush()
+    # A Lightweaver context leaks ~17 MB per Bride solve and a pooled worker never returns it
+    # (11-21: six workers reached 13-19 GB each and killed the 16 GB Mac). Each model therefore
+    # gets a fresh process (max_tasks_per_child=1), at most `workers` models are in flight, and
+    # no model starts while free memory is below --min-free-gb.
+    pending, k, queue = set(), 0, list(todo)
+    with ProcessPoolExecutor(a.workers, max_tasks_per_child=1) as ex:
+        while queue or pending:
+            while queue and len(pending) < a.workers:
+                if pending and _free_gb() < a.min_free_gb:
+                    break
+                m = queue.pop(0)
+                pending.add(ex.submit(_one, (m, sel[m], a.engine, str(out), a.workdir)))
+            done, pending = wait(pending, timeout=60, return_when=FIRST_COMPLETED)
+            for f in done:
+                k += 1
+                try:
+                    mid, nok, n, dt = f.result()
+                    log.write(f'{time.strftime("%H:%M:%S")} {k}/{len(todo)} {mid} ok {nok}/{n} {dt:.0f}s\n')
+                except Exception as e:                                 # noqa: BLE001
+                    log.write(f'{time.strftime("%H:%M:%S")} {k}/{len(todo)} ERROR {e}\n')
+                log.flush()
 
 
 def cmd_status(a):
@@ -87,7 +111,7 @@ def main():
     r.add_argument('--out', required=True); r.add_argument('--aux'); r.add_argument('--teff', default='0:99999')
     r.add_argument('--logg-min', type=float, default=-9.); r.add_argument('--a-step', type=float)
     r.add_argument('--workers', type=int, default=4); r.add_argument('--shard'); r.add_argument('--limit', type=int)
-    r.add_argument('--workdir')
+    r.add_argument('--workdir'); r.add_argument('--min-free-gb', type=float, default=4.0)
     t = s.add_parser('status'); t.add_argument('--out', required=True)
     m = s.add_parser('assemble'); m.add_argument('--npz', required=True); m.add_argument('--bin', required=True)
     m.add_argument('--aux-out', required=True); m.add_argument('--header', required=True)
