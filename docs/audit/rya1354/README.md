@@ -306,3 +306,5 @@ curation role and genuinely unexposed sources only if undertaking a prospective
 blind test; freeze that model and predictions before reveal. Reviewed criteria and
 calibrated uncertainty remain prerequisites for adoption. The current three uncalibrated E1 rows are a starting
 diagnostic, not fulfillment of the full RYA-1354 blind-benchmark acceptance.
+
+- v70c (2026-11-21): Mg I van der Waals solar wing test, report only: [mg1_vdw_wings_v70c.md](mg1_vdw_wings_v70c.md)

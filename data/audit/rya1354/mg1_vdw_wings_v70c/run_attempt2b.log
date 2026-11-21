@@ -1,0 +1,64 @@
+  [synth] Loading GES linelist (first call — cached)...
+  [synth] canonical gf applied to all 126637 physical lines (0 uncovered)
+  [synth] GES linelist: 141233 lines loaded
+== atmosphere MARCS.GES  08:37:50
+  [synth] Loading ispec_h_15007_17494 linelist (first call — cached)...
+  [synth] NLTE level labels merged from the sidecar: 293 lines
+  [synth] canonical gf single-sourcing OFF for ispec_h_15007_17494 — the list's own log gf is used as delivered
+  [synth] ispec_h_15007_17494 linelist: 5244 lines loaded
+  Mg15040: 29 lines, targets fdamp [954.227] gf [0.113]; mask 54 -> 54 after clip
+  Mg15040 [MARCS.GES]: d_fit -0.125 curv 0.015 dd/dA -0.74 n 54 (24.3 s)
+  Mg15047: 16 lines, targets fdamp [954.227] gf [-0.364]; mask 85 -> 74 after clip
+  Mg15047 [MARCS.GES]: d_fit -0.019 curv 0.009 dd/dA -0.76 n 74 (23.8 s)
+  Mg15740: 30 lines, targets fdamp [1640.28] gf [-0.212]; mask 58 -> 50 after clip
+  Mg15740 [MARCS.GES]: d_fit -0.049 curv 0.018 dd/dA -0.88 n 50 (24.3 s)
+  Mg15748: 35 lines, targets fdamp [1640.28, 1640.28] gf [-0.338, 0.14]; mask 126 -> 117 after clip
+  Mg15748 [MARCS.GES]: d_fit -0.193 curv 0.019 dd/dA -0.78 n 117 (23.5 s)
+  Mg15765: 50 lines, targets fdamp [1640.28, 1640.28] gf [-0.337, 0.411]; mask 58 -> 54 after clip
+  Mg15765 [MARCS.GES]: d_fit -0.226 curv 0.037 dd/dA -0.78 n 54 (24.0 s)
+  [synth] Loading GES linelist (first call — cached)...
+  [synth] canonical gf applied to all 126637 physical lines (0 uncovered)
+  [synth] GES linelist: 141233 lines loaded
+== atmosphere ATLAS9.Castelli  08:40:03
+  NaD: 761 lines, targets fdamp [407.273, 407.273] gf [0.10799999999999996, -0.194]; mask 1577 -> 1508 after clip
+  NaD [ATLAS9.Castelli]: d_fit -0.045 curv 0.002 dd/dA -1.11 n 1508 (53.7 s)
+  Ca6102: 397 lines, targets fdamp [876.233] gf [-0.793]; mask 59 -> 59 after clip
+  Ca6102 [ATLAS9.Castelli]: d_fit -0.201 curv 0.024 dd/dA -1.65 n 59 (40.5 s)
+  Ca6122: 379 lines, targets fdamp [876.234] gf [-0.316]; mask 224 -> 203 after clip
+  Ca6122 [ATLAS9.Castelli]: d_fit -0.047 curv 0.004 dd/dA -1.12 n 203 (40.9 s)
+  Ca6162: 399 lines, targets fdamp [876.234] gf [-0.08999999999999997]; mask 251 -> 209 after clip
+  Ca6162 [ATLAS9.Castelli]: d_fit -0.012 curv 0.002 dd/dA -1.00 n 209 (40.3 s)
+/Users/ryanschmitt/codex/rya1354/scripts/rya1354_vdw_wings.py:163: RuntimeWarning: invalid value encountered in scalar divide
+  c0 = np.sum(obs[mask] * full0[mask]) / np.sum(full0[mask] ** 2)
+/Users/ryanschmitt/codex/venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/ryanschmitt/codex/venv/lib/python3.12/site-packages/numpy/_core/_methods.py:145: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+  Mg5167: 379 lines, targets fdamp [729.238] gf [-0.854]; mask 0 -> 0 after clip
+  Mg5167 [ATLAS9.Castelli]: d_fit +nan curv nan dd/dA +nan n None (2.6 s)
+  Mg5172: 581 lines, targets fdamp [729.238] gf [-0.363]; mask 404 -> 404 after clip
+  Mg5172 [ATLAS9.Castelli]: d_fit -0.129 curv 0.007 dd/dA -0.77 n 404 (43.4 s)
+  Mg5183: 776 lines, targets fdamp [729.238] gf [-0.16800000000000004]; mask 1267 -> 1234 after clip
+  Mg5183 [ATLAS9.Castelli]: d_fit -0.079 curv 0.004 dd/dA -0.78 n 1234 (46.7 s)
+  Mg5528: 437 lines, targets fdamp [1461.312] gf [-0.547]; mask 323 -> 305 after clip
+  Mg5528 [ATLAS9.Castelli]: d_fit -0.124 curv 0.005 dd/dA -0.87 n 305 (39.7 s)
+  Mg8806: 225 lines, targets fdamp [530.277] gf [-0.14400000000000002]; mask 233 -> 199 after clip
+  Mg8806 [ATLAS9.Castelli]: d_fit -0.018 curv 0.004 dd/dA -1.03 n 199 (42.7 s)
+  Mg4703: 231 lines, targets fdamp [2806.269] gf [-0.456]; mask 92 -> 91 after clip
+  Mg4703 [ATLAS9.Castelli]: d_fit -0.318 curv 0.020 dd/dA -0.83 n 91 (37.6 s)
+  [synth] Loading ispec_h_15007_17494 linelist (first call — cached)...
+  [synth] NLTE level labels merged from the sidecar: 293 lines
+  [synth] canonical gf single-sourcing OFF for ispec_h_15007_17494 — the list's own log gf is used as delivered
+  [synth] ispec_h_15007_17494 linelist: 5244 lines loaded
+  Mg15024: 33 lines, targets fdamp [954.227] gf [0.334]; mask 131 -> 124 after clip
+  Mg15024 [ATLAS9.Castelli]: d_fit -0.094 curv 0.008 dd/dA -0.73 n 124 (37.9 s)
+  Mg15040: 29 lines, targets fdamp [954.227] gf [0.113]; mask 54 -> 54 after clip
+  Mg15040 [ATLAS9.Castelli]: d_fit -0.136 curv 0.015 dd/dA -0.72 n 54 (37.2 s)
+  Mg15047: 16 lines, targets fdamp [954.227] gf [-0.364]; mask 85 -> 75 after clip
+  Mg15047 [ATLAS9.Castelli]: d_fit -0.030 curv 0.010 dd/dA -0.76 n 75 (36.9 s)
+  Mg15740: 30 lines, targets fdamp [1640.28] gf [-0.212]; mask 58 -> 53 after clip
+  Mg15740 [ATLAS9.Castelli]: d_fit -0.079 curv 0.020 dd/dA -0.86 n 53 (36.4 s)
+  Mg15748: 35 lines, targets fdamp [1640.28, 1640.28] gf [-0.338, 0.14]; mask 126 -> 112 after clip
+  Mg15748 [ATLAS9.Castelli]: d_fit -0.177 curv 0.019 dd/dA -0.79 n 112 (36.0 s)
+  Mg15765: 50 lines, targets fdamp [1640.28, 1640.28] gf [-0.337, 0.411]; mask 58 -> 54 after clip
+  Mg15765 [ATLAS9.Castelli]: d_fit -0.235 curv 0.037 dd/dA -0.78 n 54 (36.8 s)
