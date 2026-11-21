@@ -229,6 +229,24 @@ Context, which the molecular background could not survive (27b35842); and TS pri
   nm) is 3-7x weaker in the Bride, and with the TS extras off (hbop, H+H, H2+, CH, OH) the
   difference drops to 0.013 (median 0.005). Those opacities are in MARCS/TS (the atmosphere's
   own opacity set) and absent from MULTI's Uppsala package: the Bride keeps them.
+* **Grids (2026-11-20, Ryan "continue then").** Our own O grids on the Gerber nodes,
+  TS-ready (pipeline/o_departure_grid.py, scripts/rya1282_o_departure_grid.py): the Bride
+  (Mac, phase 1 = 4000-7000 K, all log g/[Fe/H], A(O) every 0.2 dex, 60,269 nodes) and
+  corrected MULTI 2.3 (Sirius, all 326k nodes).
+  **Corrected MULTI fails at [Fe/H] <= -3 (<= -2.5 at 6500 K):** with the true mix its
+  O I excited levels and O II go to b ~ 30-140 at log tau -1 (5750/4.5/-4, -5; most -5
+  nodes do not converge). Not CH0 (removing it: unchanged), not the line table (on/off/
+  scaled: unchanged), not n(H) (MULTI's n(H+) = n_e as it should be). Gerber's solar ABUND
+  masked it with solar-level metal bound-free UV opacity. The Bride at -4 stays b ~ 1
+  (17 steps); with its UV hydrogen opacities (hbop/H+H/H2+) off it does not converge
+  within 3000 s - consistent with an almost transparent ~130-200 nm continuum in
+  MULTI's Uppsala package, not proven. MULTI's domain is therefore [Fe/H] >= -2.5
+  (>= -2 at 6500 K); below that the Bride is the only working engine.
+  **Amarsi+2020 GALAH O (Balder, Amarsi+2018 atom, line-blanketed) as referee:** at
+  solar our three engines agree to 0.001 and sit ~0.06 dex below Amarsi in b(3s 5S)
+  (atom difference). Normalised to solar, all engines drift the same way against Amarsi
+  with [Fe/H] (+0.03 at -1, +0.05 at -2, log tau -1): atom-dominated. At +1 the corrected
+  engines are closer to Amarsi than Gerber (-0.010 vs -0.021): mild support only.
 * **Still open:** the top of the photosphere (log tau ~-3) in metal-poor models and at
   6500/3.5/0, 0.015-0.045 dex against MULTI, with O II ground b differing 0.1-0.3 dex
   (UV field below 911 A).
