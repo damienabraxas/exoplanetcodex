@@ -5,16 +5,18 @@
     "data/audit/element_status_tracker.csv": "11f377c7e0bd35a1cf8005ac47e661ee9bc4629c23d22d10761639eceb809371",
     "data/audit/rya1353_line_census/v4/coverage_counts.csv": "d766d14929c9db9f48cd366645658f757bc873971ac5d9d1089cd1813e086a83",
     "data/config/elements_master.json": "6c0376637083267de97e25cb9ffa35a015ff6a56dbfa1f3f3ecad733da4ea0e4",
-    "data/products/solar/Al.json": "1cfe5efd7ba1683f4f37ee5157e8fee5a01d2887389ba63b1e3e2ba0be88d208",
+    "data/products/solar/Al.json": "2501309925b7168558c4b6b497992edd4a788fe98a67266df27d9542afbad1c7",
     "data/products/solar/C.json": "8532ab51e95fbd5a737f9f61f0028f6531d0d9396ee155d20e25a22130947a3a",
-    "data/products/solar/Ca.json": "de1b5e4d011fc2f8b2443c29f48a5a7181083dd7b0f3aee011ab5dec978234dd",
-    "data/products/solar/Fe.json": "6bcdb992975a7c62351c0ed00dfbf850ef1d52e217f9182c17c37a6d180143b7",
+    "data/products/solar/Ca.json": "cd9f87d9995d48ee53cab75b5f42698df072b6e5f50b65f6394a2bf82dc16605",
+    "data/products/solar/Cr.json": "4017a2eed6cfc00e8581702c34b0b22d026ff01e11cfbdc8c0a940f930e3dc71",
+    "data/products/solar/Fe.json": "7be87dc3cf0bb9946c36520ba09a4bbb9f7a5d17cf708c5fcaaec3642a80474a",
     "data/products/solar/Mg.json": "0402b63b5df04fef176e0ffc1dcdf0ee10cad72ae713a76bdc789d5ae997e2cd",
     "data/products/solar/N.json": "25193f1b34aaaeaac3d017616ff415afd73c0dfe19c36ad40e09b989c5f06c52",
     "data/products/solar/Na.json": "f402244800e12a2ce57c1ea71a7eb122e2d3eb378beb0172c55e56483438bfb8",
     "data/products/solar/O.json": "6093a4771418bb4cf714974a885f3281b3d4feb452a2af1e8d4cbd2610becf32",
-    "data/products/solar/Si.json": "29565cb27252f39196cccae19ea44c2d20106f41ae105c01bc12e66bd950d81b",
-    "data/products/solar/Ti.json": "b548819f016648d78d2d1fe6ec490245a900125035f8e92048fbc6ad23005f59"
+    "data/products/solar/Si.json": "18b210c58bf693b5755985de9cc6fdce611b4b95a0eb8e0093ff45d0326b19df",
+    "data/products/solar/Ti.json": "b02a65880419831096b62f5a7b72e307942ba1f6ef08f4bd03995476d56bed32",
+    "data/products/solar/V.json": "b3c514388a4f9e04303ffdc9761293f83e6f4b672ea15a5fc077fe6f9c6c2d49"
   },
   "rows": [
     {
@@ -139,7 +141,7 @@
       "atomic_number": 14,
       "priority": 1,
       "species": "Si I",
-      "active_feed_products": 50,
+      "active_feed_products": 98,
       "feed_state": "ACTIVE_FEED_PRESENT",
       "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
       "historical_tracker": [
@@ -160,7 +162,7 @@
       "atomic_number": 20,
       "priority": 1,
       "species": "Ca I",
-      "active_feed_products": 129,
+      "active_feed_products": 133,
       "feed_state": "ACTIVE_FEED_PRESENT",
       "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
       "historical_tracker": [
@@ -328,8 +330,8 @@
       "atomic_number": 24,
       "priority": 2,
       "species": "Cr I",
-      "active_feed_products": 0,
-      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "active_feed_products": 162,
+      "feed_state": "ACTIVE_FEED_PRESENT",
       "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
       "historical_tracker": [
         {
@@ -349,7 +351,7 @@
       "atomic_number": 13,
       "priority": 2,
       "species": "Al I",
-      "active_feed_products": 26,
+      "active_feed_products": 86,
       "feed_state": "ACTIVE_FEED_PRESENT",
       "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
       "historical_tracker": [
@@ -433,8 +435,8 @@
       "atomic_number": 23,
       "priority": 2,
       "species": "V I",
-      "active_feed_products": 0,
-      "feed_state": "NO_ACTIVE_FEED_PRODUCT_IN_THIS_SNAPSHOT",
+      "active_feed_products": 15,
+      "feed_state": "ACTIVE_FEED_PRESENT",
       "processing_caveat": "No active feed does not mean never processed; historical tracker is stale and cannot certify current survey completion",
       "historical_tracker": [
         {

@@ -1,18 +1,18 @@
 {
  "schema": "rya1354.candidate-spectrum-check.v1",
  "status": "SCREENING_NOT_A_MEASUREMENT",
- "n": 1566,
+ "n": 1564,
  "verdicts": {
-  "FLAGGED": 1143,
+  "FLAGGED": 1141,
   "CLEAN": 278,
   "NO_ATLAS_COVERAGE": 129,
   "NO_PIXELS": 16
  },
- "clean_new_lines": 263,
- "clean_already_in_line_sets": 15,
+ "clean_new_lines": 261,
+ "clean_already_in_line_sets": 17,
  "clean_new_by_species": {
   "Ca I": 9,
-  "Cr I": 66,
+  "Cr I": 64,
   "Fe I": 67,
   "Fe II": 2,
   "Mn I": 7,
@@ -26,7 +26,7 @@
  },
  "clean_new_ir_ge_7000A": {
   "Ca I": 8,
-  "Cr I": 13,
+  "Cr I": 11,
   "Fe I": 52,
   "Ni I": 15,
   "O I": 3,
@@ -35,9 +35,9 @@
   "Ti II": 3
  },
  "fail_reasons": {
-  "asymmetric": 728,
-  "offset": 642,
-  "close_neighbour": 467,
+  "asymmetric": 727,
+  "offset": 641,
+  "close_neighbour": 466,
   "shallow": 45,
   "telluric": 31
  },
@@ -59,7 +59,7 @@
    "CLEAN": 1
   },
   "Cr II|NUV300-400": {
-   "FLAGGED": 3
+   "FLAGGED": 1
   },
   "Cr I|IR>1um": {
    "CLEAN": 7,

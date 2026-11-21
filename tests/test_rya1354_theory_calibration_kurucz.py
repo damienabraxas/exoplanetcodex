@@ -51,8 +51,12 @@ def test_key_findings():
     s = json.loads((K.OUT / 'summary.json').read_text())
     p = s['pooled_classes']
     assert p['dS0|strong']['sigma68'] < p['dS0|mid']['sigma68'] < p['dS|mid']['sigma68'] < p['dS|weak']['sigma68']
-    for sp in ('Ti II', 'V II', 'Cr II', 'Fe II'):       # ions: Kurucz best class good to <= 0.07 dex
+    for sp in ('Ti II', 'V II', 'Fe II'):       # ions: Kurucz best class good to <= 0.07 dex
         assert s['per_species'][sp]['classes']['dS0|strong']['sigma68'] <= 0.07
+    # Cr II: main's Cr lab intake (2026-11-20 rebase) doubled the lab set (183 -> 358 lines; strong class n 62 -> 115)
+    # and Kurucz's best class widened 0.039 -> 0.074 dex. Recorded as measured, not tuned away.
+    cr = s['per_species']['Cr II']
+    assert cr['n_lab'] >= 358 and cr['classes']['dS0|strong']['sigma68'] <= 0.08
     for sp, v in s['per_species'].items():
         assert v['n_unmatched'] <= 0.1 * v['n_lab'] + 1, sp
     assert s['candidates']['by_tier']['T2_THEORETICAL_CODEX_CANDIDATE'] > 1000

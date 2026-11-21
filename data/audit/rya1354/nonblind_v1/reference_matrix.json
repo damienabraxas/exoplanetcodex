@@ -3,7 +3,7 @@
   "scientific_admission": "HOLD",
   "inputs": {
     "data/audit/rya1136_cno_intake/atomic_source_census.csv": "b1fd33d2ddc1e90e2c4ed2e3db32f1f52cb008182ca14abb9c03bb594c5b2c3f",
-    "data/linelists/canonical_gf.csv": "30e8e4bc0c7ce899313a6ecadde93e1b444696d5920dc9124a7fa0f07043ea72",
+    "data/linelists/canonical_gf.csv": "c90e12a7397a549e2895cebe2398ec3c44d2f197bb9eab9aa48d446b8f6097de",
     "data/audit/rya1354/nonblind_v1/nist_OI_3000_10000.csv": "4c00c21f1ce420f695745ce819bc45282a10d0cc863b3d5d140a9942b8058431",
     "data/audit/rya1354/exploratory_candidates_v3.json": "0fe1d2b26b774a51b01a28afb9979cfb9625bfd191a72578107d9d47b9a0f7c3",
     "data/products/solar/O.json": "6093a4771418bb4cf714974a885f3281b3d4feb452a2af1e8d4cbd2610becf32",
@@ -3295,8 +3295,8 @@
       "target": "Cr",
       "priority": 2,
       "canonical_species": "Cr I",
-      "canonical_lines": 10993,
-      "held_lab_tier_rows": 192,
+      "canonical_lines": 10997,
+      "held_lab_tier_rows": 216,
       "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
       "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
       "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
@@ -3346,7 +3346,7 @@
       "priority": 2,
       "canonical_species": "V I",
       "canonical_lines": 6388,
-      "held_lab_tier_rows": 715,
+      "held_lab_tier_rows": 722,
       "exposure": "PROJECT_HOLDINGS_EXPOSED_NOT_BLIND",
       "prospective_status": "REQUIRES_DISTINCT_CURATOR_ROLE_AND_GENUINELY_WITHHELD_DATA",
       "partition": "upper-level + multiplet + lifetime/branching normalization + common calibration scale"
