@@ -120,13 +120,14 @@ def solve_multi23(S, A_O, *, workdir=None, scale_lines=True, solar_abund=False, 
     """MULTI 2.3 departures (nk, ndep) at one node, Gerber's code with the artefacts removed
     (solar_abund=True, scale_lines=False reproduces the Gerber records to 0.001-0.003 dex)."""
     from config.constants import require_codex_path
-    from pipeline.bride_reference import marcs_number_densities
     home = require_codex_path('engines.mul23')
     exe = home / 'source_dp' / 'mul23lus.x'
     tmp = Path(tempfile.mkdtemp(prefix='mul23_', dir=workdir))
     try:
         lt = np.asarray(S['logtau_500'], float); T = np.asarray(S['temperature_K'], float)
-        ne = marcs_number_densities(S)[0] * 1e-6
+        # n_e = Pe / kT, the bride_reference.marcs_number_densities expression (same CODATA k),
+        # without importing Lightweaver so this engine runs on hosts that do not carry it
+        ne = np.asarray(S['electron_pressure_Pa'], float) / (1.380649e-23 * T) * 1e-6
         mid = str(S.get('model_id', 'MARCS'))[:20]
         rows = ''.join(f"  {a:14.6E}  {t:14.6E}  {e:14.6E}  0.000000E+00  {S['vturb_m_s'] / 1e3:14.6E}\n"
                        for a, t, e in zip(lt, T, ne))
