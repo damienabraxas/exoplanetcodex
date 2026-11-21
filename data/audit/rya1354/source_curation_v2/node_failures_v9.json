@@ -1,0 +1,260 @@
+{
+  "schema": "rya1354.node-failures.v9",
+  "exposure": "EXPOSED_NONBLIND",
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "generator_sha256": "9f182e83f5c1eb8cf587eef6d0469baad9b2aaa7bdd52b610fd31c28d7b0f5d3",
+  "cases": {
+    "nodebudget": {
+      "native_status": "FAILED_RETAINED",
+      "native_error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/lifetime_relax_n4_nodebudget_v3/ground",
+      "native_receipt_sha256": "8b9297bf212090775a560440c7ff658cc6ab928f050d93212f7a2bf5322d919a",
+      "parts": {
+        "part001.tar.gz": {
+          "sha256": "8e9d25c31acdd3e682457ad42fc6695c254200815e0a1994f60d5a1e8cd2a0af",
+          "bytes": 340907
+        }
+      },
+      "last_printed_outer_iteration": 194,
+      "last_complete_cycle": {
+        "iteration": 193,
+        "complete_printed_cycle": true,
+        "orbitals": {
+          "2s": {
+            "residual": 3.0,
+            "method": 1,
+            "nodes": 1
+          },
+          "2p-": {
+            "residual": 1.12,
+            "method": 3,
+            "nodes": 0
+          },
+          "2p": {
+            "residual": 2.39,
+            "method": 1,
+            "nodes": 0
+          },
+          "3s": {
+            "residual": 0.377,
+            "method": 3,
+            "nodes": 3
+          },
+          "3p-": {
+            "residual": 0.0395,
+            "method": 3,
+            "nodes": 1
+          },
+          "3p": {
+            "residual": 1.24,
+            "method": 3,
+            "nodes": 5
+          },
+          "3d-": {
+            "residual": 0.0658,
+            "method": 3,
+            "nodes": 0
+          },
+          "3d": {
+            "residual": 1.72,
+            "method": 3,
+            "nodes": 1
+          },
+          "4s": {
+            "residual": 62.4,
+            "method": 3,
+            "nodes": 6
+          },
+          "4p-": {
+            "residual": 1.29,
+            "method": 3,
+            "nodes": 4
+          },
+          "4p": {
+            "residual": 1.02,
+            "method": 3,
+            "nodes": 3
+          },
+          "4d-": {
+            "residual": 0.0244,
+            "method": 3,
+            "nodes": 1
+          },
+          "4d": {
+            "residual": 0.0562,
+            "method": 3,
+            "nodes": 1
+          },
+          "4f-": {
+            "residual": 0.018,
+            "method": 3,
+            "nodes": 0
+          },
+          "4f": {
+            "residual": 0.0207,
+            "method": 3,
+            "nodes": 0
+          }
+        },
+        "max_reported_residual": 62.4,
+        "weighted_energy_hartree": -72.861485592
+      },
+      "failed_attempts": [
+        {
+          "method": 1,
+          "orbital": "2s",
+          "iterations": 3,
+          "limit": 24,
+          "counted_nodes": 3,
+          "required_nodes": 1,
+          "native_energy_bracket_width": 0.09530270746500058,
+          "native_width_floor": 0.125,
+          "iteration_limit_reached": false,
+          "width_guard_triggered": true
+        },
+        {
+          "method": 2,
+          "orbital": "2s",
+          "iterations": 9,
+          "limit": 24,
+          "counted_nodes": 3,
+          "required_nodes": 1,
+          "native_energy_bracket_width": 0.08890931020600057,
+          "native_width_floor": 0.125,
+          "iteration_limit_reached": false,
+          "width_guard_triggered": true
+        }
+      ],
+      "accepted_lifetime": null,
+      "qualified_initializer_preserved": true,
+      "first_193_cycles_exactly_reproduce_default_budget": true
+    },
+    "pcomponents": {
+      "native_status": "FAILED_RETAINED",
+      "native_error": "RuntimeError: rmcdhf: exit 1; retained logs in runs/lifetime_relax_n4_pcomponents_v4/ground",
+      "native_receipt_sha256": "126b47a6466b34cdf094a3104ce781fd5f5d7391789bb759ac4c1483b2a5d38a",
+      "parts": {
+        "part001.tar.gz": {
+          "sha256": "1d48efb1e94f507228ca3c6b6ecccb2de68854952157d1804ec1947df423b9cf",
+          "bytes": 355289
+        }
+      },
+      "last_printed_outer_iteration": 206,
+      "last_complete_cycle": {
+        "iteration": 205,
+        "complete_printed_cycle": true,
+        "orbitals": {
+          "2s": {
+            "residual": 2.18,
+            "method": 2,
+            "nodes": 1
+          },
+          "2p-": {
+            "residual": 0.0515,
+            "method": 1,
+            "nodes": 0
+          },
+          "2p": {
+            "residual": 0.0675,
+            "method": 1,
+            "nodes": 0
+          },
+          "3s": {
+            "residual": 619.0,
+            "method": 3,
+            "nodes": 4
+          },
+          "3p-": {
+            "residual": 0.289,
+            "method": 3,
+            "nodes": 0
+          },
+          "3p": {
+            "residual": 1.1,
+            "method": 3,
+            "nodes": 0
+          },
+          "3d-": {
+            "residual": 0.0815,
+            "method": 3,
+            "nodes": 3
+          },
+          "3d": {
+            "residual": 0.0168,
+            "method": 3,
+            "nodes": 3
+          },
+          "4s": {
+            "residual": 54.7,
+            "method": 3,
+            "nodes": 5
+          },
+          "4p-": {
+            "residual": 0.633,
+            "method": 3,
+            "nodes": 0
+          },
+          "4p": {
+            "residual": 0.309,
+            "method": 3,
+            "nodes": 0
+          },
+          "4d-": {
+            "residual": 87.9,
+            "method": 3,
+            "nodes": 2
+          },
+          "4d": {
+            "residual": 25.2,
+            "method": 3,
+            "nodes": 2
+          },
+          "4f-": {
+            "residual": 0.443,
+            "method": 3,
+            "nodes": 1
+          },
+          "4f": {
+            "residual": 0.0788,
+            "method": 3,
+            "nodes": 1
+          }
+        },
+        "max_reported_residual": 619.0,
+        "weighted_energy_hartree": -72.772446672
+      },
+      "failed_attempts": [
+        {
+          "method": 1,
+          "orbital": "2s",
+          "iterations": 24,
+          "limit": 24,
+          "counted_nodes": 3,
+          "required_nodes": 1,
+          "native_energy_bracket_width": 0.9243282254,
+          "native_width_floor": 0.125,
+          "iteration_limit_reached": true,
+          "width_guard_triggered": false
+        },
+        {
+          "method": 2,
+          "orbital": "2s",
+          "iterations": 13,
+          "limit": 24,
+          "counted_nodes": 3,
+          "required_nodes": 1,
+          "native_energy_bracket_width": 0.06972581133599931,
+          "native_width_floor": 0.125,
+          "iteration_limit_reached": false,
+          "width_guard_triggered": true
+        }
+      ],
+      "accepted_lifetime": null,
+      "qualified_initializer_preserved": true
+    }
+  },
+  "conclusion": "Both final2s refusals occur before24iterations with bracket width below native1/n^3 and3nodes instead of1. Increasing the cap or constraining both2pcomponents did not yield qualified states. Physical cause remains unresolved; no accepted relaxed lifetime."
+}

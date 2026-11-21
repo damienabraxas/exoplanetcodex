@@ -1,0 +1,34 @@
+{
+  "schema": "rya1354.rci-feasibility-plan.v52",
+  "starting_commit": "d504c6b2",
+  "driver": "evidence/rci_feasibility_driver_v52/rya1354_rci_feasibility.py",
+  "driver_sha256": "69f0d762a670f620b34a958c78bfb81de5659cc8f157501694ed7cd863b18987",
+  "helper_sha256": {
+    "rya1354_li_scheme_sizing.py": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+    "rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd"
+  },
+  "v47_receipt_sha256": "59ae0aa93e4f5782850395947cb860b341bc15c89d45581c1b0d08305daf1dc9",
+  "grasp": "toolchains/grasp/build/bin (pinned 9006157730a82ac839f2b4ff4e938bcba63a539e, serial build)",
+  "output": "runs/rci_feasibility_v52",
+  "declaration": "Linear d2dd1f15-5868-410d-bb1e-3246f8e4863f",
+  "why": "v47 sized Li 2023 Table 1: full RCI lists are 0.3-2.1M CSFs per J block, beyond a serial 15 GB build as generated. Before any physical RCI, measure the literature's own reduction (rcsfinteract, Gaigalas & Froese Fischer) and the per-block angular+CI cost, so the scaled scheme is chosen from measurements.",
+  "scope": "A: n_max 6,7 x {even 2J 0-4, odd 2J 2-4}: regenerate the v47 RCI list (sha must equal v47), generate the MR (0 excitations, same active set/2J), rcsfinteract DC (1) and DCB (2). B: odd J=1 block (3S1 upper), DCB-reduced, n_max 4,5,6: rnucleus (point static Z=8), rangular, rwfnestimate Thomas-Fermi, rci Breit static limit lowest state; GNU time -v per step. Thomas-Fermi orbitals: rci energies are NOT results; only wall time, peak RSS, angular disk.",
+  "guards": "Fresh directory; inputs hard-linked, never copied; budgets s: rcsfgenerate 3600, rcsfinteract 7200, rangular 14400, rwfnestimate 1800, rci 21600; disk guard 40 GiB free. Budget/disk stop = measured outcome ending its section. Refusal, nonzero exit or failed cross-check (v47 sha; MR/full peel headers; rcsfinteract Before/After/MR table vs streamed inventories; reduced subset of full; MR subset of reduced; section B J=1 count vs section A) = stop and preserve (FAILED_RETAINED). Receipt writes a files inventory.",
+  "evidence": "Receipts, stdin/stdout/stderr/time and small lists archived; lists and angular files above the size cap stay on Sirius with sha256/bytes in the receipt files list.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "retained_failure": [
+    "runs/rci_feasibility_v48 (plan v48)",
+    "runs/rci_feasibility_v49 (plan v49)",
+    "runs/rci_feasibility_v50 (plan v50; section A complete)",
+    "runs/rci_feasibility_v51 (plan v51; section A complete, section B n4 complete)"
+  ],
+  "section_a_receipt": "runs/rci_feasibility_v51/receipt.json sha256 93d4c29c48120f93ec1d20bb98a19d5a77489cf34632bcfadc7bc41f024a50ac",
+  "change_from_v51": "Section B only (--sections B): section A is complete and reproduced identically in v50 and v51. rwfnestimate: Thomas-Fermi, then screened hydrogenic for remaining subshells (GRASP example convention); now run before rangular. Every section-B native step runs under prlimit --as=12 GiB. GRASP memory_man \"Unable to allocate\" or gfortran allocation-failure text under the cap is a MEASURED memory stop that ends section B (like a budget stop); any other nonzero exit remains FAILED_RETAINED. The n6 J=1 DCB count is cross-checked against the v51 section A receipt. Budgets and other guards are unchanged.",
+  "outcome": "FEASIBILITY_COMPLETED_NO_ATOMIC_PREDICTION; no budget or memory stop. Odd J=1 DCB-reduced: n4 7596 CSFs, rangular 16.4 s / 0.56 GB, rci 40.9 s / 58 MB, 0.11 GB angular; n5 33575, rangular 282 s / 6.31 GB, rci 495 s / 0.36 GB, 1.12 GB angular; n6 87723, rangular 2293 s / 6.68 GB, rci 4165 s / 1.47 GB, 5.02 GB angular. n5->n6 scaling ~N^2.2 (rangular, rci time), ~N^1.56 (angular bytes); rangular peak RSS plateaus near 6.7 GB. Archive data/audit/rya1354/rci_feasibility_complete_v52 (158 stored files, 37 off-archive on Sirius)."
+}

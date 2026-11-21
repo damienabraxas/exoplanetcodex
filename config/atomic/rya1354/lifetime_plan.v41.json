@@ -1,0 +1,32 @@
+{
+  "schema": "rya1354.fac-radial-rates-plan.v41",
+  "starting_commit": "19a32407",
+  "index_sha256": "8ddec6ba6a2939402fad68f0f43fc39b77da3adaccd2052e1f1aea8f875105f0",
+  "root": "/mnt/codex-data/codex/rya1354",
+  "driver": "evidence/fac_radial_rate_driver_v41/rya1354_fac_radial_rates.py",
+  "index": "evidence/fac_radial_rate_driver_v41/index.json",
+  "source": "toolchains/fac-9ab6def",
+  "output": "runs/fac_radial_rates_v41",
+  "cases": [
+    "ground_coherent10",
+    "ground_coherent100",
+    "equal_coherent10",
+    "equal_coherent100"
+  ],
+  "gauges": {
+    "B": 2,
+    "C": 1
+  },
+  "scope": "Eight separate cold rate reproductions of qualified 6600-level states; original restored potentials and radial controls,114NRgroups,disabled corrections. Complete newly enumerated 3S downward one-photon inventory per model,13requests/lower0..5 independently recovered for each. No physical model changes or accuracy/grade claim.",
+  "qualification": "Frozen full LS index verifies sealed parents, native state/label/composition identity and exact original CI/radial replay. Reverify before execution. Each new native run must regenerate original C/CM/source.pot/ci.pot bytes exactly, retain exact old/new spinors and source-mapped protected potential bytes, reproduce signed native coefficient transport and actual zero corrections. Independent raw/formatted/source-formula/float32/writer-threshold accounting before totals. All tiny rates retained; no zero-fill or gauge/experiment selection.",
+  "input_review": "Five local structural/control tests passed0.59s; all8 actual frozen-index input builders independently derive13unique requests and lowerIDs0..5. Original native protocol input is unchanged; reviewer accepts only explicit appended rate commands with exact full input matching.",
+  "resource_policy": "Sirius only, sequential,singlethread,nice19.1800second native timeout with owned-process-group termination on timeout; stop and preserve first failed case. Initial11GiB availableRAM/118GiB free disk; prior native level step~1GiB; full index preflight2485600KiB/221.47s/no swaps.",
+  "failure_policy": "No skips,retries,criterion/source/physics changes without new prospective declaration. All full native inputs/outputs,basis,CM,C,potentials,spinors,overlaps,raw/formatted rates,logs,drivers,source documents,index and receipts retained losslessly in<=5MiB parts. Packing and existing independent decoder finish before transfer.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

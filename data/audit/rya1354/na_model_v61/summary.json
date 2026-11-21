@@ -1,0 +1,129 @@
+{
+ "schema": "rya1354.na-model.v61",
+ "status": "CANDIDATE_HOLD_NOT_ADOPTED",
+ "n_nist_levels": 106,
+ "ff_spread": {
+  "n_common": 22,
+  "median": 0.0014,
+  "robust_sigma": 0.0071,
+  "ff9_gauge_median_abs_dex": 0.0165
+ },
+ "variants": {
+  "v61a": {
+   "experiment": {
+    "3p_3/2": {
+     "A_exp": 61600000.0,
+     "frac_sigma": 0.005,
+     "A_B": 68862934.68122351,
+     "A_C": 57776964.967286006,
+     "dlogA_B": 0.0484,
+     "dlogA_C": -0.0278,
+     "ff9_dlogA": 0.0057
+    },
+    "3p_1/2": {
+     "A_exp": 61400000.0,
+     "frac_sigma": 0.005,
+     "A_B": 68656921.22586772,
+     "A_C": 57572338.34663124,
+     "dlogA_B": 0.0485,
+     "dlogA_C": -0.028,
+     "ff9_dlogA": 0.0058
+    }
+   },
+   "vs_ff9_by_class": {
+    "C": {
+     "n": 172,
+     "median": 0.0143,
+     "robust_sigma": 0.0457,
+     "rms": 0.1462
+    },
+    "D": {
+     "n": 41,
+     "median": 0.019,
+     "robust_sigma": 0.055,
+     "rms": 0.0695
+    },
+    "E": {
+     "n": 48,
+     "median": -0.1323,
+     "robust_sigma": 0.5168,
+     "rms": 1.0593
+    }
+   },
+   "vs_ff9_all": {
+    "n": 261,
+    "median": 0.008,
+    "robust_sigma": 0.0698
+   },
+   "n_lines": 314,
+   "class_counts": {
+    "A": 0,
+    "B": 0,
+    "C": 200,
+    "D": 47,
+    "E": 67
+   }
+  },
+  "v61b": {
+   "experiment": {
+    "3p_3/2": {
+     "A_exp": 61600000.0,
+     "frac_sigma": 0.005,
+     "A_B": 68477052.77634165,
+     "A_C": 58710565.4578178,
+     "dlogA_B": 0.046,
+     "dlogA_C": -0.0209,
+     "ff9_dlogA": 0.0057
+    },
+    "3p_1/2": {
+     "A_exp": 61400000.0,
+     "frac_sigma": 0.005,
+     "A_B": 68272285.20828056,
+     "A_C": 58520285.7844899,
+     "dlogA_B": 0.0461,
+     "dlogA_C": -0.0209,
+     "ff9_dlogA": 0.0058
+    }
+   },
+   "vs_ff9_by_class": {
+    "C": {
+     "n": 170,
+     "median": 0.0136,
+     "robust_sigma": 0.0431,
+     "rms": 0.1089
+    },
+    "D": {
+     "n": 43,
+     "median": 0.0191,
+     "robust_sigma": 0.055,
+     "rms": 0.0691
+    },
+    "E": {
+     "n": 47,
+     "median": -0.1651,
+     "robust_sigma": 0.5447,
+     "rms": 0.9996
+    }
+   },
+   "vs_ff9_all": {
+    "n": 260,
+    "median": 0.0077,
+    "robust_sigma": 0.0682
+   },
+   "n_lines": 313,
+   "class_counts": {
+    "A": 0,
+    "B": 0,
+    "C": 198,
+    "D": 49,
+    "E": 66
+   }
+  }
+ },
+ "fill": {
+  "model": "v61b",
+  "n_lines": 49,
+  "n_filled": 34,
+  "n_measurable": 33
+ }
+}

@@ -1,0 +1,140 @@
+New calculations for Fe I.   22 Oct 2014
+
+NIST adopted newer wavelength standards that revise the wavelengths and
+energy levels for Fe I.  See the atomic energy levels for Fe I on the 
+NIST website.  All the energies have been updated.
+
+The least squares fits have been revised many times, especially when
+the line list predicted multiplets with lines with jumbled strengths or
+lines in the wrong location compared to observed spectra.  These usually 
+were because of interchanged levels.  Fiorella Castelli found several of 
+these errors.
+
+Ruth Peterson has identified 66 new levels:
+                              
+23 EVEN LEVELS
+
+    J   E(CM-1)    EXPANDED LABEL           LABEL
+   0.0 51143.92    3d6 4s(6D)4d e7F      4s6D4d e7F
+   0.0 54304.21    3d7(4F)4d 5D          (4F)4d 5D
+   0.0 58428.17    3d6 4s(6D)4d 5D       4s6D4d 5D
+   1.0 58628.41    3d6 4s(4D)4d 5P       4s4D4d 5P
+   1.0 59300.54    3d7(4P)5s 3P          (4P)5s 3P
+   2.0 58779.59    3d6 4s(4D)4d 3D       4s4D4d 3D
+   2.0 59366.79    3d7(4F)5d 5F          (4F)5d 5F
+   2.0 60087.26    3d6 4s(4D)4d 3P       4s4D4d 3P
+   3.0 38602.26    3d7(2F)4s 1F          (2F)4s 1F
+   3.0 58616.11    3d7(4F)5d 5P          (4F)5d 5P
+   3.0 59196.87    3d7(4F)5d 5F          (4F)5d 5F
+   3.0 59294.38    3d6 4s(4D)4d 3G       4s4D4d 3G
+   3.0 59636.36    3d7(4F)5d 5F5D3G      5d 5F5D3G
+   3.0 61724.84    3d7(2G)5s 3G          (2G)5s 3G
+   4.0 59532.97    3d6 4s(6D)6d 3+[4+]   s6d 3+[4+]
+   4.0 61340.46    d7(2G)5s 3G           (2G)5s 3G
+   4.0 61935.47    3d7(2G)5s 1G          (2G)5s 1G
+   4.0 64531.78    3d6 4s(3H)5s 5H       4s3H5s 5H
+   5.0 61198.48    3d7(2G)5s 3G          (2G)5s 3G
+   5.0 66293.98    3d7(2H)5s 1H          (2H)5s 1H
+   5.0 67687.99    3d7(2G)4d 3I          (2G)4d 3I
+   6.0 64300.51    3d6 4s(3H)5s 5H       4s3H5s 5H
+   6.0 67716.75    3d7(2G)4d 1I          (2G)4d 1I
+
+
+33 ODD LEVELS
+
+    J   E(CM-1)    EXPANDED LABEL           LABEL
+   0.0 54720.67    d7(4F)5p 5D           (4F)5p 5D
+   0.0 55179.91    d7(2P)4p 1S           (2P)4p 1S
+   1.0 50675.08    d6(3P)4s4p(3P) 1P     3Psp3P 1P
+   1.0 59703.05    d7(4F)6p 5D           (4F)6p 5D
+   1.0 60169.33    d6(5D)4s(4F)7p 5D     4s4F7p 5D
+   1.0 60336.16    d6(5D)4s(6D)7p 5F     4s6D7p 5F
+   1.0 60375.65    d7(2F)4p 3D           (2F)4p 3D
+   1.0 61075.16    d6(3F)4s4p(1P) 3D     3Fsp1P 3D
+   1.0 61155.62    d6(3P)4s4p(1P) 3P     3Psp1P 3P
+   2.0 60237.81    d6(5D)4s(6D)7p 5D     4s6D7p 5D
+   2.0 60585.09    d6(3P)4s4p(1P) 3P     3Psp1P 3P
+   2.0 61866.45    d7(4F)7p 3D           (4F)7p 3D
+   3.0 59418.83    d7(4F)6p 5F           (4F)6p 5F
+[  3.0 59503.40    d7(4F)6p 5G5D3D       6p 5G5D3D replaced 03jun16]
+   3.0 59503.38    d6(5D)4s(6D)7p 7F     4s6D7p 7F [03jun16]
+   3.0 59794.85    d6(3D)4s4p(3P) 1F     3Dsp3P 1F
+   3.0 59875.89    d6(5D)4s(6D)7p 5D     4s6D7p 5D
+   3.0 60013.27    d7(4F)6p 3G           (4F)6p 3G
+   3.0 60055.93    d6(5D)4s(6D)7p 5F     4s6D7p 5F
+   3.0 61351.66    d7(4F)7p 3D           (4F)7p 3D
+   3.0 61770.94    d7(4F)7p 5D           (4F)7p 5D
+   3.0 62016.99    d7(4F)7p 3G           (4F)7p 3G
+   3.0 62287.54    d7(4F)7p 5G           (4F)7p 5G
+   3.0 62509.75    d7(4F)8p 3D3G3F       8p 3D3G3F
+   4.0 58729.80    d7(4F)6p 5D           (4F)6p 5D
+   4.0 59317.86    d6(5D)4s(6D)7p 7D     4s6D7p 7D
+   4.0 59377.30    d7(4F)6p 5G           (4F)6p 5G
+   4.0 59496.62    d6(5D)4s(6D)7p 5D     4s6D7p 5D
+   4.0 59595.12    d6(5D)4s(6D)7p 7F     4s6D7p 7F
+   4.0 59731.29    d7(4F)6p 3G           (4F)6p 3G
+   4.0 59804.54    d6(5D)4s(6D)7p 5F     4s6D7p 5F
+   4.0 61113.38    d7(4F)7p 3F           (4F)7p 3F
+   4.0 61173.80    d7(4F)7p 5D           (4F)7p 5D
+   4.0 61648.30    d7(4F)7p 3G           (4F)7p 3G
+   4.0 61678.26    d7(4F)7p 5F           (4F)7p 5F
+   4.0 62683.77    d7(4F)8p 3G5G5F       8p 3G5G5F
+   5.0 58609.56    d7(4F)6p 5F           (4F)6p 5F
+   5.0 59021.31    d7(4F)6p 5G           (4F)6p 5G
+   5.0 59357.03    d7(4F)6p 3G           (4F)6p 3G
+   5.0 61140.62    d7(4F)7p 3G           (4F)7p 3G
+   5.0 61155.95    d7(4F)7p 5F           (4F)7p 5F
+   5.0 61693.44    d7(4F)7p 5G           (4F)7p 5G
+   5.0 62107.29    d6(3G)4s4p(1P) 3G     3Gsp1P 3G
+
+Peterson, R.C. and Kurucz, R.L. 2015. Astrophys.J.Supp. 216:1, 10pp.  
+
+and she has determined gf values from spectra for a number of 
+previously unidentified lines which are given in gf2600pk.lab .
+
+
+12 Dec 2014   A few labels changed.  No energies, wavelengths, or gfs changed.
+
+03 Jun 2016   Ruth Peterson has identified 31 new levels:
+
+3 EVEN LEVELS 
+
+    J   E(CM-1)    EXPANDED LABEL           LABEL
+   6.0 58657.76    3d7(4F)5d 5G          (4F)5d 5G        
+   6.0 59273.11    3d7(4F)5d 5H          (4F)5d 5H   
+   6.0 67231.63    3d7(2G)4d 3H          (2G)4d 3H             
+
+28 ODD LEVELS
+
+    J   E(CM-1)    EXPANDED LABEL           LABEL
+   0.0 53591.50    d7(2D)4p 3P           (2D)4p 3P    
+   0.0 58848.58    d6(5D)4s(6D)5p 5D     4s6D5p 5D         
+   1.0 62198.79    d6(1D)4s4p(3P) 3D     1Dsp3P 3D     
+   2.0 56653.75    d6(3D)4s4p(3P) 3P     3Dsp3P 3P              
+   2.0 59438.68    d7(4F)6p 5F           (4F)6p 5F            
+   2.0 59697.70    d7(4F)6p 3F           (4F)6p 3F           
+   2.0 59907.06    d6(5D)4s(6D)7p 5D     4s6D7p 5D               
+   2.0 59971.16    d7(4F)6p 3D           (4F)6p 3D           
+   2.0 62046.52    d7(4F)7p 3F           (4F)7p 3F           
+   2.0 62074.37    d6(5D)4s(6D)9p 7D     4s5D9p 7D         
+   2.0 62841.52    d7(4F)8p 3F           (4F)8p 3F        
+   3.0 58432.40    d6(5D)4s(6D)5p 3F     4s6D5p 3F     
+   3.0 59580.38    d6(5D)4s(6D)7p 7P     4s6D7p 7P     
+   3.0 59692.97    d7(5D)4s(6D)7p 5P     4s6D7p 5P    
+   3.0 60806.67    d6(a3F)4s4p(1P) 3D    3Fsp1P 3D                       
+   3.0 61665.22    d7(4F)7p 3F           (4F)7p 3F    
+   3.0 61846.98    d6(5D)4s(6D)9p 5D     4s6D9p 5D   
+   3.0 62054.01    d7(4F)7p 5F           (4F)7p 5F    
+   3.0 62087.91    d6(5D)4s(6D)10p 5P    4s6D10p 5P   
+   3.0 62884.77    d64s(5D)8f 5H         4s5D8f 5H     
+   4.0 58744.86    d7(4F)6p 3F           (4F)6p 3F  
+   4.0 61467.67    d6(5D)4s(6D)9p 5D     4s6D9p 5D     
+   4.0 61998.52    d6(5D)4s(6D)10p 5D    4s6D10p 5D   
+   4.0 62047.71    d7(4F)7p 5G           (4F)7p 5G
+   4.0 62092.55    d7(4F)8p 3F           (4F)8p 3F     
+   4.0 63182.86    d7(4F)8p 3G           (4F)8p 3G 
+   5.0 59473.40    d6(5D)4s(4D)7p 5F     4s4D7p 5F  
+   5.0 60616.19    d6(5D)4s(4D)8p 5F     4s4D8p 5F  
+
+Most of the files have been updated.  A paper is in preparation.  Peterson
+expects to find many more levels.

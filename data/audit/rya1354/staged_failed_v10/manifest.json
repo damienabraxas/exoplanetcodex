@@ -1,0 +1,122 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "b9010d25c4239177f5ba301738588476d0b6ffbaed67420a6d0ca7de5771e853",
+      "bytes": 419784
+    }
+  },
+  "files": {
+    "runs/lifetime_relax_n4_staged_v5/drivers/driver.py": {
+      "sha256": "5e128ce4824a247b1442a7f33d6e66fda55f45419d92aaa1ddedf7b88a551b31",
+      "bytes": 6378
+    },
+    "runs/lifetime_relax_n4_staged_v5/drivers/rya1354_lifetime_ladder.py": {
+      "sha256": "46b4c2f9f91171c0bd1a44ebc7dd3d555c0558933187a92a44d43f5a4696fc34",
+      "bytes": 7897
+    },
+    "runs/lifetime_relax_n4_staged_v5/drivers/rya1354_lifetime_relax.py": {
+      "sha256": "e991a014a946f57f531cd16e7573a6128e4fa4efadd343141938953a9899900a",
+      "bytes": 9071
+    },
+    "runs/lifetime_relax_n4_staged_v5/drivers/rya1354_solver_smoke.py": {
+      "sha256": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+      "bytes": 10570
+    },
+    "runs/lifetime_relax_n4_staged_v5/drivers/rya1354_triplet_correlation.py": {
+      "sha256": "6e80963f035078318313b787fb62a0d4d40e3b8f9156bcad483e60c5d0fc0373",
+      "bytes": 5535
+    },
+    "runs/lifetime_relax_n4_staged_v5/drivers/rya1354_two_method_summary.py": {
+      "sha256": "2bf8ab4dc1315265dcb2bc520fea53d874af67cdb73bbd8538913af4ae1815e1",
+      "bytes": 8353
+    },
+    "runs/lifetime_relax_n4_staged_v5/drivers/rya1354_wave_probe.py": {
+      "sha256": "ba6e5e9bfec50e729e6c19f70c438b7c22e6a8de6f5d9837eabb28291d9ca770",
+      "bytes": 4341
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rangular.stdout": {
+      "sha256": "7c6bc4d17072f1a7ca28f937012291529d8ce930f47042119afa7b8903f85159",
+      "bytes": 4878
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rmcdhf.log": {
+      "sha256": "9e65cbdd0947efdef38ab639e67c5803b41b59b585cfda364d37a7d79d3343e6",
+      "bytes": 30
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rmcdhf.stderr": {
+      "sha256": "e2af6cca3e7a819dca0db0e11a2e5f8c8535fcd5dbf7421b5f4b8295610bac0d",
+      "bytes": 3535
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rmcdhf.stdin": {
+      "sha256": "e8a1df04c7763a5e9f3de6c68f9008ce5a06c36577f63a217c9e177a2ef3ea4f",
+      "bytes": 141
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rmcdhf.stdout": {
+      "sha256": "de50f237bbbe3f901c61e9cf7b1ab90f122c39b3239c5e7d5adeaca33451442c",
+      "bytes": 1168659
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rmcdhf.sum": {
+      "sha256": "63e1a92e84f783f38b732f77560d52c38298d623f1d42915660cd2970118e91a",
+      "bytes": 638
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rmix.out": {
+      "sha256": "330f7d0c48ad5687b6c8c8018d7e5946464383ce977864c400be3c8be4e36d1f",
+      "bytes": 45494
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/rwfn.out": {
+      "sha256": "cca5d1809d7314f3d8422203ca57dde558c885f0dd232b8fa2bbd7bfce43052d",
+      "bytes": 131838
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/state.c": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/state.w": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_staged_v5/receipt.json": {
+      "sha256": "015df0fa8505eb0c0a6949ea6d8fbd8b7623def800e188a5543dada016141e27",
+      "bytes": 6029
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 24,
+  "omitted_angular_caches": [
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.30",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.31",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.32",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.33",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.34",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.35",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.36",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.37",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.38",
+    "runs/lifetime_relax_n4_staged_v5/fixed_2s_ground/mcp.39"
+  ],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

@@ -1,0 +1,240 @@
+{
+ "schema": "rya1354.candidate-spectrum-check.v1",
+ "status": "SCREENING_NOT_A_MEASUREMENT",
+ "n": 1564,
+ "verdicts": {
+  "FLAGGED": 1141,
+  "CLEAN": 278,
+  "NO_ATLAS_COVERAGE": 129,
+  "NO_PIXELS": 16
+ },
+ "clean_new_lines": 261,
+ "clean_already_in_line_sets": 17,
+ "clean_new_by_species": {
+  "Ca I": 9,
+  "Cr I": 64,
+  "Fe I": 67,
+  "Fe II": 2,
+  "Mn I": 7,
+  "Mn II": 1,
+  "Ni I": 27,
+  "O I": 3,
+  "Si I": 25,
+  "Ti I": 47,
+  "Ti II": 6,
+  "V II": 3
+ },
+ "clean_new_ir_ge_7000A": {
+  "Ca I": 8,
+  "Cr I": 11,
+  "Fe I": 52,
+  "Ni I": 15,
+  "O I": 3,
+  "Si I": 25,
+  "Ti I": 13,
+  "Ti II": 3
+ },
+ "fail_reasons": {
+  "asymmetric": 727,
+  "offset": 641,
+  "close_neighbour": 466,
+  "shallow": 45,
+  "telluric": 31
+ },
+ "by_species_band": {
+  "Ca I|IR>1um": {
+   "FLAGGED": 11,
+   "CLEAN": 8,
+   "NO_ATLAS_COVERAGE": 7,
+   "NO_PIXELS": 2
+  },
+  "Ca I|NIR700-1000": {
+   "FLAGGED": 6
+  },
+  "Ca I|NUV300-400": {
+   "FLAGGED": 3
+  },
+  "Ca I|VIS400-700": {
+   "FLAGGED": 8,
+   "CLEAN": 1
+  },
+  "Cr II|NUV300-400": {
+   "FLAGGED": 1
+  },
+  "Cr I|IR>1um": {
+   "CLEAN": 7,
+   "NO_ATLAS_COVERAGE": 8,
+   "FLAGGED": 8,
+   "NO_PIXELS": 2
+  },
+  "Cr I|NIR700-1000": {
+   "FLAGGED": 2,
+   "CLEAN": 6
+  },
+  "Cr I|NUV300-400": {
+   "FLAGGED": 399,
+   "CLEAN": 31
+  },
+  "Cr I|VIS400-700": {
+   "FLAGGED": 135,
+   "CLEAN": 23
+  },
+  "Fe II|NUV300-400": {
+   "FLAGGED": 5,
+   "CLEAN": 1
+  },
+  "Fe II|VIS400-700": {
+   "FLAGGED": 2,
+   "CLEAN": 1
+  },
+  "Fe I|IR>1um": {
+   "CLEAN": 29,
+   "NO_PIXELS": 7,
+   "FLAGGED": 14,
+   "NO_ATLAS_COVERAGE": 37
+  },
+  "Fe I|NIR700-1000": {
+   "FLAGGED": 12,
+   "CLEAN": 23
+  },
+  "Fe I|VIS400-700": {
+   "FLAGGED": 21,
+   "CLEAN": 15
+  },
+  "Mn II|NUV300-400": {
+   "CLEAN": 1,
+   "FLAGGED": 1
+  },
+  "Mn I|IR>1um": {
+   "NO_ATLAS_COVERAGE": 1
+  },
+  "Mn I|NUV300-400": {
+   "FLAGGED": 59,
+   "CLEAN": 6
+  },
+  "Mn I|VIS400-700": {
+   "FLAGGED": 11,
+   "CLEAN": 1
+  },
+  "Ni I|IR>1um": {
+   "CLEAN": 8,
+   "FLAGGED": 9,
+   "NO_ATLAS_COVERAGE": 53
+  },
+  "Ni I|NIR700-1000": {
+   "FLAGGED": 7,
+   "CLEAN": 7
+  },
+  "Ni I|NUV300-400": {
+   "FLAGGED": 45,
+   "CLEAN": 3
+  },
+  "Ni I|VIS400-700": {
+   "CLEAN": 9,
+   "FLAGGED": 18
+  },
+  "O I|IR>1um": {
+   "NO_PIXELS": 2,
+   "FLAGGED": 7,
+   "NO_ATLAS_COVERAGE": 3
+  },
+  "O I|NIR700-1000": {
+   "CLEAN": 3,
+   "FLAGGED": 5
+  },
+  "O I|VIS400-700": {
+   "FLAGGED": 4
+  },
+  "Si I|IR>1um": {
+   "FLAGGED": 22,
+   "CLEAN": 33,
+   "NO_ATLAS_COVERAGE": 18,
+   "NO_PIXELS": 3
+  },
+  "Si I|NIR700-1000": {
+   "CLEAN": 4,
+   "FLAGGED": 1
+  },
+  "Si I|VIS400-700": {
+   "FLAGGED": 1
+  },
+  "Ti II|IR>1um": {
+   "NO_ATLAS_COVERAGE": 2,
+   "CLEAN": 1,
+   "FLAGGED": 1
+  },
+  "Ti II|NIR700-1000": {
+   "CLEAN": 2
+  },
+  "Ti II|NUV300-400": {
+   "FLAGGED": 23,
+   "CLEAN": 1
+  },
+  "Ti II|VIS400-700": {
+   "FLAGGED": 5,
+   "CLEAN": 2
+  },
+  "Ti I|IR>1um": {
+   "CLEAN": 2,
+   "FLAGGED": 3
+  },
+  "Ti I|NIR700-1000": {
+   "FLAGGED": 6,
+   "CLEAN": 11
+  },
+  "Ti I|NUV300-400": {
+   "FLAGGED": 174,
+   "CLEAN": 9
+  },
+  "Ti I|VIS400-700": {
+   "FLAGGED": 101,
+   "CLEAN": 27
+  },
+  "V II|NUV300-400": {
+   "FLAGGED": 9,
+   "CLEAN": 3
+  },
+  "V II|VIS400-700": {
+   "FLAGGED": 2
+  }
+ },
+ "atlases": {
+  "CRIRES+_Y": [
+   9800.0,
+   10796.0
+  ],
+  "CRIRES+_J": [
+   11159.9,
+   13489.5
+  ],
+  "CRIRES+_H": [
+   14943.0,
+   17585.2
+  ],
+  "CRIRES+_K": [
+   19452.4,
+   24845.6
+  ],
+  "IAG_Baker2020": [
+   5001.1,
+   11083.4
+  ],
+  "KP1984": [
+   2960.0,
+   5001.0
+  ]
+ },
+ "criteria": {
+  "core_kms": 3.0,
+  "window_kms": 25.0,
+  "max_dv_kms": 2.0,
+  "max_asym": 0.25,
+  "min_mtrans": 0.9,
+  "depth_anomaly_outside": [
+   0.5,
+   2
+  ],
+  "min_depth": 0.05,
+  "close_neighbour": "<= 0.5 x depth within 2-4 HWHM"
+ }
+}

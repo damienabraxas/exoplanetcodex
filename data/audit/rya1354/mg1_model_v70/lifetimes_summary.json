@@ -1,0 +1,99 @@
+{
+ "rule": "PASS if |z|<=2 for >=5 of 6 Aldenius 2007 terms (declared RYA-1354 v70)",
+ "n_pass": 6,
+ "verdict": "PASS",
+ "terms": [
+  {
+   "term": "3s.4s 3S",
+   "levels": "3s.4s 3S1",
+   "lab_ns": 11.5,
+   "lab_err": 1.0,
+   "model_ns": 9.115,
+   "model_err_q": 0.845,
+   "model_err_lin": 1.287,
+   "d_pct": -20.7,
+   "z": -1.82,
+   "z_corr": -1.46,
+   "top_branch": "3s.3p 3P*2",
+   "top_bf": 0.555
+  },
+  {
+   "term": "3s.5s 3S",
+   "levels": "3s.5s 3S1",
+   "lab_ns": 29.0,
+   "lab_err": 3.0,
+   "model_ns": 25.828,
+   "model_err_q": 1.901,
+   "model_err_lin": 3.647,
+   "d_pct": -10.9,
+   "z": -0.89,
+   "z_corr": -0.67,
+   "top_branch": "3s.3p 3P*2",
+   "top_bf": 0.418
+  },
+  {
+   "term": "3s.3d 3D",
+   "levels": "3s.3d 3D1;3s.3d 3D2;3s.3d 3D3",
+   "lab_ns": 5.9,
+   "lab_err": 0.4,
+   "model_ns": 5.662,
+   "model_err_q": 0.623,
+   "model_err_lin": 0.717,
+   "d_pct": -4.0,
+   "z": -0.32,
+   "z_corr": -0.29,
+   "top_branch": "3s.3p 3P*0",
+   "top_bf": 0.556
+  },
+  {
+   "term": "3s.4d 3D",
+   "levels": "3s.4d 3D1;3s.4d 3D2;3s.4d 3D3",
+   "lab_ns": 17.6,
+   "lab_err": 1.2,
+   "model_ns": 15.705,
+   "model_err_q": 1.471,
+   "model_err_lin": 1.986,
+   "d_pct": -10.8,
+   "z": -1.0,
+   "z_corr": -0.82,
+   "top_branch": "3s.3p 3P*0",
+   "top_bf": 0.466
+  },
+  {
+   "term": "3s.5d 3D",
+   "levels": "3s.5d 3D1;3s.5d 3D2;3s.5d 3D3",
+   "lab_ns": 33.0,
+   "lab_err": 3.0,
+   "model_ns": 33.097,
+   "model_err_q": 2.875,
+   "model_err_lin": 4.178,
+   "d_pct": 0.3,
+   "z": 0.02,
+   "z_corr": 0.02,
+   "top_branch": "3s.3p 3P*0",
+   "top_bf": 0.432
+  },
+  {
+   "term": "3p2 3P",
+   "levels": "3p2 3P0;3p2 3P1;3p2 3P2",
+   "lab_ns": 2.0,
+   "lab_err": 0.2,
+   "model_ns": 1.888,
+   "model_err_q": 0.181,
+   "model_err_lin": 0.243,
+   "d_pct": -5.6,
+   "z": -0.42,
+   "z_corr": -0.36,
+   "top_branch": "3s.3p 3P*1",
+   "top_bf": 1.0
+  }
+ ],
+ "median_abs_d_pct": 8.2,
+ "n_levels": 166,
+ "gamma_rad_vs_vald": {
+  "n": 61,
+  "median": -0.0258,
+  "abs68": 0.1622,
+  "p90_abs": 0.4996
+ }
+}

@@ -1,0 +1,1095 @@
+{
+  "schema": "rya1354.fac-numerical-audit.v18",
+  "cases": {
+    "cap_canary": {
+      "diagnostics": {
+        "iterations": 2,
+        "last": {
+          "iteration": 1,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 0.834775,
+          "atol": 4.57108,
+          "potential_change": 0.308197,
+          "tol0": 0.0003,
+          "tol1": 3e-08,
+          "atol0": 3e-05,
+          "ahx": 0.472367,
+          "dph0": 0.3082,
+          "dph1": 0.0,
+          "sta0": 0.3125,
+          "sta1": 0.3125
+        },
+        "previous": {
+          "iteration": 0,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 1.0,
+          "atol": 10.0,
+          "potential_change": 0.0,
+          "tol0": 0.0003,
+          "tol1": 3e-08,
+          "atol0": 3e-05,
+          "ahx": 1.0,
+          "dph0": 0.0,
+          "dph1": 0.0,
+          "sta0": 1.0,
+          "sta1": 1.0
+        },
+        "printed_rule_verified": false,
+        "native_limit": 1,
+        "multiplier": 3.0,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "levels_written": true
+    },
+    "explicit_default": {
+      "diagnostics": {
+        "iterations": 18,
+        "last": {
+          "iteration": 17,
+          "native_miter": 17,
+          "muconv": 1,
+          "tol": 3.44951e-06,
+          "atol": 1.70206e-06,
+          "potential_change": 3.44951e-06,
+          "tol0": 0.0003,
+          "tol1": 3e-08,
+          "atol0": 3e-05,
+          "ahx": 0.0,
+          "dph0": 3.45e-06,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 16,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 1.39303e-05,
+          "atol": 1.42507e-06,
+          "potential_change": 1.39303e-05,
+          "tol0": 0.0003,
+          "tol1": 3e-08,
+          "atol0": 3e-05,
+          "ahx": 0.0,
+          "dph0": 1.393e-05,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 3.0,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "levels_written": true,
+      "levels": [
+        {
+          "index": 0,
+          "ibase": -1,
+          "energy_eV": 0.0,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 4,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+2(4)4"
+          ]
+        },
+        {
+          "index": 1,
+          "ibase": -1,
+          "energy_eV": 0.0196080807,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 2,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p-1(1)1.2p+3(3)2"
+          ]
+        },
+        {
+          "index": 2,
+          "ibase": -1,
+          "energy_eV": 0.0292313114,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 0,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+4(0)0"
+          ]
+        },
+        {
+          "index": 3,
+          "ibase": -1,
+          "energy_eV": 2.1045435,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 4,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p-1(1)1.2p+3(3)4"
+          ]
+        },
+        {
+          "index": 4,
+          "ibase": -1,
+          "energy_eV": 5.24652705,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 0,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+2(0)0"
+          ]
+        },
+        {
+          "index": 5,
+          "ibase": -1,
+          "energy_eV": 7.92062957,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 6,
+          "ibase": -1,
+          "energy_eV": 8.48142776,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 7,
+          "ibase": -1,
+          "energy_eV": 11.156597,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 6,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)6"
+          ]
+        },
+        {
+          "index": 8,
+          "ibase": -1,
+          "energy_eV": 11.1891215,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 9,
+          "ibase": -1,
+          "energy_eV": 11.2160321,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 10,
+          "ibase": -1,
+          "energy_eV": 11.4637644,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 11,
+          "ibase": -1,
+          "energy_eV": 13.2499246,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 0,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(0)1.3s+1(1)0"
+          ]
+        },
+        {
+          "index": 12,
+          "ibase": -1,
+          "energy_eV": 13.2779576,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(0)1.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 13,
+          "ibase": -1,
+          "energy_eV": 13.3583479,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p+3(3)3.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 14,
+          "ibase": -1,
+          "energy_eV": 13.6107802,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p+3(3)3.3s+1(1)2"
+          ]
+        }
+      ],
+      "mixing_export": {
+        "electrons": 8,
+        "CSFs": 15,
+        "orbitals": 5,
+        "levels": 15,
+        "blocks": [
+          {
+            "number": 1,
+            "basis": 2,
+            "levels": 2,
+            "two_J": 0,
+            "parity": 1,
+            "indices": [
+              2,
+              4
+            ]
+          },
+          {
+            "number": 2,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 0,
+            "parity": -1,
+            "indices": [
+              11
+            ]
+          },
+          {
+            "number": 3,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 2,
+            "parity": 1,
+            "indices": [
+              1
+            ]
+          },
+          {
+            "number": 4,
+            "basis": 4,
+            "levels": 4,
+            "two_J": 2,
+            "parity": -1,
+            "indices": [
+              6,
+              9,
+              12,
+              14
+            ]
+          },
+          {
+            "number": 5,
+            "basis": 2,
+            "levels": 2,
+            "two_J": 4,
+            "parity": 1,
+            "indices": [
+              0,
+              3
+            ]
+          },
+          {
+            "number": 6,
+            "basis": 4,
+            "levels": 4,
+            "two_J": 4,
+            "parity": -1,
+            "indices": [
+              5,
+              8,
+              10,
+              13
+            ]
+          },
+          {
+            "number": 7,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 6,
+            "parity": -1,
+            "indices": [
+              7
+            ]
+          }
+        ],
+        "max_matrix_orthonormality_residual": 8.881784197001252e-16,
+        "scope": "Binary dimensions/finite entries/normalization diagnostic only; no LS recoupling or physical state admission."
+      }
+    },
+    "tight10": {
+      "diagnostics": {
+        "iterations": 257,
+        "last": {
+          "iteration": 256,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 8.82349e-08,
+          "atol": 1.70206e-06,
+          "potential_change": 9.2412e-09,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 9.241e-09,
+          "dph1": 0.0,
+          "sta0": 0.3125,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 255,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 8.82349e-08,
+          "atol": 1.70206e-06,
+          "potential_change": 9.2412e-09,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 9.241e-09,
+          "dph1": 0.0,
+          "sta0": 0.3125,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": false,
+        "native_limit": 256,
+        "multiplier": 0.3,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "levels_written": true
+    },
+    "coherent10": {
+      "diagnostics": {
+        "iterations": 19,
+        "last": {
+          "iteration": 18,
+          "native_miter": 18,
+          "muconv": 1,
+          "tol": 8.50713e-07,
+          "atol": 1.06379e-07,
+          "potential_change": 8.50713e-07,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 8.507e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 17,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 3.44063e-06,
+          "atol": 2.84513e-07,
+          "potential_change": 3.44063e-06,
+          "tol0": 3e-05,
+          "tol1": 3e-09,
+          "atol0": 3e-06,
+          "ahx": 0.0,
+          "dph0": 3.441e-06,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.3,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "levels_written": true,
+      "levels": [
+        {
+          "index": 0,
+          "ibase": -1,
+          "energy_eV": 0.0,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 4,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+2(4)4"
+          ]
+        },
+        {
+          "index": 1,
+          "ibase": -1,
+          "energy_eV": 0.0196076689,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 2,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p-1(1)1.2p+3(3)2"
+          ]
+        },
+        {
+          "index": 2,
+          "ibase": -1,
+          "energy_eV": 0.0292315914,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 0,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+4(0)0"
+          ]
+        },
+        {
+          "index": 3,
+          "ibase": -1,
+          "energy_eV": 2.10454048,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 4,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p-1(1)1.2p+3(3)4"
+          ]
+        },
+        {
+          "index": 4,
+          "ibase": -1,
+          "energy_eV": 5.2465203,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 0,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+2(0)0"
+          ]
+        },
+        {
+          "index": 5,
+          "ibase": -1,
+          "energy_eV": 7.92063368,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 6,
+          "ibase": -1,
+          "energy_eV": 8.48142812,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 7,
+          "ibase": -1,
+          "energy_eV": 11.1565958,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 6,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)6"
+          ]
+        },
+        {
+          "index": 8,
+          "ibase": -1,
+          "energy_eV": 11.1891204,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 9,
+          "ibase": -1,
+          "energy_eV": 11.2160311,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 10,
+          "ibase": -1,
+          "energy_eV": 11.4637614,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 11,
+          "ibase": -1,
+          "energy_eV": 13.2499202,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 0,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(0)1.3s+1(1)0"
+          ]
+        },
+        {
+          "index": 12,
+          "ibase": -1,
+          "energy_eV": 13.2779533,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(0)1.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 13,
+          "ibase": -1,
+          "energy_eV": 13.3583446,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p+3(3)3.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 14,
+          "ibase": -1,
+          "energy_eV": 13.6107749,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p+3(3)3.3s+1(1)2"
+          ]
+        }
+      ],
+      "mixing_export": {
+        "electrons": 8,
+        "CSFs": 15,
+        "orbitals": 5,
+        "levels": 15,
+        "blocks": [
+          {
+            "number": 1,
+            "basis": 2,
+            "levels": 2,
+            "two_J": 0,
+            "parity": 1,
+            "indices": [
+              2,
+              4
+            ]
+          },
+          {
+            "number": 2,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 0,
+            "parity": -1,
+            "indices": [
+              11
+            ]
+          },
+          {
+            "number": 3,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 2,
+            "parity": 1,
+            "indices": [
+              1
+            ]
+          },
+          {
+            "number": 4,
+            "basis": 4,
+            "levels": 4,
+            "two_J": 2,
+            "parity": -1,
+            "indices": [
+              6,
+              9,
+              12,
+              14
+            ]
+          },
+          {
+            "number": 5,
+            "basis": 2,
+            "levels": 2,
+            "two_J": 4,
+            "parity": 1,
+            "indices": [
+              0,
+              3
+            ]
+          },
+          {
+            "number": 6,
+            "basis": 4,
+            "levels": 4,
+            "two_J": 4,
+            "parity": -1,
+            "indices": [
+              5,
+              8,
+              10,
+              13
+            ]
+          },
+          {
+            "number": 7,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 6,
+            "parity": -1,
+            "indices": [
+              7
+            ]
+          }
+        ],
+        "max_matrix_orthonormality_residual": 5.741392604396989e-16,
+        "scope": "Binary dimensions/finite entries/normalization diagnostic only; no LS recoupling or physical state admission."
+      }
+    },
+    "coherent100": {
+      "diagnostics": {
+        "iterations": 20,
+        "last": {
+          "iteration": 19,
+          "native_miter": 19,
+          "muconv": 1,
+          "tol": 2.10944e-07,
+          "atol": 2.87588e-08,
+          "potential_change": 2.10944e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 2.109e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "previous": {
+          "iteration": 18,
+          "native_miter": -1,
+          "muconv": 1,
+          "tol": 8.51209e-07,
+          "atol": 2.41175e-08,
+          "potential_change": 8.51209e-07,
+          "tol0": 3e-06,
+          "tol1": 3e-10,
+          "atol0": 3e-07,
+          "ahx": 0.0,
+          "dph0": 8.512e-07,
+          "dph1": 0.0,
+          "sta0": 0.75,
+          "sta1": 0.4167
+        },
+        "printed_rule_verified": true,
+        "native_limit": 256,
+        "multiplier": 0.03,
+        "scope": "Pinned FAC printed local-potential/energy stopping conditions plus native positive miter marker; not GRASP orbital ACCY or physical accuracy."
+      },
+      "levels_written": true,
+      "levels": [
+        {
+          "index": 0,
+          "ibase": -1,
+          "energy_eV": 0.0,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 4,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+2(4)4"
+          ]
+        },
+        {
+          "index": 1,
+          "ibase": -1,
+          "energy_eV": 0.0196077065,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 2,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p-1(1)1.2p+3(3)2"
+          ]
+        },
+        {
+          "index": 2,
+          "ibase": -1,
+          "energy_eV": 0.0292317839,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 0,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+4(0)0"
+          ]
+        },
+        {
+          "index": 3,
+          "ibase": -1,
+          "energy_eV": 2.10454027,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 4,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p-1(1)1.2p+3(3)4"
+          ]
+        },
+        {
+          "index": 4,
+          "ibase": -1,
+          "energy_eV": 5.2465198,
+          "parity": 0,
+          "vnl": 201,
+          "two_J": 0,
+          "labels": [
+            "2*6",
+            "2p4",
+            "2p+2(0)0"
+          ]
+        },
+        {
+          "index": 5,
+          "ibase": -1,
+          "energy_eV": 7.92063388,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 6,
+          "ibase": -1,
+          "energy_eV": 8.4814285,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 7,
+          "ibase": -1,
+          "energy_eV": 11.1565956,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 6,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)6"
+          ]
+        },
+        {
+          "index": 8,
+          "ibase": -1,
+          "energy_eV": 11.1891203,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 9,
+          "ibase": -1,
+          "energy_eV": 11.216031,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)3.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 10,
+          "ibase": -1,
+          "energy_eV": 11.4637614,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(4)5.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 11,
+          "ibase": -1,
+          "energy_eV": 13.2499199,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 0,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(0)1.3s+1(1)0"
+          ]
+        },
+        {
+          "index": 12,
+          "ibase": -1,
+          "energy_eV": 13.277953,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p-1(1)1.2p+2(0)1.3s+1(1)2"
+          ]
+        },
+        {
+          "index": 13,
+          "ibase": -1,
+          "energy_eV": 13.3583442,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 4,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p+3(3)3.3s+1(1)4"
+          ]
+        },
+        {
+          "index": 14,
+          "ibase": -1,
+          "energy_eV": 13.6107746,
+          "parity": 1,
+          "vnl": 300,
+          "two_J": 2,
+          "labels": [
+            "2*5.3*1",
+            "2p3.3s1",
+            "2p+3(3)3.3s+1(1)2"
+          ]
+        }
+      ],
+      "mixing_export": {
+        "electrons": 8,
+        "CSFs": 15,
+        "orbitals": 5,
+        "levels": 15,
+        "blocks": [
+          {
+            "number": 1,
+            "basis": 2,
+            "levels": 2,
+            "two_J": 0,
+            "parity": 1,
+            "indices": [
+              2,
+              4
+            ]
+          },
+          {
+            "number": 2,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 0,
+            "parity": -1,
+            "indices": [
+              11
+            ]
+          },
+          {
+            "number": 3,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 2,
+            "parity": 1,
+            "indices": [
+              1
+            ]
+          },
+          {
+            "number": 4,
+            "basis": 4,
+            "levels": 4,
+            "two_J": 2,
+            "parity": -1,
+            "indices": [
+              6,
+              9,
+              12,
+              14
+            ]
+          },
+          {
+            "number": 5,
+            "basis": 2,
+            "levels": 2,
+            "two_J": 4,
+            "parity": 1,
+            "indices": [
+              0,
+              3
+            ]
+          },
+          {
+            "number": 6,
+            "basis": 4,
+            "levels": 4,
+            "two_J": 4,
+            "parity": -1,
+            "indices": [
+              5,
+              8,
+              10,
+              13
+            ]
+          },
+          {
+            "number": 7,
+            "basis": 1,
+            "levels": 1,
+            "two_J": 6,
+            "parity": -1,
+            "indices": [
+              7
+            ]
+          }
+        ],
+        "max_matrix_orthonormality_residual": 1.1102230246251565e-15,
+        "scope": "Binary dimensions/finite entries/normalization diagnostic only; no LS recoupling or physical state admission."
+      }
+    }
+  },
+  "failed_receipt_sha256": "6aa733150a3aab3f43dd46d19f0a31e9109a3ec3a97dfb1ea24f14db8a68f271",
+  "coherent_receipt_sha256": "51698c96953d96fa5a92bdd38fb5b8c703a031d16f4c08ef0902e7de4e75786b",
+  "default_discrepancy": "Pinned source3.0/2048 versus manual prose1e-6/100. Runtime source governs; explicit settings retained.",
+  "numerical_result": "Tightening outer multiplier alone capped without qualifying; coherently tightened inner/outer settings satisfy pinned printed/native-marker conditions. No physical accuracy estimate.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "physical_LS_terms_admitted": false,
+  "failed_parts": {
+    "part001.tar.gz": {
+      "sha256": "604f4b8c55687224786f98d6f71a1fc0b00607458d990f06534f410b5586c5bc",
+      "bytes": 905629
+    }
+  },
+  "coherent_parts": {
+    "part001.tar.gz": {
+      "sha256": "50d0df6ff3a6be376e793a5014b81cebc12a51ec24b971608da43f1918f2c2a7",
+      "bytes": 590159
+    }
+  },
+  "generator_sha256": "ccd682fc64a76ed17e192028988fdbc363c2755817044dfbc1a476d6258a0c39"
+}

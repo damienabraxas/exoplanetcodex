@@ -1,0 +1,20 @@
+{
+  "schema": "rya1354.fac-ls-fast-correction-plan.v39",
+  "starting_commit": "4dc67eb6336417ff153807ca15543f526663406d",
+  "source": "runs/fac_full_valence_v28",
+  "converted": "runs/fac_full_recoupling_v29",
+  "reference": "evidence/fac_full_replay_v29b/report.json",
+  "previous": "runs/fac_ls_fast_canary_v37",
+  "output": "runs/fac_ls_fast_canary_v39",
+  "scope": "Correct vector-sign CANARY selection only; full LS numeric audit module unchanged, all4oldcase exact equivalence/forcedfallback/4negativecontrols repeated. No native rerun or physical change.",
+  "root_cause": "v37 control examined only first number per line and skipped tiny coefficients, crossing into energy identity row; rejection was identity parser, not signed-vector comparison.",
+  "fix": "Only scan first-vector coefficient-only rows before next header, all tokens; flip nonzero magnitude>0.01; save exact line/column/original/mutated field. Require EXACT expected rejection for each control.",
+  "scientific_disposition": "v37 raw report/status retained as historical execution, vector-sign qualification superseded. v38 native conversion output remains HOLD until v39 correct canary passes and is linked by metadata checks.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

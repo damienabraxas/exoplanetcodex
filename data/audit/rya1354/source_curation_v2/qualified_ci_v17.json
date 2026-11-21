@@ -1,0 +1,748 @@
+{
+  "schema": "rya1354.qualified-ci-audit.v16",
+  "cases": {
+    "DC": {
+      "model": {
+        "B": {
+          "total_A_s1": 437735659.5264989,
+          "model_one_photon_lifetime_ns": 2.2844837477524806
+        },
+        "C": {
+          "total_A_s1": 583700689.8273559,
+          "model_one_photon_lifetime_ns": 1.7132068154584075
+        }
+      },
+      "channels": [
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 1,
+          "lower_J": 0,
+          "lower_parity": "+",
+          "native_energy_cm1": 75001.55,
+          "A_B_s1": 48128600.0,
+          "A_C_s1": 64348900.0,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 0.0514493,
+          "native_S_C_au": 0.225832,
+          "native_gf_B": 0.0384806,
+          "native_S_B_au": 0.168907,
+          "model_branching_fraction_B": 0.10994900450208003,
+          "model_branching_fraction_C": 0.11024297404725152
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 2,
+          "lower_J": 0,
+          "lower_parity": "+",
+          "native_energy_cm1": 41366.18,
+          "A_B_s1": 0.463643,
+          "A_C_s1": 2.8845,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 7.58156e-09,
+          "native_S_C_au": 6.03377e-08,
+          "native_gf_B": 1.21863e-09,
+          "native_S_B_au": 9.69844e-09,
+          "model_branching_fraction_B": 1.0591848982592033e-09,
+          "model_branching_fraction_C": 4.941745059189777e-09
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 1,
+          "lower_J": 1,
+          "lower_parity": "+",
+          "native_energy_cm1": 75085.11,
+          "A_B_s1": 145126000.0,
+          "A_C_s1": 193779000.0,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 0.154589,
+          "native_S_C_au": 0.677799,
+          "native_gf_B": 0.115775,
+          "native_S_B_au": 0.50762,
+          "model_branching_fraction_B": 0.3315379883763265,
+          "model_branching_fraction_C": 0.33198350349271477
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 75255.36,
+          "A_B_s1": 244479000.0,
+          "A_C_s1": 325569000.0,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 0.258552,
+          "native_S_C_au": 1.13106,
+          "native_gf_B": 0.194154,
+          "native_S_B_au": 0.849345,
+          "model_branching_fraction_B": 0.5585083021667787,
+          "model_branching_fraction_C": 0.5577670297019782
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 2,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 59188.14,
+          "A_B_s1": 2059.06,
+          "A_C_s1": 3786.94,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 4.86181e-06,
+          "native_S_C_au": 2.7042e-05,
+          "native_gf_B": 2.64349e-06,
+          "native_S_B_au": 1.47035e-05,
+          "model_branching_fraction_B": 4.703889105647222e-06,
+          "model_branching_fraction_C": 6.487811417732062e-06
+        },
+        {
+          "destination": "to_ground",
+          "operator": "M2",
+          "lower_ordinal": 1,
+          "lower_J": 1,
+          "lower_parity": "+",
+          "native_energy_cm1": 75085.11,
+          "A_B_s1": 0.000704184,
+          "A_C_s1": 0.000704184,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 5.61769e-13,
+          "native_S_C_au": 0.593703,
+          "native_gf_B": 5.61769e-13,
+          "native_S_B_au": 0.593703,
+          "model_branching_fraction_B": 1.6086969034273326e-12,
+          "model_branching_fraction_C": 1.2064128281367631e-12
+        },
+        {
+          "destination": "to_ground",
+          "operator": "M2",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 75255.36,
+          "A_B_s1": 0.00215168,
+          "A_C_s1": 0.00215168,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.70877e-12,
+          "native_S_C_au": 1.79367,
+          "native_gf_B": 1.70877e-12,
+          "native_S_B_au": 1.79367,
+          "model_branching_fraction_B": 4.915477990364057e-12,
+          "model_branching_fraction_C": 3.686272840685546e-12
+        },
+        {
+          "destination": "to_ground",
+          "operator": "M2",
+          "lower_ordinal": 2,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 59188.14,
+          "A_B_s1": 1.41571e-08,
+          "A_C_s1": 1.41571e-08,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.81754e-17,
+          "native_S_C_au": 3.92151e-05,
+          "native_gf_B": 1.81754e-17,
+          "native_S_B_au": 3.92151e-05,
+          "model_branching_fraction_B": 3.234166486530664e-17,
+          "model_branching_fraction_C": 2.4254040207126218e-17
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E3",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 75255.36,
+          "A_B_s1": 1.00694e-15,
+          "A_C_s1": 4.819e-15,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 3.82702e-24,
+          "native_S_C_au": 3.36338e-10,
+          "native_gf_B": 7.99668e-25,
+          "native_S_B_au": 7.02788e-11,
+          "model_branching_fraction_B": 2.3003380649618825e-24,
+          "model_branching_fraction_C": 8.255943643694065e-24
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E3",
+          "lower_ordinal": 2,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 59188.14,
+          "A_B_s1": 5.44154e-13,
+          "A_C_s1": 5.62007e-12,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 7.21524e-21,
+          "native_S_C_au": 2.10707e-06,
+          "native_gf_B": 6.98604e-22,
+          "native_S_B_au": 2.04014e-07,
+          "model_branching_fraction_B": 1.2431109692745034e-21,
+          "model_branching_fraction_C": 9.628342227353332e-21
+        },
+        {
+          "destination": "to_5S",
+          "operator": "M1",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "-",
+          "native_energy_cm1": 3078.1,
+          "A_B_s1": 2.4832e-08,
+          "A_C_s1": 2.4832e-08,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.17876e-14,
+          "native_S_C_au": 9.46998e-08,
+          "native_gf_B": 1.17876e-14,
+          "native_S_B_au": 9.46998e-08,
+          "model_branching_fraction_B": 5.67283004241896e-17,
+          "model_branching_fraction_C": 4.2542351641463176e-17
+        },
+        {
+          "destination": "to_5S",
+          "operator": "E2",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "-",
+          "native_energy_cm1": 3078.1,
+          "A_B_s1": 6.48308e-16,
+          "A_C_s1": 3.00764e-14,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.42771e-20,
+          "native_S_C_au": 2.91566e-09,
+          "native_gf_B": 3.07748e-22,
+          "native_S_B_au": 6.28481e-11,
+          "model_branching_fraction_B": 1.4810490895379152e-24,
+          "model_branching_fraction_C": 5.1527093464453247e-23
+        },
+        {
+          "destination": "to_5S",
+          "operator": "M3",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "-",
+          "native_energy_cm1": 3078.1,
+          "A_B_s1": 2.64941e-26,
+          "A_C_s1": 2.64941e-26,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.25766e-32,
+          "native_S_C_au": 7.25243e-07,
+          "native_gf_B": 1.25766e-32,
+          "native_S_B_au": 7.25243e-07,
+          "model_branching_fraction_B": 6.052534086132898e-35,
+          "model_branching_fraction_C": 4.538987268943659e-35
+        }
+      ],
+      "dominant_3P_E1_A_s1": {
+        "B": 437733600.0,
+        "C": 583696900.0
+      },
+      "ground_J2_E1": {
+        "destination": "to_ground",
+        "operator": "E1",
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "lower_parity": "+",
+        "native_energy_cm1": 75255.36,
+        "A_B_s1": 244479000.0,
+        "A_C_s1": 325569000.0,
+        "magnetic_gauge": null,
+        "computed_zero_in_this_model": false,
+        "native_gf_C": 0.258552,
+        "native_S_C_au": 1.13106,
+        "native_gf_B": 0.194154,
+        "native_S_B_au": 0.849345,
+        "model_branching_fraction_B": 0.5585083021667787,
+        "model_branching_fraction_C": 0.5577670297019782
+      }
+    },
+    "Breit": {
+      "model": {
+        "B": {
+          "total_A_s1": 437699822.7322608,
+          "model_one_photon_lifetime_ns": 2.284670790492177
+        },
+        "C": {
+          "total_A_s1": 583927910.4382519,
+          "model_one_photon_lifetime_ns": 1.7125401648458216
+        }
+      },
+      "channels": [
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 1,
+          "lower_J": 0,
+          "lower_parity": "+",
+          "native_energy_cm1": 75007.06,
+          "A_B_s1": 48191400.0,
+          "A_C_s1": 64446300.0,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 0.0515196,
+          "native_S_C_au": 0.226124,
+          "native_gf_B": 0.0385251,
+          "native_S_B_au": 0.16909,
+          "model_branching_fraction_B": 0.1101014839329247,
+          "model_branching_fraction_C": 0.11036687722570328
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 2,
+          "lower_J": 0,
+          "lower_parity": "+",
+          "native_energy_cm1": 41351.89,
+          "A_B_s1": 0.369409,
+          "A_C_s1": 2.5654,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 6.7475e-09,
+          "native_S_C_au": 5.37184e-08,
+          "native_gf_B": 9.71619e-10,
+          "native_S_B_au": 7.73529e-09,
+          "model_branching_fraction_B": 8.439779520449246e-10,
+          "model_branching_fraction_C": 4.393350538895471e-09
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 1,
+          "lower_J": 1,
+          "lower_parity": "+",
+          "native_energy_cm1": 75079.17,
+          "A_B_s1": 145144000.0,
+          "A_C_s1": 193884000.0,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 0.154697,
+          "native_S_C_au": 0.678327,
+          "native_gf_B": 0.115809,
+          "native_S_B_au": 0.507805,
+          "model_branching_fraction_B": 0.3316062572151965,
+          "model_branching_fraction_C": 0.33203413732096726
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 75243.09,
+          "A_B_s1": 244363000.0,
+          "A_C_s1": 325595000.0,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 0.258657,
+          "native_S_C_au": 1.1317,
+          "native_gf_B": 0.194125,
+          "native_S_B_au": 0.849357,
+          "model_branching_fraction_B": 0.5582890083770398,
+          "model_branching_fraction_C": 0.5575945149729753
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E1",
+          "lower_ordinal": 2,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 59186.17,
+          "A_B_s1": 1422.36,
+          "A_C_s1": 2607.87,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 3.3483e-06,
+          "native_S_C_au": 1.86243e-05,
+          "native_gf_B": 1.8262e-06,
+          "native_S_B_au": 1.01579e-05,
+          "model_branching_fraction_B": 3.2496243455644525e-06,
+          "model_branching_fraction_C": 4.466082119696472e-06
+        },
+        {
+          "destination": "to_ground",
+          "operator": "M2",
+          "lower_ordinal": 1,
+          "lower_J": 1,
+          "lower_parity": "+",
+          "native_energy_cm1": 75079.17,
+          "A_B_s1": 0.000703745,
+          "A_C_s1": 0.000703745,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 5.61507e-13,
+          "native_S_C_au": 0.593567,
+          "native_gf_B": 5.61507e-13,
+          "native_S_B_au": 0.593567,
+          "model_branching_fraction_B": 1.607825645454917e-12,
+          "model_branching_fraction_C": 1.2051915783094227e-12
+        },
+        {
+          "destination": "to_ground",
+          "operator": "M2",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 75243.09,
+          "A_B_s1": 0.00214806,
+          "A_C_s1": 0.00214806,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.70644e-12,
+          "native_S_C_au": 1.79211,
+          "native_gf_B": 1.70644e-12,
+          "native_S_B_au": 1.79211,
+          "model_branching_fraction_B": 4.907609938224625e-12,
+          "model_branching_fraction_C": 3.6786390264987156e-12
+        },
+        {
+          "destination": "to_ground",
+          "operator": "M2",
+          "lower_ordinal": 2,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 59186.17,
+          "A_B_s1": 8.83706e-09,
+          "A_C_s1": 8.83706e-09,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.13461e-17,
+          "native_S_C_au": 2.44827e-05,
+          "native_gf_B": 1.13461e-17,
+          "native_S_B_au": 2.44827e-05,
+          "model_branching_fraction_B": 2.0189772855826794e-17,
+          "model_branching_fraction_C": 1.5133820189152416e-17
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E3",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 75243.09,
+          "A_B_s1": 7.13981e-15,
+          "A_C_s1": 2.10386e-14,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.67133e-23,
+          "native_S_C_au": 1.47005e-09,
+          "native_gf_B": 5.67195e-24,
+          "native_S_B_au": 4.98886e-10,
+          "model_branching_fraction_B": 1.631211535666395e-23,
+          "model_branching_fraction_C": 3.6029447512125304e-23
+        },
+        {
+          "destination": "to_ground",
+          "operator": "E3",
+          "lower_ordinal": 2,
+          "lower_J": 2,
+          "lower_parity": "+",
+          "native_energy_cm1": 59186.17,
+          "A_B_s1": 4.62567e-13,
+          "A_C_s1": 4.79396e-12,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 6.15507e-21,
+          "native_S_C_au": 1.79777e-06,
+          "native_gf_B": 5.93899e-22,
+          "native_S_B_au": 1.73466e-07,
+          "model_branching_fraction_B": 1.0568133135455947e-21,
+          "model_branching_fraction_C": 8.209849048664276e-21
+        },
+        {
+          "destination": "to_5S",
+          "operator": "M1",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "-",
+          "native_energy_cm1": 3077.99,
+          "A_B_s1": 2.40193e-08,
+          "A_C_s1": 2.40193e-08,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 1.14026e-14,
+          "native_S_C_au": 9.16102e-08,
+          "native_gf_B": 1.14026e-14,
+          "native_S_B_au": 9.16102e-08,
+          "model_branching_fraction_B": 5.4876193118068747e-17,
+          "model_branching_fraction_C": 4.1134015981481245e-17
+        },
+        {
+          "destination": "to_5S",
+          "operator": "E2",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "-",
+          "native_energy_cm1": 3077.99,
+          "A_B_s1": 6.50293e-15,
+          "A_C_s1": 4.68344e-14,
+          "magnetic_gauge": null,
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 2.22336e-20,
+          "native_S_C_au": 4.54103e-09,
+          "native_gf_B": 3.08713e-21,
+          "native_S_B_au": 6.30519e-10,
+          "model_branching_fraction_B": 1.485705422361529e-23,
+          "model_branching_fraction_C": 8.020579109645514e-23
+        },
+        {
+          "destination": "to_5S",
+          "operator": "M3",
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "lower_parity": "-",
+          "native_energy_cm1": 3077.99,
+          "A_B_s1": 4.48076e-25,
+          "A_C_s1": 4.48076e-25,
+          "magnetic_gauge": "NATIVE_M",
+          "computed_zero_in_this_model": false,
+          "native_gf_C": 2.12714e-31,
+          "native_S_C_au": 1.22686e-05,
+          "native_gf_B": 2.12714e-31,
+          "native_S_B_au": 1.22686e-05,
+          "model_branching_fraction_B": 1.0237061491205727e-33,
+          "model_branching_fraction_C": 7.673481469034565e-34
+        }
+      ],
+      "dominant_3P_E1_A_s1": {
+        "B": 437698400.0,
+        "C": 583925300.0
+      },
+      "ground_J2_E1": {
+        "destination": "to_ground",
+        "operator": "E1",
+        "lower_ordinal": 1,
+        "lower_J": 2,
+        "lower_parity": "+",
+        "native_energy_cm1": 75243.09,
+        "A_B_s1": 244363000.0,
+        "A_C_s1": 325595000.0,
+        "magnetic_gauge": null,
+        "computed_zero_in_this_model": false,
+        "native_gf_C": 0.258657,
+        "native_S_C_au": 1.1317,
+        "native_gf_B": 0.194125,
+        "native_S_B_au": 0.849357,
+        "model_branching_fraction_B": 0.5582890083770398,
+        "model_branching_fraction_C": 0.5575945149729753
+      }
+    }
+  },
+  "DC_versus_SCF_E1": [
+    {
+      "lower_J": 0,
+      "native_energy_cubed_ratio": 1.0,
+      "gauges": {
+        "B": {
+          "A_ratio": 1.0,
+          "native_strength_ratio": 1.0
+        },
+        "C": {
+          "A_ratio": 1.0,
+          "native_strength_ratio": 1.0
+        }
+      }
+    },
+    {
+      "lower_J": 1,
+      "native_energy_cubed_ratio": 1.0,
+      "gauges": {
+        "B": {
+          "A_ratio": 1.0,
+          "native_strength_ratio": 1.0
+        },
+        "C": {
+          "A_ratio": 1.0,
+          "native_strength_ratio": 1.0
+        }
+      }
+    },
+    {
+      "lower_J": 2,
+      "native_energy_cubed_ratio": 1.0,
+      "gauges": {
+        "B": {
+          "A_ratio": 1.0,
+          "native_strength_ratio": 1.0
+        },
+        "C": {
+          "A_ratio": 1.0,
+          "native_strength_ratio": 1.0
+        }
+      }
+    }
+  ],
+  "Breit_versus_DC_E1": [
+    {
+      "lower_J": 0,
+      "native_energy_cubed_ratio": 1.0002204116369413,
+      "gauges": {
+        "B": {
+          "A_ratio": 1.001304837456315,
+          "native_strength_ratio": 1.0010834364472756
+        },
+        "C": {
+          "A_ratio": 1.0015136233875015,
+          "native_strength_ratio": 1.0012929965638173
+        }
+      }
+    },
+    {
+      "lower_J": 1,
+      "native_energy_cubed_ratio": 0.9997626880976405,
+      "gauges": {
+        "B": {
+          "A_ratio": 1.0001240301531082,
+          "native_strength_ratio": 1.0003644458453174
+        },
+        "C": {
+          "A_ratio": 1.0005418543805056,
+          "native_strength_ratio": 1.0007789920020536
+        }
+      }
+    },
+    {
+      "lower_J": 2,
+      "native_energy_cubed_ratio": 0.999510945152017,
+      "gauges": {
+        "B": {
+          "A_ratio": 0.9995255216194437,
+          "native_strength_ratio": 1.0000141285343411
+        },
+        "C": {
+          "A_ratio": 1.0000798601832483,
+          "native_strength_ratio": 1.000565840892614
+        }
+      }
+    }
+  ],
+  "source_SCF": {
+    "B": {
+      "total_A_s1": 437735659.5264999,
+      "model_one_photon_lifetime_ns": 2.2844837477524753
+    },
+    "C": {
+      "total_A_s1": 583700689.8173959,
+      "model_one_photon_lifetime_ns": 1.7132068154876408
+    }
+  },
+  "warnings": {
+    "DC_ground": [],
+    "DC_quintet": [],
+    "DC_triplet": [],
+    "Breit_ground": [],
+    "Breit_quintet": [],
+    "Breit_triplet": []
+  },
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "529b61dd67486aa38bbbcc67dbb3334d4ba692a498691db09d1ce26fdfd67ea7",
+      "bytes": 427636
+    },
+    "part002.tar.gz": {
+      "sha256": "35df54ab16ad9b2b5adc67a616e6b222b7f98112cb8c0dac2ff313ddb1287e67",
+      "bytes": 1189780
+    },
+    "part003.tar.gz": {
+      "sha256": "24c4caac02e07a09674da728f68cbd5145871945129dd2d60b292e31609a4587",
+      "bytes": 85642
+    },
+    "part004.tar.gz": {
+      "sha256": "bd3c57502862c48c8ff504621160eb59d22fa1d4248bb106faa90f63126bbb2a",
+      "bytes": 5161848
+    },
+    "part005.tar.gz": {
+      "sha256": "964fc18f618a714163b949a227d68b037aec2530ed31a0fd880d46ccf90791b3",
+      "bytes": 1946014
+    },
+    "part006.tar.gz": {
+      "sha256": "91f9fabef963f0c30e4f9050ef672f1bea256ce731479dadedbcb6e6b41689c1",
+      "bytes": 1943954
+    },
+    "part007.tar.gz": {
+      "sha256": "71fdfa47ba793269862619645b136c092a8e7fe21be5cb951b897ba804eefa90",
+      "bytes": 4530467
+    },
+    "part008.tar.gz": {
+      "sha256": "e70e09e6287527f84423238add6b3ee85ccb48897e7c2fd86b1592ed8bedb16a",
+      "bytes": 797779
+    },
+    "part009.tar.gz": {
+      "sha256": "0b370b38ccb4698af9cd9419dc6ad5542cc7a8e7ca58343172c6937e50e11e52",
+      "bytes": 224520
+    },
+    "part010.tar.gz": {
+      "sha256": "625369e40e1e439da5684ec8616be80f53fa4ab799b4edfd37267b984a40398f",
+      "bytes": 530072
+    },
+    "part011.tar.gz": {
+      "sha256": "23548f8bc58a1d0b1e40f1e520018eff1bfb90c67da0db98f25c56eb679fe842",
+      "bytes": 254024
+    },
+    "part012.tar.gz": {
+      "sha256": "dccd3db32ce16d539c5d729e44f5f058afe6424237916e335c7a03a60c0af73b",
+      "bytes": 1063203
+    },
+    "part013.tar.gz": {
+      "sha256": "93abd1c7c5da0422cda202ed624ebe4b11467d41241d76bce249c22814366dbb",
+      "bytes": 85720
+    },
+    "part014.tar.gz": {
+      "sha256": "e7ecda1396b3b589801f9a75fa8e9e71043da1e4a28e266c2f73c677484a76c1",
+      "bytes": 2574997
+    },
+    "part015.tar.gz": {
+      "sha256": "6c27ed1c05fcff8e5b5c3612541f08c0960fa4b5db14e5be368cf4a716ab3f19",
+      "bytes": 4407657
+    },
+    "part016.tar.gz": {
+      "sha256": "71a52b22e4de54f4c1af9cb4a6e6ece6efcdcd92be39ce64a52b2a4a5f3fb52c",
+      "bytes": 1715244
+    },
+    "part017.tar.gz": {
+      "sha256": "4824a154af4799968b2f65f62e27cdd6c8431c8c82d92998456b66594f2a995c",
+      "bytes": 4891672
+    },
+    "part018.tar.gz": {
+      "sha256": "965cbc0f4a4ec8518a129098098088328f2c403522fb6ac3e8ef8e5999997b8a",
+      "bytes": 976967
+    },
+    "part019.tar.gz": {
+      "sha256": "4dbf8a31e613457123e6de216affeeebaab35082eb2221ecbc46db0f05127f30",
+      "bytes": 328017
+    }
+  },
+  "lifetime_fractional_changes": {
+    "B": {
+      "DC_versus_SCF": 2.4424906541753444e-15,
+      "Breit_versus_DC": 8.187527702063768e-05
+    },
+    "C": {
+      "DC_versus_SCF": -1.706346175467388e-11,
+      "Breit_versus_DC": -0.0003891244224402124
+    }
+  },
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "generator_sha256": "b3b13dbb9a6533382c9b12b0d4d8d296884a4230713d0162a9edadaaddc44006",
+  "interpretation": "Matched fixed qualified-source same-implementation Hamiltonian/representation sensitivity. Native RCI loading/interpolation retained. No independently implemented relativistic check, calibrated accuracy, experimental fitting or gauge selection. Historical n3 component limitation and failed joint/core release retained."
+}

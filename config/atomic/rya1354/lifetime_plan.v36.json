@@ -1,0 +1,34 @@
+{
+  "schema": "rya1354.fac-radial-ci-remaining-plan.v36",
+  "starting_commit": "505c05fcdcbf157f49dddd25ba44855c3fe3981a",
+  "baseline": "runs/fac_full_valence_v28",
+  "preflight": "runs/fac_radial_preflight_v32",
+  "first_native": "runs/fac_radial_ci_first_v33",
+  "qualified_identity": "runs/fac_radial_identity_replay_v35",
+  "output": "runs/fac_radial_ci_remaining_v36",
+  "cases": [
+    {
+      "name": "ground_coherent100",
+      "inner_scale": 100
+    },
+    {
+      "name": "equal_coherent10",
+      "inner_scale": 10
+    },
+    {
+      "name": "equal_coherent100",
+      "inner_scale": 100
+    }
+  ],
+  "scope": "Remaining three paired fixed-potential 4s/4p CI cases,114NRgroups/6600levels each; no freshSCF,LS,rates,lifetime or convergence admission",
+  "method": "Same exact qualifiedv33/35 native input except declared inner-control scale; restore original pairedv28potential; disabledBreit/SE/VP/MS/configcorrections; full mode0native text and mode10C/CM. Sequential singlethread,nice19,1800seconds/case,actualtime/RSS retained.",
+  "guards": "Qualifiedv35 exact nc+sname+jj bijection with allclosed fallback; all printed signed coefficients and unprintedzero slots checked; complete IDs/electrons/J/parity/config inventory,actualzero corrections; preflight and postCI all12physicalorbitals unchanged; every potential/header/grid byte protected except source-derived W/dW/dW2.",
+  "failure_policy": "Stop and preserve first failure; no changed input, criterion or retry without new declaration",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

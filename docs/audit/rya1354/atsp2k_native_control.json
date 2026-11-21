@@ -1,0 +1,41 @@
+{
+  "schema": "rya1354.atsp-native-control.v1",
+  "scope": "UPSTREAM_SI_E2_SOFTWARE_CONTROL_NOT_OXYGEN_VALIDATION",
+  "inputs": {
+    "I.c": {
+      "source": "examples/files_c/1De1.4.c",
+      "sha256": "098abdfb8c0f036aa954a08542302a3a790cd217a7ffee3ac4350fe4a25c595e"
+    },
+    "F.c": {
+      "source": "examples/files_c/1Se1.4.c",
+      "sha256": "c8c87e13f7a553b4111c7d8e253b475d10defd5b0227c535ae89cabf053c9a9d"
+    },
+    "I.w": {
+      "source": "examples/e1/e1.14_4_1D.w",
+      "sha256": "f97149c56b8939923aaca75d95f64e0d12b443f2d963cee9531789acc6a525ee"
+    },
+    "F.w": {
+      "source": "examples/e1/e1.14_4_1S.w",
+      "sha256": "8ab93a2abd6c11157dd2e06cde68c29fe312a8d5eda5d81c72579d598d6e898a"
+    },
+    "I.l": {
+      "source": "examples/e1/e1.14_4_1D.l",
+      "sha256": "c8a3c93e1ee15e049a5eadd9143ab7abb3007557c5599043689bab4949482786"
+    },
+    "F.l": {
+      "source": "examples/e1/e1.14_4_1S.l",
+      "sha256": "a7d0c4641e00ae60aec71f53e1d6ce259bec3ee6af0c9afef7c262fdb692571f"
+    },
+    "expected.ls": {
+      "source": "examples/tr_ls/1De1.1Se1.14_4.ls",
+      "sha256": "4818b57d009243227117535f6550326f3a004b199c06ae50eee962f8830720fd"
+    }
+  },
+  "process_exit": 0,
+  "semantic_failure": false,
+  "native_ls_exists": true,
+  "expected_ls_sha256": "4818b57d009243227117535f6550326f3a004b199c06ae50eee962f8830720fd",
+  "binary_sha256": "a04c4369eff1a8d57c55c41ec6bbe6898836d5a3dcb033b4f37715906f34c9c5",
+  "native_ls_sha256": "4818b57d009243227117535f6550326f3a004b199c06ae50eee962f8830720fd",
+  "native_equals_expected_bytes": true
+}

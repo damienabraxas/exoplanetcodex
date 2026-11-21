@@ -1,0 +1,2725 @@
+{
+  "schema": "rya1354.fac-expanded-ls-audit.v24",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "independent_angular_implementation": false,
+  "native_report_sha256": "b3cac7a2513fcae94d5d11e99b211990a361c2dc56d3efb6abbfe0ae9f1ce9b4",
+  "cases": {
+    "n3_r1_coherent10": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 3896,
+      "max_transformation_orthonormality_residual": 9.992007221626409e-16,
+      "levels_verified": 184,
+      "target_components": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.56373358828324,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.9680771957755395,
+          "components": [
+            {
+              "coefficient": "-0.98390914",
+              "weight": "0.96807719",
+              "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+            },
+            {
+              "coefficient": "0.16513294",
+              "weight": "0.02726889",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3S"
+            },
+            {
+              "coefficient": "-0.06559243",
+              "weight": "0.00430237",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3S"
+            },
+            {
+              "coefficient": "-0.01763530",
+              "weight": "0.00031100",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "0.00388600",
+              "weight": "0.00001510",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00328072",
+              "weight": "0.00001076",
+              "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+            },
+            {
+              "coefficient": "-0.00241905",
+              "weight": "0.00000585",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "0.00214701",
+              "weight": "0.00000461",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00188872",
+              "weight": "0.00000357",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00045718",
+              "weight": "0.00000021",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1P"
+            },
+            {
+              "coefficient": "0.00042225",
+              "weight": "0.00000018",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00030536",
+              "weight": "0.00000009",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "-0.00022081",
+              "weight": "0.00000005",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "-0.00017562",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00016538",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00012393",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_1P"
+            },
+            {
+              "coefficient": "-0.00011700",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1P"
+            },
+            {
+              "coefficient": "0.00011500",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "0.00009306",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00008264",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "0.00007039",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1P"
+            },
+            {
+              "coefficient": "0.00005529",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "0.00004266",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00002604",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00002165",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00001944",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000508",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            }
+          ]
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.58042565638623,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9710388791103025,
+          "components": [
+            {
+              "coefficient": "0.98541305",
+              "weight": "0.97103888",
+              "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+            },
+            {
+              "coefficient": "-0.16946533",
+              "weight": "0.02871850",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5S"
+            },
+            {
+              "coefficient": "0.01182538",
+              "weight": "0.00013984",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "-0.00902558",
+              "weight": "0.00008146",
+              "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+            },
+            {
+              "coefficient": "0.00387435",
+              "weight": "0.00001501",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "-0.00133790",
+              "weight": "0.00000179",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "0.00124577",
+              "weight": "0.00000155",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00107790",
+              "weight": "0.00000116",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1D"
+            },
+            {
+              "coefficient": "0.00103084",
+              "weight": "0.00000106",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1D"
+            },
+            {
+              "coefficient": "-0.00058444",
+              "weight": "0.00000034",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "0.00050243",
+              "weight": "0.00000025",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "0.00025997",
+              "weight": "0.00000007",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "-0.00013949",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "-0.00011741",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "0.00011572",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00010085",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00008810",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1D"
+            },
+            {
+              "coefficient": "0.00008806",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00005531",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00003710",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00003404",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1D"
+            },
+            {
+              "coefficient": "0.00001555",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000945",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "0.00000242",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000098",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3F"
+            },
+            {
+              "coefficient": "0.00000021",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3F"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3F"
+            }
+          ]
+        }
+      }
+    },
+    "n3_r1_coherent100": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 3896,
+      "max_transformation_orthonormality_residual": 9.992007221626409e-16,
+      "levels_verified": 184,
+      "target_components": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.56373362352433,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.9680771367409922,
+          "components": [
+            {
+              "coefficient": "-0.98390911",
+              "weight": "0.96807714",
+              "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+            },
+            {
+              "coefficient": "0.16513307",
+              "weight": "0.02726893",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3S"
+            },
+            {
+              "coefficient": "-0.06559247",
+              "weight": "0.00430237",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3S"
+            },
+            {
+              "coefficient": "-0.01763532",
+              "weight": "0.00031100",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "0.00388600",
+              "weight": "0.00001510",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00328073",
+              "weight": "0.00001076",
+              "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+            },
+            {
+              "coefficient": "-0.00241906",
+              "weight": "0.00000585",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "0.00214701",
+              "weight": "0.00000461",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00188873",
+              "weight": "0.00000357",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00045718",
+              "weight": "0.00000021",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1P"
+            },
+            {
+              "coefficient": "0.00042226",
+              "weight": "0.00000018",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00030536",
+              "weight": "0.00000009",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "-0.00022081",
+              "weight": "0.00000005",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "-0.00017562",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00016539",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00012393",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_1P"
+            },
+            {
+              "coefficient": "-0.00011700",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1P"
+            },
+            {
+              "coefficient": "0.00011500",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "0.00009306",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00008264",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "0.00007039",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1P"
+            },
+            {
+              "coefficient": "0.00005529",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "0.00004265",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00002604",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00002165",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00001944",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000508",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            }
+          ]
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.58042569435493,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9710388396937809,
+          "components": [
+            {
+              "coefficient": "0.98541303",
+              "weight": "0.97103883",
+              "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+            },
+            {
+              "coefficient": "-0.16946548",
+              "weight": "0.02871855",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5S"
+            },
+            {
+              "coefficient": "0.01182539",
+              "weight": "0.00013984",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "-0.00902559",
+              "weight": "0.00008146",
+              "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+            },
+            {
+              "coefficient": "0.00387436",
+              "weight": "0.00001501",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "-0.00133790",
+              "weight": "0.00000179",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "0.00124577",
+              "weight": "0.00000155",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00107790",
+              "weight": "0.00000116",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1D"
+            },
+            {
+              "coefficient": "0.00103084",
+              "weight": "0.00000106",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1D"
+            },
+            {
+              "coefficient": "-0.00058444",
+              "weight": "0.00000034",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "0.00050244",
+              "weight": "0.00000025",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "0.00025997",
+              "weight": "0.00000007",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "-0.00013950",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "-0.00011741",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "0.00011572",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00010086",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00008810",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1D"
+            },
+            {
+              "coefficient": "0.00008806",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00005531",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00003710",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00003404",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1D"
+            },
+            {
+              "coefficient": "0.00001555",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000945",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "0.00000242",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000098",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3F"
+            },
+            {
+              "coefficient": "0.00000021",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3F"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3F"
+            }
+          ]
+        }
+      }
+    },
+    "n3_r2_coherent10": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 63316,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "levels_verified": 788,
+      "target_components": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.5644999021427,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.9654452198013184,
+          "components": [
+            {
+              "coefficient": "-0.98257072",
+              "weight": "0.96544522",
+              "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+            },
+            {
+              "coefficient": "0.17110041",
+              "weight": "0.02927535",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3S"
+            },
+            {
+              "coefficient": "-0.06747622",
+              "weight": "0.00455304",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3S"
+            },
+            {
+              "coefficient": "-0.01755605",
+              "weight": "0.00030821",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "-0.01539864",
+              "weight": "0.00023712",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3S"
+            },
+            {
+              "coefficient": "0.01184951",
+              "weight": "0.00014041",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3S"
+            },
+            {
+              "coefficient": "0.00370955",
+              "weight": "0.00001376",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00326250",
+              "weight": "0.00001064",
+              "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+            },
+            {
+              "coefficient": "-0.00240468",
+              "weight": "0.00000578",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "0.00220859",
+              "weight": "0.00000488",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00193346",
+              "weight": "0.00000374",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00076828",
+              "weight": "0.00000059",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00048464",
+              "weight": "0.00000023",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00047479",
+              "weight": "0.00000023",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3S"
+            },
+            {
+              "coefficient": "0.00046548",
+              "weight": "0.00000022",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1P"
+            },
+            {
+              "coefficient": "0.00043591",
+              "weight": "0.00000019",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00031207",
+              "weight": "0.00000010",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "-0.00023098",
+              "weight": "0.00000005",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "-0.00019046",
+              "weight": "0.00000004",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00018058",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3D"
+            },
+            {
+              "coefficient": "-0.00016423",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "0.00015937",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00014271",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3S"
+            },
+            {
+              "coefficient": "-0.00012008",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_1P"
+            },
+            {
+              "coefficient": "0.00011660",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00011490",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1P"
+            },
+            {
+              "coefficient": "0.00010861",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00010074",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3S"
+            },
+            {
+              "coefficient": "0.00008806",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00007970",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "0.00007917",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1P"
+            },
+            {
+              "coefficient": "0.00005499",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "0.00004677",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00003531",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "0.00002697",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00002512",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00002358",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00002221",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_1P"
+            },
+            {
+              "coefficient": "-0.00002078",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00001823",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00001548",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001501",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00001258",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000985",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000961",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00000925",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5D"
+            },
+            {
+              "coefficient": "-0.00000880",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000856",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)1D_1P"
+            },
+            {
+              "coefficient": "0.00000816",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000814",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000706",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5P"
+            },
+            {
+              "coefficient": "0.00000614",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000556",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000549",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "0.00000540",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000516",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3D"
+            },
+            {
+              "coefficient": "0.00000491",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000466",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000460",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000383",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3P"
+            },
+            {
+              "coefficient": "0.00000349",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5P"
+            },
+            {
+              "coefficient": "-0.00000341",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000333",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000284",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)1S_1P"
+            },
+            {
+              "coefficient": "0.00000258",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5P"
+            },
+            {
+              "coefficient": "0.00000251",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000223",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3D"
+            },
+            {
+              "coefficient": "0.00000211",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000192",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000181",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_1P"
+            },
+            {
+              "coefficient": "0.00000172",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00000139",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00000135",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5F"
+            },
+            {
+              "coefficient": "0.00000121",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000112",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5F"
+            },
+            {
+              "coefficient": "0.00000072",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2S.3d_3D"
+            },
+            {
+              "coefficient": "0.00000043",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000041",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1S_3P"
+            },
+            {
+              "coefficient": "-0.00000039",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000034",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_1P"
+            },
+            {
+              "coefficient": "0.00000032",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00000023",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)1D_1P"
+            },
+            {
+              "coefficient": "0.00000017",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3P"
+            },
+            {
+              "coefficient": "-0.00000009",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5P"
+            },
+            {
+              "coefficient": "0.00000008",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5D"
+            },
+            {
+              "coefficient": "-0.00000007",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00000007",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000006",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)1S_1P"
+            },
+            {
+              "coefficient": "-0.00000004",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1S_3P"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5D"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_1P"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3P"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3D"
+            }
+          ]
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.5810159420939,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9688242055761425,
+          "components": [
+            {
+              "coefficient": "0.98428868",
+              "weight": "0.96882421",
+              "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+            },
+            {
+              "coefficient": "-0.17502241",
+              "weight": "0.03063285",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5S"
+            },
+            {
+              "coefficient": "0.01734302",
+              "weight": "0.00030078",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5S"
+            },
+            {
+              "coefficient": "0.01179440",
+              "weight": "0.00013911",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "-0.00900666",
+              "weight": "0.00008112",
+              "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+            },
+            {
+              "coefficient": "0.00385718",
+              "weight": "0.00001488",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "-0.00137674",
+              "weight": "0.00000190",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "0.00127700",
+              "weight": "0.00000163",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00111505",
+              "weight": "0.00000124",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1D"
+            },
+            {
+              "coefficient": "0.00105571",
+              "weight": "0.00000111",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1D"
+            },
+            {
+              "coefficient": "-0.00060625",
+              "weight": "0.00000037",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "0.00056175",
+              "weight": "0.00000032",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5S"
+            },
+            {
+              "coefficient": "0.00051168",
+              "weight": "0.00000026",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "0.00027037",
+              "weight": "0.00000007",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "0.00017634",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5S"
+            },
+            {
+              "coefficient": "-0.00014017",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "0.00012410",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00012166",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3D"
+            },
+            {
+              "coefficient": "-0.00011269",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "-0.00010165",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_1D"
+            },
+            {
+              "coefficient": "0.00009742",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00009623",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00009459",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1D"
+            },
+            {
+              "coefficient": "-0.00009351",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)1D_1D"
+            },
+            {
+              "coefficient": "0.00008697",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00006612",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00006158",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00003888",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00003062",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1D"
+            },
+            {
+              "coefficient": "0.00001755",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5P"
+            },
+            {
+              "coefficient": "-0.00001618",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00001492",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3P"
+            },
+            {
+              "coefficient": "0.00001448",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001320",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00001301",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001204",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00001197",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_1D"
+            },
+            {
+              "coefficient": "-0.00001079",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_1D"
+            },
+            {
+              "coefficient": "0.00001048",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5D"
+            },
+            {
+              "coefficient": "0.00001006",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001002",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000897",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000801",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000778",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_1D"
+            },
+            {
+              "coefficient": "0.00000738",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000702",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000631",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3D"
+            },
+            {
+              "coefficient": "0.00000457",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_1D"
+            },
+            {
+              "coefficient": "-0.00000435",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1S_3P"
+            },
+            {
+              "coefficient": "0.00000408",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_1D"
+            },
+            {
+              "coefficient": "-0.00000375",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3F"
+            },
+            {
+              "coefficient": "0.00000371",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000361",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5D"
+            },
+            {
+              "coefficient": "0.00000356",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000271",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5D"
+            },
+            {
+              "coefficient": "0.00000269",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000260",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2S.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000227",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5P"
+            },
+            {
+              "coefficient": "-0.00000189",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00000189",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2S.3d_1D"
+            },
+            {
+              "coefficient": "0.00000185",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5P"
+            },
+            {
+              "coefficient": "-0.00000176",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000164",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5F"
+            },
+            {
+              "coefficient": "0.00000150",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3D"
+            },
+            {
+              "coefficient": "0.00000135",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000122",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00000113",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)1D_1D"
+            },
+            {
+              "coefficient": "-0.00000110",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_1D"
+            },
+            {
+              "coefficient": "0.00000106",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_1D"
+            },
+            {
+              "coefficient": "0.00000105",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5G"
+            },
+            {
+              "coefficient": "-0.00000100",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000096",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3F"
+            },
+            {
+              "coefficient": "-0.00000081",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000081",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00000073",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000066",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3F"
+            },
+            {
+              "coefficient": "0.00000055",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000051",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3F"
+            },
+            {
+              "coefficient": "0.00000048",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5F"
+            },
+            {
+              "coefficient": "0.00000047",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000029",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00000027",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00000027",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3P"
+            },
+            {
+              "coefficient": "0.00000026",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5P"
+            },
+            {
+              "coefficient": "-0.00000024",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3P"
+            },
+            {
+              "coefficient": "0.00000021",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3F"
+            },
+            {
+              "coefficient": "-0.00000012",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5D"
+            },
+            {
+              "coefficient": "0.00000006",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1S_3P"
+            },
+            {
+              "coefficient": "0.00000003",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3F"
+            },
+            {
+              "coefficient": "0.00000002",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000002",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3F"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_1D"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5D"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1G_3F"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5G"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3F_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3P"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_1D"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3D"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3F"
+            }
+          ]
+        }
+      }
+    },
+    "n3_r2_coherent100": {
+      "targets": {
+        "3S": [
+          6
+        ],
+        "5S": [
+          5
+        ]
+      },
+      "full_LS_coefficients_reconstructed": 63316,
+      "max_transformation_orthonormality_residual": 1.5543122344752192e-15,
+      "levels_verified": 788,
+      "target_components": {
+        "3S": {
+          "two_J": 2,
+          "parity": "-",
+          "energy_au": -74.56449994012615,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+          "dominant_printed_weight": 0.965445160847076,
+          "components": [
+            {
+              "coefficient": "-0.98257069",
+              "weight": "0.96544516",
+              "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+            },
+            {
+              "coefficient": "0.17110056",
+              "weight": "0.02927540",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3S"
+            },
+            {
+              "coefficient": "-0.06747627",
+              "weight": "0.00455305",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3S"
+            },
+            {
+              "coefficient": "-0.01755606",
+              "weight": "0.00030822",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "-0.01539867",
+              "weight": "0.00023712",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3S"
+            },
+            {
+              "coefficient": "0.01184953",
+              "weight": "0.00014041",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3S"
+            },
+            {
+              "coefficient": "0.00370955",
+              "weight": "0.00001376",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00326251",
+              "weight": "0.00001064",
+              "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+            },
+            {
+              "coefficient": "-0.00240469",
+              "weight": "0.00000578",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "0.00220859",
+              "weight": "0.00000488",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00193347",
+              "weight": "0.00000374",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00076828",
+              "weight": "0.00000059",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00048464",
+              "weight": "0.00000023",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3S"
+            },
+            {
+              "coefficient": "-0.00047479",
+              "weight": "0.00000023",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3S"
+            },
+            {
+              "coefficient": "0.00046549",
+              "weight": "0.00000022",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1P"
+            },
+            {
+              "coefficient": "0.00043591",
+              "weight": "0.00000019",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "-0.00031207",
+              "weight": "0.00000010",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "-0.00023098",
+              "weight": "0.00000005",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "-0.00019046",
+              "weight": "0.00000004",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00018058",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3D"
+            },
+            {
+              "coefficient": "-0.00016423",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "0.00015937",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00014271",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3S"
+            },
+            {
+              "coefficient": "-0.00012008",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_1P"
+            },
+            {
+              "coefficient": "0.00011660",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00011491",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1P"
+            },
+            {
+              "coefficient": "0.00010861",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00010074",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3S"
+            },
+            {
+              "coefficient": "0.00008806",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00007970",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "0.00007917",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1P"
+            },
+            {
+              "coefficient": "0.00005499",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "0.00004677",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00003531",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "0.00002697",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00002512",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00002358",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00002221",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_1P"
+            },
+            {
+              "coefficient": "-0.00002078",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00001823",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00001548",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001501",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00001258",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000985",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000961",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00000925",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5D"
+            },
+            {
+              "coefficient": "-0.00000880",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000855",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)1D_1P"
+            },
+            {
+              "coefficient": "0.00000816",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000814",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000706",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5P"
+            },
+            {
+              "coefficient": "0.00000614",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000556",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000549",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "0.00000540",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000516",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3D"
+            },
+            {
+              "coefficient": "0.00000491",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000466",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000460",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000383",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3P"
+            },
+            {
+              "coefficient": "0.00000349",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5P"
+            },
+            {
+              "coefficient": "-0.00000341",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000333",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000284",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)1S_1P"
+            },
+            {
+              "coefficient": "0.00000258",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5P"
+            },
+            {
+              "coefficient": "0.00000251",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000223",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3D"
+            },
+            {
+              "coefficient": "0.00000211",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000192",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000181",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_1P"
+            },
+            {
+              "coefficient": "0.00000172",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00000139",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00000135",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5F"
+            },
+            {
+              "coefficient": "0.00000122",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000112",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5F"
+            },
+            {
+              "coefficient": "0.00000072",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2S.3d_3D"
+            },
+            {
+              "coefficient": "0.00000043",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_1P"
+            },
+            {
+              "coefficient": "-0.00000041",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1S_3P"
+            },
+            {
+              "coefficient": "-0.00000039",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000034",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_1P"
+            },
+            {
+              "coefficient": "0.00000032",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00000023",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)1D_1P"
+            },
+            {
+              "coefficient": "0.00000017",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3P"
+            },
+            {
+              "coefficient": "-0.00000009",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5P"
+            },
+            {
+              "coefficient": "0.00000008",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5D"
+            },
+            {
+              "coefficient": "-0.00000007",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00000007",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000006",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)1S_1P"
+            },
+            {
+              "coefficient": "-0.00000004",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1S_3P"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5D"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_1P"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3P"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3D"
+            }
+          ]
+        },
+        "5S": {
+          "two_J": 4,
+          "parity": "-",
+          "energy_au": -74.5810159825011,
+          "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+          "dominant_printed_weight": 0.9688241465188224,
+          "components": [
+            {
+              "coefficient": "0.98428865",
+              "weight": "0.96882415",
+              "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+            },
+            {
+              "coefficient": "-0.17502258",
+              "weight": "0.03063290",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5S"
+            },
+            {
+              "coefficient": "0.01734306",
+              "weight": "0.00030078",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5S"
+            },
+            {
+              "coefficient": "0.01179441",
+              "weight": "0.00013911",
+              "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+            },
+            {
+              "coefficient": "-0.00900667",
+              "weight": "0.00008112",
+              "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+            },
+            {
+              "coefficient": "0.00385719",
+              "weight": "0.00001488",
+              "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+            },
+            {
+              "coefficient": "-0.00137674",
+              "weight": "0.00000190",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3D"
+            },
+            {
+              "coefficient": "0.00127701",
+              "weight": "0.00000163",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3D"
+            },
+            {
+              "coefficient": "0.00111505",
+              "weight": "0.00000124",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_1D"
+            },
+            {
+              "coefficient": "0.00105571",
+              "weight": "0.00000111",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_1D"
+            },
+            {
+              "coefficient": "-0.00060625",
+              "weight": "0.00000037",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3D"
+            },
+            {
+              "coefficient": "0.00056174",
+              "weight": "0.00000032",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5S"
+            },
+            {
+              "coefficient": "0.00051169",
+              "weight": "0.00000026",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3P"
+            },
+            {
+              "coefficient": "0.00027037",
+              "weight": "0.00000007",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5D"
+            },
+            {
+              "coefficient": "0.00017634",
+              "weight": "0.00000003",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5S"
+            },
+            {
+              "coefficient": "-0.00014017",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_5P"
+            },
+            {
+              "coefficient": "0.00012410",
+              "weight": "0.00000002",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00012166",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3D"
+            },
+            {
+              "coefficient": "-0.00011270",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)1S.3s_2S.3p_3P"
+            },
+            {
+              "coefficient": "-0.00010165",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_1D"
+            },
+            {
+              "coefficient": "0.00009743",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_4P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00009623",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00009459",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(3)2P.3d_1D"
+            },
+            {
+              "coefficient": "-0.00009351",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)1D_1D"
+            },
+            {
+              "coefficient": "0.00008697",
+              "weight": "0.00000001",
+              "name": "1s(2).2s(2).2p(2)3P.3s_2P.3p_3P"
+            },
+            {
+              "coefficient": "-0.00006612",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00006158",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00003888",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00003062",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_1D"
+            },
+            {
+              "coefficient": "0.00001755",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5P"
+            },
+            {
+              "coefficient": "-0.00001618",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "0.00001492",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3P"
+            },
+            {
+              "coefficient": "0.00001448",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001320",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00001301",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001204",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "0.00001197",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_1D"
+            },
+            {
+              "coefficient": "-0.00001079",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_1D"
+            },
+            {
+              "coefficient": "0.00001048",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)3P_5D"
+            },
+            {
+              "coefficient": "0.00001006",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00001002",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000897",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000801",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000778",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_1D"
+            },
+            {
+              "coefficient": "0.00000738",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000702",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000631",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3D"
+            },
+            {
+              "coefficient": "0.00000457",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_1D"
+            },
+            {
+              "coefficient": "-0.00000435",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1S_3P"
+            },
+            {
+              "coefficient": "0.00000408",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_1D"
+            },
+            {
+              "coefficient": "-0.00000375",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3F"
+            },
+            {
+              "coefficient": "0.00000371",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000361",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5D"
+            },
+            {
+              "coefficient": "0.00000356",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3P"
+            },
+            {
+              "coefficient": "0.00000271",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5D"
+            },
+            {
+              "coefficient": "0.00000269",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "0.00000260",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2S.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000227",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5P"
+            },
+            {
+              "coefficient": "-0.00000189",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_3D"
+            },
+            {
+              "coefficient": "0.00000189",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2S.3d_1D"
+            },
+            {
+              "coefficient": "0.00000185",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5P"
+            },
+            {
+              "coefficient": "-0.00000176",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000164",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_5F"
+            },
+            {
+              "coefficient": "0.00000150",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3D"
+            },
+            {
+              "coefficient": "0.00000135",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000122",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "-0.00000113",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)1D_1D"
+            },
+            {
+              "coefficient": "-0.00000110",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_1D"
+            },
+            {
+              "coefficient": "0.00000106",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_1D"
+            },
+            {
+              "coefficient": "0.00000105",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5G"
+            },
+            {
+              "coefficient": "-0.00000100",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000096",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3p(2)1D_3F"
+            },
+            {
+              "coefficient": "-0.00000081",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3D"
+            },
+            {
+              "coefficient": "-0.00000081",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3D"
+            },
+            {
+              "coefficient": "0.00000073",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4S.3d_5D"
+            },
+            {
+              "coefficient": "-0.00000066",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3F"
+            },
+            {
+              "coefficient": "0.00000055",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000051",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2D.3d_3F"
+            },
+            {
+              "coefficient": "0.00000048",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4D.3d_5F"
+            },
+            {
+              "coefficient": "0.00000047",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2P.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000029",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00000027",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_3P"
+            },
+            {
+              "coefficient": "-0.00000027",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3P"
+            },
+            {
+              "coefficient": "0.00000026",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5P"
+            },
+            {
+              "coefficient": "-0.00000024",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3P"
+            },
+            {
+              "coefficient": "0.00000021",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3s_2D.3p_3F"
+            },
+            {
+              "coefficient": "-0.00000012",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3P_5D"
+            },
+            {
+              "coefficient": "0.00000006",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1S_3P"
+            },
+            {
+              "coefficient": "0.00000003",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_2D.3d_3F"
+            },
+            {
+              "coefficient": "0.00000002",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)3P.3p_4P.3d_3P"
+            },
+            {
+              "coefficient": "-0.00000002",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2F.3d_3F"
+            },
+            {
+              "coefficient": "0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(3)2P.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_1D"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "-0.00000001",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1D.3p_2D.3d_3F"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5D"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1G_3F"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3F_3D"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p(2)1S.3p_2P.3d_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)3F_5G"
+            },
+            {
+              "coefficient": "-0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_1P.3d(2)3F_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s_3P.3d(2)1D_3F"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3P"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_1D"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3D"
+            },
+            {
+              "coefficient": "0.00000000",
+              "weight": "0.00000000",
+              "name": "1s(2).2s(2).2p.3s(2).3d_3F"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

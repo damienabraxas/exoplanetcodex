@@ -1,0 +1,21 @@
+{
+  "schema": "rya1354.li-scheme-sizing-plan.v47",
+  "starting_commit": "ebd4dc2a",
+  "driver": "evidence/li_scheme_sizing_driver_v47/rya1354_li_scheme_sizing.py",
+  "driver_sha256": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+  "helper_sha256": {"rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd"},
+  "grasp": "toolchains/grasp/build/bin (pinned 9006157730a82ac839f2b4ff4e938bcba63a539e, serial build: no MPI binaries, no mpirun on Sirius)",
+  "output": "runs/li_scheme_sizing_v47",
+  "declaration": "Linear 3450dd67-8cf7-440d-9203-a5534c9b3256",
+  "why": "Literature check (Li, Jonsson, Amarsi, Li & Grumer 2023, O I, arXiv 2304.02310): the v44 gauge-split mechanism (lower-level 2p3 np admixture) is placed INTO the multireference there, with SD correlation on top, in GRASP MCDHF-EOL + RCI. FAC central-potential orbitals cannot be variationally contracted correlation orbitals, so the expansion moves to GRASP (the plan's declared primary method); FAC remains the independent cross-check. Li's final RCI (12.6M/7.7M CSFs) exceeds Sirius (4 cores, 15 GB), so a scaled scheme is sized first.",
+  "scope": "rcsfgenerate ONLY: Li Table 1 MR for {mcdhf (1s,2s closed; SD from 2p+outer), rci (1s closed; SD from n=2+outer, extended MR incl. 2s2p4 ns/nd)} x {even 2J 0-4, odd 2J 2-4} x n_max 6..9 (l<=h). MR orbitals above n_max omitted and recorded. No SCF, energies, rates or grades.",
+  "guards": "Fresh directory; small-to-large order; 3600 s per case; stop and preserve the first failure/timeout. Streamed native inventory per case (8 electrons, closed 1s, closed 2s for mcdhf, parity, no duplicates, counts per J block), rcsf sha256 and bytes.",
+  "evidence": "Receipts, stdin/stdout/stderr and inventories archived; CSF lists above the size cap stay on Sirius, regenerable from stdin + pinned executable.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

@@ -1,0 +1,44 @@
+{
+ "schema": "rya1354.solar-ratio-referee.v1",
+ "model_dir": "data/audit/rya1354/mg1_model_v68",
+ "n_measured": 18,
+ "weak_cut": -5.0,
+ "dlam": 0.1,
+ "theta": 1.008,
+ "me_dmax": 0.9,
+ "mode": "cog",
+ "primary_weak": {
+  "n_groups": 3,
+  "n_lines": 11,
+  "rms_by_source": {
+   "model": [
+    0.1761,
+    11
+   ],
+   "linelist": [
+    0.1788,
+    11
+   ],
+   "abinitio": [
+    0.1755,
+    11
+   ],
+   "tuned": [
+    0.1759,
+    11
+   ],
+   "hybrid": [
+    0.1761,
+    11
+   ],
+   "pure_LS": [
+    0.1729,
+    11
+   ]
+  },
+  "null_rms": 0.1761,
+  "n_null_lines": 11,
+  "n_discriminating": 0,
+  "discriminating_rms_by_source": {}
+ }
+}

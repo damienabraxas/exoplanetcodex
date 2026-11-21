@@ -1,0 +1,142 @@
+{
+  "schema": "rya1354.candidate-intake.v7",
+  "observed_utc": "2026-11-10T05:51:05.132799+00:00",
+  "upstream_issue": "RYA-1378",
+  "producer_issue": "RYA-728",
+  "source_scope": "PRELIMINARY_UNTRACKED_SIBLING_WORKTREE_NOT_MERGED_NOT_CANONICAL",
+  "source_work_key": "work/rya728",
+  "source_path": "data/audit/orchestrator_prepare/solar_Cr_atomic_gap_candidates.csv",
+  "source_sha256": "b5f3de7b9be911ca95e8afd086312662aa407ad0f76d338aa7de07be05cabd4a",
+  "source_bytes": 3088036,
+  "producer_path": "scripts/rya728_cr_gap_candidates.py",
+  "producer_sha256": "6f6438adfaaf5bdd838dac1444c60b0f68f608c0a97cf284d8b5a319949c2f63",
+  "sibling_HEAD": "31a2cee42a074e96041735e5dfe64ad63b4a85bf",
+  "rows": 17772,
+  "flags": {
+    "GF_DISCREPANCY": 7,
+    "MISSING_GF": 2,
+    "PROVENANCE_GAP": 3909,
+    "SOLAR_DISCREPANCY": 10,
+    "UNRATED_GF": 17770
+  },
+  "priority_groups": [
+    {
+      "priority": 1,
+      "species": "Cr I",
+      "band": "H",
+      "rows": 65
+    },
+    {
+      "priority": 1,
+      "species": "Cr I",
+      "band": "K",
+      "rows": 67
+    },
+    {
+      "priority": 1,
+      "species": "Cr II",
+      "band": "red-optical",
+      "rows": 2809
+    },
+    {
+      "priority": 2,
+      "species": "Cr I",
+      "band": "VIS",
+      "rows": 1
+    },
+    {
+      "priority": 2,
+      "species": "Cr II",
+      "band": "VIS",
+      "rows": 3
+    },
+    {
+      "priority": 2,
+      "species": "Cr II",
+      "band": "near-UV",
+      "rows": 3
+    },
+    {
+      "priority": 3,
+      "species": "Cr I",
+      "band": "VIS",
+      "rows": 4998
+    },
+    {
+      "priority": 3,
+      "species": "Cr I",
+      "band": "red-optical",
+      "rows": 2645
+    },
+    {
+      "priority": 3,
+      "species": "Cr II",
+      "band": "VIS",
+      "rows": 3347
+    },
+    {
+      "priority": 4,
+      "species": "Cr I",
+      "band": "NIR",
+      "rows": 30
+    },
+    {
+      "priority": 4,
+      "species": "Cr I",
+      "band": "VIS",
+      "rows": 1274
+    },
+    {
+      "priority": 4,
+      "species": "Cr I",
+      "band": "near-UV",
+      "rows": 1593
+    },
+    {
+      "priority": 4,
+      "species": "Cr I",
+      "band": "outside",
+      "rows": 119
+    },
+    {
+      "priority": 4,
+      "species": "Cr II",
+      "band": "VIS",
+      "rows": 94
+    },
+    {
+      "priority": 4,
+      "species": "Cr II",
+      "band": "near-UV",
+      "rows": 724
+    }
+  ],
+  "missing_physical_id": 2,
+  "duplicate_nonempty_physical_id": 0,
+  "available_columns": [
+    "line_id",
+    "physical_id",
+    "species",
+    "wavelength_air_A",
+    "excitation_potential_eV",
+    "log_gf",
+    "loggf_reference",
+    "gf_tier",
+    "band",
+    "in_synth",
+    "no_lab_route_in_band",
+    "flags",
+    "priority",
+    "evidence",
+    "candidate_for",
+    "review_state"
+  ],
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "graded_benchmark_rows": 0,
+  "graded_benchmark_rows_scope": "No row certified as experimental calibration truth by this intake; not a claim that no laboratory evidence exists.",
+  "exposure": "SOURCE_CSV_PROCESSED_WITH_GF_FIELDS; NO_BLINDNESS_ATTESTATION",
+  "readiness": "Research-target queue only. Reconcile reviewed upstream delivery; verify full lower/upper/J/ion/air-vacuum identity, source/uncertainty/dependencies, observability/blends/tellurics and feasible method before calculations/scoring. Preserve CrII diagnostic-only restriction. Missing grade is not bad gf; empirical residual is not atomic error.",
+  "source_discrepancy": "Ticket comment says UNRATED_GF on all; actual two MISSING_GF rows have no canonical/physical_id and no UNRATED_GF flag. Preserve flags separately; no producer change in this work.",
+  "implementation_policy": "Pointer and intake receipt only; no competing canonical register or edits to sibling worktree."
+}

@@ -1,0 +1,98 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "8e9d25c31acdd3e682457ad42fc6695c254200815e0a1994f60d5a1e8cd2a0af",
+      "bytes": 340907
+    }
+  },
+  "files": {
+    "runs/lifetime_relax_n4_nodebudget_v3/driver.py": {
+      "sha256": "06c2654bf4da84b6d0907fbdb0d274d983ea4e1c89c1b0e10241e836488ba107",
+      "bytes": 8576
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rangular.stdout": {
+      "sha256": "eebfef26a493c15eb952685f6be5172b1bff4d19a7ff5623936a3fd5a75461ff",
+      "bytes": 4878
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rmcdhf.log": {
+      "sha256": "85b41b7bde247ee0ad3e6705503c2e50255f11977afb3bf55f1454c48a3942b5",
+      "bytes": 25
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rmcdhf.stderr": {
+      "sha256": "bf2893d1da87294e2ab0a1abef73795f251cd5cb969e96ab68bac24be5c452ce",
+      "bytes": 3542
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rmcdhf.stdin": {
+      "sha256": "42519c6634b1518951d1a0f53845d5cc07cb8db5c22d9d98d8690daae66c2518",
+      "bytes": 136
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rmcdhf.stdout": {
+      "sha256": "5db149378592b0acd863e814881d450d8f1cd64398a316fce3ddcc358b605687",
+      "bytes": 738242
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rmcdhf.sum": {
+      "sha256": "63e1a92e84f783f38b732f77560d52c38298d623f1d42915660cd2970118e91a",
+      "bytes": 638
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rmix.out": {
+      "sha256": "03176bfe37b84500b1cdd3313bc30f91c8fe3f3f5f68c626a6c56927ddbd8f13",
+      "bytes": 45494
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/rwfn.out": {
+      "sha256": "512dc969100e2cacc2c17f2ff70d2d48c4106b32aa4177cc20a577cf3382e917",
+      "bytes": 135102
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/state.c": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/state.w": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "runs/lifetime_relax_n4_nodebudget_v3/receipt.json": {
+      "sha256": "8b9297bf212090775a560440c7ff658cc6ab928f050d93212f7a2bf5322d919a",
+      "bytes": 4793
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 18,
+  "omitted_angular_caches": [
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.30",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.31",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.32",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.33",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.34",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.35",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.36",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.37",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.38",
+    "runs/lifetime_relax_n4_nodebudget_v3/ground/mcp.39"
+  ],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

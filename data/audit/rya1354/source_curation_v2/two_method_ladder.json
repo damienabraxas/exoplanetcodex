@@ -1,0 +1,323 @@
+{
+  "schema": "rya1354.two-method-ladder.v2",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "prediction_origin": "THIS_UNPUBLISHED_THEORETICAL_CALCULATION",
+  "candidate_doi": null,
+  "capsules": {
+    "n5_and_mchf_control_v1.tar.gz": "6bd6396e448e1c8497b42fdc7e8d84a67fecf35a8edfb011b778e3b52e410fba",
+    "mchf_ladder_v3_all_attempts.tar.gz": "d507cc73cb823377ffee9fb64b77a415dff02827db23f69c349149153010db21",
+    "continuation_20261108_compact.tar.gz": "c2d9f81d377b0e2ca9d5390128cd3694715bb5731fee314f96e8e296a439eee4"
+  },
+  "input_summary_sha256": "a7fd80732b5e5452dc9a060f8067f1c8d887659af01aace324a944ebe6bcbf5f",
+  "native_control": {
+    "energy_difference_hartree": 0.0,
+    "byte_identical": true
+  },
+  "basis_checks": [
+    {
+      "n": 3,
+      "state": "lower",
+      "same_occupation_multiset": true,
+      "csfs": 5
+    },
+    {
+      "n": 3,
+      "state": "upper",
+      "same_occupation_multiset": true,
+      "csfs": 11
+    },
+    {
+      "n": 4,
+      "state": "lower",
+      "same_occupation_multiset": true,
+      "csfs": 19
+    },
+    {
+      "n": 4,
+      "state": "upper",
+      "same_occupation_multiset": true,
+      "csfs": 59
+    }
+  ],
+  "rows": [
+    {
+      "n": 3,
+      "grasp_components": [
+        {
+          "upper_ordinal": 2,
+          "upper_J": 1,
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "native_energy_cm1": 14501.62,
+          "A_B_s1": 54910400.0,
+          "A_C_s1": 32716900.0,
+          "gf_B": 1.17436,
+          "gf_C": 0.699711,
+          "gauge_fraction_A": 0.4041766222792039
+        },
+        {
+          "upper_ordinal": 3,
+          "upper_J": 2,
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "native_energy_cm1": 14503.99,
+          "A_B_s1": 54936400.0,
+          "A_C_s1": 32732800.0,
+          "gf_B": 1.95755,
+          "gf_C": 1.16637,
+          "gauge_fraction_A": 0.40416918472997865
+        },
+        {
+          "upper_ordinal": 1,
+          "upper_J": 3,
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "native_energy_cm1": 14507.58,
+          "A_B_s1": 54977000.0,
+          "A_C_s1": 32757600.0,
+          "gf_B": 2.74124,
+          "gf_C": 1.63335,
+          "gauge_fraction_A": 0.4041581024792186
+        }
+      ],
+      "grasp_summed_gf_B": 5.87315,
+      "mchf": {
+        "native_energy_cm1": 14479.57,
+        "native_vacuum_A": 6906.28,
+        "printed_air_A_rejected": 6905.56,
+        "air_warning": "Native probab.f uses 206030 in its dispersion numerator; disagrees with project wavelength SSOT. Air column is not used.",
+        "S_length_au": 133.467,
+        "S_velocity_au": 79.5149,
+        "gf_length": 5.87023,
+        "gf_velocity": 3.49727,
+        "A_length_s1": 54729100.0,
+        "A_velocity_s1": 32605500.0,
+        "gauge_fraction_A": 0.40423833024844186,
+        "comparison_scope": "LS_MULTIPLET_TOTAL_ONLY"
+      },
+      "grasp_SCF_diagnostics": {
+        "lower": {
+          "iterations": 8,
+          "iteration_limit_hit": false,
+          "reported_orbital_self_consistency": {
+            "3s": 7.96e-06,
+            "3p-": 3.32e-06,
+            "3p": 4.29e-06,
+            "3d-": 3.4e-06,
+            "3d": 3.2e-06
+          },
+          "max_reported_self_consistency": 7.96e-06,
+          "native_function_ACC": 5.960464477539063e-08,
+          "all_reported_functions_below_ACC": false,
+          "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY."
+        },
+        "upper": {
+          "iterations": 8,
+          "iteration_limit_hit": false,
+          "reported_orbital_self_consistency": {
+            "3s": 4.01e-07,
+            "3p-": 1.49e-07,
+            "3p": 1.33e-07,
+            "3d-": 2.97e-06,
+            "3d": 2.62e-06
+          },
+          "max_reported_self_consistency": 2.97e-06,
+          "native_function_ACC": 5.960464477539063e-08,
+          "all_reported_functions_below_ACC": false,
+          "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY."
+        }
+      },
+      "relative_method_difference_gf": 0.0004974251434781243
+    },
+    {
+      "n": 4,
+      "grasp_components": [
+        {
+          "upper_ordinal": 2,
+          "upper_J": 1,
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "native_energy_cm1": 12757.66,
+          "A_B_s1": 36815900.0,
+          "A_C_s1": 33965100.0,
+          "gf_B": 1.01735,
+          "gf_C": 0.938578,
+          "gauge_fraction_A": 0.07743393479447738
+        },
+        {
+          "upper_ordinal": 3,
+          "upper_J": 2,
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "native_energy_cm1": 12760.22,
+          "A_B_s1": 36837300.0,
+          "A_C_s1": 33986700.0,
+          "gf_B": 1.6959,
+          "gf_C": 1.56466,
+          "gauge_fraction_A": 0.07738352159360214
+        },
+        {
+          "upper_ordinal": 1,
+          "upper_J": 3,
+          "lower_ordinal": 1,
+          "lower_J": 2,
+          "native_energy_cm1": 12764.09,
+          "A_B_s1": 36870800.0,
+          "A_C_s1": 34020300.0,
+          "gf_B": 2.37497,
+          "gf_C": 2.19136,
+          "gauge_fraction_A": 0.07731050045022077
+        }
+      ],
+      "grasp_summed_gf_B": 5.08822,
+      "mchf": {
+        "native_energy_cm1": 12738.32,
+        "native_vacuum_A": 7850.33,
+        "printed_air_A_rejected": 7849.52,
+        "air_warning": "Native probab.f uses 206030 in its dispersion numerator; disagrees with project wavelength SSOT. Air column is not used.",
+        "S_length_au": 131.441,
+        "S_velocity_au": 121.24,
+        "gf_length": 5.08589,
+        "gf_velocity": 4.69117,
+        "A_length_s1": 36698000.0,
+        "A_velocity_s1": 33849800.0,
+        "gauge_fraction_A": 0.07761185895689138,
+        "comparison_scope": "LS_MULTIPLET_TOTAL_ONLY"
+      },
+      "grasp_SCF_diagnostics": {
+        "lower": {
+          "iterations": 9,
+          "iteration_limit_hit": false,
+          "reported_orbital_self_consistency": {
+            "4s": 2.55e-06,
+            "4p-": 4.21e-06,
+            "4p": 5.88e-06,
+            "4d-": 9.8e-06,
+            "4d": 1.03e-05,
+            "4f-": 1.94e-06,
+            "4f": 1.78e-06
+          },
+          "max_reported_self_consistency": 1.03e-05,
+          "native_function_ACC": 5.960464477539063e-08,
+          "all_reported_functions_below_ACC": false,
+          "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY."
+        },
+        "upper": {
+          "iterations": 15,
+          "iteration_limit_hit": false,
+          "reported_orbital_self_consistency": {
+            "4s": 2.4e-06,
+            "4p-": 3.8e-07,
+            "4p": 4.51e-07,
+            "4d-": 1.11e-05,
+            "4d": 1.21e-05,
+            "4f-": 7.73e-08,
+            "4f": 6.23e-08
+          },
+          "max_reported_self_consistency": 1.21e-05,
+          "native_function_ACC": 5.960464477539063e-08,
+          "all_reported_functions_below_ACC": false,
+          "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY."
+        }
+      },
+      "relative_method_difference_gf": 0.0004581302387585499
+    },
+    {
+      "n": 5,
+      "grasp_components": [
+        {
+          "upper_J": 1,
+          "native_energy_cm1": 12698.9,
+          "A_B_s1": 36099900.0,
+          "A_C_s1": 34258800.0,
+          "gf_B": 1.00682,
+          "gf_C": 0.955474,
+          "gauge_fraction_A": 0.05100014127462957
+        },
+        {
+          "upper_J": 2,
+          "native_energy_cm1": 12701.66,
+          "A_B_s1": 36122600.0,
+          "A_C_s1": 34278300.0,
+          "gf_B": 1.67836,
+          "gf_C": 1.59267,
+          "gauge_fraction_A": 0.05105667919806437
+        },
+        {
+          "upper_J": 3,
+          "native_energy_cm1": 12705.83,
+          "A_B_s1": 36158200.0,
+          "A_C_s1": 34309100.0,
+          "gf_B": 2.35048,
+          "gf_C": 2.23028,
+          "gauge_fraction_A": 0.0511391606883086
+        }
+      ],
+      "grasp_summed_gf_B": 5.03566,
+      "mchf": {
+        "native_energy_cm1": 12679.54,
+        "native_vacuum_A": 7886.72,
+        "printed_air_A_rejected": 7885.9,
+        "air_warning": "Native probab.f uses 206030 in its dispersion numerator; disagrees with project wavelength SSOT. Air column is not used.",
+        "S_length_au": 130.687,
+        "S_velocity_au": 124.005,
+        "gf_length": 5.03338,
+        "gf_velocity": 4.77604,
+        "A_length_s1": 35984700.0,
+        "A_velocity_s1": 34144900.0,
+        "gauge_fraction_A": 0.051127284651532455,
+        "comparison_scope": "LS_MULTIPLET_TOTAL_ONLY"
+      },
+      "grasp_SCF_diagnostics": {
+        "lower": {
+          "iterations": 8,
+          "iteration_limit_hit": false,
+          "reported_orbital_self_consistency": {
+            "5s": 1.69e-06,
+            "5p-": 6.97e-07,
+            "5p": 7.61e-07,
+            "5d-": 2.43e-06,
+            "5d": 3.43e-06,
+            "5f-": 9.25e-06,
+            "5f": 8.68e-06,
+            "5g-": 1.77e-06,
+            "5g": 1.33e-06
+          },
+          "max_reported_self_consistency": 9.25e-06,
+          "native_function_ACC": 5.960464477539063e-08,
+          "all_reported_functions_below_ACC": false,
+          "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY."
+        },
+        "upper": {
+          "iterations": 13,
+          "iteration_limit_hit": false,
+          "reported_orbital_self_consistency": {
+            "5s": 6.54e-09,
+            "5p-": 3.09e-07,
+            "5p": 4.32e-07,
+            "5d-": 2.39e-08,
+            "5d": 1.81e-08,
+            "5f-": 5.1e-06,
+            "5f": 4.97e-06,
+            "5g-": 4.12e-08,
+            "5g": 4.05e-08
+          },
+          "max_reported_self_consistency": 5.1e-06,
+          "native_function_ACC": 5.960464477539063e-08,
+          "all_reported_functions_below_ACC": false,
+          "stopping_rule": "Pinned scf.f90 accepts either SCNSTY<=ACCY or relative EOL-energy change <0.001*ACCY. Native termination alone does not prove all orbital residuals meet ACCY."
+        }
+      },
+      "relative_method_difference_gf": 0.00045297593267343967
+    }
+  ],
+  "rejected_attempt": {
+    "run": "mchf_ladder_v1",
+    "reason": "Biotr reports inconsistent shared orbital order, exits zero and writes no .ls; raw receipt completion status is invalid for transition data"
+  },
+  "warning": "Close method agreement shares omitted correlation and lineage; it is not an experimental error estimate or controlled isolation of relativity. Independent radial/native Rydberg conventions remain explicit.",
+  "uncertainty": null,
+  "covariance": null,
+  "adoption_allowed": false
+}

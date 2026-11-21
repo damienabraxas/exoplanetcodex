@@ -1,0 +1,28 @@
+{
+  "schema": "rya1354.fac-potential-plan.v26",
+  "starting_commit": "33e494d5a5b12c3a8b03c40a74f8d0e474a74a3a",
+  "output": "runs/fac_potential_v26",
+  "baseline": "runs/fac_space_v23/n3_r2_coherent10 and n3_r2_coherent100; audited ratesv25",
+  "configuration_policy": "Same15configuration/788level n3SD union,1s2/2s2 fixed",
+  "only_model_input_delta": "OptimizeRadial(['ground']) -> OptimizeRadial(['ground','odd3s'],[0.5,0.5])",
+  "weight_semantics": "POptimizeRadial passes explicit groupweights; GetAverageConfig normalizes supplied weights and averages configurations within each group. Explicit weights bypass runtime acfg_wmode2 summed-abs-sweight default.",
+  "manual_runtime_discrepancy": "Manual says omitted groupweights equal; pin radial.c defaultmode2 uses summed abs cfg.sweight. Preserve both; do not rely on omission.",
+  "numerical_cases": [
+    "coherent10",
+    "coherent100"
+  ],
+  "stages": [
+    "cold levels/inventory/stopping/native transport",
+    "unmodified GRASP angular conversion/full independent replay",
+    "separate cold B/C mode0 rates/exact wavefunction guards/fresh complete channels/raw-formula-table audit"
+  ],
+  "timeout_seconds_per_process": 900,
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "failure_policy": "Retain and stop on numerical/refusal/identity/coverage failure; no failed-wave reuse or experimental selection"
+}

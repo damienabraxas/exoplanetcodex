@@ -1,0 +1,742 @@
+{
+  "schema": "rya1354.fac-recoupling-audit.v19",
+  "cases": {
+    "coherent10": {
+      "transport": {
+        "native_basis_count": 15,
+        "exported_CSFs": 15,
+        "signed_coefficients_checked": 43,
+        "level_indices_preserved": 15,
+        "precision": "Exact FAC %.8E native-print formatting equality against exported binary doubles",
+        "scope": "Coupled-basis identity/order/sign transport only; no LS or physical accuracy admission"
+      },
+      "recoupling": {
+        "levels": {
+          "2": {
+            "two_J": 0,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_3P",
+            "dominant_printed_weight": 0.9999681002544025,
+            "components": [
+              {
+                "coefficient": "-0.99998405",
+                "weight": "0.99996810",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              },
+              {
+                "coefficient": "-0.00564777",
+                "weight": "0.00003190",
+                "name": "1s(2).2s(2).2p(4)_1S"
+              }
+            ]
+          },
+          "4": {
+            "two_J": 0,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_1S",
+            "dominant_printed_weight": 0.9999681002544025,
+            "components": [
+              {
+                "coefficient": "-0.99998405",
+                "weight": "0.99996810",
+                "name": "1s(2).2s(2).2p(4)_1S"
+              },
+              {
+                "coefficient": "0.00564777",
+                "weight": "0.00003190",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              }
+            ]
+          },
+          "11": {
+            "two_J": 0,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_3P",
+            "dominant_printed_weight": 1.0,
+            "components": [
+              {
+                "coefficient": "1.00000000",
+                "weight": "1.00000000",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "1": {
+            "two_J": 2,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_3P",
+            "dominant_printed_weight": 1.0,
+            "components": [
+              {
+                "coefficient": "1.00000000",
+                "weight": "1.00000000",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              }
+            ]
+          },
+          "6": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+            "dominant_printed_weight": 0.9996078184591322,
+            "components": [
+              {
+                "coefficient": "0.99980389",
+                "weight": "0.99960782",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              },
+              {
+                "coefficient": "0.01925844",
+                "weight": "0.00037089",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.00369345",
+                "weight": "0.00001364",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "0.00276521",
+                "weight": "0.00000765",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "9": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_3D",
+            "dominant_printed_weight": 0.9994941239938209,
+            "components": [
+              {
+                "coefficient": "0.99974703",
+                "weight": "0.99949412",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.01920334",
+                "weight": "0.00036877",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              },
+              {
+                "coefficient": "-0.00912313",
+                "weight": "0.00008323",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "-0.00734030",
+                "weight": "0.00005388",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "12": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_3P",
+            "dominant_printed_weight": 0.9755932281927129,
+            "components": [
+              {
+                "coefficient": "0.98772123",
+                "weight": "0.97559323",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              },
+              {
+                "coefficient": "-0.15610312",
+                "weight": "0.02436818",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "0.00578396",
+                "weight": "0.00003345",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.00226653",
+                "weight": "0.00000514",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              }
+            ]
+          },
+          "14": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_1P",
+            "dominant_printed_weight": 0.9755349535103929,
+            "components": [
+              {
+                "coefficient": "-0.98769173",
+                "weight": "0.97553494",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "-0.15602964",
+                "weight": "0.02434525",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              },
+              {
+                "coefficient": "-0.01007661",
+                "weight": "0.00010154",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.00427434",
+                "weight": "0.00001827",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              }
+            ]
+          },
+          "0": {
+            "two_J": 4,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_3P",
+            "dominant_printed_weight": 0.9999546805134757,
+            "components": [
+              {
+                "coefficient": "-0.99997734",
+                "weight": "0.99995468",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              },
+              {
+                "coefficient": "-0.00673179",
+                "weight": "0.00004532",
+                "name": "1s(2).2s(2).2p(4)_1D"
+              }
+            ]
+          },
+          "3": {
+            "two_J": 4,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_1D",
+            "dominant_printed_weight": 0.9999546805134757,
+            "components": [
+              {
+                "coefficient": "0.99997734",
+                "weight": "0.99995468",
+                "name": "1s(2).2s(2).2p(4)_1D"
+              },
+              {
+                "coefficient": "-0.00673179",
+                "weight": "0.00004532",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              }
+            ]
+          },
+          "5": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+            "dominant_printed_weight": 0.9997412567391845,
+            "components": [
+              {
+                "coefficient": "-0.99987062",
+                "weight": "0.99974126",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              },
+              {
+                "coefficient": "-0.01238931",
+                "weight": "0.00015350",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.00930926",
+                "weight": "0.00008666",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "-0.00431104",
+                "weight": "0.00001859",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "8": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_3D",
+            "dominant_printed_weight": 0.9887901127181475,
+            "components": [
+              {
+                "coefficient": "-0.99437926",
+                "weight": "0.98879012",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.10490440",
+                "weight": "0.01100493",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "0.01130670",
+                "weight": "0.00012784",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              },
+              {
+                "coefficient": "0.00878110",
+                "weight": "0.00007711",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "10": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_1D",
+            "dominant_printed_weight": 0.9888253538331204,
+            "components": [
+              {
+                "coefficient": "0.99439698",
+                "weight": "0.98882535",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "-0.10469728",
+                "weight": "0.01096152",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.01051192",
+                "weight": "0.00011050",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              },
+              {
+                "coefficient": "0.01013042",
+                "weight": "0.00010263",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "13": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_3P",
+            "dominant_printed_weight": 0.9998016898327057,
+            "components": [
+              {
+                "coefficient": "0.99990084",
+                "weight": "0.99980168",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              },
+              {
+                "coefficient": "0.00973993",
+                "weight": "0.00009487",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.00911326",
+                "weight": "0.00008305",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "-0.00451670",
+                "weight": "0.00002040",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              }
+            ]
+          },
+          "7": {
+            "two_J": 6,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_3D",
+            "dominant_printed_weight": 1.0,
+            "components": [
+              {
+                "coefficient": "1.00000000",
+                "weight": "1.00000000",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              }
+            ]
+          }
+        },
+        "targets": {
+          "3S": [
+            6
+          ],
+          "5S": [
+            5
+          ]
+        },
+        "full_LS_coefficients_reconstructed": 43,
+        "max_transformation_orthonormality_residual": 8.881784197001252e-16,
+        "unique_term_controls": 3
+      }
+    },
+    "coherent100": {
+      "transport": {
+        "native_basis_count": 15,
+        "exported_CSFs": 15,
+        "signed_coefficients_checked": 43,
+        "level_indices_preserved": 15,
+        "precision": "Exact FAC %.8E native-print formatting equality against exported binary doubles",
+        "scope": "Coupled-basis identity/order/sign transport only; no LS or physical accuracy admission"
+      },
+      "recoupling": {
+        "levels": {
+          "2": {
+            "two_J": 0,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_3P",
+            "dominant_printed_weight": 0.9999681002544025,
+            "components": [
+              {
+                "coefficient": "-0.99998405",
+                "weight": "0.99996810",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              },
+              {
+                "coefficient": "-0.00564776",
+                "weight": "0.00003190",
+                "name": "1s(2).2s(2).2p(4)_1S"
+              }
+            ]
+          },
+          "4": {
+            "two_J": 0,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_1S",
+            "dominant_printed_weight": 0.9999681002544025,
+            "components": [
+              {
+                "coefficient": "-0.99998405",
+                "weight": "0.99996810",
+                "name": "1s(2).2s(2).2p(4)_1S"
+              },
+              {
+                "coefficient": "0.00564776",
+                "weight": "0.00003190",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              }
+            ]
+          },
+          "11": {
+            "two_J": 0,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_3P",
+            "dominant_printed_weight": 1.0,
+            "components": [
+              {
+                "coefficient": "1.00000000",
+                "weight": "1.00000000",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "1": {
+            "two_J": 2,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_3P",
+            "dominant_printed_weight": 1.0,
+            "components": [
+              {
+                "coefficient": "1.00000000",
+                "weight": "1.00000000",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              }
+            ]
+          },
+          "6": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)4S.3s_3S",
+            "dominant_printed_weight": 0.9996078184591322,
+            "components": [
+              {
+                "coefficient": "0.99980389",
+                "weight": "0.99960782",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              },
+              {
+                "coefficient": "0.01925846",
+                "weight": "0.00037089",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.00369345",
+                "weight": "0.00001364",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "0.00276521",
+                "weight": "0.00000765",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "9": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_3D",
+            "dominant_printed_weight": 0.9994941239938209,
+            "components": [
+              {
+                "coefficient": "0.99974703",
+                "weight": "0.99949412",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.01920336",
+                "weight": "0.00036877",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              },
+              {
+                "coefficient": "-0.00912313",
+                "weight": "0.00008323",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "-0.00734030",
+                "weight": "0.00005388",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "12": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_3P",
+            "dominant_printed_weight": 0.9755932874559877,
+            "components": [
+              {
+                "coefficient": "0.98772126",
+                "weight": "0.97559328",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              },
+              {
+                "coefficient": "-0.15610293",
+                "weight": "0.02436813",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "0.00578396",
+                "weight": "0.00003345",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.00226654",
+                "weight": "0.00000514",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              }
+            ]
+          },
+          "14": {
+            "two_J": 2,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_1P",
+            "dominant_printed_weight": 0.9755349930180625,
+            "components": [
+              {
+                "coefficient": "-0.98769175",
+                "weight": "0.97553500",
+                "name": "1s(2).2s(2).2p(3)2P.3s_1P"
+              },
+              {
+                "coefficient": "-0.15602945",
+                "weight": "0.02434519",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              },
+              {
+                "coefficient": "-0.01007661",
+                "weight": "0.00010154",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.00427434",
+                "weight": "0.00001827",
+                "name": "1s(2).2s(2).2p(3)4S.3s_3S"
+              }
+            ]
+          },
+          "0": {
+            "two_J": 4,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_3P",
+            "dominant_printed_weight": 0.9999546805134757,
+            "components": [
+              {
+                "coefficient": "-0.99997734",
+                "weight": "0.99995468",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              },
+              {
+                "coefficient": "-0.00673179",
+                "weight": "0.00004532",
+                "name": "1s(2).2s(2).2p(4)_1D"
+              }
+            ]
+          },
+          "3": {
+            "two_J": 4,
+            "parity": "+",
+            "dominant": "1s(2).2s(2).2p(4)_1D",
+            "dominant_printed_weight": 0.9999546805134757,
+            "components": [
+              {
+                "coefficient": "0.99997734",
+                "weight": "0.99995468",
+                "name": "1s(2).2s(2).2p(4)_1D"
+              },
+              {
+                "coefficient": "-0.00673179",
+                "weight": "0.00004532",
+                "name": "1s(2).2s(2).2p(4)_3P"
+              }
+            ]
+          },
+          "5": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)4S.3s_5S",
+            "dominant_printed_weight": 0.9997412567391845,
+            "components": [
+              {
+                "coefficient": "-0.99987062",
+                "weight": "0.99974126",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              },
+              {
+                "coefficient": "-0.01238933",
+                "weight": "0.00015350",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.00930927",
+                "weight": "0.00008666",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "-0.00431104",
+                "weight": "0.00001859",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "8": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_3D",
+            "dominant_printed_weight": 0.9887900729429776,
+            "components": [
+              {
+                "coefficient": "-0.99437924",
+                "weight": "0.98879007",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.10490465",
+                "weight": "0.01100499",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "0.01130671",
+                "weight": "0.00012784",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              },
+              {
+                "coefficient": "0.00878110",
+                "weight": "0.00007711",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "10": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_1D",
+            "dominant_printed_weight": 0.9888252941693024,
+            "components": [
+              {
+                "coefficient": "0.99439695",
+                "weight": "0.98882530",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "-0.10469753",
+                "weight": "0.01096157",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "0.01051193",
+                "weight": "0.00011050",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              },
+              {
+                "coefficient": "0.01013043",
+                "weight": "0.00010263",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              }
+            ]
+          },
+          "13": {
+            "two_J": 4,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2P.3s_3P",
+            "dominant_printed_weight": 0.9998016898327057,
+            "components": [
+              {
+                "coefficient": "0.99990084",
+                "weight": "0.99980168",
+                "name": "1s(2).2s(2).2p(3)2P.3s_3P"
+              },
+              {
+                "coefficient": "0.00973993",
+                "weight": "0.00009487",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              },
+              {
+                "coefficient": "-0.00911326",
+                "weight": "0.00008305",
+                "name": "1s(2).2s(2).2p(3)2D.3s_1D"
+              },
+              {
+                "coefficient": "-0.00451670",
+                "weight": "0.00002040",
+                "name": "1s(2).2s(2).2p(3)4S.3s_5S"
+              }
+            ]
+          },
+          "7": {
+            "two_J": 6,
+            "parity": "-",
+            "dominant": "1s(2).2s(2).2p(3)2D.3s_3D",
+            "dominant_printed_weight": 1.0,
+            "components": [
+              {
+                "coefficient": "1.00000000",
+                "weight": "1.00000000",
+                "name": "1s(2).2s(2).2p(3)2D.3s_3D"
+              }
+            ]
+          }
+        },
+        "targets": {
+          "3S": [
+            6
+          ],
+          "5S": [
+            5
+          ]
+        },
+        "full_LS_coefficients_reconstructed": 43,
+        "max_transformation_orthonormality_residual": 8.881784197001252e-16,
+        "unique_term_controls": 3
+      }
+    }
+  },
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "886a10a9615a4e4a2246333298b4f27521054fd00e457438e83fbb82cc570994",
+      "bytes": 140877
+    }
+  },
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "rates_admitted": false,
+  "independent_angular_implementation": false,
+  "scope": "Exact native/export/LS representation consistency with limited analytic term controls for this minimal configuration only. FAC Hamiltonian independent; angular converter shared with GRASP. No physical accuracy/calibrated benchmark.",
+  "generator_sha256": "cbd491587be7df168b6b50ff5977593a4f1f405a359782b65bfc3e9bb278342e"
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "rya1354.mcdhf-s0-sequential-plan.v58",
+  "starting_commit": "79698490",
+  "driver": "evidence/mcdhf_s0_sequential_driver_v58/rya1354_mcdhf_s0_sequential.py",
+  "driver_sha256": "367c4be0b72e3ce465802738f99fb295eef8f733d4806c9b6a3d83695bc1be04",
+  "helper_sha256": {
+    "rya1354_mcdhf_s0_controls.py": "dba133d2e8f9e6c569476799348292d1d67d2aa643569093b44605138709e365",
+    "rya1354_mcdhf_eol.py": "4a541bacacd81667c1ac126c79e7277807085089a945839572cc981fe9364412",
+    "rya1354_li_scheme_sizing.py": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+    "rya1354_rci_feasibility.py": "69f0d762a670f620b34a958c78bfb81de5659cc8f157501694ed7cd863b18987",
+    "rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+    "rya1354_triplet_correlation.py": "6e80963f035078318313b787fb62a0d4d40e3b8f9156bcad483e60c5d0fc0373",
+    "rya1354_two_method_summary.py": "35c07be8fa4da83c0a6db3980bcd12a9cf7009912bc2424ea63498d590852bdb"
+  },
+  "v56_receipt": "runs/mcdhf_s0_controls_v56/receipt.json sha256 af4850202f657a8a45b661bc0e8b66e43d3f1a5f8ee4c090eb5931a5cc6a9822",
+  "output": "runs/mcdhf_s0_sequential_v58",
+  "why": "v53-v57: varying all MR orbitals together leaves rotations within {1s,2s} and each complete Rydberg manifold free; the strict criterion never converges and leading labels permute (v57 even_A). Standard practice removes the freedom: optimise spectroscopic orbitals one at a time on their own series with earlier orbitals frozen.",
+  "scope": "Per parity, steps (even: core 2p4 vary 1s,2s,2p; then 3p,4p,5p,6p,4f,5f; odd: core 2p3 3s vary 1s,2s,2p,3s; then 4s,5s,6s,3d,4d,5d). Each step: Li MCDHF MR configurations of the families included so far (all parents, 0 excitations), 2J over the targeted J, EOL on the lowest K targeted states per J (Li families), standard weights, strict rmcdhf with method 3 for the varied orbital(s) via the v56 non-default path, 500 cycles, previous orbitals frozen (rwfnestimate previous, then TF, then screened hydrogenic). Final step per parity = the full s0 list (must equal v56 blocks). Then rbiotransform + rtransition E1 between final even and odd.",
+  "guards": "Fresh directory; prlimit --as=12 GiB; budgets as v53; disk guard 40 GiB. Stop and FAILED_RETAINED on any refusal, native stop, iteration limit, strict criterion unmet for the varied orbitals, prompt mismatch, identity (leading families per J of the included targets) differing, final list differing from v56, or missing table.",
+  "evidence": "Receipt and every native file archived.",
+  "outcome": "FAILED_RETAINED at even_0_core (2p4, 5 CSFs): strict 500-cycle limit with 2s 3.5e-9 and 2p <8e-9 converged but 1s frozen at 2.16e-7 (default-grid floor, documented in lifetime_continuation_v4). Archive data/audit/rya1354/mcdhf_s0_sequential_failed_v58. Superseded by v59 (ladder half grid).",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "retained_failure": [
+    "runs/mcdhf_eol_v53 (plan v53)",
+    "runs/mcdhf_s0_controls_v54 (plan v54)",
+    "runs/mcdhf_s0_controls_v55 (plan v55)",
+    "runs/mcdhf_s0_invariance_v57 (plan v57)"
+  ],
+  "strict_rmcdhf": "toolchains/grasp-strict-scf-v1/rmcdhf sha256 a82d7b4083258cd9a65a255f2f0fb5e5cd96dd1df6fc89add209599ac9786599"
+}

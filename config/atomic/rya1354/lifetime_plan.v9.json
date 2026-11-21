@@ -1,0 +1,36 @@
+{
+  "schema": "rya1354.lifetime-plan.v9",
+  "starting_commit": "42227155fc8bd0f0aade722bd3b9cd199e2b6c48",
+  "main_at_start": "45901e7678ab6c8624fe659e552fba3f2681457d",
+  "exposure": "EXPOSED_NONBLIND",
+  "scientific_admission": "HOLD",
+  "adoption_allowed": false,
+  "uncertainty": null,
+  "experiment": "Staged preconditioning then2s release, same full2s-SD/DC n4 CSFs and qualified original initializer. All3states first vary2p*/3*/4* with1s/2s fixed; require strict orbital criterion, original fixed radial records, physical identity and freshNSIC0 restart. Only after all3preconditioners pass, reoptimize2*/3*/4* with1s fixed for all3states, strict/fresh verification. No lifetime from intermediate fixed2s model; only final released states may produce13channel evidence for offline audit.",
+  "numerics": {
+    "grid_H": 0.03125,
+    "grid_N": 439,
+    "ACCY": 5.960464477539063e-08,
+    "damping": 0.5,
+    "cycles": 1500,
+    "NSIC_optimization": 20,
+    "NSIC_fresh_restart": 0,
+    "promotion": "Strict native orbital criterion, native parent/term/J/parity and fresh restart for every state before full13-channel lifetime.",
+    "radial_iteration_floor": 24,
+    "method3": false,
+    "both_2p_spectroscopic": true
+  },
+  "failure_policy": "Any failed optimization, semantic refusal, unmet strict residual, changed fixed radial record/CSF/nucleus, identity or freshrestart stops entire campaign. Retain all outputs. No automatic parameter fallback or failed-wave resume.",
+  "source_controls": "Verify core campaign status/n against native receipt and source CSF/wave/nucleus SHA256 and bytes before output creation. Record initializer receipt SHA256 and explicit varied radial shells.",
+  "future": "Larger Rydberg-targeted MR/AS, balanced core and explicit orbital strategy; independently implemented relativistic checks; separately curated physical experimental groups for other elements. No gauge or grade selected because closer to experiment.",
+  "MR_inventory": "Native generation-only n4, all eight parity/VV-CV/SR-MR combinations. Four-reference even and odd families restricted to n<=4 from Li2023 Table1. Verify native electron count,1s inactivity,2s constraints,parity and duplicateCSFs; allpassed. FullCV MR even29185 (largestJblock14432), odd25382 (largestJblock14490). No energies/wavefunctions/rates from inventory.",
+  "MR_fixed_orbital_control": "After measured inventory, n4 fixed qualified VV orbitals: identicalSR/DC reproduction, VV-MR/DC, full2s-MR/DC, samefull2s-MR+staticBreit. All3 matchedstates and13channels, unchangednativeRCIgrid. No MR orbital optimization or published-protocol reproduction. Preserve wave/nucleus inputs and coreMR DC/Breit CSF identity. n4 relaxation continues as a separate experiment. Single-thread/nice19; measure resources, do not change otherworkers.",
+  "native_method_caveat": "Explicit2s,2p-,2p (+3s odd); GETOLD skips fixed2s during preconditioning and constrains it when released. Other correlation orbitals retain native defaults. NSOLV24 floor, native node/bracket guards, grid/ACCY/damping unchanged; no criterion waiver or observed inputs.",
+  "output": "runs/lifetime_relax_n4_staged_v5",
+  "evidence_collection": "Lossless v2 archive fragments with original SHA/bytes and contiguous offsets; all parts <=5MiB. Previous partial collection preserved. Reassemble original native bytes before receipt/scientific replay. Explicit hashed rci.res matrix caches retained on Sirius; mcp.* caches retained there.",
+  "qualification_correction": "Older relaxation2s,2p selections did not constrain2p-. Preserve historical records and explicit method qualification. Observed2p- node0 alone does not establish missing-constraint impact or a wrong orbital.",
+  "stages": [
+    "fixed_2s",
+    "released_2s"
+  ]
+}

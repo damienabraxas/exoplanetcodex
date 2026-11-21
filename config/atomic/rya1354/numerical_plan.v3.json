@@ -1,0 +1,27 @@
+{
+  "schema": "rya1354.numerical-plan.v3",
+  "scientific_admission": "HOLD",
+  "prior_exposure": "EXPOSED_NONBLIND",
+  "starting_commit": "eacbdad43f8520cbc67f13b68a475570891fa4c0",
+  "goal": "Separate native energy-only stopping from orbital-change convergence without fitting external rates",
+  "solver_variant": "Isolated relink of pinned GRASP; remove exactly one energy-stop statement from scf.f90. All other objects, original native ACCY, Hamiltonian and orbital updates unchanged. Original build remains untouched.",
+  "software_control": "Identical one-cycle original/strict runs from the same n3 seed must produce byte-identical rwfn.out and rmix.out before any scientific use of the strict variant. Both iteration-limit failures remain failures.",
+  "sequence": [
+    "Same-layer n3 strict continuation from original forbidden_ladder_v1/n3 with fixed damping 0.9, 500 cycles",
+    "Same-layer n4/n5 strict numerical continuation from forbidden_ladder_v5; fixed damping 0.9 and original ACCY; record actual orbital-change criterion and failures",
+    "If needed, test native extra least-self-consistent orbital improvements as a separate numerical control; never alter state weights, observed energies or physical model to match rates"
+  ],
+  "limitation": "Same-layer continuations do not repair frozen earlier-layer errors or establish complete grid/core/physical accuracy. SCNSTY is the occupation-weighted native orbital-change measure, not a differential-equation residual or an uncertainty.",
+  "adoption_allowed": false,
+  "uncertainty": null,
+  "additional_physical_test": "n3 VV-SD triplet 2p3(4S)3s3S1 from independently relaxed coverage_v8 seed; freeze n<3, optimize 3* with 3s spectroscopic, strict orbital criterion, damping 0.9, 500 cycles. Ground from strict_n3_v1. Compute E1/M2/E3 to all five ground levels plus M1/E2/M3 to retained quintet seed. This isolates a bounded valence-correlation change; inherited frozen-core and earlier-layer errors remain explicit.",
+  "ground_core_controls": "Fixed strict_n3 orbitals, first identical-space RCI DC to separate interpolation from physics; static Breit limit frequency scale1e-6; one 2s hole and two 2s holes with SD through3d, 1s inactive. Five physical ground-configuration levels, native M1/E2/M3/E4. No observed energy substitution; stationary mass warnings retained. This is a coarse fixed-orbital core control, not full core convergence.",
+  "n5_acceleration_control": "Separate strict n5 continuation with native NSIC=20 least-self-consistent orbital improvements per cycle to reduce repeated matrix diagonalization. Verify any completed state with a fresh NSIC=0 restart, same criterion/model. Preserve the original NSIC=0 run and any explicit interruption; do not interpret speed as scientific accuracy.",
+  "triplet_balance_correction": "First correlation attempt used an uncorrelated quintet destination and reversed the physical energy ordering. Retain/reject v1 as a lifetime. Use a strict-qualified matching n3 VV-SD quintet destination in v2; reject inverted physical ordering before transitions.",
+  "combined_core_control": "Separate n3 fixed-orbital two-2s-hole plus static-limit Breit case to measure interaction between previously separate controls; never sum sensitivity deltas as independent uncertainty.",
+  "lifetime_n4_extension": "Extend triplet VV-SD through4f using qualified n3 triplet functions and new-layer-only strict optimization. Ground strict_n4 same-layer control, quintet matching n4 VV-SD strict-qualified. Keep inherited earlier-layer differences explicit and no full reconstructed-ladder claim. Compare conditional one-photon lifetime to same exposed primary datum without fitting.",
+  "n5_damping_control": "Native NSIC=20 and damping0.5 as a separate same-model numerical continuation from the retained v5 n5 seed. The strong0.9 damping inherited from the n4 instability decays too slowly at n5. Preserve interrupted redundant NSIC0/damping0.9 run as explicitly interrupted, not a convergence failure. Verify any completed accelerated solution by a fresh NSIC0 restart.",
+  "n3_grid_control": "Separate strict n3 same-layer continuation from strict_n3_v1: halve exponential spacing H to0.03125, keep RNT=exp(-65/16)/8, N=439 to match original radial endpoint, native ACCY=H**6. Read native interpolation logs and enforce the actual finer-grid criterion; re-evaluate multipoles. Lower-n functions are interpolated/frozen, so this is not a complete all-orbital grid-convergence proof.",
+  "n3_grid_correction": "Retain/reject halfgrid_v1 for intended tighter criterion: native ACCY was not recomputed after changing H. halfgrid_v2 explicitly revises ACCY to H**6; diagnostic parser must compare declared and native printed setting. Earlier commentary corrected.",
+  "n5_hamiltonian_extension": "Fixed independently verified strict_n5 orbitals and identical n5 CSFs; same-space RCI DC interpolation control followed by static-limit Breit, all five ground levels and M1/E2/M3/E4. No n3-to-n5 transfer of sensitivity or fitted rate. No new core CSFs in this extension."
+}

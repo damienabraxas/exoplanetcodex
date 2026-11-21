@@ -1,0 +1,838 @@
+Al II {
+ "schema": "rya1354.twovalence-model.v2",
+ "species": "Al II",
+ "status": "CANDIDATE_HOLD_NOT_ADOPTED",
+ "core": "Al III",
+ "alpha_d": 0.2649,
+ "lab_independent": {
+  "n": 0,
+  "mean_abs": 0.05,
+  "median": null,
+  "floor_source": "carried from Mg I (0.05)"
+ },
+ "lab_spin_allowed": {
+  "n": 246,
+  "median": -0.0006,
+  "abs68": 0.0209
+ },
+ "ref_calc_vs_lab_spin_allowed": {
+  "median": 0.0,
+  "abs68": 0.0
+ },
+ "floor_dex": 0.05,
+ "family_abs68": {
+  "p-d": 0.0125,
+  "p-2": 0.0018,
+  "s-p": 0.0103,
+  "p-s": 0.0288,
+  "d-f": 0.0126,
+  "f-g": 0.2181,
+  "d-p": 0.0054,
+  "f-d": 0.0329,
+  "g-f": 0.2337
+ },
+ "sigma_coverage_vs_lab_in_sample": {
+  "n": 246,
+  "within_1": 0.902,
+  "within_2": 0.972
+ },
+ "spin_orbit": {
+  "primary": "ion: per-l xi calibrated on the core ion only (v68 declared)",
+  "ion_scales": {
+   "1": {
+    "scale": 1.0798,
+    "n_inverted": 0,
+    "levels": [
+     {
+      "level": "3p",
+      "model_cm": 222.3201,
+      "nist_cm": 233.67,
+      "ratio": 0.9514,
+      "inverted": false
+     },
+     {
+      "level": "4p",
+      "model_cm": 74.6909,
+      "nist_cm": 80.12,
+      "ratio": 0.9322,
+      "inverted": false
+     },
+     {
+      "level": "5p",
+      "model_cm": 34.1652,
+      "nist_cm": 36.89,
+      "ratio": 0.9261,
+      "inverted": false
+     },
+     {
+      "level": "6p",
+      "model_cm": 18.442,
+      "nist_cm": 20.02,
+      "ratio": 0.9212,
+      "inverted": false
+     },
+     {
+      "level": "7p",
+      "model_cm": 11.0723,
+      "nist_cm": 12.03,
+      "ratio": 0.9204,
+      "inverted": false
+     }
+    ]
+   },
+   "2": {
+    "scale": 1.0,
+    "scale_if_calibrated": 0.3874,
+    "n_inverted": 4,
+    "levels": [
+     {
+      "level": "3d",
+      "model_cm": 6.1602,
+      "nist_cm": 2.29,
+      "ratio": 2.6901,
+      "inverted": true
+     },
+     {
+      "level": "4d",
+      "model_cm": 2.991,
+      "nist_cm": 1.19,
+      "ratio": 2.5134,
+      "inverted": true
+     },
+     {
+      "level": "5d",
+      "model_cm": 1.6107,
+      "nist_cm": 0.65,
+      "ratio": 2.478,
+      "inverted": true
+     },
+     {
+      "level": "6d",
+      "model_cm": 0.9539,
+      "nist_cm": 0.36,
+      "ratio": 2.6496,
+      "inverted": true
+     }
+    ],
+    "note": "v70 rule: core FS inverted in the majority of levels -> unscaled"
+   },
+   "3": {
+    "scale": 0.9624,
+    "n_inverted": 0,
+    "levels": [
+     {
+      "level": "4f",
+      "model_cm": 0.6414,
+      "nist_cm": 0.62,
+      "ratio": 1.0346,
+      "inverted": false
+     },
+     {
+      "level": "5f",
+      "model_cm": 0.3339,
+      "nist_cm": 0.32,
+      "ratio": 1.0436,
+      "inverted": false
+     }
+    ]
+   },
+   "4": {
+    "scale": 0.9624,
+    "levels": [],
+    "note": "l>=4 takes the f scale (no NIST fine structure)"
+   }
+  },
+  "control_xi0_max_dev_vs_LS": 0.0,
+  "control_xi0_missing": 0,
+  "fine_structure": {
+   "ion": {
+    "3p.4s 3P*": {
+     "model_cm": 202.208,
+     "nist_cm": 185.39,
+     "ratio": 1.091
+    },
+    "3s.3p 3P*": {
+     "model_cm": 176.078,
+     "nist_cm": 184.76,
+     "ratio": 0.953
+    },
+    "3p2 3P": {
+     "model_cm": 183.853,
+     "nist_cm": 183.72,
+     "ratio": 1.001
+    },
+    "3p.3d 3F*": {
+     "model_cm": 62.026,
+     "nist_cm": 58.16,
+     "ratio": 1.066
+    },
+    "3p.3d 3D*": {
+     "model_cm": 63.18,
+     "nist_cm": 51.37,
+     "ratio": 1.23
+    },
+    "3s.4p 3P*": {
+     "model_cm": 41.258,
+     "nist_cm": 43.41,
+     "ratio": 0.95
+    },
+    "3s.6f 3F*": {
+     "model_cm": 39.14,
+     "nist_cm": 40.4,
+     "ratio": 0.969
+    },
+    "3s.5p 3P*": {
+     "model_cm": 17.597,
+     "nist_cm": 18.563,
+     "ratio": 0.948
+    },
+    "3s.7f 3F*": {
+     "model_cm": 20.801,
+     "nist_cm": 17.92,
+     "ratio": 1.161
+    },
+    "3s.9p 3P*": {
+     "model_cm": 5.947,
+     "nist_cm": 13.65,
+     "ratio": 0.436
+    },
+    "3s.5f 3F*": {
+     "model_cm": 11.649,
+     "nist_cm": 12.36,
+     "ratio": 0.943
+    },
+    "3s.6p 3P*": {
+     "model_cm": 9.198,
+     "nist_cm": 9.842,
+     "ratio": 0.935
+    }
+   },
+   "abinitio": {
+    "3p.4s 3P*": {
+     "model_cm": 187.287,
+     "nist_cm": 185.39,
+     "ratio": 1.01
+    },
+    "3s.3p 3P*": {
+     "model_cm": 163.064,
+     "nist_cm": 184.76,
+     "ratio": 0.883
+    },
+    "3p2 3P": {
+     "model_cm": 170.154,
+     "nist_cm": 183.72,
+     "ratio": 0.926
+    },
+    "3p.3d 3F*": {
+     "model_cm": 57.553,
+     "nist_cm": 58.16,
+     "ratio": 0.99
+    },
+    "3p.3d 3D*": {
+     "model_cm": 58.64,
+     "nist_cm": 51.37,
+     "ratio": 1.142
+    },
+    "3s.4p 3P*": {
+     "model_cm": 38.211,
+     "nist_cm": 43.41,
+     "ratio": 0.88
+    },
+    "3s.6f 3F*": {
+     "model_cm": 36.305,
+     "nist_cm": 40.4,
+     "ratio": 0.899
+    },
+    "3s.5p 3P*": {
+     "model_cm": 16.298,
+     "nist_cm": 18.563,
+     "ratio": 0.878
+    },
+    "3s.7f 3F*": {
+     "model_cm": 19.309,
+     "nist_cm": 17.92,
+     "ratio": 1.077
+    },
+    "3s.9p 3P*": {
+     "model_cm": 5.473,
+     "nist_cm": 13.65,
+     "ratio": 0.401
+    },
+    "3s.5f 3F*": {
+     "model_cm": 10.815,
+     "nist_cm": 12.36,
+     "ratio": 0.875
+    },
+    "3s.6p 3P*": {
+     "model_cm": 8.519,
+     "nist_cm": 9.842,
+     "ratio": 0.866
+    }
+   },
+   "tuned": {
+    "3p.4s 3P*": {
+     "model_cm": 185.39,
+     "nist_cm": 185.39,
+     "ratio": 1.0
+    },
+    "3s.3p 3P*": {
+     "model_cm": 184.76,
+     "nist_cm": 184.76,
+     "ratio": 1.0
+    },
+    "3p2 3P": {
+     "model_cm": 183.72,
+     "nist_cm": 183.72,
+     "ratio": 1.0
+    },
+    "3p.3d 3F*": {
+     "model_cm": 58.16,
+     "nist_cm": 58.16,
+     "ratio": 1.0
+    },
+    "3p.3d 3D*": {
+     "model_cm": 51.37,
+     "nist_cm": 51.37,
+     "ratio": 1.0
+    },
+    "3s.4p 3P*": {
+     "model_cm": 43.41,
+     "nist_cm": 43.41,
+     "ratio": 1.0
+    },
+    "3s.6f 3F*": {
+     "model_cm": 40.4,
+     "nist_cm": 40.4,
+     "ratio": 1.0
+    },
+    "3s.5p 3P*": {
+     "model_cm": 18.563,
+     "nist_cm": 18.563,
+     "ratio": 1.0
+    },
+    "3s.7f 3F*": {
+     "model_cm": 17.92,
+     "nist_cm": 17.92,
+     "ratio": 1.0
+    },
+    "3s.9p 3P*": {
+     "model_cm": 13.65,
+     "nist_cm": 13.65,
+     "ratio": 1.0
+    },
+    "3s.5f 3F*": {
+     "model_cm": 12.36,
+     "nist_cm": 12.36,
+     "ratio": 1.0
+    },
+    "3s.6p 3P*": {
+     "model_cm": 9.842,
+     "nist_cm": 9.842,
+     "ratio": 1.0
+    }
+   },
+   "hybrid": {
+    "3p.4s 3P*": {
+     "model_cm": 202.208,
+     "nist_cm": 185.39,
+     "ratio": 1.091
+    },
+    "3s.3p 3P*": {
+     "model_cm": 176.078,
+     "nist_cm": 184.76,
+     "ratio": 0.953
+    },
+    "3p2 3P": {
+     "model_cm": 183.853,
+     "nist_cm": 183.72,
+     "ratio": 1.001
+    },
+    "3p.3d 3F*": {
+     "model_cm": 62.026,
+     "nist_cm": 58.16,
+     "ratio": 1.066
+    },
+    "3p.3d 3D*": {
+     "model_cm": 63.18,
+     "nist_cm": 51.37,
+     "ratio": 1.23
+    },
+    "3s.4p 3P*": {
+     "model_cm": 41.258,
+     "nist_cm": 43.41,
+     "ratio": 0.95
+    },
+    "3s.6f 3F*": {
+     "model_cm": 39.14,
+     "nist_cm": 40.4,
+     "ratio": 0.969
+    },
+    "3s.5p 3P*": {
+     "model_cm": 17.597,
+     "nist_cm": 18.563,
+     "ratio": 0.948
+    },
+    "3s.7f 3F*": {
+     "model_cm": 20.801,
+     "nist_cm": 17.92,
+     "ratio": 1.161
+    },
+    "3s.9p 3P*": {
+     "model_cm": 5.947,
+     "nist_cm": 13.65,
+     "ratio": 0.436
+    },
+    "3s.5f 3F*": {
+     "model_cm": 11.649,
+     "nist_cm": 12.36,
+     "ratio": 0.943
+    },
+    "3s.6p 3P*": {
+     "model_cm": 9.198,
+     "nist_cm": 9.842,
+     "ratio": 0.935
+    }
+   }
+  },
+  "term_tuning_factors": {
+   "3p2 3P": 1.0789,
+   "3s.6d 3D": 0.3506,
+   "3s.7d 3D": 0.7483,
+   "3s.8d 3D": 0.9146,
+   "3s.9d 3D": 0.9639,
+   "3s.3p 3P*": 1.133,
+   "3s.4p 3P*": 1.1361,
+   "3s.5p 3P*": 1.139,
+   "3s.6p 3P*": 1.1553,
+   "3s.7p 3P*": 1.1196,
+   "3s.8p 3P*": 1.2982,
+   "3s.9p 3P*": 2.4979,
+   "3p.4s 3P*": 0.9922,
+   "3s.10p 3P*": 1.2198,
+   "3p.3d 3D*": 0.876,
+   "3s.4f 3F*": 1.1063,
+   "3s.5f 3F*": 1.1429,
+   "3s.6f 3F*": 1.1131,
+   "3p.3d 3F*": 1.0111,
+   "3s.7f 3F*": 0.9285,
+   "3s.8f 3F*": 0.9896,
+   "3s.9f 3F*": 1.0178,
+   "3s.10f 3F*": 1.0059,
+   "3s.11f 3F*": 0.8608
+  },
+  "lab_spin_change_lines": [],
+  "ref_4571": [
+   {
+    "lower": "3s2 1S0",
+    "upper": "3s.3p 3P*1",
+    "ref_loggf": -4.979,
+    "ref": "LAB: Traebert et al. 1999 storage-ring lifetime (NIST ASD A+, T6947)",
+    "model": -4.9879,
+    "d": -0.0089,
+    "model_abinitio": -5.0543,
+    "model_tuned": -4.9408,
+    "model_hybrid": -4.9879
+   }
+  ],
+  "cf_bins": [
+   {
+    "cf_lo": 0.05,
+    "cf_hi": 0.1,
+    "n": 0,
+    "abs68": 0.155,
+    "fallback": "carried from Mg I v68"
+   },
+   {
+    "cf_lo": 0.02,
+    "cf_hi": 0.05,
+    "n": 1,
+    "abs68": 0.34,
+    "fallback": "carried from Mg I v68"
+   }
+  ],
+  "cf_no_grade": 0.02
+ },
+ "variants": {},
+ "variants_excluded": {},
+ "gauge": {
+  "n": 3726,
+  "median": 0.0071,
+  "p90": 0.0961,
+  "used_in_sigma": false,
+  "lab_test": "Spearman(dT,|model-lab|)=-0.08 (26 lab lines, all dT<0.01): no power, no prediction"
+ },
+ "composition_vs_nist": {
+  "n": 11,
+  "n_pauli_forbidden_in_nist": 0,
+  "median_model_minus_nist_pct": -1.2,
+  "rows": [
+   {
+    "level": "3s2 1S",
+    "second": "3p2 1S",
+    "nist_pct": 5.0,
+    "model_pct": 4.18,
+    "lead_nist_pct": 94.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3s.3p 1P*",
+    "second": "3p.3d 1P*",
+    "nist_pct": 4.0,
+    "model_pct": 4.83,
+    "lead_nist_pct": 94.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3p2 1D",
+    "second": "3s.3d 1D",
+    "nist_pct": 46.0,
+    "model_pct": 44.83,
+    "lead_nist_pct": 52.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3s.3d 1D",
+    "second": "3s.4d 1D",
+    "nist_pct": 33.0,
+    "model_pct": 40.84,
+    "lead_nist_pct": 38.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3p2 1S",
+    "second": "3s2 1S",
+    "nist_pct": 5.0,
+    "model_pct": 3.17,
+    "lead_nist_pct": 91.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3s.4d 1D",
+    "second": "3s.5d 1D",
+    "nist_pct": 24.0,
+    "model_pct": 53.45,
+    "lead_nist_pct": 54.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3s.5f 3F*",
+    "second": "3s.6f 3F*",
+    "nist_pct": 6.0,
+    "model_pct": 42.26,
+    "lead_nist_pct": 89.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3s.6f 3F*",
+    "second": "3p.3d 3F*",
+    "nist_pct": 30.0,
+    "model_pct": 23.34,
+    "lead_nist_pct": 65.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3p.3d 3F*",
+    "second": "3s.6f 3F*",
+    "nist_pct": 24.0,
+    "model_pct": 4.35,
+    "lead_nist_pct": 32.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3s.7f 3F*",
+    "second": "3p.3d 3F*",
+    "nist_pct": 29.0,
+    "model_pct": 12.97,
+    "lead_nist_pct": 65.0,
+    "nist_component_pauli_forbidden": false
+   },
+   {
+    "level": "3s.8f 3F*",
+    "second": "3s.7f 3F*",
+    "nist_pct": 11.0,
+    "model_pct": 0.04,
+    "lead_nist_pct": 82.0,
+    "nist_component_pauli_forbidden": false
+   }
+  ],
+  "note": "report only; percentages are basis-dependent"
+ },
+ "n_lines": 3726,
+ "class_counts": {
+  "A": 0,
+  "B": 0,
+  "C": 1503,
+  "D": 164,
+  "E": 2059
+ },
+ "fill": {
+  "n_features": 38,
+  "n_linelist_rows": 136,
+  "status_counts": {
+   "graded": 38
+  },
+  "n_measurable": 22,
+  "n_measurable_graded": 22,
+  "ls_broken_configurations": [
+   "3s.5g",
+   "3s.6g",
+   "3s.7g",
+   "3s.8g",
+   "3s.9g",
+   "3s.10g",
+   "3s.11g",
+   "3s.12g",
+   "3s.13g",
+   "3s.8h",
+   "3s.9h",
+   "3s.10h"
+  ]
+ }
+}
+energy gate True 0.00379 unmatched 0
+{'line': '1539.8303', 'lower': '3p 1P1', 'upper': '4d 1D2', 'lab': 0.076, 'e_lab': 0.03, 'ref_calc': 0.076, 'model': 0.0384, 'd_model_lab': -0.0376, 'independent': False, 'spin_change': False}
+{'line': '1670.7867', 'lower': '3s2 1S0', 'upper': '3p 1P1', 'lab': 0.248, 'e_lab': 0.0087, 'ref_calc': 0.248, 'model': 0.2487, 'd_model_lab': 0.0007, 'independent': False, 'spin_change': False}
+{'line': '1719.4400', 'lower': '3p 3P0', 'upper': '3d 3D1', 'lab': -0.06, 'e_lab': 0.013, 'ref_calc': -0.06, 'model': -0.0442, 'd_model_lab': 0.0158, 'independent': False, 'spin_change': False}
+{'line': '1721.2435', 'lower': '3p 3P1', 'upper': '3d 3D1', 'lab': -0.182, 'e_lab': 0.013, 'ref_calc': -0.182, 'model': -0.1661, 'd_model_lab': 0.0159, 'independent': False, 'spin_change': False}
+{'line': '1721.2714', 'lower': '3p 3P1', 'upper': '3d 3D2', 'lab': 0.292, 'e_lab': 0.013, 'ref_calc': 0.292, 'model': 0.3079, 'd_model_lab': 0.0159, 'independent': False, 'spin_change': False}
+{'line': '1724.922', 'lower': '3p 3P2', 'upper': '3d 3D1', 'lab': -1.353, 'e_lab': 0.03, 'ref_calc': -1.353, 'model': -1.3363, 'd_model_lab': 0.0167, 'independent': False, 'spin_change': False}
+{'line': '1724.9519', 'lower': '3p 3P2', 'upper': '3d 3D2', 'lab': -0.177, 'e_lab': 0.013, 'ref_calc': -0.177, 'model': -0.1628, 'd_model_lab': 0.0142, 'independent': False, 'spin_change': False}
+{'line': '1724.9838', 'lower': '3p 3P2', 'upper': '3d 3D3', 'lab': 0.565, 'e_lab': 0.013, 'ref_calc': 0.565, 'model': 0.5805, 'd_model_lab': 0.0155, 'independent': False, 'spin_change': False}
+{'line': '1760.1044', 'lower': '3p 3P1', 'upper': '3p2 3P2', 'lab': -0.139, 'e_lab': 0.013, 'ref_calc': -0.139, 'model': -0.1375, 'd_model_lab': 0.0015, 'independent': False, 'spin_change': False}
+{'line': '1761.9751', 'lower': '3p 3P0', 'upper': '3p2 3P1', 'lab': -0.24, 'e_lab': 0.013, 'ref_calc': -0.24, 'model': -0.2385, 'd_model_lab': 0.0015, 'independent': False, 'spin_change': False}
+{'line': '1763.8692', 'lower': '3p 3P1', 'upper': '3p2 3P1', 'lab': -0.371, 'e_lab': 0.013, 'ref_calc': -0.371, 'model': -0.37, 'd_model_lab': 0.001, 'independent': False, 'spin_change': False}
+{'line': '1763.9521', 'lower': '3p 3P2', 'upper': '3p2 3P2', 'lab': 0.331, 'e_lab': 0.013, 'ref_calc': 0.331, 'model': 0.3328, 'd_model_lab': 0.0018, 'independent': False, 'spin_change': False}
+{'line': '1765.8150', 'lower': '3p 3P1', 'upper': '3p2 3P0', 'lab': -0.242, 'e_lab': 0.013, 'ref_calc': -0.242, 'model': -0.2402, 'd_model_lab': 0.0018, 'independent': False, 'spin_change': False}
+{'line': '1767.7308', 'lower': '3p 3P2', 'upper': '3p2 3P1', 'lab': -0.143, 'e_lab': 0.013, 'ref_calc': -0.143, 'model': -0.1411, 'd_model_lab': 0.0019, 'independent': False, 'spin_change': False}
+{'line': '1774.002', 'lower': '3p2 3P1', 'upper': '3p.3d 3D2', 'lab': 0.475, 'e_lab': 0.03, 'ref_calc': 0.475, 'model': 0.466, 'd_model_lab': -0.009, 'independent': False, 'spin_change': False}
+{'line': '1776.975', 'lower': '3p2 3P2', 'upper': '3p.3d 3D3', 'lab': 0.744, 'e_lab': 0.03, 'ref_calc': 0.744, 'model': 0.7375, 'd_model_lab': -0.0065, 'independent': False, 'spin_change': False}
+{'line': '1818.352', 'lower': '3d 3D3', 'upper': '3p.3d 3D3', 'lab': 0.276, 'e_lab': 0.03, 'ref_calc': 0.276, 'model': 0.2405, 'd_model_lab': -0.0355, 'independent': False, 'spin_change': False}
+{'line': '1855.9286', 'lower': '3p 3P0', 'upper': '4s 3S1', 'lab': -0.886, 'e_lab': 0.03, 'ref_calc': -0.886, 'model': -0.8535, 'd_model_lab': 0.0325, 'independent': False, 'spin_change': False}
+{'line': '1858.0262', 'lower': '3p 3P1', 'upper': '4s 3S1', 'lab': -0.412, 'e_lab': 0.013, 'ref_calc': -0.412, 'model': -0.3788, 'd_model_lab': 0.0332, 'independent': False, 'spin_change': False}
+{'line': '1862.3111', 'lower': '3p 3P2', 'upper': '4s 3S1', 'lab': -0.197, 'e_lab': 0.013, 'ref_calc': -0.197, 'model': -0.1619, 'd_model_lab': 0.0351, 'independent': False, 'spin_change': False}
+{'line': '1931.0481', 'lower': '3p 1P1', 'upper': '3p2 1S0', 'lab': -0.235, 'e_lab': 0.013, 'ref_calc': -0.235, 'model': -0.255, 'd_model_lab': -0.02, 'independent': False, 'spin_change': False}
+{'line': '1990.5310', 'lower': '3p 1P1', 'upper': '3d 1D2', 'lab': 0.614, 'e_lab': 0.013, 'ref_calc': 0.614, 'model': 0.6124, 'd_model_lab': -0.0016, 'independent': False, 'spin_change': False}
+{'line': '2631.546', 'lower': '3p2 1D2', 'upper': '4f 1F3', 'lab': 0.255, 'e_lab': 0.03, 'ref_calc': 0.255, 'model': 0.2571, 'd_model_lab': 0.0021, 'independent': False, 'spin_change': False}
+{'line': '2816.185', 'lower': '3p 1P1', 'upper': '4s 1S0', 'lab': -0.371, 'e_lab': 0.013, 'ref_calc': -0.371, 'model': -0.4393, 'd_model_lab': -0.0683, 'independent': False, 'spin_change': False}
+{'line': '3586.557', 'lower': '3d 3D3', 'upper': '4f 3F4', 'lab': 0.611, 'e_lab': 0.013, 'ref_calc': 0.611, 'model': 0.6195, 'd_model_lab': 0.0085, 'independent': False, 'spin_change': False}
+{'line': '3587.068', 'lower': '3d 3D2', 'upper': '4f 3F3', 'lab': 0.45, 'e_lab': 0.03, 'ref_calc': 0.45, 'model': 0.4583, 'd_model_lab': 0.0083, 'independent': False, 'spin_change': False}
+{'line': '3587.450', 'lower': '3d 3D1', 'upper': '4f 3F2', 'lab': 0.28, 'e_lab': 0.03, 'ref_calc': 0.28, 'model': 0.2877, 'd_model_lab': 0.0077, 'independent': False, 'spin_change': False}
+{'line': '3703.219', 'lower': '4p 1P1', 'upper': '5d 1D2', 'lab': -0.478, 'e_lab': 0.03, 'ref_calc': -0.478, 'model': -0.4735, 'd_model_lab': 0.0045, 'independent': False, 'spin_change': False}
+{'line': '4663.056', 'lower': '3p2 1D2', 'upper': '4p 1P1', 'lab': -0.244, 'e_lab': 0.0087, 'ref_calc': -0.244, 'model': -0.2264, 'd_model_lab': 0.0176, 'independent': False, 'spin_change': False}
+{'line': '5593.302', 'lower': '4p 1P1', 'upper': '4d 1D2', 'lab': 0.337, 'e_lab': 0.013, 'ref_calc': 0.337, 'model': 0.3451, 'd_model_lab': 0.0081, 'independent': False, 'spin_change': False}
+{'line': '6181.63', 'lower': '4f 3F2', 'upper': '6g 3G3', 'lab': -0.015, 'e_lab': 0.03, 'ref_calc': -0.015, 'model': -0.0214, 'd_model_lab': -0.0064, 'independent': False, 'spin_change': False}
+{'line': '6182.33', 'lower': '4f 3F3', 'upper': '6g 3G4', 'lab': 0.1, 'e_lab': 0.03, 'ref_calc': 0.1, 'model': -0.116, 'd_model_lab': -0.216, 'independent': False, 'spin_change': False}
+{'line': '6183.45', 'lower': '4f 3F4', 'upper': '6g 3G5', 'lab': 0.217, 'e_lab': 0.03, 'ref_calc': 0.217, 'model': 0.2118, 'd_model_lab': -0.0052, 'independent': False, 'spin_change': False}
+{'line': '6201.53', 'lower': '4f 1F3', 'upper': '6g 1G4', 'lab': 0.128, 'e_lab': 0.03, 'ref_calc': 0.128, 'model': -0.0891, 'd_model_lab': -0.2171, 'independent': False, 'spin_change': False}
+{'line': '6226.18', 'lower': '4p 3P0', 'upper': '4d 3D1', 'lab': 0.037, 'e_lab': 0.03, 'ref_calc': 0.037, 'model': 0.0536, 'd_model_lab': 0.0166, 'independent': False, 'spin_change': False}
+{'line': '6231.62', 'lower': '4p 3P1', 'upper': '4d 3D1', 'lab': -0.088, 'e_lab': 0.03, 'ref_calc': -0.088, 'model': -0.0712, 'd_model_lab': 0.0168, 'independent': False, 'spin_change': False}
+{'line': '6231.745', 'lower': '4p 3P1', 'upper': '4d 3D2', 'lab': 0.389, 'e_lab': 0.013, 'ref_calc': 0.389, 'model': 0.4058, 'd_model_lab': 0.0168, 'independent': False, 'spin_change': False}
+{'line': '6243.20', 'lower': '4p 3P2', 'upper': '4d 3D2', 'lab': -0.089, 'e_lab': 0.03, 'ref_calc': -0.089, 'model': -0.0708, 'd_model_lab': 0.0182, 'independent': False, 'spin_change': False}
+{'line': '6243.36', 'lower': '4p 3P2', 'upper': '4d 3D3', 'lab': 0.659, 'e_lab': 0.013, 'ref_calc': 0.659, 'model': 0.6773, 'd_model_lab': 0.0183, 'independent': False, 'spin_change': False}
+{'line': '6823.48', 'lower': '4p 3P1', 'upper': '5s 3S1', 'lab': -0.123, 'e_lab': 0.03, 'ref_calc': -0.123, 'model': -0.0972, 'd_model_lab': 0.0258, 'independent': False, 'spin_change': False}
+{'line': '6837.14', 'lower': '4p 3P2', 'upper': '5s 3S1', 'lab': 0.097, 'e_lab': 0.03, 'ref_calc': 0.097, 'model': 0.1258, 'd_model_lab': 0.0288, 'independent': False, 'spin_change': False}
+{'line': '6917.93', 'lower': '4d 1D2', 'upper': '6f 1F3', 'lab': -0.303, 'e_lab': 0.03, 'ref_calc': -0.303, 'model': -0.2597, 'd_model_lab': 0.0433, 'independent': False, 'spin_change': False}
+{'line': '6919.96', 'lower': '4p 1P1', 'upper': '5s 1S0', 'lab': -0.144, 'e_lab': 0.013, 'ref_calc': -0.144, 'model': -0.1664, 'd_model_lab': -0.0224, 'independent': False, 'spin_change': False}
+{'line': '7042.06', 'lower': '4s 3S1', 'upper': '4p 3P2', 'lab': 0.332, 'e_lab': 0.0087, 'ref_calc': 0.332, 'model': 0.3261, 'd_model_lab': -0.0059, 'independent': False, 'spin_change': False}
+{'line': '7056.60', 'lower': '4s 3S1', 'upper': '4p 3P1', 'lab': 0.11, 'e_lab': 0.013, 'ref_calc': 0.11, 'model': 0.1034, 'd_model_lab': -0.0066, 'independent': False, 'spin_change': False}
+{'line': '7063.64', 'lower': '4s 3S1', 'upper': '4p 3P0', 'lab': -0.368, 'e_lab': 0.013, 'ref_calc': -0.368, 'model': -0.374, 'd_model_lab': -0.006, 'independent': False, 'spin_change': False}
+{'line': '7449.42', 'lower': '5p 1P1', 'upper': '6d 1D2', 'lab': -0.316, 'e_lab': 0.013, 'ref_calc': -0.316, 'model': -0.3173, 'd_model_lab': -0.0013, 'independent': False, 'spin_change': False}
+{'line': '7471.41', 'lower': '3d 1D2', 'upper': '4f 1F3', 'lab': 0.514, 'e_lab': 0.03, 'ref_calc': 0.514, 'model': 0.4865, 'd_model_lab': -0.0275, 'independent': False, 'spin_change': False}
+{'line': '7635.33', 'lower': '5p 3P2', 'upper': '6d 3D3', 'lab': -0.297, 'e_lab': 0.03, 'ref_calc': -0.297, 'model': -0.2963, 'd_model_lab': 0.0007, 'independent': False, 'spin_change': False}
+{'line': '8354.318', 'lower': '4d 3D3', 'upper': '5f 3F4', 'lab': 0.605, 'e_lab': 0.013, 'ref_calc': 0.605, 'model': 0.5913, 'd_model_lab': -0.0137, 'independent': False, 'spin_change': False}
+{'line': '8359.23', 'lower': '4d 3D3', 'upper': '5f 3F3', 'lab': -0.458, 'e_lab': 0.03, 'ref_calc': -0.458, 'model': -0.4715, 'd_model_lab': -0.0135, 'independent': False, 'spin_change': False}
+{'line': '8359.492', 'lower': '4d 3D2', 'upper': '5f 3F3', 'lab': 0.444, 'e_lab': 0.013, 'ref_calc': 0.444, 'model': 0.4314, 'd_model_lab': -0.0126, 'independent': False, 'spin_change': False}
+{'line': '8363.251', 'lower': '4d 3D2', 'upper': '5f 3F2', 'lab': -0.458, 'e_lab': 0.03, 'ref_calc': -0.458, 'model': -0.4711, 'd_model_lab': -0.0131, 'independent': False, 'spin_change': False}
+{'line': '8363.469', 'lower': '4d 3D1', 'upper': '5f 3F2', 'lab': 0.274, 'e_lab': 0.013, 'ref_calc': 0.274, 'model': 0.2612, 'd_model_lab': -0.0128, 'independent': False, 'spin_change': False}
+{'line': '8640.705', 'lower': '4s 1S0', 'upper': '4p 1P1', 'lab': 0.004, 'e_lab': 0.0087, 'ref_calc': 0.004, 'model': 0.026, 'd_model_lab': 0.022, 'independent': False, 'spin_change': False}
+{'line': '9286.63', 'lower': '4f 3F2', 'upper': '5g 3G3', 'lab': 0.767, 'e_lab': 0.013, 'ref_calc': 0.767, 'model': 0.7785, 'd_model_lab': 0.0115, 'independent': False, 'spin_change': False}
+{'line': '9288.33', 'lower': '4f 3F3', 'upper': '5g 3G3', 'lab': -0.29, 'e_lab': 0.03, 'ref_calc': -0.29, 'model': -0.2798, 'd_model_lab': 0.0102, 'independent': False, 'spin_change': False}
+{'line': '9288.33', 'lower': '4f 3F3', 'upper': '5g 3G4', 'lab': 0.886, 'e_lab': 0.013, 'ref_calc': 0.886, 'model': 0.691, 'd_model_lab': -0.195, 'independent': False, 'spin_change': False}
+{'line': '9290.84', 'lower': '4f 3F4', 'upper': '5g 3G4', 'lab': -0.29, 'e_lab': 0.03, 'ref_calc': -0.29, 'model': -0.5081, 'd_model_lab': -0.2181, 'independent': False, 'spin_change': False}
+{'line': '9290.84', 'lower': '4f 3F4', 'upper': '5g 3G5', 'lab': 1.0, 'e_lab': 0.013, 'ref_calc': 1.0, 'model': 1.0121, 'd_model_lab': 0.0121, 'independent': False, 'spin_change': False}
+{'line': '9331.72', 'lower': '4f 1F3', 'upper': '5g 1G4', 'lab': 0.924, 'e_lab': 0.013, 'ref_calc': 0.924, 'model': 0.7225, 'd_model_lab': -0.2015, 'independent': False, 'spin_change': False}
+{'line': '10076.35', 'lower': '3d 3D3', 'upper': '4p 3P2', 'lab': 0.015, 'e_lab': 0.013, 'ref_calc': 0.015, 'model': 0.0099, 'd_model_lab': -0.0051, 'independent': False, 'spin_change': False}
+{'line': '10077.46', 'lower': '3d 3D2', 'upper': '4p 3P2', 'lab': -0.733, 'e_lab': 0.013, 'ref_calc': -0.733, 'model': -0.7383, 'd_model_lab': -0.0053, 'independent': False, 'spin_change': False}
+{'line': '10078.40', 'lower': '3d 3D1', 'upper': '4p 3P2', 'lab': -1.908, 'e_lab': 0.03, 'ref_calc': -1.908, 'model': -1.9143, 'd_model_lab': -0.0063, 'independent': False, 'spin_change': False}
+{'line': '10107.44', 'lower': '3d 3D2', 'upper': '4p 3P1', 'lab': -0.256, 'e_lab': 0.013, 'ref_calc': -0.256, 'model': -0.262, 'd_model_lab': -0.006, 'independent': False, 'spin_change': False}
+{'line': '10108.39', 'lower': '3d 3D1', 'upper': '4p 3P1', 'lab': -0.733, 'e_lab': 0.013, 'ref_calc': -0.733, 'model': -0.7391, 'd_model_lab': -0.0061, 'independent': False, 'spin_change': False}
+{'line': '10122.70', 'lower': '3d 3D1', 'upper': '4p 3P0', 'lab': -0.609, 'e_lab': 0.013, 'ref_calc': -0.609, 'model': -0.6144, 'd_model_lab': -0.0054, 'independent': False, 'spin_change': False}
+{'line': '11248.499', 'lower': '4d 1D2', 'upper': '5f 1F3', 'lab': 0.657, 'e_lab': 0.013, 'ref_calc': 0.657, 'model': 0.6656, 'd_model_lab': 0.0086, 'independent': False, 'spin_change': False}
+{'line': '11507.40', 'lower': '5d 1D2', 'upper': '7f 1F3', 'lab': -0.066, 'e_lab': 0.03, 'ref_calc': -0.066, 'model': -0.0526, 'd_model_lab': 0.0134, 'independent': False, 'spin_change': False}
+{'line': '12423.047', 'lower': '5p 1P1', 'upper': '5d 1D2', 'lab': 0.486, 'e_lab': 0.013, 'ref_calc': 0.486, 'model': 0.486, 'd_model_lab': 0.0, 'independent': False, 'spin_change': False}
+{'line': '14041.483', 'lower': '5p 3P0', 'upper': '5d 3D1', 'lab': 0.146, 'e_lab': 0.013, 'ref_calc': 0.146, 'model': 0.1497, 'd_model_lab': 0.0037, 'independent': False, 'spin_change': False}
+{'line': '14052.52', 'lower': '5p 3P1', 'upper': '5d 3D1', 'lab': 0.021, 'e_lab': 0.013, 'ref_calc': 0.021, 'model': 0.0237, 'd_model_lab': 0.0027, 'independent': False, 'spin_change': False}
+{'line': '14053.15', 'lower': '5p 3P1', 'upper': '5d 3D2', 'lab': 0.498, 'e_lab': 0.013, 'ref_calc': 0.498, 'model': 0.5008, 'd_model_lab': 0.0028, 'independent': False, 'spin_change': False}
+{'line': '14078.294', 'lower': '5p 3P2', 'upper': '5d 3D3', 'lab': 0.767, 'e_lab': 0.013, 'ref_calc': 0.767, 'model': 0.7735, 'd_model_lab': 0.0065, 'independent': False, 'spin_change': False}
+{'line': '14078.467', 'lower': '5p 3P2', 'upper': '5d 3D2', 'lab': 0.019, 'e_lab': 0.013, 'ref_calc': 0.019, 'model': 0.0254, 'd_model_lab': 0.0064, 'independent': False, 'spin_change': False}
+{'line': '14468.625', 'lower': '5p 1P1', 'upper': '6s 1S0', 'lab': -0.019, 'e_lab': 0.013, 'ref_calc': -0.019, 'model': -0.0406, 'd_model_lab': -0.0216, 'independent': False, 'spin_change': False}
+{'line': '15351.22', 'lower': '5p 3P0', 'upper': '6s 3S1', 'lab': -0.431, 'e_lab': 0.03, 'ref_calc': -0.431, 'model': -0.4104, 'd_model_lab': 0.0206, 'independent': False, 'spin_change': False}
+{'line': '15364.608', 'lower': '5p 3P1', 'upper': '6s 3S1', 'lab': 0.045, 'e_lab': 0.013, 'ref_calc': 0.045, 'model': 0.0659, 'd_model_lab': 0.0209, 'independent': False, 'spin_change': False}
+{'line': '15395.074', 'lower': '5p 3P2', 'upper': '6s 3S1', 'lab': 0.267, 'e_lab': 0.013, 'ref_calc': 0.267, 'model': 0.29, 'd_model_lab': 0.023, 'independent': False, 'spin_change': False}
+{'line': '16247.2', 'lower': '5f 3F2', 'upper': '6g 3G3', 'lab': 0.594, 'e_lab': 0.013, 'ref_calc': 0.594, 'model': 0.6208, 'd_model_lab': 0.0268, 'independent': False, 'spin_change': False}
+{'line': '16261.0', 'lower': '5f 3F3', 'upper': '6g 3G3', 'lab': -0.464, 'e_lab': 0.03, 'ref_calc': -0.464, 'model': -0.4358, 'd_model_lab': 0.0282, 'independent': False, 'spin_change': False}
+{'line': '16261.0', 'lower': '5f 3F3', 'upper': '6g 3G4', 'lab': 0.711, 'e_lab': 0.013, 'ref_calc': 0.711, 'model': 0.5125, 'd_model_lab': -0.1985, 'independent': False, 'spin_change': False}
+{'line': '16279.5', 'lower': '5f 3F4', 'upper': '6g 3G4', 'lab': -0.465, 'e_lab': 0.03, 'ref_calc': -0.465, 'model': -0.6703, 'd_model_lab': -0.2053, 'independent': False, 'spin_change': False}
+{'line': '16279.5', 'lower': '5f 3F4', 'upper': '6g 3G5', 'lab': 0.826, 'e_lab': 0.013, 'ref_calc': 0.826, 'model': 0.8573, 'd_model_lab': 0.0313, 'independent': False, 'spin_change': False}
+{'line': '16917.71', 'lower': '5f 1F3', 'upper': '6g 1G4', 'lab': 0.819, 'e_lab': 0.013, 'ref_calc': 0.819, 'model': 0.5987, 'd_model_lab': -0.2203, 'independent': False, 'spin_change': False}
+{'line': '17420.10', 'lower': '5d 3D3', 'upper': '6f 3F4', 'lab': 0.705, 'e_lab': 0.013, 'ref_calc': 0.705, 'model': 0.6676, 'd_model_lab': -0.0374, 'independent': False, 'spin_change': False}
+{'line': '17489.48', 'lower': '5d 3D2', 'upper': '6f 3F3', 'lab': 0.543, 'e_lab': 0.013, 'ref_calc': 0.543, 'model': 0.5093, 'd_model_lab': -0.0337, 'independent': False, 'spin_change': False}
+{'line': '17490.4', 'lower': '5d 3D3', 'upper': '6f 3F3', 'lab': -0.359, 'e_lab': 0.03, 'ref_calc': -0.359, 'model': -0.3936, 'd_model_lab': -0.0346, 'independent': False, 'spin_change': False}
+{'line': '17543.379', 'lower': '5d 3D2', 'upper': '6f 3F2', 'lab': -0.361, 'e_lab': 0.03, 'ref_calc': -0.361, 'model': -0.3923, 'd_model_lab': -0.0313, 'independent': False, 'spin_change': False}
+{'line': '17544.3', 'lower': '5d 3D1', 'upper': '6f 3F2', 'lab': 0.371, 'e_lab': 0.013, 'ref_calc': 0.371, 'model': 0.34, 'd_model_lab': -0.031, 'independent': False, 'spin_change': False}
+{'line': '17760.969', 'lower': '5s 3S1', 'upper': '5p 3P2', 'lab': 0.474, 'e_lab': 0.013, 'ref_calc': 0.474, 'model': 0.4636, 'd_model_lab': -0.0104, 'independent': False, 'spin_change': False}
+{'line': '17801.65', 'lower': '5s 3S1', 'upper': '5p 3P1', 'lab': 0.252, 'e_lab': 0.013, 'ref_calc': 0.252, 'model': 0.2399, 'd_model_lab': -0.0121, 'independent': False, 'spin_change': False}
+{'line': '17819.71', 'lower': '5s 3S1', 'upper': '5p 3P0', 'lab': -0.226, 'e_lab': 0.03, 'ref_calc': -0.226, 'model': -0.2363, 'd_model_lab': -0.0103, 'independent': False, 'spin_change': False}
+{'line': '17828.8', 'lower': '5f 1F3', 'upper': '6d 1D2', 'lab': -0.867, 'e_lab': 0.03, 'ref_calc': -0.867, 'model': -0.849, 'd_model_lab': 0.018, 'independent': False, 'spin_change': False}
+{'line': '18592.1', 'lower': '5f 3F2', 'upper': '6d 3D1', 'lab': -0.754, 'e_lab': 0.03, 'ref_calc': -0.754, 'model': -0.7035, 'd_model_lab': 0.0505, 'independent': False, 'spin_change': False}
+{'line': '18610.7', 'lower': '5f 3F3', 'upper': '6d 3D2', 'lab': -0.584, 'e_lab': 0.03, 'ref_calc': -0.584, 'model': -0.5299, 'd_model_lab': 0.0541, 'independent': False, 'spin_change': False}
+{'line': '18634.1', 'lower': '5f 3F4', 'upper': '6d 3D3', 'lab': -0.425, 'e_lab': 0.03, 'ref_calc': -0.425, 'model': -0.3655, 'd_model_lab': 0.0595, 'independent': False, 'spin_change': False}
+{'line': '18760.21', 'lower': '5d 1D2', 'upper': '6f 1F3', 'lab': 0.657, 'e_lab': 0.013, 'ref_calc': 0.657, 'model': 0.6581, 'd_model_lab': 0.0011, 'independent': False, 'spin_change': False}
+{'line': '19751.0', 'lower': '5g 1G4', 'upper': '6f 1F3', 'lab': -0.715, 'e_lab': 0.03, 'ref_calc': -0.715, 'model': -0.9624, 'd_model_lab': -0.2474, 'independent': False, 'spin_change': False}
+{'line': '22210.92', 'lower': '5s 1S0', 'upper': '5p 1P1', 'lab': 0.182, 'e_lab': 0.013, 'ref_calc': 0.182, 'model': 0.1847, 'd_model_lab': 0.0027, 'independent': False, 'spin_change': False}
+{'line': '22841.0', 'lower': '5g 3G5', 'upper': '6f 3F4', 'lab': -0.232, 'e_lab': 0.03, 'ref_calc': -0.232, 'model': -0.3101, 'd_model_lab': -0.0781, 'independent': False, 'spin_change': False}
+{'line': '22884.33', 'lower': '6p 1P1', 'upper': '6d 1D2', 'lab': 0.56, 'e_lab': 0.013, 'ref_calc': 0.56, 'model': 0.5551, 'd_model_lab': -0.0049, 'independent': False, 'spin_change': False}
+{'line': '22961.1', 'lower': '5g 3G4', 'upper': '6f 3F3', 'lab': -0.35, 'e_lab': 0.03, 'ref_calc': -0.35, 'model': -0.641, 'd_model_lab': -0.291, 'independent': False, 'spin_change': False}
+{'line': '23053.7', 'lower': '5g 3G3', 'upper': '6f 3F2', 'lab': -0.469, 'e_lab': 0.03, 'ref_calc': -0.469, 'model': -0.5304, 'd_model_lab': -0.0614, 'independent': False, 'spin_change': False}
+{'line': '23311.1', 'lower': '6f 3F4', 'upper': '7g 3G5', 'lab': 0.283, 'e_lab': 0.03, 'ref_calc': 0.283, 'model': 0.4085, 'd_model_lab': 0.1255, 'independent': False, 'spin_change': False}
+{'line': '23594.48', 'lower': '4d 3D3', 'upper': '5p 3P2', 'lab': 0.354, 'e_lab': 0.013, 'ref_calc': 0.354, 'model': 0.3486, 'd_model_lab': -0.0054, 'independent': False, 'spin_change': False}
+{'line': '23596.65', 'lower': '4d 3D2', 'upper': '5p 3P2', 'lab': -0.394, 'e_lab': 0.03, 'ref_calc': -0.394, 'model': -0.3997, 'd_model_lab': -0.0057, 'independent': False, 'spin_change': False}
+{'line': '23668.53', 'lower': '4d 3D2', 'upper': '5p 3P1', 'lab': 0.081, 'e_lab': 0.013, 'ref_calc': 0.081, 'model': 0.0756, 'd_model_lab': -0.0054, 'independent': False, 'spin_change': False}
+{'line': '23670.76', 'lower': '4d 3D1', 'upper': '5p 3P1', 'lab': -0.396, 'e_lab': 0.03, 'ref_calc': -0.396, 'model': -0.4016, 'd_model_lab': -0.0056, 'independent': False, 'spin_change': False}
+{'line': '23702.61', 'lower': '4d 3D1', 'upper': '5p 3P0', 'lab': -0.27, 'e_lab': 0.03, 'ref_calc': -0.27, 'model': -0.2757, 'd_model_lab': -0.0057, 'independent': False, 'spin_change': False}
+{'line': '25764.97', 'lower': '6p 1P1', 'upper': '7s 1S0', 'lab': 0.08, 'e_lab': 0.03, 'ref_calc': 0.08, 'model': 0.045, 'd_model_lab': -0.035, 'independent': False, 'spin_change': False}
+{'line': '26297.9', 'lower': '6p 3P0', 'upper': '6d 3D1', 'lab': 0.223, 'e_lab': 0.013, 'ref_calc': 0.223, 'model': 0.2181, 'd_model_lab': -0.0049, 'independent': False, 'spin_change': False}
+{'line': '26321.5', 'lower': '6p 3P1', 'upper': '6d 3D1', 'lab': 0.096, 'e_lab': 0.013, 'ref_calc': 0.096, 'model': 0.0927, 'd_model_lab': -0.0033, 'independent': False, 'spin_change': False}
+{'line': '26321.5', 'lower': '6p 3P1', 'upper': '6d 3D2', 'lab': 0.574, 'e_lab': 0.013, 'ref_calc': 0.574, 'model': 0.5698, 'd_model_lab': -0.0042, 'independent': False, 'spin_change': False}
+{'line': '26364.0', 'lower': '6p 3P2', 'upper': '6d 3D3', 'lab': 0.845, 'e_lab': 0.013, 'ref_calc': 0.845, 'model': 0.842, 'd_model_lab': -0.003, 'independent': False, 'spin_change': False}
+{'line': '26365.41', 'lower': '6p 3P2', 'upper': '6d 3D2', 'lab': 0.095, 'e_lab': 0.013, 'ref_calc': 0.095, 'model': 0.0939, 'd_model_lab': -0.0011, 'independent': False, 'spin_change': False}
+{'line': '27729.6', 'lower': '6f 1F3', 'upper': '7g 1G4', 'lab': 0.737, 'e_lab': 0.03, 'ref_calc': 0.737, 'model': 0.5117, 'd_model_lab': -0.2253, 'independent': False, 'spin_change': False}
+{'line': '28699.93', 'lower': '6p 3P1', 'upper': '7s 3S1', 'lab': 0.167, 'e_lab': 0.03, 'ref_calc': 0.167, 'model': 0.1839, 'd_model_lab': 0.0169, 'independent': False, 'spin_change': False}
+{'line': '28753.91', 'lower': '6p 3P2', 'upper': '7s 3S1', 'lab': 0.388, 'e_lab': 0.03, 'ref_calc': 0.388, 'model': 0.4073, 'd_model_lab': 0.0193, 'independent': False, 'spin_change': False}
+{'line': '30166.8', 'lower': '6d 1D2', 'upper': '7f 1F3', 'lab': 0.643, 'e_lab': 0.013, 'ref_calc': 0.643, 'model': 0.643, 'd_model_lab': 0.0, 'independent': False, 'spin_change': False}
+{'line': '35630.16', 'lower': '6s 3S1', 'upper': '6p 3P2', 'lab': 0.567, 'e_lab': 0.013, 'ref_calc': 0.567, 'model': 0.5576, 'd_model_lab': -0.0094, 'independent': False, 'spin_change': False}
+{'line': '35712.01', 'lower': '6s 3S1', 'upper': '6p 3P1', 'lab': 0.346, 'e_lab': 0.013, 'ref_calc': 0.346, 'model': 0.3345, 'd_model_lab': -0.0115, 'independent': False, 'spin_change': False}
+{'line': '35755.25', 'lower': '6s 3S1', 'upper': '6p 3P0', 'lab': -0.132, 'e_lab': 0.013, 'ref_calc': -0.132, 'model': -0.1422, 'd_model_lab': -0.0102, 'independent': False, 'spin_change': False}
+{'line': '36181.8', 'lower': '7d 3D2', 'upper': '8f 3F2', 'lab': -0.26, 'e_lab': 0.013, 'ref_calc': -0.26, 'model': -1.3677, 'd_model_lab': -1.1077, 'independent': False, 'spin_change': False}
+{'line': '37170.7', 'lower': '7p 1P1', 'upper': '7d 1D2', 'lab': 0.611, 'e_lab': 0.03, 'ref_calc': 0.611, 'model': 0.5868, 'd_model_lab': -0.0242, 'independent': False, 'spin_change': False}
+{'line': '40915.2', 'lower': '7p 1P1', 'upper': '8s 1S0', 'lab': 0.135, 'e_lab': 0.03, 'ref_calc': 0.135, 'model': 0.0937, 'd_model_lab': -0.0413, 'independent': False, 'spin_change': False}
+{'line': '42956.6', 'lower': '6d 3D3', 'upper': '3p.3d 3F4', 'lab': 0.902, 'e_lab': 0.03, 'ref_calc': 0.902, 'model': 0.8557, 'd_model_lab': -0.0463, 'independent': False, 'spin_change': False}
+{'line': '43569.4', 'lower': '6d 3D2', 'upper': '3p.3d 3F3', 'lab': 0.736, 'e_lab': 0.03, 'ref_calc': 0.736, 'model': 0.6981, 'd_model_lab': -0.0379, 'independent': False, 'spin_change': False}
+{'line': '43945.6', 'lower': '7p 3P0', 'upper': '7d 3D1', 'lab': 0.279, 'e_lab': 0.03, 'ref_calc': 0.279, 'model': 0.2742, 'd_model_lab': -0.0048, 'independent': False, 'spin_change': False}
+{'line': '43979.4', 'lower': '7p 3P1', 'upper': '7d 3D2', 'lab': 0.629, 'e_lab': 0.03, 'ref_calc': 0.629, 'model': 0.6266, 'd_model_lab': -0.0024, 'independent': False, 'spin_change': False}
+{'line': '43982.3', 'lower': '7p 3P1', 'upper': '7d 3D1', 'lab': 0.153, 'e_lab': 0.03, 'ref_calc': 0.153, 'model': 0.1495, 'd_model_lab': -0.0035, 'independent': False, 'spin_change': False}
+{'line': '44047.4', 'lower': '7p 3P2', 'upper': '7d 3D3', 'lab': 0.9, 'e_lab': 0.03, 'ref_calc': 0.9, 'model': 0.8983, 'd_model_lab': -0.0017, 'independent': False, 'spin_change': False}
+{'line': '44052.5', 'lower': '6d 3D1', 'upper': '3p.3d 3F2', 'lab': 0.56, 'e_lab': 0.03, 'ref_calc': 0.56, 'model': 0.5293, 'd_model_lab': -0.0307, 'independent': False, 'spin_change': False}
+{'line': '44053.1', 'lower': '7p 3P2', 'upper': '7d 3D2', 'lab': 0.152, 'e_lab': 0.03, 'ref_calc': 0.152, 'model': 0.1502, 'd_model_lab': -0.0018, 'independent': False, 'spin_change': False}
+{'line': '45468.33', 'lower': '5d 3D2', 'upper': '6p 3P2', 'lab': -0.218, 'e_lab': 0.013, 'ref_calc': -0.218, 'model': -0.2199, 'd_model_lab': -0.0019, 'independent': False, 'spin_change': False}
+{'line': '45470.14', 'lower': '5d 3D3', 'upper': '6p 3P2', 'lab': 0.529, 'e_lab': 0.013, 'ref_calc': 0.529, 'model': 0.5284, 'd_model_lab': -0.0006, 'independent': False, 'spin_change': False}
+{'line': '45597.51', 'lower': '5d 3D2', 'upper': '6p 3P1', 'lab': 0.256, 'e_lab': 0.013, 'ref_calc': 0.256, 'model': 0.2559, 'd_model_lab': -0.0001, 'independent': False, 'spin_change': False}
+{'line': '45606.40', 'lower': '5d 3D1', 'upper': '6p 3P1', 'lab': -0.22, 'e_lab': 0.013, 'ref_calc': -0.22, 'model': -0.2213, 'd_model_lab': -0.0013, 'independent': False, 'spin_change': False}
+{'line': '45676.0', 'lower': '5d 3D1', 'upper': '6p 3P0', 'lab': -0.096, 'e_lab': 0.013, 'ref_calc': -0.096, 'model': -0.0959, 'd_model_lab': 0.0001, 'independent': False, 'spin_change': False}
+{'line': '45973.2', 'lower': '7d 1D2', 'upper': '8f 1F3', 'lab': 0.651, 'e_lab': 0.03, 'ref_calc': 0.651, 'model': 0.6391, 'd_model_lab': -0.0119, 'independent': False, 'spin_change': False}
+{'line': '46713.16', 'lower': '6s 1S0', 'upper': '6p 1P1', 'lab': 0.26, 'e_lab': 0.013, 'ref_calc': 0.26, 'model': 0.2682, 'd_model_lab': 0.0082, 'independent': False, 'spin_change': False}
+{'line': '47780', 'lower': '7p 3P0', 'upper': '8s 3S1', 'lab': -0.217, 'e_lab': 0.03, 'ref_calc': -0.217, 'model': -0.2015, 'd_model_lab': 0.0155, 'independent': False, 'spin_change': False}
+{'line': '47823', 'lower': '7p 3P1', 'upper': '8s 3S1', 'lab': 0.26, 'e_lab': 0.03, 'ref_calc': 0.26, 'model': 0.2761, 'd_model_lab': 0.0161, 'independent': False, 'spin_change': False}
+{'line': '47910', 'lower': '7p 3P2', 'upper': '8s 3S1', 'lab': 0.481, 'e_lab': 0.03, 'ref_calc': 0.481, 'model': 0.4989, 'd_model_lab': 0.0179, 'independent': False, 'spin_change': False}
+{'line': '51551.67', 'lower': '4d 3D3', 'upper': '4f 3F4', 'lab': 0.126, 'e_lab': 0.013, 'ref_calc': 0.126, 'model': 0.1337, 'd_model_lab': 0.0077, 'independent': False, 'spin_change': False}
+{'line': '51625.71', 'lower': '4d 3D3', 'upper': '4f 3F3', 'lab': -0.937, 'e_lab': 0.03, 'ref_calc': -0.937, 'model': -0.9311, 'd_model_lab': 0.0059, 'independent': False, 'spin_change': False}
+{'line': '51638.99', 'lower': '4d 3D2', 'upper': '4f 3F3', 'lab': -0.036, 'e_lab': 0.013, 'ref_calc': -0.036, 'model': -0.0281, 'd_model_lab': 0.0079, 'independent': False, 'spin_change': False}
+{'line': '51692.71', 'lower': '4d 3D2', 'upper': '4f 3F2', 'lab': -0.937, 'e_lab': 0.03, 'ref_calc': -0.937, 'model': -0.9314, 'd_model_lab': 0.0056, 'independent': False, 'spin_change': False}
+{'line': '51702.54', 'lower': '4d 3D1', 'upper': '4f 3F2', 'lab': -0.207, 'e_lab': 0.013, 'ref_calc': -0.207, 'model': -0.199, 'd_model_lab': 0.008, 'independent': False, 'spin_change': False}
+{'line': '51737', 'lower': '7g 1G4', 'upper': '8f 1F3', 'lab': -0.025, 'e_lab': 0.03, 'ref_calc': -0.025, 'model': -0.2724, 'd_model_lab': -0.2474, 'independent': False, 'spin_change': False}
+{'line': '54914', 'lower': '8p 1P1', 'upper': '8d 1D2', 'lab': 0.629, 'e_lab': 0.03, 'ref_calc': 0.629, 'model': 0.5807, 'd_model_lab': -0.0483, 'independent': False, 'spin_change': False}
+{'line': '58780', 'lower': '7f 3F2', 'upper': '8g 3G3', 'lab': 0.898, 'e_lab': 0.03, 'ref_calc': 0.898, 'model': 0.8771, 'd_model_lab': -0.0209, 'independent': False, 'spin_change': False}
+{'line': '59024', 'lower': '7f 3F3', 'upper': '8g 3G4', 'lab': 1.015, 'e_lab': 0.03, 'ref_calc': 1.015, 'model': 0.7604, 'd_model_lab': -0.2546, 'independent': False, 'spin_change': False}
+{'line': '59024', 'lower': '7f 3F3', 'upper': '8g 3G3', 'lab': -0.161, 'e_lab': 0.03, 'ref_calc': -0.161, 'model': -0.179, 'd_model_lab': -0.018, 'independent': False, 'spin_change': False}
+{'line': '59405', 'lower': '7f 3F4', 'upper': '8g 3G5', 'lab': 1.127, 'e_lab': 0.03, 'ref_calc': 1.127, 'model': 1.1146, 'd_model_lab': -0.0124, 'independent': False, 'spin_change': False}
+{'line': '59405', 'lower': '7f 3F4', 'upper': '8g 3G4', 'lab': -0.164, 'e_lab': 0.03, 'ref_calc': -0.164, 'model': -0.418, 'd_model_lab': -0.254, 'independent': False, 'spin_change': False}
+{'line': '62664', 'lower': '7s 3S1', 'upper': '7p 3P2', 'lab': 0.641, 'e_lab': 0.03, 'ref_calc': 0.641, 'model': 0.6313, 'd_model_lab': -0.0097, 'independent': False, 'spin_change': False}
+{'line': '62814', 'lower': '7s 3S1', 'upper': '7p 3P1', 'lab': 0.419, 'e_lab': 0.03, 'ref_calc': 0.419, 'model': 0.4088, 'd_model_lab': -0.0102, 'independent': False, 'spin_change': False}
+{'line': '62889', 'lower': '7s 3S1', 'upper': '7p 3P0', 'lab': -0.059, 'e_lab': 0.03, 'ref_calc': -0.059, 'model': -0.0685, 'd_model_lab': -0.0095, 'independent': False, 'spin_change': False}
+{'line': '64435', 'lower': '6g 3G5', 'upper': '3p.3d 3F4', 'lab': 0.456, 'e_lab': 0.03, 'ref_calc': 0.456, 'model': 0.3952, 'd_model_lab': -0.0608, 'independent': False, 'spin_change': False}
+{'line': '65835', 'lower': '6g 3G4', 'upper': '3p.3d 3F3', 'lab': 0.331, 'e_lab': 0.03, 'ref_calc': 0.331, 'model': 0.0546, 'd_model_lab': -0.2764, 'independent': False, 'spin_change': False}
+{'line': '66944', 'lower': '6g 3G3', 'upper': '3p.3d 3F2', 'lab': 0.207, 'e_lab': 0.03, 'ref_calc': 0.207, 'model': 0.1714, 'd_model_lab': -0.0356, 'independent': False, 'spin_change': False}
+{'line': '67723', 'lower': '8p 3P0', 'upper': '8d 3D1', 'lab': 0.324, 'e_lab': 0.03, 'ref_calc': 0.324, 'model': 0.3224, 'd_model_lab': -0.0016, 'independent': False, 'spin_change': False}
+{'line': '67777', 'lower': '8p 3P1', 'upper': '8d 3D2', 'lab': 0.676, 'e_lab': 0.03, 'ref_calc': 0.676, 'model': 0.6749, 'd_model_lab': -0.0011, 'independent': False, 'spin_change': False}
+{'line': '67786', 'lower': '8p 3P1', 'upper': '8d 3D1', 'lab': 0.198, 'e_lab': 0.03, 'ref_calc': 0.198, 'model': 0.1978, 'd_model_lab': -0.0002, 'independent': False, 'spin_change': False}
+{'line': '67916', 'lower': '8p 3P2', 'upper': '8d 3D3', 'lab': 0.947, 'e_lab': 0.03, 'ref_calc': 0.947, 'model': 0.9465, 'd_model_lab': -0.0005, 'independent': False, 'spin_change': False}
+{'line': '67928', 'lower': '8p 3P2', 'upper': '8d 3D2', 'lab': 0.197, 'e_lab': 0.03, 'ref_calc': 0.197, 'model': 0.1984, 'd_model_lab': 0.0014, 'independent': False, 'spin_change': False}
+{'line': '72665', 'lower': '7f 3F2', 'upper': '8d 3D1', 'lab': 0.323, 'e_lab': 0.03, 'ref_calc': 0.323, 'model': 0.2939, 'd_model_lab': -0.0291, 'independent': False, 'spin_change': False}
+{'line': '73029', 'lower': '7f 3F3', 'upper': '8d 3D2', 'lab': 0.492, 'e_lab': 0.03, 'ref_calc': 0.492, 'model': 0.4684, 'd_model_lab': -0.0236, 'independent': False, 'spin_change': False}
+{'line': '73600', 'lower': '7f 3F4', 'upper': '8d 3D3', 'lab': 0.649, 'e_lab': 0.03, 'ref_calc': 0.649, 'model': 0.6334, 'd_model_lab': -0.0156, 'independent': False, 'spin_change': False}
+{'line': '75550', 'lower': '4f 1F3', 'upper': '4d 1D2', 'lab': -0.117, 'e_lab': 0.013, 'ref_calc': -0.117, 'model': -0.2546, 'd_model_lab': -0.1376, 'independent': False, 'spin_change': False}
+{'line': '78074', 'lower': '6d 3D2', 'upper': '7p 3P2', 'lab': -0.097, 'e_lab': 0.03, 'ref_calc': -0.097, 'model': -0.0968, 'd_model_lab': 0.0002, 'independent': False, 'spin_change': False}
+{'line': '78090', 'lower': '6d 3D3', 'upper': '7p 3P2', 'lab': 0.652, 'e_lab': 0.03, 'ref_calc': 0.652, 'model': 0.6514, 'd_model_lab': -0.0006, 'independent': False, 'spin_change': False}
+{'line': '78307', 'lower': '6d 3D2', 'upper': '7p 3P1', 'lab': 0.379, 'e_lab': 0.03, 'ref_calc': 0.379, 'model': 0.3796, 'd_model_lab': 0.0006, 'independent': False, 'spin_change': False}
+{'line': '78307', 'lower': '6d 3D1', 'upper': '7p 3P1', 'lab': -0.098, 'e_lab': 0.03, 'ref_calc': -0.098, 'model': -0.0976, 'd_model_lab': 0.0004, 'independent': False, 'spin_change': False}
+{'line': '78423', 'lower': '6d 3D1', 'upper': '7p 3P0', 'lab': 0.027, 'e_lab': 0.03, 'ref_calc': 0.027, 'model': 0.0271, 'd_model_lab': 0.0001, 'independent': False, 'spin_change': False}
+{'line': '89415', 'lower': '7s 1S0', 'upper': '7p 1P1', 'lab': 0.307, 'e_lab': 0.03, 'ref_calc': 0.307, 'model': 0.3119, 'd_model_lab': 0.0049, 'independent': False, 'spin_change': False}
+{'line': '93033', 'lower': '4d 1D2', 'upper': '5p 1P1', 'lab': -0.432, 'e_lab': 0.013, 'ref_calc': -0.432, 'model': -0.2417, 'd_model_lab': 0.1903, 'independent': False, 'spin_change': False}
+{'line': '93484', 'lower': '6f 3F2', 'upper': '6g 3G3', 'lab': 0.49, 'e_lab': 0.013, 'ref_calc': 0.49, 'model': 0.4953, 'd_model_lab': 0.0053, 'independent': False, 'spin_change': False}
+{'line': '95039', 'lower': '6f 3F3', 'upper': '6g 3G4', 'lab': 0.6, 'e_lab': 0.013, 'ref_calc': 0.6, 'model': 0.3791, 'd_model_lab': -0.2209, 'independent': False, 'spin_change': False}
+{'line': '95039', 'lower': '6f 3F3', 'upper': '6g 3G3', 'lab': -0.575, 'e_lab': 0.013, 'ref_calc': -0.575, 'model': -0.5666, 'd_model_lab': 0.0084, 'independent': False, 'spin_change': False}
+{'line': '97143', 'lower': '9p 3P2', 'upper': '9d 3D3', 'lab': 0.975, 'e_lab': 0.03, 'ref_calc': 0.975, 'model': 0.9875, 'd_model_lab': 0.0125, 'independent': False, 'spin_change': False}
+{'line': '97153', 'lower': '6f 3F4', 'upper': '6g 3G5', 'lab': 0.706, 'e_lab': 0.013, 'ref_calc': 0.706, 'model': 0.7195, 'd_model_lab': 0.0135, 'independent': False, 'spin_change': False}
+{'line': '97153', 'lower': '6f 3F4', 'upper': '6g 3G4', 'lab': -0.585, 'e_lab': 0.013, 'ref_calc': -0.585, 'model': -0.8082, 'd_model_lab': -0.2232, 'independent': False, 'spin_change': False}
+{'line': '99698', 'lower': '5d 1D2', 'upper': '6p 1P1', 'lab': 0.09, 'e_lab': 0.013, 'ref_calc': 0.09, 'model': 0.1573, 'd_model_lab': 0.0673, 'independent': False, 'spin_change': False}
+{'line': '101307', 'lower': '8s 3S1', 'upper': '8p 3P2', 'lab': 0.702, 'e_lab': 0.03, 'ref_calc': 0.702, 'model': 0.6911, 'd_model_lab': -0.0109, 'independent': False, 'spin_change': False}
+{'line': '101645', 'lower': '8s 3S1', 'upper': '8p 3P1', 'lab': 0.477, 'e_lab': 0.03, 'ref_calc': 0.477, 'model': 0.4683, 'd_model_lab': -0.0087, 'independent': False, 'spin_change': False}
+{'line': '101785', 'lower': '8s 3S1', 'upper': '8p 3P0', 'lab': -0.0, 'e_lab': 0.03, 'ref_calc': -0.0, 'model': -0.0092, 'd_model_lab': -0.0092, 'independent': False, 'spin_change': False}
+{'line': '104997', 'lower': '9f 3F3', 'upper': '10g 3G4', 'lab': 0.969, 'e_lab': 0.03, 'ref_calc': 0.969, 'model': 0.7078, 'd_model_lab': -0.2612, 'independent': False, 'spin_change': False}
+{'line': '105160', 'lower': '9f 3F4', 'upper': '10g 3G5', 'lab': 1.081, 'e_lab': 0.03, 'ref_calc': 1.081, 'model': 1.0644, 'd_model_lab': -0.0166, 'independent': False, 'spin_change': False}
+{'line': '108960', 'lower': '7d 3D3', 'upper': '7f 3F4', 'lab': 1.0, 'e_lab': 0.03, 'ref_calc': 1.0, 'model': 0.9956, 'd_model_lab': -0.0044, 'independent': False, 'spin_change': False}
+{'line': '110233', 'lower': '7d 3D2', 'upper': '7f 3F3', 'lab': 0.836, 'e_lab': 0.03, 'ref_calc': 0.836, 'model': 0.8339, 'd_model_lab': -0.0021, 'independent': False, 'spin_change': False}
+{'line': '110268', 'lower': '7d 3D3', 'upper': '7f 3F3', 'lab': -0.065, 'e_lab': 0.03, 'ref_calc': -0.065, 'model': -0.0693, 'd_model_lab': -0.0043, 'independent': False, 'spin_change': False}
+{'line': '111075', 'lower': '7d 3D1', 'upper': '7f 3F2', 'lab': 0.662, 'e_lab': 0.03, 'ref_calc': 0.662, 'model': 0.6624, 'd_model_lab': 0.0004, 'independent': False, 'spin_change': False}
+{'line': '111094', 'lower': '7d 3D2', 'upper': '7f 3F2', 'lab': -0.068, 'e_lab': 0.03, 'ref_calc': -0.068, 'model': -0.0699, 'd_model_lab': -0.0019, 'independent': False, 'spin_change': False}
+{'line': '124324', 'lower': '7d 3D2', 'upper': '8p 3P2', 'lab': -0.004, 'e_lab': 0.03, 'ref_calc': -0.004, 'model': -0.0052, 'd_model_lab': -0.0012, 'independent': False, 'spin_change': False}
+{'line': '124369', 'lower': '7d 3D3', 'upper': '8p 3P2', 'lab': 0.743, 'e_lab': 0.03, 'ref_calc': 0.743, 'model': 0.7431, 'd_model_lab': 0.0001, 'independent': False, 'spin_change': False}
+{'line': '124810', 'lower': '7d 3D1', 'upper': '8p 3P1', 'lab': -0.006, 'e_lab': 0.03, 'ref_calc': -0.006, 'model': -0.0062, 'd_model_lab': -0.0002, 'independent': False, 'spin_change': False}
+{'line': '124833', 'lower': '7d 3D2', 'upper': '8p 3P1', 'lab': 0.471, 'e_lab': 0.03, 'ref_calc': 0.471, 'model': 0.4709, 'd_model_lab': -0.0001, 'independent': False, 'spin_change': False}
+{'line': '125022', 'lower': '7d 3D1', 'upper': '8p 3P0', 'lab': 0.118, 'e_lab': 0.03, 'ref_calc': 0.118, 'model': 0.1183, 'd_model_lab': 0.0003, 'independent': False, 'spin_change': False}
+{'line': '134050', 'lower': '5f 3F2', 'upper': '5g 3G3', 'lab': -0.081, 'e_lab': 0.013, 'ref_calc': -0.081, 'model': -0.0803, 'd_model_lab': 0.0007, 'independent': False, 'spin_change': False}
+{'line': '135022', 'lower': '5f 3F3', 'upper': '5g 3G3', 'lab': -1.142, 'e_lab': 0.03, 'ref_calc': -1.142, 'model': -1.1412, 'd_model_lab': 0.0008, 'independent': False, 'spin_change': False}
+{'line': '135022', 'lower': '5f 3F3', 'upper': '5g 3G4', 'lab': 0.035, 'e_lab': 0.013, 'ref_calc': 0.035, 'model': -0.1855, 'd_model_lab': -0.2205, 'independent': False, 'spin_change': False}
+{'line': '136308', 'lower': '5f 3F4', 'upper': '5g 3G4', 'lab': -1.145, 'e_lab': 0.03, 'ref_calc': -1.145, 'model': -1.3738, 'd_model_lab': -0.2288, 'independent': False, 'spin_change': False}
+{'line': '136308', 'lower': '5f 3F4', 'upper': '5g 3G5', 'lab': 0.145, 'e_lab': 0.013, 'ref_calc': 0.145, 'model': 0.1464, 'd_model_lab': 0.0014, 'independent': False, 'spin_change': False}
+{'line': '145985', 'lower': '10p 3P2', 'upper': '10d 3D3', 'lab': 1.013, 'e_lab': 0.03, 'ref_calc': 1.013, 'model': 1.0152, 'd_model_lab': 0.0022, 'independent': False, 'spin_change': False}
+{'line': '158193', 'lower': '9s 3S1', 'upper': '9p 3P2', 'lab': 0.737, 'e_lab': 0.03, 'ref_calc': 0.737, 'model': 0.7282, 'd_model_lab': -0.0088, 'independent': False, 'spin_change': False}
+{'line': '158773', 'lower': '6d 1D2', 'upper': '7p 1P1', 'lab': 0.25, 'e_lab': 0.013, 'ref_calc': 0.25, 'model': 0.2986, 'd_model_lab': 0.0486, 'independent': False, 'spin_change': False}
+{'line': '159444', 'lower': '5d 3D3', 'upper': '5f 3F4', 'lab': 0.146, 'e_lab': 0.013, 'ref_calc': 0.146, 'model': 0.1599, 'd_model_lab': 0.0139, 'independent': False, 'spin_change': False}
+{'line': '161218', 'lower': '5d 3D2', 'upper': '5f 3F3', 'lab': -0.018, 'e_lab': 0.013, 'ref_calc': -0.018, 'model': -0.0064, 'd_model_lab': 0.0116, 'independent': False, 'spin_change': False}
+{'line': '161241', 'lower': '5d 3D3', 'upper': '5f 3F3', 'lab': -0.919, 'e_lab': 0.013, 'ref_calc': -0.919, 'model': -0.9096, 'd_model_lab': 0.0094, 'independent': False, 'spin_change': False}
+{'line': '162625', 'lower': '5d 3D2', 'upper': '5f 3F2', 'lab': -0.924, 'e_lab': 0.013, 'ref_calc': -0.924, 'model': -0.9141, 'd_model_lab': 0.0099, 'independent': False, 'spin_change': False}
+{'line': '162665', 'lower': '5d 3D1', 'upper': '5f 3F2', 'lab': -0.192, 'e_lab': 0.013, 'ref_calc': -0.192, 'model': -0.1818, 'd_model_lab': 0.0102, 'independent': False, 'spin_change': False}
+{'line': '167185', 'lower': '8s 1S0', 'upper': '8p 1P1', 'lab': 0.312, 'e_lab': 0.03, 'ref_calc': 0.312, 'model': 0.3137, 'd_model_lab': 0.0017, 'independent': False, 'spin_change': False}
+{'line': '199230', 'lower': '5f 1F3', 'upper': '5g 1G4', 'lab': -0.09, 'e_lab': 0.013, 'ref_calc': -0.09, 'model': -0.3147, 'd_model_lab': -0.2247, 'independent': False, 'spin_change': False}
+{'line': '202900', 'lower': '8d 3D3', 'upper': '8f 3F4', 'lab': 1.027, 'e_lab': 0.03, 'ref_calc': 1.027, 'model': 1.027, 'd_model_lab': 0.0, 'independent': False, 'spin_change': False}
+{'line': '204100', 'lower': '10s 3S1', 'upper': '10p 3P2', 'lab': 0.684, 'e_lab': 0.03, 'ref_calc': 0.684, 'model': 0.7992, 'd_model_lab': 0.1152, 'independent': False, 'spin_change': False}
+{'line': '204190', 'lower': '8d 3D2', 'upper': '8f 3F3', 'lab': 0.863, 'e_lab': 0.03, 'ref_calc': 0.863, 'model': 0.8649, 'd_model_lab': 0.0019, 'independent': False, 'spin_change': False}
+{'line': '204300', 'lower': '8d 3D3', 'upper': '8f 3F3', 'lab': -0.038, 'e_lab': 0.03, 'ref_calc': -0.038, 'model': -0.0383, 'd_model_lab': -0.0003, 'independent': False, 'spin_change': False}
+{'line': '205120', 'lower': '8d 3D1', 'upper': '8f 3F2', 'lab': 0.692, 'e_lab': 0.03, 'ref_calc': 0.692, 'model': 0.6929, 'd_model_lab': 0.0009, 'independent': False, 'spin_change': False}
+{'line': '205200', 'lower': '8d 3D2', 'upper': '8f 3F2', 'lab': -0.041, 'e_lab': 0.03, 'ref_calc': -0.041, 'model': -0.0398, 'd_model_lab': 0.0012, 'independent': False, 'spin_change': False}
+{'line': '231400', 'lower': '7g 3G4', 'upper': '7f 3F4', 'lab': -0.673, 'e_lab': 0.03, 'ref_calc': -0.673, 'model': -0.917, 'd_model_lab': -0.244, 'independent': False, 'spin_change': False}
+{'line': '231400', 'lower': '7g 3G5', 'upper': '7f 3F4', 'lab': 0.619, 'e_lab': 0.03, 'ref_calc': 0.619, 'model': 0.614, 'd_model_lab': -0.005, 'independent': False, 'spin_change': False}
+{'line': '237380', 'lower': '7g 3G4', 'upper': '7f 3F3', 'lab': 0.492, 'e_lab': 0.03, 'ref_calc': 0.492, 'model': 0.2583, 'd_model_lab': -0.2337, 'independent': False, 'spin_change': False}
+{'line': '237380', 'lower': '7g 3G3', 'upper': '7f 3F3', 'lab': -0.684, 'e_lab': 0.03, 'ref_calc': -0.684, 'model': -0.6828, 'd_model_lab': 0.0012, 'independent': False, 'spin_change': False}
+{'line': '241410', 'lower': '7g 3G3', 'upper': '7f 3F2', 'lab': 0.368, 'e_lab': 0.03, 'ref_calc': 0.368, 'model': 0.372, 'd_model_lab': 0.004, 'independent': False, 'spin_change': False}
+{'line': '242010', 'lower': '9d 3D3', 'upper': '10p 3P2', 'lab': 0.763, 'e_lab': 0.03, 'ref_calc': 0.763, 'model': 0.8958, 'd_model_lab': 0.1328, 'independent': False, 'spin_change': False}
+{'line': '284150', 'lower': '7d 1D2', 'upper': '8p 1P1', 'lab': 0.33, 'e_lab': 0.03, 'ref_calc': 0.33, 'model': 0.335, 'd_model_lab': 0.005, 'independent': False, 'spin_change': False}
+{'line': '289220', 'lower': '6f 1F3', 'upper': '6g 1G4', 'lab': 0.248, 'e_lab': 0.013, 'ref_calc': 0.248, 'model': 0.0159, 'd_model_lab': -0.2321, 'independent': False, 'spin_change': False}
+{'line': '318910', 'lower': '9d 3D3', 'upper': '9f 3F4', 'lab': 1.055, 'e_lab': 0.03, 'ref_calc': 1.055, 'model': 1.0573, 'd_model_lab': 0.0023, 'independent': False, 'spin_change': False}
+{'line': '320010', 'lower': '9d 3D2', 'upper': '9f 3F3', 'lab': 0.895, 'e_lab': 0.03, 'ref_calc': 0.895, 'model': 0.8959, 'd_model_lab': 0.0009, 'independent': False, 'spin_change': False}
+{'line': '321130', 'lower': '9d 3D1', 'upper': '9f 3F2', 'lab': 0.723, 'e_lab': 0.03, 'ref_calc': 0.723, 'model': 0.724, 'd_model_lab': 0.001, 'independent': False, 'spin_change': False}
+{'line': '340750', 'lower': '6f 3F2', 'upper': '6d 3D1', 'lab': -0.292, 'e_lab': 0.013, 'ref_calc': -0.292, 'model': -0.2725, 'd_model_lab': 0.0195, 'independent': False, 'spin_change': False}
+{'line': '340750', 'lower': '6f 3F2', 'upper': '6d 3D2', 'lab': -1.025, 'e_lab': 0.013, 'ref_calc': -1.025, 'model': -1.0049, 'd_model_lab': 0.0201, 'independent': False, 'spin_change': False}
+{'line': '362030', 'lower': '6f 3F3', 'upper': '6d 3D3', 'lab': -1.051, 'e_lab': 0.013, 'ref_calc': -1.051, 'model': -1.0255, 'd_model_lab': 0.0255, 'independent': False, 'spin_change': False}
+{'line': '362360', 'lower': '6f 3F3', 'upper': '6d 3D2', 'lab': -0.151, 'e_lab': 0.013, 'ref_calc': -0.151, 'model': -0.1227, 'd_model_lab': 0.0283, 'independent': False, 'spin_change': False}
+{'line': '394760', 'lower': '6f 3F4', 'upper': '6d 3D3', 'lab': -0.025, 'e_lab': 0.013, 'ref_calc': -0.025, 'model': 0.0079, 'd_model_lab': 0.0329, 'independent': False, 'spin_change': False}
+{'line': '403960', 'lower': '7f 1F3', 'upper': '7g 1G4', 'lab': 0.45, 'e_lab': 0.03, 'ref_calc': 0.45, 'model': 0.2153, 'd_model_lab': -0.2347, 'independent': False, 'spin_change': False}
+{'line': '426280', 'lower': '5f 1F3', 'upper': '5d 1D2', 'lab': -0.117, 'e_lab': 0.0087, 'ref_calc': -0.117, 'model': -0.3888, 'd_model_lab': -0.2718, 'independent': False, 'spin_change': False}
+{'line': '594500', 'lower': '8g 3G5', 'upper': '8f 3F4', 'lab': 0.575, 'e_lab': 0.03, 'ref_calc': 0.575, 'model': 0.5784, 'd_model_lab': 0.0034, 'independent': False, 'spin_change': False}
+{'line': '594500', 'lower': '8g 3G4', 'upper': '8f 3F4', 'lab': -0.715, 'e_lab': 0.03, 'ref_calc': -0.715, 'model': -0.9544, 'd_model_lab': -0.2394, 'independent': False, 'spin_change': False}
+{'line': '606700', 'lower': '8g 3G3', 'upper': '8f 3F3', 'lab': -0.725, 'e_lab': 0.03, 'ref_calc': -0.725, 'model': -0.7201, 'd_model_lab': 0.0049, 'independent': False, 'spin_change': False}
+{'line': '606700', 'lower': '8g 3G4', 'upper': '8f 3F3', 'lab': 0.45, 'e_lab': 0.03, 'ref_calc': 0.45, 'model': 0.2185, 'd_model_lab': -0.2315, 'independent': False, 'spin_change': False}
+{'line': '615700', 'lower': '8g 3G3', 'upper': '8f 3F2', 'lab': 0.327, 'e_lab': 0.03, 'ref_calc': 0.327, 'model': 0.3326, 'd_model_lab': 0.0056, 'independent': False, 'spin_change': False}
+{'line': '927500', 'lower': '10s 1S0', 'upper': '10p 1P1', 'lab': 0.013, 'e_lab': 0.03, 'ref_calc': 0.013, 'model': 0.0017, 'd_model_lab': -0.0113, 'independent': False, 'spin_change': False}
+{'line': '936900', 'lower': '10f 1F3', 'upper': '10g 1G4', 'lab': 0.793, 'e_lab': 0.03, 'ref_calc': 0.793, 'model': 0.5531, 'd_model_lab': -0.2399, 'independent': False, 'spin_change': False}

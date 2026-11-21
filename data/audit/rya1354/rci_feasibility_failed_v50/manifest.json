@@ -1,0 +1,1401 @@
+{
+  "schema": "rya1354.native-evidence-parts.v2",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "64e51e70d4e8b671ef87dd3995d3e5d0c9516b8fee2986de47b72dfdd73c22fb",
+      "bytes": 182674
+    },
+    "part002.tar.gz": {
+      "sha256": "433e66d67bfe276689c6af49bdf889db3e612e849b6c80f14cdaa6b0125cdf68",
+      "bytes": 300139
+    },
+    "part003.tar.gz": {
+      "sha256": "31fa29b46dde73405ec9cd1a2d303abd7cf5581eff27269f0a47eb6630abbb6e",
+      "bytes": 1936009
+    },
+    "part004.tar.gz": {
+      "sha256": "acf2e2d89ccfbb79a60ed35b4ec73048e0ad80b0c8f570df85a335a98896b27e",
+      "bytes": 521964
+    },
+    "part005.tar.gz": {
+      "sha256": "8da91add62e5adc803aeb9a1eae0a4ef3e4ed129ac32aa6bca5d616f1b92f262",
+      "bytes": 123579
+    }
+  },
+  "files": {
+    "evidence/rci_feasibility_driver_v50/__pycache__/rya1354_li_scheme_sizing.cpython-314.pyc": {
+      "sha256": "c499dcd1b644f68592418f100881ecc0a125696d1122b13ff107de7d7ae6f73d",
+      "bytes": 12373
+    },
+    "evidence/rci_feasibility_driver_v50/__pycache__/rya1354_solver_smoke.cpython-314.pyc": {
+      "sha256": "7e4b22451e6d251b6e7fd2d7023a6bcada8084cbac46c07e49624950ca4f96e2",
+      "bytes": 18619
+    },
+    "evidence/rci_feasibility_driver_v50/batch.time": {
+      "sha256": "d144001f496fd54d1fef617a03a49fc43ae36e97f9b8491b833e947075df722a",
+      "bytes": 975
+    },
+    "evidence/rci_feasibility_driver_v50/rya1354_li_scheme_sizing.py": {
+      "sha256": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+      "bytes": 6349
+    },
+    "evidence/rci_feasibility_driver_v50/rya1354_rci_feasibility.py": {
+      "sha256": "d8769b97c17a20c04aa820faa5d9d42fb4010966decf79ac6837fd9827bccb5c",
+      "bytes": 14569
+    },
+    "evidence/rci_feasibility_driver_v50/rya1354_solver_smoke.py": {
+      "sha256": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+      "bytes": 10570
+    },
+    "evidence/rci_feasibility_driver_v50/stderr.txt": {
+      "sha256": "007b895118b8f7601bf43aeb1160121ccdce7daa23ed998f720d2d08c33660b1",
+      "bytes": 924
+    },
+    "evidence/rci_feasibility_driver_v50/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsf.inp": {
+      "sha256": "e6c86d16cf1c02d352ccde801e524aeb36123b1b0e1e4df36a4195fa917ee92e",
+      "bytes": 1781843
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsf.out": {
+      "sha256": "c2c366d63759136cc8560de6aa8b34c3a84039d52053da04403c5edee92de721",
+      "bytes": 1268347
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.stdout": {
+      "sha256": "40e69f8dd1e87a0ef953f41c3b622a54fa39225c337c44efb4e9211de32a7852",
+      "bytes": 774
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.time": {
+      "sha256": "38042a43fa5ebdc33370e021fc6940de4247f46af1fb2605f90dd641542d0bef",
+      "bytes": 786
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfmr.inp": {
+      "sha256": "f3fc78087e5fc0b35f9cff7b4d0a42b07ab131a18b0c35087b2e77e5069cbf06",
+      "bytes": 3599
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/clist.new": {
+      "sha256": "697e74eb63a80688e72cdcbac49dfb1a5556e31379a8956c2a5fb7b5eca30fa8",
+      "bytes": 372219
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsf.log": {
+      "sha256": "c57310ae8fb36dbf964dd9c07ddbaf96e5f11f7d80e09f3d5a5c9ef07030f2e0",
+      "bytes": 4196
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsf.out": {
+      "sha256": "e6c86d16cf1c02d352ccde801e524aeb36123b1b0e1e4df36a4195fa917ee92e",
+      "bytes": 1781843
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.log": {
+      "sha256": "8a1dd6b2021ea8f257f13e3ae7dfcbe945b6ef9feab661a9a08974e36db3eac5",
+      "bytes": 269
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.stdin": {
+      "sha256": "6096aff950a76a45ecb2209b6cabe48e0ced909736712996d71b39b11dc7abcb",
+      "bytes": 141
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.stdout": {
+      "sha256": "683b5b7250e4850d50d85647bc645721b5db172242c972038db6696164288976",
+      "bytes": 6389
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.time": {
+      "sha256": "de61667b3e37114c9d7e14f943ecd98374dce201d684fa787936c1686fb3f779",
+      "bytes": 787
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/clist.new": {
+      "sha256": "54e927ab996821bac659c33a4b69fe5ab3bd84b6ea9e832a8854d5b50edf59fd",
+      "bytes": 1206
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsf.log": {
+      "sha256": "7be59974d59b28c76181b9af65eb59a0084567374ea077c27ee164239180bbbc",
+      "bytes": 4196
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsf.out": {
+      "sha256": "595dda8d236a0f62e4d38b8013f739aa4c1ed85969e5581ce334cde1cf537596",
+      "bytes": 3569
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.log": {
+      "sha256": "8a642e2b59c72fe93feaa4807b07d4ae7796a26a119b66aa0b78f59e1293d922",
+      "bytes": 269
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.stdin": {
+      "sha256": "11766069690e044bfff23f7b7a5edc3c2f43c9e2b000563057ffba80cb30ff8e",
+      "bytes": 141
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.stdout": {
+      "sha256": "d339c6596052be98d4f474805e187bcdd3ea07ff63ff67ccf8a728a69619d5cb",
+      "bytes": 6366
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.time": {
+      "sha256": "d13d5287dc8c281b696403e8cde95f266d79b3034592371c20753ecb80c7eea5",
+      "bytes": 784
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.31": {
+      "sha256": "c993f90f8d7ca00ee42dd6df12863b2afbdb8bf8055c5a2a58b8e356257052ca",
+      "bytes": 454718
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.32": {
+      "sha256": "c7a2f700767d11a80577a3fbc3f7fac4368f90b67424e4dbc287897836d4f5dc",
+      "bytes": 4020382
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.37": {
+      "sha256": "1f3efd5eabea96648aa191f69281f2604348b98b725d69d0fe5c62ca4878df4a",
+      "bytes": 617006
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.38": {
+      "sha256": "d88c300eb4ad6acdd013e7e4d7ed7794004d9d30131cd11009fcb2dc98f61a9e",
+      "bytes": 6798
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.39": {
+      "sha256": "e2650703092445807126b941f550a5bce4ac4f3e797cb96109efb592eec98892",
+      "bytes": 102
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdout": {
+      "sha256": "4eb582bd50a0bd0d3a84e76f9092c65f59b1c04bb77643323cbb930766b7ffa8",
+      "bytes": 6067
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.time": {
+      "sha256": "baffa43be22664f2758a28973c391c8563d770c4645e8906465f0ae543df8132",
+      "bytes": 796
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rcsf.inp": {
+      "sha256": "c2c366d63759136cc8560de6aa8b34c3a84039d52053da04403c5edee92de721",
+      "bytes": 1268347
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.stderr": {
+      "sha256": "f457cb46718f7405c0b2181d3cfe3ac6947b6c8a57d00903e6c6c542dedeabae",
+      "bytes": 358
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.stdin": {
+      "sha256": "233d435f534b8619cb8dac119ef0a68d76968f1a901ccac52bbdfae98d2d252c",
+      "bytes": 12
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.time": {
+      "sha256": "71f817e200866bd320c5e352baee97a791917d6fac279e85698d7bb11fa88c2f",
+      "bytes": 780
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfn.inp": {
+      "sha256": "9dd87a5774842350ca1c32a13a23d031fc47d6d1d5dcc0c73808762774cb0504",
+      "bytes": 62238
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.stderr": {
+      "sha256": "bbe183429bf4e07376a57ba4d3131612b0c5040a05766fe03bf60f71cfc675e7",
+      "bytes": 1794
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.stdin": {
+      "sha256": "9c37bfa72e539b58413125c41d2322c1da49f0412ce89bbfa17b460b9b1a39c5",
+      "bytes": 6
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.stdout": {
+      "sha256": "bb559d048f6798a9bd05f8bb230143237537f18fcf923a1065c2d63dbcd41b7e",
+      "bytes": 86
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.time": {
+      "sha256": "d30c671f24d6a97a0a4ddc6d52d9977a23d766177cb263f2d3856b960ee4e6a6",
+      "bytes": 786
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/state.c": {
+      "sha256": "c2c366d63759136cc8560de6aa8b34c3a84039d52053da04403c5edee92de721",
+      "bytes": 1268347
+    },
+    "runs/rci_feasibility_v50/driver.py": {
+      "sha256": "d8769b97c17a20c04aa820faa5d9d42fb4010966decf79ac6837fd9827bccb5c",
+      "bytes": 14569
+    },
+    "runs/rci_feasibility_v50/progress.json": {
+      "sha256": "74782a0d5c348b199315cac3b103a3be0d93fee8829599b0d8c707b93a544cbb",
+      "bytes": 22915
+    },
+    "runs/rci_feasibility_v50/receipt.json": {
+      "sha256": "b5184153d77d6ce0ef753ea6c5e473c1b522ce43f55bd9cff06948dd56fe5e49",
+      "bytes": 53207
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.stdout": {
+      "sha256": "7dfdcf192371513048c23a1dd970e465774deb80cd300d2b65bfe15c43f7b98a",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.time": {
+      "sha256": "a7b5c0495bf1bc8d67c1f6a6098721758d480fcacf8588e0ec0ac91dfdd54a54",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfmr.inp": {
+      "sha256": "391e8a1b9f86f29997d220cc6e64db6edd0103c07cf60a3be87c852e77767cf9",
+      "bytes": 42896
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.stdout": {
+      "sha256": "50ab2ce82dd317bfb5158d717ab53e0cf5401087aeef69039d59eb66847098fb",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.time": {
+      "sha256": "a99ec02bd9b42bdf253cf209bf03287f69253e3db9788d20fce4dc48ec9be602",
+      "bytes": 791
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfmr.inp": {
+      "sha256": "391e8a1b9f86f29997d220cc6e64db6edd0103c07cf60a3be87c852e77767cf9",
+      "bytes": 42896
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/clist.new": {
+      "sha256": "9331892ec3f0011ed2d9804a00e54cda4836f9e289e53885b9ff60d667e8eb0f",
+      "bytes": 2149744
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsf.log": {
+      "sha256": "c79f1d0c8bed468bce954572d2370a6a730750529c818fa640c97120c98c3ab8",
+      "bytes": 24851
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.log": {
+      "sha256": "6765373475a3a32f56120421204dcf31bf1b77c3a53f1c071abbcd99843eb8a0",
+      "bytes": 587
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stdin": {
+      "sha256": "b3a675ce2bad56b4b82e8725ea1262b7f08a9204fd744789b7c6657f6ae27734",
+      "bytes": 459
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stdout": {
+      "sha256": "763fb16886e500e9d487cd32f1b2f0b47d4e3dad72325899b314899650d5989a",
+      "bytes": 29584
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.time": {
+      "sha256": "d2134845ade871101229079f28fd28f2fb9f25ed86f71b1ec39d67f99d1ad947",
+      "bytes": 794
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/clist.new": {
+      "sha256": "1adbb444986b3126f5b2a8ff179fe717e9c25b1afc93bdf275feec65f7d451ac",
+      "bytes": 4679
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsf.log": {
+      "sha256": "a75cf3435430a4c115336e23e8b630d67ad3c9b2c6c5add9fe1928fe10752021",
+      "bytes": 24851
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsf.out": {
+      "sha256": "720655d907e448312abc1b159909623355661ee32c0b887d6a3a4f3a3ef6632f",
+      "bytes": 42856
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.log": {
+      "sha256": "8447c07e4046b8589b9d2353b5cb9dd928185a8cd45da533702c1fe04decafec",
+      "bytes": 587
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.stdin": {
+      "sha256": "6f9934cb19eefbcbedb6023b8aa557cff08590fbd5351c132b7c80b02f0c2493",
+      "bytes": 459
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.stdout": {
+      "sha256": "c80f3c10226771b0a9edfb808940ed760d11d0c8ed8edf33e6dacefd25168fff",
+      "bytes": 29334
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.time": {
+      "sha256": "d633a3b3945eaada926e4eaea9edabaa09c54d6275607efa469a2ec01597b7fc",
+      "bytes": 785
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.stdout": {
+      "sha256": "197862e7094a7530bde0bca6fe56029a9a461e3a2c260cb4fb2faeabc9356d67",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.time": {
+      "sha256": "a20e6376caeb6dde256ba9d5615193ca6a940ebe742fd98fb901612c57bbc16a",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfmr.inp": {
+      "sha256": "ce612db64d7f207e7ce83cae9da8cd16f1895f105e5bc8535bc19884a81b93eb",
+      "bytes": 47802
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.stdout": {
+      "sha256": "04787bc61604347aa58c7dde45e4884a670aaed063309b246adfde942702ebae",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.time": {
+      "sha256": "d65ae2a2c207b94ca98c3d1030b36890bf14212db02e81621ac9ec2d6bdcedec",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfmr.inp": {
+      "sha256": "ce612db64d7f207e7ce83cae9da8cd16f1895f105e5bc8535bc19884a81b93eb",
+      "bytes": 47802
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsf.log": {
+      "sha256": "7c84f98cf6a36f8c5249907eca68dd3b8f3b57e029c13f8fda60aefa859b26d8",
+      "bytes": 33531
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.log": {
+      "sha256": "b2bb828917581b39bfd78bb79020b764c6c3cfa9fd11cdf906cbe7fa0ecbf384",
+      "bytes": 645
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdin": {
+      "sha256": "0c6cac93de22343a11011bb40326f42854b9a2d3b15c8c6c91402c303b69f1ad",
+      "bytes": 517
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdout": {
+      "sha256": "2a8efa0162492fff5c284a088edd053e6638ec953522e5bf6af5cd5d991adcc2",
+      "bytes": 39273
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.time": {
+      "sha256": "76370096955c88e147644528ac69ff5139c9d38873e56a69987c863cb21f320c",
+      "bytes": 795
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/clist.new": {
+      "sha256": "1adbb444986b3126f5b2a8ff179fe717e9c25b1afc93bdf275feec65f7d451ac",
+      "bytes": 4679
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsf.log": {
+      "sha256": "5f0734baa8b168d33e502384d1cbe0fc9ac71ddfe42a64ebb7232b7fd3066045",
+      "bytes": 33531
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsf.out": {
+      "sha256": "dae2040e7205d3439e4ed73bdb6adabbd9eaa00a0dc7d4ad01607e9177a08c2d",
+      "bytes": 47722
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.log": {
+      "sha256": "0a74f787e466be612c2d908c5b9c3999a93e9543b703b6a70ece49221fd8c6d5",
+      "bytes": 645
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.stdin": {
+      "sha256": "87d7308df24e9ec014cbb1b9a15d7bae864e1b4e58db90f8044b37a8f668426a",
+      "bytes": 517
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.stdout": {
+      "sha256": "8faee6506fd0a1e2d46434bf848a5c6f86327251841dfbc4dde0d1f662fde40e",
+      "bytes": 38992
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.time": {
+      "sha256": "01baf555b395a83b712ddd6147f2bebcbbe4e272f1642f44ef214b25cf621467",
+      "bytes": 786
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.stdout": {
+      "sha256": "04d21ca3d33918497e115bb2cb945067ab117f535c2eca687bef8cf9409be15d",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.time": {
+      "sha256": "e71b8fbd40cd55e29ee790fc4b4c9154d41cc26a22e2ed5acd0c5828d095f1a3",
+      "bytes": 789
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfmr.inp": {
+      "sha256": "843270c26f95a74d0558b2ebaae1c9bd7310b45078ac5a918f2a531e802542aa",
+      "bytes": 12144
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.stdout": {
+      "sha256": "a0e3328a3cb1e3b3ee69fd56419ccc44ea082f1d6af09314ebaaba3612f61288",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.time": {
+      "sha256": "cbba9c6ca6127c57b8e3b9b7f2c4544c6984844d03dad8d33a21355a0c7ca75b",
+      "bytes": 789
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfmr.inp": {
+      "sha256": "843270c26f95a74d0558b2ebaae1c9bd7310b45078ac5a918f2a531e802542aa",
+      "bytes": 12144
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsf.log": {
+      "sha256": "c77b628da480c3afe4f91b0c4d9d791d2c54efae5f6bb88a8e74be6ec6fbbba0",
+      "bytes": 11528
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.log": {
+      "sha256": "5c51e24f6eaa459856fb886db8e07d30e0bf76595592c7d0fee84467257e69bb",
+      "bytes": 362
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdin": {
+      "sha256": "fd27ef9a0f6760460fb958796860fea472a3fa6a13c3b878ede257c3b444b087",
+      "bytes": 234
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdout": {
+      "sha256": "d3e022b984d17863b5a99da4b988aadcd156faf41cac83e89593260659fb85b2",
+      "bytes": 14651
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.time": {
+      "sha256": "dbaa0c54000d5256a827cbc6337833be119443f9c8c611b7b57e4d46025d4143",
+      "bytes": 792
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/clist.new": {
+      "sha256": "b77c607957eaa0f807202250fb21b3205107d11737f9cbd26e44aa4739a65d16",
+      "bytes": 2552
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsf.log": {
+      "sha256": "f43b9d77ecf4acf6810dbc4b6badf9c93a1289a43b91d3e19c4a9c41149b63b6",
+      "bytes": 11528
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsf.out": {
+      "sha256": "fa7218a35f208f173a5dffbc5a38de056d0f15c8abb1eb907e47e569bfa0f255",
+      "bytes": 12034
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.log": {
+      "sha256": "f8a53974877cbfeb61296d0d2d8b4ae050ad3d636e87ef7e36abf57276fdcdb3",
+      "bytes": 362
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.stdin": {
+      "sha256": "48ffeed2a444068568dddceb5e8d2a2122831d90265fb1044b1c82fac10f3437",
+      "bytes": 234
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.stdout": {
+      "sha256": "3ba88cf646948a9b26c9ce5b72f35edf2ae9bb8967f7ce4a35e9cfd96d3219ea",
+      "bytes": 14555
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.time": {
+      "sha256": "be7cdbf44ebf824ca84699204198f2d142f6533e4b63ca209438244ec5f83b9a",
+      "bytes": 785
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.stdout": {
+      "sha256": "08230875d762e8ace7176ebc4d4a97b8f9c97bbaeca7c37ca0132c0a9c8d5e14",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.time": {
+      "sha256": "f88f7c1f8bf3f4e7994a174e7ef1338410876e427f9049c72e1f41977576980d",
+      "bytes": 791
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfmr.inp": {
+      "sha256": "5aac39bdb8e206035f405fcba7fb37e361fff71370688b7ff1ce3569b4ff9bf9",
+      "bytes": 13265
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.stdout": {
+      "sha256": "bd38e30c315da5543c9ab296aa8a8b116aa5fac7eaeefaa29e1e04314109c99f",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.time": {
+      "sha256": "ff02b3bacbfad63ad7e36d37c0cc5e9934b700117e60717855a67ae1131848d1",
+      "bytes": 790
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfmr.inp": {
+      "sha256": "5aac39bdb8e206035f405fcba7fb37e361fff71370688b7ff1ce3569b4ff9bf9",
+      "bytes": 13265
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsf.log": {
+      "sha256": "10ec6c2324334139057c2d46f7b10e5dbe2bdf98670884b4a667b867e2d5540a",
+      "bytes": 15742
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.log": {
+      "sha256": "0794ccce7fc626659f6525298602a8ff33e85dde2e60b7258a0581a0a22196c6",
+      "bytes": 391
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdin": {
+      "sha256": "c67d999fbe74e33ccf12c592b02b10a7fc4f05f82d65f241f6352d8b839d4bff",
+      "bytes": 263
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdout": {
+      "sha256": "6ad1fed367937c6389ed65333a566ef206eb0131e61af8181cf3df6befa1577b",
+      "bytes": 19366
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.time": {
+      "sha256": "cbf58052fc9984115892872925d55a1fd81eb09f8f5e1e970dc4d4a26cc31eb7",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/clist.new": {
+      "sha256": "b77c607957eaa0f807202250fb21b3205107d11737f9cbd26e44aa4739a65d16",
+      "bytes": 2552
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsf.log": {
+      "sha256": "649fd5b307e7185f6673a43027092864617ff3b2c0a73a88fafbc3820ab25873",
+      "bytes": 15742
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsf.out": {
+      "sha256": "0f8fc013d0919e86990739d21a4b11dc566e31e75d73d3506ce846df7c81260b",
+      "bytes": 13105
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.log": {
+      "sha256": "89df92e4867c13579a4b1daff1743d4c4937e719dc4d74e74c91a05b0a4191c0",
+      "bytes": 391
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.stdin": {
+      "sha256": "2e5a3db3f3e05b3ad1977f0beb15d1eb211dd9cf16e78dc3c3b6a60293e31510",
+      "bytes": 263
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.stdout": {
+      "sha256": "02a5470f99ea3e1eeb13c4859e71b5c7933492b328ec03e9320a282e91e9d01d",
+      "bytes": 19242
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.time": {
+      "sha256": "d87b02614faf2821839c32e8769eb6ec4242ddc7b22c9a66a50a6ce1a459e3c6",
+      "bytes": 784
+    }
+  },
+  "fragments": {},
+  "stored_members": {
+    "evidence/rci_feasibility_driver_v50/__pycache__/rya1354_li_scheme_sizing.cpython-314.pyc": {
+      "sha256": "c499dcd1b644f68592418f100881ecc0a125696d1122b13ff107de7d7ae6f73d",
+      "bytes": 12373
+    },
+    "evidence/rci_feasibility_driver_v50/__pycache__/rya1354_solver_smoke.cpython-314.pyc": {
+      "sha256": "7e4b22451e6d251b6e7fd2d7023a6bcada8084cbac46c07e49624950ca4f96e2",
+      "bytes": 18619
+    },
+    "evidence/rci_feasibility_driver_v50/batch.time": {
+      "sha256": "d144001f496fd54d1fef617a03a49fc43ae36e97f9b8491b833e947075df722a",
+      "bytes": 975
+    },
+    "evidence/rci_feasibility_driver_v50/rya1354_li_scheme_sizing.py": {
+      "sha256": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+      "bytes": 6349
+    },
+    "evidence/rci_feasibility_driver_v50/rya1354_rci_feasibility.py": {
+      "sha256": "d8769b97c17a20c04aa820faa5d9d42fb4010966decf79ac6837fd9827bccb5c",
+      "bytes": 14569
+    },
+    "evidence/rci_feasibility_driver_v50/rya1354_solver_smoke.py": {
+      "sha256": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+      "bytes": 10570
+    },
+    "evidence/rci_feasibility_driver_v50/stderr.txt": {
+      "sha256": "007b895118b8f7601bf43aeb1160121ccdce7daa23ed998f720d2d08c33660b1",
+      "bytes": 924
+    },
+    "evidence/rci_feasibility_driver_v50/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsf.inp": {
+      "sha256": "e6c86d16cf1c02d352ccde801e524aeb36123b1b0e1e4df36a4195fa917ee92e",
+      "bytes": 1781843
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsf.out": {
+      "sha256": "c2c366d63759136cc8560de6aa8b34c3a84039d52053da04403c5edee92de721",
+      "bytes": 1268347
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.stdout": {
+      "sha256": "40e69f8dd1e87a0ef953f41c3b622a54fa39225c337c44efb4e9211de32a7852",
+      "bytes": 774
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfinteract.time": {
+      "sha256": "38042a43fa5ebdc33370e021fc6940de4247f46af1fb2605f90dd641542d0bef",
+      "bytes": 786
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/DCB/rcsfmr.inp": {
+      "sha256": "f3fc78087e5fc0b35f9cff7b4d0a42b07ab131a18b0c35087b2e77e5069cbf06",
+      "bytes": 3599
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/clist.new": {
+      "sha256": "697e74eb63a80688e72cdcbac49dfb1a5556e31379a8956c2a5fb7b5eca30fa8",
+      "bytes": 372219
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsf.log": {
+      "sha256": "c57310ae8fb36dbf964dd9c07ddbaf96e5f11f7d80e09f3d5a5c9ef07030f2e0",
+      "bytes": 4196
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsf.out": {
+      "sha256": "e6c86d16cf1c02d352ccde801e524aeb36123b1b0e1e4df36a4195fa917ee92e",
+      "bytes": 1781843
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.log": {
+      "sha256": "8a1dd6b2021ea8f257f13e3ae7dfcbe945b6ef9feab661a9a08974e36db3eac5",
+      "bytes": 269
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.stdin": {
+      "sha256": "6096aff950a76a45ecb2209b6cabe48e0ced909736712996d71b39b11dc7abcb",
+      "bytes": 141
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.stdout": {
+      "sha256": "683b5b7250e4850d50d85647bc645721b5db172242c972038db6696164288976",
+      "bytes": 6389
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/full/rcsfgenerate.time": {
+      "sha256": "de61667b3e37114c9d7e14f943ecd98374dce201d684fa787936c1686fb3f779",
+      "bytes": 787
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/clist.new": {
+      "sha256": "54e927ab996821bac659c33a4b69fe5ab3bd84b6ea9e832a8854d5b50edf59fd",
+      "bytes": 1206
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsf.log": {
+      "sha256": "7be59974d59b28c76181b9af65eb59a0084567374ea077c27ee164239180bbbc",
+      "bytes": 4196
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsf.out": {
+      "sha256": "595dda8d236a0f62e4d38b8013f739aa4c1ed85969e5581ce334cde1cf537596",
+      "bytes": 3569
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.log": {
+      "sha256": "8a642e2b59c72fe93feaa4807b07d4ae7796a26a119b66aa0b78f59e1293d922",
+      "bytes": 269
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.stdin": {
+      "sha256": "11766069690e044bfff23f7b7a5edc3c2f43c9e2b000563057ffba80cb30ff8e",
+      "bytes": 141
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.stdout": {
+      "sha256": "d339c6596052be98d4f474805e187bcdd3ea07ff63ff67ccf8a728a69619d5cb",
+      "bytes": 6366
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/mr/rcsfgenerate.time": {
+      "sha256": "d13d5287dc8c281b696403e8cde95f266d79b3034592371c20753ecb80c7eea5",
+      "bytes": 784
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.31": {
+      "sha256": "c993f90f8d7ca00ee42dd6df12863b2afbdb8bf8055c5a2a58b8e356257052ca",
+      "bytes": 454718
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.32": {
+      "sha256": "c7a2f700767d11a80577a3fbc3f7fac4368f90b67424e4dbc287897836d4f5dc",
+      "bytes": 4020382
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.37": {
+      "sha256": "1f3efd5eabea96648aa191f69281f2604348b98b725d69d0fe5c62ca4878df4a",
+      "bytes": 617006
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.38": {
+      "sha256": "d88c300eb4ad6acdd013e7e4d7ed7794004d9d30131cd11009fcb2dc98f61a9e",
+      "bytes": 6798
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.39": {
+      "sha256": "e2650703092445807126b941f550a5bce4ac4f3e797cb96109efb592eec98892",
+      "bytes": 102
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdout": {
+      "sha256": "4eb582bd50a0bd0d3a84e76f9092c65f59b1c04bb77643323cbb930766b7ffa8",
+      "bytes": 6067
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.time": {
+      "sha256": "baffa43be22664f2758a28973c391c8563d770c4645e8906465f0ae543df8132",
+      "bytes": 796
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rcsf.inp": {
+      "sha256": "c2c366d63759136cc8560de6aa8b34c3a84039d52053da04403c5edee92de721",
+      "bytes": 1268347
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.stderr": {
+      "sha256": "f457cb46718f7405c0b2181d3cfe3ac6947b6c8a57d00903e6c6c542dedeabae",
+      "bytes": 358
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.stdin": {
+      "sha256": "233d435f534b8619cb8dac119ef0a68d76968f1a901ccac52bbdfae98d2d252c",
+      "bytes": 12
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rnucleus.time": {
+      "sha256": "71f817e200866bd320c5e352baee97a791917d6fac279e85698d7bb11fa88c2f",
+      "bytes": 780
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfn.inp": {
+      "sha256": "9dd87a5774842350ca1c32a13a23d031fc47d6d1d5dcc0c73808762774cb0504",
+      "bytes": 62238
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.stderr": {
+      "sha256": "bbe183429bf4e07376a57ba4d3131612b0c5040a05766fe03bf60f71cfc675e7",
+      "bytes": 1794
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.stdin": {
+      "sha256": "9c37bfa72e539b58413125c41d2322c1da49f0412ce89bbfa17b460b9b1a39c5",
+      "bytes": 6
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.stdout": {
+      "sha256": "bb559d048f6798a9bd05f8bb230143237537f18fcf923a1065c2d63dbcd41b7e",
+      "bytes": 86
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rwfnestimate.time": {
+      "sha256": "d30c671f24d6a97a0a4ddc6d52d9977a23d766177cb263f2d3856b960ee4e6a6",
+      "bytes": 786
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/state.c": {
+      "sha256": "c2c366d63759136cc8560de6aa8b34c3a84039d52053da04403c5edee92de721",
+      "bytes": 1268347
+    },
+    "runs/rci_feasibility_v50/driver.py": {
+      "sha256": "d8769b97c17a20c04aa820faa5d9d42fb4010966decf79ac6837fd9827bccb5c",
+      "bytes": 14569
+    },
+    "runs/rci_feasibility_v50/progress.json": {
+      "sha256": "74782a0d5c348b199315cac3b103a3be0d93fee8829599b0d8c707b93a544cbb",
+      "bytes": 22915
+    },
+    "runs/rci_feasibility_v50/receipt.json": {
+      "sha256": "b5184153d77d6ce0ef753ea6c5e473c1b522ce43f55bd9cff06948dd56fe5e49",
+      "bytes": 53207
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.stdout": {
+      "sha256": "7dfdcf192371513048c23a1dd970e465774deb80cd300d2b65bfe15c43f7b98a",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.time": {
+      "sha256": "a7b5c0495bf1bc8d67c1f6a6098721758d480fcacf8588e0ec0ac91dfdd54a54",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfmr.inp": {
+      "sha256": "391e8a1b9f86f29997d220cc6e64db6edd0103c07cf60a3be87c852e77767cf9",
+      "bytes": 42896
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.stdout": {
+      "sha256": "50ab2ce82dd317bfb5158d717ab53e0cf5401087aeef69039d59eb66847098fb",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.time": {
+      "sha256": "a99ec02bd9b42bdf253cf209bf03287f69253e3db9788d20fce4dc48ec9be602",
+      "bytes": 791
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfmr.inp": {
+      "sha256": "391e8a1b9f86f29997d220cc6e64db6edd0103c07cf60a3be87c852e77767cf9",
+      "bytes": 42896
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/clist.new": {
+      "sha256": "9331892ec3f0011ed2d9804a00e54cda4836f9e289e53885b9ff60d667e8eb0f",
+      "bytes": 2149744
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsf.log": {
+      "sha256": "c79f1d0c8bed468bce954572d2370a6a730750529c818fa640c97120c98c3ab8",
+      "bytes": 24851
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.log": {
+      "sha256": "6765373475a3a32f56120421204dcf31bf1b77c3a53f1c071abbcd99843eb8a0",
+      "bytes": 587
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stdin": {
+      "sha256": "b3a675ce2bad56b4b82e8725ea1262b7f08a9204fd744789b7c6657f6ae27734",
+      "bytes": 459
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stdout": {
+      "sha256": "763fb16886e500e9d487cd32f1b2f0b47d4e3dad72325899b314899650d5989a",
+      "bytes": 29584
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.time": {
+      "sha256": "d2134845ade871101229079f28fd28f2fb9f25ed86f71b1ec39d67f99d1ad947",
+      "bytes": 794
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/clist.new": {
+      "sha256": "1adbb444986b3126f5b2a8ff179fe717e9c25b1afc93bdf275feec65f7d451ac",
+      "bytes": 4679
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsf.log": {
+      "sha256": "a75cf3435430a4c115336e23e8b630d67ad3c9b2c6c5add9fe1928fe10752021",
+      "bytes": 24851
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsf.out": {
+      "sha256": "720655d907e448312abc1b159909623355661ee32c0b887d6a3a4f3a3ef6632f",
+      "bytes": 42856
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.log": {
+      "sha256": "8447c07e4046b8589b9d2353b5cb9dd928185a8cd45da533702c1fe04decafec",
+      "bytes": 587
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.stdin": {
+      "sha256": "6f9934cb19eefbcbedb6023b8aa557cff08590fbd5351c132b7c80b02f0c2493",
+      "bytes": 459
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.stdout": {
+      "sha256": "c80f3c10226771b0a9edfb808940ed760d11d0c8ed8edf33e6dacefd25168fff",
+      "bytes": 29334
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/mr/rcsfgenerate.time": {
+      "sha256": "d633a3b3945eaada926e4eaea9edabaa09c54d6275607efa469a2ec01597b7fc",
+      "bytes": 785
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.stdout": {
+      "sha256": "197862e7094a7530bde0bca6fe56029a9a461e3a2c260cb4fb2faeabc9356d67",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.time": {
+      "sha256": "a20e6376caeb6dde256ba9d5615193ca6a940ebe742fd98fb901612c57bbc16a",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfmr.inp": {
+      "sha256": "ce612db64d7f207e7ce83cae9da8cd16f1895f105e5bc8535bc19884a81b93eb",
+      "bytes": 47802
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.stdout": {
+      "sha256": "04787bc61604347aa58c7dde45e4884a670aaed063309b246adfde942702ebae",
+      "bytes": 864
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.time": {
+      "sha256": "d65ae2a2c207b94ca98c3d1030b36890bf14212db02e81621ac9ec2d6bdcedec",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfmr.inp": {
+      "sha256": "ce612db64d7f207e7ce83cae9da8cd16f1895f105e5bc8535bc19884a81b93eb",
+      "bytes": 47802
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsf.log": {
+      "sha256": "7c84f98cf6a36f8c5249907eca68dd3b8f3b57e029c13f8fda60aefa859b26d8",
+      "bytes": 33531
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.log": {
+      "sha256": "b2bb828917581b39bfd78bb79020b764c6c3cfa9fd11cdf906cbe7fa0ecbf384",
+      "bytes": 645
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdin": {
+      "sha256": "0c6cac93de22343a11011bb40326f42854b9a2d3b15c8c6c91402c303b69f1ad",
+      "bytes": 517
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdout": {
+      "sha256": "2a8efa0162492fff5c284a088edd053e6638ec953522e5bf6af5cd5d991adcc2",
+      "bytes": 39273
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.time": {
+      "sha256": "76370096955c88e147644528ac69ff5139c9d38873e56a69987c863cb21f320c",
+      "bytes": 795
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/clist.new": {
+      "sha256": "1adbb444986b3126f5b2a8ff179fe717e9c25b1afc93bdf275feec65f7d451ac",
+      "bytes": 4679
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsf.log": {
+      "sha256": "5f0734baa8b168d33e502384d1cbe0fc9ac71ddfe42a64ebb7232b7fd3066045",
+      "bytes": 33531
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsf.out": {
+      "sha256": "dae2040e7205d3439e4ed73bdb6adabbd9eaa00a0dc7d4ad01607e9177a08c2d",
+      "bytes": 47722
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.log": {
+      "sha256": "0a74f787e466be612c2d908c5b9c3999a93e9543b703b6a70ece49221fd8c6d5",
+      "bytes": 645
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.stdin": {
+      "sha256": "87d7308df24e9ec014cbb1b9a15d7bae864e1b4e58db90f8044b37a8f668426a",
+      "bytes": 517
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.stdout": {
+      "sha256": "8faee6506fd0a1e2d46434bf848a5c6f86327251841dfbc4dde0d1f662fde40e",
+      "bytes": 38992
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/mr/rcsfgenerate.time": {
+      "sha256": "01baf555b395a83b712ddd6147f2bebcbbe4e272f1642f44ef214b25cf621467",
+      "bytes": 786
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.stdout": {
+      "sha256": "04d21ca3d33918497e115bb2cb945067ab117f535c2eca687bef8cf9409be15d",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.time": {
+      "sha256": "e71b8fbd40cd55e29ee790fc4b4c9154d41cc26a22e2ed5acd0c5828d095f1a3",
+      "bytes": 789
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfmr.inp": {
+      "sha256": "843270c26f95a74d0558b2ebaae1c9bd7310b45078ac5a918f2a531e802542aa",
+      "bytes": 12144
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.stdout": {
+      "sha256": "a0e3328a3cb1e3b3ee69fd56419ccc44ea082f1d6af09314ebaaba3612f61288",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.time": {
+      "sha256": "cbba9c6ca6127c57b8e3b9b7f2c4544c6984844d03dad8d33a21355a0c7ca75b",
+      "bytes": 789
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfmr.inp": {
+      "sha256": "843270c26f95a74d0558b2ebaae1c9bd7310b45078ac5a918f2a531e802542aa",
+      "bytes": 12144
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsf.log": {
+      "sha256": "c77b628da480c3afe4f91b0c4d9d791d2c54efae5f6bb88a8e74be6ec6fbbba0",
+      "bytes": 11528
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.log": {
+      "sha256": "5c51e24f6eaa459856fb886db8e07d30e0bf76595592c7d0fee84467257e69bb",
+      "bytes": 362
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdin": {
+      "sha256": "fd27ef9a0f6760460fb958796860fea472a3fa6a13c3b878ede257c3b444b087",
+      "bytes": 234
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdout": {
+      "sha256": "d3e022b984d17863b5a99da4b988aadcd156faf41cac83e89593260659fb85b2",
+      "bytes": 14651
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.time": {
+      "sha256": "dbaa0c54000d5256a827cbc6337833be119443f9c8c611b7b57e4d46025d4143",
+      "bytes": 792
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/clist.new": {
+      "sha256": "b77c607957eaa0f807202250fb21b3205107d11737f9cbd26e44aa4739a65d16",
+      "bytes": 2552
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsf.log": {
+      "sha256": "f43b9d77ecf4acf6810dbc4b6badf9c93a1289a43b91d3e19c4a9c41149b63b6",
+      "bytes": 11528
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsf.out": {
+      "sha256": "fa7218a35f208f173a5dffbc5a38de056d0f15c8abb1eb907e47e569bfa0f255",
+      "bytes": 12034
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.log": {
+      "sha256": "f8a53974877cbfeb61296d0d2d8b4ae050ad3d636e87ef7e36abf57276fdcdb3",
+      "bytes": 362
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.stdin": {
+      "sha256": "48ffeed2a444068568dddceb5e8d2a2122831d90265fb1044b1c82fac10f3437",
+      "bytes": 234
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.stdout": {
+      "sha256": "3ba88cf646948a9b26c9ce5b72f35edf2ae9bb8967f7ce4a35e9cfd96d3219ea",
+      "bytes": 14555
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/mr/rcsfgenerate.time": {
+      "sha256": "be7cdbf44ebf824ca84699204198f2d142f6533e4b63ca209438244ec5f83b9a",
+      "bytes": 785
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.stdin": {
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.stdout": {
+      "sha256": "08230875d762e8ace7176ebc4d4a97b8f9c97bbaeca7c37ca0132c0a9c8d5e14",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.time": {
+      "sha256": "f88f7c1f8bf3f4e7994a174e7ef1338410876e427f9049c72e1f41977576980d",
+      "bytes": 791
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfmr.inp": {
+      "sha256": "5aac39bdb8e206035f405fcba7fb37e361fff71370688b7ff1ce3569b4ff9bf9",
+      "bytes": 13265
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.stdin": {
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+      "bytes": 2
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.stdout": {
+      "sha256": "bd38e30c315da5543c9ab296aa8a8b116aa5fac7eaeefaa29e1e04314109c99f",
+      "bytes": 819
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.time": {
+      "sha256": "ff02b3bacbfad63ad7e36d37c0cc5e9934b700117e60717855a67ae1131848d1",
+      "bytes": 790
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfmr.inp": {
+      "sha256": "5aac39bdb8e206035f405fcba7fb37e361fff71370688b7ff1ce3569b4ff9bf9",
+      "bytes": 13265
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsf.log": {
+      "sha256": "10ec6c2324334139057c2d46f7b10e5dbe2bdf98670884b4a667b867e2d5540a",
+      "bytes": 15742
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.log": {
+      "sha256": "0794ccce7fc626659f6525298602a8ff33e85dde2e60b7258a0581a0a22196c6",
+      "bytes": 391
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdin": {
+      "sha256": "c67d999fbe74e33ccf12c592b02b10a7fc4f05f82d65f241f6352d8b839d4bff",
+      "bytes": 263
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdout": {
+      "sha256": "6ad1fed367937c6389ed65333a566ef206eb0131e61af8181cf3df6befa1577b",
+      "bytes": 19366
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.time": {
+      "sha256": "cbf58052fc9984115892872925d55a1fd81eb09f8f5e1e970dc4d4a26cc31eb7",
+      "bytes": 793
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/clist.new": {
+      "sha256": "b77c607957eaa0f807202250fb21b3205107d11737f9cbd26e44aa4739a65d16",
+      "bytes": 2552
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsf.log": {
+      "sha256": "649fd5b307e7185f6673a43027092864617ff3b2c0a73a88fafbc3820ab25873",
+      "bytes": 15742
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsf.out": {
+      "sha256": "0f8fc013d0919e86990739d21a4b11dc566e31e75d73d3506ce846df7c81260b",
+      "bytes": 13105
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.log": {
+      "sha256": "89df92e4867c13579a4b1daff1743d4c4937e719dc4d74e74c91a05b0a4191c0",
+      "bytes": 391
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.stdin": {
+      "sha256": "2e5a3db3f3e05b3ad1977f0beb15d1eb211dd9cf16e78dc3c3b6a60293e31510",
+      "bytes": 263
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.stdout": {
+      "sha256": "02a5470f99ea3e1eeb13c4859e71b5c7933492b328ec03e9320a282e91e9d01d",
+      "bytes": 19242
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/mr/rcsfgenerate.time": {
+      "sha256": "d87b02614faf2821839c32e8769eb6ec4242ddc7b22c9a66a50a6ce1a459e3c6",
+      "bytes": 784
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 153,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Single pass, <=4MiB raw groups, gzip level1; every original path and byte retained. Existing independent v2 decoder verifies all hashes, reconstruction and original receipts.",
+  "receipt_inventories": {},
+  "off_archive_regenerable": {
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.30": {
+      "sha256": "6297e1dfa9f07cf95bd23d59ed527a5f98a61af61fffdbe7a4dd6ce5a0fcb180",
+      "bytes": 10507790,
+      "regenerate_stdin": "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdin"
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.33": {
+      "sha256": "da62fe2065b1d4b32d347b1029a6a4539480c53ed9b1473f6c640a7120999cd5",
+      "bytes": 29025358,
+      "regenerate_stdin": "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdin"
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.34": {
+      "sha256": "0fe83e0ed13995e50010ef15fee47a6ce96679c946783e4502e2ab05e2603920",
+      "bytes": 41254574,
+      "regenerate_stdin": "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdin"
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.35": {
+      "sha256": "a74a706c339997a5b3338c3c8b40d22bfeb4f8a7ad3c89ae4c19519123cabdb1",
+      "bytes": 18113942,
+      "regenerate_stdin": "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdin"
+    },
+    "runs/rci_feasibility_v50/cost_odd_J1_n4/run/mcp.36": {
+      "sha256": "832da6b3e72271b6587956c8fa31a021529da9b0dc561a6d454d7396fa92a9fa",
+      "bytes": 5391414,
+      "regenerate_stdin": "runs/rci_feasibility_v50/cost_odd_J1_n4/run/rangular.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsf.inp": {
+      "sha256": "a4c230abd850931fed923c967d601b235252c74db1cb6ccf9e24ca06a319c477",
+      "bytes": 100931576,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsf.out": {
+      "sha256": "099e75879ef148fe60d9e2d84c8d752168a545b240e1092871bbbe33f8cda105",
+      "bytes": 79268390,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n6/DC/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsf.inp": {
+      "sha256": "a4c230abd850931fed923c967d601b235252c74db1cb6ccf9e24ca06a319c477",
+      "bytes": 100931576,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsf.out": {
+      "sha256": "e3f2176bdfa6542e892700e04c6abe976af88da354ecd528580bb668bafad7d8",
+      "bytes": 82257102,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n6/DCB/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n6/full/rcsf.out": {
+      "sha256": "a4c230abd850931fed923c967d601b235252c74db1cb6ccf9e24ca06a319c477",
+      "bytes": 100931576,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n6/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsf.inp": {
+      "sha256": "dfcf040936576bb583eef0a9a023676a03a36a96c9ddb4b2aa825462782f95cb",
+      "bytes": 232686337,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsf.out": {
+      "sha256": "b1c5f2f6a417bc1040d133fa0caf2f3a1609d9ece06d2b073560a66a3526ba4f",
+      "bytes": 172816391,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n7/DC/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsf.inp": {
+      "sha256": "dfcf040936576bb583eef0a9a023676a03a36a96c9ddb4b2aa825462782f95cb",
+      "bytes": 232686337,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsf.out": {
+      "sha256": "757dbb3ee3845e68699989e9b12b717dac4b4c7c95b8ab3b710a560153860568",
+      "bytes": 180148962,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n7/DCB/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/clist.new": {
+      "sha256": "75443de2be45b96e558e7e34bbfcbaf814db364705b3d3e5447a63cfa87023e7",
+      "bytes": 7559666,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_even_n7/full/rcsf.out": {
+      "sha256": "dfcf040936576bb583eef0a9a023676a03a36a96c9ddb4b2aa825462782f95cb",
+      "bytes": 232686337,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_even_n7/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsf.inp": {
+      "sha256": "7dd21f58568f99b6883f05799fe5ed40d0c81b249649486c7464f293b0aea5a8",
+      "bytes": 58928748,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsf.out": {
+      "sha256": "72495ad73bcd301a6969126eb3afb5303635a8fb6b41bd6f8e4639074df66ae8",
+      "bytes": 34962342,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n6/DC/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsf.inp": {
+      "sha256": "7dd21f58568f99b6883f05799fe5ed40d0c81b249649486c7464f293b0aea5a8",
+      "bytes": 58928748,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsf.out": {
+      "sha256": "8456082df0b443a29b5c18fc722484304cff1223988c8ee37209b9486a0dbed5",
+      "bytes": 37222753,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n6/DCB/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/clist.new": {
+      "sha256": "c80bb950da2d1c352af7b184a2929184ff1fbcce615746088f460f3f4a20a4aa",
+      "bytes": 10632137,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsf.out": {
+      "sha256": "7dd21f58568f99b6883f05799fe5ed40d0c81b249649486c7464f293b0aea5a8",
+      "bytes": 58928748,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n6/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsf.inp": {
+      "sha256": "1188ccfc0e220aa21fcd4a3730d686bc9787360bc6e13ec888aee6281d029802",
+      "bytes": 120851090,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsf.out": {
+      "sha256": "2bce884da5fef5eb34198aaa3e825abbecfb2d9090e92949ad965a189d96e6e1",
+      "bytes": 70044151,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n7/DC/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsf.inp": {
+      "sha256": "1188ccfc0e220aa21fcd4a3730d686bc9787360bc6e13ec888aee6281d029802",
+      "bytes": 120851090,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsf.out": {
+      "sha256": "5b0de03fa28ac425699bb5fcbe68bb6bbe36f18aa5fd89e5c10dc315cf51d36c",
+      "bytes": 75032496,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n7/DCB/rcsfinteract.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/clist.new": {
+      "sha256": "a5b888c1dd95bbb13e9b0ed6bd3700eafaa34784daa115225b1b170419b93e9d",
+      "bytes": 22366115,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdin"
+    },
+    "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsf.out": {
+      "sha256": "1188ccfc0e220aa21fcd4a3730d686bc9787360bc6e13ec888aee6281d029802",
+      "bytes": 120851090,
+      "regenerate_stdin": "runs/rci_feasibility_v50/reduce_odd_n7/full/rcsfgenerate.stdin"
+    }
+  }
+}

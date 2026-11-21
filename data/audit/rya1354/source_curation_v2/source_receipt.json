@@ -1,0 +1,74 @@
+{
+  "schema": "rya1354.source-curation.v2",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "sources": [
+    {
+      "path": "/private/tmp/rya1354-amarsi2018.pdf",
+      "sha256": "243f57dd800968a20e6e4f6b8b49565735a3d4dc792b92048ddb9686566eaee4",
+      "bytes": 2490704,
+      "archive_host": "Sirius",
+      "archive_relative_path": "sources_curation_v2/rya1354-amarsi2018.pdf"
+    },
+    {
+      "path": "data/reference/cno_atomic_primary/c_amarsi2019/Amarsi-2019-AA630-A104.pdf",
+      "sha256": "84e86d7d780595154d5e9e55b7b5218f44e671fda84b1e748e7415d6b71e374c",
+      "bytes": 3420454
+    },
+    {
+      "path": "data/nlte_grids/amarsi2019_cno/table1.dat",
+      "sha256": "f317e31ab72fb2c3be8a58dda44654910ccb7768aa9bafaa573da58dace48574",
+      "bytes": 16353
+    },
+    {
+      "path": "data/nlte_grids/amarsi2019_cno/ReadMe",
+      "sha256": "e37237fe7b627db0be3c22d466945247223daff2b87991938b386e78a7c497a2",
+      "bytes": 12912
+    },
+    {
+      "archive_host": "Sirius",
+      "archive_relative_path": "sources_curation_v2/rya1354-li2023-arxiv.pdf",
+      "sha256": "738742105c8d9e327763d55cf2895e06a168be0ccc8d860eb7908a4727ebba0f",
+      "bytes": 1246890,
+      "url": "https://arxiv.org/pdf/2304.02310",
+      "inspection": "Selected methods, Tables 2/3, experimental comparison discussion and references; not a full cover-to-cover inspection"
+    },
+    {
+      "archive_host": "Sirius",
+      "archive_relative_path": "sources_curation_v2/rya1354-smith1971.pdf",
+      "sha256": "48920a05dd59f8a4435d2ca5ab20a1022e875454649407cc0d698f7b531b9e24",
+      "bytes": 394906,
+      "url": "https://articles.adsabs.harvard.edu/pdf/1971ApJ...165..217S",
+      "inspection": "Pages 217-221; experimental method and errors, Table1 first row visually inspected after rotation, Table2 and explanatory text"
+    },
+    {
+      "archive_host": "Sirius",
+      "archive_relative_path": "sources_curation_v2/rya1354-brooks1977.pdf",
+      "sha256": "16f5b4ec0e5d840c2ea2dab4b9dff33f901a0c0afd1ff09264a1dd38ddd0d2e9",
+      "bytes": 308764,
+      "url": "https://articles.adsabs.harvard.edu/pdf/1977ApJ...214..328B",
+      "inspection": "Pages328-330 and Table3 footnote identifying borrowed Smith1971 value"
+    }
+  ],
+  "primary_2018_url": "https://openresearch-repository.anu.edu.au/bitstream/1885/202933/2/01_Amarsi_Inelastic_O_plus_H_collisions_2018.pdf",
+  "primary_2018_doi": "10.1051/0004-6361/201832770",
+  "inspected_2018_pages": [
+    4,
+    12
+  ],
+  "inspected_2019_pages": [
+    4,
+    5,
+    18,
+    19
+  ],
+  "provenance_conflict": {
+    "source_claim": "Amarsi 2018 section 2.1 page 4 calls Hibbert 1991 oscillator strengths experimental.",
+    "counter_evidence": "Hibbert 1991 publisher abstract explicitly describes CIV3 calculations with empirically adjusted diagonal energies; NIST T5803 resolves to that paper.",
+    "disposition": "Retain contradictory source statements. RYA-1352 primary-origin rule governs: theoretical/evaluated, not laboratory gf. No grade or canonical production input changed."
+  },
+  "model_chain": "Amarsi2019 section2.2 adopts Amarsi2018 reduced oxygen atom; final emergent spectra use a comprehensive fine-structure atom. The 2019 table is a broader calculation grid, not the final adopted stellar line subset.",
+  "component_limitation": "CDS table1 supplies wavelengths, lower energy and loggf but no source-qualified upper term/J. Individual 615x aliases remain unresolved. Evaluate the independently physically identified NIST 3p5P\u21924d5D multiplet without forcing grid aliases.",
+  "lifetime_dependency": "Brooks1977 Table3 1302A footnote points to Smith1971: not independent. Smith1971 measured 1.79\u00b10.17ns by beam-foil; its f=0.048\u00b10.003 is a recommended combination of prior studies, not a separate measurement. Use the direct lifetime and retain shared calibration/cascade dependencies.",
+  "experimental_review_status": "PRIMARY_CONTENT_INSPECTED_BY_IMPLEMENTING_AGENT; DISTINCT_CURATOR/HUMAN_REVIEW_NOT_YET_RECORDED; EXPLORATORY_NONBLIND_ONLY"
+}

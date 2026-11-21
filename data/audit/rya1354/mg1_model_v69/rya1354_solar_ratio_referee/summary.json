@@ -1,0 +1,120 @@
+{
+ "schema": "rya1354.solar-ratio-referee.v1",
+ "model_dir": "data/audit/rya1354/mg1_model_v69",
+ "n_measured": 54,
+ "weak_cut": -5.0,
+ "dlam": 0.1,
+ "theta": 1.008,
+ "me_dmax": 0.9,
+ "mode": "weak",
+ "primary_weak": {
+  "n_groups": 8,
+  "n_lines": 25,
+  "rms_by_source": {
+   "model": [
+    0.2762,
+    25
+   ],
+   "linelist": [
+    0.2824,
+    25
+   ],
+   "abinitio": [
+    0.2603,
+    15
+   ],
+   "tuned": [
+    0.2599,
+    15
+   ],
+   "hybrid": [
+    0.2602,
+    15
+   ],
+   "pure_LS": [
+    0.2604,
+    15
+   ],
+   "lab": [
+    0.1627,
+    2
+   ]
+  },
+  "null_rms": 0.2534,
+  "n_null_lines": 16,
+  "n_discriminating": 0,
+  "discriminating_rms_by_source": {}
+ },
+ "strict_weak": {
+  "n_groups": 4,
+  "n_lines": 14,
+  "rms_by_source": {
+   "model": [
+    0.333,
+    14
+   ],
+   "linelist": [
+    0.3421,
+    14
+   ],
+   "abinitio": [
+    0.326,
+    7
+   ],
+   "tuned": [
+    0.3255,
+    7
+   ],
+   "hybrid": [
+    0.3258,
+    7
+   ],
+   "pure_LS": [
+    0.3264,
+    7
+   ]
+  },
+  "null_rms": 0.3666,
+  "n_null_lines": 5,
+  "n_discriminating": 0,
+  "discriminating_rms_by_source": {}
+ },
+ "me_saturation": {
+  "n_groups": 8,
+  "n_lines": 25,
+  "rms_by_source": {
+   "model": [
+    0.2676,
+    25
+   ],
+   "linelist": [
+    0.2738,
+    25
+   ],
+   "abinitio": [
+    0.2481,
+    15
+   ],
+   "tuned": [
+    0.2477,
+    15
+   ],
+   "hybrid": [
+    0.248,
+    15
+   ],
+   "pure_LS": [
+    0.2483,
+    15
+   ],
+   "lab": [
+    0.1262,
+    2
+   ]
+  },
+  "null_rms": 0.2378,
+  "n_null_lines": 16,
+  "n_discriminating": 0,
+  "discriminating_rms_by_source": {}
+ }
+}

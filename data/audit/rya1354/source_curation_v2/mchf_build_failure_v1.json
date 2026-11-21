@@ -1,0 +1,11 @@
+{
+  "schema": "rya1354.failed-build-observation.v1",
+  "attempt": "toolchains/atsp-strict-scf-v1",
+  "disposition": "FAILED_BEFORE_COMPILATION_NO_EXECUTABLE_USED",
+  "observation_recorded": "Posthoc from the actual captured tool exception; not represented as an original compiler receipt",
+  "exception": "ValueError: No escaped character",
+  "stage": "shlex.split of Makefile object-list text",
+  "cause": "Object-list regex stopped at the first continued line and left a trailing backslash; corrected builder unfolds continuation lines before parsing",
+  "native_source_artifacts": "Original/modified scf.f and patch remain in the failed build directory; successful build is separate atsp-strict-scf-v2",
+  "science_impact": "No atom or transition computed with failed build"
+}

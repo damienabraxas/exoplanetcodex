@@ -1,0 +1,31 @@
+{
+  "schema": "rya1354.qualified-ci-plan.v16",
+  "starting_commit": "e52f8534870cbe187dbb97b45df8d1c26d606f1a",
+  "declaration_comment": "4fdf2457-f08e-455e-8935-a3acdf5db888",
+  "source": "runs/lifetime_frozen_prior_n5_v1",
+  "source_receipt_sha256": "212310c7215b9948bb557f50dc3f380727c7416e66bd6bfc6085105c9bd4b07a",
+  "output": "runs/lifetime_qualified_ci_n5_v1",
+  "cases": [
+    "DC",
+    "Breit"
+  ],
+  "model": "Matched fixed qualified sequential n5 orbitals, identical full2s-SD CSFs and nucleus. Native RCI DC consistency control, then static-limit Breit at same input. No orbital optimization or failed-wave input. Historical n3 component limitation retained.",
+  "native_grid": "Retain native RCI internal interpolation; measure DC differences versus prior SCF, no assumed equality or fitting.",
+  "operators": {
+    "to_ground": "E1,M2,E3",
+    "to_5S": "M1,E2,M3"
+  },
+  "required_channels_per_case": 13,
+  "required_states_per_case": 3,
+  "source_qualification": "Replay complete independent n4/n5 source audit, all physical states and hashes before output creation.",
+  "failure_policy": "Stop on native semantic refusal, changed inputs, identity/order/mixing/transition failure; retain all outputs, no fallback.",
+  "execution": "Sirius only, single thread, nice19; no other-worker/native-source changes.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "caveat": "Same implementation Hamiltonian sensitivity, not independently implemented relativistic validation or calibrated accuracy. Retain native stationary-nucleus warnings and failed core/joint attempts."
+}

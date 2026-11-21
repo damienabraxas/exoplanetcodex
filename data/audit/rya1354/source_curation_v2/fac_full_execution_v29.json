@@ -1,0 +1,25 @@
+{
+  "first_replay": {
+    "script": "evidence/fac_full_replay_v29/rya1354_fac_full_ls_audit.py",
+    "exit_code": 1,
+    "reason": "NativeI3LBLoverflow caused strict incomplete-ID refusal; no native calculation changed"
+  },
+  "qualified_replay": {
+    "script": "evidence/fac_full_replay_v29b/rya1354_fac_full_ls_audit.py",
+    "exit_code": 0,
+    "report_sha256": "741f0199af1dc6793b866d38c1fef38e058c4f2d14c01b6ee141c4a345ed4be6",
+    "identity_authority": "BinaryCM IDs exactlymatched toexplicit I4LSstdout order/J/parity, withoriginalI3overflow preserved"
+  },
+  "canaries": {
+    "script": "evidence/fac_full_canaries_v29/rya1354_fac_full_ls_canaries.py",
+    "exit_code": 0,
+    "positive_and_four_mutations": true
+  },
+  "local_rate_builder_preflight": {
+    "initial": "Sandboxblockedindividualreportdownload;missingtemporaryfile",
+    "corrected": "Escalateddownloadandactual8builderchecksPASS AFTERnative launch; nativeguards active",
+    "correction_comment": "b9ba2f0f-e41a-4bbf-9f88-6ed4c75488fa"
+  },
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND"
+}

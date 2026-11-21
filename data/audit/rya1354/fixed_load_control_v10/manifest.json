@@ -1,0 +1,114 @@
+{
+  "schema": "rya1354.native-evidence-parts.v1",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "179f1472bff1b882512030ea07f451b62f7c207c59c6d92bc5e06cb22d19bdc3",
+      "bytes": 314869
+    }
+  },
+  "files": {
+    "validation/fixed_load_control_v10/driver.py": {
+      "sha256": "d211e51101139a928d981ca8bc1b3d5629f8719ded03717aa4ea5588b1170d50",
+      "bytes": 3627
+    },
+    "validation/fixed_load_control_v10/failed_rwfn.out": {
+      "sha256": "cca5d1809d7314f3d8422203ca57dde558c885f0dd232b8fa2bbd7bfce43052d",
+      "bytes": 131838
+    },
+    "validation/fixed_load_control_v10/fixed_load/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "validation/fixed_load_control_v10/fixed_load/rangular.log": {
+      "sha256": "118b65d67e5a0e01de825e5bf4c8e9d971003c2d278bf4488419b53b73a48758",
+      "bytes": 32
+    },
+    "validation/fixed_load_control_v10/fixed_load/rangular.stderr": {
+      "sha256": "51f0fd2e908d200a5505ad61dc01812ef3a91be5e5a6f9bb9035024713f01364",
+      "bytes": 27
+    },
+    "validation/fixed_load_control_v10/fixed_load/rangular.stdin": {
+      "sha256": "3bb2abb69ebb27fbfe63c7639624c6ec5e331b841a5bc8c3ebc10b9285e90877",
+      "bytes": 2
+    },
+    "validation/fixed_load_control_v10/fixed_load/rangular.stdout": {
+      "sha256": "eec0e243beef3354f44e330e1464a260b73e18f396a1b07fb5728895849f7ae8",
+      "bytes": 4878
+    },
+    "validation/fixed_load_control_v10/fixed_load/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "validation/fixed_load_control_v10/fixed_load/rmcdhf.log": {
+      "sha256": "e2338ff074cdb4d1c9158206a0724fef7758606f279e79ddffbb9850d5f6ceed",
+      "bytes": 21
+    },
+    "validation/fixed_load_control_v10/fixed_load/rmcdhf.stderr": {
+      "sha256": "a381a094adec2ba1f3f0d4754177fb3b576333130914366229a691f5e3da0cff",
+      "bytes": 2827
+    },
+    "validation/fixed_load_control_v10/fixed_load/rmcdhf.stdin": {
+      "sha256": "a83a029864ff85bc71fdf5594552800c5fc22b011249ef00153bf53205034014",
+      "bytes": 126
+    },
+    "validation/fixed_load_control_v10/fixed_load/rmcdhf.stdout": {
+      "sha256": "63f4f07bed6d719406c2fb4e3e8fc31cd0be655008a04293d30ad4f2dc58eaed",
+      "bytes": 4167
+    },
+    "validation/fixed_load_control_v10/fixed_load/rmcdhf.sum": {
+      "sha256": "07473442e7854cb259c8f7123fc63f3d17e3fc8e7d5b1065e1bfe8025ebc50fa",
+      "bytes": 5151
+    },
+    "validation/fixed_load_control_v10/fixed_load/rmix.out": {
+      "sha256": "bb754270f25c3ffb22919d0a9cbb1860898ae50fd9f46de1c7bbe32147c629c3",
+      "bytes": 45494
+    },
+    "validation/fixed_load_control_v10/fixed_load/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "validation/fixed_load_control_v10/fixed_load/rwfn.out": {
+      "sha256": "ffee47a60e3ea16714a693918ab1065fe2a50b3cfc160c1a062d20d556eea8c0",
+      "bytes": 112734
+    },
+    "validation/fixed_load_control_v10/isodata": {
+      "sha256": "2a8f3ba250493cce4520cf504d9cdfcebd6e59e6f02ed6c682ef573c824d874e",
+      "bytes": 470
+    },
+    "validation/fixed_load_control_v10/rcsf.inp": {
+      "sha256": "16a20f6000b57ac3197997d737185cb9b302b1d71e7ca35189d6daea3876af4e",
+      "bytes": 520945
+    },
+    "validation/fixed_load_control_v10/receipt.json": {
+      "sha256": "d4cc86cdd7e0ddda66ccfc6b5942cea8827d73118cf01ee91f172bbae7841306",
+      "bytes": 5918
+    },
+    "validation/fixed_load_control_v10/rwfn.inp": {
+      "sha256": "87362180071b5ab6f909c20cca08414f26979d60f8e600b501cc2ad142f0ede9",
+      "bytes": 112734
+    },
+    "validation/fixed_load_control_v10/rya1354_lifetime_relax.py": {
+      "sha256": "122be5bae38172c8d42d0d513fba046b513e102ff808d3cb32debf372f23b67c",
+      "bytes": 9265
+    },
+    "validation/fixed_load_control_v10/rya1354_lifetime_staged.py": {
+      "sha256": "5927bbc9b46c62bd027beed8046689d0b1b9373389954e754bdeb8ecddf07b39",
+      "bytes": 7910
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 22,
+  "omitted_angular_caches": [
+    "validation/fixed_load_control_v10/fixed_load/mcp.30",
+    "validation/fixed_load_control_v10/fixed_load/mcp.31",
+    "validation/fixed_load_control_v10/fixed_load/mcp.32",
+    "validation/fixed_load_control_v10/fixed_load/mcp.33",
+    "validation/fixed_load_control_v10/fixed_load/mcp.34",
+    "validation/fixed_load_control_v10/fixed_load/mcp.35",
+    "validation/fixed_load_control_v10/fixed_load/mcp.36",
+    "validation/fixed_load_control_v10/fixed_load/mcp.37",
+    "validation/fixed_load_control_v10/fixed_load/mcp.38",
+    "validation/fixed_load_control_v10/fixed_load/mcp.39"
+  ],
+  "external_restart_caches": {},
+  "verification": "Require every declared part, check all part/member hashes, then validate original receipts after joining. Original source outputs are untouched."
+}

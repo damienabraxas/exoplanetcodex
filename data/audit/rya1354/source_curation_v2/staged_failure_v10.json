@@ -1,0 +1,157 @@
+{
+  "schema": "rya1354.staged-failure.v10",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "generator_sha256": "43eec2ecacaace53ec9360899c1c595b8e2c57a32246c3c38bca52b017cc1fd6",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "b9010d25c4239177f5ba301738588476d0b6ffbaed67420a6d0ca7de5771e853",
+      "bytes": 419784
+    }
+  },
+  "native_receipt_sha256": "015df0fa8505eb0c0a6949ea6d8fbd8b7623def800e188a5543dada016141e27",
+  "native_status": "FAILED_RETAINED",
+  "native_error": "RuntimeError: rmcdhf: exit 1; retained logs in /mnt/codex-data/codex/rya1354/runs/lifetime_relax_n4_staged_v5/fixed_2s_ground",
+  "last_printed_cycle": 319,
+  "last_complete_cycle": {
+    "iteration": 318,
+    "complete_printed_cycle": true,
+    "orbitals": {
+      "2p-": {
+        "residual": 0.271,
+        "method": 1,
+        "nodes": 0
+      },
+      "2p": {
+        "residual": 0.0374,
+        "method": 1,
+        "nodes": 0
+      },
+      "3s": {
+        "residual": 0.0183,
+        "method": 3,
+        "nodes": 2
+      },
+      "3p-": {
+        "residual": 0.11,
+        "method": 3,
+        "nodes": 0
+      },
+      "3p": {
+        "residual": 2.61,
+        "method": 3,
+        "nodes": 2
+      },
+      "3d-": {
+        "residual": 0.0313,
+        "method": 3,
+        "nodes": 2
+      },
+      "3d": {
+        "residual": 0.00377,
+        "method": 3,
+        "nodes": 0
+      },
+      "4s": {
+        "residual": 0.00557,
+        "method": 3,
+        "nodes": 3
+      },
+      "4p-": {
+        "residual": 1.09,
+        "method": 3,
+        "nodes": 2
+      },
+      "4p": {
+        "residual": 0.0566,
+        "method": 3,
+        "nodes": 2
+      },
+      "4d-": {
+        "residual": 0.0161,
+        "method": 3,
+        "nodes": 0
+      },
+      "4d": {
+        "residual": 0.0107,
+        "method": 3,
+        "nodes": 1
+      },
+      "4f-": {
+        "residual": 0.0048,
+        "method": 3,
+        "nodes": 0
+      },
+      "4f": {
+        "residual": 0.00552,
+        "method": 3,
+        "nodes": 0
+      }
+    },
+    "max_reported_residual": 2.61,
+    "weighted_energy_hartree": -403.93909669
+  },
+  "failed_attempts": [
+    {
+      "method": 1,
+      "orbital": "2p-",
+      "iterations": 10,
+      "limit": 24,
+      "counted_nodes": 5,
+      "required_nodes": 0,
+      "native_energy_bracket_width": 0.07830770814899957,
+      "native_width_floor": 0.125,
+      "iteration_limit_reached": false,
+      "width_guard_triggered": true
+    },
+    {
+      "method": 2,
+      "orbital": "2p-",
+      "iterations": 9,
+      "limit": 24,
+      "counted_nodes": 2,
+      "required_nodes": 0,
+      "native_energy_bracket_width": 0.10746804355800066,
+      "native_width_floor": 0.125,
+      "iteration_limit_reached": false,
+      "width_guard_triggered": true
+    }
+  ],
+  "first_three_cycle_update_counts": {
+    "1": 34,
+    "2": 23,
+    "3": 23
+  },
+  "fixed_loading_control": {
+    "parts": {
+      "part001.tar.gz": {
+        "sha256": "179f1472bff1b882512030ea07f451b62f7c207c59c6d92bc5e06cb22d19bdc3",
+        "bytes": 314869
+      }
+    },
+    "fixed_records": [
+      {
+        "n": 1,
+        "kappa": -1,
+        "raw_record_identical": false,
+        "max_P_change": 2.220446049250313e-16,
+        "normalized_record_identical_to_failed_output": true
+      },
+      {
+        "n": 2,
+        "kappa": -1,
+        "raw_record_identical": false,
+        "max_P_change": 1.1102230246251565e-16,
+        "normalized_record_identical_to_failed_output": true
+      }
+    ],
+    "exact_after_native_loading": true,
+    "raw_preload_identity_is_not_the_correct_baseline": true
+  },
+  "conclusion": "Fixed2s preconditioning diverged and failed2p-; no stage/lifetime qualified. NSIC20 adds up to20updates inside everycycle; causal impact remains a separate control. Fixed1s/2s exactly match same-input native loading baseline; raw pre-load serialization differs by native normalization roundoff, not measured orbital evolution."
+}

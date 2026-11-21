@@ -1,0 +1,122 @@
+{
+  "schema": "rya1354.native-evidence-parts.v2",
+  "parts": {
+    "part001.tar.gz": {
+      "sha256": "61aa48ca130b62a566f36b9152c3bd78952f720b353822892752d6ab27104c06",
+      "bytes": 29870
+    }
+  },
+  "files": {
+    "evidence/rci_feasibility_driver_v48/__pycache__/rya1354_li_scheme_sizing.cpython-314.pyc": {
+      "sha256": "05a69b2ab9d28bcdebe618edd9b34dbe6293727028b5c68b05ab550308d6b824",
+      "bytes": 12373
+    },
+    "evidence/rci_feasibility_driver_v48/__pycache__/rya1354_solver_smoke.cpython-314.pyc": {
+      "sha256": "85b91536724fcafc27308a3ed1c830d78019baa719e31de1f4712a2b6d9beb58",
+      "bytes": 18619
+    },
+    "evidence/rci_feasibility_driver_v48/batch.time": {
+      "sha256": "025420881486ba5cbb0e1c0991814c34a04ac369ffea5e373e77e89570da0c38",
+      "bytes": 953
+    },
+    "evidence/rci_feasibility_driver_v48/rya1354_li_scheme_sizing.py": {
+      "sha256": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+      "bytes": 6349
+    },
+    "evidence/rci_feasibility_driver_v48/rya1354_rci_feasibility.py": {
+      "sha256": "a56d77730b03ba2d06d0bb245f94c29ac781807ff3c71403a779c8fda24eb279",
+      "bytes": 13344
+    },
+    "evidence/rci_feasibility_driver_v48/rya1354_solver_smoke.py": {
+      "sha256": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+      "bytes": 10570
+    },
+    "evidence/rci_feasibility_driver_v48/stderr.txt": {
+      "sha256": "2b3b97d8405ce1453abce0e8eab5907ba991cefc1333126167c8ab35c1022677",
+      "bytes": 1912
+    },
+    "evidence/rci_feasibility_driver_v48/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v48/driver.py": {
+      "sha256": "a56d77730b03ba2d06d0bb245f94c29ac781807ff3c71403a779c8fda24eb279",
+      "bytes": 13344
+    },
+    "runs/rci_feasibility_v48/receipt.json": {
+      "sha256": "a118d609229d3a715d949ff1ba7a37446c16e2b42f70c290a8929e12385b4fd1",
+      "bytes": 2314
+    },
+    "runs/rci_feasibility_v48/reduce_even_n6/full/rcsfgenerate.stderr": {
+      "sha256": "459a4e540129075821008562098c28445f4fb91cd90a07011d4ec1f12b985bb2",
+      "bytes": 105
+    },
+    "runs/rci_feasibility_v48/reduce_even_n6/full/rcsfgenerate.stdin": {
+      "sha256": "b3a675ce2bad56b4b82e8725ea1262b7f08a9204fd744789b7c6657f6ae27734",
+      "bytes": 459
+    },
+    "runs/rci_feasibility_v48/reduce_even_n6/full/rcsfgenerate.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "fragments": {},
+  "stored_members": {
+    "evidence/rci_feasibility_driver_v48/__pycache__/rya1354_li_scheme_sizing.cpython-314.pyc": {
+      "sha256": "05a69b2ab9d28bcdebe618edd9b34dbe6293727028b5c68b05ab550308d6b824",
+      "bytes": 12373
+    },
+    "evidence/rci_feasibility_driver_v48/__pycache__/rya1354_solver_smoke.cpython-314.pyc": {
+      "sha256": "85b91536724fcafc27308a3ed1c830d78019baa719e31de1f4712a2b6d9beb58",
+      "bytes": 18619
+    },
+    "evidence/rci_feasibility_driver_v48/batch.time": {
+      "sha256": "025420881486ba5cbb0e1c0991814c34a04ac369ffea5e373e77e89570da0c38",
+      "bytes": 953
+    },
+    "evidence/rci_feasibility_driver_v48/rya1354_li_scheme_sizing.py": {
+      "sha256": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+      "bytes": 6349
+    },
+    "evidence/rci_feasibility_driver_v48/rya1354_rci_feasibility.py": {
+      "sha256": "a56d77730b03ba2d06d0bb245f94c29ac781807ff3c71403a779c8fda24eb279",
+      "bytes": 13344
+    },
+    "evidence/rci_feasibility_driver_v48/rya1354_solver_smoke.py": {
+      "sha256": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+      "bytes": 10570
+    },
+    "evidence/rci_feasibility_driver_v48/stderr.txt": {
+      "sha256": "2b3b97d8405ce1453abce0e8eab5907ba991cefc1333126167c8ab35c1022677",
+      "bytes": 1912
+    },
+    "evidence/rci_feasibility_driver_v48/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "runs/rci_feasibility_v48/driver.py": {
+      "sha256": "a56d77730b03ba2d06d0bb245f94c29ac781807ff3c71403a779c8fda24eb279",
+      "bytes": 13344
+    },
+    "runs/rci_feasibility_v48/receipt.json": {
+      "sha256": "a118d609229d3a715d949ff1ba7a37446c16e2b42f70c290a8929e12385b4fd1",
+      "bytes": 2314
+    },
+    "runs/rci_feasibility_v48/reduce_even_n6/full/rcsfgenerate.stderr": {
+      "sha256": "459a4e540129075821008562098c28445f4fb91cd90a07011d4ec1f12b985bb2",
+      "bytes": 105
+    },
+    "runs/rci_feasibility_v48/reduce_even_n6/full/rcsfgenerate.stdin": {
+      "sha256": "b3a675ce2bad56b4b82e8725ea1262b7f08a9204fd744789b7c6657f6ae27734",
+      "bytes": 459
+    },
+    "runs/rci_feasibility_v48/reduce_even_n6/full/rcsfgenerate.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "native_paths_preserved_byte_for_byte": 13,
+  "omitted_angular_caches": [],
+  "external_restart_caches": {},
+  "verification": "Single pass, <=4MiB raw groups, gzip level1; every original path and byte retained. Existing independent v2 decoder verifies all hashes, reconstruction and original receipts."
+}

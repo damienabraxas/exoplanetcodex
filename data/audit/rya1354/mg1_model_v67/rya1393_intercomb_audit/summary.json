@@ -1,0 +1,114 @@
+{
+ "schema": "rya1393.intercomb-audit.v1",
+ "model_dir": "data/audit/rya1354/mg1_model_v67",
+ "min_depth": 0.05,
+ "n_spin_features": 52,
+ "verdicts": {
+  "BLENDED_UNRESOLVED": 15,
+  "CONFIRMED": 4,
+  "NO_ATLAS": 22,
+  "NO_CONTROL": 1,
+  "REFUTED": 10
+ },
+ "by_band": {
+  "H": {
+   "BLENDED_UNRESOLVED": 2,
+   "CONFIRMED": 0,
+   "NO_ATLAS": 0,
+   "NO_CONTROL": 0,
+   "REFUTED": 0
+  },
+  "J": {
+   "BLENDED_UNRESOLVED": 1,
+   "CONFIRMED": 0,
+   "NO_ATLAS": 0,
+   "NO_CONTROL": 0,
+   "REFUTED": 3
+  },
+  "K": {
+   "BLENDED_UNRESOLVED": 0,
+   "CONFIRMED": 0,
+   "NO_ATLAS": 0,
+   "NO_CONTROL": 0,
+   "REFUTED": 3
+  },
+  "UV": {
+   "BLENDED_UNRESOLVED": 0,
+   "CONFIRMED": 0,
+   "NO_ATLAS": 19,
+   "NO_CONTROL": 1,
+   "REFUTED": 0
+  },
+  "VIS": {
+   "BLENDED_UNRESOLVED": 2,
+   "CONFIRMED": 0,
+   "NO_ATLAS": 0,
+   "NO_CONTROL": 0,
+   "REFUTED": 2
+  },
+  "Y": {
+   "BLENDED_UNRESOLVED": 1,
+   "CONFIRMED": 0,
+   "NO_ATLAS": 0,
+   "NO_CONTROL": 0,
+   "REFUTED": 1
+  },
+  "blue": {
+   "BLENDED_UNRESOLVED": 9,
+   "CONFIRMED": 4,
+   "NO_ATLAS": 0,
+   "NO_CONTROL": 0,
+   "REFUTED": 1
+  },
+  "other": {
+   "BLENDED_UNRESOLVED": 0,
+   "CONFIRMED": 0,
+   "NO_ATLAS": 3,
+   "NO_CONTROL": 0,
+   "REFUTED": 0
+  }
+ },
+ "controls": {
+  "UV": {
+   "n": 48,
+   "passed": 3,
+   "band_usable": false
+  },
+  "blue": {
+   "n": 16,
+   "passed": 15,
+   "band_usable": true
+  },
+  "VIS": {
+   "n": 12,
+   "passed": 12,
+   "band_usable": true
+  },
+  "Y": {
+   "n": 3,
+   "passed": 3,
+   "band_usable": true
+  },
+  "J": {
+   "n": 3,
+   "passed": 3,
+   "band_usable": true
+  },
+  "H": {
+   "n": 13,
+   "passed": 10,
+   "band_usable": true
+  },
+  "other": {
+   "n": 2,
+   "passed": 0,
+   "band_usable": false
+  },
+  "K": {
+   "n": 8,
+   "passed": 5,
+   "band_usable": true
+  }
+ },
+ "refuted_and_model_weaker": 10
+}

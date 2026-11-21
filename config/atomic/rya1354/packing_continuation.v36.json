@@ -1,0 +1,17 @@
+{
+  "schema": "rya1354.packing-continuation.v36",
+  "scientific_inputs_unchanged": true,
+  "interrupted_process_pid": 287021,
+  "interrupted_command": "rya1354_pack_native.py --out evidence/fac_radial_ci_remaining_complete_v36",
+  "observed_elapsed_before_stop": "56:02",
+  "observed_RSS_KiB": 1860668,
+  "observed_completed_part_count": 44,
+  "status": "INTERRUPTED_RETAINED",
+  "exit_code": 255,
+  "reason": "Repeated gzip recompression during recursive compressed-size bisection; owned packer stopped with SIGINT after native CI and all audits had completed successfully.",
+  "partial_output_retained_on_sirius": "evidence/fac_radial_ci_remaining_complete_v36",
+  "partial_output_scientifically_admitted": false,
+  "new_output": "evidence/fac_radial_ci_remaining_complete_v36_stream",
+  "new_method": "Single pass <=4MiB raw groups, gzip level1, same lossless v2 manifest/fragment schema; every original file and byte retained; existing independent decoder and receipt hashes must pass before completion/transfer.",
+  "preflight_tests": "2 tests passed: mixed fragmented random/zero/small/empty roundtrip and corrupt original receipt rejection. No atomic recalculation or scientific guard changes."
+}

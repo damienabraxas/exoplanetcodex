@@ -1,0 +1,218 @@
+{
+  "schema": "rya1354.fac-full-valence-plan.v28",
+  "starting_commit": "cd5d3c43aa78fdbe717d7887ccb7c3078ea20ccb",
+  "output": "runs/fac_full_valence_v28",
+  "baseline": "runs/fac_no_correction_v27",
+  "model": "All4valence electrons distributed over fixed2p/3s/3p/3d;1s2/2s2 fixed;fullconfiguration closure in this orbital set, not radial/core/fullatomic convergence",
+  "configurations": [
+    [
+      0,
+      0,
+      0,
+      4
+    ],
+    [
+      0,
+      0,
+      1,
+      3
+    ],
+    [
+      0,
+      0,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      3,
+      1
+    ],
+    [
+      0,
+      0,
+      4,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      3
+    ],
+    [
+      0,
+      1,
+      1,
+      2
+    ],
+    [
+      0,
+      1,
+      2,
+      1
+    ],
+    [
+      0,
+      1,
+      3,
+      0
+    ],
+    [
+      0,
+      2,
+      0,
+      2
+    ],
+    [
+      0,
+      2,
+      1,
+      1
+    ],
+    [
+      0,
+      2,
+      2,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      3
+    ],
+    [
+      1,
+      0,
+      1,
+      2
+    ],
+    [
+      1,
+      0,
+      2,
+      1
+    ],
+    [
+      1,
+      0,
+      3,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      2
+    ],
+    [
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      2,
+      0
+    ],
+    [
+      1,
+      2,
+      0,
+      1
+    ],
+    [
+      1,
+      2,
+      1,
+      0
+    ],
+    [
+      2,
+      0,
+      0,
+      2
+    ],
+    [
+      2,
+      0,
+      1,
+      1
+    ],
+    [
+      2,
+      0,
+      2,
+      0
+    ],
+    [
+      2,
+      1,
+      0,
+      1
+    ],
+    [
+      2,
+      1,
+      1,
+      0
+    ],
+    [
+      2,
+      2,
+      0,
+      0
+    ],
+    [
+      3,
+      0,
+      0,
+      1
+    ],
+    [
+      3,
+      0,
+      1,
+      0
+    ],
+    [
+      3,
+      1,
+      0,
+      0
+    ],
+    [
+      4,
+      0,
+      0,
+      0
+    ]
+  ],
+  "expected_NR_groups": 31,
+  "expected_levels": 1858,
+  "max_symmetry_levels": 253,
+  "total_magnetic_states": 10626,
+  "cases": [
+    "ground_coherent10",
+    "ground_coherent100",
+    "equal_coherent10",
+    "equal_coherent100"
+  ],
+  "preserved": "Existing15SD group declarations/IDs and every other line retained except adding16Config groups and extendingStructure list;samepotential policies, explicitdisabled corrections, sameinner/outercontrols/physics/nucleus",
+  "paired_guard": "Require SavePotential bytes identical to paired v27case;actualdelta/shift0 before/afterStructure andcomplete nativeconfigkey coverage;independent levelcounts/fullnative-export coefficient transport",
+  "seniority_scope": "PinnedFAC ShellNeedNuNr returns0 for j<7(twiceJ);all s/p/d relativistic shells<=5. Existing jjtransport parser valid if actualbijection verifies. NonrelLS d3/d4 encoding still requiresnewaudit before LS/rates.",
+  "timeout_seconds_per_case": 900,
+  "scope": "Levels/basis only;no LS targetassignment/rates/lifetimes until subsequent independently declared angular audit",
+  "failure_policy": "Retain andstop any source/numerical/potentialbyte/correction/inventory/transport failure;nofallback orfitting",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "rya1354.fac-no-correction-plan.v27",
+  "starting_commit": "621dacd5429ba2f63bd42a54ce2aeae3644712d4",
+  "output": "runs/fac_no_correction_v27",
+  "probe": "toolchains/fac-config-probe-v27",
+  "design": "Complete2x2 potential(ground/equal-reference) x ConfigEnergy correction(enabled/disabled).Reuse reviewed enabledv25/v26 cases; run only missing disabled cells, coherent10/100 and bothgauges.",
+  "configuration_space": "Unchanged15configuration/788level n3SD,1s2/2s2 fixed",
+  "disable": "SetConfigEnergyMode(-1);SetOption('radial:config_energy',-1);keep existing ConfigEnergy0/1 calls as verified no-ops",
+  "source_proof": "ConfigEnergy returns immediately if mce<0;newcfg delta/shift initialize0;Structure addsdelta+shift atdiagonal. Read-only dump mode/groups/electroncount/actualdelta/shift before and afterStructure, require bothzero.",
+  "observability": "Build isolated copiedSFAC frontend with unchanged raw-rate command plusConfigDiagnostics command readingnativeCONFIG fields, no library/source patch. Save source/diff/license/buildlogs/hashes; originalexecutables unchanged.",
+  "enabled_canary": "Same minimal coherent100 input plusread-onlydump commands; requireoriginalC/CMbyte-identical and nonzerodelta/mode0 observed. No new science baseline.",
+  "cases": [
+    "ground_coherent10",
+    "ground_coherent100",
+    "equal_coherent10",
+    "equal_coherent100"
+  ],
+  "native_timeout_seconds": 900,
+  "qualification": "Fulllevel stopping/inventory/native transport/fullLSreplay beforefreshcomplete B/Crates. Everyratesprocessredumpsactualzero correction/shift andexactlyreproducesmappedC/CM.",
+  "failure_policy": "Stop/preserve anyfailedbuild/positivecanary/numerical/zero-correction/identity/channelcheck; nofallback orreferencefitting",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null
+}

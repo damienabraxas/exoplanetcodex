@@ -1,0 +1,37 @@
+{
+  "schema": "rya1354.mcdhf-s0-controls-plan.v56",
+  "starting_commit": "79698490",
+  "driver": "evidence/mcdhf_s0_controls_driver_v56/rya1354_mcdhf_s0_controls.py",
+  "driver_sha256": "dba133d2e8f9e6c569476799348292d1d67d2aa643569093b44605138709e365",
+  "helper_sha256": {
+    "rya1354_mcdhf_eol.py": "4a541bacacd81667c1ac126c79e7277807085089a945839572cc981fe9364412",
+    "rya1354_li_scheme_sizing.py": "679d8a3a1afc4a5a6680d46af18fd280b4c31b5dfa780e594dfeb951320c630b",
+    "rya1354_rci_feasibility.py": "69f0d762a670f620b34a958c78bfb81de5659cc8f157501694ed7cd863b18987",
+    "rya1354_solver_smoke.py": "afe60e2ce1e552c3bb6dedc79d6b6a477eafd419fdccae4b2f50151e9e50b9bd",
+    "rya1354_triplet_correlation.py": "6e80963f035078318313b787fb62a0d4d40e3b8f9156bcad483e60c5d0fc0373",
+    "rya1354_two_method_summary.py": "35c07be8fa4da83c0a6db3980bcd12a9cf7009912bc2424ea63498d590852bdb"
+  },
+  "v53_receipt": "runs/mcdhf_eol_v53/receipt.json sha256 071ba320656252b9aeb3fe287f451041f3af9ecc357e792410d371fe131bbad1",
+  "grasp": "toolchains/grasp/build/bin (pinned 9006157730a82ac839f2b4ff4e938bcba63a539e, serial build)",
+  "strict_rmcdhf": "toolchains/grasp-strict-scf-v1/rmcdhf sha256 a82d7b4083258cd9a65a255f2f0fb5e5cd96dd1df6fc89add209599ac9786599",
+  "output": "runs/mcdhf_s0_controls_v56",
+  "why": "v53 FAILED_RETAINED at s0 even: GRASP method 1 (default for spectroscopic orbitals) could not solve 4f/5f; the method-2 fallback left 5f (j=7/2) frozen at self-consistency 0.166 and 2s at 1.7e-5. Measure the native integration-method control before any correlation layer.",
+  "scope": "Per parity, the identical v53 s0 problem (Li MCDHF MR, 0 excitations, 45 even / 36 odd EOL targets, standard weights, all orbitals varied and spectroscopic, Thomas-Fermi/screened-hydrogenic start, strict rmcdhf, 500 cycles) under three variants in declared order: default (v53 settings); method3_f (non-default mode, method 3 for 4f*/5f* only; not applicable to the odd MR, which has no f); method3_all (method 3 for every varied orbital; the repo's reference_method3 control). All other GETSCD options keep their defaults.",
+  "selection_rule": "Per parity, the first variant in declared order that meets the strict orbital criterion within 500 cycles AND reproduces the targeted leading LS families per J is selected. If both parities select, rbiotransform + rtransition E1 (Babushkin and Coulomb) between the selected s0 sets. The selected variant's method control is carried into the v55 layers.",
+  "guards": "Fresh directory; inputs hard-linked. Budgets as v53; prlimit --as=12 GiB; disk guard 40 GiB. Each variant's convergence is a measured outcome; FAILED_RETAINED on a refusal other than a clean rc=0 iteration-limit stop or the native IMPROV convergence stop, a prompt mismatch (GETRSL redo/unable, missing non-default prompts), the even s0 list differing from v53, or a missing file/table.",
+  "evidence": "Receipt, all stdin/stdout/stderr/time, lists, wavefunctions, mixing, lsj labels and transition tables archived.",
+  "scientific_admission": "HOLD",
+  "exposure": "EXPOSED_NONBLIND",
+  "adoption_allowed": false,
+  "accepted_lifetime": null,
+  "uncertainty": null,
+  "covariance": null,
+  "calibrated_sigma": null,
+  "retained_failure": [
+    "runs/mcdhf_eol_v53 (plan v53)",
+    "runs/mcdhf_s0_controls_v54 (plan v54)",
+    "runs/mcdhf_s0_controls_v55 (plan v55; receipt sha256 861921a4966f035161fc9575141456ffc858576ba2888eabba96a8013dd48502)"
+  ],
+  "outcome": "S0_CONTROLS_COMPLETED_NO_SELECTION (measured; no failure). even: default NOT_CONVERGED (5f 6.4e-4, 2s 1.74e-5); method3_f IMPROV stop (3p m1, 6p m2); method3_all NOT_CONVERGED with only 2s 1.74e-5, 6p 2.4-2.7e-7, 1s 2.0e-7 above ACCY 5.96e-8. odd: default IMPROV stop (4d- methods 1,2); method3_f not applicable; method3_all NOT_CONVERGED (4s 0.163, 6s 0.0925). Every stalled orbital lies in a set whose rotations leave the s0 CSF space invariant ({1s,2s}, complete Rydberg manifolds). Archive data/audit/rya1354/mcdhf_s0_controls_v56. Next: v57 invariance test.",
+  "change_from_v55": "A native rmcdhf IMPROV stop (rc=1 ERROR STOP with \"Error in SUBROUTINE IMPROV\" and \"Convergence not obtained\") is a measured variant outcome NOT_CONVERGED_IMPROV_STOP (unsolved orbital/method recorded), and the matrix continues; every other refusal still stops the run. Scope, variants, stdin, selection rule and other guards unchanged."
+}
