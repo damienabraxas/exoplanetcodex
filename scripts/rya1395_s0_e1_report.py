@@ -1,6 +1,7 @@
 """RYA-1395 v73 report: s0-stage E1 line strengths from our GRASP model vs Li 2023 (Table A2) and NIST.
 
-Reads lower.upper.t + lower/upper .lsj.lbl from a GRASP transitions directory (lower = even, upper = odd),
+Reads lower.upper.t + lower/upper .lsj.lbl from a GRASP transitions directory (file f1 = even, f2 = odd; rows run
+upper -> lower in either direction),
 labels every level by its leading LSJ component, and converts each line strength S (Babushkin B and Coulomb C)
 to gf with NIST energies (Li Table A1 ENIST): gf = 2 sigma S / (3 * 219474.63), sigma in cm-1.
 Report only: no grade, no adoption.
@@ -15,7 +16,7 @@ from pathlib import Path
 
 HC = 219474.6313632
 LVL = re.compile(r'^\s*(\d+)\s+(\d+(?:/\d)?)\s+([+-])\s+(-?\d+\.\d+)\s+([\d.]+)%')
-TROW = re.compile(r'^\s*f2\s+(\d+)\s+(\d+)\s+([+-])\s+f1\s+(\d+)\s+(\d+)\s+([+-])\s+([\d.]+)\s+([CB])\s+(\S+)\s+(\S+)\s+(\S+)')
+TROW = re.compile(r'^\s*(f[12])\s+(\d+)\s+(\d+)\s+([+-])\s+(f[12])\s+(\d+)\s+(\d+)\s+([+-])\s+([\d.]+)\s+([CB])\s+(\S+)\s+(\S+)\s+(\S+)')
 BROW = re.compile(r'^\s+([CB])\s+(\S+)\s+(\S+)\s+(\S+)\s*$')
 
 
@@ -47,7 +48,7 @@ def key_from_li(conf, term, j):
 
 def table_rows(path):
     rows = [r for r in csv.reader((l for l in open(path) if not l.startswith('#')), delimiter='\t')]
-    return [r for r in rows[3:] if len(r) > 5 and r[0].strip()]
+    return [r for r in rows if len(r) > 5 and r[0].strip().isdigit()]   # repeated header blocks occur mid-table
 
 
 def main(e1_dir, a1, a2, out_csv):
@@ -63,10 +64,11 @@ def main(e1_dir, a1, a2, out_csv):
     for l in text:
         m = TROW.match(l)
         if m:
-            ku = up.get((int(m[1]), int(m[2]), m[3]))
-            kl = lo.get((int(m[4]), int(m[5]), m[6]))
-            cur = dict(upper=ku, lower=kl, sigma_model=float(m[7]))
-            cur[f'S_{m[8]}'] = fnum(m[11])
+            files = {'f1': lo, 'f2': up}   # f1 = even (lower.*), f2 = odd (upper.*); either can hold the upper level
+            ku = files[m[1]].get((int(m[2]), int(m[3]), m[4]))
+            kl = files[m[5]].get((int(m[6]), int(m[7]), m[8]))
+            cur = dict(upper=ku, lower=kl, sigma_model=float(m[9]))
+            cur[f'S_{m[10]}'] = fnum(m[13])
             res.append(cur)
             continue
         b = BROW.match(l)
@@ -80,8 +82,11 @@ def main(e1_dir, a1, a2, out_csv):
         if eu is None or el is None:
             continue
         sig = eu - el
+        flipped = sig < 0   # separately optimised parities: the model can order a pair opposite to NIST (s0: 3d < 3p)
+        if flipped:
+            t['upper'], t['lower'], sig = t['lower'], t['upper'], -sig
         rec = dict(upper=' '.join(map(str, t['upper'])), lower=' '.join(map(str, t['lower'])), sigma_nist=sig,
-                   lam_vac_nm=1e7 / sig)
+                   lam_vac_nm=1e7 / sig, sigma_model=t['sigma_model'], model_order_flipped=flipped)
         for g in 'BC':
             gf = 2 * sig * t[f'S_{g}'] / (3 * HC)
             rec[f'loggf_{g}'] = math.log10(gf) if gf > 0 else float('nan')
@@ -101,9 +106,13 @@ def main(e1_dir, a1, a2, out_csv):
         d = sorted(r['d_B'] for r in matched if r['li_acc'] == acc)
         print(f"  Li class {acc:2s} n={len(d):3d}  median d {d[len(d)//2]:+.3f}  "
               f"abs68 {sorted(abs(x) for x in d)[int(0.68*(len(d)-1))]:.3f}")
-    for lam in (130.2, 130.4, 130.6, 135.6, 777.4, 844.8, 926.6, 1129.0, 1316.0):
+    shown = set()
+    for lam in (130.4, 135.6, 615.8, 645.6, 777.4, 844.8, 926.6, 1128.9, 1316.4):
         near = [r for r in matched if abs(r['lam_vac_nm'] - lam) < 1.0]
         for r in sorted(near, key=lambda r: r['lam_vac_nm'])[:4]:
+            if id(r) in shown:
+                continue
+            shown.add(id(r))
             print(f"  {r['lam_vac_nm']:9.3f} nm  {r['upper']:12s} -> {r['lower']:12s}  ours B {r['loggf_B']:+.3f} "
                   f"C {r['loggf_C']:+.3f}  Li {r['li_loggf_B']:+.3f} ({r['li_acc']})  d {r['d_B']:+.3f}")
 
