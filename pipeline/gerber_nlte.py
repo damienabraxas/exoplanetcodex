@@ -197,6 +197,21 @@ DECKS = {
                       atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
                       node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
                       read_via="direct"),
+    # RYA-731 -- Ni, 1D MARCS and <3D> STAGGER. 1D staged and gated in RYA-534
+    # (Ni_gerber2023.prov.json: md5-pinned; gate PASS on Ni I 5018/5035, median +0.018 vs
+    # Bergemann+2021 +0.02). <3D> staged in RYA-1311 (mean3d_staged_rya1311.json md5). Both
+    # aux md5s re-checked on Sirius 2026-11-21. The 1D grid is 67 GB: Sirius only.
+    "Ni": dict(Z=28, atom="atom.ni538qm",
+               aux="auxData_Ni_MARCS_Jan-21-2022.txt",
+               grid="NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin"),
+    "Ni@mean3D": dict(Z=28, atom="atom.ni538qm",
+                      aux="auxData_NI_STAGGERmean3D_Aug-12-2023_marcs_names.txt",
+                      grid="NLTEgrid4TS_NI_STAGGERmean3D_Aug-12-2023.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
+                      read_via="direct"),
 }
 
 

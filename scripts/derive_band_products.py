@@ -2567,6 +2567,10 @@ def synthesis_route(a, pol) -> None:
                             provenance=source,
                             aggregation=aggregation_for(getattr(a, "lines_from_set", None)))
         if p_a.value is not None:
+            if model is None and treatment.startswith("ENGINE-A"):
+                raise ValueError(f"no RYA-906 model-axis mapping for {a.element}: an {treatment} "
+                                 f"product was produced from {source!r} but the element has no "
+                                 f"registered Engine-A source to name its model axis")
             pd.DataFrame([asdict_line(l) for l in rows_a]).to_csv(
                 out / f"{stem}_{treatment}_lines.csv", index=False)
             b_a = build_budget(a.element, 0.5 * (a.lo + a.hi), p_a.n_lines,
@@ -2764,13 +2768,22 @@ def engine_a_source(element: str) -> str:
     return f"{spec['grid']} ({spec['ref']}){tail}; PER-LINE additive correction"
 
 
-def engine_a_model(element: str) -> str:
-    """Physics-model axis for the registered Engine-A source."""
+def engine_a_model(element: str) -> str | None:
+    """Physics-model axis for the registered Engine-A source.
+
+    RYA-731: None for an element with NO registered Engine-A source (Ni: neither Amarsi 2020
+    nor the MPIA grid covers it). Such an element gets no Engine-A product -- `_emit_departure`
+    prints NOT PRODUCED -- so it needs no axis; asking for one used to crash the whole cell
+    after the 1D-LTE product was measured. `_emit_departure` still refuses to WRITE an
+    Engine-A product whose axis is None.
+    """
     if element == "Fe":
         return "bergemann"
     if nlte_cno_species(element, "I"):
         return "amarsi"
     from config.constants import NLTE_CORRECTION_ELEMENTS
+    if element not in NLTE_CORRECTION_ELEMENTS:
+        return None
     spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
     if not spec:
         # RYA-470: an element with NO registered Engine-A source (V: no NLTE model atom exists)

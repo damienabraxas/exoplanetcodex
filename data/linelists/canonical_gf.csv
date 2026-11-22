@@ -141394,7 +141394,7 @@ gf_150368,pk_3d82853e3bff,92,2.0,U II,3145.566,0.6852,1,-0.0089999999999999,VALD
 gf_150369,pk_9bd2423d5625,24,1.0,Cr I,3145.619,3.8496,1,-0.0199999999999999,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.0199999999999999,False,False,True,,,,,False,VALD3,False
 gf_150370,pk_c7d1a55a613d,25,2.0,Mn II,3145.68,4.31,1,-2.15,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.15,False,False,True,,,,,False,VALD3,False
 gf_150371,pk_9e197d030f17,26,2.0,Fe II,3145.695,7.4943,1,-1.783,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.783,False,False,True,,,,,False,VALD3,False
-gf_150372,pk_4c732f5e1e2f,28,1.0,Ni I,3145.702,0.1652,10,-2.076,NIST ASD (accuracy C+; TP ref T4812),C+,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-1.5843178223586485,False,False,True,,NIST_ASD,0.0719,,False,NIST-C+,False
+gf_150372,pk_4c732f5e1e2f,28,1.0,Ni I,3145.702,0.1652,10,-2.37,"Wood et al. 2014 (ApJS 211, 20), machine-readable table J/ApJS/211/20 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-1.5843178223586485,False,False,True,,wood2014,0.0236,10.1088/0067-0049/211/2/20,False,LAB,False
 gf_150373,pk_a9ce36f2c0aa,25,1.0,Mn I,3145.732,3.0733,1,-3.531,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.531,False,False,True,,,,,False,VALD3,False
 gf_150374,pk_0bbd70227c9b,24,2.0,Cr II,3145.763,4.4148,1,-0.933,"Ward et al. 2023 (ApJ 959, 8), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.838,False,False,True,,ward2023_cr2,0.0441,10.3847/1538-4357/acfafe,False,LAB,False
 gf_150375,pk_8af46d5a8b82,58,2.0,Ce II,3145.779,0.5874,1,-2.61,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.61,False,False,True,,,,,False,VALD3,False
@@ -151776,7 +151776,7 @@ gf_160750,pk_505a9ec9abe9,58,2.0,Ce II,3523.098,1.327,1,-0.67,VALD3,,nearuv_vald
 gf_160751,pk_fae891c2a88b,26,1.0,Fe I,3523.174,3.2515,1,-1.866,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.866,False,False,True,,,,,False,VALD3,False
 gf_160752,pk_fc940ef55e59,26,1.0,Fe I,3523.308,2.8755,1,-1.36,PRIMARY LAB DenHartog2014,C+,nearuv_vald(RYA-759),lab_rya945,,,-1.228,False,False,True,,DH14,0.06,10.1088/0067-0049/215/2/23,True,LAB,False
 gf_160753,pk_26bbf814d2fc,27,1.0,Co I,3523.433,0.6293,6,-0.37,"Lawler et al. 2015 (ApJS 220, 13), machine-readable table J/ApJS/220/13 (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-0.4400383066154906,False,False,True,,lawler2015,0.0223,10.1088/0067-0049/220/1/13,False,LAB,False
-gf_160754,pk_ccdff3c00866,28,1.0,Ni I,3523.442,0.0254,5,-2.449889914763127,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.449889914763127,False,False,True,,,,,False,VALD3,False
+gf_160754,pk_ccdff3c00866,28,1.0,Ni I,3523.442,0.0254,5,-2.37,"Huber & Sandeman 1980 (A&A 86, 95), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-2.449889914763127,False,False,True,,huber1980_ni1,0.1641,,False,LAB,False
 gf_160755,pk_95267ff60d68,25,1.0,Mn I,3523.528,2.1782,12,-3.506,NIST ASD (accuracy C; TP ref T3623n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-3.499979304661504,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
 gf_160756,pk_e957f3a924a1,27,2.0,Co II,3523.547,2.7288,20,-1.538980214236192,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.538980214236192,False,False,True,,,,,False,VALD3,False
 gf_160757,pk_23b3e0a4d1e4,16,1.0,S I,3523.566,6.5245,2,-3.2901858136517705,VALD3,,nearuv_vald(RYA-759),single_source,,,-3.2901858136517705,False,False,True,,,,,False,VALD3,False
@@ -155478,7 +155478,7 @@ gf_164452,pk_49c70399e667,58,2.0,Ce II,3669.088,1.1493,1,-1.69,VALD3,,nearuv_val
 gf_164453,pk_1dc0714823f2,26,1.0,Fe I,3669.152,2.9904,1,-0.9453869454431122,NIST ASD (astroquery) T2578n,D,nearuv_vald(RYA-759),nist_rya822,,,-0.98,False,False,True,,,,,False,OTHER,False
 gf_164454,pk_726e86869038,25,1.0,Mn I,3669.191,2.1782,10,-3.097,NIST ASD (accuracy C; TP ref T3623n),C,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-3.0899563523620888,False,False,True,,NIST_ASD,0.0969,,False,NIST-C+,False
 gf_164455,pk_07d7cc52ea03,27,1.0,Co I,3669.238,1.7104,18,-4.223887850748391,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.223887850748391,False,False,True,,,,,False,VALD3,False
-gf_164456,pk_0ff75d22e6d2,28,1.0,Ni I,3669.238,0.1652,5,-2.6768899147631267,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.6768899147631267,False,False,True,,,,,False,VALD3,False
+gf_164456,pk_0ff75d22e6d2,28,1.0,Ni I,3669.238,0.1652,5,-2.692,"Blackwell, Booth, Petford & Laming 1989 (MNRAS 236, 235), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-2.6768899147631267,False,False,True,,blackwell1989_ni1,0.03,10.1093/mnras/236.2.235,False,LAB,False
 gf_164457,pk_c4e17b73ce01,42,1.0,Mo I,3669.345,2.6227,1,-0.516,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.516,False,False,True,,,,,False,VALD3,False
 gf_164458,pk_93d43296c175,25,1.0,Mn I,3669.39,2.1637,15,-2.70595269561452,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.70595269561452,False,False,True,,,,,False,VALD3,False
 gf_164459,pk_39213f127dba,23,2.0,V II,3669.412,2.5247,1,-0.306,NIST ASD (accuracy B; TP ref T9770),B,nearuv_vald(RYA-759),adopted_rya1268_nist_asd,,,-0.46,False,False,True,,NIST_ASD,0.0414,,False,NIST-C+,False
@@ -155596,7 +155596,7 @@ gf_164570,pk_001baf5c4f69,28,1.0,Ni I,3674.052,3.6576,1,-2.821,VALD3,,nearuv_val
 gf_164571,pk_274c8a464edd,58,2.0,Ce II,3674.057,1.1945,1,-1.19,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.19,False,False,True,,,,,False,VALD3,False
 gf_164572,pk_f3265e5254f9,64,1.0,Gd I,3674.057,0.0267,1,-0.15,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.15,False,False,True,,,,,False,VALD3,False
 gf_164573,pk_b556591c1a12,62,2.0,Sm II,3674.06,0.0,1,-1.62,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.62,False,False,True,,,,,False,VALD3,False
-gf_164574,pk_d5224a917f1f,28,1.0,Ni I,3674.062,0.0254,5,-2.569889914763127,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.569889914763127,False,False,True,,,,,False,VALD3,False
+gf_164574,pk_d5224a917f1f,28,1.0,Ni I,3674.062,0.0254,5,-2.57,"Huber & Sandeman 1980 (A&A 86, 95), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-2.569889914763127,False,False,True,,huber1980_ni1,0.1337,,False,LAB,False
 gf_164575,pk_4fa11c08048b,60,2.0,Nd II,3674.08,0.2046,1,-1.7,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.7,False,False,True,,,,,False,VALD3,False
 gf_164576,pk_f881fe855f11,66,2.0,Dy II,3674.09,0.0,1,-0.81,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.81,False,False,True,,,,,False,VALD3,False
 gf_164577,pk_6d9e023c224b,27,2.0,Co II,3674.105,5.0498,1,-1.759,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.759,False,False,True,,,,,False,VALD3,False
@@ -157141,7 +157141,7 @@ gf_166115,pk_217c7f247c38,26,1.0,Fe I,3739.176,3.111,1,-3.151,VALD3,,nearuv_vald
 gf_166116,pk_81b4051b12eb,62,2.0,Sm II,3739.19,0.5438,1,-0.27,VALD3,,nearuv_vald(RYA-759),single_source,,,-0.27,False,False,True,,,,,False,VALD3,False
 gf_166117,pk_277b53918756,20,1.0,Ca I,3739.195,2.523,1,-4.25,VALD3,,nearuv_vald(RYA-759),single_source,,,-4.25,False,False,True,,,,,False,VALD3,False
 gf_166118,pk_3defb139f0dd,59,2.0,Pr II,3739.201,0.7258,15,0.0788882985672196,VALD3,,nearuv_vald(RYA-759),single_source,,,0.0788882985672196,False,False,True,,,,,False,VALD3,False
-gf_166119,pk_e6fd7b4e58d1,28,1.0,Ni I,3739.226,0.1652,5,-2.739889914763127,VALD3,,nearuv_vald(RYA-759),single_source,,,-2.739889914763127,False,False,True,,,,,False,VALD3,False
+gf_166119,pk_e6fd7b4e58d1,28,1.0,Ni I,3739.226,0.1652,5,-2.755,"Blackwell, Booth, Petford & Laming 1989 (MNRAS 236, 235), table parsed from the paper's PDF (stated uncertainty)",,nearuv_vald(RYA-759),adopted_rya1268_lab_table,,,-2.739889914763127,False,False,True,,blackwell1989_ni1,0.03,10.1093/mnras/236.2.235,False,LAB,False
 gf_166120,pk_51c53f5727cb,26,1.0,Fe I,3739.314,2.1759,1,-2.2572748686953017,NIST ASD (astroquery) T2578n,E,nearuv_vald(RYA-759),nist_rya822,,,-2.32,False,False,True,,,,,False,OTHER,False
 gf_166121,pk_380582ff34c4,66,1.0,Dy I,3739.342,1.5985,1,1.52,VALD3,,nearuv_vald(RYA-759),single_source,,,1.52,False,False,True,,,,,False,VALD3,False
 gf_166122,pk_3890d3fd0ca6,20,2.0,Ca II,3739.374,7.5051,1,-1.937,VALD3,,nearuv_vald(RYA-759),single_source,,,-1.937,False,False,True,,,,,False,VALD3,False
