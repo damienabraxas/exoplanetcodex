@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 import platform
 import sys
+import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import rya1354_mcdhf_s0_sequential as S  # noqa: E402
@@ -68,10 +69,12 @@ def main():
                 out = a.out / name
                 out.mkdir()
                 stdin = stdin_for(parity, k)
-                step = run(a.grasp_bin / 'rcsfgenerate', stdin, out, 7200)
+                t0 = time.monotonic()
+                run(a.grasp_bin / 'rcsfgenerate', stdin, out, 7200)
+                wall = round(time.monotonic() - t0, 1)
                 inv = inventory_stream(out / 'rcsf.out', parity, 'mcdhf')
                 size = (out / 'rcsf.out').stat().st_size
-                case = dict(active_set=active_set(k), twoJ=mr(parity)[1], wall_s=step['wall_s'],
+                case = dict(active_set=active_set(k), twoJ=mr(parity)[1], wall_s=wall,
                             rcsf_bytes=size, rcsf_sha256=sha(out / 'rcsf.out'), **inv,
                             block_cost_extrapolated={b: cost(n) for b, n in inv['blocks'].items()})
                 if size > KEEP_BYTES:
