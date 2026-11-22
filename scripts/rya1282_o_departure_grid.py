@@ -2,7 +2,7 @@
 """RYA-1282: build an O departure grid on the Gerber+2023 MARCS nodes (pipeline.o_departure_grid).
 
   run      --engine bride|multi23 --out DIR [--teff 4000:7000] [--logg-min 3] [--a-step 0.2]
-           [--workers N] [--shard i/n] [--limit K]
+           [--feh -1.5:1.0] [--workers N] [--shard i/n] [--limit K]
   assemble --npz DIR --bin FILE --aux FILE --header TEXT
   status   --out DIR
 
@@ -29,6 +29,11 @@ def _nodes(a):
     nodes = G.gerber_nodes(aux)
     t0, t1 = (float(x) for x in a.teff.split(':'))
     sel = G.select_nodes(nodes, teff=(t0, t1), logg_min=a.logg_min, a_step=a.a_step)
+    f0, f1 = (float(x) for x in a.feh.split(':'))
+    # Ryan 2026-11-21: grid bounds [Fe/H] -1.5..+1.0. Gerber's -5..+1 node list was built for Galactic
+    # surveys; no known planet host is below -1.0 (NASA Exoplanet Archive, 4197 hosts) and the
+    # Codex targets span -0.49 (tau Cet) .. +0.31 (55 Cnc A).
+    sel = {m: v for m, v in sel.items() if f0 - 1e-6 <= v['feh'] <= f1 + 1e-6}
     order = sorted(sel, key=lambda m: G.priority(sel[m]))
     if a.shard:
         i, n = (int(x) for x in a.shard.split('/'))
@@ -62,7 +67,7 @@ def cmd_run(a):
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     sel, order = _nodes(a)
     todo = [m for m in order if not (out / f'{m}.npz').exists()]
-    (out / 'manifest.json').write_text(json.dumps(dict(engine=a.engine, teff=a.teff, logg_min=a.logg_min,
+    (out / 'manifest.json').write_text(json.dumps(dict(engine=a.engine, teff=a.teff, feh=a.feh, logg_min=a.logg_min,
                                                        a_step=a.a_step, models=len(order),
                                                        nodes=sum(len(sel[m]['abundances']) for m in order)), indent=1))
     print(f'{a.engine}: {len(order)} models, {len(todo)} to do, {a.workers} workers', flush=True)
@@ -109,6 +114,7 @@ def main():
     s = p.add_subparsers(dest='cmd', required=True)
     r = s.add_parser('run'); r.add_argument('--engine', choices=sorted(G.ENGINES), required=True)
     r.add_argument('--out', required=True); r.add_argument('--aux'); r.add_argument('--teff', default='0:99999')
+    r.add_argument('--feh', default='-99:99', help='[Fe/H] range lo:hi')
     r.add_argument('--logg-min', type=float, default=-9.); r.add_argument('--a-step', type=float)
     r.add_argument('--workers', type=int, default=4); r.add_argument('--shard'); r.add_argument('--limit', type=int)
     r.add_argument('--workdir'); r.add_argument('--min-free-gb', type=float, default=4.0)
