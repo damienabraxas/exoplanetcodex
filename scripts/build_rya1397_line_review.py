@@ -112,6 +112,40 @@ def compare(row, matches, accepted):
     )
 
 
+def legacy_fe_rows(baseline, index, accepted):
+    for product in json.loads((ROOT / baseline["Fe"]["baseline_path"]).read_bytes())["products"]:
+        if (product["ion"] != "I" or product.get("uncertainty_indicator_ids")
+                or product["treatment"] != "ENGINE-A-3DNLTE"):
+            continue
+        summary = Path(product["provenance"]["copied_to"])
+        path = summary.with_name(summary.name.replace("_products.csv", "_per_line.csv"))
+        pool = []
+        for ordinal, entry in enumerate(rows(ROOT / path), 1):
+            if entry["in_domain"] != "True" or not math.isfinite(float(entry["a_3dnlte"] or "nan")):
+                continue
+            if entry.get("in_aggregate_1dlte", "True") != "True":
+                continue
+            wavelength = entry["wavelength_air_A"]
+            ep = entry["elo_eV"]
+            row = {
+                "target": "Fe", "species": "Fe I", "band": product["band"],
+                "source": "Legacy Fe I product measurement", "source_kind": "LEGACY_BASELINE",
+                "source_path": path, "source_row": ordinal,
+                "wavelength": wavelength, "wavelength_unit": "Å", "wavelength_medium": "air",
+                "lower_energy_eV": ep, "upper_energy_eV": entry["eup_eV"],
+                "source_loggf": entry.get("loggf") or entry.get("loggf_asplund", ""),
+            }
+            compare(row, locate(index, "Fe I", wavelength, ep, 0.03), accepted)
+            row.update(
+                baseline_presence="RECOVERED_PRODUCT_POOL", decision="PRESERVE_BASELINE",
+                note="Recovered using the original acceptance predicate and a verified product row count.",
+            )
+            pool.append(row)
+        if len(pool) != product["n_lines"]:
+            raise ValueError(f"Recovered pool does not match recorded product count: {path}")
+        yield from pool
+
+
 def reference_rows(targets):
     directory = REFERENCE / "line_sets"
     for entry in rows(directory / "REGISTRY.csv"):
@@ -424,6 +458,7 @@ def main():
             compare(row, locate(index, row["species"], wavelength, row["lower_energy_eV"], tolerance), accepted)
             result[row["target"]].append(row)
     for source_rows in (molecular_rows(), inspected_rows(index, accepted), oxygen_rows(accepted), cno_theory_rows(),
+                        legacy_fe_rows(baseline, index, accepted),
                         local_supplement_rows(library, index, accepted),
                         vanadium_mirror_rows(library, index, accepted)):
         for row in source_rows:
@@ -433,7 +468,7 @@ def main():
         target = entry["target"]
         counts = Counter(row["source_kind"] for row in result[target])
         entry.update({kind: counts[kind] for kind in ("PUBLISHED_SET", "LAB_TABLE", "MOLECULAR_SOLAR_INDICATOR", "INSPECTED_PAPER",
-                                                     "ACQUIRED_LAB_TABLE", "THEORY_CANDIDATE", "LAB_MIRROR")})
+                                                     "ACQUIRED_LAB_TABLE", "THEORY_CANDIDATE", "LAB_MIRROR", "LEGACY_BASELINE")})
     write("line_review_coverage.csv", list(coverage[0]), coverage)
     write("solar_line_review.csv", FIELDS, (row for target in baseline for row in result[target]))
 
