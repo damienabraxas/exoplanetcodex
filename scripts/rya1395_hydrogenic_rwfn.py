@@ -89,7 +89,7 @@ def read_rwfn(path):
 
 def label(o):
     l = o['nak'] if o['nak'] > 0 else -o['nak'] - 1
-    return f"{o['n']}{'spdfg'[l]}{'-' if o['nak'] > 0 else ''}"
+    return f"{o['n']}{'spdfgh'[l]}{'-' if o['nak'] > 0 else ''}"
 
 
 def mean_r(o):
