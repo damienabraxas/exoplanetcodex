@@ -1,3 +1,10 @@
+## 2026-11-23 — RYA-1354 landed and RYA-1396 literature audit prepared
+
+> **Current as of `main` 18361078** (PR #628).
+
+- **RYA-1354** — `18361078` PR #628 includes the v70c Mg I van der Waals wing study. The harness gate failed and the result remains report-only / HOLD. See the [merged report](docs/audit/rya1354/mg1_vdw_wings_v70c.md) and [Linear result](https://linear.app/ryans-adventure-zone/issue/RYA-1354#comment-91c07865-ca9c-43b0-bfd0-eba6eec9cead).
+- **RYA-1396** (this branch) — The [literature audit](data/audit/rya1396/README.md) records holdings for all 27 Solar elements, with Fe II tracked separately, 61 verified local PDF entries, and remaining evidence gaps.
+
 ## 2026-11-17 — RYA-1388 landed; RYA-470 V line inventory (this branch)
 
 > **Current as of `main` 78ab9eb0** (PR #626).

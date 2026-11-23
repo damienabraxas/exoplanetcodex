@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v254** · _Last updated: 2026-11-17 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v255** · _Last updated: 2026-11-23 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -696,3 +696,4 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v252** (2026-11-09) — **RYA-1278/1281 integration checkpoint.** Preserve current-main production state and completed experimental Bride evidence. Resolve historical branch/main version collisions: former Bride v173-v243 become v181-v251; canonical main v173-v180 remain unchanged. Physical oxygen/1.5D/full3D admission remains HOLD; active OpenMULTI3D work is excluded. Merge authorized by Ryan; see docs/audit/rya1278/merge_readiness_2026-11-09.md.
 
 - **v251** (2026-11-09) — RYA-1281 current ORCH continuum replay (96 nominal plus96 shifted-window controls) refuses24 unsupported beyond3percent synthesis-reference corrections; all48 nominal synthesis fits have one-sided anchors, including smaller accepted extrapolations. IAG-reference levels remain near unity but geometry is not universally bracketed. No reference/continuum adoption. All9 fresh +/-10K and xi0.25-2km/s controls pass in460.63s, solar endpoint byte-identical; +10K strengthens0.54-0.71mA and local T/xi response cosine0.9966 cautions against triplet-only parameter inference; evidence in docs/audit/rya1279/solar_sensitivity_continuum_review.md. Scientific HOLD preserved.
+- **v255** (2026-11-23) — **RYA-1354 landed (#628, 18361078) and RYA-1396 completed the literature acquisition pass.** The v70c Mg I wing study remains report-only / HOLD after a failed harness gate. The [Solar literature audit](data/audit/rya1396/README.md) records all 27 elements and Fe II, local PDF holdings, and open transition-level verification work.
