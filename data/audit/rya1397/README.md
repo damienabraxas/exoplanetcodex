@@ -1,0 +1,9 @@
+# RYA-1397 Solar patch campaign
+
+Phase 1 started from merged main at `4f1e69e91d7eee1ae99f034a3f9a7271b262669f`, on 2026-11-23. The [baseline census](solar_product_baseline.csv) joins the canonical element list to committed Solar product files and records SHA-256, version, profile count, bands, treatments and routes. There are 12 element files, with Fe I and Fe II accounted for separately. Rows without a committed file remain visible for reconciliation against active runs and unpublished products. The [input snapshot](baseline_inputs.json) identifies the literature, citation, line-set, stellar and model inputs used at intake.
+
+## Oxygen initial comparison
+
+[Table 2 of Pereira et al. (2009)](https://doi.org/10.1051/0004-6361/200912840), inspected in the local PDF, supplies five oxygen entries. The [comparison](oxygen_pereira_table2.csv) cross-references candidate identities from the [RYA-1353 census](../rya1353_line_census/v4/canonical_census.csv.gz) using species, wavelength, excitation and diagnostic grouping. The source table labels wavelengths in nm, and the census explicitly uses air Å. Fine-structure term and J verification remains open. The four matching oscillator strengths support retaining the existing entries for this source. The 615.8 nm discrepancy requires component verification before any interpretation or rerun. The table's NIST-sourced triplet values are corroboration, and the paper's center-to-limb measurements provide observational validation evidence.
+
+These are source-level decisions. Oxygen still needs the remaining literature, blend, model applicability and observational review before element-level patch adjudication. The [RYA-1352 governance dossier](../../../docs/audit/rya1352/README.md) describes Theoretical Codex as a held proposal. Preserve existing product grades and keep theoretical evidence separate pending scientific review. No patch runs have been launched.
