@@ -207,9 +207,11 @@ def run_model(model_id: str, node: dict, engine: str, out_dir, workdir=None) -> 
 
 
 # ----------------------------------------------------------------------------- TS writer
-def assemble(npz_dir, bin_path, aux_path, *, header_text: str) -> dict:
+def assemble(npz_dir, bin_path, aux_path, *, header_text: str, files=None) -> dict:
     """Write every converged node of npz_dir as a TS NLTE grid (Gerber layout). Returns counts."""
-    files = sorted(Path(npz_dir).glob('*.npz'))
+    if files is None:
+        files = [path for path in Path(npz_dir).glob('*.npz') if not path.name.endswith('.tmp.npz')]
+    files = sorted(files)
     n_rec = n_bad = 0
     head = header_text.encode('ascii')
     if len(head) > HEADER_BYTES:

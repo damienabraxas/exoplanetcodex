@@ -60,3 +60,33 @@ def test_multi23_in_gerbers_setup_reproduces_the_gerber_record():
     assert np.abs(np.log10(b[TL][:, phot] / bref[TL][:, phot])).max() < 0.004      # measured 0.0012
     bc, _ = solve_multi23(S, float(r['reference']['abundance']))                     # artefacts removed
     assert np.abs(np.log10(bc[TL][:, phot] / bref[TL][:, phot])).max() > 0.02       # measured 0.037
+
+
+def test_audit_and_retry_select_only_expected_failed_nodes(tmp_path):
+    from scripts.rya1282_o_departure_grid import _audit_manifest, _retry_selection
+
+    model = 'p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00'
+    aux = tmp_path / 'input.aux'
+    aux.write_text(''.join(f"'{model}' 5750 4.5 0 0 0 1 {a} 1001\n" for a in (8.6, 8.8)))
+    base = tmp_path / 'base'
+    base.mkdir()
+    (base / 'manifest.json').write_text(json.dumps(dict(
+        engine='bride', teff='4000:7000', feh='-1.5:1.0', logg_min=-9.0, a_step=None,
+        models=1, nodes=2,
+    )))
+    result = base / f'{model}.npz'
+    (base / 'unrelated.npz').touch()
+    with pytest.raises(ValueError, match='missing models'):
+        _retry_selection(base, tmp_path / 'retry', aux, 'bride')
+
+    np.savez(result, model_id=model, engine='bride', abundances=[8.6, 8.8],
+             ok=[True, False], error=['', 'Column budget exceeded'])
+    files, missing, failed = _audit_manifest(base, aux)
+    assert files == [result]
+    assert not missing
+    assert failed == {model: [dict(abundance=8.8, error='Column budget exceeded')]}
+    retry, order = _retry_selection(base, tmp_path / 'retry', aux, 'bride')
+    assert order == [model]
+    assert retry[model]['abundances'] == [8.8]
+    with pytest.raises(ValueError, match='separate'):
+        _retry_selection(base, base, aux, 'bride')
