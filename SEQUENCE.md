@@ -1,3 +1,10 @@
+## 2026-11-23 — RYA-1354 landed; RYA-1395 O I atomic model (this branch)
+
+> **Current as of `main` 18361078** (PR #628).
+
+- **RYA-1354** — `18361078` PR #628: Theoretical Codex atomic model through v70c — Mg I lifetimes PASS 6/6, photoionization from our own wavefunctions, solar vdW wing test (Unsöld rejected; report only, HOLD).
+- **RYA-1395** (this branch) — our own GRASP O I model: s0 Dirac-Fock stage complete (own hydrogenic starts, node + orbital-energy gates); correlation layers n3-n5 complete, n6 resuming on Sirius (v78). Key solar lines vs Li 2023 within 0.05 dex (Babushkin); HOLD, report only. Handover to Codex on the ticket.
+
 ## 2026-11-17 — RYA-1388 landed; RYA-470 V line inventory (this branch)
 
 > **Current as of `main` 78ab9eb0** (PR #626).
