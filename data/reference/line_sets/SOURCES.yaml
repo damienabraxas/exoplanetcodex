@@ -319,6 +319,33 @@ sets:
         optical lab-gf 5.68) was seen before adoption. The published sigma is the Asplund
         budget, which carries no gf term.
 
+  - name: NI_ELGUETA2026
+    element: Ni
+    source: data/audit/rya1058_elgueta/normalized_lines.csv
+    # The authors' Sun robust flag (all four criteria Y), as CR_ELGUETA2026: 10 Ni I lines,
+    # 2 Y, 1 J, 7 H.
+    where: {species: NiI, sun_Gd_rob: "Y"}
+    species: "Ni I"
+    columns: {wavelength: wavelength_A, ep: lower_ep_eV, loggf: elgueta_loggf, band: band}
+    match: {canonical_id_col: canonical_line_id}
+    bib: elgueta2026
+    doi: 10.1051/0004-6361/202659148
+    citation: "Elgueta et al. 2026 (A&A 710, A111), Sun/G-dwarf Rob=Y"
+    gf_basis: "VALD3 = Kurucz calculated gf, as the authors used (no Ni I lab gf beyond 7789 A, Wood+2014 the reddest; Smith+2021: none in the APOGEE window; Elgueta calibrate no gf)"
+    solar_literature: false
+    grade: THEORETICAL_CODEX
+    adoption:
+      approved_by: Ryan Schmitt
+      date: 2026-11-22
+      ticket: RYA-731 / RYA-1351
+      gf_origin: theoretical
+      gf_method: Kurucz (semi-empirical calculation), delivered by VALD3
+      limitations: >-
+        No laboratory gf and no published gf uncertainty for any line. Not a blind benchmark:
+        the 11-21 ungraded diagnostic (5 of these lines measured, median 6.05; CRIRES+ H all
+        16 lines 6.02, KPNO NIR 6.18) was seen before adoption, against Asplund 2021 6.20. The
+        published sigma is the Asplund budget, which carries no gf term.
+
   - name: MN_AGSS21
     element: Mn
     source: data/reference/agss21_cited_sets/agss21_reference_lines.csv
