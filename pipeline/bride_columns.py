@@ -251,14 +251,24 @@ def scattering_lambda_star(ctx):
         for d in (0, 1):
             c = chi[:, j, d, :]
             dt = 0.5 * (c[:, :-1] + c[:, 1:]) * dz / mu[j]
-            seg = 1 - (-np.expm1(-dt)) / dt
+            with np.errstate(invalid='ignore', divide='ignore', over='ignore'):
+                seg = 1 - (-np.expm1(-dt)) / dt
             psi = np.zeros_like(c)
             if d == 0:                                          # toward the observer's far side: down
                 psi[:, 1:] = seg
                 psi[:, 0] = -np.expm1(-c[:, 0] * L / mu[j])
             else:
                 psi[:, :-1] = seg
-            out += 0.5 * w[j] * psi * sca / c
+            # RYA-1282 (11-23): an NLTE population inversion makes the total opacity negative
+            # (measured: O I 5.97 um, depths 6-9, s7000/2.0/+1.0 at A(O) 10.6). The positive-
+            # opacity operator is undefined there, so the point takes no acceleration (plain
+            # Lambda iteration, psi = 0) and Lambda* is never extrapolated across it. That
+            # changes the speed only; the formal solution itself is untouched.
+            ok = c > 0
+            ok[:, 1:] &= c[:, :-1] > 0
+            ok[:, :-1] &= c[:, 1:] > 0
+            psi = np.where(ok & np.isfinite(psi), psi, 0.0)
+            out += 0.5 * w[j] * psi * np.where(ok, sca / np.where(ok, c, 1.0), 0.0)
     if not (np.isfinite(out).all() and out.min() >= 0 and out.max() < 1):
         raise ValueError('Invalid scattering Lambda*')
     return out
