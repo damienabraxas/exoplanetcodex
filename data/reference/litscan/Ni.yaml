@@ -4,7 +4,7 @@
 # Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 changed this element (AGSS21 6.20 +/- 0.04 -> AG26 6.20 +/- 0.05) (RYA-1251).
 element: Ni
 ion: I
-ions: [I]
+ions: [I, II]
 source_of_truth: RYA-1268
 scale: as adopted by AG26 (3L)
 entries:
@@ -69,10 +69,10 @@ literature_sweep:
     - ion: II
       band: near-UV
       searched: [Chen+2026, Hartman+2017, Clear+2026 (theory), Fedchak & Lawler 1999, Fedchak+2000, NIST ASD, VALD gf references]
-      result: 'No lab gf for the solar Ni II lines (3d8 4s / 3d9 4s - 3d8 4p, EP 2.9-4.0 eV), all K03 theory. Chen+2026 and Hartman+2017 measure 3d8 4d - 3d8 4p (EP ~6.6 eV); Fedchak 1999/2000 are below 255 nm; NIST has none of the 40 usable lines. With no graded line the ORCH builds no Ni II cell. Ungraded KPNO diagnostic, 18 lines, 1D-LTE median 6.51, mean 6.49 +/- 0.33 on Kurucz gf -- not a result.'
+      result: 'No lab gf for the solar Ni II lines (3d8 4s / 3d9 4s - 3d8 4p, EP 2.9-4.0 eV), all K03 theory. Chen+2026 and Hartman+2017 measure 3d8 4d - 3d8 4p (EP ~6.6 eV); Fedchak 1999/2000 are below 255 nm; NIST has none of the 40 usable lines. Ungraded KPNO diagnostic, 18 lines, 1D-LTE median 6.51, mean 6.49 +/- 0.33 on Kurucz gf. 2026-11-22 (Ryan: take the most recent findings): the 26 lines are a THEORETICAL_CODEX set, NI_CLEAR2026, on Clear+2026 calculated gf (median 0.08 dex below K03).'
       diagnostic: data/audit/orchestrator_prepare/solar_Ni_band_diagnostics.csv
     - ion: II
       band: VIS
       searched: [Chen+2026, Clear+2026 (theory), NIST ASD, VALD gf references]
-      result: 'No lab gf; the Ni II lines here (4015-4362 A, EP 4.0 eV) are weak. The HARPS diagnostic kept no line (1 excluded).'
+      result: 'No lab gf; the Ni II lines here (4015-4362 A, EP 4.0 eV) are weak. The HARPS diagnostic kept no line (1 excluded). 4362.10 is in NI_CLEAR2026 (Clear+2026 gf -2.75).'
       diagnostic: data/audit/orchestrator_prepare/solar_Ni_band_diagnostics.csv

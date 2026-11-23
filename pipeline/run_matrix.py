@@ -797,7 +797,10 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
     element = validate_element(element)
     symbol, pinned_ion = split_symbol(element)
 
-    want_ions = [pinned_ion] if pinned_ion else (ions or graded_ions(symbol))
+    # RYA-731: an ion with no graded line but an adopted Theoretical Codex set (Ni II on
+    # Clear+2026 gf) is measured on that set ONLY -- it gets no lab-pool cell.
+    tc_only = [i for i in theoretical_codex_ions(symbol, star) if i not in graded_ions(symbol)]
+    want_ions = [pinned_ion] if pinned_ion else (ions or graded_ions(symbol) + tc_only)
     if not want_ions:
         raise MatrixError(
             f"the graded pool in {CANONICAL_GF.name} holds no line of {symbol!r} at any "
@@ -860,7 +863,8 @@ def expand(star: str, element: str, *, ions: list[str] | None = None,
                         # RYA-1233 (process step 7): every cell measures a GRADED pool,
                         # one cell per pool this route can measure.
                         lab_pools = [k for k, v in POOLS.items()
-                                     if (m is None or m in v["methods"])]
+                                     if (m is None or m in v["methods"])
+                                     and ion not in tc_only]
                         set_pools = sets_here if m in (None, "synthesis") else []
                         # RYA-470 (Ryan 2026-11-18): in the IR, a species with a hyperfine
                         # multiplet in the window ALSO gets the free-continuum special case,
@@ -1198,6 +1202,13 @@ def pool_tier(descriptor: RunDescriptor) -> str:
     # RYA-470: the IR hyperfine special case publishes beside the standard product, under
     # its own selector, so the two can never share an identity, a ledger key or a cell.
     return (_fc.selector(base or None, descriptor.continuum == _fc.FREE) or "")
+
+
+def theoretical_codex_ions(symbol: str, star: str = "solar") -> list[str]:
+    """Ions of this element holding an adopted Theoretical Codex set (RYA-1351 / RYA-731)."""
+    from pipeline.line_sets import theoretical_codex
+    return [i for i in _ION_ORDER
+            if any(theoretical_codex(r["set_name"]) for r in line_sets_for(symbol, i, star))]
 
 
 def line_sets_for(symbol: str, ion: str, star: str = "solar") -> list[dict]:
