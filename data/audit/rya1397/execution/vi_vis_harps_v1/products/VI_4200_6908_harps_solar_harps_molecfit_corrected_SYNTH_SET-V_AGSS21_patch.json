@@ -1,0 +1,31 @@
+{
+ "stem": "VI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-V_AGSS21",
+ "species": "V I",
+ "prior_dir": "/home/damienabraxas/scratch/rya1397-feii-v1/data/results/orchestrator/budget/solar_V/stage",
+ "refit_requested": 3,
+ "listed_not_in_pool": [],
+ "treatments": {
+  "1D-LTE": {
+   "prior": "/home/damienabraxas/scratch/rya1397-feii-v1/data/results/orchestrator/budget/solar_V/stage/VI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-V_AGSS21_1D-LTE_lines.csv",
+   "prior_sha256": "70116c0cdf0acac167467066095ddb373abe53f67e341e757189e22e81eb47a6",
+   "reused": 27,
+   "refit": [
+    4875.508,
+    5731.241,
+    6111.673
+   ],
+   "refit_no_prior": []
+  },
+  "ENGINE-B": {
+   "prior": "/home/damienabraxas/scratch/rya1397-feii-v1/data/results/orchestrator/budget/solar_V/stage/VI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_SET-V_AGSS21_ENGINE-B_lines.csv",
+   "prior_sha256": "c265b2784d061dba4b33448447704f9a03519365fad0d35c67757e31b54d8094",
+   "reused": 27,
+   "refit": [
+    4875.508,
+    5731.241,
+    6111.673
+   ],
+   "refit_no_prior": []
+  }
+ }
+}
