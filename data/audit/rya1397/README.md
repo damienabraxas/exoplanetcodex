@@ -24,3 +24,18 @@ python3 scripts/build_rya1397_line_review.py \
 ```
 
 The acquired Fe, Si and Al supplements are checked against RYA-1396 hashes before processing. The local mirror and other source artifacts are pinned in [line_review_inputs.json](line_review_inputs.json). Review redistribution terms before publishing the combined export.
+
+## First runnable refit input
+
+[Fe II HARPS VIS reference patch](patch_inputs/solar_FeII_VIS_harps_reference.csv) contains seven Den Hartog et al. (2019) solar benchmark lines. The published lab strengths agree with the current canonical values. The pipeline's patch binder matched all seven by species, air wavelength and excitation to accepted lines in the eight-line HARPS reference pool. The eighth line is outside the refit selection. This is a validation refit of the existing pool. See the [input manifest](patch_inputs/solar_FeII_VIS_harps_reference.json) for hashes and scope.
+
+On the configured synthesis host, the corresponding non-publishing entry point is:
+
+```sh
+python run_pipeline.py --star solar --element Fe --ion II --band VIS \
+  --instrument solar_harps_molecfit_corrected --route synthesis \
+  --pool reference --engine ts-lte --patch \
+  --lines data/audit/rya1397/patch_inputs/solar_FeII_VIS_harps_reference.csv
+```
+
+The 4173.451 Å Fe II benchmark falls outside this HARPS cell's 4200 Å lower edge. Den Hartog et al. rejected 4303.16 and 4351.76 Å because of blends. The [three V I leads](vanadium_visible_candidates.csv) have matching canonical laboratory data and finite HARPS pixels in their proposed fitting windows. All three are absent from the stored 27-line HARPS V I reference-set fit. The executable patch selector only refits members of its selected pool. Resolve the V I component representation and verify selection before using those rows in a patch.
