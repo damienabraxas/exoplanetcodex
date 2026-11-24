@@ -26,7 +26,9 @@ threshold while preserving excess photon energy. The source tables are kept
 intact. The solver input uses the O41f shortwave limit of 90.0064 nm because
 the unrestricted extension enters wavelengths near 4.5 nm and produces
 underflow in the current photospheric background and radiation acceleration.
-The receipt records the omitted point counts per channel. [NORAD O I data](https://norad.astronomy.osu.edu/), [Nahar 1999 partial cross sections](https://www.astronomy.ohio-state.edu/nahar.1/papers/apjs-pirc-oions.pdf)
+The unrestricted LTE control converged in 44 formal solutions. Trimming to the
+baseline domain took 10 and changed the tested intensity ratios by less than
+3e-15. The receipt records the omitted point counts per channel. [NORAD O I data](https://norad.astronomy.osu.edu/), [Nahar 1999 partial cross sections](https://www.astronomy.ohio-state.edu/nahar.1/papers/apjs-pirc-oions.pdf)
 
 The paired 5750 K, log g 4.5 solar-metallicity MARCS run with fixed LTE
 populations converged its radiation in 8 steps with O41f and 10 with O53 plus
