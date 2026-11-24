@@ -1,0 +1,34 @@
+{
+  "command": [
+    "scripts/derive_band_products.py",
+    "--element",
+    "V",
+    "--ion",
+    "I",
+    "--lo",
+    "4200",
+    "--hi",
+    "6908",
+    "--instrument",
+    "harps",
+    "--holding",
+    "solar_harps_molecfit_corrected",
+    "--engine-b-deck",
+    "ts-lte",
+    "--out",
+    "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-v-vis-hfs-v1",
+    "--lines-from-set",
+    "V_AGSS21=data/reference/line_sets/v_agss21_VI_graded.csv",
+    "--force-synthesis",
+    "--clip-to-synthesis-list",
+    "--refit-lines",
+    "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-v-vis-hfs-v1/refit_components.csv",
+    "--reuse-fits-from",
+    "/home/damienabraxas/scratch/rya1397-feii-v1/data/results/orchestrator/budget/solar_V/stage"
+  ],
+  "source_sha256": "70a2edd90cb480e9b5e8dd628b65efdd18b65c01481539747f901fa15bc5069b",
+  "prior_sha256": {
+    "1D-LTE": "70116c0cdf0acac167467066095ddb373abe53f67e341e757189e22e81eb47a6",
+    "ENGINE-B": "c265b2784d061dba4b33448447704f9a03519365fad0d35c67757e31b54d8094"
+  }
+}

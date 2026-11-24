@@ -1,0 +1,19 @@
+{
+  "status": "PREFLIGHT_STARTED",
+  "sirius_worktree": "~/scratch/rya1397-feii-v1",
+  "revision": "925caac834f650dbc75156700a0a0deff35c62dd",
+  "available_before_staging_gib": {
+    "data_volume": 73,
+    "home_volume": 250
+  },
+  "manifest_hashes": "all six matched on Sirius",
+  "dry_run_log": "~/scratch/rya1397-feii-v1/rya1397-benchmark-output/dry-run.log",
+  "publication_requested": false,
+  "validation": {
+    "patch_and_line_admission_tests_passed": 23,
+    "vanadium_test_pool": "Solar HARPS VIS V_AGSS21 1D-LTE",
+    "vanadium_stored_rows": 27,
+    "vanadium_bound_for_refit": 0,
+    "vanadium_known_outside_pool_air_A": [4875.486, 5731.249, 6111.651]
+  }
+}

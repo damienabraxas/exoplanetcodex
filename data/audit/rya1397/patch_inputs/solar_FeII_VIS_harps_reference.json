@@ -1,0 +1,29 @@
+{
+  "purpose": "Targeted Fe II literature benchmark refit on the existing reference pool",
+  "base_commit": "4f1e69e91d7eee1ae99f034a3f9a7271b262669f",
+  "source_doi": "10.3847/1538-4365/ab322e",
+  "source_scope": "Seven blue lines from the solar sample, within the existing HARPS VIS cell",
+  "cell": {
+    "star": "solar",
+    "element": "Fe",
+    "ion": "II",
+    "band": "VIS",
+    "instrument": "solar_harps_molecfit_corrected",
+    "pool": "reference",
+    "route": "synthesis",
+    "engine": "ts-lte"
+  },
+  "tested_binding": {
+    "refits": 7,
+    "prior_pool_rows": 8,
+    "prior_pool_rows_outside_refit": 1
+  },
+  "sha256": {
+    "data/audit/rya1397/patch_inputs/solar_FeII_VIS_harps_reference.csv": "ebbedd6e41c4650da2c5bfed532cb78b9fe38bc90d0d0b1055b7b0609979f2ca",
+    "data/results/orchestrator/budget/solar_Fe/stage/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv": "df5a1e6f44f6486a45d57a3d5aabe172fc24c37e471fef640ab498909bb599e5",
+    "data/linelists/canonical_gf.csv": "c90e12a7397a549e2895cebe2398ec3c44d2f197bb9eab9aa48d446b8f6097de",
+    "data/products/solar/Fe.json": "7be87dc3cf0bb9946c36520ba09a4bbb9f7a5d17cf708c5fcaaec3642a80474a",
+    "config/stars.yaml": "3156c6501a1e5405c4302d044302c10020627e9849648c67e3528e2599d1d7ee",
+    "data/processed/solar_normalized_tellcorr.csv": "698ced10e784ec49a0fe88764496af7b3e10f4ca89456249d5cbbcf39422aefe"
+  }
+}

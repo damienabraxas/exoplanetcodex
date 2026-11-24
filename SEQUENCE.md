@@ -1,3 +1,10 @@
+## 2026-11-24 — RYA-1396 landed and RYA-1397 V I patch staged
+
+> **Current as of `main` 4f1e69e9** (PR #629).
+
+- **RYA-1396** — `4f1e69e9` PR #629 landed the Solar literature acquisition audit.
+- **RYA-1397** (this branch) — V I HARPS VIS reference-set product v1.24 adds three features and retains all 27 prior fits. Fe II and Mg II benchmark runs reproduce their existing products. Si I H-band theory diagnostic measured and held for named adoption and budget review. The [campaign reconciliation](data/audit/rya1397/solar_campaign_reconciliation.csv) records remaining work.
+
 ## 2026-11-23 — RYA-1354 landed and RYA-1396 literature audit prepared
 
 > **Current as of `main` 18361078** (PR #628).
