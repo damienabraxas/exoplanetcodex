@@ -1,0 +1,39 @@
+{
+ "stem": "FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE",
+ "species": "Fe II",
+ "prior_dir": "/home/damienabraxas/scratch/rya1397-feii-v1/data/results/orchestrator/budget/solar_Fe/stage",
+ "refit_requested": 7,
+ "listed_not_in_pool": [],
+ "treatments": {
+  "1D-LTE": {
+   "prior": "/home/damienabraxas/scratch/rya1397-feii-v1/data/results/orchestrator/budget/solar_Fe/stage/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_1D-LTE_lines.csv",
+   "prior_sha256": "df5a1e6f44f6486a45d57a3d5aabe172fc24c37e471fef640ab498909bb599e5",
+   "reused": 1,
+   "refit": [
+    4233.162,
+    4385.377,
+    4416.819,
+    4508.28,
+    4522.628,
+    4549.466,
+    4583.829
+   ],
+   "refit_no_prior": []
+  },
+  "ENGINE-B": {
+   "prior": "/home/damienabraxas/scratch/rya1397-feii-v1/data/results/orchestrator/budget/solar_Fe/stage/FeII_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_REFERENCE_ENGINE-B_lines.csv",
+   "prior_sha256": "dba0b7e81caa634544689c0cb7d066bfce256cd85a865e65400e28dd3083bdbc",
+   "reused": 1,
+   "refit": [
+    4233.162,
+    4385.377,
+    4416.819,
+    4508.28,
+    4522.628,
+    4549.466,
+    4583.829
+   ],
+   "refit_no_prior": []
+  }
+ }
+}
