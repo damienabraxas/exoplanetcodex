@@ -1,0 +1,62 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+
+[synthesis route — near-UV]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading ispec_nearuv_3000_3780 linelist (first call — cached)...
+  [synth] NLTE level labels merged from the sidecar: 2623 lines
+  [synth] canonical gf applied to all 21279 physical lines (0 uncovered)
+  [synth] ispec_nearuv_3000_3780 linelist: 55798 lines loaded
+  [holding] kpno_solar_atlas -> solar_kpno_molecfit_corrected (pre_normalised=True)
+            RYA-933: serves the WHOLE band -- corrected flux inside the six RYA-940 bands, the untouched 1984 atlas outside them, and a REFUSAL inside a registered telluric band RYA-940 could not fit (H2O 7160-7340). Until then this reader returned only the six corrected windows and nothing else, so every graded VIS line fell outside it and the band measured zero lines -- the holding had never produced a single product. RYA-940 telluric-corrected 1984 atlas. Same conventions as solar_kpno -- air, residual flux, unity IS the continuum -- differing only by the six corrected telluric bands. Listed AFTER solar_kpno on purpose: reachable by name, selection order unchanged, so no existing measurement silently switches product. NaN marks a quarantined saturated core.
+  1 V II candidates from the NAMED SET VII_WOOD_RYA1397 (depth floor NOT applied -- that is what the set is for) (half-width +/-0.4 A, min separation 4.0 A)
+  [half-width] RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex). Anchor 3400 A.
+[2026-11-24 16:27:21,756] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:27:38,057] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:27:53,319] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:08,786] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:23,883] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:35,142] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:35,284] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:35,415] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:35,520] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:35,629] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:35,765] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:35,942] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:28:51,162] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:07,690] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[Engine-B] fitting 1 lines as ENGINE-B ...
+[2026-11-24 16:29:09,898] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:10,003] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:10,217] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:10,381] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:10,599] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:10,746] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:10,853] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:10,972] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:11,183] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:11,360] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:11,537] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:11,685] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:11,824] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 16:29:11,933] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 3 (gf scale (cited lab)): every one of the 1 V II lines carries a published per-line gf sigma (GF-LAB x1); RMS 0.0348 dex (0.85x the generic bound 0.041) MEASURES the quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850, RYA-1233)
+
+  A(V II; near-UV, ENGINE-B) = 4.028  (n=1, excluded 0)
+    delta vs this route's 1D-LTE = +0.0000 dex  ⚠️ ATMOSPHERE + departures COMBINED, NOT the NLTE effect
+
+  ENGINE-A: NOT PRODUCED — no finite NLTE correction supplied; 1 of 1 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  A(V II; near-UV, 1D-LTE) = 4.028 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote rya1397-vii-3760-v1/VII_3755_3766_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-VII_WOOD_RYA1397_products.csv
+synth_cache: calls=30 new_syntheses=31 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth
