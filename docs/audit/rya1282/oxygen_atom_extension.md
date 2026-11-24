@@ -40,8 +40,14 @@ wavelength order.
 
 The candidate remains on scientific hold for grids. The Barklem O+H source
 table and the precomputed oxygen Kaulakys matrices do not contain the four new
-terms. Their Rydberg excitation rates need a new calculation. Electron
-collisions, pressure broadening, excited-ion channels and sensitivity to the
+terms. The trial `kaulakys_O53_input.tsv` in the artifact directory appends
+their statistical-weighted term centroids and effective principal quantum
+numbers from observed binding energies to Barklem's original oxygen deck
+(commit `dafeac77e189f468d39dbe43ad6cbf442a6b404b`). Running that deck requires
+an IDL-compatible runtime and Barklem's `mswavef` and `integ_rate` libraries.
+Amarsi et al.'s expanded electron-impact table stops near 12.65 eV, below
+all four additions. Electron collisions, pressure broadening, excited-ion
+channels and sensitivity to the
 excluded radiative links also remain open. The new line calculations used
 natural damping from the Li lifetimes and an experimental quadrature of 31
 samples with MULTI QMAX 15. [Barklem’s Kaulakys implementation](https://github.com/barklem/kaulakys), [Amarsi et al. 2018](https://arxiv.org/html/1803.10531v2)
