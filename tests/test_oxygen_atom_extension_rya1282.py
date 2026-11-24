@@ -65,3 +65,43 @@ def test_norad_ground_target_covers_each_added_level(tmp_path):
         assert continuum.nlamb > 2
         assert continuum.wavelength[-1] >= wavelength_floor
     assert len(to_lightweaver(expanded).continua) == 34
+
+
+def test_ls_hydrogen_excitation_round_trips_through_multi_ch(tmp_path):
+    from scripts.rya1282_add_oxygen_hydrogen_rates import CM_TO_K, add_rates
+
+    path = Path.home() / 'codex/bride_mac_checks/rya1282-o53-radiative-v4/atom.o53-radiative'
+    if not path.is_file():
+        pytest.skip('Radiative O53 artifact is absent')
+    rates = tmp_path / 'rates.txt'
+    rates.write_text('lower upper 4000 7000\n4p.5P 5d.5Do 1.2e-12 3.0e-12\n')
+    previous = read_multi_atom(path)
+    atom = read_multi_atom(add_rates(path, rates, tmp_path / 'trial', expected_pairs=1))
+    added = atom.collisions[len(previous.collisions):]
+    assert len(added) == 15
+    for i in (24, 25, 26):
+        low = atom.level(i)
+        excitation = np.zeros(2)
+        for coll in added:
+            if coll.i != i:
+                continue
+            high = atom.level(coll.j)
+            excitation += coll.rates * high.g / low.g * np.exp(
+                -(high.E_cm - low.E_cm) * CM_TO_K / coll.temperature)
+        np.testing.assert_allclose(excitation, [1.2e-12, 3.0e-12], rtol=1e-8, atol=0)
+    assert len(to_lightweaver(atom).continua) == 34
+
+
+def test_van_regemorter_neutral_rate_uses_multi_ce_units():
+    from scripts.rya1282_add_oxygen_electron_rates import multi_ce, neutral_gaunt
+    from scripts.rya1282_add_oxygen_hydrogen_rates import CM_TO_K
+
+    np.testing.assert_allclose(neutral_gaunt([.01, .1, 1, 4, 10]), [1.160, .493, .100, .040, .023])
+    delta = 6000.0
+    temperature = delta * CM_TO_K  # y = 1, so P(y) = 0.100 for a neutral target.
+    wavelength_a = 1e8 / delta
+    f, g_low, g_high = .02, 3, 5
+    spontaneous_a = 6.670e15 * (g_low / g_high) * f / wavelength_a**2
+    expected_down = 20.60 * (wavelength_a * 1e-8)**3 * spontaneous_a * .100 / np.sqrt(temperature)
+    multi_down = multi_ce(delta, f, temperature) * (g_low / g_high) * np.sqrt(temperature)
+    assert multi_down == pytest.approx(expected_down, rel=1e-12, abs=0)

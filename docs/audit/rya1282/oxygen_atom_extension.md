@@ -63,3 +63,46 @@ for `--base` and the Li A.1/A.2 source directory for `--li-dir`. Add
 include the ground-target continua. The Mac artifact is under
 `bride_mac_checks/rya1282-o53-radiative-v4`. The paired LTE driver, arrays,
 summary and source checksums are retained with the candidate.
+
+## Collision sensitivity on the solar MARCS case
+
+The headless GDL runtime executes Barklem’s published impulse calculation
+with the pinned momentum-space wavefunction and rate-integration libraries.
+The experimental O I batch covers 54 new same-core LS term pairs and one
+existing control from 2000 to 20000 K. The scattering-length approximation
+used 100 collision-energy samples. A portable trapezoidal integration over
+the solver's dense log-momentum grid substitutes for IDL's INT_TABULATED in
+that approximation. The full method uses Markwardt QPINT1D directly.
+The GDL input, per-pair source quantum numbers, programs, logs and output
+rates are retained in `rya1282-o53-radiative-v4`.
+[Barklem implementation](https://github.com/barklem/kaulakys),
+[GDL release](https://github.com/gnudatalanguage/gdl/releases/tag/weekly-release),
+[QPINT1D](https://www.nv5geospatialsoftware.com/docs/qpint1d.html)
+
+At 5000 K, the approximate-to-full rate ratios for the four target transitions,
+in wavelength order, were 0.269, 0.521, 0.418 and 0.558. The full comparison
+used 30 energy samples. The existing 4p ⁵P → 4p ³P upward control was
+1.358e-9 cm³/s with the local full calculation versus 1.208e-9 in the published
+100-point output. The approximate calculation gave 3.814e-9 versus 3.226e-9 in
+the corresponding published matrix. The full 100-point term-rate calculation
+is queued with paired checks on the Sun, a 4500 K metal-poor dwarf and a 6500 K
+spherical giant.
+
+The radiative candidate was compared with three experimental perturbations.
+The hydrogen-only atom uses statistical final-J excitation branching,
+reconstructed downward CH coefficients, and 362 fine-structure pairs.
+The electron-only atom adds 57 same-spin E1 CE coefficients using the
+neutral-target prescription, with no arbitrary rates for forbidden or
+spin-changing processes. The combined case uses both additions. [Van Regemorter 1962, Eq. 18 and Table 2](https://articles.adsabs.harvard.edu/pdf/1962ApJ...136..906V)
+
+| Solar case | Population steps | Maximum photospheric shift in log b, dex | Differential flux area near 1.589 µm, mÅ |
+| --- | ---: | ---: | ---: |
+| Hydrogen approximation | 9 | 0.0758 | −1.084 |
+| Empirical electron excitation | 9 | 0.0282 | −1.058 |
+| Combined | 9 | 0.0692 | −1.310 |
+
+The flux areas integrate one minus the variant-to-radiative-reference flux
+ratio in a shared window. These calculations test sensitivity at fixed
+atmosphere and abundance. The observational comparison requires the band's
+blends and telluric mask, and the collision uncertainty and pressure
+broadening remain open.
