@@ -1,0 +1,148 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+
+[synthesis route — H]  R=100000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading ispec_h_15007_17494 linelist (first call — cached)...
+  [synth] NLTE level labels merged from the sidecar: 293 lines
+  [synth] canonical gf applied to 3435 physical lines; 2 NOT adjudicated, left as delivered ((25, 1) x1, (23, 1) x1)
+  [synth] ispec_h_15007_17494 linelist: 5244 lines loaded
+  [holding] crires_plus -> solar_crires_plus_h_rya1232 (pre_normalised=True)
+            RYA-1232 full-arm molecfit-corrected (H2O+CO2+CH4) + rest-frame conditioned H arm from our 7 Vesta IDPs; pixels with molecfit transmission < 0.5 not written. Known residual: the CH4 line at 16656.0 A (rest) is under-modelled by molecfit (model 19%, observed ~40%) and keeps ~24% residual absorption.
+  3 Si I candidates from the NAMED SET SI_RYA1397_H (depth floor NOT applied -- that is what the set is for) (half-width +/-1.89 A, min separation 4.0 A)
+  [half-width] DERIVED, not carried: 20.51 Doppler sigma (the `invariant` above) at the band midpoint 16250.4 A. sigma_D = 16250.4 * 1.7 km/s / c = 0.092149 A; 20.51 * 0.092149 = 1.8900 -> 1.89. The anchor is the midpoint because this band has no prior published anchor to carry (RYA-870: pin the invariant, not the example).
+[2026-11-24 15:04:44,745] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:02,752] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:19,633] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:38,234] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:56,923] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:01,427] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:15,262] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:28,789] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:28,948] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:29,108] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:29,267] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:29,427] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:29,586] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:29,746] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:29,906] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:30,065] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:45,118] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:58,534] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:07:18,953] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:07:33,801] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:07:48,579] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:08:03,594] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:08:18,698] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:08:33,829] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:08:48,825] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:08:56,416] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:08:56,576] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:00,408] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:00,572] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:00,748] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:00,907] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:01,068] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:01,229] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:01,388] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:01,549] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:01,707] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:16,678] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:30,151] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:09:51,183] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:10:05,857] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:10:20,441] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:10:35,505] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:10:50,480] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:10:57,991] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:09,137] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:20,335] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:20,484] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:20,651] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:20,809] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:20,968] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:21,120] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:21,271] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:21,422] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:21,569] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:21,720] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:36,781] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:50,236] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[Engine-B] fitting 3 lines as ENGINE-B ...
+[2026-11-24 15:11:50,697] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:50,843] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:51,027] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:51,176] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:51,352] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:51,511] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:51,675] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:51,849] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:51,997] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:52,180] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:52,323] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:52,503] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:52,652] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:52,804] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:52,958] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:53,109] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:53,263] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:53,414] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:53,846] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:54,029] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:54,221] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:54,377] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:54,564] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:54,716] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:54,894] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:55,054] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:55,231] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:55,390] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:55,543] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:55,698] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:55,899] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:56,050] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:56,206] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:56,358] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:56,513] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:56,665] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:56,824] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:56,977] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:57,395] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:57,545] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:57,697] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:57,847] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:57,998] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:58,149] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:58,307] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:58,460] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:58,611] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:58,763] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:58,913] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:59,066] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:59,216] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:59,369] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:59,518] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:59,677] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:59,821] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:11:59,979] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:12:00,150] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 3 Si I lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07 x3. A pool is graded only if every line in it is
+
+  A(Si I; H, ENGINE-B) = 7.383  (n=3, excluded 0)
+    delta vs this route's 1D-LTE = +0.0000 dex  ⚠️ ATMOSPHERE + departures COMBINED, NOT the NLTE effect
+
+  ENGINE-A: NOT PRODUCED — no finite NLTE correction supplied; 3 of 3 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  A(Si I; H, 1D-LTE) = 7.383 +/- 0.178  (n=3, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote rya1397-si-h-v1/SiI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_SET-SI_RYA1397_H_products.csv
+synth_cache: calls=120 new_syntheses=110 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth

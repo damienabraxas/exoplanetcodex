@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v255** · _Last updated: 2026-11-23 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v256** · _Last updated: 2026-11-24 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -697,3 +697,4 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 
 - **v251** (2026-11-09) — RYA-1281 current ORCH continuum replay (96 nominal plus96 shifted-window controls) refuses24 unsupported beyond3percent synthesis-reference corrections; all48 nominal synthesis fits have one-sided anchors, including smaller accepted extrapolations. IAG-reference levels remain near unity but geometry is not universally bracketed. No reference/continuum adoption. All9 fresh +/-10K and xi0.25-2km/s controls pass in460.63s, solar endpoint byte-identical; +10K strengthens0.54-0.71mA and local T/xi response cosine0.9966 cautions against triplet-only parameter inference; evidence in docs/audit/rya1279/solar_sensitivity_continuum_review.md. Scientific HOLD preserved.
 - **v255** (2026-11-23) — **RYA-1354 landed (#628, 18361078) and RYA-1396 completed the literature acquisition pass.** The v70c Mg I wing study remains report-only / HOLD after a failed harness gate. The [Solar literature audit](data/audit/rya1396/README.md) records all 27 elements and Fe II, local PDF holdings, and open transition-level verification work.
+- **v256** (2026-11-24) — **RYA-1397 stages the V I HARPS VIS reference patch.** The published-pool candidate grows from 27 to 30 lines, and the abundance moves from 3.855 to 3.857 dex, with the Asplund uncertainty updated to 0.0814 dex. Fe II and Mg II reproduce the baseline. The Si I H-band theory run remains a diagnostic pending named adoption and budget review. The wider campaign remains in progress.

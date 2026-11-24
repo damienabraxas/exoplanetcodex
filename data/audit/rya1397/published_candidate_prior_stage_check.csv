@@ -1,0 +1,46 @@
+target,species,wavelength_air_A,ep_eV,band,source,canonical_candidate_ids,accepted_prior_stage_rows,excluded_prior_stage_rows,example_stage,existing_exclusion,state
+Fe,Fe I,8293.513,3.30092,red-optical,10.1051/0004-6361/202140445,pk_87ca8004690b,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Fe II,Fe II,7222.391,3.8887,red-optical,10.1051/0004-6361/202140445,pk_fa7234e9b555,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Fe II,Fe II,7224.478,3.88919,red-optical,10.1051/0004-6361/202140445,pk_7c3073c2daaa,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Fe II,Fe II,7515.83,3.90342,red-optical,10.1051/0004-6361/202140445,pk_215210f9eeba,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Mg,Mg II,10092.095,11.62968,NIR,10.1051/0004-6361/202140445,pk_5e220117ad92,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Mg,Mg I,10811.112,5.9459,NIR,10.3847/1538-4357/aa88cb,pk_3fe106e1a60c,1,0,MgI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv,,PRIOR_ACCEPTED_FIT
+Mg,Mg I,10965.445,5.9328,NIR,10.3847/1538-4357/aa88cb,pk_0d2a018e3b86,1,0,MgI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-MG_BERGEMANN2017_1D-LTE_lines.csv,,PRIOR_ACCEPTED_FIT
+Mg,Mg I,15748.988,5.932,H,10.3847/1538-4357/aa88cb,pk_f3c805a83930,0,1,MgI_15009_17491_crires_plus_solar_crires_plus_h_rya1094_SYNTH_GRADED_1D-LTE_lines.csv,SYNTHESIS: edge_pinned,PRIOR_EXCLUSIONS_PRESENT
+Mg,Mg I,15765.825055484653,5.9328,H,10.3847/1538-4357/aa88cb,pk_e0e32af2e27e,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,11984.20,4.93,NIR,10.1088/0004-637X/764/2/115,pk_7062cd54ad35,0,4,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,11991.57,4.92,NIR,10.1088/0004-637X/764/2/115,pk_8a2213a438f9,0,4,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,12031.50,4.95,NIR,10.1088/0004-637X/764/2/115,pk_e6c0b604739e,0,2,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,12103.54,4.93,NIR,10.1088/0004-637X/764/2/115,,0,4,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,9887.047,6.223,NIR,10.1051/0004-6361/202659148,pk_fc29286374b4,0,4,SiI_9199_10008_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-ABUND_OUTLIER: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10025.743,6.083,NIR,10.1051/0004-6361/202659148,,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,10313.197,6.399,NIR,10.1051/0004-6361/202659148,pk_b72b10bfe59e,0,3,SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-ABUND_OUTLIER: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10407.037,6.616,NIR,10.1051/0004-6361/202659148,pk_e657d1f460d9,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,10414.913,6.619,NIR,10.1051/0004-6361/202659148,pk_6e9947aeefb1,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,10627.648,5.862,NIR,10.1051/0004-6361/202659148,pk_bf9019ecf110,0,3,SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10660.973,4.92,NIR,10.1051/0004-6361/202659148,pk_ed04704b8ee4,0,4,SiI_10281_10678_crires_plus_solar_crires_plus_y_rya794_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10689.716,5.954,NIR,10.1051/0004-6361/202659148,pk_19076d220b83,0,2,SiI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10694.251,5.964,NIR,10.1051/0004-6361/202659148,pk_67c30f73c0c3,0,2,SiI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10727.406,5.984,NIR,10.1051/0004-6361/202659148,pk_51368db395be,0,2,SiI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10749.378,4.93,NIR,10.1051/0004-6361/202659148,pk_bc272e0af9c6,0,3,SiI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,10786.849,4.93,NIR,10.1051/0004-6361/202659148,pk_3f515a5c3da7,0,2,SiI_9203_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,11991.568,4.92,NIR,10.1051/0004-6361/202659148,pk_8a2213a438f9,0,4,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,12031.504,4.954,NIR,10.1051/0004-6361/202659148,pk_e6c0b604739e,0,2,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,12103.534,4.93,NIR,10.1051/0004-6361/202659148,pk_00263af4e78b,0,4,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,12189.241,6.616,NIR,10.1051/0004-6361/202659148,pk_f42a3d456395,0,2,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-ABUND_OUTLIER: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,12270.692,4.954,NIR,10.1051/0004-6361/202659148,pk_2668e70bb93a,0,4,SiI_11161_12976_crires_plus_solar_crires_plus_j_rya1219_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,13152.742700000004,4.92,NIR,10.1051/0004-6361/202659148,pk_2fb568b76823,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,13154.5305,6.616,NIR,10.1051/0004-6361/202659148,pk_d6472d632950,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,16129.0154,7.139,H,10.1051/0004-6361/202659148,pk_fec42e3bda28,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,16163.6908,5.954,H,10.1051/0004-6361/202659148,pk_7805d8e5bc23,0,2,SiI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-SATURATION_COG: exclude/active per data/registry/problem_children.csv [1233,458] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,16346.8573,7.113,H,10.1051/0004-6361/202659148,pk_764925ae7134,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+Si,Si I,16434.9265,5.964,H,10.1051/0004-6361/202659148,pk_5e6ce91e1640,0,2,SiI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_GRADED_1D-LTE_lines.csv,"REGISTRY-DATA_GAP: exclude/active per data/registry/problem_children.csv [1233,1191] -- carried, not dropped",PRIOR_EXCLUSIONS_PRESENT
+Si,Si I,16957.7942,7.092,H,10.1051/0004-6361/202659148,pk_f05a249b7d99,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V I,4875.486,0.04,VIS,10.1051/0004-6361/201424110,pk_34ed96b8421a,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V I,5731.249,1.064,VIS,10.1051/0004-6361/201424110,pk_d2298a638f89,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V I,6111.651,1.043,VIS,10.1051/0004-6361/201424110,pk_5ed0c283ef56,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V II,3760.221,1.687,near-UV,10.1051/0004-6361/201424110,pk_3b3803b69c67,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V II,3866.7446,1.428,VIS,10.1051/0004-6361/201424110,pk_50d711a130ba,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V II,3951.957,1.476,VIS,10.1051/0004-6361/201424110,pk_2fc7aa897376,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V II,3997.1098,1.476,VIS,10.1051/0004-6361/201424110,pk_832d79083218,0,0,,,NO_MATCH_IN_CHECKED_STAGE
+V,V II,4036.7636,1.476,VIS,10.1051/0004-6361/201424110,pk_8cbf8d8705c6,0,0,,,NO_MATCH_IN_CHECKED_STAGE

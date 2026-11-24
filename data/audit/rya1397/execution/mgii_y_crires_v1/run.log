@@ -1,0 +1,110 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+
+[synthesis route — NIR]  R=100000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading ispec_ir_9200_13000 linelist (first call — cached)...
+  [synth] NLTE level labels merged from the sidecar: 191 lines
+  [synth] canonical gf applied to 593 physical lines; 2 NOT adjudicated, left as delivered ((8, 1) x1, (7, 1) x1)
+  [synth] ispec_ir_9200_13000 linelist: 787 lines loaded
+  [holding] crires_plus -> solar_crires_plus_y_wide_rya1054 (pre_normalised=True)
+            RYA-1054: the SAME source and normaliser as the RYA-794 product (sp/Sun_Y_rv.dat), conditioned over the arm's full measured extent instead of Elgueta's adopted 10280-10680 window. The floor is not a telluric limit -- below 10280 the arm runs 0.00-0.26% of points under 0.5, against 0.06-0.21% INSIDE the adopted window. It carries 5 primary-lab Fe I lines where the narrow product carries 1, which is the difference between a refused pool and a measurable one. Listed AFTER the RYA-794 holding so no existing measurement silently switches product.
+  [feature] 2 components 10092.095, 10092.217 fitted ONCE at 10092.217 (window +0.122 A)
+  1 Mg II candidates from the NAMED SET MG_AGSS21 (depth floor NOT applied -- that is what the set is for) (half-width +/-1.4 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (12000/3400). Anchor 12000 A.
+No molecules found between '1008.65' and '1009.7999999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1008.65' and '1009.7999999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1008.65' and '1009.7999999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1008.65' and '1009.7999999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:04:05,584] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:04:22,043] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:04:38,461] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:04:56,045] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:05:12,069] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:05:16,293] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:05:23,533] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:05:39,865] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:39,987] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:40,107] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:40,242] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:40,429] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:40,544] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:40,694] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:40,888] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:05:41,011] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:05:56,684] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1009.0400000000001' and '1009.3999999999097'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-24 15:06:10,552] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[Engine-B] fitting 1 lines as ENGINE-B ...
+[2026-11-24 15:06:11,022] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:11,144] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:11,273] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:11,471] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:11,595] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:11,750] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:11,885] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:12,066] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:12,187] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:12,311] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:12,521] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:12,717] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:12,870] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:13,116] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:13,284] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:13,408] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:13,625] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 15:06:13,859] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 3 (gf scale (cited lab)): every one of the 1 Mg II lines carries a published per-line gf sigma (GF-CITED x1); RMS 0.0100 dex (0.24x the generic bound 0.041) MEASURES the quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850, RYA-1233)
+
+  A(Mg II; NIR, ENGINE-B) = 7.344  (n=1, excluded 0)
+    delta vs this route's 1D-LTE = +0.0000 dex  ⚠️ ATMOSPHERE + departures COMBINED, NOT the NLTE effect
+
+  A(Mg II; NIR, ENGINE-A) = 7.349  (n=1, not-served 0)
+    delta_nlte applied: mean +0.0050 dex over 1 line(s) — Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1; same solar EWs, MARCS LTE baseline; CITED solar 1D-NLTE minus 1D-LTE per-line additive correction; our atmosphere may differ; not in-transfer 3D
+
+  A(Mg II; NIR, ENGINE-A-3DNLTE) = 7.321  (n=1, not-served 0)
+    delta_nlte applied: mean -0.0230 dex over 1 line(s) — Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1; same solar EWs, MARCS LTE baseline; CITED solar 3D-NLTE minus 1D-LTE per-line additive correction; our atmosphere may differ; not in-transfer 3D
+
+  A(Mg II; NIR, 1D-LTE) = 7.344 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote rya1397-mgii-y-v1/MgII_10085_10100_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_SET-MG_AGSS21_products.csv
+synth_cache: calls=36 new_syntheses=35 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth
