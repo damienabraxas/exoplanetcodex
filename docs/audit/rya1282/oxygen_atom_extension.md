@@ -38,6 +38,11 @@ window, the greatest relative change was 4.95e-8. The four minimum
 O53/O41f intensity ratios were 0.999404, 0.989284, 0.997301 and 0.994623 in
 wavelength order.
 
+A bounded NLTE diagnostic on the same MARCS atmosphere converged in nine
+population steps in 75.4 s. The 53-by-56 departure array is finite and positive
+with a full-depth range of 0.660–9.948. This checks numerical execution with
+the incomplete collision network. Scientific line comparisons are pending.
+
 The candidate remains on scientific hold for grids. The Barklem O+H source
 table and the precomputed oxygen Kaulakys matrices do not contain the four new
 terms. The trial `kaulakys_O53_input.tsv` in the artifact directory appends
