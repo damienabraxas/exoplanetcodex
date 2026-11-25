@@ -52,3 +52,9 @@ The [Al level join](al_papoulia_level_join.csv) parses the held Papoulia supplem
 The held Osorio 2022 Ca II infrared triplet paper's Table 3 grid spans log g 1–4 and metallicities −6 to −2.5 dex. The Solar parameters lie outside those axes. Retain those published corrections as metal-poor evidence. A Solar wing and hydrogen-blend model needs its own validation.
 
 The existing RYA-1136 molecular crossmatch has 358 of 408 rows with a primary or physical tuple match. Six more are matched unresolved CH sums, and 44 carry ambiguity, strength or energy discrepancies or remain unmatched. Those rows need component-level review before a pool change. Existing C and N molecular route products are present in the live feeds. The prior CRIRES+ H OH route produced A(O) = 9.448 and reduced chi-square 130.65 in the RYA-1220 profile audit. Its 14 line-list validation matches are evidence for transition identity, and the abundance fit remains held for known profile residuals.
+
+## Carbon and silicon source levels
+
+The [carbon and silicon level join](c_si_source_level_join.csv) checks 2,798 candidate source rows against the observed-energy level tables. Both labels and the energy gap resolve for 637 C I, 1,169 Si I and 463 Si II source rows. Within the scoped wavelengths, 349 C I, 599 Si I and 45 Si II entries have unique provisional canonical tuples. They still require strength, observability and grade review. The label join deliberately leaves 148 C I and 381 Si I records unresolved rather than guessing on alternative configurations.
+
+The 17 experimental Pehlivan Rhodin Table B3 results have a concrete disposition. For 14, the canonical strength already agrees exactly. Two of those transitions are accepted and published, and 11 already have active saturation exclusions. The 14224.526 Å line is in the J-to-H holding gap. The other three experimental rows lie outside the scoped wavelengths. No repeat fit is warranted for this lab table on the current holdings.
