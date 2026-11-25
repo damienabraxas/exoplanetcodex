@@ -117,3 +117,36 @@ the 95th-percentile sampling shift of the strongest line ratio is
 0.00367 dex. Recorded wall times were 6,399 s NLTE and 7,152 s LTE.
 These measurements describe one snapshot at disk center and leave
 time, angle, depth and frequency representativeness unqualified.
+
+## Interpolation and experimental atom controls
+
+The staged atmosphere holdout varied one axis at a time while keeping
+geometry, mass, microturbulence, and A(O) − [Fe/H] fixed. For the four
+triplet levels, the 99th-percentile maximum photospheric errors were:
+
+| Axis | Plane-parallel, dex | Spherical, dex |
+| --- | ---: | ---: |
+| [Fe/H] | 0.00863 | 0.02075 |
+| log g | 0.00752 | 0.03975 |
+| Effective temperature | 0.02705 | 0.06157 |
+
+The largest temperature holdout error was 0.08536 dex for the 4250 K,
+log g −0.5, solar metallicity, 15-solar-mass spherical input at A(O) 9.6.
+This test measures one-dimensional interpolation error at interior grid
+nodes. It gives no bound on simultaneous interpolation across axes.
+
+Three NIST [O I] branches at 5577, 6363 and 6391 Å were added between
+existing O53 levels, increasing the visible catalogue match count to
+20/69. Replaying the original solar populations produced differential
+flux areas of 1.4241, 1.1103 and 0.000526 mÅ, respectively. The 6300 Å
+and 777 nm control windows had zero change at fixed populations.
+Of the remaining 76 unmatched catalogue rows, 30 have an estimated
+endpoint above the O I ground ionization threshold, four bound
+transitions match a missing 6s ³S level, and 42 bound rows still lack a
+secure identity in the held transition table.
+
+A separate retry of the missing STAGGER column (12, 77) passed the
+observable stop after 50 population steps with the current solver.
+Its triplet equivalent widths were 80.61, 69.89 and 55.16 mÅ.
+The aggregate above uses the original paired run for consistent inputs
+and solver revision.
