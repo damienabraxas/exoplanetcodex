@@ -1,4 +1,5 @@
 """Compare the canonical overlay with distinct Sobeck transitions in scratch."""
+import argparse
 import csv
 from pathlib import Path
 import runpy
@@ -11,7 +12,13 @@ from pipeline import abundances_derive as synthesis
 
 
 def main():
-    out = Path(sys.argv[1]).resolve()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("out", type=Path)
+    parser.add_argument("--holding", default="solar_kpno_molecfit_corrected",
+                        choices=("solar_kpno_molecfit_corrected", "solar_kpno_kurucz2005_corrected"))
+    parser.add_argument("--nominal-only", action="store_true")
+    args = parser.parse_args()
+    out = args.out.resolve()
     out.mkdir(exist_ok=False)
     include = out / "input.csv"
     include.write_text("species,wavelength_air_A,ep_eV,match_tol_A\nCr I,4829.309,2.545,0.005\n")
@@ -26,7 +33,7 @@ def main():
             return raw, isotope, chem
         explicit = raw.copy()
         records = []
-        for i, (wave, lower_j, gf, sigma) in enumerate(terms):
+        for wave, lower_j, gf, sigma in terms:
             indices = np.flatnonzero((raw["element"] == "Cr 1")
                                      & (abs(raw["wave_A"] - wave) <= .002)
                                      & (raw["lower_j"] == lower_j)
@@ -48,11 +55,12 @@ def main():
     synthesis._load_synth_resources = load_pair
     runner = "scripts/derive_band_products.py"
     sys.path.insert(0, str(Path(runner).resolve().parent))
-    for mode in ("control", "nominal", "both_minus", "both_plus"):
+    modes = ("nominal",) if args.nominal_only else ("control", "nominal", "both_minus", "both_plus")
+    for mode in modes:
         stage = out / mode
         stage.mkdir()
         sys.argv = [runner, "--element", "Cr", "--ion", "I", "--lo", "4823", "--hi", "4836",
-                    "--instrument", "kpno_solar_atlas", "--holding", "solar_kpno_molecfit_corrected",
+                    "--instrument", "kpno_solar_atlas", "--holding", args.holding,
                     "--force-synthesis", "--skip-engine-b",
                     "--lines-from-set", f"CRI_RYA1397_LAB={include}", "--out", str(stage)]
         print(f"mode={mode} argv={sys.argv}", flush=True)
