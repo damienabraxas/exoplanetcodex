@@ -161,7 +161,7 @@ INNER_RTOL = 1e-8          # fixed-population J+cap tolerance (RYA-1281 nested p
 
 
 CONSERVATION_TOL = 1e-10   # unaccelerated SE measured 1.8e-15; Ng drift above this is rejected
-def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500):
+def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500, radiation_ng: bool = True):
     """One radiation update for the SE step: (dJ, d_boundary) over the whole step.
 
     Vacuum top: a single formal solution, as before. ColumnCap: J and the cap are
@@ -178,7 +178,7 @@ def radiation_step(ctx, *, inner_rtol: float = INNER_RTOL, maxiter: int = 500):
     mu = np.abs(np.asarray(ctx.atmos.pyAtmos.muz))
     J0 = np.array(ctx.spect.J).copy()
     B0 = cap.current(mu) if is_cap else None
-    calls, _, _ = _fixed_population_radiation(ctx, inner_rtol, maxiter)
+    calls, _, _ = _fixed_population_radiation(ctx, inner_rtol, maxiter, use_ng=radiation_ng)
     rel = lambda new, old: float(np.max(abs(new - old) / np.maximum(abs(new), np.finfo(float).tiny)))
     if mali:
         # J and the cap are converged at these populations; one more formal solution with the
@@ -274,7 +274,7 @@ def scattering_lambda_star(ctx):
     return out
 
 
-def _fixed_population_radiation(ctx, tol, maxiter):
+def _fixed_population_radiation(ctx, tol, maxiter, *, use_ng=True):
     """Converge J and the top cap at fixed populations; returns (formal solutions, dJ, d_cap).
 
     Background scattering enters Lightweaver's formal solution as sca*J with J from the
@@ -305,12 +305,13 @@ def _fixed_population_radiation(ctx, tol, maxiter):
         new = before + (after - before) / (1 - le)
         if not np.all(new > 0):
             new = after                                         # plain step, never a clipped one
-        iterates.append(new)
-        if len(iterates) == J_NG_PERIOD:
-            x = ng_extrapolate(iterates)
-            if x is not None:
-                new = x
-            iterates = []
+        if use_ng:
+            iterates.append(new)
+            if len(iterates) == J_NG_PERIOD:
+                x = ng_extrapolate(iterates)
+                if x is not None:
+                    new = x
+                iterates = []
         ctx.spect.J[:] = new
     raise RuntimeError(f'Radiation (J/cap) convergence failed: dJ {dj:.2e} cap {db:.2e}')
 
@@ -339,7 +340,7 @@ def estimated_error(changes, window: int = RATE_WINDOW):
 
 def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float = 900., monitor=None, every: int = 50,
                  observable_tol: float | None = None, validate_observable_rule: bool = False,
-                 stop: str = 'step'):
+                 stop: str = 'step', radiation_ng: bool = True, radiation_maxiter: int = 500):
     """Joint RT + SE iteration, the G4 convergence rule: population change, normalised
     rate residual and J change all below rtol (after >= 3 iterations). Returns the
     populations and the full history. Raises on non-convergence; nothing is clipped.
@@ -364,7 +365,7 @@ def solve_column(ctx, *, rtol: float = 1e-6, maxiter: int = 1500, seconds: float
         if time.perf_counter() - start > seconds:
             raise TimeoutError('Column budget exceeded')
         old = active.n.copy()
-        dJ, boundary = radiation_step(ctx)
+        dJ, boundary = radiation_step(ctx, maxiter=radiation_maxiter, radiation_ng=radiation_ng)
         matrix = active.Gamma
         scale = np.max(abs(matrix), axis=1, keepdims=True)
         if np.any(scale == 0):

@@ -90,14 +90,16 @@ def _atom():
     return read_multi_atom(require_codex_path('experiments.bride_oxygen_atom'))
 
 
-def solve_bride(S, A_O, atom=None):
+def solve_bride(S, A_O, atom=None, *, population_ng=True, radiation_ng=True,
+                radiation_maxiter=500, seconds=3000.):
     """Bride departures (nk, ndep) at one node; standard column settings (bride_qa_benchmark)."""
     from pipeline.bride_columns import column_context, marcs_column, solve_column
     atom = replace(atom or _atom(), abundance=float(A_O))
     ab = np.array(S['abundances_dex'], float); ab[7] = A_O
-    ctx = column_context(marcs_column(S), atom, ng=True, abundances_dex=ab, logg_cgs=S['logg_cgs'],
+    ctx = column_context(marcs_column(S), atom, ng=population_ng, abundances_dex=ab, logg_cgs=S['logg_cgs'],
                          vturb_m_s=S['vturb_m_s'], rays=3)
-    n, hist, _, _ = solve_column(ctx, maxiter=6000, seconds=3000.)
+    n, hist, _, _ = solve_column(ctx, maxiter=6000, seconds=seconds, radiation_ng=radiation_ng,
+                                  radiation_maxiter=radiation_maxiter)
     return n / ctx.activeAtoms[0].nStar, len(hist)
 
 
