@@ -195,3 +195,11 @@ interpolation of departure coefficients. For the giant, the errors
 were 0.02327 and 0.000853 dex, respectively. The two controls favor
 linear interpolation for arbitrary abundances at exact atmosphere
 nodes in this grid.
+
+One O41f hot giant at 7000 K, log g 2.0, [Fe/H] −1.0, 0.5 solar
+masses, and A(O) 8.20 still hit the inner cap tolerance after 2,000
+radiation iterations from a cold start. Seeding the populations from
+the validated A(O) 8.0 and 8.4 nodes and disabling both Ng accelerators
+gave strict convergence in 25 cycles with rate residual 1.64e-7 and
+conservation error 6.66e-16. The seed sets the starting populations.
+The checkpoint stores the independently solved array.
