@@ -175,7 +175,8 @@ continuum from NORAD. It preserves all O53 collisional rates. The
 catalogue recheck adds two visible and two K-band matches, reaching
 22/69 and 10/13 respectively. The new level has no dedicated
 electron or hydrogen collision rates and is a radiative sensitivity
-experiment.
+experiment. The solar model at A(O) 8.70 converged in nine population
+steps and produced finite flux in all four diagnostic windows.
 
 The compiled TurboSpectrum interpolator read a small Bride binary
 fixture for solar and 6500 K giant inputs. At the exact A(O) 8.60
