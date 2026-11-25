@@ -41,6 +41,20 @@ def test_ts_writer_round_trips_in_the_gerber_layout(tmp_path):
     assert os.path.getsize(tmp_path / 'g.bin') == HEADER_BYTES + ID_BYTES + 8 + 8 * 56 + 8 * 41 * 56   # Gerber O stride 19324
 
 
+def test_at_abundance_requires_converged_adjacent_nodes():
+    from scripts.rya1282_o_grid_compare import at_abundance
+
+    axis = [8.4, 8.6, 8.8, 9.0]
+    dep = np.array([[100.], [np.nan], [1.], [10.]])
+    ok = [True, False, True, True]
+    assert at_abundance(axis, dep, 8.6, ok) is None
+    assert at_abundance(axis, dep, 8.7, ok) is None
+    assert at_abundance(axis, dep, 8.3, ok) is None
+    np.testing.assert_allclose(at_abundance(axis, dep, 8.4 + 2e-15, ok), [2.])
+    np.testing.assert_allclose(at_abundance(axis, dep, 8.9, ok), [.5])
+    np.testing.assert_allclose(at_abundance(axis[-1:], dep[-1:], 9.), [1.])
+
+
 def test_multi23_in_gerbers_setup_reproduces_the_gerber_record():
     """MULTI 2.3 with a solar ABUND and unscaled background lines = the Gerber grid's setup."""
     from config.constants import codex_path

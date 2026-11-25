@@ -42,15 +42,18 @@ def gerber_index(aux):
     return idx
 
 
-def at_abundance(Avals, B, A):
-    """log b interpolated linearly in A(O) between the bracketing nodes (None if outside)."""
+def at_abundance(Avals, B, A, ok=None):
+    """Interpolate log b across adjacent converged abundance nodes."""
     Avals = np.asarray(Avals, float)
-    if A < Avals.min() - 1e-6 or A > Avals.max() + 1e-6:
+    ok = np.ones(Avals.size, dtype=bool) if ok is None else ok
+    j = int(np.searchsorted(Avals, A))
+    for k in (j, j - 1):
+        if 0 <= k < Avals.size and abs(Avals[k] - A) <= 1e-8:
+            return np.log10(B[k]) if ok[k] else None
+    if j == 0 or j == Avals.size or not (ok[j - 1] and ok[j]):
         return None
-    j = int(np.clip(np.searchsorted(Avals, A) , 1, len(Avals) - 1))
     w = (A - Avals[j - 1]) / (Avals[j] - Avals[j - 1])
-    lb = (1 - w) * np.log10(B[j - 1]) + w * np.log10(B[j])
-    return lb
+    return (1 - w) * np.log10(B[j - 1]) + w * np.log10(B[j])
 
 
 def main():
@@ -96,9 +99,8 @@ def main():
             for name, d in sets.items():
                 fz = Path(d) / f.name
                 if fz.exists():
-                    z = np.load(fz)
-                    ok = z['ok']
-                    lb = at_abundance(z['abundances'][ok], z['b'][ok], A)
+                    with np.load(fz) as z:
+                        lb = at_abundance(z['abundances'], z['b'], A, z['ok'])
                     if lb is not None:
                         cands[name] = lb[TRIPLET]
             if gidx is not None:
