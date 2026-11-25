@@ -84,3 +84,36 @@ highly excited states outside the O53 representation. The reported
 matches establish catalogue coverage, while unresolved rows may also
 include unresolved components or convention differences. The machine
 audit lists every unmatched line ID for further classification.
+
+At the worst GALAH atmosphere, the 7-ray control at the nearest exact
+Bride node, A(O) 9.7, changed maximum triplet log b by 0.00275 dex.
+The corresponding Gerber control uses the same O41f atom and gives
+maximum Bride differences of 0.0360 dex at A(O) 9.5 and 0.0391 dex
+at A(O) 9.7. The two solar Gerber controls agree within 0.0021 dex.
+The two reference comparisons use different atoms and background physics.
+The angular test rules out the original angular sampling as the primary
+source of the hot giant discrepancy in this control.
+
+The catalogue audit identified 49 unmatched rows whose estimated lower
+and upper energies are both below the O I ground ionization threshold.
+Another 30 unmatched rows have at least one endpoint above that threshold
+by the catalogue-energy estimate. Resolving the former requires an explicit
+level/transition crossmatch. The latter require separate classification
+before extending the statistical-equilibrium atom.
+
+An atomic-blend transfer control replayed the solar O53 populations with
+the held VALD LTE blend opacity and toggled O line opacity. Peak
+oxygen-attributable flux differences were 0.25%, 0.21%, 0.20% and 0.39%
+in wavelength order. Differential areas were 0.347, 0.716, 1.201 and
+1.915 mÅ. This isolates oxygen under the same assumed atomic background.
+Molecular blends and observed instrumental and telluric transfer are
+still required for an observational qualification.
+
+In the held solar STAGGER run, 255 NLTE columns have paired LTE spectra
+on the same 256-column lattice. Equal-area intensity averages yield
+777 nm triplet NLTE/LTE equivalent-width ratios of 1.120, 1.112 and
+1.100 at disk center. For 128-column draws from the same lattice,
+the 95th-percentile sampling shift of the strongest line ratio is
+0.00367 dex. Recorded wall times were 6,399 s NLTE and 7,152 s LTE.
+These measurements describe one snapshot at disk center and leave
+time, angle, depth and frequency representativeness unqualified.
