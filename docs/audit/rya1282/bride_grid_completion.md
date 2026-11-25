@@ -187,3 +187,11 @@ The difference from linear abundance interpolation was 0.0105 dex
 for the Sun and 0.0398 dex for the giant across all levels and depths.
 Off-node synthesis through this executable needs an explicit abundance
 interpolation path or a validated nearest-node error budget.
+
+Fresh Bride solves at A(O) 8.67 tested the off-node behavior directly.
+For the Sun, the maximum photospheric triplet departure error was
+0.00734 dex using the nearest node and 0.000208 dex using a linear
+interpolation of departure coefficients. For the giant, the errors
+were 0.02327 and 0.000853 dex, respectively. The two controls favor
+linear interpolation for arbitrary abundances at exact atmosphere
+nodes in this grid.
