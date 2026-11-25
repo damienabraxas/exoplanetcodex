@@ -324,7 +324,7 @@ def apply_sidecar(linelist, list_path, element: str | None = None):
         if len(hit) == 0:
             raise ValueError(f"{p}: {r.element} {r.wave_A} matches no row of {Path(list_path).name}")
         for i in hit:
-            if str(linelist["nlte_label_low"][i]).strip() not in ("", "none"):
+            if str(linelist["nlte_label_low"][i]).strip() not in ("", "none", "x"):
                 continue
             for f in FIELDS:
                 linelist[f][i] = r[f]
@@ -344,8 +344,8 @@ def ges_graded_share(element: str, ges_list, graded_csvs) -> tuple[int, int]:
             if hit.empty:
                 continue
             n += 1
-            lab += bool(((hit.nlte_label_low.astype(str) != "none")
-                         & (hit.nlte_label_up.astype(str) != "none")).any())
+            from pipeline.gerber_nlte import is_label
+            lab += bool((is_label(hit.nlte_label_low) & is_label(hit.nlte_label_up)).any())
     return lab, n
 
 
