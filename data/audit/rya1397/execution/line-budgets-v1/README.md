@@ -21,3 +21,7 @@ Scott et al. Table 1 flags the Fe I 8293.515 Å row for large oscillator-strengt
 ## Chromium two-transition check
 
 The active synthesis overlay subtracts 0.050390 dex from both Sobeck values, which verifies the grouping error. The named fit selector is kept at 4829.309 Å. The observed fit window contains both transitions and changes the element abundance jointly. The control reproduces 5.561 dex exactly. Restoring both distinct lab strengths returns 5.511 dex and a statistical fit term of 0.0101 dex. The difference of −0.050 dex is a model-input correction. The separate uncertainty sensitivity still uses the published errors on both transition strengths.
+
+## CRIRES+ Y-band telluric check
+
+The [six measured windows](ni_y_telluric_windows.csv) use the standard RYA-1230 `telluric_line` calculation with the nominal ±1.40 Å NIR window and independent Kitt Peak correction. Three windows around 10105–10115 Å have measured baseline-removed residuals of 0.00023–0.00045 in normalized flux. The other three have zero corroborated telluric pixels at the measured null level. The diagnostic is a flux check. Translating it to an abundance error requires that line's own continuum perturbation sensitivity. The 10507 and 10520 Å fits still lack complete deck inputs.
