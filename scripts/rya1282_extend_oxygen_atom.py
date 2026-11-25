@@ -16,12 +16,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pipeline.multi_atom import read_multi_atom
 
 TERMS = {('5p', '3P'), ('5d', '5D'), ('6s', '5S'), ('5d', '3D')}
+TRIPLET_6S = ('6s', '3S')
 # Configuration, spectroscopic designation and LS-series key in NORAD O I.
 NORAD_TERMS = {
     ('5p', '3P'): ('d3P', (3, 1, 0, 4)),
     ('5d', '5D'): ('x5Do', (5, 2, 1, 3)),
     ('6s', '5S'): ('w5So', (5, 0, 1, 4)),
     ('5d', '3D'): ('w3Do', (3, 2, 1, 4)),
+    TRIPLET_6S: ('w3So', (3, 0, 1, 4)),
 }
 DOI = '10.1051/0004-6361/202245645'
 
@@ -36,14 +38,15 @@ def _key(config, term, j, parity):
     return config.split('.')[-1], term, int(j), parity
 
 
-def _norad_cross_sections(directory):
+def _norad_cross_sections(directory, terms):
     energies = (directory / 'o1.en.ls.txt').read_text()
     rows = (directory / 'o1.ptpx.txt').read_text().splitlines()
     headers = [(i, tuple(map(int, line.split()))) for i, line in enumerate(rows)
                if re.fullmatch(r'\s*(?:\d+\s+){3}\d+\s*', line)]
     by_key = {key: (start, end) for (start, key), (end, _) in zip(headers, headers[1:])}
     sections = {}
-    for term, (designation, key) in NORAD_TERMS.items():
+    for term in terms:
+        designation, key = NORAD_TERMS[term]
         match = re.search(rf'^\s+2s22p3 \(4So\)\s+{term[0]}\s+{designation}\s+(-[\d.]+)\s*$',
                           energies, re.MULTILINE)
         if match is None:
@@ -61,18 +64,24 @@ def _norad_cross_sections(directory):
     return sections
 
 
-def build(base, levels_path, lines_path, output, norad=None):
+def build(base, levels_path, lines_path, output, norad=None, *, add_6s_triplet=False):
     atom = read_multi_atom(base)
-    if (atom.symbol, len(atom.levels), len(atom.lines), len(atom.continua)) != ('O', 41, 256, 22):
+    if add_6s_triplet:
+        if atom.symbol != 'O' or len(atom.levels) != 53 or norad is None:
+            raise ValueError('The 6s triplet trial needs an O53 atom and NORAD cross sections')
+        terms, expected = {TRIPLET_6S}, 1
+    elif (atom.symbol, len(atom.levels), len(atom.lines), len(atom.continua)) != ('O', 41, 256, 22):
         raise ValueError('Expected the O41f baseline')
+    else:
+        terms, expected = TERMS, 12
     first_ion = next(level.index for level in atom.levels if level.stage == 2)
     levels = {_key(r['State'], r['Term'], r['J'], r['Parity']): r for r in _table(levels_path)}
     added = sorted(
-        (key for key in levels if key[:2] in TERMS),
+        (key for key in levels if key[:2] in terms),
         key=lambda key: (float(levels[key]['ENIST']), key),
     )
-    if len(added) != 12:
-        raise ValueError('Expected twelve resolved levels for the four target terms')
+    if len(added) != expected:
+        raise ValueError(f'Expected {expected} resolved levels for {sorted(terms)}')
     index = {}
     for key, row in levels.items():
         if not row['ENIST']:
@@ -85,6 +94,8 @@ def build(base, levels_path, lines_path, output, norad=None):
         if matches:
             index[key] = matches[0]
 
+    if add_6s_triplet and not TERMS.issubset({key[:2] for key in index}):
+        raise ValueError('Base atom is missing one or more O53 terms')
     added_set = set(added)
     new_levels = []
     for i, key in enumerate(added, first_ion):
@@ -130,7 +141,7 @@ def build(base, levels_path, lines_path, output, norad=None):
     if norad is not None:
         ion = shifted(first_ion)
         ion_energy = atom.level(first_ion).E_cm
-        sections = _norad_cross_sections(norad)
+        sections = _norad_cross_sections(norad, terms)
         wavelength_floor = min(float(c.wavelength[-1]) for c in atom.continua)
         for key in added:
             source_key, table = sections[key[:2]]
@@ -170,7 +181,7 @@ def build(base, levels_path, lines_path, output, norad=None):
     ion_start = data[3 + first_ion - 1]
     rows[ion_start:ion_start] = new_levels
     output.mkdir(parents=True, exist_ok=False)
-    path = output / 'atom.o53-radiative'
+    path = output / ('atom.o54-radiative-sensitivity' if add_6s_triplet else 'atom.o53-radiative')
     path.write_text('* EXPERIMENTAL RADIATIVE EXTENSION: NO NEW COLLISIONS\n'
                     + '\n'.join(rows) + '\n')
     inputs = [base, levels_path, lines_path]
@@ -196,9 +207,12 @@ def main():
     parser.add_argument('--base', required=True, type=Path)
     parser.add_argument('--li-dir', required=True, type=Path)
     parser.add_argument('--norad-dir', type=Path)
+    parser.add_argument('--add-6s-triplet', action='store_true',
+                        help='add the 6s triplet term radiatively to an experimental O53 atom')
     parser.add_argument('--out', required=True, type=Path)
     args = parser.parse_args()
-    print(build(args.base, args.li_dir / 'tablea1.tsv', args.li_dir / 'tablea2.tsv', args.out, norad=args.norad_dir))
+    print(build(args.base, args.li_dir / 'tablea1.tsv', args.li_dir / 'tablea2.tsv', args.out,
+                norad=args.norad_dir, add_6s_triplet=args.add_6s_triplet))
 
 
 if __name__ == '__main__':

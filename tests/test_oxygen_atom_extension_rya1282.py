@@ -124,3 +124,32 @@ def test_forbidden_lines_reuse_ground_configuration_levels(tmp_path):
     assert new.lines[-3].gRad == pytest.approx(1.34311735)
     assert new.lines[-2].f == pytest.approx(1.84343e-11, abs=0)
     assert len(to_lightweaver(new).lines) == 259
+
+
+def test_6s_triplet_adds_linked_level_without_changing_o53_rates(tmp_path):
+    root = Path.home() / 'codex'
+    source = root / 'bride_mac_checks/rya1282-o53-he-full100-v1/atom.o53-electron-sensitivity'
+    li = root / 'rya1395/data/reference/li2023_oi/raw'
+    norad = root / 'bride_mac_checks/rya1282-o53-radiative-v2'
+    inputs = (source, li / 'tablea1.tsv', li / 'tablea2.tsv',
+              norad / 'o1.en.ls.txt', norad / 'o1.ptpx.txt')
+    if not all(path.is_file() for path in inputs):
+        pytest.skip('Held O53, Li 2023 or NORAD source tables are absent')
+
+    path = build(source, li / 'tablea1.tsv', li / 'tablea2.tsv', tmp_path / 'triplet',
+                 norad=norad, add_6s_triplet=True)
+    previous, atom = read_multi_atom(source), read_multi_atom(path)
+    assert atom.levels[:51] == previous.levels[:51]
+    assert atom.level(52).E_cm == pytest.approx(105165.232)
+    assert atom.levels[52:] == [replace(level, index=level.index + 1)
+                                for level in previous.levels[51:]]
+    assert atom.lines[:len(previous.lines)] == previous.lines
+    for block in ('continua', 'collisions'):
+        for before, after in zip(getattr(previous, block), getattr(atom, block)):
+            for key, value in asdict(before).items():
+                expected = value + 1 if key in ('i', 'j') and value > 51 else value
+                np.testing.assert_equal(getattr(after, key), expected)
+    assert (atom.continua[-1].j, atom.continua[-1].i) == (53, 52)
+    assert len(atom.collisions) == len(previous.collisions)
+    assert len(atom.continua) == len(previous.continua) + 1
+    assert len(to_lightweaver(atom).lines) == len(previous.lines) + 18
