@@ -150,3 +150,13 @@ observable stop after 50 population steps with the current solver.
 Its triplet equivalent widths were 80.61, 69.89 and 55.16 mÅ.
 The aggregate above uses the original paired run for consistent inputs
 and solver revision.
+
+At 7000 K, log g 2.0, [Fe/H] +0.5 and A(O) 9.20, the O53 solution
+converged in 33 cycles after initializing the shared states from the
+O41f abundance bracket for the same star and its added states from the
+6500 K O53 solution. Both Ng accelerators were disabled. The unchanged
+convergence checks returned population change 6.46e-7, radiation
+change 8.35e-7, independent rate residual 1.16e-7 and particle error
+9.99e-16. The first two cold starts exceeded their time budgets.
+The extended atom with the added forbidden branches also solved
+self-consistently for the solar control in nine population steps.
