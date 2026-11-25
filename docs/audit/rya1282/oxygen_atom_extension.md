@@ -106,3 +106,17 @@ ratio in a shared window. These calculations test sensitivity at fixed
 atmosphere and abundance. The observational comparison requires the band's
 blends and telluric mask, and the collision uncertainty and pressure
 broadening remain open.
+
+## Full-rate run recovery
+
+On 2026-11-24 at 07:18:44 MST, the macOS kernel logged that it killed GDL
+PID 52851 under memory pressure. Its logged compressed memory was 90,923 MB.
+The original batch retained 33 complete rows. The resumed run uses the
+same full 100-point calculation in a fresh GDL process for each remaining
+pair. A result is checkpointed only after the worker exits successfully,
+prints its completion marker, and supplies a finite, nonnegative row on the
+expected temperature axis. The merge checks every pair against the original
+manifest and keeps the original rows. The detached workflow starts the
+three-atmosphere Bride validation after the complete table is written.
+The runnable recovery and its log are in the experiment directory as
+`resume_full_rates.py` and `full_rate_resume.log`.
