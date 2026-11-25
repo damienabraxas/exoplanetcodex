@@ -75,3 +75,12 @@ Work artifacts are under
 `~/codex/bride_mac_checks/rya1282-grid-completion`. The scripts and logs
 there retain the retry strategy, exact input model list, referee extract,
 observed preflight, and assembly checks.
+
+The catalogue audit matched O53 line centres to canonical O I rows using
+air wavelength and lower excitation energy. It matched 4/4 near-UV and
+9/9 H-band rows, and 17/69 visible, 25/47 red, 3/3 Y/J and 8/13 K-band
+rows under the stated tolerances. The unmatched rows include lines from
+highly excited states outside the O53 representation. The reported
+matches establish catalogue coverage, while unresolved rows may also
+include unresolved components or convention differences. The machine
+audit lists every unmatched line ID for further classification.
