@@ -569,13 +569,15 @@ def assess(h: dict, element: str | None, ion: str | None,
     if hi_i > reddest:
         pool = graded_lines(element, ion)
         beyond = sum(1 for w in pool if reddest < w <= hi_i)
+        pool_note = (
+            f"{beyond} graded line(s) sit in it (canonical_gf reaches {max(pool):.0f} A)."
+            if pool else "The selected species has no graded lines in canonical_gf."
+        )
         evidence[(h["holding_id"], "DECLARED GAP")] = [
             f"reach:{reddest:.0f}-{hi_i:.0f} A -- {inst} reaches {hi_i:.0f} A but "
             f"config/synth_bands.yaml defines no band past {reddest:.0f} A, so that "
             f"stretch is NOT ASSESSED here. Named rather than dropped: silence would "
-            f"read as 'no coverage owed' (RYA-833). {beyond} graded line(s) sit in it "
-            f"(canonical_gf reaches {max(pool):.0f} A), so the gap is real work, not a "
-            f"formality."]
+            f"read as 'no coverage owed' (RYA-833). {pool_note}"]
 
     out: list[ReadinessRow] = []
     for band, lo, hi in bands:

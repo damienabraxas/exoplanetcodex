@@ -781,8 +781,28 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     idx_sorted = idx_all[order]
     w_sorted = w_A[idx_sorted]
 
-    keep, missing = _match_into_list(want.values, w_sorted, idx_sorted, tol_A=tol)
+    if source_label == "lines-from-set:NI_CLEAR2026":
+        # Clear's set adopts its own theoretical gf, scoped to the matched transitions.
+        # The surrounding blends retain the window's usual gf scale.
+        ep = np.asarray(linelist["lower_state_eV"], dtype=float)
+        keep, missing = [], []
+        for row in ew.loc[want.index].itertuples():
+            distance = np.abs(w_sorted - row.wavelength_air_A)
+            hits = idx_sorted[(distance <= row.match_tol_A)
+                              & (np.abs(ep[idx_sorted] - row.ep_eV) <= _GRADED_MASK_EP_TOL_EV)]
+            if not len(hits):
+                missing.append((row.wavelength_air_A, float(distance.min())))
+                continue
+            if len(hits) != 1 or int(hits[0]) in keep or not np.isfinite(row.loggf_published):
+                raise SystemExit(f"--{source_label}: ambiguous transition or invalid source gf "
+                                 f"at {row.wavelength_air_A:.4f} A (EP {row.ep_eV:.4f} eV)")
+            keep.append(int(hits[0]))
+            linelist["loggf"][hits[0]] = row.loggf_published
+        print(f"  [{source_label}] applied Clear et al. (2026) log gf to {len(keep)} transitions")
+    else:
+        keep, missing = _match_into_list(want.values, w_sorted, idx_sorted, tol_A=tol)
     if (missing and "ep_eV" in ew.columns and source_label.startswith("lines-from-set")
+            and source_label != "lines-from-set:NI_CLEAR2026"
             and {"lower_state_cm1", "upper_state_cm1"} <= set(linelist.dtype.names)):
         miss_w = [w for w, _ in missing]
         eps = [float(ew.loc[want.index[list(want.values).index(w)], "ep_eV"]) for w in miss_w]
@@ -1521,6 +1541,9 @@ def synthesis_route(a, pol) -> None:
                                  species=species_token(a.element, a.ion))
     elif getattr(a, "lines_from_set", None):
         _name, _, _csv = str(a.lines_from_set).partition("=")
+        if _name == "NI_CLEAR2026":
+            ctx["linelist"] = ctx["linelist"].copy()
+            prov_gf["detail"] += "; selected Ni II transitions use Clear et al. (2026) log gf"
         cand = _cand_from_ew_artifact(ctx["linelist"], Path(_csv),
                                       lo_A=a.lo, hi_A=a.hi,
                                       species=species_token(a.element, a.ion),
