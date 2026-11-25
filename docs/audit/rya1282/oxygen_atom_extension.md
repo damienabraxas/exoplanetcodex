@@ -120,3 +120,25 @@ manifest and keeps the original rows. The detached workflow starts the
 three-atmosphere Bride validation after the complete table is written.
 The runnable recovery and its log are in the experiment directory as
 `resume_full_rates.py` and `full_rate_resume.log`.
+
+The first missing pair, 4p ⁵P → 5p ³P, completed in isolation in 130.4 s.
+It wrote a fresh 11-temperature checkpoint with an upward rate of
+7.444e-13 cm³/s at 5000 K. An in-flight RSS sample was 1.13 GiB.
+The saved 100-point control from the original run was 1.360e-9 cm³/s
+at 5000 K, compared with 1.358e-9 from the 30-point test.
+
+The 4500 K MARCS dwarf at [Fe/H] −1 converged in eight population steps
+with radiative O53 and six with the combined approximate collisions.
+The largest shift in photospheric log b was 0.121 dex. The largest of the
+five differential flux areas was 0.0311 mÅ in magnitude at 1.589 µm.
+The four automated oxygen-extension tests passed on rerun.
+
+The held RYA-1053 VALD source supplies zero damping entries on all 13
+H-band O I rows recovered within the three target groups. The near-UV
+pull supplies one 3692.395 Å component with a van der Waals entry of
+−7.931. A separate fixed-population solar test applied classical Unsöld
+broadening to all 18 resolved H-band components. It changed the three
+differential flux areas by −0.0490, −0.0240 and −0.0669 mÅ, respectively.
+This measures sensitivity to the width prescription under the same
+atmosphere and populations. It leaves transition-specific broadening
+qualification open.
