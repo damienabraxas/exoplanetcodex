@@ -22,21 +22,23 @@ controlled reproductions located distinct convergence problems:
   population steps. The final rate residual was 1.71e-7 and particle-count
   error 6.66e-16.
 
-The strict retries run on the Mac using two isolated workers and their
-own per-node checkpoints. The ordinary solver defaults are retained.
-The assembled binary is conditional on a complete exact-manifest audit.
-The follow-up checks every binary record against the source array and
-checks aux offsets, depth grids and total record count.
+The isolated retries recovered all 84 remaining nodes. The ordinary
+solver defaults are retained. The completed audit found 3,929 expected
+models and 43,219 solved nodes, with zero missing or failed nodes. The
+835,164,956-byte TurboSpectrum binary passed full readback against the
+source arrays. The check verified all per-record model IDs, aux metadata,
+byte offsets, depth grids, and departure coefficients.
 
-A held-out abundance interpolation check on the first staged checkpoint
-tested 35,259 interiors with converged adjacent abundance records.
+A held-out abundance interpolation check on the completed grid tested
+35,361 interiors with converged adjacent abundance records.
 The 99th percentile of the maximum four-level photospheric error was
-0.00665 dex for plane-parallel inputs and 0.00796 dex for spherical inputs.
+0.00665 dex for plane-parallel inputs and 0.00797 dex for spherical inputs.
+The corresponding all-level 99th percentiles were 0.01024 and 0.04680 dex.
 This measures only the abundance direction on a 0.4 dex bracket.
 
 ## Independent evidence and scientific status
 
-The first staged checkpoint compared 3,666 matching model/abundance cases
+The completed grid compared 3,672 matching model/abundance cases
 against the held GALAH Balder oxygen grid. Selection uses plane-parallel
 t01 and one-solar-mass spherical t02 atmospheres, compares the four
 identified triplet levels on overlapping log tau500 −3 to 0, and refuses
@@ -45,8 +47,8 @@ background, EOS and transfer details. [Amarsi et al. 2020](https://doi.org/10.10
 
 | MARCS atmosphere | Cases | Median case maximum, dex | 90th percentile, dex | Worst, dex |
 | --- | ---: | ---: | ---: | ---: |
-| Plane-parallel | 1,169 | 0.035 | 0.219 | 0.517 |
-| Spherical | 2,497 | 0.077 | 0.435 | 0.946 |
+| Plane-parallel | 1,170 | 0.035 | 0.219 | 0.517 |
+| Spherical | 2,502 | 0.077 | 0.435 | 0.946 |
 
 The worst case is 6750 K / log g 1.0 / [Fe/H] +0.5 / [O/Fe] +0.5.
 Its largest triplet discrepancy is near log tau500 −2.97 and declines to
@@ -120,20 +122,22 @@ time, angle, depth and frequency representativeness unqualified.
 
 ## Interpolation and experimental atom controls
 
-The staged atmosphere holdout varied one axis at a time while keeping
+The completed-grid atmosphere holdout varied one axis at a time while keeping
 geometry, mass, microturbulence, and A(O) − [Fe/H] fixed. For the four
 triplet levels, the 99th-percentile maximum photospheric errors were:
 
 | Axis | Plane-parallel, dex | Spherical, dex |
 | --- | ---: | ---: |
-| [Fe/H] | 0.00863 | 0.02075 |
-| log g | 0.00752 | 0.03975 |
-| Effective temperature | 0.02705 | 0.06157 |
+| [Fe/H] | 0.00863 | 0.02074 |
+| log g | 0.00752 | 0.03972 |
+| Effective temperature | 0.02705 | 0.06156 |
 
 The largest temperature holdout error was 0.08536 dex for the 4250 K,
 log g −0.5, solar metallicity, 15-solar-mass spherical input at A(O) 9.6.
-This test measures one-dimensional interpolation error at interior grid
-nodes. It gives no bound on simultaneous interpolation across axes.
+An eight-corner test varying temperature, gravity and metallicity together
+covered 5,632 plane-parallel and 5,907 spherical interiors at matched
+abundance offsets. Its 99th-percentile triplet errors were 0.02537 and
+0.04568 dex, respectively.
 
 Three NIST [O I] branches at 5577, 6363 and 6391 Å were added between
 existing O53 levels, increasing the visible catalogue match count to
@@ -178,8 +182,8 @@ electron or hydrogen collision rates and is a radiative sensitivity
 experiment. The solar model at A(O) 8.70 converged in nine population
 steps and produced finite flux in all four diagnostic windows.
 
-The compiled TurboSpectrum interpolator read a small Bride binary
-fixture for solar and 6500 K giant inputs. At the exact A(O) 8.60
+The compiled TurboSpectrum interpolator passed the same solar and
+6500 K giant readback on a small fixture and the full Bride binary. At the exact A(O) 8.60
 node it reproduced the departure arrays within 2.2e-6 dex after
 text export. At the requested A(O) 8.67 it stamped that abundance on
 the output and selected the A(O) 8.60 coefficients for both inputs.
