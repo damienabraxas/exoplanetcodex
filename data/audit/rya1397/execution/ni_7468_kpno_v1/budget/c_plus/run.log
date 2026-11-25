@@ -1,0 +1,73 @@
+[2026-11-24 17:32:16,113] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:32:40,432] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:33:03,756] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:33:25,808] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:33:44,369] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:07,251] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:07,896] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:31,081] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:31,626] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:32,219] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:32,706] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:33,177] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:33,566] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:33,951] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:34,454] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:35,077] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:34:56,563] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:19,846] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:22,667] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:23,236] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:23,683] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:24,167] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:24,833] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:25,257] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:25,833] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:26,471] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:26,776] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:27,080] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:27,393] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:27,766] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:28,527] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:28,986] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:29,512] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:29,999] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:30,365] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-24 17:35:31,100] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+
+[synthesis route — red-optical]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading GESv6_atom_hfs_iso.420_920nm linelist (first call — cached)...
+  [synth] canonical gf applied to all 126637 physical lines (0 uncovered)
+  [synth] GESv6_atom_hfs_iso.420_920nm linelist: 141233 lines loaded
+  ⚠️  ABUNDANCE OFFSET (RYA-1230 budget leg): A(C) +0.100 dex
+  [holding] kpno_solar_atlas -> solar_kpno_molecfit_corrected (pre_normalised=True)
+            RYA-933: serves the WHOLE band -- corrected flux inside the six RYA-940 bands, the untouched 1984 atlas outside them, and a REFUSAL inside a registered telluric band RYA-940 could not fit (H2O 7160-7340). Until then this reader returned only the six corrected windows and nothing else, so every graded VIS line fell outside it and the band measured zero lines -- the holding had never produced a single product. RYA-940 telluric-corrected 1984 atlas. Same conventions as solar_kpno -- air, residual flux, unity IS the continuum -- differing only by the six corrected telluric bands. Listed AFTER solar_kpno on purpose: reachable by name, selection order unchanged, so no existing measurement silently switches product. NaN marks a quarantined saturated core.
+  1 N I candidates from the NAMED SET NI_CAFFAU_RYA1397 (depth floor NOT applied -- that is what the set is for) (half-width +/-1.1 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
+[Engine-B] fitting 1 lines as ENGINE-B ...
+  [gf rung] gf rung 2 (gf scale (cited NIST class)): all 1 N I lines carry a NIST ASD accuracy class (RMS 0.0294 dex over classes B+). COMPILATION, NOT LABORATORY
+
+  A(N I; red-optical, ENGINE-B) = 7.724  (n=1, excluded 0)
+    delta vs this route's 1D-LTE = +0.0000 dex  ⚠️ ATMOSPHERE + departures COMBINED, NOT the NLTE effect
+
+  A(N I; red-optical, ENGINE-A) = 7.712  (n=1, not-served 0)
+    delta_nlte applied: mean -0.0115 dex over 1 line(s) — N_Amarsi2020_PySME.csv (Amarsi et al. 2020 (A&A 642, A62) N I departure grid via PySME (Zenodo 3982506); N I red triplet 7468/8216/8683 high-excitation atomic; RYA-369 strategy / RYA-526 PySME-derived deltas (solar reproduces the RYA-369 load-test)); PER-LINE additive correction
+
+  ENGINE-A-3DNLTE: NOT PRODUCED — Amarsi, Grevesse, Grumer, Asplund, Barklem & Collet 2020, A&A 636, A120, Table 3 (solar, disk-centre EWs) -- 3D non-LTE (STAGGER) - 1D LTE (MARCS); SOLAR per-line additive correction, same EWs in both columns (match <= 0.05 A); 1 of 1 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  A(N I; red-optical, 1D-LTE) = 7.724 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote rya1397-ni-7468-v1/budget/legs/unit00/c_plus/NI_7463_7474_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-NI_CAFFAU_RYA1397_products.csv
+synth_cache: calls=38 new_syntheses=36 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth
