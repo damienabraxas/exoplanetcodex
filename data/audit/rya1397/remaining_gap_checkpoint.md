@@ -65,3 +65,16 @@ The 17 experimental Pehlivan Rhodin Table B3 results have a concrete disposition
 Table 6 contains 131 transitions. The 109 outside-band rows remain out of scope for the existing holdings and nine published rows lie in the paper's rejected 3170–3227 Å interval. Section 4.1 says 11 lines were removed in that interval. The held Table 6 contains nine there and has two more near-UV lines immediately redward at 3255.888 and 3277.349 Å. The text does not establish that the latter two are the missing members of the interval count. Preserve the accepted existing project products for those two.
 
 Of the 13 remaining reference-table identities, 11 are already present in the Fe II feed. The published 4303.170 Å line is independently excluded by the project's active bad-fit registry and by the paper's CH/atomic blend review. The paper also rejects 4351.762 Å, which has accepted fits in project pools. Record the conflict without changing those products. The 4173.451 Å Table 7 feature remains shortward of the installed GES optical synthesis deck.
+
+## Completed synthesis diagnostics
+
+All eight dispatched synthesis jobs exited 0. The [execution folder](execution/) contains their selectors, line tables, summaries, logs and input hashes. The 16 unique features produced 19 LTE line fits across holdings. These are diagnostic results pending release-level checks.
+
+| Batch | Measured result | Disposition |
+|---|---|---|
+| [Fe I red optical](execution/fe-redopt-v2/) | 8293.513 Å gives 7.452 dex in LTE on the Kitt Peak molecfit holding. | Resolve the −0.039 dex literature versus canonical strength difference and assemble uncertainty. |
+| [Fe II red optical](execution/feii-redopt-kurucz-v1/) | Kurucz holding gives 7.621, 7.436 and 7.506 dex. The molecfit holding gives 7.633, 7.437 and 7.502 dex at the same wavelengths. | The holding results agree within 0.012 dex. Keep 7222 and 7224 Å diagnostic because the molecfit holding did not establish a correction in the 7160–7340 Å window. Resolve canonical versus literature strengths and assemble uncertainty. |
+| [N I red optical](execution/ni-redopt-v2/) | 8223.128 and 8718.837 Å return 7.836 and 8.208 dex. | Resolve the 0.372 dex spread and propagate molecular blend sensitivity before pooling. |
+| [N I CRIRES+ Y](execution/ni-y-deck-v1/) | Four newly staged lines return 7.706–8.324 dex. | Validate the local telluric treatment, line broadening, oscillator strengths and blend sensitivity. Keep the fits diagnostic. |
+| [Cr II near-UV](execution/crii-nearuv-v1/) | Four fits return 5.972–6.788 dex, with reduced chi-square 30.8–225.6. The same-holding reference pool gives 5.640 dex. | The profiles have large residuals. Review opacity, blends and continuum before admitting any line. |
+| [Cr I near-UV and VIS](execution/cri-isolated-v1/) | 3749.027 Å yields 5.377 dex (reduced chi-square 8.258). 4829.309 Å yields 5.561 dex (3.787), versus 5.552 dex for the same-holding VIS reference pool. | The VIS line is the closer candidate for a targeted patch. It still needs line-level transition-data and profile uncertainty checks. |

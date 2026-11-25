@@ -1,0 +1,81 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+
+[synthesis route — red-optical]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading GESv6_atom_hfs_iso.420_920nm linelist (first call — cached)...
+  [synth] canonical gf applied to all 126637 physical lines (0 uncovered)
+  [synth] GESv6_atom_hfs_iso.420_920nm linelist: 141233 lines loaded
+  [holding] kpno_solar_atlas -> solar_kpno_kurucz2005_corrected (pre_normalised=True)
+            Kurucz 2005, telluric-corrected at source. Served from irradrelwl.dat, the RESIDUAL atlas Kurucz ships alongside the irradiance file -- so this holding DOES carry its own continuum and pre_normalised is True. It was False until RYA-933 because `0irrad.readme` does not list the residual file and the RYA-929 intake never took it; placing our own continuum instead tilted the band 4% blue-to-red and cost 0.022 dex. VACUUM grid (gravitational redshift included), converted to air on read. Spans 2990-10010 A; nothing telluric-free reaches the IR. 🔴 RYA-1026 ratified this for the WHOLE KITT PEAK CLASS and made it ENFORCED, not remembered: pipeline.prenormalised_guard refuses to fit/apply a continuum here, and cross-checks the flag against the FLUX -- a declared flag and a mis-routed file agree with each other perfectly and are both wrong, which is exactly what happened here for months.
+  3 Fe II candidates from the NAMED SET FE_RYA1397_REDOPT (depth floor NOT applied -- that is what the set is for) (half-width +/-1.1 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
+[2026-11-25 01:08:44,751] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:09:31,388] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:10:00,472] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:10:34,114] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:11:21,924] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:11:53,867] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:30,252] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:30,552] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:41,419] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:42,679] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:44,012] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:45,269] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:46,575] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:47,926] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:49,278] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:50,588] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:12:51,966] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:13:26,233] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:14:02,834] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:14:52,711] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:15:32,542] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:16:10,596] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:16:48,172] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:35,054] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:35,374] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:35,725] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:36,389] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:37,621] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:38,858] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:40,087] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:41,304] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:18:22,519] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:19:12,755] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:20:17,649] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:20:54,254] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:21:27,184] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:22:05,139] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:22:36,117] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:02,164] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:27,972] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:48,997] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:49,727] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:50,441] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:51,118] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:51,764] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:52,440] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:53,076] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:53,698] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:54,344] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:24:21,317] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:24:44,215] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 3 Fe II lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07 x3. A pool is graded only if every line in it is
+
+  A(Fe II; red-optical, ENGINE-A) = 7.622  (n=1, not-served 2)
+    delta_nlte applied: mean +0.0010 dex over 1 line(s) — Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction
+
+  A(Fe II; red-optical, 1D-LTE) = 7.506 +/- 0.093  (n=3, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote rya1397-feii-redopt-kurucz-v1/FeII_7217_7521_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_RYA1397_REDOPT_products.csv
+synth_cache: calls=54 new_syntheses=104 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth
