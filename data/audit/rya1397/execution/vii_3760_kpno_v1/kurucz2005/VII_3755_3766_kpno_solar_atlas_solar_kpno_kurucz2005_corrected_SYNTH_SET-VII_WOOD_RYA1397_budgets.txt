@@ -1,0 +1,11 @@
+V · near-UV · n=1
+  statistical  0.0100 dex   (averages down as 1/sqrt(N))
+    basis: quantiser-floor 0.01 dex (RYA-771) — UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one
+  systematic   0.1059 dex   (does NOT average down)
+    0.1000  pseudo-continuum         [SYSTEMATIC] near-UV: the true continuum is never observed (median flux 0.283-0.805); the envelope stands in for it and the residual does not average down
+    0.0348  gf scale (cited lab)     [SYSTEMATIC] RMS of the published per-line laboratory sigma over 1 lines (Wood et al. 2014 (ApJS 214, 18), machine-readable table J/ApJS/214/18 (stated uncertainty) (DOI 10.1088/0067-0049/214/2/18) x1); measured, so it supersedes the generic graded bound
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    UNMEASURED  line-to-line scatter     [random] NOT MEASURABLE (n_lines=1): the spread of a single accepted line is undefined, not small. `band_products.build_product` returns None here and that None is carried, never spent as a zero (RYA-907)
+    UNMEASURED  stellar parameters       [SYSTEMATIC] NOT MEASURED for this product: no perturb-and-re-derive has been run on this pool (RYA-282 §2). dA/dp is a property of the LINE SET (RYA-1093), so no element-level number may stand in for it.
+  dominant: pseudo-continuum -- more lines will NOT help; fix the source
+  gf rung: gf rung 3 (gf scale (cited lab)): every one of the 1 V II lines carries a published per-line gf sigma (GF-LAB x1); RMS 0.0348 dex (0.85x the generic bound 0.041) MEASURES the quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850, RYA-1233)
