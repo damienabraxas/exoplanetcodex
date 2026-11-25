@@ -53,11 +53,9 @@ def test_the_axis_is_the_ratified_ladder(grid):
         "EW · 1D-LTE",
         "Synth · 1D-LTE",
         "Synth · 1D-LTE · Gerber",
-        "Synth · 1D-LTE · OpenMULTI3D",
         "EW · 1D-NLTE · Bergemann",
         "Synth · 1D-NLTE · Bergemann",
         "Synth · 1D-NLTE · Gerber",
-        "Synth · 1D-NLTE · OpenMULTI3D",
         "Synth · <3D>-LTE · Gerber · stagger",
         "Synth · <3D>-NLTE · Gerber · stagger",
         # RYA-1106: relabelled at the source -- route from the handler, gf axis
@@ -72,7 +70,7 @@ def test_the_codex_deck_is_DECLARED_but_not_rendered(grid):
     yet would read as a measurement we failed to make."""
     pending = [r for r in tx.plot_row_axis(include_pending=True) if r["pending"]]
     assert [r["treatment"] for r in pending] == ["synth-mean3D-NLTE-gerber-codex"]
-    assert len(grid["axis"]) == 11   # RYA-1392: + the OpenMULTI3D 1D pair
+    assert len(grid["axis"]) == 9
     assert "codex" not in " ".join(grid["axis"])
 
 
