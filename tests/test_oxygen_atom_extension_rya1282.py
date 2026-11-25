@@ -105,3 +105,22 @@ def test_van_regemorter_neutral_rate_uses_multi_ce_units():
     expected_down = 20.60 * (wavelength_a * 1e-8)**3 * spontaneous_a * .100 / np.sqrt(temperature)
     multi_down = multi_ce(delta, f, temperature) * (g_low / g_high) * np.sqrt(temperature)
     assert multi_down == pytest.approx(expected_down, rel=1e-12, abs=0)
+
+
+def test_forbidden_lines_reuse_ground_configuration_levels(tmp_path):
+    from scripts.rya1282_add_forbidden_oxygen import build
+
+    root = Path(__file__).resolve().parents[1]
+    primary = root / 'data/linelists/primary_gf'
+    source = Path.home() / 'codex/bride_inputs/rya1281/atom.o41f'
+    if not source.is_file():
+        pytest.skip('Held O41f atom is absent')
+    nist = [primary / f'nist_asd_OI_{span}.tsv' for span in ('900_3000', '3000_25000')]
+    out = build(source, nist, tmp_path / 'forbidden')
+    old, new = read_multi_atom(source), read_multi_atom(out)
+    assert new.levels == old.levels
+    assert new.lines[:-3] == old.lines
+    assert [(t.j,t.i) for t in new.lines[-3:]] == [(5,4),(4,2),(4,3)]
+    assert new.lines[-3].gRad == pytest.approx(1.34311735)
+    assert new.lines[-2].f == pytest.approx(1.84343e-11, abs=0)
+    assert len(to_lightweaver(new).lines) == 259
