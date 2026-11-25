@@ -160,3 +160,29 @@ change 8.35e-7, independent rate residual 1.16e-7 and particle error
 9.99e-16. The first two cold starts exceeded their time budgets.
 The extended atom with the added forbidden branches also solved
 self-consistently for the solar control in nine population steps.
+
+Fixed-population spectra passed a six-band smoke test on the Sun,
+the 4500 K metal-poor dwarf, and the 6500 K giant. The line-on and
+line-off spectra were finite and positive at every sample. The 95
+matched component windows per atmosphere were split across near-UV
+(6), visible (32), red (25), Y/J (3), H (16), and K (13). Every window
+responded to the oxygen opacity toggle. The canonical list contains no
+O I rows in the 1.4–1.5 µm band gap.
+
+The radiative O54 variant adds the 6s ³S₁ level from Li, 18 E1
+links to existing states, and its ground-target photoionization
+continuum from NORAD. It preserves all O53 collisional rates. The
+catalogue recheck adds two visible and two K-band matches, reaching
+22/69 and 10/13 respectively. The new level has no dedicated
+electron or hydrogen collision rates and is a radiative sensitivity
+experiment.
+
+The compiled TurboSpectrum interpolator read a small Bride binary
+fixture for solar and 6500 K giant inputs. At the exact A(O) 8.60
+node it reproduced the departure arrays within 2.2e-6 dex after
+text export. At the requested A(O) 8.67 it stamped that abundance on
+the output and selected the A(O) 8.60 coefficients for both inputs.
+The difference from linear abundance interpolation was 0.0105 dex
+for the Sun and 0.0398 dex for the giant across all levels and depths.
+Off-node synthesis through this executable needs an explicit abundance
+interpolation path or a validated nearest-node error budget.
