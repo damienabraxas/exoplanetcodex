@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Si",
   "star": "solar",
-  "version": "1.421",
-  "updated_at": "2026-11-09T10:06:41Z",
+  "version": "1.422",
+  "updated_at": "2026-11-25T06:06:05Z",
   "products": [
     {
       "element": "Si",
@@ -6011,6 +6011,325 @@
       "star": "solar",
       "sigma_asplund": 0.05662544831511769,
       "sigma_asplund_stat": 0.04677391817647336,
+      "sigma_asplund_syst": 0.03191617106278007,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "band": "H",
+      "instrument": "crires_plus",
+      "holding": "solar_crires_plus_h_rya1232",
+      "tier": "ALL",
+      "selector": "SET-SI_RYA1397_H",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.383,
+      "sigma_stat": 0.1029,
+      "sigma_syst": 0.1726,
+      "n_lines": 3,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (UNGRADED)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.10292 dex at n_lines=3",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Si|I|H|crires_plus|solar_crires_plus_h_rya1232|ALL|SET-SI_RYA1397_H|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "903e3fa9592579cab0c74d01c708015db2a0f6a2396b76c1895f445adc58b9a6"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.10291798244772911,
+            "source": "per-feature scatter of the accepted pool (components within 0.5 A merged, RYA-1232)",
+            "evidence": {
+              "method": "line_scatter",
+              "independent": true,
+              "n_lines": 3,
+              "n_components": 3,
+              "raw_sigma": 0.17825917461194873,
+              "pool_sha256": "903e3fa9592579cab0c74d01c708015db2a0f6a2396b76c1895f445adc58b9a6"
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (atomic data not included); a pool line carries no published gf sigma",
+            "evidence": {
+              "asplund_budget": true,
+              "indicator_ids": [
+                "pk_fec42e3bda28",
+                "pk_764925ae7134",
+                "pk_f05a249b7d99"
+              ],
+              "line_sources": [
+                "K07",
+                "K07",
+                "K07"
+              ],
+              "unpriced_ids": [
+                "pk_fec42e3bda28",
+                "pk_764925ae7134",
+                "pk_f05a249b7d99"
+              ],
+              "pool_sha256": "903e3fa9592579cab0c74d01c708015db2a0f6a2396b76c1895f445adc58b9a6"
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.010892289718357675,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (species mean (no pool line in Scott), n=9)",
+            "evidence": {
+              "pool_sha256": "903e3fa9592579cab0c74d01c708015db2a0f6a2396b76c1895f445adc58b9a6",
+              "temperature_structure_dex": 0.010333333333333281,
+              "inhomogeneity_dex": 0.003444444444444361,
+              "mean_3Dmean_minus_HM_dex": -0.020666666666666562,
+              "mean_3D_minus_3Dmean_dex": 0.006888888888888722,
+              "n_scott_lines": 9,
+              "basis": "species mean (no pool line in Scott)",
+              "scott_wavelengths_A": [
+                5645.613,
+                5684.484,
+                5690.425,
+                5701.105,
+                5772.145,
+                5793.073,
+                6741.64,
+                7034.903,
+                7226.206
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in-window (RYA-1230 turned molecular opacity on in every band); no catalogued-blend deficit",
+            "evidence": {
+              "use_molecules": true,
+              "owed_measurement": "a paired molecule-strength leg on this C/O pool"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "this leg applies no departures (nlte_delta_dex = 0 on every line)",
+            "evidence": {
+              "nlte_delta_dex": 0.0
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "H",
+              "continuum_levels": []
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-SI_RYA1397_H"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "xi_minus",
+                "xi_plus"
+              ]
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "q80",
+                "q97",
+                "contref"
+              ]
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "core"
+              ]
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "cscale"
+              ]
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.010592111111111076,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.00011864197530864032,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "model_atmosphere",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.10349276828078238,
+        "sigma_measured_partial": 0.10349276828078238
+      },
+      "uncertainty_indicator_ids": [
+        "pk_fec42e3bda28",
+        "pk_764925ae7134",
+        "pk_f05a249b7d99"
+      ],
+      "grade": "Theoretical Codex",
+      "sigma_reported": 0.1034927682807823,
+      "provenance": {
+        "host": "Sirius",
+        "path": "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-si-h-v1/budget/stage/SiI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_SET-SI_RYA1397_H_products.csv",
+        "copied_to": "data/audit/rya1397/execution/sii_h_crires_v1/budget/SiI_15007_17493_crires_plus_solar_crires_plus_h_rya1232_SYNTH_SET-SI_RYA1397_H_products.csv",
+        "sha256": "8ee5ae7fd00693db54708a16efd6ea0602c602d5b2740a5181b9c62891cd619d",
+        "artifact_mtime": "2026-11-25T05:28:45Z",
+        "ingested_at": "2026-11-25T06:06:05Z"
+      },
+      "star": "solar",
+      "sigma_asplund": 0.10775320452970165,
+      "sigma_asplund_stat": 0.10291798244772911,
       "sigma_asplund_syst": 0.03191617106278007,
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
     },
@@ -311887,7 +312206,16 @@
       "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
       "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf"
     ],
-    "not_displayed": [],
+    "not_displayed": [
+      {
+        "product_key": "Si|I|H|crires_plus|solar_crires_plus_h_rya1232|ALL|SET-SI_RYA1397_H|SYNTH|1D-LTE|our-all",
+        "tier": "ALL",
+        "grade": "Theoretical Codex",
+        "selector": "SET-SI_RYA1397_H",
+        "line_set": "our-all",
+        "reason": "grade 'Theoretical Codex' is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
+      }
+    ],
     "key_fields": [
       "element",
       "ion",

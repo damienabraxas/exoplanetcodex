@@ -53,6 +53,30 @@ sets:
     gf_basis: "VALD3 (2015-01-21, v968) laboratory atomic data, as the authors used"
     solar_literature: false
 
+  - name: SI_RYA1397_H
+    element: Si
+    source: data/audit/rya1397/execution/sii_h_crires_v1/input.csv
+    species: "Si I"
+    columns: {wavelength: wavelength_published_A, ep: ep_eV, loggf: loggf_published, band: band_published}
+    match: {canonical_tol_A: 0.005}
+    bib: elgueta2026
+    doi: 10.1051/0004-6361/202659148
+    citation: "RYA-1397 three-line H-band subset of Elgueta et al. 2026 (A&A 710, A111)"
+    gf_basis: "Canonical K07 calculated gf matching the Elgueta table for these three transitions"
+    solar_literature: false
+    grade: THEORETICAL_CODEX
+    adoption:
+      approved_by: Ryan Schmitt
+      date: 2026-11-24
+      ticket: RYA-1397
+      gf_origin: theoretical
+      gf_method: Kurucz calculation (canonical K07 tag)
+      limitations: >-
+        No laboratory gf or published gf uncertainty for this pool. The Asplund-style
+        reported uncertainty excludes gf uncertainty. The three-line CRIRES+ synthesis
+        result was reviewed before adoption. No supported departure correction was
+        available for these lines.
+
   - name: SI_BERGEMANN2013
     element: Si
     source: data/audit/rya1218_si_protocol/si_nir_line_pool.csv
