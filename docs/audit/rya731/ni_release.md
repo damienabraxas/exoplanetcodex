@@ -26,3 +26,7 @@ Five Kitt Peak visible profile fits failed during synthesis sensitivity probes b
 - Both Kitt Peak reductions yield near-UV Ni II on the Clear set. 1D LTE gives 6.392 and 6.557 dex, while mean-3D LTE gives 6.483 and 6.679 dex with 20 retained lines in each reduction. The atom has no Ni II bound-bound transitions. The visible Ni II fits retain no lines.
 - CRIRES+ H-band Ni I retains seven LTE lines and five Gerber NLTE lines. Fixed-continuum mean-3D NLTE gives 6.092–6.147 dex across the two reductions, and the free-continuum treatment gives 6.197–6.232 dex. These are separate treatments and the continuum sensitivity is material.
 - The Elgueta set yields a two-line wide-Y CRIRES+ measurement and a two-line Kitt Peak near-infrared measurement. The narrow Y and atlas fits that use just one line remain diagnostics. The registered set yields no CRIRES+ J or K aggregate on the run's holdings.
+
+## Feed admission
+
+Ni v1.161 carries 223 admitted Ni I products across seven treatments and five bands, with one additional quarantined row. All admitted records were joined by the publication key and their staged source CSVs verified against the recorded SHA-256. The two Ni II near-UV holdings have viable LTE fits, but the budget assembler could not resolve the model-atmosphere component for the Clear set. The visible Ni II cells contain no retained lines. The release keeps both dispositions in the run and publication reports.

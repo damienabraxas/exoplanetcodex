@@ -1,3 +1,7 @@
+## 2026-11-26 — Solar Ni release
+
+- **RYA-731** — Stage 223 Solar Ni I products, including OpenMULTI3D and the theoretical infrared set. Ni II remains held.
+
 ## 2026-11-24 — RYA-1396 landed and RYA-1397 V I patch staged
 
 > **Current as of `main` 4f1e69e9** (PR #629).

@@ -1,8 +1,548 @@
 {
  "star": "solar",
  "element": "Ni",
- "generated": "2026-10-24",
+ "generated": "2026-11-25",
  "sets": [
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 9898.928,
+   "ep_eV": 4.236,
+   "solar_literature": false,
+   "authors_loggf": -1.249,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 9898.928,
+   "canonical_loggf": -1.249,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 10302.611,
+   "ep_eV": 4.266,
+   "solar_literature": false,
+   "authors_loggf": -0.881,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 10302.611,
+   "canonical_loggf": -0.881,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 13048.181,
+   "ep_eV": 4.538,
+   "solar_literature": false,
+   "authors_loggf": -1.008,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 13048.1806,
+   "canonical_loggf": -1.008,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 15173.584,
+   "ep_eV": 5.488,
+   "solar_literature": false,
+   "authors_loggf": -0.547,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 15173.584399999998,
+   "canonical_loggf": -0.547,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 15753.606,
+   "ep_eV": 5.469,
+   "solar_literature": false,
+   "authors_loggf": -0.602,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 15753.606,
+   "canonical_loggf": -0.602,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 16136.096,
+   "ep_eV": 5.488,
+   "solar_literature": false,
+   "authors_loggf": -0.003,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 16136.0964,
+   "canonical_loggf": -0.0029999999999999,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": -0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 16363.103,
+   "ep_eV": 5.282,
+   "solar_literature": false,
+   "authors_loggf": 0.588,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 16363.1034,
+   "canonical_loggf": 0.588,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 16536.156,
+   "ep_eV": 6.04,
+   "solar_literature": false,
+   "authors_loggf": -0.156,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 16536.1561,
+   "canonical_loggf": -0.156,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 16550.383,
+   "ep_eV": 6.217,
+   "solar_literature": false,
+   "authors_loggf": 0.266,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 16550.3832,
+   "canonical_loggf": 0.266,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_ELGUETA2026",
+   "species": "Ni I",
+   "wavelength_A": 17001.025,
+   "ep_eV": 5.488,
+   "solar_literature": false,
+   "authors_loggf": 0.379,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 17001.0251,
+   "canonical_loggf": 0.379,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": 0.0
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3000.667,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -3.71,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3000.667,
+   "canonical_loggf": -3.699,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.011
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3005.456,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -3.74,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3005.456,
+   "canonical_loggf": -3.864,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": 0.124
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3032.455,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -2.91,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3032.455,
+   "canonical_loggf": -2.886,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.024
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3063.933,
+   "ep_eV": 2.9504,
+   "solar_literature": false,
+   "authors_loggf": -2.75,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3063.933,
+   "canonical_loggf": -2.716,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.034
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3087.069,
+   "ep_eV": 3.1041,
+   "solar_literature": false,
+   "authors_loggf": -1.74,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3087.069,
+   "canonical_loggf": -1.683,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.057
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3119.788,
+   "ep_eV": 3.1041,
+   "solar_literature": false,
+   "authors_loggf": -3.59,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3119.788,
+   "canonical_loggf": -2.927,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.663
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3132.864,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -3.78,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3132.864,
+   "canonical_loggf": -3.656,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.124
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3195.286,
+   "ep_eV": 3.0733,
+   "solar_literature": false,
+   "authors_loggf": -3.06,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3195.286,
+   "canonical_loggf": -2.938,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.122
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3208.897,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -3.29,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3208.897,
+   "canonical_loggf": -3.222,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.068
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3274.916,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -2.85,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3274.916,
+   "canonical_loggf": -2.805,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.045
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3290.534,
+   "ep_eV": 3.1041,
+   "solar_literature": false,
+   "authors_loggf": -2.97,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3290.534,
+   "canonical_loggf": -2.755,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.215
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3350.419,
+   "ep_eV": 2.9504,
+   "solar_literature": false,
+   "authors_loggf": -2.36,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3350.419,
+   "canonical_loggf": -2.355,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.005
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3373.969,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -2.05,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3373.969,
+   "canonical_loggf": -2.006,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.044
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3401.766,
+   "ep_eV": 3.0733,
+   "solar_literature": false,
+   "authors_loggf": -2.78,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3401.766,
+   "canonical_loggf": -2.682,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.098
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3407.3,
+   "ep_eV": 3.0793,
+   "solar_literature": false,
+   "authors_loggf": -1.93,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3407.3,
+   "canonical_loggf": -1.855,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.075
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3433.967,
+   "ep_eV": 3.6691,
+   "solar_literature": false,
+   "authors_loggf": -2.76,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3433.967,
+   "canonical_loggf": -2.441,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.319
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3454.164,
+   "ep_eV": 2.9504,
+   "solar_literature": false,
+   "authors_loggf": -2.16,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3454.164,
+   "canonical_loggf": -2.146,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.014
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3465.642,
+   "ep_eV": 3.0733,
+   "solar_literature": false,
+   "authors_loggf": -2.0,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3465.642,
+   "canonical_loggf": -1.899,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.101
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3471.386,
+   "ep_eV": 3.0793,
+   "solar_literature": false,
+   "authors_loggf": -1.99,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3471.386,
+   "canonical_loggf": -1.902,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.088
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3495.718,
+   "ep_eV": 3.1041,
+   "solar_literature": false,
+   "authors_loggf": -3.41,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3495.718,
+   "canonical_loggf": -3.3,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.11
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3513.987,
+   "ep_eV": 2.8651,
+   "solar_literature": false,
+   "authors_loggf": -1.56,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3513.987,
+   "canonical_loggf": -1.507,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.053
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3526.424,
+   "ep_eV": 3.6043,
+   "solar_literature": false,
+   "authors_loggf": -2.55,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3526.424,
+   "canonical_loggf": -2.26,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.29
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3576.764,
+   "ep_eV": 3.0733,
+   "solar_literature": false,
+   "authors_loggf": -1.79,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3576.764,
+   "canonical_loggf": -1.676,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.114
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3608.809,
+   "ep_eV": 3.1041,
+   "solar_literature": false,
+   "authors_loggf": -2.47,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3608.809,
+   "canonical_loggf": -2.346,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.124
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 3769.459,
+   "ep_eV": 3.1041,
+   "solar_literature": false,
+   "authors_loggf": -1.84,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 3769.459,
+   "canonical_loggf": -1.716,
+   "canonical_tier": "VALD3",
+   "canonical_sigma": null,
+   "d_loggf": -0.124
+  },
+  {
+   "set": "NI_CLEAR2026",
+   "species": "Ni II",
+   "wavelength_A": 4362.099,
+   "ep_eV": 4.029,
+   "solar_literature": false,
+   "authors_loggf": -2.75,
+   "authors_sigma_dex": null,
+   "authors_gf_source": null,
+   "canonical_wavelength_A": 4362.099,
+   "canonical_loggf": -2.7,
+   "canonical_tier": "KURUCZ",
+   "canonical_sigma": null,
+   "d_loggf": -0.05
+  },
   {
    "set": "NI_AGSS21",
    "species": "Ni I",
@@ -260,16 +800,28 @@
   }
  ],
  "adopt": [],
+ "sigma_only": [],
+ "adopt_conflicts": [],
  "missing_lines": [],
  "gf_sources": [
   {
    "lab_source_tag": "wood2014",
-   "n_graded_lines": 246,
+   "n_graded_lines": 247,
    "classified": true
   },
   {
    "lab_source_tag": "NIST_ASD",
-   "n_graded_lines": 14,
+   "n_graded_lines": 13,
+   "classified": true
+  },
+  {
+   "lab_source_tag": "huber1980_ni1",
+   "n_graded_lines": 2,
+   "classified": true
+  },
+  {
+   "lab_source_tag": "blackwell1989_ni1",
+   "n_graded_lines": 2,
    "classified": true
   }
  ],
@@ -2192,6 +2744,17 @@
   },
   {
    "species": "Ni I",
+   "wavelength_A": 3523.442,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.923,
+   "ew_mA": 354.3,
+   "rew": -3.998,
+   "saturated": true,
+   "core_dv_kms": 0.06
+  },
+  {
+   "species": "Ni I",
    "wavelength_A": 3524.537,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2412,6 +2975,17 @@
   },
   {
    "species": "Ni I",
+   "wavelength_A": 3669.238,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.896,
+   "ew_mA": 423.3,
+   "rew": -3.938,
+   "saturated": true,
+   "core_dv_kms": 0.67
+  },
+  {
+   "species": "Ni I",
    "wavelength_A": 3670.427,
    "problem_class": "SATURATION_COG",
    "holding": "solar_kpno_molecfit_corrected",
@@ -2420,6 +2994,17 @@
    "rew": -4.027,
    "saturated": true,
    "core_dv_kms": 0.62
+  },
+  {
+   "species": "Ni I",
+   "wavelength_A": 3674.062,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.892,
+   "ew_mA": 324.1,
+   "rew": -4.054,
+   "saturated": true,
+   "core_dv_kms": 0.73
   },
   {
    "species": "Ni I",
@@ -2475,6 +3060,17 @@
    "rew": -3.803,
    "saturated": true,
    "core_dv_kms": 1.02
+  },
+  {
+   "species": "Ni I",
+   "wavelength_A": 3739.226,
+   "problem_class": "SATURATION_COG",
+   "holding": "solar_kpno_molecfit_corrected",
+   "depth": 0.892,
+   "ew_mA": 375.6,
+   "rew": -3.998,
+   "saturated": true,
+   "core_dv_kms": 0.74
   },
   {
    "species": "Ni I",
@@ -3430,6 +4026,10 @@
   },
   {
    "species": "Ni I",
+   "wavelength_A": 3523.442
+  },
+  {
+   "species": "Ni I",
    "wavelength_A": 3524.537
   },
   {
@@ -3510,7 +4110,15 @@
   },
   {
    "species": "Ni I",
+   "wavelength_A": 3669.238
+  },
+  {
+   "species": "Ni I",
    "wavelength_A": 3670.427
+  },
+  {
+   "species": "Ni I",
+   "wavelength_A": 3674.062
   },
   {
    "species": "Ni I",
@@ -3534,6 +4142,10 @@
   },
   {
    "species": "Ni I",
+   "wavelength_A": 3739.226
+  },
+  {
+   "species": "Ni I",
    "wavelength_A": 3749.044
   },
   {
@@ -3547,7 +4159,7 @@
    "band": "near-UV",
    "lo_A": 3000.0,
    "hi_A": 3780.0,
-   "graded_lines": 127,
+   "graded_lines": 131,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -3569,7 +4181,7 @@
    "band": "near-UV",
    "lo_A": 3000.0,
    "hi_A": 3780.0,
-   "graded_lines": 127,
+   "graded_lines": 131,
    "served": 5,
    "tested": 5,
    "off_rest": [],
@@ -3648,55 +4260,6 @@
     1.94
    ],
    "frame_median_dv_kms": 0.88,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag_reiners2016",
-   "band": "VIS",
-   "lo_A": 4047.46,
-   "hi_A": 5001.1,
-   "graded_lines": 47,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [
-    {
-     "wavelength_A": 4325.593,
-     "dv_kms": 4.4
-    }
-   ],
-   "not_served": [],
-   "dv_kms": [
-    0.41,
-    0.47,
-    0.82,
-    4.38,
-    0.49
-   ],
-   "frame_median_dv_kms": 0.51,
-   "frame_n_lines": 20,
-   "frame_ok": true,
-   "ok": true
-  },
-  {
-   "holding": "solar_iag",
-   "band": "VIS",
-   "lo_A": 5001.1,
-   "hi_A": 6910.0,
-   "graded_lines": 65,
-   "served": 5,
-   "tested": 5,
-   "off_rest": [],
-   "not_served": [],
-   "dv_kms": [
-    0.16,
-    0.27,
-    0.64,
-    0.77,
-    0.78
-   ],
-   "frame_median_dv_kms": 0.53,
    "frame_n_lines": 20,
    "frame_ok": true,
    "ok": true
@@ -3906,11 +4469,14 @@
  "literature": {
   "litscan": true,
   "set_bib_keys": [
+   "clear2026_ni2",
+   "elgueta2026",
    "scott2015"
   ],
   "missing_bib_keys": []
  },
  "nlte_table": null,
+ "gerber_unregistered": [],
  "literature_needs": [
   {
    "species": "Ni I",
@@ -3949,13 +4515,143 @@
    "why_needed": "159 Ni I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input)"
   }
  ],
+ "literature_sweep": {
+  "recorded": 6,
+  "owed": []
+ },
+ "line_inventory": [
+  {
+   "ion": "I",
+   "band": "H",
+   "in_list": 166,
+   "set": 7,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 166,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_h_rya1094",
+    "solar_crires_plus_h_rya1232"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "K",
+   "in_list": 159,
+   "set": 0,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 159,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_k_rya1219"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "NIR",
+   "in_list": 24,
+   "set": 2,
+   "reference": 0,
+   "codex": 0,
+   "ungraded": 24,
+   "lab_table": 0,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_crires_plus_j_rya1219",
+    "solar_crires_plus_y_rya794",
+    "solar_crires_plus_y_wide_rya1054",
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "VIS",
+   "in_list": 1401,
+   "set": 17,
+   "reference": 118,
+   "codex": 122,
+   "ungraded": 1279,
+   "lab_table": 133,
+   "lab_unadopted": [
+    3832.87,
+    3832.873,
+    3885.87,
+    3946.18,
+    4093.62
+   ],
+   "lab_absent": [],
+   "holdings": [
+    "solar_harps_molecfit_corrected",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "near-UV",
+   "in_list": 680,
+   "set": 0,
+   "reference": 122,
+   "codex": 131,
+   "ungraded": 549,
+   "lab_table": 282,
+   "lab_unadopted": [
+    3485.888,
+    3498.19,
+    3502.595,
+    3561.751,
+    3587.931,
+    3609.314,
+    3624.73,
+    3624.733,
+    3749.045,
+    3749.05
+   ],
+   "lab_absent": [],
+   "holdings": [
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  },
+  {
+   "ion": "I",
+   "band": "red-optical",
+   "in_list": 613,
+   "set": 0,
+   "reference": 11,
+   "codex": 11,
+   "ungraded": 602,
+   "lab_table": 11,
+   "lab_unadopted": [],
+   "lab_absent": [],
+   "holdings": [
+    "solar_iag",
+    "solar_kpno_kurucz2005_corrected",
+    "solar_kpno_molecfit_corrected"
+   ]
+  }
+ ],
  "blocking": {
   "nlte_missing": 0,
   "adopt": 0,
-  "cull_candidates": 202,
+  "cull_candidates": 0,
   "missing_solar_literature_lines": 0,
   "holdings_frame": 0,
-  "literature": 0
+  "literature": 0,
+  "literature_sweep": 0
  },
- "ready": false
+ "pending_rule_plan": {
+  "adopt": 0,
+  "sigma_only": 0,
+  "add_lines": 0
+ },
+ "ready": true
 }

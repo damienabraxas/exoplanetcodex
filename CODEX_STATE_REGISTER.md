@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v257** · _Last updated: 2026-11-24 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v258** · _Last updated: 2026-11-26 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -699,3 +699,5 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v255** (2026-11-23) — **RYA-1354 landed (#628, 18361078) and RYA-1396 completed the literature acquisition pass.** The v70c Mg I wing study remains report-only / HOLD after a failed harness gate. The [Solar literature audit](data/audit/rya1396/README.md) records all 27 elements and Fe II, local PDF holdings, and open transition-level verification work.
 - **v257** (2026-11-24) — **RYA-1397 adopts the Solar Si I H-band theoretical set.** Si v1.422 adds the three-feature CRIRES+ set at 7.383 ± 0.1035 dex (LTE), retaining the existing reference pool. The oscillator strengths are calculated with no published uncertainty.
 - **v256** (2026-11-24) — **RYA-1397 stages the V I HARPS VIS reference patch.** The published-pool candidate grows from 27 to 30 lines, and the abundance moves from 3.855 to 3.857 dex, with the Asplund uncertainty updated to 0.0814 dex. Fe II and Mg II reproduce the baseline. The Si I H-band theory run remains a diagnostic pending named adoption and budget review. The wider campaign remains in progress.
+
+- **v258** (2026-11-26) — **RYA-731 stages Solar Ni v1.161.** The release feed contains 223 Ni I products across seven treatments and five bands, with one quarantined row. The Clear Ni II near-UV fits are held for an unresolved atmosphere uncertainty. [Release evidence](docs/audit/rya731/ni_release.md).
