@@ -30,3 +30,14 @@ Five Kitt Peak visible profile fits failed during synthesis sensitivity probes b
 ## Feed admission
 
 Ni v1.161 carries 223 admitted Ni I products across seven treatments and five bands, with one additional quarantined row. All admitted records were joined by the publication key and their staged source CSVs verified against the recorded SHA-256. The two Ni II near-UV holdings have viable LTE fits, but the budget assembler could not resolve the model-atmosphere component for the Clear set. The visible Ni II cells contain no retained lines. The release keeps both dispositions in the run and publication reports.
+
+## Ni II near-UV patch (v1.167)
+
+Scott et al. (2015) tabulate no Ni II, so the assembler had no route to the model-atmosphere term. The Gerber and OpenMULTI3D LTE comparands fit the same lines, with the same fitter and window, on MARCS.GES with the departures withheld. The 1D-LTE route uses ATLAS9.Castelli. The paired difference therefore isolates the atmosphere grid. The assembler now prices `model_atmosphere` as the absolute paired median of A(MARCS.GES) − A(ATLAS9) on each product's pool. A peer unit is used only when its ATLAS9 pool is identical.
+
+| Kitt Peak reduction | Lines | MARCS.GES − ATLAS9 | Same-atmosphere null |
+|---|---:|---:|---:|
+| Kurucz-corrected | 18 | +0.016 | 0.000 |
+| molecfit | 21 | +0.020 | 0.000 |
+
+Ni v1.167 adds six Theoretical Codex products: 1D-LTE at 6.557 ± 0.077 and 6.392 ± 0.110 dex, Gerber 1D-LTE at 6.558 and 6.386 dex, and OpenMULTI3D 1D-LTE at 6.558 and 6.386 dex. Line scatter dominates the uncertainty. The two mean-3D LTE products (6.679 and 6.483 dex) stay held: no 1D grid applies to them, and no published Ni II atmosphere term exists. The assembly read the committed nominal artifacts above. Those are md5-identical to the Sirius run units.
