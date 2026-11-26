@@ -20,7 +20,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v258** · _Last updated: 2026-11-26 · By: Codex — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
+**Version: v259** · _Last updated: 2026-11-26 · By: Claude — the narrative for every version lives in the Changelog at the bottom of this file, one row per version. This line is a POINTER, not a record: it must always name the newest Changelog row and nothing else (RYA-690)._
 
 
 ---
@@ -701,3 +701,4 @@ _Rows tagged `[confirm]` are reconstructed from working memory and carry citatio
 - **v256** (2026-11-24) — **RYA-1397 stages the V I HARPS VIS reference patch.** The published-pool candidate grows from 27 to 30 lines, and the abundance moves from 3.855 to 3.857 dex, with the Asplund uncertainty updated to 0.0814 dex. Fe II and Mg II reproduce the baseline. The Si I H-band theory run remains a diagnostic pending named adoption and budget review. The wider campaign remains in progress.
 
 - **v258** (2026-11-26) — **RYA-731 stages Solar Ni v1.161.** The release feed contains 223 Ni I products across seven treatments and five bands, with one quarantined row. The Clear Ni II near-UV fits are held for an unresolved atmosphere uncertainty. [Release evidence](docs/audit/rya731/ni_release.md).
+- **v259** (2026-11-26) — **RYA-731 publishes the Solar Ni II near-UV LTE products (Ni v1.167).** Scott+2015 has no Ni II, so the model-atmosphere term is the paired MARCS.GES minus ATLAS9 median on each pool (the 1D-LTE route against its deck LTE comparand): 0.016 dex (Kurucz-corrected, 18 lines) and 0.020 dex (molecfit, 21 lines). Six products added: 1D-LTE 6.557 / 6.392, Gerber 1D-LTE 6.558 / 6.386, OpenMULTI3D 1D-LTE 6.558 / 6.386 dex, Theoretical Codex (Clear+2026 gf). The two mean-3D LTE products stay held (no 1D grid to vary). The 223 Ni I rows are unchanged. [Release evidence](docs/audit/rya731/ni_release.md).
