@@ -72,7 +72,10 @@ CITE = {"wood2013_ti2": "Wood et al. 2013 (ApJS 208, 27)", "lawler2014_v1": "Law
         "ward2023_cr2": "Ward et al. 2023 (ApJ 959, 8)",
         "tozzi1985_cr1": "Tozzi, Brunner & Huber 1985 (MNRAS 217, 423)",
         # RYA-470: Imperial FTS BFs on TR-LIF lifetimes, VizieR ASU-TSV export (CDS unreachable)
-        "holmes2016_v1": "Holmes et al. 2016 (ApJS 224, 35)"}
+        "holmes2016_v1": "Holmes et al. 2016 (ApJS 224, 35)",
+        # RYA-731: hand transcriptions of scanned furnace tables (rya731_transcribe_ni1_furnace.py)
+        "blackwell1989_ni1": "Blackwell, Booth, Petford & Laming 1989 (MNRAS 236, 235)",
+        "huber1980_ni1": "Huber & Sandeman 1980 (A&A 86, 95)"}
 
 
 def nist() -> pd.DataFrame:

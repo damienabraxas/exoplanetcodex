@@ -197,6 +197,21 @@ DECKS = {
                       atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
                       node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
                       read_via="direct"),
+    # RYA-731 -- Ni, 1D MARCS and <3D> STAGGER. 1D staged and gated in RYA-534
+    # (Ni_gerber2023.prov.json: md5-pinned; gate PASS on Ni I 5018/5035, median +0.018 vs
+    # Bergemann+2021 +0.02). <3D> staged in RYA-1311 (mean3d_staged_rya1311.json md5). Both
+    # aux md5s re-checked on Sirius 2026-11-21. The 1D grid is 67 GB: Sirius only.
+    "Ni": dict(Z=28, atom="atom.ni538qm",
+               aux="auxData_Ni_MARCS_Jan-21-2022.txt",
+               grid="NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin"),
+    "Ni@mean3D": dict(Z=28, atom="atom.ni538qm",
+                      aux="auxData_NI_STAGGERmean3D_Aug-12-2023_marcs_names.txt",
+                      grid="NLTEgrid4TS_NI_STAGGERmean3D_Aug-12-2023.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
+                      read_via="direct"),
 }
 
 
@@ -1242,8 +1257,8 @@ def label_coverage(linelist, Z: int, element: str,
         if not len(rows):
             return (0, 0)
         flagged = rows[rows["nlte"] == "T"]
-        n_lab = int(np.sum((flagged["nlte_label_low"] != "none")
-                           | (flagged["nlte_label_up"] != "none")))
+        n_lab = int(np.sum(is_label(flagged["nlte_label_low"])
+                           | is_label(flagged["nlte_label_up"])))
         return (n_lab, int(len(rows)))
     except Exception:
         # A coverage REPORT must never be the thing that breaks a run; the assert above is
@@ -1283,7 +1298,7 @@ def pool_label_coverage(linelist, Z: int, waves_A, ion=None,
         flag = np.asarray([str(x).strip() for x in rows["nlte"]]) == "T"
         lo = np.asarray([str(x).strip() for x in rows["nlte_label_low"]])
         up = np.asarray([str(x).strip() for x in rows["nlte_label_up"]])
-        labelled = flag & ((lo != "none") | (up != "none"))
+        labelled = flag & (is_label(lo) | is_label(up))
         n_lab = 0
         n_tot = 0
         for x in np.asarray(waves_A, dtype=float):
@@ -1295,6 +1310,20 @@ def pool_label_coverage(linelist, Z: int, waves_A, ion=None,
         return (n_lab, n_tot)
     except Exception:
         return (0, 0)
+
+
+#: RYA-1371 -- what "no NLTE label" looks like in a line list. iSpec's own skip test knows only
+#: "none", but GESv6 marks unlabelled lines "x" (with nlte=T): measured, O I 8446.247/.359/.758
+#: carry nlte=T and labels "x"/"x". iSpec writes "x" into the Turbospectrum list verbatim, no
+#: atom level is called "x", so bsyn applies departure = 1 -- the line runs in LTE. Every guard
+#: below counted it as labelled, so 8446 entered an NLTE aggregate as an LTE line.
+NO_LABEL = frozenset({"", "none", "x"})
+
+
+def is_label(values) -> "np.ndarray":
+    """Elementwise: does this label name a level (not a placeholder in NO_LABEL)?"""
+    a = np.asarray([str(v).strip() for v in np.atleast_1d(values)])
+    return ~np.isin(a, list(NO_LABEL))
 
 
 def pool_label_mask(linelist, Z: int, waves_A, ion=None,
@@ -1327,7 +1356,7 @@ def pool_label_mask(linelist, Z: int, waves_A, ion=None,
         flag = np.asarray([str(x).strip() for x in rows["nlte"]]) == "T"
         lo = np.asarray([str(x).strip() for x in rows["nlte_label_low"]])
         up = np.asarray([str(x).strip() for x in rows["nlte_label_up"]])
-        labelled = flag & ((lo != "none") | (up != "none"))
+        labelled = flag & (is_label(lo) | is_label(up))
         for i, x in enumerate(np.asarray(waves_A, dtype=float)):
             d = np.abs(w - x)
             j = int(np.argmin(d))
@@ -1399,8 +1428,8 @@ def assert_linelist_supports_nlte(linelist, Z: int, element: str,
             raise GerberDeckError(
                 f"no {element} lines in this window's linelist — NLTE cannot engage")
         flagged = rows[rows["nlte"] == "T"]
-        n = int(np.sum((flagged["nlte_label_low"] != "none")
-                       | (flagged["nlte_label_up"] != "none")))
+        n = int(np.sum(is_label(flagged["nlte_label_low"])
+                       | is_label(flagged["nlte_label_up"])))
     except GerberDeckError:
         raise
     except Exception as e:

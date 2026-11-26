@@ -1,12 +1,22 @@
-PREPARE solar Ni  -> NOT READY -- blocking: cull_candidates 202
-  F literature: litscan yes; set bibliography keys ['scott2015']
-  A published sets: 17 lines; adopt authors' gf on 0; missing from canonical_gf: 0
-  B gf source wood2014: 246 graded lines, classified
-  B gf source NIST_ASD: 14 graded lines, classified
+PREPARE solar Ni  -> READY to measure
+  F literature: litscan yes; set bibliography keys ['clear2026_ni2', 'elgueta2026', 'scott2015']
+  F3 literature sweep: 6 ion x band recorded, 0 owed (owed cells are HELD until the search is recorded in the litscan)
+  I line inventory (in list / set / reference / codex / ungraded / lab table):
+      Ni I   H              166 /   7 /    0 /    0 /   166 /    0
+      Ni I   K              159 /   0 /    0 /    0 /   159 /    0
+      Ni I   NIR             24 /   2 /    0 /    0 /    24 /    0
+      Ni I   VIS           1401 /  17 /  118 /  122 /  1279 /  133  lab not adopted [3832.87, 3832.873, 3885.87, 3946.18, 4093.62]
+      Ni I   near-UV        680 /   0 /  122 /  131 /   549 /  282  lab not adopted [3485.888, 3498.19, 3502.595, 3561.751, 3587.931, 3609.314, 3624.73, 3624.733, 3749.045, 3749.05]
+      Ni I   red-optical    613 /   0 /   11 /   11 /   602 /   11
+  A published sets: 53 lines; adopt authors' gf on 0; sigma only 0; prior-adjudication conflicts 0; missing from canonical_gf: 0
+  B gf source wood2014: 247 graded lines, classified
+  B gf source NIST_ASD: 13 graded lines, classified
+  B gf source huber1980_ni1: 2 graded lines, classified
+  B gf source blackwell1989_ni1: 2 graded lines, classified
   F2 literature need: 24 Ni I lines in the NIR band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_j_rya1219, solar_crires_plus_y_rya794, solar_crires_plus_y_wide_rya1054, solar_iag, solar_kpno_kurucz2005_corrected, solar_kpno_molecfit_corrected]
   F2 literature need: 166 Ni I lines in the H band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_h_rya1094, solar_crires_plus_h_rya1232]
   F2 literature need: 159 Ni I lines in the K band, none with a published gf uncertainty: no Codex/Deep pool until a lab or error-stated gf source is found (RYA-1237 register input) [solar_crires_plus_k_rya1219]
-  C cull candidates (saturated, not a solar-literature line): 202
+  C saturated, not a solar-literature line (measured, reported, NOT culled): 206
       Ni I 3783.5305: rew -4.127 depth 0.933
       Ni I 3793.6072: rew -3.938 depth 0.877
       Ni I 3807.144: rew -3.984 depth 0.939
@@ -181,6 +191,7 @@ PREPARE solar Ni  -> NOT READY -- blocking: cull_candidates 202
       Ni I 3518.634: rew -4.037 depth 0.832
       Ni I 3519.765: rew -4.023 depth 0.944
       Ni I 3523.071: rew -4.007 depth 0.762
+      Ni I 3523.442: rew -3.998 depth 0.923
       Ni I 3524.537: rew -3.789 depth 0.967
       Ni I 3527.98: rew -3.999 depth 0.918
       Ni I 3548.183: rew -3.976 depth 0.938
@@ -201,13 +212,16 @@ PREPARE solar Ni  -> NOT READY -- blocking: cull_candidates 202
       Ni I 3634.947: rew -3.937 depth 0.873
       Ni I 3641.638: rew -4.035 depth 0.737
       Ni I 3664.092: rew -4.152 depth 0.919
+      Ni I 3669.238: rew -3.938 depth 0.896
       Ni I 3670.427: rew -4.027 depth 0.913
+      Ni I 3674.062: rew -4.054 depth 0.892
       Ni I 3674.144: rew -4.043 depth 0.92
       Ni I 3688.414: rew -4.088 depth 0.911
       Ni I 3707.75: rew -3.89 depth 0.696
       Ni I 3722.489: rew -3.848 depth 0.921
       Ni I 3736.811: rew -3.803 depth 0.921
+      Ni I 3739.226: rew -3.998 depth 0.892
       Ni I 3749.044: rew -3.824 depth 0.879
       Ni I 3775.571: rew -4.145 depth 0.936
-  D NLTE: 260 graded line(s) not in None
-  E holdings: 19 windows; 0 not serving / frame off rest
+  D NLTE: 264 graded line(s) not in a PySME table (none exists for Ni)
+  E holdings: 17 windows; 0 not serving / frame off rest

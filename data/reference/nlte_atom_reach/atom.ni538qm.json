@@ -1,0 +1,37 @@
+{
+  "atom": "atom.ni538qm",
+  "element": "Ni",
+  "md5": "34d4426ac65803bf613254f67e500d27",
+  "sha256": "dcbebdf513f9a39643604ee2610b99fbfd0a942fdbe051f64d21f8714d3a0872",
+  "n_levels_declared": 538,
+  "n_bb_declared": 3357,
+  "n_bb_parsed": 3357,
+  "n_continua_declared": 196,
+  "n_cross_stage_bb": 0,
+  "highest_level_index_in_any_bb": 197,
+  "stages": [
+    {
+      "ion_stage": 1,
+      "n_levels": 197,
+      "level_index_lo": 1,
+      "level_index_hi": 197,
+      "energy_eV_lo": 0.0,
+      "energy_eV_hi": 7.422,
+      "n_bb_both": 3357,
+      "n_bb_any": 3357,
+      "nlte_capable": true
+    },
+    {
+      "ion_stage": 2,
+      "n_levels": 341,
+      "level_index_lo": 198,
+      "level_index_hi": 538,
+      "energy_eV_lo": 7.6399,
+      "energy_eV_hi": 24.9986,
+      "n_bb_both": 0,
+      "n_bb_any": 0,
+      "nlte_capable": false
+    }
+  ],
+  "measured_at": "2026-11-22T03:48:28Z"
+}

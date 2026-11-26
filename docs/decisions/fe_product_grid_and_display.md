@@ -20,19 +20,21 @@ column list is how this table lost two real models for weeks (below).
 |---|---|---|---|
 | 1 | EW · 1D-LTE | `1D-LTE` (ProfileFitHandler) | |
 | 2 | Synth · 1D-LTE | `1D-LTE` (SynthesisHandler) | ATLAS9.Castelli |
-| 3 | **Synth · 1D-LTE · Gerber** | `synth-1D-LTE-gerber` | **MARCS.GES.** RYA-1045's paired comparand for column 6 |
-| 4 | EW · 1D-NLTE · Bergemann | `ENGINE-A` (ProfileFitHandler) | |
-| 5 | Synth · 1D-NLTE · Bergemann | `ENGINE-A` (SynthesisHandler) | |
-| 6 | **Synth · 1D-NLTE · Gerber** | `ENGINE-B-NLTE` | TS-native Gerber departures on MARCS.GES (RYA-798) |
-| 7 | Synth · <3D>-LTE · Gerber · stagger | `synth-mean3D-LTE-gerber-stagger` | mandatory comparand for column 8 |
-| 8 | Synth · <3D>-NLTE · Gerber · stagger | `synth-mean3D-NLTE-gerber-stagger` | |
-| 9 | Synth · 3D-NLTE · Amarsi · lab-gf | `ENGINE-A-3DNLTE` (SynthesisHandler) | Amarsi+2022 MLP. RYA-1106: was `EW · 3D-NLTE · Amarsi`. RYA-1104 verified line by line that the 1D-LTE column under this treatment IS the synthesis pool (0e+00 dex on 50/50 lines, all four holdings) and traced `route=EW-3D` to a stranded `ProfileFitHandler`; there is no EW Amarsi leg. `· lab-gf` is derived from the corrected gf axis — the pool is 67/67 primary-laboratory and the product's own budget prices it at gf rung 3. |
-| 10 | *Synth · <3D>-NLTE · Gerber · codex* | *pending* | the deck we solve ourselves; declared, **not rendered** |
+| 3 | **Synth · 1D-LTE · Gerber** | `synth-1D-LTE-gerber` | **MARCS.GES.** RYA-1045's paired comparand for column 7 |
+| 4 | **Synth · 1D-LTE · OpenMULTI3D** | `synth-1D-LTE-openmulti3d` | MARCS.GES, OM departures withheld: the paired comparand for column 8 (RYA-1392) |
+| 5 | EW · 1D-NLTE · Bergemann | `ENGINE-A` (ProfileFitHandler) | |
+| 6 | Synth · 1D-NLTE · Bergemann | `ENGINE-A` (SynthesisHandler) | |
+| 7 | **Synth · 1D-NLTE · Gerber** | `ENGINE-B-NLTE` | TS-native Gerber departures on MARCS.GES (RYA-798) |
+| 8 | **Synth · 1D-NLTE · OpenMULTI3D** | `synth-1D-NLTE-openmulti3d` | OpenMULTI3D departures (Keeper atoms, solar MARCS node) on MARCS.GES. Ryan 2026-11-20: "the Multi3d product will be its own product" (RYA-1392) |
+| 9 | Synth · <3D>-LTE · Gerber · stagger | `synth-mean3D-LTE-gerber-stagger` | mandatory comparand for column 10 |
+| 10 | Synth · <3D>-NLTE · Gerber · stagger | `synth-mean3D-NLTE-gerber-stagger` | |
+| 11 | Synth · 3D-NLTE · Amarsi · lab-gf | `ENGINE-A-3DNLTE` (SynthesisHandler) | Amarsi+2022 MLP. RYA-1106: was `EW · 3D-NLTE · Amarsi`. RYA-1104 verified line by line that the 1D-LTE column under this treatment IS the synthesis pool (0e+00 dex on 50/50 lines, all four holdings) and traced `route=EW-3D` to a stranded `ProfileFitHandler`; there is no EW Amarsi leg. `· lab-gf` is derived from the corrected gf axis — the pool is 67/67 primary-laboratory and the product's own budget prices it at gf rung 3. |
+| 12 | *Synth · <3D>-NLTE · Gerber · codex* | *pending* | the deck we solve ourselves; declared, **not rendered** |
 
 Names in the table are the **exact strings `display_for` derives** — ASCII `<3D>`, not the
 typographic ⟨3D⟩ used in prose — so the guard below is an equality, not a resemblance.
 
-Seven MODELS across nine columns: `1D-LTE` and `1D-NLTE · Bergemann` each appear twice
+Eight MODELS across eleven columns (RYA-1392 added the OpenMULTI3D 1D pair): `1D-LTE` and `1D-NLTE · Bergemann` each appear twice
 because **EW and synthesis are separate products** — a profile fit and a flux fit measure
 different line pools, so they are two columns, never one to collapse (RYA-712).
 

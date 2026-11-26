@@ -319,6 +319,63 @@ sets:
         optical lab-gf 5.68) was seen before adoption. The published sigma is the Asplund
         budget, which carries no gf term.
 
+  - name: NI_ELGUETA2026
+    element: Ni
+    source: data/audit/rya1058_elgueta/normalized_lines.csv
+    # The authors' Sun robust flag (all four criteria Y), as CR_ELGUETA2026: 10 Ni I lines,
+    # 2 Y, 1 J, 7 H.
+    where: {species: NiI, sun_Gd_rob: "Y"}
+    species: "Ni I"
+    columns: {wavelength: wavelength_A, ep: lower_ep_eV, loggf: elgueta_loggf, band: band}
+    match: {canonical_id_col: canonical_line_id}
+    bib: elgueta2026
+    doi: 10.1051/0004-6361/202659148
+    citation: "Elgueta et al. 2026 (A&A 710, A111), Sun/G-dwarf Rob=Y"
+    gf_basis: "VALD3 = Kurucz calculated gf, as the authors used (no Ni I lab gf beyond 7789 A, Wood+2014 the reddest; Smith+2021: none in the APOGEE window; Elgueta calibrate no gf)"
+    solar_literature: false
+    grade: THEORETICAL_CODEX
+    adoption:
+      approved_by: Ryan Schmitt
+      date: 2026-11-22
+      ticket: RYA-731 / RYA-1351
+      gf_origin: theoretical
+      gf_method: Kurucz (semi-empirical calculation), delivered by VALD3
+      limitations: >-
+        No laboratory gf and no published gf uncertainty for any line. Not a blind benchmark:
+        the 11-21 ungraded diagnostic (5 of these lines measured, median 6.05; CRIRES+ H all
+        16 lines 6.02, KPNO NIR 6.18) was seen before adoption, against Asplund 2021 6.20. The
+        published sigma is the Asplund budget, which carries no gf term.
+
+  - name: NI_CLEAR2026
+    element: Ni
+    source: data/audit/rya731_ni2_clear2026/ni2_clear2026_lines.csv
+    # The 26 Ni II lines the ORCH's own depth gate considers in the solar spectrum (3000-6910 A;
+    # the RYA-731 ungraded diagnostic), each matched to ONE Clear+2026 transition on both J values
+    # and both level energies (<= 1 cm-1; 4362.10's lower level was revised 3.3 cm-1 by the
+    # Clear+2022 FTS levels). The set is ours; the gf is Clear's.
+    where: {species: "Ni II"}
+    species: "Ni II"
+    columns: {wavelength: wavelength_air_A, ep: ep_eV, loggf: clear2026_loggf, band: band}
+    match: {canonical_id_col: canonical_line_id}
+    bib: clear2026_ni2
+    doi: 10.1051/0004-6361/202557443
+    citation: "Clear, Uylings & Raassen 2026 (A&A 706, A120), calculated Ni II gf (Zenodo 18152832 Table A2)"
+    gf_basis: "Clear+2026 semi-empirical (orthogonal operator) gf on the Clear+2022 FTS energy levels; replaces Kurucz K03 (VALD3). Median 0.08 dex below K03, range -0.66..+0.12"
+    solar_literature: false
+    grade: THEORETICAL_CODEX
+    adoption:
+      approved_by: Ryan Schmitt
+      date: 2026-11-22
+      ticket: RYA-731 / RYA-1351
+      gf_origin: theoretical
+      gf_method: Clear+2026 orthogonal-operator calculation fitted to experimental Ni II levels
+      limitations: >-
+        No laboratory gf for any of these lines (NIST has none; Chen+2026 and Hartman+2017 measure
+        other transitions) and no per-line gf uncertainty. Not a blind benchmark: the 11-21
+        ungraded diagnostic on K03 gf (KPNO near-UV, 18 lines, median 6.51, mean 6.49 +/- 0.33)
+        was seen before adoption; Clear's lower gf moves these lines further up, about +0.08.
+        No Ni II NLTE: atom.ni538qm has no Ni II bound-bound transition.
+
   - name: MN_AGSS21
     element: Mn
     source: data/reference/agss21_cited_sets/agss21_reference_lines.csv

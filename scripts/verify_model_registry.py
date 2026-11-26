@@ -34,8 +34,9 @@ def main() -> int:
     live = [r for r in rows if r["status"] == "live"]
     indev = [r for r in rows if r["status"] == "in-dev"]
     notemit = [r for r in rows if r["status"] == "not-emitted"]
-    if len(rows) != 9 or len(live) != 7 or len(indev) != 1 or len(notemit) != 1:
-        fails.append(f"(e) expected 9 rows (7 live + 1 in-dev + 1 not-emitted), got "
+    # RYA-1371 added the OpenMULTI3D 1D pair (models 10 + 11, both live): 11 rows.
+    if len(rows) != 11 or len(live) != 9 or len(indev) != 1 or len(notemit) != 1:
+        fails.append(f"(e) expected 11 rows (9 live + 1 in-dev + 1 not-emitted), got "
                      f"{len(rows)} ({len(live)} live, {len(indev)} in-dev, "
                      f"{len(notemit)} not-emitted)")
     for r in rows:

@@ -96,4 +96,12 @@ def test_gerber_1d_lte_is_an_lte_run_so_it_withholds_departures():
 
 def test_gerber_1d_lte_is_not_counted_as_nlte():
     """`_nlte` gates the departure wiring; a comparand caught by it would not be one."""
-    assert '_nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d")' in DRIVER
+    # RYA-1371 grew the tuple (openmulti3d-nlte); the invariant is membership, not the
+    # literal line: every NLTE deck is in it, and no LTE comparand is.
+    import re
+    sets = re.findall(r'_nlte = a\.engine_b_deck in \(([^)]*)\)', DRIVER)
+    assert sets, "the `_nlte` gate is gone"
+    for body in sets:
+        assert '"gerber-nlte"' in body
+        for lte in ('"gerber-1d-lte"', '"gerber-mean3d-lte"', '"openmulti3d-1d-lte"', '"ts-lte"'):
+            assert lte not in body, f"{lte} would be treated as NLTE"
