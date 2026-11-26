@@ -207,3 +207,18 @@ the validated A(O) 8.0 and 8.4 nodes and disabling both Ng accelerators
 gave strict convergence in 25 cycles with rate residual 1.64e-7 and
 conservation error 6.66e-16. The seed sets the starting populations.
 The checkpoint stores the independently solved array.
+
+## Experimental off-node coefficient export
+
+The departure-grid CLI's `export-departures` command takes an exact
+MARCS model ID, a trial A(O), and a staged Bride NPZ directory. It
+interpolates the 41 O41f departure coefficients linearly between
+adjacent converged A(O) nodes and writes a TurboSpectrum ASCII
+coefficient file with the trial abundance and native depth scale.
+The command rejects extrapolation and failed brackets.
+
+The TurboSpectrum Fortran `read_departure` routine read the solar,
+4500 K dwarf, and 6500 K giant exports with maximum departure
+differences below 2.7e-8 dex at its single-precision read boundary.
+A new 4500 K dwarf solve at A(O) 7.67 independently reproduced the
+interpolated photospheric triplet departures to 2.36e-5 dex.

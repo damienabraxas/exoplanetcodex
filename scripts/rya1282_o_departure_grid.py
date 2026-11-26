@@ -5,6 +5,7 @@
            [--feh -1.5:1.0] [--workers N] [--shard i/n] [--limit K]
   run      --engine bride --out RETRY_DIR --retry-from BASE_DIR [--aux FILE] [--workers N]
   assemble --npz DIR --bin FILE --aux-out FILE --header TEXT [--aux FILE]
+  export-departures --npz DIR --model ID --abundance A --out FILE
   audit    --out DIR [--aux FILE]
   status   --out DIR
 
@@ -199,6 +200,15 @@ def cmd_assemble(a):
     print(G.assemble(a.npz, a.bin, a.aux_out, header_text=a.header, files=files))
 
 
+def cmd_export_departures(a):
+    if Path(a.model).name != a.model:
+        raise ValueError('Specify an exact MARCS model ID')
+    source = Path(a.npz) / f'{a.model}.npz'
+    bracket = G.write_bride_ts_departures(source, a.model, a.abundance, a.out)
+    print(json.dumps(dict(model=a.model, abundance=a.abundance, bracket=bracket.tolist(),
+                          output=a.out)))
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     s = p.add_subparsers(dest='cmd', required=True)
@@ -212,8 +222,14 @@ def main():
     d = s.add_parser('audit'); d.add_argument('--out', required=True); d.add_argument('--aux')
     m = s.add_parser('assemble'); m.add_argument('--aux'); m.add_argument('--npz', required=True); m.add_argument('--bin', required=True)
     m.add_argument('--aux-out', required=True); m.add_argument('--header', required=True)
+    e = s.add_parser('export-departures')
+    e.add_argument('--npz', required=True)
+    e.add_argument('--model', required=True)
+    e.add_argument('--abundance', required=True, type=float)
+    e.add_argument('--out', required=True)
     a = p.parse_args()
-    dict(run=cmd_run, status=cmd_status, audit=cmd_audit, assemble=cmd_assemble)[a.cmd](a)
+    dict(run=cmd_run, status=cmd_status, audit=cmd_audit, assemble=cmd_assemble,
+         **{'export-departures': cmd_export_departures})[a.cmd](a)
 
 
 if __name__ == '__main__':

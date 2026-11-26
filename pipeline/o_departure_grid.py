@@ -252,3 +252,49 @@ def read_record(bin_path, pointer: int):
         tau = np.frombuffer(fh.read(8 * ndep), '<f8')
         dep = np.frombuffer(fh.read(8 * ndep * nk), '<f8').reshape(nk, ndep)
     return mid, np.log10(tau), dep
+
+
+def interpolate_bride_abundance(node_path, model_id, abundance):
+    """Read or interpolate b linearly in A(O) at one exact MARCS atmosphere."""
+    abundance = float(abundance)
+    if not np.isfinite(abundance):
+        raise ValueError('Oxygen abundance must be finite')
+    with np.load(node_path) as node:
+        if str(node['model_id']) != model_id or str(node['engine']) != 'bride':
+            raise ValueError('Expected a Bride node for the requested atmosphere')
+        axis, ok, depth, coefficients = (node[k] for k in ('abundances', 'ok', 'logtau', 'b'))
+    if (axis.ndim != 1 or not axis.size or not np.isfinite(axis).all()
+            or not np.all(np.diff(axis) > 0) or ok.shape != axis.shape
+            or depth.ndim != 1 or not depth.size or not np.isfinite(depth).all()
+            or not np.all(np.diff(depth) > 0)
+            or coefficients.shape != (axis.size, 41, depth.size)):
+        raise ValueError('Invalid O41f abundance or depth grid')
+    right = int(np.searchsorted(axis, abundance))
+    exact = next((i for i in (right, right - 1)
+                  if 0 <= i < axis.size and abs(axis[i] - abundance) <= 1e-8), None)
+    if exact is None:
+        if right in (0, axis.size):
+            raise ValueError('Abundance is outside this atmosphere grid')
+        indices = [right - 1, right]
+    else:
+        indices = [exact]
+    values = coefficients[indices]
+    if not np.all(ok[indices]) or not np.all(np.isfinite(values) & (values > 0)):
+        raise ValueError('Abundance requires converged, positive departure coefficients')
+    if exact is not None:
+        return depth, values[0], axis[indices]
+    weight = (abundance - axis[right - 1]) / (axis[right] - axis[right - 1])
+    return depth, (1 - weight) * values[0] + weight * values[1], axis[indices]
+
+
+def write_bride_ts_departures(node_path, model_id, abundance, output):
+    """Export an experimental O41f coefficient file for TurboSpectrum bsyn."""
+    depth, coefficients, bracket = interpolate_bride_abundance(node_path, model_id, abundance)
+    with Path(output).open('x') as out:
+        for field in ('tau500', 'tauross', 'T', 'logpe', 'logpg', 'xit', 'rr', 'logkapref'):
+            out.write(f'# {field:15} {1.0:10.6f} {1.0:10.6f} {1.0:10.6f}\n')
+        out.write(f'{float(abundance):.12g}\n{depth.size}\n{coefficients.shape[0]}\n')
+        np.savetxt(out, depth, fmt='%.12e')
+        np.savetxt(out, coefficients.T, fmt='%.16e')
+        out.write((model_id + '\n') * 8)
+    return bracket

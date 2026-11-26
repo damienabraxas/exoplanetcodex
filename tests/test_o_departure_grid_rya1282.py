@@ -104,3 +104,31 @@ def test_audit_and_retry_select_only_expected_failed_nodes(tmp_path):
     assert retry[model]['abundances'] == [8.8]
     with pytest.raises(ValueError, match='separate'):
         _retry_selection(base, base, aux, 'bride')
+
+
+def test_bride_ts_export_interpolates_and_refuses_failed_neighbors(tmp_path):
+    from pipeline.gerber_nlte import read_departure_file
+    from pipeline.o_departure_grid import write_bride_ts_departures
+
+    model = 'p5750_g+4.5_m0.0_t01_st_z+0.00'
+    path = tmp_path / 'node.npz'
+    output = tmp_path / 'oxygen.coef'
+    depth = np.array([-2., 0.])
+    b = np.arange(1., 83.).reshape(41, 2)
+    np.savez(path, model_id=model, engine='bride', logtau=depth,
+             abundances=[8.4, 8.6, 8.8], ok=[True, True, False],
+             b=np.stack([b, 3 * b, np.full_like(b, np.nan)]))
+
+    np.testing.assert_equal(write_bride_ts_departures(path, model, 8.5, output), [8.4, 8.6])
+    parsed = read_departure_file(output)
+    assert parsed['abundance'] == 8.5
+    np.testing.assert_allclose(parsed['tau'], depth)
+    np.testing.assert_allclose(parsed['departures'].T, 2 * b)
+    for abundance in (8.7, 8.8, 8.9, np.nan):
+        with pytest.raises(ValueError):
+            write_bride_ts_departures(path, model, abundance, tmp_path / 'bad.coef')
+    assert not (tmp_path / 'bad.coef').exists()
+    with pytest.raises(ValueError, match='atmosphere'):
+        write_bride_ts_departures(path, 'other', 8.5, output)
+    with pytest.raises(FileExistsError):
+        write_bride_ts_departures(path, model, 8.5, output)
