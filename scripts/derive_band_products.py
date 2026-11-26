@@ -241,7 +241,9 @@ _EW_MATCH_TOL_A = 0.005
 
 def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
                      idx_sorted: np.ndarray,
-                     tol_A: float | None = None) -> tuple[list, list]:
+                     tol_A: float | None = None, *,
+                     want_ep: np.ndarray | None = None,
+                     ep_all: np.ndarray | None = None) -> tuple[list, list]:
     """Wavelengths -> row indices in the synthesis list. Shared by every selector.
 
     Nearest-within-tolerance, never a rounded key (RYA-703/704). Factored out rather than
@@ -253,15 +255,40 @@ def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
     4-decimal precision. A caller matching a PUBLISHED set passes that set's own derived
     window instead (RYA-1214) -- widening it here for everyone would loosen the EW
     comparison the constant was measured for.
+
+    RYA-731 -- `want_ep` (the wanted lines' lower EP, aligned with `want`) and `ep_all`
+    (the synthesis list's lower_state_eV, indexed like the list) make the match a
+    TRANSITION match. Wavelength alone pairs a lab line with whatever row is nearest, and
+    two transitions of one species can share a wavelength: Ni I 3566.372 is five
+    hyperfine rows of the EP 0.423 lab line (Wood+2014) plus an unrelated EP 3.679 VALD3
+    line, and the EP 3.679 row came first; Ni I 3413.476 (EP 0.165) took the EP 3.539 row
+    0.001 A nearer than its own components. The pool row then carried the VALD
+    transition's identity, the grader read it as systematic:K07, and every near-UV Ni I
+    Reference product was refused at publish. Among rows within `tol`, one whose EP
+    agrees within _GRADED_MASK_EP_TOL_EV wins; with none, the nearest row is kept as
+    before. Without `want_ep` the behaviour is unchanged.
     """
     tol = _EW_MATCH_TOL_A if tol_A is None else float(tol_A)
     keep, missing = [], []
-    for w in want:
+    for i, w in enumerate(want):
         j = int(np.searchsorted(w_sorted, w))
         best, bi = np.inf, -1
         for k in (j - 1, j, j + 1):
             if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
                 best, bi = abs(w_sorted[k] - w), k
+        if bi >= 0 and best <= tol and want_ep is not None and ep_all is not None \
+                and np.isfinite(want_ep[i]):
+            lo_k = hi_k = bi
+            while lo_k - 1 >= 0 and abs(w_sorted[lo_k - 1] - w) <= tol:
+                lo_k -= 1
+            while hi_k + 1 < len(w_sorted) and abs(w_sorted[hi_k + 1] - w) <= tol:
+                hi_k += 1
+            agree = [k for k in range(lo_k, hi_k + 1)
+                     if abs(float(ep_all[idx_sorted[k]]) - float(want_ep[i]))
+                     <= _GRADED_MASK_EP_TOL_EV]
+            if agree:
+                bi = min(agree, key=lambda k: (abs(w_sorted[k] - w), k))
+                best = abs(w_sorted[bi] - w)
         if bi >= 0 and best <= tol:
             keep.append(idx_sorted[bi])
         else:
@@ -406,8 +433,11 @@ def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd
     order = np.argsort(w_A[idx_all])
     idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
 
+    _d = deep.sort_values("wavelength_air_A")
     keep, missing = _match_into_list(
-        np.sort(deep.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+        _d.wavelength_air_A.values.astype(float), w_sorted, idx_sorted,
+        want_ep=_d.excitation_potential_eV.values.astype(float),
+        ep_all=np.asarray(linelist["lower_state_eV"], dtype=float))
     if missing:
         # LOUD (RYA-711/833). A graded line the synthesis list does not carry is not
         # "not recovered" — it was never a candidate, and the distinction is the whole
@@ -509,8 +539,11 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
         raise SystemExit(f"no {species!r} rows in the synthesis list")
     order = np.argsort(w_A[idx_all])
     idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+    _s = sel.sort_values("wavelength_air_A")
     keep, missing = _match_into_list(
-        np.sort(sel.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+        _s.wavelength_air_A.values.astype(float), w_sorted, idx_sorted,
+        want_ep=_s.excitation_potential_eV.values.astype(float),
+        ep_all=np.asarray(linelist["lower_state_eV"], dtype=float))
     if missing:
         print(f"  [graded] {len(missing)} of {len(sel)} are NOT in the synthesis list "
               f"(>{_EW_MATCH_TOL_A} A from any row) — never candidates, reported rather "
@@ -613,8 +646,11 @@ def _cand_reference(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.D
         raise SystemExit(f"no {species!r} rows in the synthesis list")
     order = np.argsort(w_A[idx_all])
     idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+    _l = lab.sort_values("wavelength_air_A")
     keep, missing = _match_into_list(
-        np.sort(lab.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+        _l.wavelength_air_A.values.astype(float), w_sorted, idx_sorted,
+        want_ep=_l.excitation_potential_eV.values.astype(float),
+        ep_all=np.asarray(linelist["lower_state_eV"], dtype=float))
     if missing:
         # LOUD (RYA-711/833/977): a lab line the synthesis list does not carry was never
         # a candidate, which is a different statement from "measured and rejected".
