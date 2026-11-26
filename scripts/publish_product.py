@@ -748,9 +748,16 @@ def main() -> int:
             cg = ROOT / "data" / "linelists" / "canonical_gf.csv"
             if not cg.exists():
                 return False
-            c = _pd.read_csv(cg, usecols=["gf_tier", "gf_source_doi"], low_memory=False)
-            lab = {str(x).strip() for x in c.loc[c.gf_tier.astype(str) == "LAB", "gf_source_doi"]
+            c = _pd.read_csv(cg, usecols=["gf_tier", "gf_source_doi", "loggf_reference"],
+                             low_memory=False)
+            c = c[c.gf_tier.astype(str) == "LAB"]
+            lab = {str(x).strip() for x in c["gf_source_doi"]
                    if str(x).strip() not in ("", "nan")}
+            # RYA-731: a LAB source that predates DOIs (Huber & Sandeman 1980, A&A 86, 95 --
+            # Ni I 3523.442 / 3674.062) is named by its row's reference, which is what the
+            # budget records as that line's source. Only DOI-less LAB rows contribute.
+            lab |= {str(r).strip() for d, r in zip(c["gf_source_doi"], c["loggf_reference"])
+                    if str(d).strip() in ("", "nan") and str(r).strip() not in ("", "nan")}
             for r in rows:
                 u = r.get("uncertainty")
                 u = json.loads(u) if isinstance(u, str) else u
