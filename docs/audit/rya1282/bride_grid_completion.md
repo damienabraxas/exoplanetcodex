@@ -222,3 +222,42 @@ The TurboSpectrum Fortran `read_departure` routine read the solar,
 differences below 2.7e-8 dex at its single-precision read boundary.
 A new 4500 K dwarf solve at A(O) 7.67 independently reproduced the
 interpolated photospheric triplet departures to 2.36e-5 dex.
+
+## Hot-giant 777 nm profile control
+
+At 6750 K, log g 1.0, [Fe/H] +0.5 and A(O) 9.66, a common Bride
+transfer calculation replaced the four 777 nm level populations
+with either the Gerber or the GALAH departures on the same MARCS
+depth grid. All other levels retained the Bride departures. These
+are fixed-population, oxygen-only flux replays on a common background.
+
+| Triplet departures | Equivalent widths, mÅ |
+| --- | --- |
+| Bride | 345.80, 333.08, 310.85 |
+| Gerber | 348.58, 334.69, 311.96 |
+| GALAH | 385.16, 368.29, 345.60 |
+
+A Bride abundance ladder matched the Gerber equivalent widths with
+offsets of +0.037, +0.022 and +0.016 dex, respectively. All three GALAH
+widths exceeded the Bride upper endpoint at A(O) 10.10, corresponding
+to +0.44 dex relative to the replay abundance. The nearby 6500 K case
+also showed higher GALAH equivalent widths by 29–33 mÅ at the same
+A(O), with the GALAH widths inside the Bride ladder's endpoints.
+These comparisons quantify sensitivity to the four triplet departures
+under common transfer. The abundance offsets are synthetic diagnostics.
+
+## O53 observed-window preflight
+
+Native LTE molecular-only transfer estimated peak absorption of
+0.578% from NH in the near-UV window and 0.699%, 0.562%, and 0.060%
+from CO and OH in the three H windows. At the canonical oxygen centers,
+the largest molecular depression was 0.153% at 15887.69 Å.
+The held molecfit-corrected and rest-frame-conditioned RYA-1232 Vesta
+H spectrum covers all nine O53 line positions. The minimum modeled
+transmission within 0.20 Å of a position was 0.9816 across the nine
+cores. Three or four frames contribute at each nearest sample.
+The 1589 nm group has the highest minimum transmission across its
+three cores (0.9954). These inputs support a coupled oxygen, atomic
+and molecular profile fit with the instrument response and a
+telluric-residual check. The molecular-only spectra establish the
+scale and positions of blends for that fit.
