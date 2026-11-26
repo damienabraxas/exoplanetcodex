@@ -1331693,7 +1331693,8 @@
       "sigma_asplund": 0.045712899399306554,
       "sigma_asplund_stat": 0.0112769309429085,
       "sigma_asplund_syst": 0.04430011286667331,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "grade": "Ungraded"
     },
     {
       "element": "Fe",
@@ -1332046,7 +1332047,8 @@
       "sigma_asplund": 0.045712899399306554,
       "sigma_asplund_stat": 0.0112769309429085,
       "sigma_asplund_syst": 0.04430011286667331,
-      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included"
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "grade": "Ungraded"
     }
   ],
   "superseded": [
@@ -2463228,18 +2463230,18 @@
       {
         "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|1D-LTE|our-all",
         "tier": "ALL",
-        "grade": null,
+        "grade": "Ungraded",
         "selector": "SET-FE_RYA1397_REDOPT",
         "line_set": "our-all",
-        "reason": "grade None is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
+        "reason": "grade 'Ungraded' is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
       },
       {
         "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|ENGINE-A|our-all",
         "tier": "ALL",
-        "grade": null,
+        "grade": "Ungraded",
         "selector": "SET-FE_RYA1397_REDOPT",
         "line_set": "our-all",
-        "reason": "grade None is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
+        "reason": "grade 'Ungraded' is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
       }
     ],
     "key_fields": [
