@@ -1,0 +1,71 @@
+{
+  "mode_results": {
+    "control": {
+      "A": 5.561,
+      "fit_sigma_dex": 0.010060552465165132,
+      "reduced_chi_square": 3.787
+    },
+    "nominal": {
+      "A": 5.511,
+      "fit_sigma_dex": 0.010084755912966389,
+      "reduced_chi_square": 3.802
+    },
+    "both_minus": {
+      "A": 5.571,
+      "fit_sigma_dex": 0.010043733784344398,
+      "reduced_chi_square": 3.762
+    },
+    "both_plus": {
+      "A": 5.451,
+      "fit_sigma_dex": 0.010115769275448232,
+      "reduced_chi_square": 3.836
+    }
+  },
+  "literature_strength_update_dex": -0.05,
+  "fit_sigma_dex": 0.010084755912966389,
+  "common_gf_excursion_bound_dex": 0.06,
+  "gf_uncertainty_basis": "Maximum measured abundance excursion from simultaneous signed quoted errors of two Sobeck transitions sharing the upper level. Unknown covariance, common-direction bound.",
+  "asplund_atmosphere_sigma_dex": 0.028647619237739272,
+  "asplund_atmosphere": {
+    "temperature_structure_dex": 0.027275862068965546,
+    "inhomogeneity_dex": 0.008758620689655173,
+    "mean_3Dmean_minus_HM_dex": -0.05455172413793109,
+    "mean_3D_minus_3Dmean_dex": -0.017517241379310346,
+    "n_scott_lines": 29,
+    "basis": "species mean (no pool line in Scott)",
+    "scott_wavelengths_A": [
+      4373.259,
+      4529.838,
+      4535.127,
+      4541.06,
+      4633.259,
+      4700.599,
+      4708.017,
+      4745.27,
+      4789.34,
+      4801.048,
+      4885.733,
+      4936.336,
+      4953.714,
+      5220.913,
+      5241.454,
+      5272.008,
+      5287.201,
+      5300.743,
+      5304.184,
+      5312.871,
+      5318.81,
+      5340.474,
+      5628.621,
+      5719.809,
+      5781.163,
+      5785.024,
+      5844.592,
+      6882.477,
+      6882.997
+    ]
+  },
+  "fit_atmosphere_quadrature_dex": 0.030370847696674516,
+  "diagnostic_fit_atmosphere_gf_quadrature_dex": 0.06724870548802155,
+  "status": "DIAGNOSTIC: resolver groups distinct transitions; no feed update. Continuum, holding and model checks are not included in this subtotal."
+}

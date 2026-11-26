@@ -1,0 +1,85 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+control: ['/home/damienabraxas/scratch/rya1397-feii-v1/scripts/derive_band_products.py', '--element', 'Na', '--ion', 'I', '--lo', '8190', '--hi', '8199', '--instrument', 'kpno_solar_atlas', '--holding', 'solar_kpno_kurucz2005_corrected', '--force-synthesis', '--skip-engine-b', '--lines-from-set', 'NAI_RYA1397_8194_DIAGNOSTIC=/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-na-8194-v1/input.csv', '--out', '/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-na-8194-v1/control']
+
+[synthesis route — red-optical]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading GESv6_atom_hfs_iso.420_920nm linelist (first call — cached)...
+  [synth] canonical gf applied to all 126637 physical lines (0 uncovered)
+  [synth] GESv6_atom_hfs_iso.420_920nm linelist: 141233 lines loaded
+  [holding] kpno_solar_atlas -> solar_kpno_kurucz2005_corrected (pre_normalised=True)
+            Kurucz 2005, telluric-corrected at source. Served from irradrelwl.dat, the RESIDUAL atlas Kurucz ships alongside the irradiance file -- so this holding DOES carry its own continuum and pre_normalised is True. It was False until RYA-933 because `0irrad.readme` does not list the residual file and the RYA-929 intake never took it; placing our own continuum instead tilted the band 4% blue-to-red and cost 0.022 dex. VACUUM grid (gravitational redshift included), converted to air on read. Spans 2990-10010 A; nothing telluric-free reaches the IR. 🔴 RYA-1026 ratified this for the WHOLE KITT PEAK CLASS and made it ENFORCED, not remembered: pipeline.prenormalised_guard refuses to fit/apply a continuum here, and cross-checks the flag against the FLUX -- a declared flag and a mis-routed file agree with each other perfectly and are both wrong, which is exactly what happened here for months.
+  1 Na I candidates from the NAMED SET NAI_RYA1397_8194_DIAGNOSTIC (depth floor NOT applied -- that is what the set is for) (half-width +/-1.1 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
+[2026-11-25 11:33:26,203] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:04,761] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:32,618] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:02,315] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:16,754] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:42,474] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:55,998] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:56,888] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:57,741] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:58,600] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:35:59,458] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:36:00,311] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:36:01,186] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:36:02,023] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:36:22,505] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:36:37,364] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 1 Na I lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07/SCALE-MISMATCH x1. A pool is graded only if every line in it is
+
+  ENGINE-A: NOT PRODUCED — no finite NLTE correction supplied; 1 of 1 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  A(Na I; red-optical, ENGINE-A-3DNLTE) = 6.220  (n=1, not-served 0)
+    delta_nlte applied: mean -0.1753 dex over 1 line(s) — Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1; same solar EWs, MARCS LTE baseline; CITED solar 3D-NLTE minus 1D-LTE per-line additive correction; our atmosphere may differ; not in-transfer 3D; Canocchi et al. 2026, arXiv 2603.22975, Zenodo 10.5281/zenodo.19201830; authors' 3D NLTE FFNN at the Sun, MARCS 1D LTE baseline (scripts/rya1251_na_canocchi2026_3d.py); CITED solar 3D-NLTE minus 1D-LTE per-line additive correction; our atmosphere may differ; not in-transfer 3D
+
+  A(Na I; red-optical, 1D-LTE) = 6.395 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote /home/damienabraxas/scratch/rya1397-feii-v1/rya1397-na-8194-v1/control/NaI_8190_8199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-NAI_RYA1397_8194_DIAGNOSTIC_products.csv
+lind: ['/home/damienabraxas/scratch/rya1397-feii-v1/scripts/derive_band_products.py', '--element', 'Na', '--ion', 'I', '--lo', '8190', '--hi', '8199', '--instrument', 'kpno_solar_atlas', '--holding', 'solar_kpno_kurucz2005_corrected', '--force-synthesis', '--skip-engine-b', '--lines-from-set', 'NAI_RYA1397_8194_DIAGNOSTIC=/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-na-8194-v1/input.csv', '--out', '/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-na-8194-v1/lind']
+
+[synthesis route — red-optical]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [holding] kpno_solar_atlas -> solar_kpno_kurucz2005_corrected (pre_normalised=True)
+            Kurucz 2005, telluric-corrected at source. Served from irradrelwl.dat, the RESIDUAL atlas Kurucz ships alongside the irradiance file -- so this holding DOES carry its own continuum and pre_normalised is True. It was False until RYA-933 because `0irrad.readme` does not list the residual file and the RYA-929 intake never took it; placing our own continuum instead tilted the band 4% blue-to-red and cost 0.022 dex. VACUUM grid (gravitational redshift included), converted to air on read. Spans 2990-10010 A; nothing telluric-free reaches the IR. 🔴 RYA-1026 ratified this for the WHOLE KITT PEAK CLASS and made it ENFORCED, not remembered: pipeline.prenormalised_guard refuses to fit/apply a continuum here, and cross-checks the flag against the FLUX -- a declared flag and a mis-routed file agree with each other perfectly and are both wrong, which is exactly what happened here for months.
+  1 Na I candidates from the NAMED SET NAI_RYA1397_8194_DIAGNOSTIC (depth floor NOT applied -- that is what the set is for) (half-width +/-1.1 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
+[2026-11-25 11:37:27,453] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:37:56,050] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:38:16,648] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:38:38,361] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:38:54,254] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:07,587] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:07,897] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:08,209] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:08,523] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:08,835] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:09,148] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:09,477] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:09,788] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:10,265] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:26,994] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:39:48,592] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 2 (gf scale (cited NIST class)): all 1 Na I lines carry a NIST ASD accuracy class (RMS 0.0086 dex over classes A+). COMPILATION, NOT LABORATORY
+
+  ENGINE-A: NOT PRODUCED — no finite NLTE correction supplied; 1 of 1 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  A(Na I; red-optical, ENGINE-A-3DNLTE) = 6.176  (n=1, not-served 0)
+    delta_nlte applied: mean -0.1753 dex over 1 line(s) — Asplund, Amarsi & Grevesse 2021, A&A 653 A141, Table A.1; same solar EWs, MARCS LTE baseline; CITED solar 3D-NLTE minus 1D-LTE per-line additive correction; our atmosphere may differ; not in-transfer 3D; Canocchi et al. 2026, arXiv 2603.22975, Zenodo 10.5281/zenodo.19201830; authors' 3D NLTE FFNN at the Sun, MARCS 1D LTE baseline (scripts/rya1251_na_canocchi2026_3d.py); CITED solar 3D-NLTE minus 1D-LTE per-line additive correction; our atmosphere may differ; not in-transfer 3D
+
+  A(Na I; red-optical, 1D-LTE) = 6.351 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote /home/damienabraxas/scratch/rya1397-feii-v1/rya1397-na-8194-v1/lind/NaI_8190_8199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-NAI_RYA1397_8194_DIAGNOSTIC_products.csv
+synth_cache: calls=34 new_syntheses=63 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth

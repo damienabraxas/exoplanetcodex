@@ -1,0 +1,87 @@
+{
+ "ticket": "RYA-1230",
+ "products": [
+  {
+   "unit": 0,
+   "stem": "NI_8218_8724_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-NI_CAFFAU_RYA1397_SUPPLEMENT_1D-LTE_lines.csv",
+   "A": 8.022,
+   "key_treatment": "1D-LTE",
+   "holding": "solar_kpno_molecfit_corrected",
+   "selector": "SET-NI_CAFFAU_RYA1397_SUPPLEMENT",
+   "element": "N",
+   "band": "red-optical",
+   "holds": [],
+   "verdict": null,
+   "notes": [],
+   "prod_stem": "NI_8218_8724_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-NI_CAFFAU_RYA1397_SUPPLEMENT_products.csv",
+   "sigma_reported": 0.05737338159347354,
+   "components": {
+    "measurement": [
+     "MEASURED",
+     0.024788206620696467
+    ],
+    "transition_data": [
+     "MEASURED",
+     0.020777625658385514
+    ],
+    "stellar.logg": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.metallicity": [
+     "DEFINED",
+     0.0
+    ],
+    "stellar.teff": [
+     "DEFINED",
+     0.0
+    ],
+    "model_atmosphere": [
+     "MEASURED",
+     0.034296501279284866
+    ],
+    "blends": [
+     "MEASURED",
+     0.0327
+    ],
+    "nlte": [
+     "N/A",
+     null
+    ],
+    "pseudo_continuum": [
+     "N/A",
+     null
+    ],
+    "hfs_isotopes": [
+     "N/A",
+     null
+    ],
+    "molecular_coupling": [
+     "N/A",
+     null
+    ],
+    "holding_instrument": [
+     "MEASURED",
+     0.0
+    ],
+    "stellar.xi": [
+     "N/A",
+     null
+    ],
+    "continuum": [
+     "N/A",
+     null
+    ],
+    "profile_ew": [
+     "N/A",
+     null
+    ],
+    "telluric": [
+     "N/A",
+     null
+    ]
+   },
+   "telluric_per_line": []
+  }
+ ]
+}

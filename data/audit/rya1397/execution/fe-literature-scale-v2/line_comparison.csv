@@ -1,0 +1,9 @@
+ion,treatment,wavelength_air_A,old_A,literature_A,delta_A,old_chi2,literature_chi2,fit_sigma_dex,old_in_aggregate,literature_in_aggregate,literature_excluded_reason
+I,1D-LTE,8293.513,7.452,7.48,0.028,1.578,1.646,0.011334957684500258,True,True,
+I,ENGINE-A,8293.513,7.468,7.496,0.028,1.578,1.646,,True,True,
+II,1D-LTE,7222.391,7.621,7.561,-0.06,0.481,0.807,0.010552761807519665,True,True,
+II,1D-LTE,7224.478,7.436,7.423,-0.013,2.977,2.943,0.015475657864149435,True,True,
+II,1D-LTE,7515.83,7.506,7.442,-0.064,0.391,0.387,0.011627410778779396,True,True,
+II,ENGINE-A,7222.391,7.622000000000001,7.562,-0.06,0.481,0.807,,True,True,
+II,ENGINE-A,7224.478,,,,2.977,2.943,,False,False,"ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."
+II,ENGINE-A,7515.83,,,,0.391,0.387,,False,False,"ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction."

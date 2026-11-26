@@ -1,0 +1,95 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+control: ['scripts/derive_band_products.py', '--element', 'O', '--ion', 'I', '--lo', '6152', '--hi', '6164', '--instrument', 'kpno_solar_atlas', '--holding', 'solar_kpno_molecfit_corrected', '--force-synthesis', '--skip-engine-b', '--lines-from-set', 'OI_RYA1397_6158_DIAGNOSTIC=/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-oi-6158-split-v1/control/input.csv', '--out', '/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-oi-6158-split-v1/control']
+
+[synthesis route — VIS]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading GESv6_atom_hfs_iso.420_920nm linelist (first call — cached)...
+  [synth] canonical gf applied to all 126637 physical lines (0 uncovered)
+  [synth] GESv6_atom_hfs_iso.420_920nm linelist: 141233 lines loaded
+  [holding] kpno_solar_atlas -> solar_kpno_molecfit_corrected (pre_normalised=True)
+            RYA-933: serves the WHOLE band -- corrected flux inside the six RYA-940 bands, the untouched 1984 atlas outside them, and a REFUSAL inside a registered telluric band RYA-940 could not fit (H2O 7160-7340). Until then this reader returned only the six corrected windows and nothing else, so every graded VIS line fell outside it and the band measured zero lines -- the holding had never produced a single product. RYA-940 telluric-corrected 1984 atlas. Same conventions as solar_kpno -- air, residual flux, unity IS the continuum -- differing only by the six corrected telluric bands. Listed AFTER solar_kpno on purpose: reachable by name, selection order unchanged, so no existing measurement silently switches product. NaN marks a quarantined saturated core.
+  1 O I candidates from the NAMED SET OI_RYA1397_6158_DIAGNOSTIC (depth floor NOT applied -- that is what the set is for) (half-width +/-0.62 A, min separation 4.0 A)
+  [half-width] 20.51 sigma_D at the 5345 A band centre (0.6216 -> 0.62); contains the full fitted FWHM of all 87 graded VIS Fe I lines on both arms, margin 1.55x on the widest (half-FWHM 0.401 A). RYA-967, from RYA-959's measured profiles.
+[2026-11-25 10:50:58,082] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:51:24,857] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:51:52,134] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:52:08,336] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:52:32,586] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:52:47,340] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:08,298] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:11,900] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:24,975] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:25,525] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:26,001] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:26,403] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:26,921] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:27,483] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:28,086] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:29,010] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:53:29,888] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:54:02,441] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:54:21,480] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 1 O I lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07 x1. A pool is graded only if every line in it is
+
+  A(O I; VIS, ENGINE-A) = 8.917  (n=1, not-served 0)
+    delta_nlte applied: mean -0.0233 dex over 1 line(s) — Amarsi, Nissen & Skuladottir 2019, A&A 630, A104 — 1D non-LTE - 1D LTE (table5 C I / table6 O I); PER-LINE additive correction, grid lines only (match <= 0.05 A)
+
+  A(O I; VIS, ENGINE-A-3DNLTE) = 8.879  (n=1, not-served 0)
+    delta_nlte applied: mean -0.0607 dex over 1 line(s) — Amarsi, Nissen & Skuladottir 2019, A&A 630, A104 — 3D non-LTE - 1D LTE on STAGGER (table2 C I / table3 O I); PER-LINE additive correction, grid lines only (match <= 0.05 A)
+
+  A(O I; VIS, 1D-LTE) = 8.940 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote /home/damienabraxas/scratch/rya1397-feii-v1/rya1397-oi-6158-split-v1/control/OI_6152_6164_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-OI_RYA1397_6158_DIAGNOSTIC_products.csv
+split: ['scripts/derive_band_products.py', '--element', 'O', '--ion', 'I', '--lo', '6152', '--hi', '6164', '--instrument', 'kpno_solar_atlas', '--holding', 'solar_kpno_molecfit_corrected', '--force-synthesis', '--skip-engine-b', '--lines-from-set', 'OI_RYA1397_6158_DIAGNOSTIC=/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-oi-6158-split-v1/split/input.csv', '--out', '/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-oi-6158-split-v1/split']
+
+[synthesis route — VIS]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+Diagnostic assumption: use the existing multiplet representative's broadening for all three components, with distinct Ritz wavelengths, J and gf.
+  [holding] kpno_solar_atlas -> solar_kpno_molecfit_corrected (pre_normalised=True)
+            RYA-933: serves the WHOLE band -- corrected flux inside the six RYA-940 bands, the untouched 1984 atlas outside them, and a REFUSAL inside a registered telluric band RYA-940 could not fit (H2O 7160-7340). Until then this reader returned only the six corrected windows and nothing else, so every graded VIS line fell outside it and the band measured zero lines -- the holding had never produced a single product. RYA-940 telluric-corrected 1984 atlas. Same conventions as solar_kpno -- air, residual flux, unity IS the continuum -- differing only by the six corrected telluric bands. Listed AFTER solar_kpno on purpose: reachable by name, selection order unchanged, so no existing measurement silently switches product. NaN marks a quarantined saturated core.
+  1 O I candidates from the NAMED SET OI_RYA1397_6158_DIAGNOSTIC (depth floor NOT applied -- that is what the set is for) (half-width +/-0.62 A, min separation 4.0 A)
+  [half-width] 20.51 sigma_D at the 5345 A band centre (0.6216 -> 0.62); contains the full fitted FWHM of all 87 graded VIS Fe I lines on both arms, margin 1.55x on the widest (half-FWHM 0.401 A). RYA-967, from RYA-959's measured profiles.
+[2026-11-25 10:56:08,276] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:56:35,637] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:57:05,196] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:57:36,597] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:58:05,658] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:58:31,906] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:58:50,230] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:58:50,513] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:04,034] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:04,309] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:04,582] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:04,858] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:05,141] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:05,427] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:05,742] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:06,021] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:06,301] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:06,627] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:20,460] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:59:59,276] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 1 O I lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07/SCALE-MISMATCH x1. A pool is graded only if every line in it is
+
+  A(O I; VIS, ENGINE-A) = 8.808  (n=1, not-served 0)
+    delta_nlte applied: mean -0.0220 dex over 1 line(s) — Amarsi, Nissen & Skuladottir 2019, A&A 630, A104 — 1D non-LTE - 1D LTE (table5 C I / table6 O I); PER-LINE additive correction, grid lines only (match <= 0.05 A)
+
+  A(O I; VIS, ENGINE-A-3DNLTE) = 8.766  (n=1, not-served 0)
+    delta_nlte applied: mean -0.0645 dex over 1 line(s) — Amarsi, Nissen & Skuladottir 2019, A&A 630, A104 — 3D non-LTE - 1D LTE on STAGGER (table2 C I / table3 O I); PER-LINE additive correction, grid lines only (match <= 0.05 A)
+
+  A(O I; VIS, 1D-LTE) = 8.830 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote /home/damienabraxas/scratch/rya1397-feii-v1/rya1397-oi-6158-split-v1/split/OI_6152_6164_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-OI_RYA1397_6158_DIAGNOSTIC_products.csv
+synth_cache: calls=41 new_syntheses=77 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth

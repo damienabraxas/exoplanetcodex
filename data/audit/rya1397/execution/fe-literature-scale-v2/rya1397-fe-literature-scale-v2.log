@@ -1,0 +1,115 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+['scripts/derive_band_products.py', '--element', 'Fe', '--ion', 'I', '--lo', '8288', '--hi', '8299', '--instrument', 'kpno_solar_atlas', '--holding', 'solar_kpno_molecfit_corrected', '--force-synthesis', '--skip-engine-b', '--lines-from-set', 'FE_RYA1397_AGSS21_DIAGNOSTIC=/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-fe-literature-scale-v2/FeI_input.csv', '--out', '/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-fe-literature-scale-v2/FeI']
+
+[synthesis route — red-optical]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading GESv6_atom_hfs_iso.420_920nm linelist (first call — cached)...
+  [synth] canonical gf applied to all 126637 physical lines (0 uncovered)
+  [synth] GESv6_atom_hfs_iso.420_920nm linelist: 141233 lines loaded
+  [holding] kpno_solar_atlas -> solar_kpno_molecfit_corrected (pre_normalised=True)
+            RYA-933: serves the WHOLE band -- corrected flux inside the six RYA-940 bands, the untouched 1984 atlas outside them, and a REFUSAL inside a registered telluric band RYA-940 could not fit (H2O 7160-7340). Until then this reader returned only the six corrected windows and nothing else, so every graded VIS line fell outside it and the band measured zero lines -- the holding had never produced a single product. RYA-940 telluric-corrected 1984 atlas. Same conventions as solar_kpno -- air, residual flux, unity IS the continuum -- differing only by the six corrected telluric bands. Listed AFTER solar_kpno on purpose: reachable by name, selection order unchanged, so no existing measurement silently switches product. NaN marks a quarantined saturated core.
+  1 Fe I candidates from the NAMED SET FE_RYA1397_AGSS21_DIAGNOSTIC (depth floor NOT applied -- that is what the set is for) (half-width +/-1.1 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
+[2026-11-25 10:25:30,764] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:26:05,846] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:26:27,568] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:26:51,245] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:17,607] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:18,519] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:19,391] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:20,337] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:21,196] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:22,039] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:23,010] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:27:24,025] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:28:02,932] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:28:33,123] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 1 Fe I lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07/SCALE-MISMATCH x1. A pool is graded only if every line in it is
+
+  A(Fe I; red-optical, ENGINE-A) = 7.496  (n=1, not-served 0)
+    delta_nlte applied: mean +0.0160 dex over 1 line(s) — Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction
+
+  A(Fe I; red-optical, 1D-LTE) = 7.480 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote /home/damienabraxas/scratch/rya1397-feii-v1/rya1397-fe-literature-scale-v2/FeI/FeI_8288_8299_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_RYA1397_AGSS21_DIAGNOSTIC_products.csv
+['scripts/derive_band_products.py', '--element', 'Fe', '--ion', 'II', '--lo', '7217', '--hi', '7521', '--instrument', 'kpno_solar_atlas', '--holding', 'solar_kpno_kurucz2005_corrected', '--force-synthesis', '--skip-engine-b', '--lines-from-set', 'FE_RYA1397_AGSS21_DIAGNOSTIC=/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-fe-literature-scale-v2/FeII_input.csv', '--out', '/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-fe-literature-scale-v2/FeII']
+
+[synthesis route — red-optical]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [holding] kpno_solar_atlas -> solar_kpno_kurucz2005_corrected (pre_normalised=True)
+            Kurucz 2005, telluric-corrected at source. Served from irradrelwl.dat, the RESIDUAL atlas Kurucz ships alongside the irradiance file -- so this holding DOES carry its own continuum and pre_normalised is True. It was False until RYA-933 because `0irrad.readme` does not list the residual file and the RYA-929 intake never took it; placing our own continuum instead tilted the band 4% blue-to-red and cost 0.022 dex. VACUUM grid (gravitational redshift included), converted to air on read. Spans 2990-10010 A; nothing telluric-free reaches the IR. 🔴 RYA-1026 ratified this for the WHOLE KITT PEAK CLASS and made it ENFORCED, not remembered: pipeline.prenormalised_guard refuses to fit/apply a continuum here, and cross-checks the flag against the FLUX -- a declared flag and a mis-routed file agree with each other perfectly and are both wrong, which is exactly what happened here for months.
+  3 Fe II candidates from the NAMED SET FE_RYA1397_AGSS21_DIAGNOSTIC (depth floor NOT applied -- that is what the set is for) (half-width +/-1.1 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
+[2026-11-25 10:29:25,967] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:29:42,910] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:30:11,742] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:30:31,968] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:31:02,156] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:31:32,445] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:02,252] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:11,855] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:12,783] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:13,651] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:22,464] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:23,305] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:24,003] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:24,720] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:25,496] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:26,252] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:26,921] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:32:57,393] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:33:19,980] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:33:47,208] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:34:12,186] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:34:32,987] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:34:57,825] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:24,373] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:25,122] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:25,873] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:26,634] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:27,409] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:28,176] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:28,912] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:29,682] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:35:54,799] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:36:21,221] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:36:54,501] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:37:21,916] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:37:51,253] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:38:08,369] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:38:33,800] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:39:12,010] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:39:39,086] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:03,316] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:04,291] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:05,334] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:06,252] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:07,108] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:07,971] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:08,833] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:09,708] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:10,567] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:11,465] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:28,107] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 10:40:45,525] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 3 Fe II lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is
+
+  A(Fe II; red-optical, ENGINE-A) = 7.562  (n=1, not-served 2)
+    delta_nlte applied: mean +0.0010 dex over 1 line(s) — Bergemann MPIA per-line delta_nlte (live query, solar node); PER-LINE additive correction
+
+  A(Fe II; red-optical, 1D-LTE) = 7.442 +/- 0.075  (n=3, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote /home/damienabraxas/scratch/rya1397-feii-v1/rya1397-fe-literature-scale-v2/FeII/FeII_7217_7521_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FE_RYA1397_AGSS21_DIAGNOSTIC_products.csv
+synth_cache: calls=70 new_syntheses=135 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth

@@ -1,0 +1,2 @@
+python3 scripts/derive_band_products.py --element Fe --ion I --lo 8288 --hi 8299 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set FE_RYA1397_REDOPT=rya1397-fe-redopt-v2/FeI_input.csv
+python3 scripts/derive_band_products.py --element Fe --ion II --lo 7217 --hi 7521 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set FE_RYA1397_REDOPT=rya1397-feii-redopt-kurucz-v1/FeII_input.csv
