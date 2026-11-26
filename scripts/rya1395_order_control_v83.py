@@ -261,9 +261,12 @@ def main():
                 native_rci_vs_rmcdhf=paired((a.v79 if layer == 'n6' else a.v77 / f'{layer}_E1') / 'loggf_vs_li2023.csv',
                                             arms['native']))
             save(a, receipt)
+            r = cmp['reverse_vs_native_rci']
+            if r['only_ref'] or r['only_got'] or not all(map(math.isfinite, (r['max_abs_dB'], r['max_abs_dC']))):
+                raise ValueError(f'gate (e) {layer}: reversed E1 not comparable: {r["shared"]} shared, '
+                                 f'{r["only_ref"]} native-only, max|dB| {r["max_abs_dB"]} (NaN never fails a > test)')
             if layer != 'n6':
-                r = cmp['reverse_vs_native_rci']
-                if max(r['graded_max_abs_dB'], r['graded_max_abs_dC']) > GF_TOL:
+                if not max(r['graded_max_abs_dB'], r['graded_max_abs_dC']) <= GF_TOL:
                     raise ValueError(f'gate (e) {layer}: graded |d log gf| B {r["graded_max_abs_dB"]:.3g} '
                                      f'C {r["graded_max_abs_dC"]:.3g} > {GF_TOL}')
             receipt['last_completed_layer'] = layer
