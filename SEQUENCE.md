@@ -1,3 +1,16 @@
+## 2026-11-27 — #629-#635 landed; RYA-1395 O I atomic model (this branch)
+
+> **Current as of `main` ff9641e6** (PR #635).
+
+- **RYA-1396** — `4f1e69e9` PR #629: Solar element literature holdings and acquisitions audit.
+- **RYA-1397** — `85852d9f` PR #630: validated Solar V I reference patch published.
+- **RYA-1397** — `c058aa97` PR #631: Solar Si I H-band Theoretical Codex product released.
+- **RYA-1397** — `e31f2ca5` PR #632: outstanding Solar line gaps reconciled; diagnostic runs archived.
+- **RYA-731** — `db6c775c` PR #633: Solar nickel products released.
+- **RYA-731** — `2a580916` PR #634: Solar Ni II near-UV LTE products published (Ni v1.167).
+- **RYA-1397** — `ff9641e6` PR #635: Fe II 7515 released; Fe I uncertainties completed.
+- **RYA-1395** (this branch) — our own GRASP O I model: s0 and correlated layers n3-n5 complete (key solar lines within 0.05 dex of Li 2023, Babushkin). n6 E1 anomalous (rbiotransform overlap conditioning); the v83/v83b reverse-order control found GRASP rtransition has no reverse-order support. n5 is the usable correlated model. HOLD, report only.
+
 ## 2026-11-26 — Solar Ni release
 
 - **RYA-731** — Stage 223 Solar Ni I products, including OpenMULTI3D and the theoretical infrared set. Ni II remains held.
