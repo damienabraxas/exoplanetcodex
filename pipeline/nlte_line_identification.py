@@ -85,6 +85,8 @@ FIRST_IP_EV = {
     "Ti": 6.828120,
     "Mn": 7.4340380,
     "Co": 7.881010,
+    # RYA-731, NIST ASD: Ni I 61619.77 cm-1 = 7.639878 eV (for the Ni II GES labels).
+    "Ni": 7.639878,
 }
 
 #: A quoted species header inside the linelist, e.g. `'Cr I    LTE'`.

@@ -1,0 +1,15 @@
+holding,treatment,route,selector,baseline_lines,baseline_abundance,matched_lines,median_abundance,source_sha256_matches,line_table,disposition
+solar_harps_molecfit_corrected,1D-LTE,SYNTH,DEEPGRADED-LOCALRENORM,109,7.339,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_harps_molecfit_corrected,ENGINE-A,SYNTH,DEEPGRADED-LOCALRENORM,105,7.35,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_harps_molecfit_corrected,1D-LTE,PROFILEFIT,GRADED,6,7.498,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_harps_molecfit_corrected,ENGINE-A,PROFILEFIT,GRADED,5,7.433,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_harps_molecfit_corrected,ENGINE-B,PROFILEFIT,GRADED,5,7.431,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_kpno_kurucz2005_corrected,1D-LTE,PROFILEFIT,GRADED,13,7.445,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_kpno_kurucz2005_corrected,ENGINE-A,PROFILEFIT,GRADED,12,7.455,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_kpno_kurucz2005_corrected,ENGINE-B,PROFILEFIT,GRADED,9,7.479,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_kpno_kurucz2005_corrected,ENGINE-B-NLTE,SYNTH,GRADED,67,7.488,67,7.488,True,data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv,VERIFIED_BASELINE_POOL
+solar_kpno_kurucz2005_corrected,synth-1D-LTE-gerber,SYNTH,GRADED,67,7.439,67,7.439,True,data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv,VERIFIED_BASELINE_POOL
+solar_kpno_kurucz2005_corrected,synth-mean3D-LTE-gerber-stagger,SYNTH,GRADED,67,7.541,67,7.541,True,data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv,VERIFIED_BASELINE_POOL
+solar_kpno_kurucz2005_corrected,synth-mean3D-NLTE-gerber-stagger,SYNTH,GRADED,67,7.562,67,7.562,True,data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv,VERIFIED_BASELINE_POOL
+solar_kpno_molecfit_corrected,1D-LTE,PROFILEFIT,GRADED,13,7.463,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT
+solar_kpno_molecfit_corrected,ENGINE-A,PROFILEFIT,GRADED,12,7.464,,,True,,HOLD_EXACT_ORIGINAL_PER_LINE_ARTIFACT

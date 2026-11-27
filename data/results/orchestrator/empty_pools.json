@@ -214,6 +214,36 @@
     "inputs_hash": "b56fb5ee6f9e423cfdc2480b3e6098a4684cca6d045c071ae7a9adb92d6f1e9d",
     "why": "derive_products: exit 1: --lines-tier reference selected 1 Cr 1 line(s) in 6910-9199 A -- refusing: a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured."
   },
+  "solar|Ni|I|red-optical|iag_fts_solar_atlas|solar_iag|openmulti3d-1d-lte|SYNTH|DEEPGRADED": {
+    "at": "2026-11-25T09:23:37Z",
+    "inputs_hash": "610a8fa37fa949e3e8df7528515231a6c2703692824e40377fb5a5cd03cdb232",
+    "why": "derive_products: exit 1: no graded line in this band sits above the EW depth gate"
+  },
+  "solar|Ni|I|red-optical|iag_fts_solar_atlas|solar_iag|openmulti3d-nlte|SYNTH|DEEPGRADED": {
+    "at": "2026-11-25T09:24:12Z",
+    "inputs_hash": "7a7b66dd0c3f67c69ed71da476e92d2ecc8c966fc5af08a5ef5c825419b48449",
+    "why": "derive_products: exit 1: no graded line in this band sits above the EW depth gate"
+  },
+  "solar|Ni|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|openmulti3d-1d-lte|SYNTH|DEEPGRADED": {
+    "at": "2026-11-25T09:24:52Z",
+    "inputs_hash": "8bca963ca43fa81deec5eb36109d1d2ea5e2cb59889505efadd84e1207d4fe97",
+    "why": "derive_products: exit 1: no graded line in this band sits above the EW depth gate"
+  },
+  "solar|Ni|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|openmulti3d-nlte|SYNTH|DEEPGRADED": {
+    "at": "2026-11-25T09:25:28Z",
+    "inputs_hash": "1aa3d14e70890b4a8bef00b035a05a6ef82b71fa66e04edeb4f2967dd9384877",
+    "why": "derive_products: exit 1: no graded line in this band sits above the EW depth gate"
+  },
+  "solar|Ni|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|openmulti3d-1d-lte|SYNTH|DEEPGRADED": {
+    "at": "2026-11-25T09:26:10Z",
+    "inputs_hash": "2c8129c3f23840b7665b33ee1faacf330a16a97c5a4702bcd29b9f4eea23cf82",
+    "why": "derive_products: exit 1: no graded line in this band sits above the EW depth gate"
+  },
+  "solar|Ni|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|openmulti3d-nlte|SYNTH|DEEPGRADED": {
+    "at": "2026-11-25T09:26:47Z",
+    "inputs_hash": "47677f95709271588ed40b1c14ea31ff7b8af6c7a669b2de1a10c53caaad0235",
+    "why": "derive_products: exit 1: no graded line in this band sits above the EW depth gate"
+  },
   "solar|Si|II|VIS|harps|solar_harps_molecfit_corrected|ts-lte|SYNTH|REFERENCE": {
     "at": "2026-11-08T16:14:16Z",
     "inputs_hash": "bd2195fd2adaa2c5e4ca6bb25f4a67bdf5dfe90f17df7c274efdd632d2691a93",

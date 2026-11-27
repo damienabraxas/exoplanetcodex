@@ -1,9 +1,34 @@
-## 2026-11-23 — RYA-1354 landed; RYA-1395 O I atomic model (this branch)
+## 2026-11-27 — #629-#635 landed; RYA-1395 O I atomic model (this branch)
+
+> **Current as of `main` ff9641e6** (PR #635).
+
+- **RYA-1396** — `4f1e69e9` PR #629: Solar element literature holdings and acquisitions audit.
+- **RYA-1397** — `85852d9f` PR #630: validated Solar V I reference patch published.
+- **RYA-1397** — `c058aa97` PR #631: Solar Si I H-band Theoretical Codex product released.
+- **RYA-1397** — `e31f2ca5` PR #632: outstanding Solar line gaps reconciled; diagnostic runs archived.
+- **RYA-731** — `db6c775c` PR #633: Solar nickel products released.
+- **RYA-731** — `2a580916` PR #634: Solar Ni II near-UV LTE and Ni I near-UV Reference Grade published (Ni v1.181).
+- **RYA-1397** — `ff9641e6` PR #635: Fe II 7515 released; Fe I uncertainties completed.
+- **RYA-1395** (this branch) — our own GRASP O I model: s0 and correlated layers n3-n5 complete (key solar lines within 0.05 dex of Li 2023, Babushkin). n6 E1 anomalous (rbiotransform overlap conditioning); the v83/v83b reverse-order control found GRASP rtransition has no reverse-order support. n5 is the usable correlated model. HOLD, report only.
+
+## 2026-11-26 — Solar Ni release
+
+- **RYA-731** — Stage 223 Solar Ni I products, including OpenMULTI3D and the theoretical infrared set. Ni II remains held.
+- **RYA-731** — Ni v1.167: publish six Ni II near-UV LTE products (Clear+2026 gf) with the model-atmosphere term from the paired ATLAS9 / MARCS.GES fits. The two mean-3D LTE Ni II products stay held.
+
+## 2026-11-24 — RYA-1396 landed and RYA-1397 V I patch staged
+
+> **Current as of `main` 4f1e69e9** (PR #629).
+
+- **RYA-1396** — `4f1e69e9` PR #629 landed the Solar literature acquisition audit.
+- **RYA-1397** (this branch) — V I HARPS VIS reference-set product v1.24 adds three features and retains all 27 prior fits. Fe II and Mg II benchmark runs reproduce their existing products. Si I H-band theory diagnostic measured and held for named adoption and budget review. The [campaign reconciliation](data/audit/rya1397/solar_campaign_reconciliation.csv) records remaining work.
+
+## 2026-11-23 — RYA-1354 landed and RYA-1396 literature audit prepared
 
 > **Current as of `main` 18361078** (PR #628).
 
-- **RYA-1354** — `18361078` PR #628: Theoretical Codex atomic model through v70c — Mg I lifetimes PASS 6/6, photoionization from our own wavefunctions, solar vdW wing test (Unsöld rejected; report only, HOLD).
-- **RYA-1395** (this branch) — our own GRASP O I model: s0 Dirac-Fock stage complete (own hydrogenic starts, node + orbital-energy gates); correlation layers n3-n5 complete, n6 resuming on Sirius (v78). Key solar lines vs Li 2023 within 0.05 dex (Babushkin); HOLD, report only. Handover to Codex on the ticket.
+- **RYA-1354** — `18361078` PR #628 includes the v70c Mg I van der Waals wing study. The harness gate failed and the result remains report-only / HOLD. See the [merged report](docs/audit/rya1354/mg1_vdw_wings_v70c.md) and [Linear result](https://linear.app/ryans-adventure-zone/issue/RYA-1354#comment-91c07865-ca9c-43b0-bfd0-eba6eec9cead).
+- **RYA-1396** (this branch) — The [literature audit](data/audit/rya1396/README.md) records holdings for all 27 Solar elements, with Fe II tracked separately, 61 verified local PDF entries, and remaining evidence gaps.
 
 ## 2026-11-17 — RYA-1388 landed; RYA-470 V line inventory (this branch)
 

@@ -1,7 +1,7 @@
 line_id,physical_id,species,wavelength_air_A,excitation_potential_eV,band,in_synth,held_reason,no_graded_route_in_band,flags,priority,evidence,codex_fit_evidence,review_state
 gf_167212,pk_45a3be94d93c,Ni I,9396.452,5.6141,NIR,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_167245,pk_5610958d9c62,Ni I,9519.674,5.6312,NIR,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_167246,pk_cd1ea23b68a1,Ni I,9520.034,4.1672,NIR,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
+gf_167246,pk_cd1ea23b68a1,Ni I,9520.034,4.1672,NIR,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_molecfit_corrected: not measured (SYNTHESIS: failed too few observed pixels),,candidate
 gf_167328,pk_d4939bd004b8,Ni I,9898.928,4.2357,NIR,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_167349,pk_c82c93d28a81,Ni I,10061.245,5.4943,NIR,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_167359,pk_e205d147f682,Ni I,10145.337,4.2661,NIR,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
@@ -741,14 +741,14 @@ gf_179172,pk_bfa17765e0dc,Ni I,24692.2963,5.5945,K,False,UNGRADED_GF,True,UNRATE
 gf_179187,pk_31e3b7b699a4,Ni I,24728.0825,6.2847,K,False,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_179203,pk_116a41a4e4a7,Ni I,24790.0866,5.6141,K,False,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_179204,pk_86c2578ca69f,Ni I,24790.5402,5.6141,K,False,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
-gf_145912,pk_99c66a89111b,Ni II,3000.667,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_146057,pk_7fef73968468,Ni II,3005.456,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_146888,pk_27e96f84d27c,Ni II,3032.455,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
+gf_145912,pk_99c66a89111b,Ni II,3000.667,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=8.333 (excluded),,candidate
+gf_146057,pk_7fef73968468,Ni II,3005.456,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=7.801 (excluded),,candidate
+gf_146888,pk_27e96f84d27c,Ni II,3032.455,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=6.82,,candidate
 gf_147824,pk_c72ed03005c8,Ni II,3063.59,3.0733,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_147839,pk_6c83ed186f57,Ni II,3063.933,2.9504,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_148571,pk_1c974c34fabe,Ni II,3087.069,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
+gf_147839,pk_6c83ed186f57,Ni II,3063.933,2.9504,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=7.731 (excluded),,candidate
+gf_148571,pk_1c974c34fabe,Ni II,3087.069,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=8.049 (excluded),,candidate
 gf_148791,pk_a19236f6e08c,Ni II,3094.162,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_149598,pk_cac8440d0301,Ni II,3119.788,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
+gf_149598,pk_cac8440d0301,Ni II,3119.788,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=4.05 (excluded),,candidate
 gf_149967,pk_7b15b9aa0f5e,Ni II,3132.864,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_150795,pk_cfed525b6bd4,Ni II,3160.012,3.0733,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_150931,pk_6bc514f6cc17,Ni II,3164.787,3.0793,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
@@ -770,17 +770,17 @@ gf_157693,pk_81f7f1f821a7,Ni II,3401.766,3.0733,near-UV,False,UNGRADED_GF,True,U
 gf_157859,pk_a04cc67d3be0,Ni II,3407.3,3.0793,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_158193,pk_c7e3d6dc608b,Ni II,3420.601,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_158522,pk_08cf8898d6a2,Ni II,3433.967,3.6691,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_159042,pk_2824216d3c7d,Ni II,3454.164,2.9504,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_159334,pk_2ce3949b6458,Ni II,3465.642,3.0733,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_159492,pk_940b298fe4e5,Ni II,3471.386,3.0793,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
+gf_159042,pk_2824216d3c7d,Ni II,3454.164,2.9504,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=7.249,,candidate
+gf_159334,pk_2ce3949b6458,Ni II,3465.642,3.0733,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=4.233 (excluded),,candidate
+gf_159492,pk_940b298fe4e5,Ni II,3471.386,3.0793,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=7.243,,candidate
 gf_160085,pk_59ec42e1c6db,Ni II,3495.718,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_160547,pk_ca73b213819d,Ni II,3513.987,2.8651,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_160821,pk_4ce67745ab6f,Ni II,3526.424,3.6043,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_162108,pk_7ab7309fa840,Ni II,3576.764,3.0733,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_162896,pk_5390ccef534c,Ni II,3608.809,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
+gf_162108,pk_7ab7309fa840,Ni II,3576.764,3.0733,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=7.092,,candidate
+gf_162896,pk_5390ccef534c,Ni II,3608.809,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=3.217 (excluded),,candidate
 gf_165255,pk_6c1b5bd64009,Ni II,3702.056,3.6043,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_165813,pk_2af5ded4407b,Ni II,3725.968,3.6691,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
-gf_166899,pk_52dd01237bff,Ni II,3769.459,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
+gf_166899,pk_52dd01237bff,Ni II,3769.459,3.1041,near-UV,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP;SOLAR_DISCREPANCY,1,gf via VALD3: source paper not attached | band diagnostic solar_kpno_kurucz2005_corrected: A=6.787,,candidate
 gf_101917,pk_7b0565b4715d,Ni II,3849.554,4.0324,VIS,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_101918,pk_d59d6d2c52df,Ni II,3852.8016,3.6043,VIS,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
 gf_101919,pk_2714c9cb1c24,Ni II,3982.0916,3.6043,VIS,False,UNGRADED_GF,True,UNRATED_GF;PROVENANCE_GAP,1,gf via VALD3: source paper not attached,,candidate
@@ -798,7 +798,7 @@ gf_101930,pk_424a388dacbd,Ni II,4244.779,4.032,VIS,True,UNGRADED_GF,True,UNRATED
 gf_101931,pk_53addbf51fd2,Ni II,4258.805,6.728,VIS,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_101932,pk_224fe926e51f,Ni II,4279.216,6.617,VIS,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_101933,pk_1bc2bae1609b,Ni II,4287.245,8.772,VIS,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
-gf_101934,pk_c7638e42e13f,Ni II,4362.099,4.029,VIS,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
+gf_101934,pk_c7638e42e13f,Ni II,4362.099,4.029,VIS,True,UNGRADED_GF,True,UNRATED_GF;SOLAR_DISCREPANCY,1,band diagnostic solar_harps_molecfit_corrected: A=3.224 (excluded),,candidate
 gf_101935,pk_d410b8ba5c5d,Ni II,4366.674,4.032,VIS,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_101936,pk_568580d41ae7,Ni II,4366.924,8.758,VIS,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_101937,pk_d6f9d18caa73,Ni II,4384.71,4.029,VIS,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
@@ -6294,7 +6294,6 @@ gf_107426,pk_99c847e8a647,Ni II,9197.472,15.14,red-optical,True,UNGRADED_GF,True
 gf_107427,pk_5430470c08ec,Ni II,9197.675,11.193,red-optical,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_107428,pk_c27702a41f91,Ni II,9197.996,14.793,red-optical,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
 gf_107429,pk_5ab4810321c3,Ni II,9198.343,14.366,red-optical,True,UNGRADED_GF,True,UNRATED_GF,1,,,candidate
-gf_150372,pk_4c732f5e1e2f,Ni I,3145.702,0.1652,near-UV,False,GRADED_NOT_LAB,False,UNRATED_GF;GF_DISCREPANCY,2,held lab gf -2.37 (wood2014) moves canonical -1.5843178223586485 by -0.786 dex [RYA-1268],,candidate
 gf_100203,pk_dfc7d7ea9879,Ni I,4200.454,3.306,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_100204,pk_48c17691f293,Ni I,4201.715,4.088,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
 gf_100205,pk_b3c5db56cd6d,Ni I,4201.841,3.841,VIS,True,UNGRADED_GF,False,UNRATED_GF,3,,,candidate
@@ -8194,7 +8193,6 @@ gf_160607,pk_ad454f1867d9,Ni I,3517.3,3.6353,near-UV,False,UNGRADED_GF,False,UNR
 gf_160689,pk_7a2b2890c0ea,Ni I,3520.337,1.9508,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160713,pk_9578a90d232d,Ni I,3521.541,3.7963,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160739,pk_4dc983e1ef19,Ni I,3522.622,3.6353,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_160754,pk_ccdff3c00866,Ni I,3523.442,0.0254,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160763,pk_5ddeadcccebb,Ni I,3523.769,3.6785,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160787,pk_c930a873fa98,Ni I,3524.796,3.7398,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_160793,pk_6908967dbeda,Ni I,3525.114,1.9508,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8348,12 +8346,10 @@ gf_164374,pk_d354f1d0fe8b,Ni I,3665.841,3.6988,near-UV,False,UNGRADED_GF,False,U
 gf_164404,pk_faed8a3a7f6a,Ni I,3667.167,3.5972,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164430,pk_6a40f795f727,Ni I,3668.213,3.941,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164448,pk_0072f7e1dfb2,Ni I,3668.996,1.6764,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_164456,pk_0ff75d22e6d2,Ni I,3669.238,0.1652,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164521,pk_ea9cecf39315,Ni I,3671.939,2.7403,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164536,pk_1b62a28ee172,Ni I,3672.696,1.9508,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164549,pk_d0909aacc9b6,Ni I,3673.344,3.7057,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164570,pk_001baf5c4f69,Ni I,3674.052,3.6576,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_164574,pk_d5224a917f1f,Ni I,3674.062,0.0254,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164641,pk_f6f8d73e97f6,Ni I,3676.912,3.6785,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164646,pk_83a79c569090,Ni I,3677.046,3.8983,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_164670,pk_24419855b5fb,Ni I,3678.01,3.4195,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
@@ -8412,7 +8408,6 @@ gf_166010,pk_07d140cc3540,Ni I,3733.937,3.6576,near-UV,False,UNGRADED_GF,False,U
 gf_166038,pk_741e762fd700,Ni I,3735.33,3.841,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_166051,pk_5c8d8a001fd6,Ni I,3736.066,3.8474,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_166064,pk_9aea627ad19c,Ni I,3736.579,3.8339,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
-gf_166119,pk_e6fd7b4e58d1,Ni I,3739.226,0.1652,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_166131,pk_d761f078d3fd,Ni I,3739.778,3.941,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_166185,pk_874de6b8b0ad,Ni I,3742.009,3.4646,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate
 gf_166197,pk_0c820af46047,Ni I,3742.5,3.8474,near-UV,False,UNGRADED_GF,False,UNRATED_GF;PROVENANCE_GAP,4,gf via VALD3: source paper not attached,,candidate

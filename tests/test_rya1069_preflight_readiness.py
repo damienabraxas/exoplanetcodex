@@ -31,6 +31,23 @@ def _load():
 pr = _load()
 
 
+def test_declared_gap_with_no_graded_lines(monkeypatch):
+    """A theory-only ion must get coverage evidence even without graded lines."""
+    monkeypatch.setattr(pr, "run_data_audit", lambda holding: None)
+    monkeypatch.setattr(pr, "holding_spec", lambda holding_id: None)
+    monkeypatch.setattr(pr, "bands_for", lambda instrument: [])
+    monkeypatch.setattr(pr, "_instrument_span_A", lambda instrument: (9479, 26000))
+    monkeypatch.setattr(pr, "graded_lines", lambda element, ion: [])
+    monkeypatch.setattr(pr.telluric_policy, "applied_state", lambda holding_id: "unknown")
+    evidence = {}
+
+    pr.assess({"instrument_id": "crires_plus", "holding_id": "h"}, "Ni", "II", evidence)
+
+    gap, = evidence["h", "DECLARED GAP"]
+    assert "NOT ASSESSED" in gap
+    assert "no graded lines in canonical_gf" in gap
+
+
 class _Spec:
     """A stand-in for `measure_band_ew.HoldingSpec` -- same `covers` contract."""
 

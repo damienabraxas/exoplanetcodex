@@ -4,7 +4,7 @@
 # Band = anchor +/- sigma, DEVIATE at 2 sigma (Si/Al rule). Anchor: AG26 changed this element (AGSS21 6.20 +/- 0.04 -> AG26 6.20 +/- 0.05) (RYA-1251).
 element: Ni
 ion: I
-ions: [I]
+ions: [I, II]
 source_of_truth: RYA-1268
 scale: as adopted by AG26 (3L)
 entries:
@@ -36,4 +36,43 @@ range:
   derivation: best-external-plus-sigma
   is_statistical_spread: false
 verification_owed:
-  - Minimum anchor only; the element's literature sweep adds per-band references.
+  - 'RYA-731 sweep 2026-11-21 -- all six Ni I bands and Ni II near-UV/VIS recorded; NIR/H/K and Ni II with measured diagnostics.'
+literature_sweep:
+  bands:
+    - ion: I
+      band: near-UV
+      searched: [Wood+2014, Blackwell+1989, Huber & Sandeman 1980, Wickliffe & Lawler 1997, Lennard+1975 (LWST), Doerr & Kock 1985 (NOT HELD, paywall), Kostyk 1982 (NOT HELD), Fuhr+1988, NIST ASD, VALD gf references]
+      result: '118 Wood lab lines in reach (Wood''s other 124 lines are below 3000 A, out of reach). Blackwell+1989 and Huber & Sandeman 1980 transcribed from the ADS scans (scripts/rya731_transcribe_ni1_furnace.py); they agree with Wood at median -0.023 and 0.00 dex. They add lab gf to 4 lines with no Wood value -- 3669.24 and 3739.23 (Blackwell -2.692, -2.755; Huber disagrees by 0.41 dex on both, one hook each) and 3523.44, 3674.06 (Huber). 9 lines on NIST C/C+ (Doerr & Kock, Huber). 3145.70 moved NIST C+ -2.076 -> Wood -2.37 (the hold was against an isotope-inflated list gf; Blackwell -2.36 agrees). Wickliffe & Lawler 1997 is a subset of Wood''s data.'
+    - ion: I
+      band: VIS
+      searched: [Scott+2009, Scott+2015, AGSS21, AG26, Lodders+2025, Wood+2014, Johansson+2003, Wickliffe & Lawler 1997, Lennard+1975 (LWST), Kostyk 1982 (NOT HELD), Doerr & Kock 1985 (NOT HELD), Fuhr+1988, Heiter+2021, Bergemann+2021, NIST ASD, VALD gf references]
+      result: '118 Wood lab lines + 4 NIST C/C+; Scott+2015 set of 17 lines (all Wood gf). 6300.34 carries Johansson+2003. The ~113 Fuhr+1988 rows trace to Kostyk 1982 (NIST D, T4287) and Lennard+1975 (NIST D/E, T2765) -- below the graded bar, they stay ungraded.'
+    - ion: I
+      band: red-optical
+      searched: [Wood+2014, Kostyk 1982 (NOT HELD), Lennard+1975, Fuhr+1988, NIST ASD, VALD gf references]
+      result: '11 Wood lab lines (Wood stops at 7789 A). The Fuhr+1988 rows here are Kostyk 1982 (NIST D); the rest Kurucz. No lab gf redward of 7789 A was found.'
+    - ion: I
+      band: NIR
+      searched: [Wood+2014, Elgueta+2026 (Gaia FGK IR lines), Elgueta+2024, Melendez & Barbuy 1999, Smith+2021 (APOGEE DR16), NIST ASD, VALD gf references]
+      result: 'No lab gf -- Wood stops at 7789 A, NIST has no Ni I gf here, Elgueta+2026 certifies 9898.93 and 13048.18 on non-lab gf, Melendez & Barbuy are solar-fitted. Ungraded 1D-LTE diagnostic (Kurucz gf), KPNO 6 lines median 6.15 (6.03-6.33); CRIRES+ J 2 lines 5.86 and 6.92.'
+      diagnostic: data/audit/orchestrator_prepare/solar_Ni_band_diagnostics.csv
+    - ion: I
+      band: H
+      searched: [Smith+2021 (APOGEE DR16), Shetrone+2015, Elgueta+2026, Melendez & Barbuy 1999, NIST ASD, VALD gf references]
+      result: 'No lab gf -- Smith+2021 state that laboratory oscillator strengths are not available in the APOGEE window for Ni I and use Kurucz 2017. Ungraded 1D-LTE diagnostic on CRIRES+ H, 16 lines, median 6.02 (5.79-6.29).'
+      diagnostic: data/audit/orchestrator_prepare/solar_Ni_band_diagnostics.csv
+    - ion: I
+      band: K
+      searched: [Elgueta+2026, Smith+2021, NIST ASD, VALD gf references]
+      result: 'No lab gf, and no Ni I line in 19455-24843 A reaches theoretical depth 0.15 -- nothing to measure on CRIRES+ K.'
+      diagnostic: data/audit/orchestrator_prepare/solar_Ni_band_diagnostics.csv
+    - ion: II
+      band: near-UV
+      searched: [Chen+2026, Hartman+2017, Clear+2026 (theory), Fedchak & Lawler 1999, Fedchak+2000, NIST ASD, VALD gf references]
+      result: 'No lab gf for the solar Ni II lines (3d8 4s / 3d9 4s - 3d8 4p, EP 2.9-4.0 eV), all K03 theory. Chen+2026 and Hartman+2017 measure 3d8 4d - 3d8 4p (EP ~6.6 eV); Fedchak 1999/2000 are below 255 nm; NIST has none of the 40 usable lines. Ungraded KPNO diagnostic, 18 lines, 1D-LTE median 6.51, mean 6.49 +/- 0.33 on Kurucz gf. 2026-11-22 (Ryan: take the most recent findings): the 26 lines are a THEORETICAL_CODEX set, NI_CLEAR2026, on Clear+2026 calculated gf (median 0.08 dex below K03).'
+      diagnostic: data/audit/orchestrator_prepare/solar_Ni_band_diagnostics.csv
+    - ion: II
+      band: VIS
+      searched: [Chen+2026, Clear+2026 (theory), NIST ASD, VALD gf references]
+      result: 'No lab gf; the Ni II lines here (4015-4362 A, EP 4.0 eV) are weak. The HARPS diagnostic kept no line (1 excluded). 4362.10 is in NI_CLEAR2026 (Clear+2026 gf -2.75).'
+      diagnostic: data/audit/orchestrator_prepare/solar_Ni_band_diagnostics.csv

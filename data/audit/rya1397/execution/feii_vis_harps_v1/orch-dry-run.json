@@ -1,0 +1,115 @@
+{
+  "schema": "codex.orchestrator_run/1",
+  "star": "solar",
+  "element": "Fe",
+  "generated_at": "2026-11-24T07:04:44Z",
+  "code_commit": "925caac834f650dbc75156700a0a0deff35c62dd-dirty",
+  "dry_run": true,
+  "scope": {
+    "ions": [
+      "II"
+    ],
+    "bands": [
+      "VIS"
+    ],
+    "instruments": [
+      "solar_harps_molecfit_corrected"
+    ],
+    "engines": [
+      "ts-lte"
+    ],
+    "methods": [
+      "synthesis"
+    ]
+  },
+  "environment": {
+    "interpreter": "/home/damienabraxas/venv_rya1103/bin/python",
+    "ispec_dir": "/mnt/codex-data/engines/ispec_src",
+    "numpy_ceiling_check": "numpy 2.2.6 < 2.3 on /home/damienabraxas/venv_rya1103/bin/python"
+  },
+  "process_steps": [
+    {
+      "step": 1,
+      "name": "star selected",
+      "ok": true,
+      "evidence": "config/stars.yaml has 'solar'"
+    },
+    {
+      "step": 5,
+      "name": "literature (litscan) Fe II",
+      "ok": true,
+      "ion": "II",
+      "evidence": "data/reference/litscan/Fe.yaml"
+    },
+    {
+      "step": 8,
+      "name": "stellar parameters",
+      "ok": true,
+      "evidence": "pinned in config/stars.yaml"
+    },
+    {
+      "step": 7,
+      "name": "lines prepared (--prepare READY)",
+      "ok": false,
+      "evidence": "data/results/orchestrator/prepare/solar_Fe.json NOT READY -- literature_sweep 10"
+    }
+  ],
+  "prepare": null,
+  "cells_total": 1,
+  "counts": {
+    "DONE": 0,
+    "SKIP": 0,
+    "FAILED": 0,
+    "BLOCKED": 0,
+    "NOT_READY": 0,
+    "HELD": 0,
+    "WOULD_RUN": 1,
+    "UNPUBLISHED": 0
+  },
+  "cells": [
+    {
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "ion": "II",
+      "engine": "ts-lte",
+      "route": "SYNTH",
+      "pool": "REFERENCE",
+      "status": "WOULD_RUN",
+      "reason": "would execute -- recorded inputs_hash 7629a4fc3eef != a63be61fd7bf -- an input or a stage script moved since 2026-11-15T21:40:52Z",
+      "A": 7.476,
+      "n_lines": 8,
+      "product_key": "Fe|II|VIS|harps|solar_harps_molecfit_corrected|SYNTH|REFERENCE",
+      "inputs_hash": "a63be61fd7bff9d10f5157fb3b1f44fd470b824ca5d2c98dbfb6d994324bd63d",
+      "lo_A": 3782.6,
+      "hi_A": 6910.0,
+      "steps": [
+        "derive_products"
+      ]
+    }
+  ],
+  "resume": [
+    "VIS|harps|solar_harps_molecfit_corrected|II|ts-lte|SYNTH|REFERENCE"
+  ],
+  "excluded_raw_holdings": [
+    "solar_delbouille_liege",
+    "solar_harps",
+    "solar_kpno",
+    "solar_vesta_crires_plus_idp"
+  ],
+  "excluded_unwired_holdings": [
+    "elgueta2026_vizier"
+  ],
+  "excluded_holding_bands": [
+    {
+      "holding": "solar_iag",
+      "band": "VIS",
+      "reason": "IAG is the near-IR arm; VIS is HARPS + Kitt Peak (Ryan 2026-10-28, RYA-1310)"
+    },
+    {
+      "holding": "solar_iag_reiners2016",
+      "band": "VIS",
+      "reason": "IAG is the near-IR arm; VIS is HARPS + Kitt Peak (Ryan 2026-10-28, RYA-1310)"
+    }
+  ]
+}

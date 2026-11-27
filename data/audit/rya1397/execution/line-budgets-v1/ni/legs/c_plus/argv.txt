@@ -1,0 +1,2 @@
+/home/damienabraxas/venv_rya1103/bin/python scripts/derive_band_products.py --element N --ion I --lo 8218 --hi 8724 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --force-synthesis --skip-engine-b --lines-from-set NI_CAFFAU_RYA1397_SUPPLEMENT=rya1397-ni-redopt-v2/input.csv --out rya1397-line-budgets-v1/ni/legs/unit00/c_plus
+{'CODEX_ABUND_OFFSET': 'C:+0.10'}

@@ -2,8 +2,8 @@
   "schema": "codex.element_product/2",
   "element": "Fe",
   "star": "solar",
-  "version": "1.612",
-  "updated_at": "2026-11-17T01:32:11Z",
+  "version": "1.615",
+  "updated_at": "2026-11-26T21:44:12Z",
   "products": [
     {
       "element": "Fe",
@@ -1331362,6 +1331362,1099 @@
       "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
       "sigma_asplund_stat": 0.016524284928928965,
       "sigma_asplund_syst": 0.04464157648694399
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-FE_RYA1397_REDOPT",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.452,
+      "sigma_stat": 0.01,
+      "sigma_syst": 0.1726,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (UNGRADED)",
+      "stat_basis": "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.0112769309429085,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 160
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (atomic data not included); a pool line carries no published gf sigma",
+            "evidence": {
+              "asplund_budget": true,
+              "indicator_ids": [
+                "pk_87ca8004690b"
+              ],
+              "line_sources": [
+                "BK+BWL"
+              ],
+              "unpriced_ids": [
+                "pk_87ca8004690b"
+              ],
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.04367999999999998,
+            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
+              "response_assessment": "central paired median over 1 lines; difference of aggregates -0.1500/km/s",
+              "signed_response_dex": -0.04367999999999998,
+              "delta_plus_dex": -0.04367999999999998,
+              "delta_minus_dex": 0.04367999999999998,
+              "delta_parameter": 0.2912,
+              "dA_dxi": -0.14999999999999994,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.032596012026013164,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (pool lines, n=1)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "temperature_structure_dex": 0.03049999999999997,
+              "inhomogeneity_dex": 0.011499999999999844,
+              "mean_3Dmean_minus_HM_dex": -0.06099999999999994,
+              "mean_3D_minus_3Dmean_dex": 0.022999999999999687,
+              "n_scott_lines": 1,
+              "basis": "pool lines",
+              "scott_wavelengths_A": [
+                8293.515
+              ]
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.029414828041108274,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "per_line": [
+                {
+                  "wavelength_air_A": 8293.513,
+                  "dA_df": -6.000000000000227,
+                  "sigma_line_dex": 0.029414828041108274,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 0.9887885985404415,
+                  "n_px": 400,
+                  "n_telluric_px": 103,
+                  "max_depth": 0.9125025168370275,
+                  "sky_absorption": 0.11346929861861944,
+                  "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
+                  "residual_flux": 0.004902471340184527
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in-window (RYA-1230 turned molecular opacity on in every band); no catalogued-blend deficit",
+            "evidence": {
+              "use_molecules": true,
+              "owed_measurement": "a paired molecule-strength leg on this C/O pool"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "this leg applies no departures (nlte_delta_dex = 0 on every line)",
+            "evidence": {
+              "nlte_delta_dex": 0.0
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99873
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-FE_RYA1397_REDOPT"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "q80",
+                "q97",
+                "contref"
+              ]
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "core"
+              ]
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.0001271691714911272,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0019079423999999985,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0010624999999999949,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0008652321086879696,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "model_atmosphere",
+          "telluric",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.06295112135759846,
+        "sigma_measured_partial": 0.06295112135759846
+      },
+      "uncertainty_indicator_ids": [
+        "pk_87ca8004690b"
+      ],
+      "sigma_reported": 0.0629511213575984,
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-line-budgets-v1/xi-checked-stage/FeI_8288_8299_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_RYA1397_REDOPT_products.csv",
+        "copied_to": "data/audit/rya1397/execution/fe-abundance-budgets-v2/fe-i/FeI_8288_8299_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_RYA1397_REDOPT_products.csv",
+        "sha256": "b316eb34a70869770e34d378aa08149495d242dcc6403fc647d3bfe4a22b0859",
+        "artifact_mtime": "2026-11-26T21:39:37Z",
+        "ingested_at": "2026-11-26T21:44:09Z"
+      },
+      "star": "solar",
+      "sigma_asplund": 0.045712899399306554,
+      "sigma_asplund_stat": 0.0112769309429085,
+      "sigma_asplund_syst": 0.04430011286667331,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "grade": "Ungraded",
+      "xi_state": "MEASURED",
+      "sigma_xi": 0.04367999999999998
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-FE_RYA1397_REDOPT",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.468,
+      "sigma_stat": 0.01,
+      "sigma_syst": 0.1726,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (UNGRADED)",
+      "stat_basis": "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|ENGINE-A|our-all",
+          "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.0112769309429085,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 160
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (atomic data not included); a pool line carries no published gf sigma",
+            "evidence": {
+              "asplund_budget": true,
+              "indicator_ids": [
+                "pk_87ca8004690b"
+              ],
+              "line_sources": [
+                "BK+BWL"
+              ],
+              "unpriced_ids": [
+                "pk_87ca8004690b"
+              ],
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.04367999999999998,
+            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
+              "response_assessment": "central paired median over 1 lines; difference of aggregates -0.1500/km/s",
+              "signed_response_dex": -0.04367999999999998,
+              "delta_plus_dex": -0.04367999999999998,
+              "delta_minus_dex": 0.04367999999999998,
+              "delta_parameter": 0.2912,
+              "dA_dxi": -0.14999999999999994,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.032596012026013164,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (pool lines, n=1)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "temperature_structure_dex": 0.03049999999999997,
+              "inhomogeneity_dex": 0.011499999999999844,
+              "mean_3Dmean_minus_HM_dex": -0.06099999999999994,
+              "mean_3D_minus_3Dmean_dex": 0.022999999999999687,
+              "n_scott_lines": 1,
+              "basis": "pool lines",
+              "scott_wavelengths_A": [
+                8293.515
+              ]
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.029414828041108274,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "per_line": [
+                {
+                  "wavelength_air_A": 8293.513,
+                  "dA_df": -6.000000000000227,
+                  "sigma_line_dex": 0.029414828041108274,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 0.9887885985404415,
+                  "n_px": 400,
+                  "n_telluric_px": 103,
+                  "max_depth": 0.9125025168370275,
+                  "sky_absorption": 0.11346929861861944,
+                  "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
+                  "residual_flux": 0.004902471340184527
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in-window (RYA-1230 turned molecular opacity on in every band); no catalogued-blend deficit",
+            "evidence": {
+              "use_molecules": true,
+              "owed_measurement": "a paired molecule-strength leg on this C/O pool"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "MEASURED",
+            "sigma_dex": 0.03,
+            "source": "Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum 0.03 dex -- the correction measured on this pool (median 1D-NLTE delta of the accepted lines)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "median_nlte_correction_dex": 0.016,
+              "n_lines": 1,
+              "floor_dex": 0.03
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99873
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-FE_RYA1397_REDOPT"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "q80",
+                "q97",
+                "contref"
+              ]
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "core"
+              ]
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.0001271691714911272,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0019079423999999985,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0010624999999999949,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0008652321086879696,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "model_atmosphere",
+          "telluric",
+          "nlte",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.06973409266764062,
+        "sigma_measured_partial": 0.06973409266764062
+      },
+      "uncertainty_indicator_ids": [
+        "pk_87ca8004690b"
+      ],
+      "sigma_reported": 0.0697340926676406,
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-line-budgets-v1/xi-checked-stage/FeI_8288_8299_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_RYA1397_REDOPT_ENGINE-A_products.csv",
+        "copied_to": "data/audit/rya1397/execution/fe-abundance-budgets-v2/fe-i/FeI_8288_8299_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_RYA1397_REDOPT_ENGINE-A_products.csv",
+        "sha256": "bd37e7d8856b859051c05dedb74a7fd7340c11c7cf9ce33801c5d59dafb9d2f6",
+        "artifact_mtime": "2026-11-26T21:39:37Z",
+        "ingested_at": "2026-11-26T21:44:09Z"
+      },
+      "star": "solar",
+      "sigma_asplund": 0.045712899399306554,
+      "sigma_asplund_stat": 0.0112769309429085,
+      "sigma_asplund_syst": 0.04430011286667331,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "grade": "Ungraded",
+      "xi_state": "MEASURED",
+      "sigma_xi": 0.04367999999999998
+    },
+    {
+      "element": "Fe",
+      "ion": "II",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "ALL",
+      "selector": "SET-FEII_RYA1397_7515",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.506,
+      "sigma_stat": 0.01,
+      "sigma_syst": 0.1726,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (UNGRADED)",
+      "stat_basis": "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Fe|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FEII_RYA1397_7515|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "7ee0faa5c3ab2964c9d2aefa870aadf2fc53aaab4cdcf47483517bef8c0afb41"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.0116238979887713,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 1221
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (atomic data not included); a pool line carries no published gf sigma",
+            "evidence": {
+              "asplund_budget": true,
+              "indicator_ids": [
+                "pk_215210f9eeba"
+              ],
+              "line_sources": [
+                "T83av"
+              ],
+              "unpriced_ids": [
+                "pk_215210f9eeba"
+              ],
+              "pool_sha256": "7ee0faa5c3ab2964c9d2aefa870aadf2fc53aaab4cdcf47483517bef8c0afb41"
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "MEASURED",
+            "sigma_dex": 0.0058239999999999984,
+            "source": "per-line paired differential at xi 0.90/1.10 on this product's OWN pool, stamped legs (RYA-1178 A)",
+            "evidence": {
+              "pool_sha256": "7ee0faa5c3ab2964c9d2aefa870aadf2fc53aaab4cdcf47483517bef8c0afb41",
+              "parameter_source": "RYA-1089 sourced solar delta_xi = 0.2912 km/s",
+              "response_assessment": "central paired median over 1 lines; difference of aggregates -0.0200/km/s",
+              "signed_response_dex": -0.0058239999999999984,
+              "delta_plus_dex": -0.0058239999999999984,
+              "delta_minus_dex": 0.0058239999999999984,
+              "delta_parameter": 0.2912,
+              "dA_dxi": -0.019999999999999993,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.005024937810560356,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (pool lines, n=1)",
+            "evidence": {
+              "pool_sha256": "7ee0faa5c3ab2964c9d2aefa870aadf2fc53aaab4cdcf47483517bef8c0afb41",
+              "temperature_structure_dex": 0.000500000000000167,
+              "inhomogeneity_dex": 0.004999999999999893,
+              "mean_3Dmean_minus_HM_dex": 0.001000000000000334,
+              "mean_3D_minus_3Dmean_dex": 0.009999999999999787,
+              "n_scott_lines": 1,
+              "basis": "pool lines",
+              "scott_wavelengths_A": [
+                7515.831
+              ]
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "7ee0faa5c3ab2964c9d2aefa870aadf2fc53aaab4cdcf47483517bef8c0afb41",
+              "per_line": [
+                {
+                  "wavelength_air_A": 7515.83,
+                  "dA_df": -8.999999999999453,
+                  "sigma_line_dex": 0.0,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 0.9999551985932748,
+                  "n_px": 400,
+                  "n_telluric_px": 0,
+                  "max_depth": 0.002970950973166353,
+                  "residual_flux": 0.0,
+                  "sky_absorption": 0.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in-window (RYA-1230 turned molecular opacity on in every band); no catalogued-blend deficit",
+            "evidence": {
+              "use_molecules": true,
+              "owed_measurement": "a paired molecule-strength leg on this C/O pool"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "this leg applies no departures (nlte_delta_dex = 0 on every line)",
+            "evidence": {
+              "nlte_delta_dex": 0.0
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99864
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-FEII_RYA1397_7515"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "q80",
+                "q97",
+                "contref"
+              ]
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "core"
+              ]
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.00013511500445336148,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.391897599999998e-05,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.5249999999999103e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "stellar.xi",
+          "model_atmosphere",
+          "telluric",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.013938578853432675,
+        "sigma_measured_partial": 0.013938578853432675
+      },
+      "uncertainty_indicator_ids": [
+        "pk_215210f9eeba"
+      ],
+      "sigma_reported": 0.0139385788534326,
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-feii-7515-product-v1/stage/FeII_7510_7521_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FEII_RYA1397_7515_products.csv",
+        "copied_to": "data/audit/rya1397/execution/fe-abundance-budgets-v2/fe-ii/FeII_7510_7521_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_SET-FEII_RYA1397_7515_products.csv",
+        "sha256": "45bed71af5e723334c64558d5faa4e4a13a40ec93ffb2da6d0a507ac7f911f57",
+        "artifact_mtime": "2026-11-26T21:39:38Z",
+        "ingested_at": "2026-11-26T21:44:12Z"
+      },
+      "star": "solar",
+      "sigma_asplund": 0.03256324622105972,
+      "sigma_asplund_stat": 0.0116238979887713,
+      "sigma_asplund_syst": 0.030417922348510245,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "grade": "Ungraded",
+      "xi_state": "MEASURED",
+      "sigma_xi": 0.0058239999999999984
     }
   ],
   "superseded": [
@@ -2462182,6 +2463275,697 @@
       "sigma_asplund_syst": 0.03700667273831155,
       "superseded_at": "2026-11-17T01:26:05Z",
       "superseded_reason": "orchestrator --publish (3ab9034f7397): RYA-587 budget from paired legs on each product's own pool; published through publish_product's gates"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-FE_RYA1397_REDOPT",
+      "treatment": "ENGINE-A",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.468,
+      "sigma_stat": 0.01,
+      "sigma_syst": 0.1726,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (UNGRADED)",
+      "stat_basis": "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|ENGINE-A|our-all",
+          "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.0112769309429085,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 160
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (atomic data not included); a pool line carries no published gf sigma",
+            "evidence": {
+              "asplund_budget": true,
+              "indicator_ids": [
+                "pk_87ca8004690b"
+              ],
+              "line_sources": [
+                "BK+BWL"
+              ],
+              "unpriced_ids": [
+                "pk_87ca8004690b"
+              ],
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.032596012026013164,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (pool lines, n=1)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "temperature_structure_dex": 0.03049999999999997,
+              "inhomogeneity_dex": 0.011499999999999844,
+              "mean_3Dmean_minus_HM_dex": -0.06099999999999994,
+              "mean_3D_minus_3Dmean_dex": 0.022999999999999687,
+              "n_scott_lines": 1,
+              "basis": "pool lines",
+              "scott_wavelengths_A": [
+                8293.515
+              ]
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.029414828041108274,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "per_line": [
+                {
+                  "wavelength_air_A": 8293.513,
+                  "dA_df": -6.000000000000227,
+                  "sigma_line_dex": 0.029414828041108274,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 0.9887885985404415,
+                  "n_px": 400,
+                  "n_telluric_px": 103,
+                  "max_depth": 0.9125025168370275,
+                  "sky_absorption": 0.11346929861861944,
+                  "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
+                  "residual_flux": 0.004902471340184527
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in-window (RYA-1230 turned molecular opacity on in every band); no catalogued-blend deficit",
+            "evidence": {
+              "use_molecules": true,
+              "owed_measurement": "a paired molecule-strength leg on this C/O pool"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "MEASURED",
+            "sigma_dex": 0.03,
+            "source": "Asplund+2021 Sect. 2.1: half the non-LTE abundance correction, minimum 0.03 dex -- the correction measured on this pool (median 1D-NLTE delta of the accepted lines)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "median_nlte_correction_dex": 0.016,
+              "n_lines": 1,
+              "floor_dex": 0.03
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99873
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-FE_RYA1397_REDOPT"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "xi_minus",
+                "xi_plus"
+              ]
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "q80",
+                "q97",
+                "contref"
+              ]
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "core"
+              ]
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.0001271691714911272,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0010624999999999949,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0008652321086879696,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "model_atmosphere",
+          "telluric",
+          "nlte",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.05435900367169262,
+        "sigma_measured_partial": 0.05435900367169262
+      },
+      "uncertainty_indicator_ids": [
+        "pk_87ca8004690b"
+      ],
+      "sigma_reported": 0.0543590036716926,
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-line-budgets-v1/checked-stage",
+        "copied_to": "data/audit/rya1397/execution/line-budgets-v1/checked-stage/FeI_8288_8299_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_RYA1397_REDOPT_ENGINE-A_products.csv",
+        "sha256": "6c4965f6a3c9ea10d8ee3a209c43f565cb9f33c13195e1a38e24eb4fc1875938",
+        "artifact_mtime": "2026-11-26T15:06:58Z",
+        "ingested_at": "2026-11-26T15:07:09Z"
+      },
+      "star": "solar",
+      "sigma_asplund": 0.045712899399306554,
+      "sigma_asplund_stat": 0.0112769309429085,
+      "sigma_asplund_syst": 0.04430011286667331,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "grade": "Ungraded",
+      "superseded_at": "2026-11-26T21:44:10Z",
+      "superseded_reason": "RYA-1397 measure Fe I microturbulence on the same published single-line pool"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "ALL",
+      "selector": "SET-FE_RYA1397_REDOPT",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.452,
+      "sigma_stat": 0.01,
+      "sigma_syst": 0.1726,
+      "n_lines": 1,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (UNGRADED)",
+      "stat_basis": "quantiser-floor 0.01 dex (RYA-771) \u2014 UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one",
+      "route": "SYNTH",
+      "uncertainty": {
+        "schema": "rya587.uncertainty.v1",
+        "scope": {
+          "star": "solar",
+          "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|1D-LTE|our-all",
+          "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+        },
+        "components": [
+          {
+            "name": "measurement",
+            "state": "MEASURED",
+            "sigma_dex": 0.0112769309429085,
+            "source": "Asplund+2021 Sect. 2.1: one or two lines -> statistical error from the goodness of the profile fit; each line's chi2-curvature sigma, rescaled to red_chi2 = 1",
+            "evidence": {
+              "method": "profile_likelihood",
+              "likelihood": "synthesis chi2 over the fit window, curvature at the best abundance",
+              "correlation_treatment": "red_chi2 rescaling absorbs pixel correlation and model inadequacy; the worse-constrained side is taken",
+              "n_pixels": 160
+            }
+          },
+          {
+            "name": "transition_data",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (atomic data not included); a pool line carries no published gf sigma",
+            "evidence": {
+              "asplund_budget": true,
+              "indicator_ids": [
+                "pk_87ca8004690b"
+              ],
+              "line_sources": [
+                "BK+BWL"
+              ],
+              "unpriced_ids": [
+                "pk_87ca8004690b"
+              ],
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc"
+            }
+          },
+          {
+            "name": "stellar.logg",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar log g is pinned; delta_logg is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.metallicity",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "solar [Fe/H] is pinned; delta_feh is definitionally zero (RYA-1089)",
+            "evidence": {
+              "delta": 0.0,
+              "parameter_exists": true
+            }
+          },
+          {
+            "name": "stellar.teff",
+            "state": "DEFINED",
+            "sigma_dex": 0.0,
+            "source": "sourced DEFINED zero (RYA-1226 convention): the solar Teff allowance is 1 K",
+            "evidence": {
+              "parameter_exists": true,
+              "delta_K": 1.0,
+              "owed_measurement": "a Teff perturbation on this pool"
+            }
+          },
+          {
+            "name": "model_atmosphere",
+            "state": "MEASURED",
+            "sigma_dex": 0.032596012026013164,
+            "source": "Asplund+2021 Sect. 2.1: half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II (pool lines, n=1)",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "temperature_structure_dex": 0.03049999999999997,
+              "inhomogeneity_dex": 0.011499999999999844,
+              "mean_3Dmean_minus_HM_dex": -0.06099999999999994,
+              "mean_3D_minus_3Dmean_dex": 0.022999999999999687,
+              "n_scott_lines": 1,
+              "basis": "pool lines",
+              "scott_wavelengths_A": [
+                8293.515
+              ]
+            }
+          },
+          {
+            "name": "telluric",
+            "state": "MEASURED",
+            "sigma_dex": 0.029414828041108274,
+            "source": "per-line measured sky depth -> measured residual of this holding vs an independent correction on the telluric pixels -> dex via the line's own dA/df (+0.1% leg); lines independent, weight 1/n",
+            "evidence": {
+              "pool_sha256": "4fc11cc52498a1b4435c27ee8a741e4b10049ca59ce07aa2928ed440872d0fdc",
+              "per_line": [
+                {
+                  "wavelength_air_A": 8293.513,
+                  "dA_df": -6.000000000000227,
+                  "sigma_line_dex": 0.029414828041108274,
+                  "sky_pair": "solar_kpno/solar_kpno_kurucz2005_corrected",
+                  "clean_edge": 0.16768564509441747,
+                  "clean_window_null": 0.16768564509441747,
+                  "sky_baseline": 0.9887885985404415,
+                  "n_px": 400,
+                  "n_telluric_px": 103,
+                  "max_depth": 0.9125025168370275,
+                  "sky_absorption": 0.11346929861861944,
+                  "residual_basis": "solar_kpno_molecfit_corrected vs independent correction solar_kpno_kurucz2005_corrected, baseline-removed",
+                  "residual_flux": 0.004902471340184527
+                }
+              ]
+            }
+          },
+          {
+            "name": "blends",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "full atomic + molecular synthesis in-window (RYA-1230 turned molecular opacity on in every band); no catalogued-blend deficit",
+            "evidence": {
+              "use_molecules": true,
+              "owed_measurement": "a paired molecule-strength leg on this C/O pool"
+            }
+          },
+          {
+            "name": "nlte",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "this leg applies no departures (nlte_delta_dex = 0 on every line)",
+            "evidence": {
+              "nlte_delta_dex": 0.0
+            }
+          },
+          {
+            "name": "pseudo_continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "outside the near-UV the continuum is observed; it is placed per line by the standing rule and priced on `continuum`",
+            "evidence": {
+              "band": "red-optical",
+              "continuum_levels": [
+                0.99873
+              ]
+            }
+          },
+          {
+            "name": "hfs_isotopes",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "every pool line has hfs_n_components == 1 (canonical_gf)",
+            "evidence": {
+              "hfs_n_components": [
+                1
+              ]
+            }
+          },
+          {
+            "name": "molecular_coupling",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "atomic product; the selector is not a MOL- indicator set",
+            "evidence": {
+              "selector": "SET-FE_RYA1397_REDOPT"
+            }
+          },
+          {
+            "name": "holding_instrument",
+            "state": "MEASURED",
+            "sigma_dex": 0.0,
+            "source": "SynthesisHandler harness residual MEASURED against the known optical answer (RYA-869)",
+            "evidence": {
+              "harness_residual_dex": 0.0
+            }
+          },
+          {
+            "name": "stellar.xi",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "xi_minus",
+                "xi_plus"
+              ]
+            }
+          },
+          {
+            "name": "continuum",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "q80",
+                "q97",
+                "contref"
+              ]
+            }
+          },
+          {
+            "name": "profile_ew",
+            "state": "N/A",
+            "sigma_dex": null,
+            "source": "not in the Asplund+2021 Sect. 2.1 budget (stat, atmosphere, half the 3D effect, NLTE); RYA-1315 runs only those legs",
+            "evidence": {
+              "asplund_budget": true,
+              "legs_not_run": [
+                "core"
+              ]
+            }
+          }
+        ],
+        "required_extra": [],
+        "covariance": [
+          [
+            0.0001271691714911272,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0010624999999999949,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0008652321086879696,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "covariance_order": [
+          "measurement",
+          "stellar.logg",
+          "stellar.metallicity",
+          "stellar.teff",
+          "model_atmosphere",
+          "telluric",
+          "holding_instrument"
+        ],
+        "covariance_source": "components independent of one another; the shared-source gf correlation lives inside transition_data",
+        "assumptions": "solar log g and [Fe/H] pinned; Teff allowance 1 K",
+        "state": "COMPLETE",
+        "holds": [],
+        "sigma_reported": 0.045331018962506145,
+        "sigma_measured_partial": 0.045331018962506145
+      },
+      "uncertainty_indicator_ids": [
+        "pk_87ca8004690b"
+      ],
+      "sigma_reported": 0.0453310189625061,
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-line-budgets-v1/checked-stage",
+        "copied_to": "data/audit/rya1397/execution/line-budgets-v1/checked-stage/FeI_8288_8299_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-FE_RYA1397_REDOPT_products.csv",
+        "sha256": "91d88a3a8d472fc13765de411395753fdda0f0304b18a42e5e525be2387da609",
+        "artifact_mtime": "2026-11-26T15:06:58Z",
+        "ingested_at": "2026-11-26T15:07:09Z"
+      },
+      "star": "solar",
+      "sigma_asplund": 0.045712899399306554,
+      "sigma_asplund_stat": 0.0112769309429085,
+      "sigma_asplund_syst": 0.04430011286667331,
+      "sigma_asplund_basis": "Asplund, Amarsi & Grevesse 2021 Sect. 2.1: statistical (+) half the mean (<3D> - Holweger & Mueller 1974) (+) half the mean (3D - <3D>), per line from Scott+2015 I/II (+) NLTE (half the correction, floor 0.03); molecules: Amarsi+2021 compositional term instead of NLTE, trend term not priced; atomic data and observational terms not included",
+      "grade": "Ungraded",
+      "superseded_at": "2026-11-26T21:44:10Z",
+      "superseded_reason": "RYA-1397 measure Fe I microturbulence on the same published single-line pool"
     }
   ],
   "quarantine": [
@@ -2462532,14 +2464316,41 @@
       "EW \u00b7 1D-LTE",
       "Synth \u00b7 1D-LTE",
       "Synth \u00b7 1D-LTE \u00b7 Gerber",
+      "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
       "EW \u00b7 1D-NLTE \u00b7 Bergemann",
       "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
       "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+      "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
       "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
       "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
       "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf"
     ],
-    "not_displayed": [],
+    "not_displayed": [
+      {
+        "product_key": "Fe|II|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FEII_RYA1397_7515|SYNTH|1D-LTE|our-all",
+        "tier": "ALL",
+        "grade": "Ungraded",
+        "selector": "SET-FEII_RYA1397_7515",
+        "line_set": "our-all",
+        "reason": "grade 'Ungraded' is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
+      },
+      {
+        "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|1D-LTE|our-all",
+        "tier": "ALL",
+        "grade": "Ungraded",
+        "selector": "SET-FE_RYA1397_REDOPT",
+        "line_set": "our-all",
+        "reason": "grade 'Ungraded' is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
+      },
+      {
+        "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_RYA1397_REDOPT|SYNTH|ENGINE-A|our-all",
+        "tier": "ALL",
+        "grade": "Ungraded",
+        "selector": "SET-FE_RYA1397_REDOPT",
+        "line_set": "our-all",
+        "reason": "grade 'Ungraded' is UNRECOGNISED -- it is in neither ('Codex Grade', 'Reference Grade', 'Deep Grade') nor (), so nothing decided whether the forest should draw it. Held back and reported rather than dropped; give the grade a rule (tier 'ALL')"
+      }
+    ],
     "key_fields": [
       "element",
       "ion",
@@ -2462581,6 +2464392,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2462596,6 +2464413,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|H|crires_plus|solar_crires_plus_h_rya1232|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2462647,6 +2464470,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2462662,6 +2464491,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|H|crires_plus|solar_crires_plus_h_rya1232|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2462713,6 +2464548,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2462726,6 +2464567,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2462779,6 +2464626,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2462794,6 +2464647,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2462845,6 +2464704,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2462860,6 +2464725,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2462911,6 +2464782,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2462924,6 +2464801,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2462977,6 +2464860,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2462990,6 +2464879,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2463043,6 +2464938,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A|our-graded",
@@ -2463058,6 +2464959,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463109,6 +2465016,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463124,6 +2465037,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463175,6 +2465094,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463190,6 +2465115,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463241,6 +2465172,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463254,6 +2465191,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2463307,6 +2465250,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463322,6 +2465271,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463373,6 +2465328,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463388,6 +2465349,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463439,6 +2465406,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463454,6 +2465427,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463505,6 +2465484,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463520,6 +2465505,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463571,6 +2465562,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463586,6 +2465583,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463637,6 +2465640,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463650,6 +2465659,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2463703,6 +2465718,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463718,6 +2465739,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463769,6 +2465796,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463784,6 +2465817,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463835,6 +2465874,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463848,6 +2465893,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2463901,6 +2465952,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A|our-graded",
@@ -2463916,6 +2465973,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2463967,6 +2466030,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2463982,6 +2466051,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464033,6 +2466108,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464046,6 +2466127,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2464099,6 +2466186,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464114,6 +2466207,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464165,6 +2466264,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464180,6 +2466285,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464231,6 +2466342,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464246,6 +2466363,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464297,6 +2466420,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464312,6 +2466441,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464363,6 +2466498,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464378,6 +2466519,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464429,6 +2466576,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464442,6 +2466595,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2464495,6 +2466654,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464510,6 +2466675,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464561,6 +2466732,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464576,6 +2466753,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464627,6 +2466810,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464640,6 +2466829,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2464693,6 +2466888,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A|our-graded",
@@ -2464708,6 +2466909,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464759,6 +2466966,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464774,6 +2466987,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464825,6 +2467044,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464840,6 +2467065,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464891,6 +2467122,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464906,6 +2467143,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|ALL|SET-FE_AGSS21|SYNTH|ENGINE-B-NLTE|asplund",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2464957,6 +2467200,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2464972,6 +2467221,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2465023,6 +2467278,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465038,6 +2467299,12 @@
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
             "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|REFERENCE|REFERENCE|SYNTH|ENGINE-B-NLTE|reference",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
             "alternates": 0
           },
           {
@@ -2465089,6 +2467356,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465102,6 +2467375,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465155,6 +2467434,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465168,6 +2467453,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465221,6 +2467512,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465234,6 +2467531,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465287,6 +2467590,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465300,6 +2467609,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465353,6 +2467668,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465366,6 +2467687,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465419,6 +2467746,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465432,6 +2467765,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465485,6 +2467824,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465498,6 +2467843,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465551,6 +2467902,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465564,6 +2467921,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465617,6 +2467980,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465630,6 +2467999,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465683,6 +2468058,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465696,6 +2468077,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465749,6 +2468136,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465762,6 +2468155,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465815,6 +2468214,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465828,6 +2468233,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465881,6 +2468292,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465894,6 +2468311,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2465947,6 +2468370,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2465960,6 +2468389,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2466013,6 +2468448,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2466026,6 +2468467,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2466079,6 +2468526,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2466092,6 +2468545,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -2466145,6 +2468604,12 @@
             "alternates": 0
           },
           {
+            "row": "Synth \u00b7 1D-LTE \u00b7 OpenMULTI3D",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
             "product_key": null,
@@ -2466158,6 +2468623,12 @@
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 OpenMULTI3D",
             "pending": false,
             "product_key": null,
             "alternates": 0

@@ -1,0 +1,59 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+
+[synthesis route — near-UV]  R=500000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading ispec_nearuv_3000_3780 linelist (first call — cached)...
+  [synth] NLTE level labels merged from the sidecar: 2623 lines
+  [synth] canonical gf applied to all 21279 physical lines (0 uncovered)
+  [synth] ispec_nearuv_3000_3780 linelist: 55798 lines loaded
+  [holding] kpno_solar_atlas -> solar_kpno_molecfit_corrected (pre_normalised=True)
+            RYA-933: serves the WHOLE band -- corrected flux inside the six RYA-940 bands, the untouched 1984 atlas outside them, and a REFUSAL inside a registered telluric band RYA-940 could not fit (H2O 7160-7340). Until then this reader returned only the six corrected windows and nothing else, so every graded VIS line fell outside it and the band measured zero lines -- the holding had never produced a single product. RYA-940 telluric-corrected 1984 atlas. Same conventions as solar_kpno -- air, residual flux, unity IS the continuum -- differing only by the six corrected telluric bands. Listed AFTER solar_kpno on purpose: reachable by name, selection order unchanged, so no existing measurement silently switches product. NaN marks a quarantined saturated core.
+  1 Cr I candidates from the NAMED SET CRI_RYA1397_LAB (depth floor NOT applied -- that is what the set is for) (half-width +/-0.4 A, min separation 4.0 A)
+  [half-width] RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex). Anchor 3400 A.
+[2026-11-25 01:12:04,847] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:13:27,479] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:14:41,452] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:15:48,480] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:17:05,489] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:18:08,494] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:19:32,720] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '379.93' and '382.07000000007105'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '379.93' and '382.07000000007105'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '379.93' and '382.07000000007105'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '379.93' and '382.07000000007105'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 01:20:41,327] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:21:24,235] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:22:11,039] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:22:39,982] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:04,569] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:16,164] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:27,812] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:46,134] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:46,337] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:46,541] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:46,745] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:46,960] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:47,181] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:47,419] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:47,689] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:23:47,950] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:24:12,129] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 01:24:34,062] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 1 Cr I lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07 x1. A pool is graded only if every line in it is
+
+  ENGINE-A: NOT PRODUCED — no finite NLTE correction supplied; 1 of 1 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  A(Cr I; near-UV, 1D-LTE) = 5.377 +/- n/a  (n=1, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote rya1397-cri-isolated-v1/CrI_3743_3755_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_SET-CRI_RYA1397_LAB_products.csv
+synth_cache: calls=26 new_syntheses=63 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth

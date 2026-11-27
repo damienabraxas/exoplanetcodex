@@ -1,0 +1,157 @@
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+*********************************************************************
+Not optimized version loaded!
+*********************************************************************
+Line-specific broadening unavailable. Use same-multiplet VALD template as a diagnostic-only model.
+['scripts/derive_band_products.py', '--element', 'N', '--ion', 'I', '--lo', '10501', '--hi', '10527', '--instrument', 'crires_plus', '--holding', 'solar_crires_plus_y_wide_rya1054', '--force-synthesis', '--skip-engine-b', '--lines-from-set', 'NI_CAFFAU_RYA1397_NIST_Y_DIAGNOSTIC=/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-ni-y-nist-v1/input.csv', '--out', '/home/damienabraxas/scratch/rya1397-feii-v1/rya1397-ni-y-nist-v1']
+
+[synthesis route — NIR]  R=100000
+  [gf] canonical gf single-sourcing (RYA-353) attempted per LINE; coverage is reported by the application itself, not assumed from a wavelength bound (RYA-1045)
+  [synth] Loading rya1397-ni-y-nist-v1 linelist (first call — cached)...
+  [synth] canonical gf applied to 593 physical lines; 8 NOT adjudicated, left as delivered ((7, 1) x7, (8, 1) x1)
+  [synth] rya1397-ni-y-nist-v1 linelist: 793 lines loaded
+  [holding] crires_plus -> solar_crires_plus_y_wide_rya1054 (pre_normalised=True)
+            RYA-1054: the SAME source and normaliser as the RYA-794 product (sp/Sun_Y_rv.dat), conditioned over the arm's full measured extent instead of Elgueta's adopted 10280-10680 window. The floor is not a telluric limit -- below 10280 the arm runs 0.00-0.26% of points under 0.5, against 0.06-0.21% INSIDE the adopted window. It carries 5 primary-lab Fe I lines where the narrow product carries 1, which is the difference between a refused pool and a measurable one. Listed AFTER the RYA-794 holding so no existing measurement silently switches product.
+  2 N I candidates from the NAMED SET NI_CAFFAU_RYA1397_NIST_Y_DIAGNOSTIC (depth floor NOT applied -- that is what the set is for) (half-width +/-1.4 A, min separation 4.0 A)
+  [half-width] 0.40 A scaled by lambda from the near-UV anchor (12000/3400). Anchor 12000 A.
+No molecules found between '1050.13' and '1051.269999999714'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.13' and '1051.269999999714'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.13' and '1051.269999999714'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.13' and '1051.269999999714'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:27:17,309] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:27:30,208] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:27:50,782] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:28:05,657] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:28:26,045] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:28:42,461] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:29:03,265] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:29:17,594] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:29:20,931] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:29:26,332] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:26,497] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:26,596] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:26,698] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:26,799] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:26,899] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:27,001] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:27,103] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:29:27,203] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:29:54,030] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1050.54' and '1050.8599999999196'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:30:25,053] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.48' and '1052.6299999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.48' and '1052.6299999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.48' and '1052.6299999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.48' and '1052.6299999997113'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:31:07,596] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:31:35,968] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:32:08,931] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:32:31,829] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:33:07,063] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:33:24,111] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:33:52,164] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:34:16,340] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:34:19,523] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:34:22,745] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:34:26,054] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:26,178] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:26,293] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:26,414] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:26,537] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:26,661] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:26,787] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:26,909] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+[2026-11-25 11:34:27,030] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:34:49,506] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+No molecules found between '1051.89' and '1052.2199999999173'. Are there turbospectrum molecule files ('input/linelists/turbospectrum/molecules/*.bsyn')?
+[2026-11-25 11:35:22,010] [INFO] [spectrum:__convolve_spectrum:789]: Spectra convolved!
+  [gf rung] gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 0 of 2 N I lines carry a published per-line gf sigma (lab, literature or NIST class); the rest are systematic:K07 x2. A pool is graded only if every line in it is
+
+  ENGINE-A: NOT PRODUCED — no finite NLTE correction supplied; 2 of 2 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  ENGINE-A-3DNLTE: NOT PRODUCED — Amarsi, Grevesse, Grumer, Asplund, Barklem & Collet 2020, A&A 636, A120, Table 3 (solar, disk-centre EWs) -- 3D non-LTE (STAGGER) - 1D LTE (MARCS); SOLAR per-line additive correction, same EWs in both columns (match <= 0.05 A); 2 of 2 line(s) unserved. The 1D-LTE product above stands alone and is NOT an NLTE value.
+
+  A(N I; NIR, 1D-LTE) = 8.518 +/- 0.808  (n=2, excluded 0)
+  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product reports for
+  every band; RYA-759 published a MAD. Same lines, different dispersion statistic —
+  the VALUE is the number to compare.
+  wrote /home/damienabraxas/scratch/rya1397-feii-v1/rya1397-ni-y-nist-v1/NI_10501_10527_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_SET-NI_CAFFAU_RYA1397_NIST_Y_DIAGNOSTIC_products.csv
+synth_cache: calls=41 new_syntheses=83 dir=/home/damienabraxas/scratch/rya1397-feii-v1/data/cache/synth

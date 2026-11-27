@@ -489,6 +489,65 @@ def _gf_covariance(sig, src, tags):
     return cov, note
 
 
+#: RYA-731 -- the `marcs` leg already exists for a species Scott+2015 does not tabulate
+#: (Ni II): the deck LTE comparands are the 1D-LTE route's SAME lines, fitter and window on
+#: MARCS.GES with departures withheld (derive_band_products, RYA-1045), while the 1D-LTE
+#: route and ENGINE-B run on ATLAS9.Castelli. Only the atmosphere grid differs, so the pair
+#: IS `|paired median(A[MARCS.GES] - A[ATLAS9.Castelli])|`. A <3D> product has no 1D grid
+#: to vary and is not paired here.
+ATLAS9_TOKENS = ("1D-LTE", "ENGINE-B")
+MARCS_LTE_TOKENS = ("synth-1D-LTE-gerber", "synth-1D-LTE-openmulti3d")
+
+
+def _stem_with(stem: str, token: str) -> str:
+    return re.sub(r"_(1D-LTE|ENGINE-B|synth-1D-LTE-gerber|synth-1D-LTE-openmulti3d)_lines\.csv$",
+                  f"_{token}_lines.csv", stem)
+
+
+def _grid_pair_atmosphere(lines_stem, nominal_dir: Path, acc, n, aggregation, digest, comps, notes):
+    """model_atmosphere from the unit's own ATLAS9 / MARCS.GES deck-LTE pair. The comparand
+    may sit in a peer unit of the same stem (the 1D-LTE product is emitted by every deck's
+    unit); it is used only if that unit's ATLAS9 pool is the same lines at the same values."""
+    m = re.search(r"_(1D-LTE|ENGINE-B|synth-1D-LTE-gerber|synth-1D-LTE-openmulti3d)_lines\.csv$", lines_stem)
+    if m is None:
+        notes.append("model_atmosphere: marcs leg missing; no 1D atmosphere grid on this product")
+        return
+    own = m.group(1)
+    mine = {round(float(w), 3): float(v) for w, v in zip(acc["wavelength_air_A"], acc["abundance"])}
+    peers = [nominal_dir] + sorted(p for p in nominal_dir.parent.parent.glob(f"*/{nominal_dir.name}")
+                                   if p != nominal_dir)
+    for d in peers:
+        for tok in (MARCS_LTE_TOKENS if own in ATLAS9_TOKENS else ATLAS9_TOKENS[:1]):
+            other = d / _stem_with(lines_stem, tok)
+            if not other.exists():
+                continue
+            if own in ATLAS9_TOKENS:
+                a9 = d / _stem_with(lines_stem, "1D-LTE")
+                if not a9.exists():
+                    continue
+                a9acc = _acc(pd.read_csv(a9))
+                same = {round(float(w), 3): float(v) for w, v in zip(a9acc["wavelength_air_A"], a9acc["abundance"])}
+                if same != mine:
+                    continue
+                marcs_l, atlas_l = _acc(pd.read_csv(other)), acc
+            else:
+                marcs_l, atlas_l = acc, _acc(pd.read_csv(other))
+            p = _paired(marcs_l, atlas_l, n, aggregation)
+            if p["moved"]:
+                notes.append(f"model_atmosphere: ATLAS9/MARCS.GES pool moved ({p['n_paired']} vs {n})")
+                return
+            comps.append(dict(
+                name="model_atmosphere", sigma_dex=abs(p["effect"]), state="MEASURED",
+                source=("|paired median(A[MARCS.GES] - A[ATLAS9.Castelli])| on this pool: the 1D-LTE "
+                        "route against its deck LTE comparand (same lines, fitter and window, "
+                        "departures withheld), only the atmosphere grid varied (RYA-731)"),
+                evidence={"pool_sha256": digest, f"paired_{aggregation}_marcs_minus_atlas9_dex": p["effect"],
+                          "n_paired": p["n_paired"], "varied": "atmosphere grid",
+                          "comparand": f"{d.parent.name}/{other.name}"}))
+            return
+    notes.append("model_atmosphere: marcs leg missing and no ATLAS9/MARCS.GES pair for this pool")
+
+
 def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
     from config.synth_bands import SYNTH_BANDS
     from pipeline.band_policy import resolve as band_of
@@ -881,9 +940,11 @@ def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):
                     "the mean (3D - <3D>), per-line LTE abundances of Scott+2015 I/II "
                     f"({scott['basis']}, n={scott['n_scott_lines']})"),
             evidence={"pool_sha256": digest, **scott}))
-    else:
+    elif (unit_dir / "marcs").is_dir():
         lever("model_atmosphere", "marcs", "MARCS.GES vs ATLAS9.Castelli, one axis varied, paired on this pool",
               {"varied": "atmosphere grid"})
+    else:
+        _grid_pair_atmosphere(lines_stem, nominal_dir, acc, n, aggregation, digest, comps, notes)
 
     # telluric: per line, through the line's own dA/df
     cs = _leg_lines(unit_dir / "cscale", lines_stem)

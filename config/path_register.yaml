@@ -1090,3 +1090,54 @@ entries:
       usable as a normalisation cross-check (RYA-485, RYA-846). Region 6 (2899-3525 A)
       is clean; region 5 (2995-4106 A) carries Fortran overflow markers and normalised
       fluxes to +9.98 in the near-UV.
+
+  engines.openmulti3d_atoms:
+    root: work
+    rel: openmulti3d_atoms
+    kind: dir
+    desc: >-
+      Mac working copies (read-only) of the MPG Keeper model atoms the OpenMULTI3D
+      Engine-B decks load and Turbospectrum reads; source of truth is
+      grids.keeper_atoms_20261118 on Sirius, SHA-256 pinned in
+      pipeline/openmulti3d_nlte.py DECKS.
+
+  grids.openmulti3d_decks:
+    root: work
+    rel: openmulti3d_decks
+    kind: dir
+    desc: >-
+      RYA-1371 OpenMULTI3D 1D NLTE departure decks (deck.npz + deck.json provenance)
+      built on the Mac by scripts/build_openmulti3d_deck.py via
+      pipeline.openmulti3d_nlte.ensure_deck; rebuilt, never edited, when an input hash
+      changes.
+
+  engines.openmulti3d_python:
+    root: work
+    rel: venv_openmulti3d
+    kind: dir
+    desc: >-
+      Python 3.12 venv with tumult's dependencies (numpy/scipy/pandas/numba/
+      astropy/cffi); tumult itself is imported from the pinned checkout via
+      PYTHONPATH, never pip-installed into it.
+
+  engines.openmulti3d_reference:
+    root: work
+    rel: bride_inputs/rya1281/openmulti3d-reference-v1
+    kind: dir
+    desc: Pinned OpenMULTI3D external reference source; experimental, no product admission.
+
+  engines.openmulti3d_reference_build:
+    root: work
+    rel: bride_inputs/rya1371/openmulti3d-build-v1
+    kind: dir
+    desc: Private one-task Mac native build receipt; binary remains external.
+
+  grids.keeper_atoms_20261118:
+    root: grids
+    rel: nlte/keeper_atoms_2026-11-18
+    kind: dir
+    desc: >-
+      RYA-1371 snapshot of every model atom on the MPG Keeper share
+      6eaecbf95b88448f98a4 /dep-grids/*/ fetched 2026-11-18T07:31Z (mutable,
+      unversioned share -> SHA256SUMS in dir; files read-only). Sirius only.
+      Inventory: docs/audit/rya1371/keeper_atom_inventory.md.

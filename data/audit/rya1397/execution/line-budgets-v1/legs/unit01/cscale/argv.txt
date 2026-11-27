@@ -1,0 +1,2 @@
+/home/damienabraxas/venv_rya1103/bin/python scripts/derive_band_products.py --element Fe --ion II --lo 7217 --hi 7521 --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --force-synthesis --skip-engine-b --lines-from-set FE_RYA1397_REDOPT=rya1397-feii-redopt-kurucz-v1/FeII_input.csv --out rya1397-line-budgets-v1/legs/unit01/cscale
+{'CODEX_CONT_SCALE': '1.001'}
