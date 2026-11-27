@@ -1,0 +1,28 @@
+n5_E1 f
+  SVD condition number 2091.1
+  native                           4f 5f        / 4f 5f        | S 5.7184e-06 0.91711 | reverse inv(S) 573.88 1.6531
+  joint reverse                    5f 4f        / 5f 4f        | S 3.78e-06 1.0927 | reverse inv(S) 379.36 0.60625
+  max S pivot                      5f 4f        / 4f 5f        | S 6.2352e-06 1.0904 | reverse inv(S) 625.75 1.6495
+  min S multiplier                 4f 5f        / 5f 4f        | S 3.4592e-06 0.91513 | reverse inv(S) 347.16 0.60493
+  min reversed inverse multiplier  4f 5f        / 5f 4f        | S 3.4592e-06 0.91513 | reverse inv(S) 347.16 0.60493
+n5_E1 f-
+  SVD condition number 2108.2
+  native                           4f- 5f-      / 4f- 5f-      | S 5.6377e-06 0.91715 | reverse inv(S) 577.62 1.6535
+  joint reverse                    5f- 4f-      / 5f- 4f-      | S 3.7256e-06 1.0927 | reverse inv(S) 381.71 0.60608
+  max S pivot                      5f- 4f-      / 4f- 5f-      | S 6.147e-06 1.0903 | reverse inv(S) 629.8 1.6499
+  min S multiplier                 4f- 5f-      / 5f- 4f-      | S 3.4096e-06 0.91518 | reverse inv(S) 349.33 0.60478
+  min reversed inverse multiplier  4f- 5f-      / 5f- 4f-      | S 3.4096e-06 0.91518 | reverse inv(S) 349.33 0.60478
+n6_E1 f
+  SVD condition number 28868
+  native                           4f 5f 6f     / 4f 5f 6f     | S 5.7184e-06 2.7405e+05 | reverse inv(S) 0.0065431 162.12
+  joint reverse                    6f 5f 4f     / 6f 5f 4f     | S 0.00068712 1.1146 | reverse inv(S) 18.743 13.169
+  max S pivot                      6f 5f 4f     / 6f 5f 4f     | S 0.00068712 1.1146 | reverse inv(S) 18.743 13.169
+  min S multiplier                 6f 4f 5f     / 5f 6f 4f     | S 0.00061646 0.89715 | reverse inv(S) 12.629 13.157
+  min reversed inverse multiplier  6f 4f 5f     / 4f 6f 5f     | S 4.6853e-05 0.89794 | reverse inv(S) 1.0041 0.084013
+n6_E1 f-
+  SVD condition number 29131
+  native                           4f- 5f- 6f-  / 4f- 5f- 6f-  | S 5.6377e-06 2.7824e+05 | reverse inv(S) 0.0065745 161.22
+  joint reverse                    6f- 5f- 4f-  / 6f- 5f- 4f-  | S 0.0006879 1.1145 | reverse inv(S) 18.572 13.304
+  max S pivot                      6f- 5f- 4f-  / 6f- 5f- 4f-  | S 0.0006879 1.1145 | reverse inv(S) 18.572 13.304
+  min S multiplier                 6f- 4f- 5f-  / 6f- 5f- 4f-  | S 0.00061724 0.89728 | reverse inv(S) 16.664 13.293
+  min reversed inverse multiplier  4f- 6f- 5f-  / 6f- 4f- 5f-  | S 4.6434e-05 1.246 | reverse inv(S) 1.0062 0.08494
