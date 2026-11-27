@@ -68,3 +68,7 @@ Coverage on v1.181 (Sirius): PUBLISHED 14, CODE_DRIFT 195, HELD 519, NOT_RUN 0, 
 ## Ni II near-UV mean-3D LTE (v1.183)
 
 The two Gerber mean-3D LTE Ni II products are now published: 6.679 ± 0.132 (Kurucz-corrected, 20 lines) and 6.483 ± 0.100 (molecfit, 20 lines). They had been held because their model-atmosphere term had no source: Scott+2015 has no Ni II, and no 1D grid pair applies to a 3D model. The assembler now prices it the Asplund+2021 way. It takes half the pool's own mean-3D effect, |median(A[mean-3D Stagger] − A[1D MARCS.GES])| / 2 on the 18 lines both models accept, and adds the 1D comparand's grid term in quadrature. That gives 0.059 dex (Kurucz-corrected) and 0.064 dex (molecfit). Every other Ni II product assembles unchanged. The 243 earlier rows and the quarantine are byte-identical.
+
+## Coverage DONE (2026-11-27)
+
+The Ni rows of the Mac `ispec_nearuv_3000_3780/atomic_lines.tsv` copy that built the OpenMULTI3D cells are identical to the Sirius list's Ni rows, numeric and text columns alike (1,496 rows). The two files differ only in other species' formatting and Fe I NLTE labels. The 36 OpenMULTI3D Ni ledger records were restamped to the Sirius list's digest, and each record carries a `restamped` note. No rerun was needed. Coverage on Sirius: CODE_DRIFT 237, HELD 519, NOT_RUN 0, STALE 0, **DONE**.
