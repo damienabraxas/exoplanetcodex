@@ -509,6 +509,9 @@ def _grid_pair_atmosphere(lines_stem, nominal_dir: Path, acc, n, aggregation, di
     may sit in a peer unit of the same stem (the 1D-LTE product is emitted by every deck's
     unit); it is used only if that unit's ATLAS9 pool is the same lines at the same values."""
     m = re.search(r"_(1D-LTE|ENGINE-B|synth-1D-LTE-gerber|synth-1D-LTE-openmulti3d)_lines\.csv$", lines_stem)
+    if m is None and lines_stem.endswith(f"_{MEAN3D_LTE_TOKEN}_lines.csv"):
+        _mean3d_atmosphere(lines_stem, nominal_dir, acc, n, aggregation, digest, comps, notes)
+        return
     if m is None:
         notes.append("model_atmosphere: marcs leg missing; no 1D atmosphere grid on this product")
         return
@@ -546,6 +549,44 @@ def _grid_pair_atmosphere(lines_stem, nominal_dir: Path, acc, n, aggregation, di
                           "comparand": f"{d.parent.name}/{other.name}"}))
             return
     notes.append("model_atmosphere: marcs leg missing and no ATLAS9/MARCS.GES pair for this pool")
+
+
+MEAN3D_LTE_TOKEN = "synth-mean3D-LTE-gerber-stagger"
+
+
+def _mean3d_atmosphere(lines_stem, nominal_dir: Path, acc, n, aggregation, digest, comps, notes):
+    """model_atmosphere for a <3D> product with no Scott+2015 row (e.g. Ni II), the Asplund+2021
+    Sect. 2.1 way: half the pool's own <3D> effect, |paired median(A[<3D> Stagger] - A[1D MARCS.GES])|
+    / 2 from the same deck, lines, fitter and window, (+) the 1D grid term that pool's 1D-LTE
+    comparand carries (MARCS.GES vs ATLAS9). Peer unit of the same stem allowed."""
+    one_stem = lines_stem.replace(f"_{MEAN3D_LTE_TOKEN}_lines.csv", "_synth-1D-LTE-gerber_lines.csv")
+    peers = [nominal_dir] + sorted(p for p in nominal_dir.parent.parent.glob(f"*/{nominal_dir.name}")
+                                   if p != nominal_dir)
+    for d in peers:
+        f = d / one_stem
+        if not f.exists():
+            continue
+        one = _acc(pd.read_csv(f))
+        p = _paired(acc, one, n, aggregation)
+        # a model comparison, not a perturbation leg: the effect is read on the lines both
+        # models accept (Asplund+2021 per-line 3D effect); refused only below 2 shared lines
+        if p["n_paired"] < 2:
+            notes.append(f"model_atmosphere: <3D>/1D share {p['n_paired']} line(s) of {n}")
+            return
+        grid = []
+        _grid_pair_atmosphere(one_stem, d, one, len(one), aggregation, digest, grid, [])
+        g = float(grid[0]["sigma_dex"]) if grid else 0.0
+        half = abs(p["effect"]) / 2.0
+        comps.append(dict(
+            name="model_atmosphere", sigma_dex=float(np.hypot(g, half)), state="MEASURED",
+            source=("Asplund+2021 Sect. 2.1 without a Scott+2015 row: half the pool's own <3D> effect, "
+                    "|paired median(A[<3D> Stagger] - A[1D MARCS.GES])| / 2 (same deck, lines, fitter "
+                    "and window), (+) the 1D grid term |MARCS.GES - ATLAS9| of the 1D comparand (RYA-731)"),
+            evidence={"pool_sha256": digest, f"paired_{aggregation}_mean3d_minus_1d_dex": p["effect"],
+                      "half_mean3d_effect_dex": half, "one_d_grid_dex": g if grid else None,
+                      "n_paired": p["n_paired"], "n_pool": n, "comparand": f"{d.parent.name}/{f.name}"}))
+        return
+    notes.append("model_atmosphere: no Scott row and no 1D MARCS.GES comparand for this <3D> pool")
 
 
 def build(unit_args, stem, nominal_dir: Path, unit_dir: Path, gf: pd.DataFrame):

@@ -7,7 +7,7 @@
 - **RYA-1397** — `c058aa97` PR #631: Solar Si I H-band Theoretical Codex product released.
 - **RYA-1397** — `e31f2ca5` PR #632: outstanding Solar line gaps reconciled; diagnostic runs archived.
 - **RYA-731** — `db6c775c` PR #633: Solar nickel products released.
-- **RYA-731** — `2a580916` PR #634: Solar Ni II near-UV LTE and Ni I near-UV Reference Grade published (Ni v1.181).
+- **RYA-731** — `2a580916` PR #634: Solar Ni II near-UV LTE products published (Ni v1.167).
 - **RYA-1397** — `ff9641e6` PR #635: Fe II 7515 released; Fe I uncertainties completed.
 - **RYA-1395** (this branch) — our own GRASP O I model: s0 and correlated layers n3-n5 complete (key solar lines within 0.05 dex of Li 2023, Babushkin). n6 E1 anomalous (rbiotransform overlap conditioning); the v83/v83b reverse-order control found GRASP rtransition has no reverse-order support. n5 is the usable correlated model. HOLD, report only.
 
@@ -15,6 +15,8 @@
 
 - **RYA-731** — Stage 223 Solar Ni I products, including OpenMULTI3D and the theoretical infrared set. Ni II remains held.
 - **RYA-731** — Ni v1.167: publish six Ni II near-UV LTE products (Clear+2026 gf) with the model-atmosphere term from the paired ATLAS9 / MARCS.GES fits. The two mean-3D LTE Ni II products stay held.
+- **RYA-731** — Ni v1.177 / v1.181: publish the 14 near-UV Ni I Reference Grade products (ts-lte, Gerber and OpenMULTI3D decks). Lab lines are now matched by transition (wavelength and lower-level energy), and the gate credits lab gf without a DOI. Coverage NOT_RUN 0.
+- **RYA-731** — Ni v1.183: publish the two Ni II near-UV mean-3D LTE products. Model-atmosphere term = half the pool's own mean-3D effect, in quadrature with the 1D grid term.
 
 ## 2026-11-24 — RYA-1396 landed and RYA-1397 V I patch staged
 

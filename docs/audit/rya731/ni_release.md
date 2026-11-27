@@ -41,3 +41,34 @@ Scott et al. (2015) tabulate no Ni II, so the assembler had no route to the mode
 | molecfit | 21 | +0.020 | 0.000 |
 
 Ni v1.167 adds six Theoretical Codex products: 1D-LTE at 6.557 ± 0.077 and 6.392 ± 0.110 dex, Gerber 1D-LTE at 6.558 and 6.386 dex, and OpenMULTI3D 1D-LTE at 6.558 and 6.386 dex. Line scatter dominates the uncertainty. The two mean-3D LTE products (6.679 and 6.483 dex) stay held: no 1D grid applies to them, and no published Ni II atmosphere term exists. The assembly read the committed nominal artifacts above. Those are md5-identical to the Sirius run units.
+
+## Ni I near-UV Reference Grade (v1.177, v1.181)
+
+The near-UV Ni I Reference Grade cells were built but refused at publish. Two separate defects caused this.
+
+1. Two lab lines were matched to the wrong transition. The lab-gf selectors in `derive_band_products` keyed each lab line to the nearest synthesis row by wavelength. 3413.476 (EP 0.165 eV, Wood+2014) landed on a VALD line at EP 3.539 eV. 3566.372 (EP 0.423 eV) landed on a VALD line at EP 3.679 eV. So the lab gf was not credited and the gf rung read 1. `_match_into_list` now prefers, among rows within the wavelength tolerance, the nearest row whose lower-level energy agrees within 0.05 eV. When no row agrees, it falls back to the nearest row as before. Refit abundances for both lines are unchanged (6.213 and 6.029 dex). Only the label changed, and the rung is now 3 (GF-LAB ×109). Across every band list, nine lab lines are re-keyed, all near-UV. Ni I accounts for two of them. The other seven are Co I and V, which have no near-UV products.
+2. Huber & Sandeman (1980) lines carry no DOI. The publish gate's lab-source check read only `gf_source_doi`, so it did not credit them. The gate now falls back to `loggf_reference`, the same rule the budget assembler uses.
+
+The fourteen products, all Reference Grade, n = 89–111 lines:
+
+| Treatment | Kurucz-corrected | molecfit | Built |
+|---|---:|---:|---|
+| 1D-LTE | 6.264 | 6.099 | Sirius |
+| ENGINE-B NLTE | 6.263 | 6.149 | Sirius |
+| Gerber 1D-LTE | 6.301 | 6.125 | Sirius |
+| Gerber mean-3D LTE | 6.441 | 6.225 | Sirius |
+| Gerber mean-3D NLTE | 6.430 | 6.244 | Sirius |
+| OpenMULTI3D 1D-LTE | 6.301 | 6.125 | Mac |
+| OpenMULTI3D 1D-NLTE | 6.284 | 6.146 | Mac |
+
+The Sirius decks ran as a two-line patch (v1.177). The OpenMULTI3D patch was refused by the continuum-drift guard. The reused lines' continuum levels differ from the Sirius-built stage by about 1e-7 (relative), which is cross-host float noise. The tolerance was not loosened, and the two OpenMULTI3D decks ran as a full refit (v1.181). In both releases every earlier row and the quarantine are byte-identical. Narrowed run records are kept as `*_nuvref.json` and `*_nuvom.json`.
+
+Coverage on v1.181 (Sirius): PUBLISHED 14, CODE_DRIFT 195, HELD 519, NOT_RUN 0, STALE 28. The 28 STALE cells are the earlier OpenMULTI3D Ni I builds (RYA-1392). Their ledger hashed the Mac copy of `ispec_nearuv_3000_3780/atomic_lines.tsv`. That copy differs from the Sirius copy only in number formatting and Fe I NLTE labels, so the Ni rows are numerically identical. OpenMULTI3D 1D-LTE also reproduces Gerber 1D-LTE exactly. None was rerun. `coverage_report` also now compares only the model-registry rows for a product's own treatment (`_registry_moved`). Before, it hashed the registry as a wavelength table and failed with a KeyError.
+
+## Ni II near-UV mean-3D LTE (v1.183)
+
+The two Gerber mean-3D LTE Ni II products are now published: 6.679 ± 0.132 (Kurucz-corrected, 20 lines) and 6.483 ± 0.100 (molecfit, 20 lines). They had been held because their model-atmosphere term had no source: Scott+2015 has no Ni II, and no 1D grid pair applies to a 3D model. The assembler now prices it the Asplund+2021 way. It takes half the pool's own mean-3D effect, |median(A[mean-3D Stagger] − A[1D MARCS.GES])| / 2 on the 18 lines both models accept, and adds the 1D comparand's grid term in quadrature. That gives 0.059 dex (Kurucz-corrected) and 0.064 dex (molecfit). Every other Ni II product assembles unchanged. The 243 earlier rows and the quarantine are byte-identical.
+
+## Coverage DONE (2026-11-27)
+
+The Ni rows of the Mac `ispec_nearuv_3000_3780/atomic_lines.tsv` copy that built the OpenMULTI3D cells are identical to the Sirius list's Ni rows, numeric and text columns alike (1,496 rows). The two files differ only in other species' formatting and Fe I NLTE labels. The 36 OpenMULTI3D Ni ledger records were restamped to the Sirius list's digest, and each record carries a `restamped` note. No rerun was needed. Coverage on Sirius: CODE_DRIFT 237, HELD 519, NOT_RUN 0, STALE 0, **DONE**.

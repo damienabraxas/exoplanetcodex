@@ -113,6 +113,29 @@ def _built_table(kind: str, rel: str, commit: str | None, digest: str | None,
     return _git_table(sha, rel) if got == digest else None
 
 
+def _registry_moved(rel: str, commit: str | None, digest: str | None,
+                    tokens: tuple[str, ...]) -> bool | None:
+    """Whether the model-registry row of any token this product carries changed since the
+    build. The ledger records the registry as one hash over every emitting row
+    (run_matrix.model_registry_fingerprint), so a new engine's row (RYA-1392 OpenMULTI3D)
+    moves every cell's digest; only the product's OWN token row reaches its synthesis.
+    None when the build's registry cannot be recovered or the tokens are unknown."""
+    import csv
+    import io
+    if not commit or not digest or not tokens:
+        return None
+    old_text, new_text = _git_text(commit.removesuffix("-dirty"), rel), _git_text(None, rel)
+    if old_text is None or new_text is None \
+            or rm.model_registry_fingerprint(text=old_text) != digest:
+        return None
+
+    def by_token(text):
+        return {(r.get("stored_token") or "").strip(): r
+                for r in csv.DictReader(io.StringIO(text)) if (r.get("stored_token") or "").strip()}
+    old, new = by_token(old_text), by_token(new_text)
+    return any(old.get(t) != new.get(t) for t in tokens)
+
+
 def _input_moved(kind: str, name: str, commit: str | None, digest: str | None, symbol: str,
                  window: tuple[float, float], waves: list[float] = ()) -> bool | None:
     """Whether a scoped ledger input changed in a way the cell can see, between the build and
@@ -153,7 +176,7 @@ def _input_moved(kind: str, name: str, commit: str | None, digest: str | None, s
 
 
 def _staleness(rec: dict, now: list[dict], symbol: str, window: tuple[float, float],
-               waves: list[float] = ()) -> tuple[str, str]:
+               waves: list[float] = (), tokens: tuple[str, ...] = ()) -> tuple[str, str]:
     """('', '') current | ('STALE', what moved) | ('CODE_DRIFT', which code)."""
     old = {(r["kind"], r["name"]): r.get("digest") for r in rec.get("inputs") or []}
     if not old:
@@ -166,6 +189,11 @@ def _staleness(rec: dict, now: list[dict], symbol: str, window: tuple[float, flo
         kind, name = key
         if kind == "stage_script":
             code.append(name)
+        elif kind == "ledger_scoped" and name.endswith("[emitting]") \
+                and key in old and key in cur:
+            if _registry_moved(name.rsplit("[", 1)[0], rec.get("code_commit"), old[key],
+                               tokens) is not False:
+                data.append(name)
         elif kind in ("ledger_scoped", "registry_scoped") and key in old and key in cur:
             moved = _input_moved(kind, name, rec.get("code_commit"), old[key], symbol,
                                  window, waves)
@@ -353,7 +381,8 @@ def coverage(star: str, element: str, *, report_dir: Path | None = None) -> dict
         # RYA-1349: say WHAT moved. A window-wide hash moves on any species' metadata edit
         # and on any code edit; neither is work owed.
         window = (float(d.lo_A) - rm.GF_SCOPE_PAD_A, float(d.hi_A) + rm.GF_SCOPE_PAD_A)
-        return _staleness(rec, now, symbol, window, _pool_waves(product))
+        return _staleness(rec, now, symbol, window, _pool_waves(product),
+                          tuple(t for t in [product.get("treatment")] if t))
 
     quarantine_rec = {(q.get("band"), q.get("holding"), str(q.get("ion")), q.get("selector") or "",
                        q.get("treatment")): q for q in feed.get("quarantine", [])}

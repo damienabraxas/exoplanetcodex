@@ -1,0 +1,956 @@
+{
+ "star": "solar",
+ "element": "Ni",
+ "units": [
+  "I near-UV solar_kpno_kurucz2005_corrected openmulti3d-1d-lte reference",
+  "I near-UV solar_kpno_kurucz2005_corrected openmulti3d-nlte reference",
+  "I near-UV solar_kpno_molecfit_corrected openmulti3d-1d-lte reference",
+  "I near-UV solar_kpno_molecfit_corrected openmulti3d-nlte reference"
+ ],
+ "dropped": [
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck openmulti3d-1d-lte (it emits synth-1D-LTE-openmulti3d)"
+  },
+  {
+   "product": "near-UV solar_kpno_kurucz2005_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck openmulti3d-nlte (it emits synth-1D-NLTE-openmulti3d)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck openmulti3d-1d-lte (it emits synth-1D-LTE-openmulti3d)"
+  },
+  {
+   "product": "near-UV solar_kpno_molecfit_corrected REFERENCE 1D-LTE",
+   "why": "not emitted by deck openmulti3d-nlte (it emits synth-1D-NLTE-openmulti3d)"
+  }
+ ],
+ "published": [
+  "near-UV solar_kpno_kurucz2005_corrected REFERENCE synth-1D-LTE-openmulti3d A=6.301",
+  "near-UV solar_kpno_kurucz2005_corrected REFERENCE synth-1D-NLTE-openmulti3d A=6.284",
+  "near-UV solar_kpno_molecfit_corrected REFERENCE synth-1D-LTE-openmulti3d A=6.125",
+  "near-UV solar_kpno_molecfit_corrected REFERENCE synth-1D-NLTE-openmulti3d A=6.146"
+ ],
+ "held": [],
+ "legs_incomplete": [],
+ "withdrawn": [],
+ "scope": {
+  "ions": [
+   "I"
+  ],
+  "bands": [
+   "near-UV"
+  ],
+  "engines": [
+   "openmulti3d-1d-lte",
+   "openmulti3d-nlte"
+  ],
+  "methods": [
+   "synthesis"
+  ]
+ },
+ "preserved": [],
+ "packaging": null,
+ "verdict": {
+  "element_verdict": "REVIEW",
+  "benchmark": true,
+  "benchmark_basis": "system_catalog: is_gbs=false role=calibration_anchor",
+  "n_products_judged": 243,
+  "counts": {
+   "IN_BAND": 94,
+   "OUT_OF_BAND": 149,
+   "NO_REFERENCE": 0,
+   "REPORTED": 0
+  },
+  "n_scale_mismatch": 243
+ },
+ "coverage": {
+  "counts": {
+   "PUBLISHED": 4,
+   "CODE_DRIFT": 205,
+   "HELD": 519,
+   "NOT_RUN": 0,
+   "STALE": 28
+  },
+  "done": false,
+  "checklist": [
+   {
+    "item": "treatment synth-1D-LTE-gerber",
+    "done": 34,
+    "held": 50,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment synth-mean3D-NLTE-gerber-stagger",
+    "done": 34,
+    "held": 50,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment synth-mean3D-LTE-gerber-stagger",
+    "done": 34,
+    "held": 50,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-B-NLTE",
+    "done": 34,
+    "held": 50,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment synth-1D-LTE-openmulti3d",
+    "done": 20,
+    "held": 50,
+    "owed": 14,
+    "unverified": 0,
+    "ok": false
+   },
+   {
+    "item": "treatment synth-1D-NLTE-openmulti3d",
+    "done": 20,
+    "held": 50,
+    "owed": 14,
+    "unverified": 0,
+    "ok": false
+   },
+   {
+    "item": "treatment 1D-LTE",
+    "done": 33,
+    "held": 51,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "treatment ENGINE-A",
+    "done": 0,
+    "held": 84,
+    "owed": 0,
+    "unverified": 0,
+    "ok": false
+   },
+   {
+    "item": "treatment ENGINE-A-3DNLTE",
+    "done": 0,
+    "held": 84,
+    "owed": 0,
+    "unverified": 0,
+    "ok": false
+   },
+   {
+    "item": "instrument CRIRES+",
+    "done": 56,
+    "held": 313,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   },
+   {
+    "item": "instrument HARPS",
+    "done": 20,
+    "held": 8,
+    "owed": 8,
+    "unverified": 0,
+    "ok": false
+   },
+   {
+    "item": "instrument Kitt Peak",
+    "done": 112,
+    "held": 156,
+    "owed": 20,
+    "unverified": 0,
+    "ok": false
+   },
+   {
+    "item": "instrument IAG",
+    "done": 21,
+    "held": 42,
+    "owed": 0,
+    "unverified": 0,
+    "ok": true
+   }
+  ],
+  "owed": [
+   {
+    "band": "near-UV",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[2990-3790]",
+    "A": 6.192,
+    "sigma": 0.0765723617475471,
+    "n_lines": 2,
+    "correction_applied": null
+   },
+   {
+    "band": "near-UV",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[2990-3790]",
+    "A": 6.279,
+    "sigma": 0.2335467511549019,
+    "n_lines": 3,
+    "correction_applied": null
+   },
+   {
+    "band": "near-UV",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[2990-3790]",
+    "A": 6.068,
+    "sigma": 0.0549567825874039,
+    "n_lines": 2,
+    "correction_applied": null
+   },
+   {
+    "band": "near-UV",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[2990-3790]",
+    "A": 6.244,
+    "sigma": 0.2747655090709341,
+    "n_lines": 3,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.197,
+    "sigma": 0.0379008761551927,
+    "n_lines": 76,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Deep Grade",
+    "pool": "deep",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.156,
+    "sigma": 0.0492825426682244,
+    "n_lines": 24,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "reference",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.195,
+    "sigma": 0.0343602204912405,
+    "n_lines": 99,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "set:NI_AGSS21",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.152,
+    "sigma": 0.0367802985929061,
+    "n_lines": 16,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.216,
+    "sigma": 0.0322955458365135,
+    "n_lines": 75,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Deep Grade",
+    "pool": "deep",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.14,
+    "sigma": 0.0475798717211887,
+    "n_lines": 24,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "reference",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.205,
+    "sigma": 0.0307890651502042,
+    "n_lines": 98,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "set:NI_AGSS21",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.152,
+    "sigma": 0.0370046696096136,
+    "n_lines": 16,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.204,
+    "sigma": 0.0368518978920155,
+    "n_lines": 76,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Deep Grade",
+    "pool": "deep",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.165,
+    "sigma": 0.0486708944685332,
+    "n_lines": 24,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "reference",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.201,
+    "sigma": 0.0336338388964487,
+    "n_lines": 99,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "set:NI_AGSS21",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.158,
+    "sigma": 0.0363477346267961,
+    "n_lines": 16,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.222,
+    "sigma": 0.0317506572977049,
+    "n_lines": 75,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Deep Grade",
+    "pool": "deep",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.146,
+    "sigma": 0.0467792216896954,
+    "n_lines": 24,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "reference",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.21,
+    "sigma": 0.030362021725422,
+    "n_lines": 98,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_kpno_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "set:NI_AGSS21",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3770-6920]",
+    "A": 6.159,
+    "sigma": 0.0390389428968049,
+    "n_lines": 16,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.213,
+    "sigma": 0.0320998280786696,
+    "n_lines": 75,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Deep Grade",
+    "pool": "deep",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.13,
+    "sigma": 0.0611900474782957,
+    "n_lines": 24,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "reference",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.198,
+    "sigma": 0.03215577313526,
+    "n_lines": 98,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "set:NI_AGSS21",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.138,
+    "sigma": 0.0389380350418028,
+    "n_lines": 16,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Codex Grade",
+    "pool": "codex",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.219,
+    "sigma": 0.0312107308498515,
+    "n_lines": 74,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Deep Grade",
+    "pool": "deep",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.112,
+    "sigma": 0.057967775299713,
+    "n_lines": 24,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "reference",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.212,
+    "sigma": 0.0313491565285913,
+    "n_lines": 97,
+    "correction_applied": null
+   },
+   {
+    "band": "VIS",
+    "holding": "solar_harps_molecfit_corrected",
+    "ion": "I",
+    "grade": "Reference Grade",
+    "pool": "set:NI_AGSS21",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "continuum": "standard",
+    "outcome": "STALE",
+    "reason": "inputs changed since the build: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv[3773-6920]",
+    "A": 6.153,
+    "sigma": 0.0382760634241558,
+    "n_lines": 16,
+    "correction_applied": null
+   }
+  ],
+  "disagreements": [
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "1D-LTE",
+    "holding": "solar_crires_plus_y_wide_rya1054",
+    "A": 6.188,
+    "sigma": 0.038038311182064,
+    "others_median": 5.907,
+    "limit_dex": 0.114,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.01,
+     "solar_iag": 5.233,
+     "solar_kpno_kurucz2005_corrected": 5.805,
+     "solar_kpno_molecfit_corrected": 6.133
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "1D-LTE",
+    "holding": "solar_iag",
+    "A": 5.233,
+    "sigma": 0.2447983170893017,
+    "others_median": 6.072,
+    "limit_dex": 0.074,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.01,
+     "solar_crires_plus_y_wide_rya1054": 6.188,
+     "solar_kpno_kurucz2005_corrected": 5.805,
+     "solar_kpno_molecfit_corrected": 6.133
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "1D-LTE",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "A": 5.805,
+    "sigma": 0.0778370245560855,
+    "others_median": 6.072,
+    "limit_dex": 0.074,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.01,
+     "solar_crires_plus_y_wide_rya1054": 6.188,
+     "solar_iag": 5.233,
+     "solar_kpno_molecfit_corrected": 6.133
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "1D-LTE",
+    "holding": "solar_kpno_molecfit_corrected",
+    "A": 6.133,
+    "sigma": 0.0335175428285738,
+    "others_median": 5.907,
+    "limit_dex": 0.116,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.01,
+     "solar_crires_plus_y_wide_rya1054": 6.188,
+     "solar_iag": 5.233,
+     "solar_kpno_kurucz2005_corrected": 5.805
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "ENGINE-B-NLTE",
+    "holding": "solar_iag",
+    "A": 5.318,
+    "sigma": 3.5164494484096878,
+    "others_median": 6.086,
+    "limit_dex": 0.331,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.028,
+     "solar_crires_plus_y_wide_rya1054": 6.205,
+     "solar_kpno_kurucz2005_corrected": 5.836,
+     "solar_kpno_molecfit_corrected": 6.144
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-1D-LTE-gerber",
+    "holding": "solar_crires_plus_y_wide_rya1054",
+    "A": 6.19,
+    "sigma": 0.0379776013049142,
+    "others_median": 5.909,
+    "limit_dex": 0.113,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.011,
+     "solar_iag": 5.236,
+     "solar_kpno_kurucz2005_corrected": 5.807,
+     "solar_kpno_molecfit_corrected": 6.135
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-1D-LTE-gerber",
+    "holding": "solar_iag",
+    "A": 5.236,
+    "sigma": 0.2460488088183781,
+    "others_median": 6.073,
+    "limit_dex": 0.074,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.011,
+     "solar_crires_plus_y_wide_rya1054": 6.19,
+     "solar_kpno_kurucz2005_corrected": 5.807,
+     "solar_kpno_molecfit_corrected": 6.135
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-1D-LTE-gerber",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "A": 5.807,
+    "sigma": 0.0767467289168402,
+    "others_median": 6.073,
+    "limit_dex": 0.074,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.011,
+     "solar_crires_plus_y_wide_rya1054": 6.19,
+     "solar_iag": 5.236,
+     "solar_kpno_molecfit_corrected": 6.135
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-1D-LTE-gerber",
+    "holding": "solar_kpno_molecfit_corrected",
+    "A": 6.135,
+    "sigma": 0.0334648222302547,
+    "others_median": 5.909,
+    "limit_dex": 0.115,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.011,
+     "solar_crires_plus_y_wide_rya1054": 6.19,
+     "solar_iag": 5.236,
+     "solar_kpno_kurucz2005_corrected": 5.807
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "holding": "solar_iag",
+    "A": 5.748,
+    "sigma": 0.0745802511863961,
+    "others_median": 6.044,
+    "limit_dex": 0.077,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.008,
+     "solar_crires_plus_y_wide_rya1054": 6.05,
+     "solar_kpno_kurucz2005_corrected": 6.038,
+     "solar_kpno_molecfit_corrected": 6.219
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "holding": "solar_kpno_molecfit_corrected",
+    "A": 6.219,
+    "sigma": 0.0349314146087432,
+    "others_median": 6.023,
+    "limit_dex": 0.094,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.008,
+     "solar_crires_plus_y_wide_rya1054": 6.05,
+     "solar_iag": 5.748,
+     "solar_kpno_kurucz2005_corrected": 6.038
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-1D-NLTE-openmulti3d",
+    "holding": "solar_iag",
+    "A": 5.763,
+    "sigma": 0.3259558042073184,
+    "others_median": 6.054,
+    "limit_dex": 0.273,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.013,
+     "solar_crires_plus_y_wide_rya1054": 6.059,
+     "solar_kpno_kurucz2005_corrected": 6.049,
+     "solar_kpno_molecfit_corrected": 6.226
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-mean3D-LTE-gerber-stagger",
+    "holding": "solar_crires_plus_y_wide_rya1054",
+    "A": 6.242,
+    "sigma": 0.0384901023297703,
+    "others_median": 5.957,
+    "limit_dex": 0.111,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.062,
+     "solar_iag": 5.28,
+     "solar_kpno_kurucz2005_corrected": 5.853,
+     "solar_kpno_molecfit_corrected": 6.185
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-mean3D-LTE-gerber-stagger",
+    "holding": "solar_iag",
+    "A": 5.28,
+    "sigma": 0.2300991462811935,
+    "others_median": 6.123,
+    "limit_dex": 0.075,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.062,
+     "solar_crires_plus_y_wide_rya1054": 6.242,
+     "solar_kpno_kurucz2005_corrected": 5.853,
+     "solar_kpno_molecfit_corrected": 6.185
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-mean3D-LTE-gerber-stagger",
+    "holding": "solar_kpno_kurucz2005_corrected",
+    "A": 5.853,
+    "sigma": 0.074294193349503,
+    "others_median": 6.123,
+    "limit_dex": 0.075,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.062,
+     "solar_crires_plus_y_wide_rya1054": 6.242,
+     "solar_iag": 5.28,
+     "solar_kpno_molecfit_corrected": 6.185
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-mean3D-LTE-gerber-stagger",
+    "holding": "solar_kpno_molecfit_corrected",
+    "A": 6.185,
+    "sigma": 0.0329720263639851,
+    "others_median": 5.957,
+    "limit_dex": 0.113,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.062,
+     "solar_crires_plus_y_wide_rya1054": 6.242,
+     "solar_iag": 5.28,
+     "solar_kpno_kurucz2005_corrected": 5.853
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026",
+    "treatment": "synth-mean3D-NLTE-gerber-stagger",
+    "holding": "solar_iag",
+    "A": 5.323,
+    "sigma": 0.9630345810551452,
+    "others_median": 6.123,
+    "limit_dex": 0.334,
+    "others": {
+     "solar_crires_plus_y_rya794": 6.062,
+     "solar_crires_plus_y_wide_rya1054": 6.238,
+     "solar_kpno_kurucz2005_corrected": 5.87,
+     "solar_kpno_molecfit_corrected": 6.184
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026-FREECONT",
+    "treatment": "1D-LTE",
+    "holding": "solar_crires_plus_y_rya794",
+    "A": 6.051,
+    "sigma": 0.0349300450960985,
+    "others_median": 6.16,
+    "limit_dex": 0.072,
+    "others": {
+     "solar_crires_plus_y_wide_rya1054": 6.156,
+     "solar_kpno_molecfit_corrected": 6.165
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026-FREECONT",
+    "treatment": "synth-1D-LTE-gerber",
+    "holding": "solar_crires_plus_y_rya794",
+    "A": 6.052,
+    "sigma": 0.0348479054036257,
+    "others_median": 6.16,
+    "limit_dex": 0.071,
+    "others": {
+     "solar_crires_plus_y_wide_rya1054": 6.156,
+     "solar_kpno_molecfit_corrected": 6.165
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026-FREECONT",
+    "treatment": "synth-1D-LTE-openmulti3d",
+    "holding": "solar_crires_plus_y_rya794",
+    "A": 6.052,
+    "sigma": 0.0347109742411966,
+    "others_median": 6.161,
+    "limit_dex": 0.073,
+    "others": {
+     "solar_crires_plus_y_wide_rya1054": 6.157,
+     "solar_kpno_molecfit_corrected": 6.165
+    }
+   },
+   {
+    "ion": "I",
+    "band": "NIR",
+    "selector": "SET-NI_ELGUETA2026-FREECONT",
+    "treatment": "synth-mean3D-LTE-gerber-stagger",
+    "holding": "solar_crires_plus_y_rya794",
+    "A": 6.103,
+    "sigma": 0.0351605897397288,
+    "others_median": 6.209,
+    "limit_dex": 0.071,
+    "others": {
+     "solar_crires_plus_y_wide_rya1054": 6.204,
+     "solar_kpno_molecfit_corrected": 6.214
+    }
+   }
+  ]
+ }
+}
