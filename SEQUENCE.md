@@ -2,6 +2,7 @@
 
 - **RYA-731** — Stage 223 Solar Ni I products, including OpenMULTI3D and the theoretical infrared set. Ni II remains held.
 - **RYA-731** — Ni v1.167: publish six Ni II near-UV LTE products (Clear+2026 gf) with the model-atmosphere term from the paired ATLAS9 / MARCS.GES fits. The two mean-3D LTE Ni II products stay held.
+- **RYA-731** — Ni v1.177 / v1.181: publish the 14 near-UV Ni I Reference Grade products (ts-lte, Gerber and OpenMULTI3D decks). Lab lines are now matched by transition (wavelength and lower-level energy), and the gate credits lab gf without a DOI. Coverage NOT_RUN 0.
 
 ## 2026-11-24 — RYA-1396 landed and RYA-1397 V I patch staged
 
