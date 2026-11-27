@@ -27,6 +27,7 @@ def _price(nominal_dir: Path, token: str):
 
 def _pair_median(marcs: Path, atlas: Path) -> float:
     m, a = B._acc(pd.read_csv(marcs)), B._acc(pd.read_csv(atlas))
+    m, a = m.assign(wavelength_air_A=m.wavelength_air_A.round(3)), a.assign(wavelength_air_A=a.wavelength_air_A.round(3))
     j = m.merge(a, on="wavelength_air_A", suffixes=("_m", "_a"))
     return float((j.abundance_m - j.abundance_a).median())
 
@@ -54,12 +55,19 @@ def test_marcs_and_atlas9_products_carry_the_same_paired_grid_term(legs):
     assert comps[0]["evidence"]["comparand"].startswith("unit15/")
 
 
-def test_a_mean3d_product_is_not_given_a_1d_grid_term(legs):
+def test_a_mean3d_product_gets_half_its_own_3d_effect_with_the_1d_grid_term(legs):
     stem = STEM.format("synth-mean3D-LTE-gerber-stagger")
     acc = B._acc(pd.read_csv(legs / "unit16/nominal" / stem))
     comps, notes = [], []
     B._grid_pair_atmosphere(stem, legs / "unit16/nominal", acc, len(acc), "median", "x", comps, notes)
-    assert not comps and notes
+    assert comps, notes
+    ev = comps[0]["evidence"]
+    one = legs / "unit15/nominal" / STEM.format("synth-1D-LTE-gerber")
+    assert ev["half_mean3d_effect_dex"] == pytest.approx(
+        abs(_pair_median(legs / "unit16/nominal" / stem, one)) / 2, abs=1e-6)
+    grid = abs(_pair_median(one, legs / "unit15/nominal" / STEM.format("1D-LTE")))
+    assert ev["one_d_grid_dex"] == pytest.approx(grid, abs=1e-4)
+    assert comps[0]["sigma_dex"] == pytest.approx((grid ** 2 + ev["half_mean3d_effect_dex"] ** 2) ** 0.5, abs=1e-4)
 
 
 def test_a_peer_with_a_different_atlas9_pool_is_refused(legs):
