@@ -1,3 +1,10 @@
+## 2026-11-27 — RYA-1395 landed (#636); n5 RCI running (this branch)
+
+> **Current as of `main` 700af50c** (PR #636).
+
+- **RYA-1395** — `700af50c` PR #636: own GRASP O I model through v83b (n3–n5 correlated; n6 E1 anomaly traced to rbiotransform conditioning; rtransition has no reverse-order support). HOLD, report only.
+- **RYA-1395** (this branch) — v84 sized the weight-selected RCI on n5 (MR at weight > 0.05 equals the MCDHF MR; 394k even / 173k odd CSFs after rcsfinteract); v85 RCI running on Sirius. HOLD, report only.
+
 ## 2026-11-27 — #629-#635 landed; RYA-1395 O I atomic model (this branch)
 
 > **Current as of `main` ff9641e6** (PR #635).
